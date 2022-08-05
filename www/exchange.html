@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- META -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>끽다거</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/colorset.css">
+<link rel="stylesheet" href="./assets/css/common.css">
+<link rel="stylesheet" href="./assets/css/components.css">
+<link rel="stylesheet" href="./assets/css/sub.css">
+<link rel="stylesheet" href="./assets/css/exchange.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css" />
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets//js/components.js"></script>
+<script src="./assets/js/trirand/jquery.jqGrid.min.js"></script>
+<script src="./assets/js/trirand/i18n/grid.locale-kr.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<!-- BODY -->
+<body class="sub exchange">
+    <header>
+        <h1 class="logo"><a href="/">Teaplat</a></h1>
+        <nav class="nav">
+            <ul>
+                <li class="active">
+                    <a href="exchange.html">거래소</a>
+                </li>
+                <li>
+                    <a href="">공동구매</a>
+                </li>
+                <li>
+                    <a href="">경매</a>
+                </li>
+                <li>
+                    <a href="">가이드</a>
+                </li>
+                <li>
+                    <a href="">다도 문화</a>
+                </li>
+                <li>
+                    <a href="notice.html">고객센터</a>
+                </li>
+            </ul>
+            <div class="nav--side">
+                <a href="login.html" class="btn btn--login">로그인</a>
+                <div class="language">
+                    <div class="dropdown-wrapper">
+                        <button type="button" class="dropdown">한국어</button>
+                        <div class="dropdown--item">
+                            <span>한국어</span>
+                            <ul>
+                                <li class="dropdown--selected"><a href="">ENG</a></li>
+                                <li><a href="">中文</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="d-grid">
+        <div class="side--panel">
+            <ul class="tabs">
+                <li class="tab--active">
+                    <button type="button">전체</button>
+                </li>
+                <li>
+                    <button type="button">보유</button>
+                </li>
+                <li>
+                    <button type="button">관심</button>
+                </li>
+            </ul>
+            <div class="tab--content">
+                <table id="jqGrid" class="grid-table"></table>
+            </div>
+        </div>
+        <div class="details">
+            <div class="details--header">
+                <button type="button" class="btn btn--star--on"></button>
+                영원호 원창호
+
+                <small>BING DO RAW PUER TEA CAKE</small>
+            </div>
+            <div class="details--body">
+                <div class="d-flex" styl="flex-direction: column">
+                    <span class="details--price">$17,000</span>
+                    <span class="d-flex text-bold" style="margin-left: 10px; align-items: flex-end">전일대비 <span class="text--medium text--bold text-red" style="margin-left: 5px">+2.00% </span></span>
+                    <span class="details--diff tex--bold text-red d-flex" style="margin-left: 8px; align-items: flex-end">
+                        <img src="./assets/img//icon/icon-up.svg" alt="" width="9" height="8.22" style="margin-right: 4px; margin-bottom: 8px">
+                        <span class="text--bold">4,000</span>
+                    </span>
+                </div>
+                <div class="d-grid grid-2-column" style="width: 392px; column-gap: 20px;font-weight: 400">
+
+                    <div>
+                        <div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
+                            고가 <span class="text--red">27,485,000</span>
+                        </div>
+                        <div class="row d-flex" style="justify-content: space-between; height: 22px; ">
+                            저가 <span class="text--blue">27,485,000</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
+                            거래량(24H) <div><span class="text--red">574,170,000</span> <span class="text--blue-gray">KRW</span></div>
+                        </div>
+                        <div class="row d-flex"  style="justify-content: space-between; height: 22px;">
+                            거래대금(24H) <div><span class="text--blue">574,170,000</span> <span class="text--blue-gray">KRW</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex" style="justify-content: space-between;">
+                <div class="dropdown-wrapper" style="width: 100px">
+                    <button type="button" class="dropdown">
+                        시간단위
+                    </button>
+                    <div class="dropdown--item">
+                        <ul>
+                            <li>1시간</li>
+                            <li>6시간</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="dropdown-wrapper" style="width: 100px">
+                        <button type="button" class="dropdown">
+                            보조지표
+                        </button>
+                        <div class="dropdown--item">
+                            <ul>
+                                <li>보조지표</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="dropdown-wrapper" style="width: 100px">
+                        <button type="button" class="dropdown">
+                            전체화면
+                        </button>
+                        <div class="dropdown--item">
+                            <ul>
+                                <li>전체화면</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <canvas id="detailsCanvas" width="814" height="390"></canvas>
+            <div style="height: 509px">
+                <ul class="tabs">
+                    <li class="tab--active" data-target="#tab-sell">
+                        <button type="button">팝니다</button>
+                    </li>
+                    <li data-target="#tab-buy">
+                        <button type="button">삽니다</button>
+                    </li>
+                    <li data-target="#info">
+                        <button type="button">정보</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="tab-buy">
+                    <table id="detailsGrid" class="grid-table">
+                    </table>
+                    <div class="text--right" style="margin-top: 20px">
+                        <a href="" class="btn btn--white">구매 등록</a>
+                    </div>
+                </div>
+                <div class="tab-content" id="tab-sell"  style="display: block">
+                    <table id="detailsGrid2" class="grid-table">
+                    </table>
+                    <div class="text--right" style="margin-top: 20px">
+                        <a href="" class="btn btn--white">판매 등록</a>
+                    </div>
+                </div>
+                <div class="tab-content" id="info">
+                    <button type="button" class="btn btn--white" data-toggle="modal" data-target="#scan">입체스캔</button>
+                    <button type="button" class="btn btn--white" data-toggle="modal" data-target="#white-paper">백서</button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <form id="modal-buy" class="modal modal--tiny">
+        <div class="modal--body">
+            <div class="modal--header">
+                구매하기
+                <button type="button" class="btn btn--close"></button>
+            </div>
+            <div class="modal--contents" style="margin-top: 36px;padding-left: 18px; position: relative">
+                <i class="btn btn--star--on" style="position: absolute; left: 0; top: 5px;"></i>
+                <span style="font-size: 18px; padding-left: 4px" class="text-bbold">영원호 원창호</span>
+                <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px">#12345678</div>
+                <dl style="margin-bottom: 18px">
+                    <dt>주문가능</dt>
+                    <dd>$4,000.0</dd>
+                </dl>
+                <dl>
+                    <dt>가격</dt>
+                    <dd><div class="input">$
+                        <input type="number" value="100.0" min="0" step="0.1"></div></dd>
+                </dl>
+                <dl style="margin-bottom: 40px">
+                    <dt>수량</dt>
+                    <dd>
+                        <div class="input--spiner">
+                            <input type="number" value="12" min="1">
+                            <div class="d-flex">
+                                <button type="button" class="spiner-minus">-</button>
+                                <button type="button" class="spiner-plus">+</button>
+                            </div>
+                        </div>
+                </dd>
+                </dl>
+                <dl>
+                    <dt>총액</dt>
+                    <dt>
+                        <div class="input">
+                
+                            <input type="text" name="" value="$ 1,200" readonly="readonly">
+                        </div>
+                    </dt>
+                </dl>
+            </div>
+            <div class="text--center" style="margin-top: 32px"><input type="submit" value="구매하기" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"></div>
+        </div>
+    </form>
+    <form id="modal-sell" class="modal modal--tiny">
+        <div class="modal--body">
+            <div class="modal--header">
+                판매하기
+                <button type="button" class="btn btn--close"></button>
+            </div>
+            <div class="modal--contents" style="margin-top: 36px;padding-left: 18px; position: relative">
+                <i class="btn btn--star--on" style="position: absolute; left: 0; top: 5px;"></i>
+                <span style="font-size: 18px; padding-left: 4px" class="text-bbold">영원호 원창호</span>
+                <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px">#12345678</div>
+                <dl style="margin-bottom: 18px">
+                    <dt>주문가능</dt>
+                    <dd>$4,000.0</dd>
+                </dl>
+                <dl>
+                    <dt>가격</dt>
+                    <dd><div class="input">$
+                        <input type="number" value="100.0" min="0" step="0.1"></div></dd>
+                </dl>
+                <dl style="margin-bottom: 40px">
+                    <dt>수량</dt>
+                    <dd>
+                        <div class="input--spiner">
+                            <input type="number" value="12" min="1">
+                            <div class="d-flex">
+                                <button type="button" class="spiner-minus">-</button>
+                                <button type="button" class="spiner-plus">+</button>
+                            </div>
+                        </div>
+                </dd>
+                </dl>
+                <dl>
+                    <dt>총액</dt>
+                    <dt>
+                        <div class="input">
+                
+                            <input type="text" name="" value="$ 1,200" readonly="readonly">
+                        </div>
+                    </dt>
+                </dl>
+            </div>
+            <div class="text--center" style="margin-top: 32px"><input type="submit" value="판매하기" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px"></div>
+        </div>
+    </form>
+    <div id="scan" class="modal">
+        <div class="modal--body" style="padding-top: 0;padding-left: 0; padding-right: 0">
+            <div class="modal--header" style="padding-left:21px; height: 60px; box-sizing: border-box; line-height: 60px">
+                입체스캔
+                <button type="button" class="btn btn--close"></button>
+            </div>
+            <div class="modal--contents">
+                <img src="./assets/img/입체스캔.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div id="white-paper" class="modal">
+        <div class="modal--body" style="padding-top: 0;padding-left: 0; padding-right: 0">
+            <div class="modal--header" style="padding-left:21px; height: 60px; box-sizing: border-box; line-height: 60px">
+                백서
+                <button type="button" class="btn btn--close"></button>
+            </div>
+            <div class="modal--contents">
+                <img src="./assets/img/입체스캔.png" alt="">
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="logo">Teaplat</div>
+        <nav class="fnb">
+            <ul>
+                <li>
+                    <a href="">회사소개</a>
+                </li>
+                <li>
+                    <a href="">이용약관</a>
+                </li>
+                <li>
+                    <a href="">개인정보보호정책</a>
+                </li>
+                <li>
+                    <a href="faq.html">자주묻는질문</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            <span class="company--name">(주)끽다거</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="company--ceo">대표이사 : 안성희</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="company--number">사업자등록번호 : 824-87-00881</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
+            <br>
+            전화 : 02-733-9746
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            통신판매업신고번호 : 제 2021-서울종로-0444호
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            이메일 : kkikdageo@naver.com
+            <br><br>
+            Copyright © 2022 (주)끽다거. All rights reserved. 
+        </div>
+        <span class="customer--text">고객상담 · 상담 · 배송 문의</span>
+        <span class="customer--number">02-733-9746</span>
+        <span class="customer--time">평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
+    </footer>
+    <script src="./assets/js/exchange.js"></script>
+</body>
+</html>

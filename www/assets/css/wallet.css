@@ -1,0 +1,155 @@
+.wallet-summary {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 30px;
+}
+
+.wallet-summary .grid > div {
+    margin-top:6px;
+    display: flex;
+    border: 0.35px solid var(--blue-gray2);
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+
+}
+
+.wallet-summary .grid > div > div {
+    flex: 1 1 auto;
+    text-align: right;
+    padding-right: 10px;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.wallet-summary .grid > div > .dropdown {
+    flex-basis: 70px;
+    height: 100%;
+    border-left: 0.35px solid var(--blue-gray2) 
+}
+
+.wallet--grid {
+    margin-top: 40px;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+    row-gap: 10px;
+}
+
+.wallet--grid .grid {
+    display: flex;
+    padding: 18px 10px 18px 52px;
+    border: 0.35px solid var(--blue-gray2);
+    align-items: center;
+    justify-content: space-between;
+    border-left: 12px solid;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: var(--white);
+    background-repeat: no-repeat;
+    background-position: 12px center;
+}
+
+.wallet--grid .grid.grid--bitcoincash {
+    border-left-color: #F7931A;
+    background-image: url('../img/icon/icon-bitcoincash.png');
+}
+.wallet--grid .grid.grid--bitcoin {
+    border-left-color: #FFAA01;
+    background-image: url('../img/icon/icon-bitcoin.png');
+}
+.wallet--grid .grid.grid--bitcoingold {
+    border-left-color: #001E67;
+    background-image: url('../img/icon/icon-bitcoingold.png');
+}
+.wallet--grid .grid.grid--ethereum {
+    border-left-color: #627EEA;
+    background-image: url('../img/icon/icon-ethereum.png');
+}
+.wallet--grid .grid.grid--lightcoin {
+    border-left-color: #385B7A;
+    background-image: url('../img/icon/icon-lightcoin.png');
+}
+.wallet--grid .grid.grid--krw {
+    border-left-color: #337AB7;
+    background-image: url('../img/icon/icon-krw.png');
+}
+
+.wallet--grid .grid .grid--inner-right {
+    display: flex;
+    flex-basis: 258px;
+    column-gap: 10px;
+}
+
+.wallet--grid .wallet--price {
+    font-size: 18px;
+    letter-spacing: -0.15px;
+}
+.wallet--grid .wallet--market-price {
+    font-family: Inter;
+    color: var(--blue-gray);
+    letter-spacing: -0.15px;
+
+}
+
+.wallet--grid .wallet--btn {
+    display: grid;
+    flex-basis: 98px;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 6px;
+    align-items: center;
+}
+
+.wallet--grid .wallet--btn .btn {
+    height: 25px;
+    line-height: 25px;
+    font-size: 13px;
+}
+.btn--withdrawal {
+    background: #1C80B8;
+    color: var(--white) !important;
+}
+
+.deposit main {
+    padding-right: 145px;
+}
+
+.deposit .contents .d-grid{
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+}
+
+.deposit .contents .d-grid .grid {
+    height: 470px;
+    padding: 22px;
+    border: 1px solid var(--blue-mid-gray);
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.deposit .contents .d-grid .grid h1 {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.15px;
+}
+
+.deposit .contents .d-grid .grid ul {
+    margin: 14px 0 0;
+}
+
+.deposit .contents .d-grid .grid input[type=text] {
+    border-color: var(--mid-gray);
+    padding: 0 11px;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.15px;
+}
+
+.deposit .qrcode {
+    background: var(--white);
+    padding: 54px 56px 54px 52px;
+    border: 0.35px solid var(--mid-gray);
+}

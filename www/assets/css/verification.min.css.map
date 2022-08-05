@@ -1,0 +1,8 @@
+{
+    "version": 3,
+    "sources": [
+        "verification.css"
+    ],
+    "names": [],
+    "mappings": "AAAA,KACI,OAAQ,qBACR,WAAY,WAEhB,KACI,OAAQ,KAEZ,2BACI,YAAa,eACb,UAAW,KACX,cAAe,IAEnB,+BACI,WAAY,QACZ,OAAQ,EAAE,KACV,OAAQ,KACR,YAAa,KACb,UAAW,KAEf,YACI,WAAY"
+}

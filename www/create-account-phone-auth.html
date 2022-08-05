@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- META -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>끽다거</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/colorset.css">
+<link rel="stylesheet" href="./assets/css/common.css">
+<link rel="stylesheet" href="./assets/css/components.css">
+<link rel="stylesheet" href="./assets/css/sub.css">
+<link rel="stylesheet" href="./assets/css/login.css">
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+</head>
+<!-- BODY -->
+<body class="login">
+    <header>
+        <h1 class="logo"><a href="/">Teaplat</a></h1>
+        <nav class="nav">
+            <ul>
+                <li>
+                    <a href="exchange.html">거래소</a>
+                </li>
+                <li>
+                    <a href="">공동구매</a>
+                </li>
+                <li>
+                    <a href="">경매</a>
+                </li>
+                <li>
+                    <a href="">가이드</a>
+                </li>
+                <li>
+                    <a href="">다도 문화</a>
+                </li>
+                <li>
+                    <a href="">고객센터</a>
+                </li>
+            </ul>
+            <div class="nav--side">
+                <a href="login.html" class="btn--login">로그인</a>
+                <div class="language">
+                    한국어
+                    <button type="button" class="caret-down"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="d-flex flex-center">
+        <form action="create-account-security-password.html" method="post" class="d-flex flex-row flex-center" style="position: relative">
+            <nav class="step--list">
+                <div class="step--header">ID 생성</div>
+                <ol>
+                    <li class="step--active">계정 등록</li>
+                    <li class="step--active">이메일 인증</li>
+                    <li class="step--active">핸드폰 번호 인증</li>
+                    <li class="step--active">핸드폰 본인 인증</li>
+                    <li>보안 비밀번호 설정</li>
+                </ol>
+            </nav>
+            <div class="form--header text-red" style="margin-bottom: 24px">
+                <h1>Create Your Account</h1>
+            </div>
+            <p class="m-0 flex-self-left text-bold" style="font-size: 16px">
+                입력한 휴대폰 번호로 인증번호가 발송되었습니다.
+            </p>
+            <div class="d-grid grid--code" style="margin-top: 75px; margin-bottom: 75px">
+                <input type="number" name="" min="0" max="9" value="7">
+                <input type="number" name="" min="0" max="9" value="4">
+                <input type="number" name="" min="0" max="9" value="3">
+                <input type="number" name="" min="0" max="9" value="2">
+                <input type="number" name="" min="0" max="9" value="1">
+                <input type="number" name="" min="0" max="9" value="0">
+            </div>
+            <div class="flex-self-left" style="margin-bottom: 53px">
+                <span class="text-bold">문자가 오지 않으셨나요?</span>
+                <a href="" class="d-block text-red text-bold">인증문자 재발송</a>
+            </div>
+            <div class="form--btns" style="margin-top: 0">
+                <input type="submit" value="다음" class="btn btn--block btn--red">
+            </div>
+        </form>
+    </main>
+</body>
+</html>
