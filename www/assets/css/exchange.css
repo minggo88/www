@@ -1,0 +1,24 @@
+
+.details--body {
+    display: flex;
+    padding: 12px 0 21px;
+    justify-content: space-between;
+    border-bottom: 0.5px solid var(--linegray);
+    height: 65px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.details--body .details--price {
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--red-up);
+}
+
+.details--price {
+    display: flex;
+    align-self: center;
+}
+.details--diff {
+    font-size: 16px
+}

@@ -1,0 +1,8 @@
+{
+    "version": 3,
+    "sources": [
+        "mypage.css"
+    ],
+    "names": [],
+    "mappings": "AACA,aACI,YAAa,eACb,UAAW,KACX,cAAe,IAEnB,iBACI,WAAY,QACZ,OAAQ,EAAE,eACV,OAAQ,KACR,YAAa,KACb,UAAW"
+}
