@@ -1,0 +1,30 @@
+.sub main {
+    padding-right: 136px;
+}
+.category {
+    width: 76px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%)
+}
+.category .dropdown {
+    background: transparent;
+    border: 0 none;
+    justify-content: center;
+    padding-left: 0;
+}
+.category .dropdown::after {
+    margin-left: 3px;
+    position: relative;
+    display: inline-block;
+    top: 25%;
+    right: 0;
+    vertical-align: middle;
+    transform: translateY(-100%);
+}
+.category .dropdown+.dropdown--item {
+    min-width: 76px;
+}
+.category .dropdown+.dropdown--item ul {
+}

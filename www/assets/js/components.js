@@ -1,6 +1,60 @@
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+}
+
 $(function() {
     const modalStack = []
 
+
+    $.alert = (msg) => {
+
+    }
+
+    $.fn.modal = (action) => {
+
+        const modal = $(this[0])
+
+        if(!modal.hasClass('modal')) {
+            return
+        }
+
+        switch(action) {
+            case 'show':
+                modalStack = arr.filter(e => e !== 'seven')
+
+                modalStack.push(modal)
+
+                modal.addClass('modal--open')
+                break
+            case 'hide':
+                modalStack.remove(modal)
+
+                modal.removeClass('modal--open')
+                break
+            case 'toggle':
+                if(modal.hasClass('modal--open')) {
+                    modalStack.push(modal)
+                } else {
+                    modalStack.pop(modal)
+                }
+        
+                break
+        }
+
+
+        return this
+    }
+    $('test').modal()
+
+
+    // Tab
     $('.tabs').on('click', 'li', (e) => {
         const btn = $(e.target).closest('li')
         const tab = btn.closest('.tabs')
@@ -9,10 +63,10 @@ $(function() {
         btn.addClass('tab--active')
 
         $('.tab-content').hide()
-        console.log(btn.attr('data-target'))
         $(btn.data('target')).show()
     })
 
+    // Modal Anchor
     $(document).on('click', '[data-toggle=modal]', (e) => {
         const anchor = $(e.target)
 
@@ -22,11 +76,11 @@ $(function() {
             modalStack.push(modal)
         } else {
             modalStack.push(modal)
-
         }
-        console.log($(modal))
 
         $(modal).toggleClass('modal--open')
+
+        return false
     })
 
     $('.accordion .accordion--header').click((e) => {
@@ -74,6 +128,31 @@ $(function() {
         $('.dropdown--open').removeClass('dropdown--open')
 
         $(e.target).toggleClass('dropdown--open');
+    })
+
+    $.fn.dropdown = (action) => {
+        switch(action) {
+            case 'select':
+                break;
+            case 'selected':
+                return $(this).data('selected')
+        }
+
+        return this
+    }
+
+    $('.dropdown-wrapper').dropdown('selected')
+    $('.dropdown-wrapper').on('click', '.dropdown--item > ul > li', (e) => {
+        const text = $(e.target).text()
+
+        const wrapper = $(e.target).closest('.dropdown-wrapper')
+        wrapper.data('selected', text)
+        wrapper.find('.dropdown--selected').removeClass('dropdown--selected')
+        wrapper.find('.dropdown').text(text).removeClass('dropdown--open')
+        $(e.target).closest('li').addClass('dropdown--selected')
+        $(e.target).closest('.dropdown--item').find('>span').text(text)
+
+        wrapper.trigger('change', [ text ])
     })
 
     $('input[type=number]').on('keypress', (e) => {

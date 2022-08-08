@@ -1,7 +1,7 @@
 
 .details--body {
     display: flex;
-    padding: 12px 0 21px;
+    padding: 12px 0 21px 10px;
     justify-content: space-between;
     border-bottom: 0.5px solid var(--linegray);
     height: 65px;
@@ -21,4 +21,53 @@
 }
 .details--diff {
     font-size: 16px
+}
+
+.details .tabs {
+    width: 546px;
+    margin: 0 auto;
+}
+.details .tabs li {
+    background: var(--white);
+    color: var(--basic-black);
+    border-bottom: 0 none !important;
+}
+.details .tabs li.tab--sell.tab--active {
+    border-bottom: 4px solid var(--lightlight-red) !important
+}
+.details .tabs li.tab--buy.tab--active {
+    border-bottom: 4px solid var(--blue-dn) !important
+}
+.details .tabs li.tab--info.tab--active {
+    border-bottom: 4px solid var(--basic-black) !important
+}
+
+#tab-info {
+    padding-top: 10px;
+    display: flex;
+    column-gap: 11px;
+}
+
+#tab-info img {
+    width: 278px;
+    height: 267px;
+}
+
+#tab-info .table {
+    margin-top: 21px;
+}
+#tab-info .table th {
+    width: calc(100% * (53 / 536));
+    text-align: left;
+    padding-right: 17px;
+}
+
+#tab-info .table th,
+#tab-info .table td {
+    padding: 0 0 17px;
+    vertical-align: top;
+}
+
+#tab-info .btns {
+    margin-top: 24px;
 }

@@ -13,19 +13,30 @@
 
 }
 
-.wallet-summary .grid > div > div {
+.wallet-summary .grid > div .text- {
     flex: 1 1 auto;
     text-align: right;
-    padding-right: 10px;
     font-family: Inter;
     font-weight: 500;
     font-size: 16px;
+    border: 0 none;
+    padding-right: 10px;
 }
 
-.wallet-summary .grid > div > .dropdown {
+.wallet-summary .grid .dropdown-wrapper {
+    width: 70px;
     flex-basis: 70px;
-    height: 100%;
-    border-left: 0.35px solid var(--blue-gray2) 
+    max-width: 70px;
+}
+.wallet-summary .grid .dropdown {
+    flex-basis: 70px;
+    background-color: var(--lightgray);
+    border: 0 none !important;
+    border-left: 0.35px solid var(--blue-gray2) !important;
+}
+.wallet-summary .grid .dropdown-wrapper .dropdown--item {
+    min-width: auto;
+    top: 48px;
 }
 
 .wallet--grid {
@@ -94,6 +105,7 @@
 
 .wallet--grid .wallet--btn {
     display: grid;
+    width: 98px;
     flex-basis: 98px;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 6px;
@@ -101,6 +113,7 @@
 }
 
 .wallet--grid .wallet--btn .btn {
+    width: auto;
     height: 25px;
     line-height: 25px;
     font-size: 13px;
@@ -148,7 +161,13 @@
     letter-spacing: -0.15px;
 }
 
-.deposit .qrcode {
+.deposit #qrcode {
+    display: flex;
+    justify-content: center;
+}
+.deposit #qrcode img {
+    width: 72px;
+    height: 72px;
     background: var(--white);
     padding: 54px 56px 54px 52px;
     border: 0.35px solid var(--mid-gray);
