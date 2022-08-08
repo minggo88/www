@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>끽다거</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
@@ -33,9 +34,8 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/trirand/jquery.jqGrid.min.js"></script>
-<script src="./assets/js/trirand/i18n/grid.locale-kr.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js"></script>
 </head>
 <!-- BODY -->
 <body class="sub notice">
@@ -63,10 +63,44 @@
                 </li>
             </ul>
             <div class="nav--side">
-                <a href="login.html" class="btn--login">로그인</a>
+                <div class="profile dropdown-wrapper">
+                    <button type="button" class="dropdown text--blue-gray">
+                        kik**@teaplat.com
+                    </button>
+                    <div class="dropdown--item" style="width: 134px">
+                        <ul>
+                            <li><a href="member-account.html">정보 수정</a></li>
+                            <li><a href="my-verification.html">ID 인증 관리</a></li>
+                            <li><a href="change-pin-number.html">보안비밀번호변경</a></li>
+                            <li><a href="change-account-number.html">출금계좌 변경</a></li>
+                            <li><a href="transaction.html">거래 내역</a></li>
+                            <li><a href="notification.html">알림</a></li>
+                            <li><a href="withdrawal.html">회원 탈퇴</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wallet dropdown-wrapper">
+                    <button type="button" class="dropdown">지갑관리</button>
+                    <div class="dropdown--item" style="width: 100px">
+                        <ul>
+                            <li><a href="">보유 자산</a></li>
+                            <li><a href="">입금</a></li>
+                            <li><a href="">출금</a></li>
+                            <li><a href="">종합 분석</a></li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="language">
-                    한국어
-                    <button type="button" class="caret-down"></button>
+                    <div class="dropdown-wrapper">
+                        <button type="button" class="dropdown">한국어</button>
+                        <div class="dropdown--item" style="width: 81px">
+                            <span>한국어</span>
+                            <ul>
+                                <li class="dropdown--selected"><a href="">ENG</a></li>
+                                <li><a href="">中文</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -77,13 +111,13 @@
             <nav class="side--snb">
                 <ul>
                     <li>
-                        <a href="notice.html">정보 수정</a>
-                    </li>
-                    <li>
-                        <a href="notice.html">ID 인증 관리</a>
+                        <a href="member-account.html">정보 수정</a>
                     </li>
                     <li class="snb--active">
-                        <a href="change-security-password.html">보안비밀번호 변경</a>
+                        <a href="my-verification.html">ID 인증 관리</a>
+                    </li>
+                    <li>
+                        <a href="change-pin-number.html">보안비밀번호 변경</a>
                     </li>
                     <li>
                         <a href="change-account-number.html">출금계좌 변경</a>
@@ -102,17 +136,27 @@
         </aside>
         <div class="contents">
             <header class="contents--header">
-                <h1>Change Pin Number</h1>
+                <h1>Identity Verification</h1>
             </header>
-            <div method="post" style="width: 100%; height: auto" >
-                <div class="boxed boxed--transparent d-flex flex-center" style="height: 333px; padding: 36px 0 56px">
-                    <div class="text--center flex-self-center">
-                        <h2 class="m-0 text--bbold " style="font-size: 18px; margin-bottom: 24px !important">거래용 보안비밀번호 변경</h2>
-                        <h2 class="m-0 text--medium text-bold ">보안비밀번호(Pin Number)가 변경되었습니다.</h2>
+            <form action="my-verification-complete.html" method="post" style="width: 100%; height: auto" >
+                <div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
+                    <div class="text--center">
+                        <h2 class="m-0 mb-24 text-bold size--16">다음의 인증 절차를 진행하여 본인 확인을 완료하십시오.</h2>
+                    </div>
+                    <div class="flex-self-left">
+                        <p class="m-0 flex-self-left" style="font-weight: 400">
+                            정부에서 발행한 아래 서류 중 한가지를 준비해주세요.
+                        </p>
+                        <ul class="unstyled text--bold text-black" style="margin-top: 36px !important">
+                            <li class="text-bbold text--medium" style="margin-bottom: 37px">1. ID Card</li>
+                            <li class="text-bbold text--medium" style="margin-bottom: 37px">2. Passport</li>
+                            <li class="text-bbold text--medium">3. Driver’s License</li>
+                        </ul>
                     </div>
                 </div>
+                <div class="text--center"><input type="submit" value="인증 진행" class="btn btn--red" style="width: 340px; margin-top: 40px"></div>
 
-            </div>
+            </form>
         </div>
     </main>
     <footer>

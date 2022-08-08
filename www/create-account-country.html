@@ -17,6 +17,8 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js"></script>
 </head>
 <!-- BODY -->
 <body class="login">
@@ -53,7 +55,7 @@
         </nav>
     </header>
     <main class="d-flex flex-center">
-        <form action="login.html" method="post" class="d-flex flex-row flex-center">
+        <form action="create-account.html" method="post" class="d-flex flex-row flex-center">
             <div class="form--header text-red">
                 <h1>Create Your Account</h1>
             </div>
@@ -64,31 +66,50 @@
             <div class="d-flex flex-row" style="margin-top: 67px; row-gap: 28px">
                 <div class="d-flex" style="column-gap: 12px;">
                     <div class="rounded rounded--black">1</div>
-                    <div>
-                        <div style="font-weight: 700; font-size: 16px">ID 생성</div>
-                        <div style="font-family: Inter; font-weight: 400; font-size: 16px">Enter your account details.</div>
+                    <div class="size--16">
+                        <div style="font-weight: 700">ID 생성</div>
+                        <div style="font-family: Inter; font-weight: 400">Enter your account details.</div>
                     </div>
                 </div>
                 <div class="d-flex" style="column-gap: 12px;">
                     <div class="rounded rounded--black">2</div>
-                    <div>
-                        <div style="font-weight: 700; font-size: 16px">ID 인증</div>
-                        <div style="font-family: Inter; font-weight: 400; font-size: 16px; ">Verify your identity to protect your account.</div>
+                    <div class="size--16">
+                        <div style="font-weight: 700">ID 인증</div>
+                        <div style="font-family: Inter; font-weight: 400">Verify your identity to protect your account.</div>
                     </div>
                 </div>
             </div>
             <div class="form--controls" style="margin-top: 46px;">
-                <label for="" class="form--label">Country/Area of Residence</label>
-                <button type="button" class="dropdown">
-                    <i class="flag kr"></i>
-                    South Korea (대한민국)
-                </button>
+                <label for="country" class="form--label">Country/Area of Residence</label>
+                <div class="dropdown-wrapper">
+                    <button id="country" type="button" class="dropdown">
+                        <i class="flag kr"></i>
+                        South Korea (대한민국)
+                    </button>
+                    <div class="dropdown--item">
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <p class="flex-self-left text--blue-gray">회원가입에 기입한 정보는 추후 계정관리에서 변경 할 수 있습니다.</p>
             <div class="form--btns" style="margin-top: 44px">
                 <input type="submit" value="다음" class="btn btn--block btn--red">
             </div>
         </form>
+        <script>
+            API.getCountry((resp) => {
+                resp.payload.map((country) => {
+                    const li = $('<li>')
+
+                        const flag = $('<i>').addClass('flag').addClass(country.code.toLowerCase())
+                        li.append(flag)
+                        li.append(' ' + country.name)
+    
+                    $('#country+.dropdown--item ul').append(li)
+                })
+            })
+        </script>
     </main>
 </body>
 </html>

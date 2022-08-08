@@ -6,13 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>끽다거</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
 <link rel="stylesheet" href="./assets/css/components.css">
 <link rel="stylesheet" href="./assets/css/sub.css">
+<link rel="stylesheet" href="./assets/css/transaction.css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
     .product--image {
         width: 32px;
@@ -32,13 +34,14 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/api.js"></script>
 <script src="./assets/js/components.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="./assets/js/transaction.js" defer></script>
 </head>
 <!-- BODY -->
-<body class="sub notice">
+<body class="sub transaction">
     <header>
         <h1 class="logo"><a href="/">Teaplat</a></h1>
         <nav class="nav">
@@ -91,7 +94,7 @@
                         <a href="notice.html">ID 인증 관리</a>
                     </li>
                     <li>
-                        <a href="change-security-password.html">보안비밀번호 변경</a>
+                        <a href="change-pin-number.html">보안비밀번호 변경</a>
                     </li>
                     <li>
                         <a href="change-account-number.html">출금계좌 변경</a>
@@ -159,8 +162,19 @@
 
 
             </script>
-            <div class="board--body" style="padding: 0">
-                <table class="board--list">
+            <script>
+                let page = 1
+                let symbol = ''
+                API.getTransactionList(symbol, page, (resp) => {
+                    if(resp.success) {
+
+                    } else {
+                        
+                    }
+                })
+            </script>
+            <div class="board--body p-0">
+                <table class="transaction--list board--list">
                     <colgroup>
                         <col width="">
                         <col style="width: calc(100% * (220 / 919))">
@@ -173,10 +187,10 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>
-                                <div class="dropdown-wrapper">
+                            <th style="position: relative; line-height: 1">
+                                <div class="category dropdown-wrapper">
                                     <button type="button" class="dropdown">전체</button>
-                                    <div class="dropdown--item" style="width: 76px">
+                                    <div class="dropdown--item">
                                         <span>전체</span>
                                         <ul>
                                             <li><a href="">판매</a></li>
@@ -199,181 +213,181 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="text--left"><i class="ico-제품등록"></i> 제품 등록</td>
-                            <td class="text--left">
+                            <td class="text--left"  style="font-size: 12px"><i class="ico-제품등록"></i> 제품 등록</td>
+                            <td class="text--left"  style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
                                 </span>
                                 원영호 원창호</td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right"></td>
-                            <td class="text--right"></td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">관리자</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 10px">관리자</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-판매"></i> 판매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-판매"></i> 판매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/원성호생차_누끼이미지1.png" alt="">
                                 </span>
                                 원영호 원창호
                             </td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right">$1,000</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">hong1234@naver.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 10px">hong1234@naver.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-구매"></i> 구매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-구매"></i> 구매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/빙도_누끼이미지4.png" alt="">
                                 </span>
                                 원영호 송빙</td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right">$1,000</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-공동구매"></i> 공동 구매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-공동구매"></i> 공동 구매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/원성호생차_누끼이미지1.png" alt="">
                                 </span>
                                 8892 후기홍인</td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right">$1,000</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-경매등록"></i> 경매 등록</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-경매등록"></i> 경매 등록</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/복전차.png" alt="">
                                 </span>
                                 복전차
                             </td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right"></td>
-                            <td class="text--right"></td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">관리자</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 10px">관리자</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-경매구매"></i> 경매 구매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-경매구매"></i> 경매 구매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
                                 </span>
                                 끽다거 빙도
                             </td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right"></td>
-                            <td class="">china@gmail.com</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="" style="font-size: 10px">china@gmail.com</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
                                 </span>
                                 복전차
                             </td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right"></td>
-                            <td class="">china@gmail.com</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="" style="font-size: 10px">china@gmail.com</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
                                 </span>
                                 복전차
                             </td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right"></td>
-                            <td class="">china@gmail.com</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="" style="font-size: 10px">china@gmail.com</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
                                 </span>
                                 복전차
                             </td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right"></td>
-                            <td class="">china@gmail.com</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="" style="font-size: 10px">china@gmail.com</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
                                 </span>
                                 복전차
                             </td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right"></td>
-                            <td class="">china@gmail.com</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="" style="font-size: 10px">china@gmail.com</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
                                 </span>
                                 복전차
                             </td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right"></td>
-                            <td class="">china@gmail.com</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="" style="font-size: 10px">china@gmail.com</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                         <tr>
-                            <td class="text--left"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left">
+                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+                            <td class="text--left" style="font-size: 12px">
                                 <span class="product--image">
                                     <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
                                 </span>
                                 복전차
                             </td>
-                            <td class="text--right">$1,000</td>
-                            <td class="text--right">100</td>
-                            <td class="text--right"></td>
-                            <td class="">china@gmail.com</td>
-                            <td class="">kikdda@teaplat.com</td>
-                            <td class="">22-06-24</td>
+                            <td class="text--right" style="font-size: 12px">$1,000</td>
+                            <td class="text--right" style="font-size: 12px">100</td>
+                            <td class="text--right" style="font-size: 12px"></td>
+                            <td class="" style="font-size: 10px">china@gmail.com</td>
+                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+                            <td class="" style="font-size: 12px">22-06-24</td>
                         </tr>
                     </tbody>
                 </table>
@@ -410,24 +424,24 @@
                     <a href="faq.html">자주묻는질문</a>
                 </li>
             </ul>
+            <div class="copyright">
+                <span class="company--name">(주)끽다거</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--ceo">대표이사 : 안성희</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--number">사업자등록번호 : 824-87-00881</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
+                <br>
+                전화 : 02-733-9746
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                통신판매업신고번호 : 제 2021-서울종로-0444호
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                이메일 : kkikdageo@naver.com
+                <br><br>
+                Copyright © 2022 (주)끽다거. All rights reserved. 
+            </div>
         </nav>
-        <div class="copyright">
-            <span class="company--name">(주)끽다거</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--ceo">대표이사 : 안성희</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--number">사업자등록번호 : 824-87-00881</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
-            <br>
-            전화 : 02-733-9746
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            통신판매업신고번호 : 제 2021-서울종로-0444호
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            이메일 : kkikdageo@naver.com
-            <br><br>
-            Copyright © 2022 (주)끽다거. All rights reserved. 
-        </div>
         <span class="customer--text">고객상담 · 상담 · 배송 문의</span>
         <span class="customer--number">02-733-9746</span>
         <span class="customer--time">평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>

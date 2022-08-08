@@ -17,6 +17,9 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/components.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/forget.js" defer></script>
 </head>
 <!-- BODY -->
 <body class="login">
@@ -53,15 +56,15 @@
         </nav>
     </header>
     <main class="d-flex flex-center">
-        <form action="forget2.html" method="post" class="d-flex flex-row flex-center">
+        <form id="forget" action="forget2.html" method="post" class="d-flex flex-row flex-center">
             <div class="form--header">
                 <h1>Reset password</h1>
             </div>
             <div class="form--controls" style="margin-bottom: 40px">
                 <label for="email" class="form--label">Email</label>
-                <input type="text" name="" id="email">
+                <input type="text" name="email" id="email">
             </div>
-            <div class="validation--message">
+            <div class="validation--message" style="display: none">
                 <p>등록되지 않은 이메일 주소입니다. 올바른 이메일 주소를 입력해 주세요.</p>
             </div>
             <div class="form--btns" style="margin-top: 44px">

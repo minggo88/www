@@ -75,7 +75,9 @@ main {
     margin-top: 5px;
 }
 .sub .board--list tbody tr td {
-    padding: 13px 0;
+    padding: 13px 10px;
+}
+.sub .board--list tbody tr td:not(:last-child) {
     border-right: 0.35px solid #BDC4CB;
 }
 .sub .board--list tbody tr td.text--left,
@@ -314,10 +316,15 @@ margin-top: 20px;
 .nav--side .wallet .dropdown::after {
     display: none;
 }
+.nav--side .profile .dropdown+.dropdown--item {
+    left: 0;
+}
+.nav--side .wallet .dropdown+.dropdown--item {
+    left: -25%;
+}
 .nav--side .profile .dropdown+.dropdown--item,
 .nav--side .wallet .dropdown+.dropdown--item {
     padding-top: 0;
-    left: 0;
     top: 48px;
 }
 .nav--side .profile .dropdown+.dropdown--item ul li {
@@ -399,8 +406,6 @@ margin-top: 20px;
 }
 
 .tabs li {
-    width: calc(100% / 3);
-    flex-basis: calc(100% / 3) !important;
     height: 46px;
     line-height: 46px;
     border: 0 none !important;
@@ -427,10 +432,11 @@ margin-top: 20px;
 .details--header {
     font-weight: 700;
     font-size: 14px;
-    line-break: 20px;
+    height: 46px;
+    line-height: 46px;
     letter-spacing: -0.02em;
     border-bottom: 1px solid var(--linegray);
-    padding-bottom: 10px;
+    box-sizing: border-box;
 }
 
 .details--header small {

@@ -67,9 +67,9 @@
                     </button>
                     <div class="dropdown--item" style="width: 134px">
                         <ul>
-                            <li><a href="">정보 수정</a></li>
-                            <li><a href="verification.html">ID 인증 관리</a></li>
-                            <li><a href="change-security-password.html">보안비밀번호변경</a></li>
+                            <li><a href="member-account.html">정보 수정</a></li>
+                            <li><a href="my-verification.html">ID 인증 관리</a></li>
+                            <li><a href="change-pin-number.html">보안비밀번호변경</a></li>
                             <li><a href="change-account-number.html">출금계좌 변경</a></li>
                             <li><a href="transaction.html">거래 내역</a></li>
                             <li><a href="notification.html">알림</a></li>
@@ -108,14 +108,14 @@
             <h1>계정 관리</h1>
             <nav class="side--snb">
                 <ul>
-                    <li>
-                        <a href="notice.html">정보 수정</a>
-                    </li>
-                    <li>
-                        <a href="notice.html">ID 인증 관리</a>
-                    </li>
                     <li class="snb--active">
-                        <a href="change-security-password.html">보안비밀번호 변경</a>
+                        <a href="member-account.html">정보 수정</a>
+                    </li>
+                    <li>
+                        <a href="my-verification.html">ID 인증 관리</a>
+                    </li>
+                    <li>
+                        <a href="change-pin-number.html">보안비밀번호 변경</a>
                     </li>
                     <li>
                         <a href="change-account-number.html">출금계좌 변경</a>
@@ -134,31 +134,90 @@
         </aside>
         <div class="contents">
             <header class="contents--header">
-                <h1>Change Pin Number</h1>
+                <h1>Member Account</h1>
             </header>
-            <form action="change-security-password2.html" method="post" style="width: 100%; height: auto" >
-                <div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
-                    <div class="text--center">
-                        <h2 class="m-0 text--bbold " style="font-size: 18px; margin-bottom: 24px !important">거래용 보안비밀번호 변경</h2>
-                        <h2 class="m-0 text--medium text-bold ">현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요.</h2>
-                    </div>
-                    <div style="margin-top: 52px;">
-
-                        <div class="d-flex flex-center">
-                            <div class="d-grid  grid--code">
-                                <input type="number" name="" id="" min="0" max="9">
-                                <input type="number" name="" id="" min="0" max="9">
-                                <input type="number" name="" id="" min="0" max="9">
-                                <input type="number" name="" id="" min="0" max="9">
-                                <input type="number" name="" id="" min="0" max="9">
-                                <input type="number" name="" id="" min="0" max="9">
+            <form id="member-account" action="change-security-password2.html" class="boxed boxed--transparent d-flex" method="post" style="width: 100%; height: auto; justify-content: center" >
+                <div>
+                    <div class="" style="width: 340px; align-self: center; height: 333px; padding: 39px 0 68px">
+                        <div class="form--controls">
+                            <label for="email">이메일</label>
+                            <input type="email" name="email" id="email">
+                        </div>
+                        <div class="form--controls">
+                            <label for="phone">핸드폰 번호</label>
+                            <input type="tel" name="phone" id="phone">
+                        </div>
+                        <div class="form--controls">
+                            <label for="">거주지</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" name="country" id="country" placeholder="국가">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" name="city" id="city" placeholder="도시">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form--controls">
+                            <input type="text" name="address" id="address" placeholder="주소">
+                        </div>
+                        <div class="form--controls">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" name="address2" id="address2" placeholder="상세주소(옵션)">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" name="postcode" id="postcode" placeholder="우편번호">
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="text--center"><input type="submit" value="계정 수정" class="btn btn--red" style="width: 340px; margin-top: 40px"></div>
+                    <div class="text--center"><a href="" class="btn btn--transprent text-red" style="width: 340px; margin-top: 40px" data-toggle="modal" data-target="#change-password">로그인 비밀번호 변경</a></div>
+    
                 </div>
-                <div class="text--center"><input type="submit" value="수정하기" class="btn btn--red" style="width: 340px; margin-top: 40px"></div>
+
 
             </form>
+            <form method="post" id="change-password" class="modal modal--tiny">
+                <div class="modal--dialog" style="width: 500px">
+                    <div class="modal--header">
+                        Change password
+                        <button type="button" class="btn btn--close"></button>
+                    </div>
+                    <div class="modal--content" style="padding: 0 77px 0 55px">
+                        <div class="form--controls">
+                            <label for="">현재 비밀번호</label>
+                            <input type="password" name="password" id="password">
+                        </div>
+                        <div class="form--controls">
+                            <label for="">새로운 비밀번호</label>
+                            <input type="password" name="new_password" id="new_password">
+                        </div>
+                        <div class="form--controls">
+                            <label for="">비밀번호 재입력</label>
+                            <input type="password" name="new_password2" id="new_password2">
+                        </div>
+                        <div class="form--btns" style="width: 340px; align-self: flex-end">
+                            <input type="submit" value="비밀번호 변경하기" class="btn btn--red" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <script>
+                $('#member-account').submit((e) => {
+                    e.preventDefault()
+
+                    API.putMyInfo({
+                        email: $('#email').val(),
+                        phone: $('#phone').val(),
+                    }, () => {
+                        
+                    })
+                    return false
+                })
+            </script>
         </div>
     </main>
     <footer>

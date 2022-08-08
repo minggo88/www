@@ -1,0 +1,5 @@
+$(function() {
+    API.getTransactionList(page, () => {
+        
+    })
+})

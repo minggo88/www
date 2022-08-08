@@ -18,6 +18,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/components.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/login.js" defer></script>
 </head>
 <!-- BODY -->
 <body class="login">
@@ -41,7 +43,7 @@
                     <a href="">다도 문화</a>
                 </li>
                 <li>
-                    <a href="">고객센터</a>
+                    <a href="notice.html">고객센터</a>
                 </li>
             </ul>
             <div class="nav--side">
@@ -62,24 +64,27 @@
         </nav>
     </header>
     <main class="d-flex flex-center">
-        <form action="login.html" method="post" class="d-flex flex-row flex-center">
+        <form id="login" action="login.html" method="post" class="d-flex flex-row flex-center">
             <div class="form--header">
                 <h1>Login</h1>
             </div>
-            <div class="form--controls">
+            <div class="form--controls" style="margin-bottom: 10px">
                 <label for="email" class="form--label">Email</label>
-                <input type="text" name="" id="email">
+                <input type="text" name="email" id="email" required>
             </div>
-            <div class="form--controls">
+            <div class="form--controls" style="margin-bottom: 10px">
                 <label for="password" class="form--label">Password</label>
-                <input type="password" name="" id="password">
+                <input type="password" name="password" id="password" required>
             </div>
-            <div class="flex-right">
+            <div class="flex-right" style="margin-bottom: 11px">
                 <a href="forget.html" class="text-red text-bold">비밀번호 찾기</a>
             </div>
+            <div class="validation--message" style="display: none">
+                <p></p>
+            </div>
             <div class="form--btns">
-                <input type="submit" value="로그인" class="btn btn--block btn--red">
-                <a href="" class="btn btn--block btn--gray">이메일로 회원가입</a>
+                <input type="submit" value="로그인" class="btn btn--block btn--red text-bbold">
+                <a href="create-account-country.html" class="btn btn--block btn--gray text-bbold">이메일로 회원가입</a>
             </div>
         </form>
     </main>

@@ -6,8 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>끽다거</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
@@ -18,6 +17,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/components.js"></script>
+<script src="./assets/js/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 </head>
 <!-- BODY -->
@@ -93,26 +93,34 @@
                         <li>토,일 및 공휴일 입출금건 → 평일 영업일에 진행</li>
                     </ul>
                 </section>
-                <section class="grid">
-                    <div class="form--controls">
-                        <label for="address" class="form--label">Address</label>
+                <section class="grid" style="height: unset !important">
+                    <div class="form--controls" style="margin-bottom: 18px">
+                        <label for="address" class="form--label" style="margin-bottom: 7px">Address</label>
                         <div class="input--group">
                             <input type="text" id="address" readonly>
                             <button type="button" class="btn btn--gray btn--copy" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px">Copy</button>
                         </div>
                     </div>
-                    <div class="form--controls">
-                        <label for="eth" class="form--label">ETH Balance</label>
+                    <div class="form--controls" style="margin-bottom: 18px">
+                        <label for="eth" class="form--label" style="margin-bottom: 7px">ETH Balance</label>
                         <div class="input--group">
                             <input type="text" id="eth" value="1,234,567 BCH" disabled class="text-right text-black">
                         </div>
                     </div>
                     <div class="form--controls">
-                        <label for="eth" class="form--label">QR Code</label>
-                        <img src="./assets/img/qrcode.png" alt="" class="qrcode">
+                        <label for="eth" class="form--label" style="margin-bottom: 7px">QR Code</label>
+                        <div id="qrcode">
+                        </div>
+                        <div class="d-flex flex-center" style="margin-top: 15px"><button type="button" class="btn btn--red" style="width: 196px; align-self: center">Create BCH Address</button></div>
+
                     </div>
                 </section>
             </div>
+
+            <script>
+                                new QRCode("qrcode", "http://jindo.dev.naver.com/collie");
+
+            </script>
 
             <ul>
                 <li>이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다.</li>
@@ -146,24 +154,24 @@
                     <a href="faq.html">자주묻는질문</a>
                 </li>
             </ul>
+            <div class="copyright">
+                <span class="company--name">(주)끽다거</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--ceo">대표이사 : 안성희</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--number">사업자등록번호 : 824-87-00881</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
+                <br>
+                전화 : 02-733-9746
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                통신판매업신고번호 : 제 2021-서울종로-0444호
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                이메일 : kkikdageo@naver.com
+                <br><br>
+                Copyright © 2022 (주)끽다거. All rights reserved. 
+            </div>
         </nav>
-        <div class="copyright">
-            <span class="company--name">(주)끽다거</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--ceo">대표이사 : 안성희</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--number">사업자등록번호 : 824-87-00881</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
-            <br>
-            전화 : 02-733-9746
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            통신판매업신고번호 : 제 2021-서울종로-0444호
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            이메일 : kkikdageo@naver.com
-            <br><br>
-            Copyright © 2022 (주)끽다거. All rights reserved. 
-        </div>
         <span class="customer--text">고객상담 · 상담 · 배송 문의</span>
         <span class="customer--number">02-733-9746</span>
         <span class="customer--time">평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>

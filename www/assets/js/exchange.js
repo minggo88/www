@@ -47,16 +47,16 @@ $(function() {
         url: 'data.json',
         datatype: "json",
         colModel: [
-            { label: '이름', name: 'Name', width: sidePanelWidth * 140 / 560, formatter: Exchange.formatter.Name, resizable: false },
-            { label: '타입', name: 'Type', width: sidePanelWidth * 64 / 560, align: 'center', resizable: false },
-            { label: '생산연도', name: 'Year', width: sidePanelWidth * 76 / 560, align: 'center', sorttype:'number', resizable: false },
-            { label: '현재가', name: 'CurrentPrice', width: sidePanelWidth * 84 / 560, sorttype:'number', align: 'right', formatter: Exchange.formatter.CurrentPrice, resizable: false },
-            { label: '전일대비', name: 'Difference', width: sidePanelWidth * 76 / 560, sorttype:'integer', align: 'right', formatter: Exchange.formatter.Difference, resizable: false },
-            { label: '거래대금', name: 'TransactionPrice', width: sidePanelWidth * 105 / 560, sorttype:'integer', align: 'right', formatter: Exchange.formatter.TransactionPrice, resizable: false },
+            { label: '이름', name: 'Name', width: 160, formatter: Exchange.formatter.Name, resizable: false },
+            { label: '타입', name: 'Type', width: 64, align: 'center', resizable: false },
+            { label: '생산연도', name: 'Year', width: 76, align: 'center', sorttype:'number', resizable: false },
+            { label: '현재가', name: 'CurrentPrice', width: 84, sorttype:'number', align: 'right', formatter: Exchange.formatter.CurrentPrice, resizable: false },
+            { label: '전일대비', name: 'Difference', width: 76, sorttype:'integer', align: 'right', formatter: Exchange.formatter.Difference, resizable: false },
+            { label: '거래대금', name: 'TransactionPrice', width: 105, sorttype:'integer', align: 'right', formatter: Exchange.formatter.TransactionPrice, resizable: false },
             { name: 'Checked', hidden: true}
         ],
         loadonce: true,
-        width: sidePanelWidth,
+        width: 560,
         height: 971,
         rowNum: 20,
         viewrecords: true
@@ -92,7 +92,7 @@ $(function() {
             }, resizable: false },
             { label: '상태', name: 'Status', width: detailsWidth * 148 / 834, align: 'center', resizable: false },
             { label: '거래버튼', width: detailsWidth * 70 / 834, formatter: (cellValue) => {
-                return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-target="#modal-buy" style="width: 100%; height: 25px; line-height: 25px">구매</button>'
+                return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-target="#modal-buy" style="width: 100%; height: 25px; line-height: 25px">구매</button>'
             }}
         ],
         loadonce: true,
@@ -133,15 +133,20 @@ $(function() {
             }, resizable: false },
             { label: '상태', name: 'Status', width: detailsWidth * 148 / 834, align: 'center', resizable: false },
             { label: '거래버튼', width: detailsWidth * 70 / 834, formatter: (_cellValue) => {
-                return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-target="#modal-sell" style="width: 100%; height: 25px; line-height: 25px">판매</button>'
+                return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-target="#modal-sell" style="width: 100%; height: 25px; line-height: 25px">판매</button>'
             }}
         ],
         loadonce: true,
         width: detailsWidth,
-        height: 352,
+        height: 308,
         rowNum: 20,
         viewrecords: true,
         shrinkToFit: false,
+    })
+
+    $('#modal-buy').submit(() => {
+        $('#alert-buy').addClass('modal--open')
+        return false
     })
 })
         

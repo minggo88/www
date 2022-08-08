@@ -19,6 +19,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/components.js"></script>
+<script src="./assets/js/api.js"></script>
 </head>
 <!-- BODY -->
 <body class="sub notice">
@@ -42,14 +43,48 @@
                     <a href="">다도 문화</a>
                 </li>
                 <li class="active">
-                    <a href="">고객센터</a>
+                    <a href="notice.html">고객센터</a>
                 </li>
             </ul>
             <div class="nav--side">
-                <a href="login.html" class="btn--login">로그인</a>
+                <div class="profile dropdown-wrapper">
+                    <button type="button" class="dropdown text--blue-gray">
+                        kik**@teaplat.com
+                    </button>
+                    <div class="dropdown--item" style="width: 134px">
+                        <ul>
+                            <li><a href="member-account.html">정보 수정</a></li>
+                            <li><a href="my-verification.html">ID 인증 관리</a></li>
+                            <li><a href="change-pin-number.html">보안비밀번호변경</a></li>
+                            <li><a href="change-account-number.html">출금계좌 변경</a></li>
+                            <li><a href="transaction.html">거래 내역</a></li>
+                            <li><a href="notification.html">알림</a></li>
+                            <li><a href="withdrawal.html">회원 탈퇴</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wallet dropdown-wrapper">
+                    <button type="button" class="dropdown">지갑관리</button>
+                    <div class="dropdown--item" style="width: 100px">
+                        <ul>
+                            <li><a href="">보유 자산</a></li>
+                            <li><a href="">입금</a></li>
+                            <li><a href="">출금</a></li>
+                            <li><a href="">종합 분석</a></li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="language">
-                    한국어
-                    <button type="button" class="caret-down"></button>
+                    <div class="dropdown-wrapper">
+                        <button type="button" class="dropdown">한국어</button>
+                        <div class="dropdown--item" style="width: 81px">
+                            <span>한국어</span>
+                            <ul>
+                                <li class="dropdown--selected"><a href="">ENG</a></li>
+                                <li><a href="">中文</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -63,7 +98,7 @@
                         <a href="notice.html">공지사항</a>
                     </li>
                     <li>
-                        <a href="notice.html">자주하는 질문</a>
+                        <a href="faq.html">자주하는 질문</a>
                     </li>
                     <li class="snb--active">
                         <a href="inquiry.html">1:1 문의</a>
@@ -79,18 +114,36 @@
                 <h1>Direct Inquiry</h1>
             </header>
             <form action="" method="post" class="board--write">
+                <input type="hidden" id="idx" name="idx" value="">
+
                 <div class="form--controls">
-                    <label for="" class="form--label">제목</label>
-                    <input type="text" name="" id="" placeholder="제목을 입력하세요">
+                    <label for="subject" class="form--label">제목</label>
+                    <input type="text" name="subject" id="subject" placeholder="제목을 입력하세요" required>
                 </div>
                 <div class="form--controls">
-                    <label for="" class="form--label">내용</label>
-                    <textarea placeholder="문의내용을 입력하세요"></textarea>
+                    <label for="contents" class="form--label">내용</label>
+                    <textarea id="contents" placeholder="문의내용을 입력하세요" required></textarea>
                 </div>
                 <div class="board--btn" style="justify-content: center">
                     <input type="submit" value="작성하기" class="btn btn--red btn--write">
                 </div>
             </form>
+            <script>
+                if($('#idx').val()) {
+                    //API.getM2M()
+                }
+                $('.board--write').on('submit', (e) => {
+                    e.preventDefault()
+
+                    API.putM2M($('#subject').val(), $('#contents').val(), $('#idx').val(), (resp) => {
+                        if(resp.success) {
+                            location.href = 'inquiry.html'
+                        }
+                    })
+
+                    return false
+                })
+            </script>
         </div>
     </main>
     <footer>
@@ -110,24 +163,24 @@
                     <a href="faq.html">자주묻는질문</a>
                 </li>
             </ul>
+            <div class="copyright">
+                <span class="company--name">(주)끽다거</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--ceo">대표이사 : 안성희</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--number">사업자등록번호 : 824-87-00881</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
+                <br>
+                전화 : 02-733-9746
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                통신판매업신고번호 : 제 2021-서울종로-0444호
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                이메일 : kkikdageo@naver.com
+                <br><br>
+                Copyright © 2022 (주)끽다거. All rights reserved. 
+            </div>
         </nav>
-        <div class="copyright">
-            <span class="company--name">(주)끽다거</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--ceo">대표이사 : 안성희</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--number">사업자등록번호 : 824-87-00881</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
-            <br>
-            전화 : 02-733-9746
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            통신판매업신고번호 : 제 2021-서울종로-0444호
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            이메일 : kkikdageo@naver.com
-            <br><br>
-            Copyright © 2022 (주)끽다거. All rights reserved. 
-        </div>
         <span class="customer--text">고객상담 · 상담 · 배송 문의</span>
         <span class="customer--number">02-733-9746</span>
         <span class="customer--time">평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>

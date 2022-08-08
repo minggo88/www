@@ -7,7 +7,6 @@
 <title>끽다거</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
@@ -17,6 +16,15 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<style>
+    body {
+        align-items: stretch;
+    }
+    main {
+        height: auto
+
+    }
+</style>
 </head>
 <!-- BODY -->
 <body class="verification">
@@ -55,8 +63,8 @@
         </nav>
     </header>
     <main class="d-flex flex-center">
-        <form action="verification6.html" method="post" class="d-flex flex-row flex-center">
-            <div class="form--header text-red">
+        <form action="verification6.html" method="post" class="d-flex flex-row flex-center" style="margin-top: 120px">
+            <div class="form--header text-red" style="margin-bottom: 37px">
                 <h1>Identity Verification</h1>
             </div>
             <div class="flex-self-left" style="width: 100%">
@@ -88,9 +96,9 @@
                         <div class="form--controls"><input type="text" name="" id="" placeholder="계좌번호"></div>
                     </div>
                 </div>
-                <p class="text-red">출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다.</p>
-                <div class="row">
-                    <label for="country" class="form--label">거주지</label>
+                <p class="m-0 text-red" style="font-weight: 400; height: 17px; margin-bottom: 20px !important">출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다.</p>
+                <div class="row" style="margin-bottom: 8px">
+                    <label for="country" class="form--label text-bold" style="margin-bottom: 0">거주지</label>
                 </div>
                 <div class="row">
                     <div class="col-6">
