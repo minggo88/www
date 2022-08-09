@@ -71,3 +71,41 @@
 #tab-info .btns {
     margin-top: 24px;
 }
+
+/* 구매하기 */
+#modal-buy .modal--content {
+    margin-top: 36px;
+    padding-left: 39px;
+    padding-right: 21px;
+    position: relative; background: url('./assets/img/logo.svg') no-repeat calc(100% - 20px) top;
+}
+#modal-buy .tea--name {
+    padding-left: 4px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* 판매하기 */
+#modal-sell .modal--content{
+    margin-top: 36px;
+    padding-left: 39px;
+    padding-right: 21px;
+    position: relative;
+    background: url('./assets/img/logo.svg') no-repeat calc(100% - 20px) top;
+}
+
+#modal-buy .btn--star--on,
+#modal-sell .btn--star--on {
+    position: absolute;
+    left: 19px;
+    top: 5px;
+}
+
+#modal-buy dd,
+#modal-sell dd {
+    width: 220px;
+}
+
+.tea--volume {
+    margin-bottom: 40px;
+}

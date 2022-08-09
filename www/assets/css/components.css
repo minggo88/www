@@ -415,7 +415,8 @@ form .form--header h1 {
 .form--controls {
     width: 100%;
 }
-.form--controls .form--label {
+.form--controls .form--label,
+.form--controls .control--label {
     width: 100%;
     height: 15px;
     line-height: 15px;
@@ -447,7 +448,6 @@ form .form--header h1 {
 .form--controls .checkbox input[type=checkbox] {
     position: absolute;
     opacity: 0;
-
 }
 .form--controls .checkbox input[type=checkbox]+label {
     font-weight: 350;
@@ -607,14 +607,22 @@ form .form--header h1 {
 .accordion {
     font-size: 16px;
 }
+.accordion .accordion--item:not(.accordion--open) .accordion--header{
+    border-radius: 4px;
+}
 .accordion .accordion--item:not(:last-child) {
     margin-bottom: 12px;
+}
+.accordion .accordion--item {
+    border: 0.35px solid #BDC4CB;
+    border-radius: 4px;
+}
+.accordion .accordion--item.accordion--open .accordion--header {
+    border-bottom: 0.35px solid #BDC4CB;
 }
 .accordion .accordion--item .accordion--header {
     height: 55.59px;
     background: var(--white);
-    border: 0.35px solid #BDC4CB;
-    border-radius: 4px 4px 0 0;
     font-weight: 700;
     font-size: 18px;
     position: relative;
@@ -650,22 +658,22 @@ form .form--header h1 {
     height: 0;
     padding: 0 16px 0 52px;
     background: var(--white);
-    border: 0.35px solid var(--blue-gray2);
-    border-width: 0;
-    border-top: 0 none;
     border-radius: 0 0 4px 4px;
-    column-gap: 16px;
-    -webkit-transition: all .07s cubic-bezier(0, 0, 1, 1);
-    transition: all .07s cubic-bezier(0, 0, 1, 1);
+    -webkit-transition: all .12s cubic-bezier(0, 0, 1, 1);
+    transition: all .12s cubic-bezier(0, 0, 1, 1);
     box-sizing: border-box;
     overflow: hidden;
+    position: relative;
 }
 
 .accordion--item.accordion--open .accordion--contents {
-    border-width: 1px;
     padding: 18px 16px 24px 52px;
     height: auto;
-    display: flex;
+    line-height: 23.17px;
+}
+.accordion--item.accordion--open .accordion--contents p {
+    margin: 0;
+    line-height: 23.17px;
 }
 .accordion--item.accordion--open .accordion--header {
     background: var(--lightgray);
@@ -731,6 +739,8 @@ form .form--header h1 {
     padding-top: 9px;
     box-sizing: border-box;
     z-index: 29;
+    max-height: 300px;
+    overflow-y: auto;
 }
 .dropdown+.dropdown--item  span {
     position: relative;
@@ -832,7 +842,7 @@ form .form--header h1 {
 .validation--message {
     width: 100%;
     padding: 14px 10px 14px 40px;
-    background: #F93D5C url('../img/icon/ico-warn.svg') no-repeat 10px 13px;
+    background: var(--warning) url('../img/icon/ico-warn.svg') no-repeat 10px 13px;
     max-height: 62px;
     letter-spacing: -0.15px;
     color: var(--white);
@@ -1985,9 +1995,6 @@ input[type=file].image-selector::after{
     background: var(--white);
 }
 
-.modal .modal--header .btn.btn--close {
-
-}
 .modal .modal--contents {
     height: 100%;
 }
@@ -2003,6 +2010,18 @@ input[type=file].image-selector::after{
 /* Loading */
 .loading {
     position: relative;
+}
+.loading::before {
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .05);
+    z-index: 99;
+    cursor: wait;
 }
 .loading::after {
     display: block;
