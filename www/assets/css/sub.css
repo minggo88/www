@@ -21,6 +21,32 @@ main {
 .sub.notice main {
     padding: 60px 140px 60px 40px;
 }
+.sub.faq main {
+    padding: 60px 140px 60px 40px;
+}
+
+.sub.faq .accordion--contents {
+    padding-left: 81px;
+}
+.sub.faq .accordion--contents::before {
+    position: absolute;
+    top: 18px;
+    left: 52px;
+    display: inline-block;
+    content: "A";
+    color: var(--lightlight-blue);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: inherit;
+    height: 0;
+    -webkit-transition: all .12s cubic-bezier(0, 0, 1, 1);
+    transition: all .12s cubic-bezier(0, 0, 1, 1);
+}
+
+.sub.faq .accordion--open .accordion--contents::before {
+    height: auto;
+}
+
 
 .sub main {
     grid-template-columns: calc(100% * (238 / 1440)) auto;

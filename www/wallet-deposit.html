@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>끽다거</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://code.jquery.com.jsdelivr.net">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
@@ -16,6 +18,7 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/api.js"></script>
 <script src="./assets/js/components.js"></script>
 <script src="./assets/js/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
@@ -46,10 +49,41 @@
                 </li>
             </ul>
             <div class="nav--side">
-                <a href="login.html" class="btn--login">로그인</a>
-                <div class="language">
-                    한국어
-                    <button type="button" class="caret-down"></button>
+                <div class="profile dropdown-wrapper">
+                    <button type="button" class="dropdown text--blue-gray">
+                        kik**@teaplat.com
+                    </button>
+                    <div class="dropdown--item" style="width: 134px">
+                        <ul>
+                            <li><a href="member-account.html">정보 수정</a></li>
+                            <li><a href="verification.html">ID 인증 관리</a></li>
+                            <li><a href="change-pin-number.html">보안비밀번호변경</a></li>
+                            <li><a href="change-account-number.html">출금계좌 변경</a></li>
+                            <li><a href="transaction.html">거래 내역</a></li>
+                            <li><a href="notification.html">알림</a></li>
+                            <li><a href="withdrawal.html">회원 탈퇴</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wallet dropdown-wrapper">
+                    <button type="button" class="dropdown">지갑관리</button>
+                    <div class="dropdown--item" style="width: 100px">
+                        <ul>
+                            <li><a href="wallet.html">보유 자산</a></li>
+                            <li><a href="wallet-deposit.html">입금</a></li>
+                            <li><a href="wallet-withdrawal.html">출금</a></li>
+                            <li><a href="wallet-analysis.htlm">종합 분석</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button type="button" class="btn btn--logout">로그아웃</button>
+                <div class="language dropdown-wrapper">
+                    <button type="button" class="dropdown">한국어</button>
+                    <div class="dropdown--item">
+                        <span>한국어</span>
+                        <ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -70,9 +104,6 @@
                     </li>
                     <li>
                         <a href="wallet-analysis.html">종합 분석</a>
-                    </li>
-                    <li>
-                        <a href="">텍스트</a>
                     </li>
                 </ul>
             </nav>

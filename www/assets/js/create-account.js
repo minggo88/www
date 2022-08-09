@@ -2,6 +2,30 @@ $(function () {
     const email = $('#email')
     const password = $('#password')
 
+    API.getCountry((resp) => {
+        let firstItem = ''
+        resp.payload.map((country) => {
+            if(!firstItem) {
+                firstItem = country.code.toLowerCase()
+            }
+
+            $('#country').dropdown('add', { value: country.code.toLowerCase(), text: `<i class="flag ${country.code.toLowerCase()}"></i> ${country.name}` })
+        })
+
+        $('#country').dropdown('select', firstItem)
+    })
+
+    $('#create-account-country').on('submit', (e) => {
+        e.preventDefault()
+
+        window.sessionStorage.country = $('#country').dropdown('selected')
+
+        $('#create-account-country').hide()
+        $('#create-account-info').show()
+
+        return false
+    })
+
     $('#create-account-info').on('submit', (e) => {
         e.preventDefault()
 
@@ -26,13 +50,15 @@ $(function () {
         $('#create-account-info input[type=submit]').prop('disabled', true)
 
         API.sendEmailConfirmCode(email.val(), (resp) => {
-            console.log(resp)
+            $('#create-account-info').removeClass('loading')
+
             if(resp.success) {
-                $('#create-account-info').removeClass('loading')
                 $('#create-account-info').hide()
                 $('#create-account-mail-auth').show()
             } else {
                 $('#create-account-info input[type=submit]').prop('disabled', false)
+
+                alert(resp.error.message)
             }
         })
 
@@ -58,13 +84,15 @@ $(function () {
         $('#create-account-mail-auth input[type=submit]').prop('disabled', true)
 
         API.checkEmailConfirmCode(email.val(), code, (resp) => {
+            $('#create-account-mail-auth').removeClass('loading')
+
             if(resp.success) {
                 $('#create-account-mail-auth').hide()
                 $('#create-account-phone').show()
             } else {
-                alert('인증번호가 맞지 않습니다.')
-
                 $('#create-account-mail-auth input[type=submit]').prop('disabled', false)
+
+                alert(resp.error.message)
             }
         })
 
@@ -74,22 +102,29 @@ $(function () {
     $('#create-account-phone').on('submit', (e) => {
         e.preventDefault()
 
+        const phoneCountry = $('#phoneCountry').val()
         const phone = $('#phone').val()
 
+        if(!phoneCountry) {
+            $('#phoneCountry').focus()
+            return false
+        }
         if(!phone) {
             $('#phone').focus()
+            return false
         }
 
         $('#create-account-phone').addClass('loading')
         $('#create-account-phone input[type=submit]').prop('disabled', true)
 
-        API.sendMobileConfirmCode(phone, (resp) => {
+        API.sendMobileConfirmCode(phoneCountry, phone, (resp) => {
             if(resp.success) {
                 $('#create-account-phone').hide()
                 $('#create-account-phone-auth').show()
             } else {
-                alert(resp.error.message)
                 $('#create-account-phone input[type=submit]').prop('disabled', false)
+
+                alert(resp.error.message)
             }
         })
 
@@ -115,12 +150,15 @@ $(function () {
             $('#create-account-phone-auth input[type=submit]').prop('disabled', true)
 
             API.checkMobileConfirmCode(phone, (resp) => {
+                $('#create-account-phone-auth').removeClass('loading')
+
                 if(resp.success) {
                     $('#create-account-phone-auth').hide()
                     $('#create-account-pin-number').show()
                 } else {
-                    alert(resp.error.message)
                     $('#create-account-phone-auth input[type=submit]').prop('disabled', false)
+
+                    alert(resp.error.message)
                 }
             })
         }
@@ -160,9 +198,24 @@ $(function () {
         }
 
         if(check) {
-            API.join(email.val(), password.val(), pin, () => {
-                $('#create-account-pin-number').hide()
-                $('#create-account-pin-number-confirm').hide()
+            $('#create-account-pin-number-confirm').addClass('loading')
+
+            API.join({
+                social_id: email.val(),
+                social_name: 'email',
+                email: email.val(),
+                userpw: password.val(),
+                pin: pin,
+                bool_email: $('#mailing').is(':checked') ? 1 : 0,
+            }, (resp) => {
+                $('#create-account-pin-number-confirm').removeClass('loading')
+
+                if(resp.success) {
+                    $('#create-account-pin-number').hide()
+                    $('#create-account-pin-number-confirm').hide()
+                } else {
+                    alert(resp.error.message)
+                }
             })
         }
 

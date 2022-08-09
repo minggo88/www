@@ -1,26 +1,11 @@
-let os = ''
-
-if(navigator.userAgent.match(/Windows/)) {
-    os = 'ms'
-}
-else if(navigator.userAgent.match(/Android/))
-{
-    os = 'android'
-}
-else if(navigator.userAgent.match(/(iPhone|iPad)/))
-{
-    os = 'ios'
-}
-else if(navigator.userAgent.match(/Macintosh/))
-{
-    os = 'mac'
-}
-else if(navigator.userAgent.match(/Linux/)) {
-    os = 'linux'
-}
-
 const API = {
     BASE_URL: 'https://api.dev.kkikda.com/v1.0',
+
+    /**
+     * 인증메일 보내기
+     * @param {*} email 
+     * @param {*} callback 
+     */
     sendEmailConfirmCode: (email, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/sendConfirmCode/`,
@@ -29,7 +14,7 @@ const API = {
                 token: window.localStorage.token,
                 media: 'email',
                 email_address: email,
-                lang: 'ko',
+                lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -42,15 +27,25 @@ const API = {
 
         })
     },
-    sendMobileConfirmCode: (mobile, callback = null) => {
+    /**
+     * 인증문자 보내기
+     * #TODO 국가코드별로 AJAX 요청을 다르게 해야됨
+     * @param {*} mobile 
+     * @param {*} callback 
+     */
+    sendMobileConfirmCode: (countryCode, mobile, callback = null) => {
+        const asYouType = new libphonenumber.AsYouType()
+        asYouType.input(countryCode + '-' + mobile)
+
         $.ajax({
             url: `${API.BASE_URL}/sendConfirmCode/`,
             type: 'POST',
             data: {
                 token: window.localStorage.token,
                 media: 'mobile',
-                mobile_number: mobile,
-                mobile_country_code: 'KR',
+                mobile_number: asYouType.getNumber().number,
+                mobile_country_code: asYouType.getNumber().country,
+                lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -59,6 +54,12 @@ const API = {
             }
         })
     },
+    /**
+     * 인증메일 확인
+     * @param {*} email 
+     * @param {*} code 
+     * @param {*} callback 
+     */
     checkEmailConfirmCode: (email, code, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/checkConfirmCode/`,
@@ -76,6 +77,12 @@ const API = {
             }
         })
     },
+    /**
+     * 인증문자 확인
+     * @param {*} mobile 
+     * @param {*} code 
+     * @param {*} callback 
+     */
     checkMobileConfirmCode: (mobile, code, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/checkConfirmCode/`,
@@ -93,20 +100,21 @@ const API = {
             }
         })
     },
-    join: (email, password, pin, callback = null) => {
+    /**
+     * 회원가입
+     * @param {*} data 
+     * @param {*} callback 
+     */
+    join: (data, callback = null) => {
+        data = $.extend(data, {
+            token: window.localStorage.token,
+            os: os,
+        })
         $.ajax({
             url: `${API.BASE_URL}/socialJoin/`,
             type: 'POST',
             dataType: 'JSON',
-            data: {
-                token: window.localStorage.token,
-                social_id: email,
-                social_name: 'email',
-                email: email,
-                userpw: password,
-                pin: pin,
-                os: os,
-            },
+            data: data,
             success: (resp) => {
                 if(callback) {
                     callback(resp)
@@ -114,6 +122,12 @@ const API = {
             }
         })
     },
+    /**
+     * 로그인
+     * @param {*} email ID
+     * @param {*} password 비밀번호 
+     * @param {*} callback CALLBACK
+     */
     login: (email, password, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/socialLogin/`,
@@ -127,6 +141,12 @@ const API = {
                 os: os,
             },
             success: (resp) => {
+                // 로그인 성공 시 토큰 저장
+                if(resp.success) {
+                    window.localStorage.token = resp.payload.token
+                }
+
+                // 콜백처리
                 if(callback) {
                     callback(resp)
                 }
@@ -134,6 +154,31 @@ const API = {
 
         })
     },
+    /**
+     * 로그아웃
+     * @param {*} callback 
+     */
+    logout: (callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/logout/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+
+        })
+    },
+    /**
+     * 비밀번호 찾기
+     * @param {*} address 
+     * @param {*} callback 
+     */
     findPW: (address, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/findinfo/findpw.php`,
@@ -143,7 +188,7 @@ const API = {
                 token: window.localStorage.token,
                 address: address,
                 address_type: 'email',
-                lang: 'ko',
+                lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -164,6 +209,11 @@ const API = {
             }
         })
     },
+    /**
+     * PIN코드 확인
+     * @param {*} pin 
+     * @param {*} callback 
+     */
     checkPin: (pin, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/checkPin/`,
@@ -180,6 +230,11 @@ const API = {
             }
         })
     },
+    /**
+     * 회원정보 수정
+     * @param {*} data 
+     * @param {*} callback 
+     */
     putMyInfo: (data, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/putMyInfo/`,
@@ -210,6 +265,23 @@ const API = {
                 if(callback) {
                     callback(resp)
                 }
+            }
+        })
+    },
+    /**
+     * 회원정보 수정
+     * @param {*} callback 
+     */
+    getMyInfo: (callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getMyInfo/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+            },
+            success: (resp) => {
+                callback(resp)
             }
         })
     },
@@ -256,9 +328,29 @@ const API = {
                 bbscode: bbscode,
                 page: page,
                 rows: rows,
-                lang: 'ko',
+                lang: window.localStorage.locale,
             },
             success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    getFaqList: (page = 1, rows = 20, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getFaqList/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+                faqcode: '',
+                page: page,
+                rows: rows,
+                lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                console.log(resp)
                 if(callback) {
                     callback(resp)
                 }
@@ -328,14 +420,47 @@ const API = {
             }
         })
     },
-    getChartData: (symbol, callback = null) => {
+    /**
+     * 거래소 차트데이터
+     * @param {*} symbol 
+     * @param {*} callback 
+     */
+    getChartData: (symbol, period = '1d', callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getChartData/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
                 token: window.localStorage.token,
-                symbol: symbol
+                symbol: symbol,
+                period: period,
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+    /**
+     * 지원하는 언어목록
+     * @param {*} callback 
+     */
+    getLanguageList: (callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getLanguageList/`,
+            type: 'POST',
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+    setLanguage: (code, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/setLanguage/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+                code: code,
             },
             success: (resp) => {
                 if(callback) {
@@ -358,6 +483,48 @@ const API = {
                 }
             }
         })
+    },
+    getCurrentCountryInfo: (callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getCurrentCountryInfo/`,
+            type: 'POST',
+            dataType: 'JSON',
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+    /**
+     * 구매하기
+     * @param {*} data 
+     * @param {*} callback 
+     */
+    buy: (data, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/buy/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                ...data,
+                token: window.localStorage.token,
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+    getQuoteList: (symbol, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getQuoteList/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                symbol: symbol,
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
     }
 }
 
@@ -366,6 +533,24 @@ if(!window.localStorage.token) {
         window.localStorage.token = resp.payload.token
     })
 }
+
+API.getMyInfo((resp) => {
+    if(resp.success) {
+        const payload = resp.payload
+
+        USER_INFO = {
+            ...USER_INFO,
+            userno: payload.userno,
+            userid: payload.userid,
+            bool_email: payload.bool_email,
+            bool_sms: payload.bool_sms,
+            regdate: payload.regdate,
+            bank_name: payload.bank_name,
+            bank_account: payload.bank_account,
+            bank_owner: payload.bank_owner,
+        }
+    }
+})
 
 $.fn.serializeObject = function () {
     let result = {};
