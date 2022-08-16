@@ -4,28 +4,50 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="끽다거">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
 <title>끽다거</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://code.jquery.com">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;350;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" >
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;350;400;500;700;900&display=swap">
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
 <link rel="stylesheet" href="./assets/css/components.css">
 <link rel="stylesheet" href="./assets/css/sub.css">
 <link rel="stylesheet" href="./assets/css/exchange.css">
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css"/>
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets//js/common.js"></script>
-<script src="./assets//js/api.js"></script>
-<script src="./assets//js/components.js" defer></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css"/>
- 
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
+<script>
+    let USER_INFO = {}
+</script>
+<script src="./assets/js/common.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js" defer></script>
+<script src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
 <script src="./assets/js/trirand/jquery.jqGrid.min.js" defer></script>
 <script src="./assets/js/trirand/i18n/grid.locale-kr.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
@@ -73,25 +95,52 @@
         </header>
         <main class="d-grid">
             <div class="side--panel">
-                <ul class="tabs">
-                    <li class="tab--active">
-                        <button type="button">전체</button>
-                    </li>
-                    <li>
-                        <button type="button">보유</button>
-                    </li>
-                    <li>
-                        <button type="button">관심</button>
-                    </li>
-                </ul>
-                <div class="tab--content">
-                    <table id="jqGrid" class="grid-table"></table>
+                <div class="tab-wrapper">
+                    <ul class="tabs">
+                        <li class="tab--active">
+                            <button type="button">전체</button>
+                        </li>
+                        <li>
+                            <button type="button">보유</button>
+                        </li>
+                        <li>
+                            <button type="button">관심</button>
+                        </li>
+                    </ul>
+                    <div class="tab--content">
+                        <table id="jqGrid" class="grid-table">
+                            <colgroup>
+                                <col width="160">
+                                <col width="64">
+                                <col width="76">
+                                <col width="84">
+                                <col width="76">
+                                <col width="105">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th class="name">이름</th>
+                                    <th class="meta_type">타입</th>
+                                    <th class="meta_wp_production_date">생산연도</th>
+                                    <th class="price">현재가</th>
+                                    <th>전일대비</th>
+                                    <th>거래대금</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="details">
                 <div class="details--header">
                     <button type="button" class="btn btn--star--on"></button>
-                    영원호 원창호
+                    <span class="tea--name">영원호 원창호</span>
                     <small>BING DO RAW PUER TEA CAKE</small>
                 </div>
                 <div class="details--body">
@@ -100,24 +149,24 @@
                         <span class="d-flex text-bold" style="margin-left: 10px; align-items: flex-end">전일대비 <span class="text--medium text--bold text-red" style="margin-left: 5px">+2.00% </span></span>
                         <span class="details--diff text--bold text-red d-flex" style="margin-left: 8px; align-items: flex-end">
                             <img src="./assets/img/icon/icon-up.svg" alt="" width="9" height="8.22" style="margin-right: 4px; margin-bottom: 8px">
-                            <span class="text--bold">4,000</span>
+                            <span id="spot-diff" class="text--bold">4,000</span>
                         </span>
                     </div>
                     <div class="d-grid grid-2-column" style="width: 392px; column-gap: 20px;font-weight: 400">
                         <div>
                             <div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
-                                고가 <span class="text--red">27,485,000</span>
+                                고가 <span id="highest-price" class="text--red">27,485,000</span>
                             </div>
                             <div class="row d-flex" style="justify-content: space-between; height: 22px; ">
-                                저가 <span class="text--blue">27,485,000</span>
+                                저가 <span id="lowest-price" class="text--blue">27,485,000</span>
                             </div>
                         </div>
                         <div>
                             <div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
-                                거래량(24H) <div><span>574,170,000</span> <span class="text--blue-gray">KRW</span></div>
+                                거래량(24H) <div><span id="spot-volume">574,170,000</span> <span class="text--blue-gray">KRW</span></div>
                             </div>
                             <div class="row d-flex"  style="justify-content: space-between; height: 22px;">
-                                거래대금(24H) <div><span>574,170,000</span> <span class="text--blue-gray">KRW</span></div>
+                                거래대금(24H) <div><span id="spot-volume2">574,170,000</span> <span class="text--blue-gray">KRW</span></div>
                             </div>
                         </div>
                     </div>
@@ -127,7 +176,7 @@
                         <button type="button" class="dropdown">
                             시간단위
                         </button>
-                        <div class="dropdown--item" style="top: 0; border-radius: 0">
+                        <div class="dropdown--item" style="top: 0; border-radius: 0; max-height: unset">
                             <span>1일</span>
                             <ul>
                                 <li><button type="button">1분</button></li>
@@ -174,7 +223,7 @@
                         period = text.replaceAll('시간', 'h')
                         period = text.replaceAll('분', 'm')
 
-                        API.getChartData('', (resp) => {
+                        API.getChartData('', period, (resp) => {
                             displayChart(resp, period)
                         })
                     })
@@ -182,76 +231,119 @@
 
                 <div id="tvchart"></div>
 
-                <div style="height: 509px">
-                    <div class="" style="border-bottom: 1px solid var(--linegray)">
-                        <ul class="tabs">
-                            <li class="tab--active tab--sell" data-target="#tab-sell">
-                                <button type="button">팝니다</button>
-                            </li>
-                            <li data-target="#tab-buy" class="tab--buy">
-                                <button type="button">삽니다</button>
-                            </li>
-                            <li data-target="#tab-info" class="tab--info">
-                                <button type="button">정보</button>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-content" id="tab-buy">
-                        <table id="detailsGrid" class="grid-table">
-                        </table>
-                        <div class="text--right" style="margin-top: 20px">
-                            <a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy">구매 등록</a>
-                        </div>
-                    </div>
-                    <div class="tab-content" id="tab-sell"  style="display: block">
-                        <table id="detailsGrid2" class="grid-table">
-                        </table>
-                        <div class="text--right" style="margin-top: 20px">
-                            <a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell">판매 등록</a>
-                        </div>
-                    </div>
-                    <div class="tab-content" id="tab-info" style="display: none">
-                        <img src="./assets/img/dummy/정보.png" alt="">
-                        <div>
-                            <table class="table">
-                                <tr>
-                                    <th>구분</th>
-                                    <td>보이병차</td>
-                                </tr>
-                                <tr>
-                                    <th>타입</th>
-                                    <td>숙차</td>
-                                </tr>
-                                <tr>
-                                    <th>생산</th>
-                                    <td>
-                                        맹해다창<br>
-                                        전통 수제 방법
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>인증</th>
-                                    <td>
-                                        <div class="d-flex" style="column-gap: 10px">
-                                            <div style="width: 25px; height: 25px; background: #C4C4C4"></div>
-                                            <div style="width: 25px; height: 25px; background: #C4C4C4"></div>
-                                            <div style="width: 25px; height: 25px; background: #C4C4C4"></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>차 소개</th>
-                                    <td>
-                                        <div style="height: 90px">서쌍판납주 이무정산의 야생 고차수 여린 잎을 채취하여 지금은 전설이 되어버린 1950년 홍인 보이병차를 1988년에 재현하여 만든 차세대의 전설이 될 수 있는 최고급 보이병차입니다.</div>
-                                        <div class="btns">
-                                            <button type="button" class="btn btn--white" data-toggle="modal" data-target="#scan">입체스캔</button>
-                                            <button type="button" class="btn btn--white" data-toggle="modal" data-target="#white-paper">백서</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                <div style="height: 509px"><div class="tab-wrapper">
+                    
+                        <div class="" style="border-bottom: 1px solid var(--linegray)">
+                            <ul class="tabs">
+                                <li class="tab--active tab--sell" data-target="#tab-sell">
+                                    <button type="button">팝니다</button>
+                                </li>
+                                <li data-target="#tab-buy" class="tab--buy">
+                                    <button type="button">삽니다</button>
+                                </li>
+                                <li data-target="#tab-info" class="tab--info">
+                                    <button type="button">정보</button>
+                                </li>
+                            </ul>
+                        </div>          <!-- { label: '번호', name: 'Num', width: detailsWidth * 99 / 834, align: 'center', resizable: false },
+                        { label: '구분', name: 'Category', width: detailsWidth * 96 / 834, align: 'center', resizable: false },
+                        { label: '등록일', name: 'CreatedAt', width: detailsWidth * 68 / 834, align: 'center', formatter: 'date', formatoptions: {
+                            srcformat: 'Y/m/d',
+                            newformat: 'Y/m/d',
+                        }, resizable: false },
+                        { label: '가격', name: 'Price', width: detailsWidth * 92 / 834, formatter: Exchange.Price, align: 'right', sorttype:'number', resizable: false },
+                        { label: '수량', name: 'Quantity', width: detailsWidth * 123 / 834, sorttype:'number', align: 'center', resizable: false },
+                        { label: '총액', name: 'TotalPrice', width: detailsWidth * 92 / 834, sorttype:'integer', align: 'right', formatter: Exchange.TotalPrice, resizable: false },
+                        { label: '상태', name: 'Status', width: detailsWidth * 148 / 834, align: 'center', resizable: false },
+                        { label: '거래버튼', width: detailsWidth * 70 / 834, formatter: (_cellValue) => {
+                            return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-target="#modal-sell" style="width: 100%; height: 25px; line-height: 25px">판매</button>'
+                        }}-->
+                        <div class="tab-content" id="tab-buy">
+                            <table id="buyGrid" class="grid-table">
+                                <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>구분</th>
+                                        <th>등록일</th>
+                                        <th>가격</th>
+                                        <th>수량</th>
+                                        <th>총액</th>
+                                        <th>상태</th>
+                                        <th>거래버튼</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
                             </table>
+                            <div class="text--right" style="margin-top: 20px">
+                                <a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy">구매 등록</a>
+                            </div>
                         </div>
-                    </div>
+                        <div class="tab-content" id="tab-sell"  style="display: block">
+                            <table id="sellGrid" class="grid-table">
+                                <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>구분</th>
+                                        <th>등록일</th>
+                                        <th>가격</th>
+                                        <th>수량</th>
+                                        <th>총액</th>
+                                        <th>상태</th>
+                                        <th>거래버튼</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <div class="text--right" style="margin-top: 20px">
+                                <a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell">판매 등록</a>
+                            </div>
+                        </div>
+                        <div class="tab-content" id="tab-info" style="display: none">
+                            <img src="./assets/img/dummy/정보.png" alt="">
+                            <div>
+                                <table class="table">
+                                    <tr>
+                                        <th>구분</th>
+                                        <td class="division">보이병차</td>
+                                    </tr>
+                                    <tr>
+                                        <th>타입</th>
+                                        <td class="type">숙차</td>
+                                    </tr>
+                                    <tr>
+                                        <th>생산</th>
+                                        <td>
+                                            <span class="producer">맹해다창</span><br>
+                                            전통 수제 방법
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>인증</th>
+                                        <td>
+                                            <div class="certificate"></div>
+                                            <!--<div class="d-flex" style="column-gap: 10px">
+                                                <div style="width: 25px; height: 25px; background: #C4C4C4"></div>
+                                                <div style="width: 25px; height: 25px; background: #C4C4C4"></div>
+                                                <div style="width: 25px; height: 25px; background: #C4C4C4"></div>
+                                            </div>-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>차 소개</th>
+                                        <td>
+                                            <div style="height: 90px">서쌍판납주 이무정산의 야생 고차수 여린 잎을 채취하여 지금은 전설이 되어버린 1950년 홍인 보이병차를 1988년에 재현하여 만든 차세대의 전설이 될 수 있는 최고급 보이병차입니다.</div>
+                                            <div class="btns">
+                                                <button type="button" class="btn btn--white" data-toggle="modal" data-target="#scan">입체스캔</button>
+                                                <button type="button" class="btn btn--white" data-toggle="modal" data-target="#white-paper">백서</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                </div>
                 </div>
             </div>
         </main>
@@ -302,52 +394,6 @@
 
                 </div>
             </div>
-            <!--<div class="modal--dialog">
-                <div class="modal--header">
-                    구매하기
-                    <button type="button" class="btn btn--close"></button>
-                </div>
-                <div class="modal--content" style="padding: 0 21px 0 39px">
-                    <i class="btn btn--star--on"></i>
-                    <span style="font-size: 18px; padding-left: 4px" class="text-bbold">영원호 원창호</span>
-                    <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px">#12345678</div>
-                    <dl style="margin-bottom: 18px">
-                        <dt>주문가능</dt>
-                        <dd>$4,000.0</dd>
-                    </dl>
-                    <dl>
-                        <dt>가격</dt>
-                        <dd  style="width: 220px">
-                            <div class="input">
-                                $
-                                <input type="number" value="100.0" min="0" step="0.1">
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl style="margin-bottom: 40px">
-                        <dt>수량</dt>
-                        <dd>
-                            <div class="input--spiner">
-                                <input type="number" value="12" min="1">
-                                <div class="d-flex">
-                                    <button type="button" class="spiner-minus"></button>
-                                    <button type="button" class="spiner-plus"></button>
-                                </div>
-                            </div>
-                    </dd>
-                    </dl>
-                    <dl>
-                        <dt>총액</dt>
-                        <dt>
-                            <div class="input"  style="width: 220px">
-        
-                                <input type="text" name="" value="$ 1,200" readonly="readonly">
-                            </div>
-                        </dt>
-                    </dl>
-                    <div class="text--center" style="margin-top: 32px"><input type="submit" value="구매하기" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"></div>
-                </div>
-            </div>-->
         </form>
         <script>
             $('#modal-buy').submit((e) => {
@@ -449,36 +495,40 @@
                             <div class="column">
                                 <dl>
                                     <dt>분류</dt>
-                                    <dd>
-                                        <div class="input">
-                                            정통차 &gt; 녹 &gt; 수제 &gt; 수제
+                                    <dd style="width: 394px">
+                                        <div class="input flex-left">
+                                            <input type="text" name="" value="정통차 &gt; 녹 &gt; 수제 &gt; 수제" readonly class="text--left">
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>원산지</dt>
-                                    <dd>
-                                        <div class="input">
-                                            중국 &gt; 운남성 &gt; 서쌍판납주주
+                                    <dd style="width: 394px">
+                                        <div class="input flex-left">
+                                            <input type="text" name="origin" value="중국 &gt; 운남성 &gt; 서쌍판납주주" readonly class="text--left">
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>생산자</dt>
-                                    <dd>
-                                        <div class="input">생산자</div>
+                                    <dd style="width: 394px">
+                                        <div class="input flex-left">
+                                            <input type="text" name="producer" value="생산자" readonly class="text--left">
+                                        </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>생산년도</dt>
-                                    <dd>
-                                        <div class="input">생산년도</div>
+                                    <dd style="width: 394px">
+                                        <div class="input flex-left">
+                                            <input type="text" name="production_date" value="생산년도" readonly class="text--left">
+                                        </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>맛</dt>
-                                    <dd>
-                                        <div class="textarea">
+                                    <dd style="width: 394px">
+                                        <div id="taste" class="textarea flex-left" style="height: 150px">
                                             신맛: 2<br>
                                             떫은맛 : 2<br>
                                             단맛 : 2<br>
@@ -489,9 +539,9 @@
                                 </dl>
                                 <dl>
                                     <dt>향</dt>
-                                    <dd>
-                                        <div class="input">
-                                            맑은 청향속 은은한 장향
+                                    <dd style="width: 394px">
+                                        <div class="input flex-left">
+                                            <input type="text" name="scent" value="맑은 청향속 은은한 장향" readonly class="text--left">
                                         </div>
                                     </dd>
                                 </dl>
@@ -499,56 +549,56 @@
                             <div class="column">
                                 <dl>
                                     <dt>마시는 방법</dt>
-                                    <dd>
-                                        <div class="textarea">
+                                    <dd style="width: 394px">
+                                        <div id="keep-method" class="textarea flex-left">
                                             마시는 방법
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>중량</dt>
-                                    <dd>
-                                        <div class="input">
-                                            생산자
+                                    <dd style="width: 394px">
+                                        <div class="input flex-left">
+                                            <input type="text" id="weight" value="생산자" readonly class="text--left">
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>보관방법/유통기한</dt>
-                                    <dd>
-                                        <div class="textarea">
+                                    <dd style="width: 394px">
+                                        <div id="keep-method" class="textarea flex-left">
                                             보관방법/유통기한
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>스토리</dt>
-                                    <dd>
-                                        <div class="textarea">
+                                    <dd style="width: 394px">
+                                        <div id="story" class="textarea flex-left">
                                             스토리
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>티마스터 품평</dt>
-                                    <dd>
-                                        <div class="textarea">
+                                    <dd style="width: 394px">
+                                        <div id="teamaster-note" class="textarea flex-left">
                                             티마스터 품평
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>생산자 노트</dt>
-                                    <dd>
-                                        <div class="textarea">
+                                    <dd style="width: 394px">
+                                        <div id="producer-note" class="textarea flex-left">
                                             티마스터 품평
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>평점</dt>
-                                    <dd>
-                                        <div class="textarea">
+                                    <dd style="width: 394px">
+                                        <div id="grade" class="textarea flex-left" style="height: 64px">
                                             끽다 평점:<br>
                                             고객 평점:
                                         </div>
@@ -626,24 +676,24 @@
                     <a href="faq.html">자주묻는질문</a>
                 </li>
             </ul>
+            <div class="copyright">
+                <span class="company--name">(주)끽다거</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--ceo">대표이사 : 안성희</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--number">사업자등록번호 : 824-87-00881</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
+                <br>
+                전화 : 02-733-9746
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                통신판매업신고번호 : 제 2021-서울종로-0444호
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                이메일 : kkikdageo@naver.com
+                <br><br>
+                Copyright © 2022 (주)끽다거. All rights reserved. 
+            </div>
         </nav>
-        <div class="copyright">
-            <span class="company--name">(주)끽다거</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--ceo">대표이사 : 안성희</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--number">사업자등록번호 : 824-87-00881</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
-            <br>
-            전화 : 02-733-9746
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            통신판매업신고번호 : 제 2021-서울종로-0444호
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            이메일 : kkikdageo@naver.com
-            <br><br>
-            Copyright © 2022 (주)끽다거. All rights reserved. 
-        </div>
         <span class="customer--text">고객상담 · 상담 · 배송 문의</span>
         <span class="customer--number">02-733-9746</span>
         <span class="customer--time">평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>

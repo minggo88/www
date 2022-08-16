@@ -63,6 +63,7 @@ header .typography h1 {
 
 header .typography h1 .highlight {
     position: relative;
+    vertical-align: top;
 }
 
 header .typography h1 .highlight::after {
@@ -360,6 +361,9 @@ header .typography h1 .highlight::after {
 }
 .section--service [class^=app--] img {
     margin-bottom: 10px;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
 }
 .section--service .app--1 {
     left: 220px; top:272px

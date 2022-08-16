@@ -4,20 +4,55 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="끽다거">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
 <title>끽다거</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://code.jquery.com">
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
 <link rel="stylesheet" href="./assets/css/components.css">
 <link rel="stylesheet" href="./assets/css/sub.css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css" />
+<style>
+    @media screen and (max-width: 380px) {
+        .boxed {
+            height: auto
+        }
+        .withdrawal--btn {
+            flex-direction: column;
+            row-gap: 35px;
+        }
+        .withdrawal--btn  .checkbox {
+            align-self: flex-end;
+        }
+    }
+</style>
 <!-- JS -->
+<script>
+    let USER_INFO = {}
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/common.js"></script>
 <script src="./assets/js/api.js"></script>
 <script src="./assets/js/components.js"></script>
 </head>
@@ -86,7 +121,7 @@
             </div>
         </nav>
     </header>
-    <main class="d-grid">
+    <main class="d-grid" style="padding-bottom: 100px !important">
         <aside class="side">
             <h1>계정 관리</h1>
             <nav class="side--snb">
@@ -117,8 +152,10 @@
         </aside>
         <div class="contents">
             <header class="contents--header">
+                <button type="button" class="navigation--back"></button>
                 <h1>Teaplat Membership Withdrawal</h1>
             </header>
+            <h2 class="mobile-only"><i class="icon-user-fill-add"></i> 회원 탈퇴</h2>
             <p class="text--medium text-bold">
                 회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>
                 보유 자산을 매도해야 합니다.
@@ -139,13 +176,32 @@
                     <li>입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다.</li>
                 </ul>
             </div>
-            <div class="d-flex" style="margin-top: 13px; justify-content: space-between">
+            <div class="withdrawal--btn d-flex" style="margin-top: 13px; justify-content: space-between">
                 <div class="checkbox checkbox--rounded"><input type="checkbox" name="" id="agree"><label for="agree">회원 탈퇴 약관에 동의합니다.</label></div>
                 <input type="submit" value="약관에 동의하고 회원 탈퇴하기" class="btn btn--red" style="width: 340px">
             </div>
         </div>
     </main>
-    <footer>
+    <nav class="mobile-bottom mobile-only">
+        <ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+            <li class="exchange">
+                <a href="">거래소</a>
+            </li>
+            <li class="area" >
+                <a href="">티드로우</a>
+            </li>
+            <li class="auction" style="flex: 1 1 auto">
+                <a href="">경매</a>
+            </li>
+            <li class="transaction" style="flex: 1 1 auto">
+                <a href="">거래내역</a>
+            </li>
+            <li class="more">
+                <a href="">더보기</a>
+            </li>
+        </ul>
+    </nav>
+    <footer class="desktop-only">
         <div class="logo">Teaplat</div>
         <nav class="fnb">
             <ul>

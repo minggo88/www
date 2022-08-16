@@ -44,7 +44,7 @@ $(function() {
                     case 'selected':
                         return this.data('selected')
                     case 'open':
-                        
+                        break
                     case 'add':
                         if(typeof(arguments[1]) === 'string') {
                             const li = $('<li>')
@@ -71,9 +71,9 @@ $(function() {
                         }
                 }
             }
-            else if(typeof(arguments[1]) === 'object') {
+            else if(typeof(arguments[0]) === 'object') {
                 if(arguments.length === 1) {
-
+                    this.data('options', arguments[0])
                 }
             }
 
@@ -81,16 +81,37 @@ $(function() {
             this.data('list', list)
 
             return this
-        }
+        },
+        tab: function() {
+            
+            if(typeof(arguments[0]) === 'string') {
+                const action = arguments[0]
+
+                switch(action) {
+                    case 'show':
+                        break
+                    case 'hide':
+                        break
+                }
+            }
+            if(typeof(arguments[0]) === 'object') {
+                if(arguments.length === 1) {
+                    this.data('options', arguments[0])
+                }
+            }
+        },
     })
 
-    const modalStack = []
+    let modalStack = []
     let LAST_MODAL_ANCHOR
-
 
     $.alert = (msg) => {
         alert(msg)
     }
+
+    $('.navigation--back').click(() => {
+        window.history.back()
+    })
 
     $.fn.myModal = function(action) {
         const modal = $(this)
@@ -101,25 +122,38 @@ $(function() {
 
         switch(action) {
             case 'show':
-                modalStack = arr.filter(e => e !== 'seven')
+                modal.trigger('beforeOpen')
 
+                modalStack = modalStack.filter(e => e !== modal)
                 modalStack.push(modal)
 
                 modal.addClass('modal--open')
+
+                modal.trigger('open')
+
                 break
             case 'hide':
+                modal.trigger('beforeClose')
+
                 modalStack.remove(modal)
 
                 modal.removeClass('modal--open')
+
+                modal.trigger('close')
+
                 break
             case 'toggle':
                 if(modal.hasClass('modal--open')) {
-                    modalStack.remove(modal)
+                    modal.myModal('hide')
                 } else {
-                    modalStack.push(modal)
+                    modal.myModal('show')
                 }
-
-                modal.toggleClass('modal--open')
+                break
+            case 'beforeOpen':
+                modal.on('beforeOpen', arguments[1])
+                break
+            case 'beforeClose':
+                modal.on('beforeClose', arguments[1])
                 break
         }
 
@@ -143,12 +177,18 @@ $(function() {
     $('.tabs').on('click', 'li', (e) => {
         const btn = $(e.target).closest('li')
         const tab = btn.closest('.tabs')
+        const tabIndex = btn.index()
+        const target = btn.data('target')
+
+        tab.trigger('beforeShow', [ tabIndex, target ])
 
         tab.find('.tab--active').removeClass('tab--active')
         btn.addClass('tab--active')
 
-        $('.tab-content').hide()
-        $(btn.data('target')).show()
+        tab.closest('.tab-wrapper').find('.tab-content').hide()
+        $(target).show()
+
+        tab.trigger('show', [ tabIndex, target ] )
     })
 
     // Modal Anchor
@@ -282,12 +322,12 @@ $(function() {
         const self = $(e.target)
 
         if(modal.get(0) == self.get(0)) {
-            self.removeClass('modal--open')
+            self.myModal('hide')
             return
         }
 
         if(self.hasClass('btn--close')) {
-            modal.removeClass('modal--open')
+            modal.myModal('hide')
         }
     })
 
@@ -302,6 +342,6 @@ $(function() {
     })
 
     if(USER_INFO.userno) {
-        alert('logged')
+
     }
 })

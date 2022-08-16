@@ -11,3 +11,61 @@ input[type=text] {
     line-height: 37px;
     font-size: 12px !important;
 }
+
+
+.default {
+    width: 340px; align-self: center; height: 333px; padding: 39px 0 68px
+}
+
+.default .form--controls {
+    display: flex;
+    flex-direction: row;
+}
+
+.default .form--controls label {
+    flex-grow: 1;
+    flex-basis: aut
+}
+.default .form--controls label+input {
+    width: auto;
+}
+
+.region {
+    margin-top: 8px;
+}
+
+form {
+    width: 100%;
+    height: auto;
+}
+
+.inside {
+    margin-top: 40px;
+    width: 312.06px;
+    height: 178px;
+}
+
+@media screen and (max-width: 380px) {
+    .form--controls input[type=text],
+    .form--controls input[type=password],
+    .form--controls input[type=number],
+    .form--controls input[type=email],
+    .form--controls input[type=url],
+    .form--controls input[type=tel] {
+        border: 1px solid #E5E8EB !important;
+        background: var(--white);
+        border-radius: 2px;
+    }
+
+    .inside {
+        width: 100%;
+    }
+
+    .bankAndName {
+        flex-direction: column;
+    }
+
+    .bankAndName .col-6 {
+        flex: 0 0 100%;
+    }
+}

@@ -20,6 +20,7 @@
     --black-green: #0B232D;
     --mid-gray: #DFDFDF;
     --warning: #F93D5C;
+    --balck: #000000;
 }
 
 .text-black,
@@ -62,6 +63,12 @@ a.text-red:visited {
 
 .text--blue-gray {
     color: var(--blue-gray) !important;
+}
+
+[class^="text-"]::-webkit-input-placeholder,
+[class^="text-"]::-ms-input-placeholder,
+[class^="text-"]::placeholder {
+    color: inherit;
 }
 
 .text--white {

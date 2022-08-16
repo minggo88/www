@@ -1,144 +1,153 @@
 <!DOCTYPE html>
 <html lang="ko">
-	<head>
-		<!-- META -->
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-		<title>끽다거</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet" />
-		<link rel="stylesheet" href="./assets/css/colorset.css" />
-		<link rel="stylesheet" href="./assets/css/common.css" />
-		<link rel="stylesheet" href="./assets/css/components.css" />
-		<link rel="stylesheet" href="./assets/css/sub.css" />
-		<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
-		<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css" />
-		<!-- JS -->
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-		<script src="./assets/js/api.js"></script>
-		<script src="./assets/js/components.js" defer></script>
-	</head>
-	<!-- BODY -->
-	<body class="sub faq">
-		<header>
-			<h1 class="logo"><a href="/">Teaplat</a></h1>
-			<nav class="nav">
-				<ul>
-					<li>
-						<a href="exchange.html">거래소</a>
-					</li>
-					<li>
-						<a href="">공동구매</a>
-					</li>
-					<li>
-						<a href="">경매</a>
-					</li>
-					<li>
-						<a href="">가이드</a>
-					</li>
-					<li>
-						<a href="">다도 문화</a>
-					</li>
-					<li class="active">
-						<a href="">고객센터</a>
-					</li>
-				</ul>
-				<div class="nav--side">
-					<div class="profile dropdown-wrapper">
-						<button type="button" class="dropdown text--blue-gray">kik**@teaplat.com</button>
-						<div class="dropdown--item" style="width: 134px">
-							<ul>
-								<li><a href="member-account.html">정보 수정</a></li>
-								<li><a href="my-verification.html">ID 인증 관리</a></li>
-								<li><a href="change-pin-number.html">보안비밀번호변경</a></li>
-								<li><a href="change-account-number.html">출금계좌 변경</a></li>
-								<li><a href="transaction.html">거래 내역</a></li>
-								<li><a href="notification.html">알림</a></li>
-								<li><a href="withdrawal.html">회원 탈퇴</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="wallet dropdown-wrapper">
-						<button type="button" class="dropdown">지갑관리</button>
-						<div class="dropdown--item" style="width: 100px">
-							<ul>
-								<li><a href="">보유 자산</a></li>
-								<li><a href="">입금</a></li>
-								<li><a href="">출금</a></li>
-								<li><a href="">종합 분석</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="language">
-						<div class="dropdown-wrapper">
-							<button type="button" class="dropdown">한국어</button>
-							<div class="dropdown--item" style="width: 81px">
-								<span>한국어</span>
-								<ul></ul>
-							</div>
-						</div>
+<head>
+<!-- META -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="끽다거">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
+<title>끽다거</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./assets/css/colorset.css" />
+<link rel="stylesheet" href="./assets/css/common.css" />
+<link rel="stylesheet" href="./assets/css/components.css" />
+<link rel="stylesheet" href="./assets/css/sub.css" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js" defer></script>
+</head>
+<!-- BODY -->
+<body class="sub faq">
+	<header>
+		<h1 class="logo"><a href="/">Teaplat</a></h1>
+		<nav class="nav">
+			<ul>
+				<li>
+					<a href="exchange.html">거래소</a>
+				</li>
+				<li>
+					<a href="">공동구매</a>
+				</li>
+				<li>
+					<a href="">경매</a>
+				</li>
+				<li>
+					<a href="">가이드</a>
+				</li>
+				<li>
+					<a href="">다도 문화</a>
+				</li>
+				<li class="active">
+					<a href="">고객센터</a>
+				</li>
+			</ul>
+			<div class="nav--side">
+				<div class="profile dropdown-wrapper">
+					<button type="button" class="dropdown text--blue-gray">kik**@teaplat.com</button>
+					<div class="dropdown--item" style="width: 134px">
+						<ul>
+							<li><a href="member-account.html">정보 수정</a></li>
+							<li><a href="my-verification.html">ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html">보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html">출금계좌 변경</a></li>
+							<li><a href="transaction.html">거래 내역</a></li>
+							<li><a href="notification.html">알림</a></li>
+							<li><a href="withdrawal.html">회원 탈퇴</a></li>
+						</ul>
 					</div>
 				</div>
+				<div class="wallet dropdown-wrapper">
+					<button type="button" class="dropdown">지갑관리</button>
+                    <div class="dropdown--item" style="width: 100px">
+                        <ul>
+                            <li><a href="wallet.html">보유 자산</a></li>
+                            <li><a href="wallet-deposit.html">입금</a></li>
+                            <li><a href="wallet-withdrawal.html">출금</a></li>
+                            <li><a href="wallet-analysis.html">종합 분석</a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="language dropdown-wrapper">
+					<button type="button" class="dropdown">한국어</button>
+					<div class="dropdown--item" style="width: 81px">
+						<span>한국어</span>
+						<ul></ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<main class="d-grid">
+		<aside class="side">
+			<h1>고객 센터</h1>
+			<nav class="side--snb">
+				<ul>
+					<li>
+						<a href="notice.html">공지사항</a>
+					</li>
+					<li class="snb--active">
+						<a href="faq.html">자주하는 질문</a>
+					</li>
+					<li>
+						<a href="inquiry.html">1:1 문의</a>
+					</li>
+				</ul>
 			</nav>
-		</header>
-		<main class="d-grid">
-			<aside class="side">
-				<h1>고객 센터</h1>
-				<nav class="side--snb">
-					<ul>
-						<li>
-							<a href="notice.html">공지사항</a>
-						</li>
-						<li class="snb--active">
-							<a href="faq.html">자주하는 질문</a>
-						</li>
-						<li>
-							<a href="inquiry.html">1:1 문의</a>
-						</li>
-					</ul>
-				</nav>
-			</aside>
-			<div class="contents">
-				<header class="contents--header">
-					<h1>F.A.Q</h1>
-				</header>
-				<div class="faq accordion loading"></div>
-				<nav class="board--pagination" style="display: none">
-					<ul>
-						<li class="pagination--prev">
-							<a href="">이전 페이지</a>
-						</li>
-						<li>
-							<a href="#page-1">1</a>
-						</li>
-						<li class="pagination--next">
-							<a href="">다음 페이지</a>
-						</li>
-					</ul>
-				</nav>
-				<script>
-					const pagination = {
-						point: 0,
-					}
+		</aside>
+		<div class="contents">
+			<header class="contents--header">
+				<button type="button" class="navigation--back"></button>
+				<h1>F.A.Q</h1>
+			</header>
+			<div class="faq accordion loading"></div>
+			<nav class="board--pagination" style="display: none">
+				<ul>
+					<li class="pagination--prev">
+						<a href="">이전 페이지</a>
+					</li>
+					<li>
+						<a href="#page-1">1</a>
+					</li>
+					<li class="pagination--next">
+						<a href="">다음 페이지</a>
+					</li>
+				</ul>
+			</nav>
+			<script>
+				const pagination = {
+					point: 0,
+				}
 
-					let currentPage = 1
-					let totalPage = 1
-					const pageCount = 10
-					const rows = 20
+				let currentPage = 1
+				let totalPage = 1
+				const pageCount = 10
+				const rows = 20
 
-					const fetchList = (page = 1) => {
-						$('.accordion').empty().addClass('loading')
+				const fetchList = (page = 1) => {
+					$('.accordion').empty().addClass('loading')
 
-						API.getFaqList(page, rows, (resp) => {
-							if (resp.success) {
-								resp.payload.data.map((faq) => {
-									const item = $('<div class="accordion--item" />')
+					API.getFaqList(page, rows, (resp) => {
+						if (resp.success) {
+							resp.payload.data.map((faq) => {
+								const item = $('<div class="accordion--item" />')
 
-									faq.contents = faq.contents.replaceAll(/\r\n/g, '<br>')
+								faq.contents = faq.contents.replaceAll(/\r\n/g, '<br>')
 
-									item.append(
+								item.append(
 										`<header class="accordion--header"><a href=""><span class="text-red">Q</span> <span>${faq.subject}</span></a></header>`,
 									)
 									item.append(`<div class="accordion--contents">${faq.contents}</div>`)
@@ -196,7 +205,7 @@
 				</script>
 			</div>
 		</main>
-		<footer>
+		<footer class="desktop-only">
 			<div class="logo">Teaplat</div>
 			<nav class="fnb">
 				<ul>
