@@ -4,7 +4,24 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="끽다거">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
 <title>끽다거</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
@@ -15,15 +32,15 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css" />
 <!-- JS -->
+<script>
+    let USER_INFO = []
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/trirand/jquery.jqGrid.min.js"></script>
-<script src="./assets/js/trirand/i18n/grid.locale-kr.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <!-- BODY -->
-<body class="sub notice">
-    <header>
+<body class="sub notice notification">
+    <header class="desktop-only">
         <h1 class="logo"><a href="/">Teaplat</a></h1>
         <nav class="nav">
             <ul>
@@ -86,10 +103,11 @@
         </aside>
         <div class="contents">
             <header class="contents--header">
+                <button type="button" class="navigation--back"></button>
                 <h1>Notification</h1>
             </header>
             <div class="board--body">
-                <table class="board--list">
+                <table class="board--list desktop-only">
                     <colgroup>
                         <col width="">
                         <col style="width: calc(100% * (584 / 900))">
@@ -165,7 +183,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <nav class="board--pagination">
+                <nav class="board--pagination desktop-only">
                     <ul>
                         <li class="pagination--prev">
                             <a href="">이전 페이지</a>
@@ -178,10 +196,50 @@
                         </li>
                     </ul>
                 </nav>
+                <div class="mobile-only">
+                    <ul class="notification--list d-flex mobile-only">
+                        <li>
+                            <div class="notification--header">
+                                <span class="notifictaion--date">2022.12.22 14:33</span>
+                                <span class="notification--nick">관리자</span>
+                            </div>
+                            <div class="notification--content">
+                                입금 거래가 완료되었습니다 <i class="icon--new"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="notification--header">
+                                <span class="notifictaion--date">2022.12.22 14:33</span>
+                                <span class="notification--nick">관리자</span>
+                            </div>
+                            <div class="notification--content">
+                                &lt;보이차&gt; 상품이 입점되었습니다 <i class="icon--new"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="notification--header">
+                                <span class="notifictaion--date">2022.12.22 14:33</span>
+                                <span class="notification--nick">관리자</span>
+                            </div>
+                            <div class="notification--content">
+                                &lt;보이차&gt; 상품을 등록하였습니다. 관리자 검토 후 알려드리겠습니다. 관리자 검토 후 알려드리겠습니다. <i class="icon--new"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="notification--header">
+                                <span class="notifictaion--date">2022.12.22 14:33</span>
+                                <span class="notification--nick">관리자</span>
+                            </div>
+                            <div class="notification--content">
+                                1,000 포인트를 사용하였습니다
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
-    <footer>
+    <footer class="desktop-only">
         <div class="logo">Teaplat</div>
         <nav class="fnb">
             <ul>

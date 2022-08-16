@@ -3,12 +3,6 @@
 const Exchange = {
     // 그리드 포매터
     formatter: {
-        Name: (cellValue, _options, rowObject) => {
-            const classOn = rowObject.Checked ? 'btn--star--on' : 'btn--star'
-    
-            // 버튼
-            return `<button type="button" class="btn ${classOn}"></button>${cellValue}`
-        },
         //현재가
         CurrentPrice: (cellValue, _options, rowObject) => {
             if(typeof(Intl) !== 'undefined') {
@@ -17,7 +11,7 @@ const Exchange = {
 
             return '<span class="text-red text-bold">' + cellValue.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
         },
-        TransactionPrice: (cellValue, _options, rowObject) => {
+        TransactionPrice: (cellValue, _options, _rowObject) => {
             if(typeof(Intl) !== 'undefined') {
                 if(cellValue >= 1000000 && cellValue % 1000000 == 0) {
                     cellValue = cellValue / 1000000 + '백만'
@@ -64,10 +58,485 @@ const Exchange = {
 }
 
 $(function() {
+    $.extend( $.fn.dataTable.defaults, {
+        responsive: true,
+        lengthChange: false,
+        select: true,
+        info: false,
+        paging: false,
+        searching: false,
+        ordering:  true
+    } )
+
+    let symbol = ''
+
     const sidePanelWidth = $('.side--panel').width()
     const detailsWidth = $('main').width() - sidePanelWidth - 20
 
-    console.log(detailsWidth)
+    API.getCurrency('', (resp) => {
+        if(resp.success) {
+            const requestQueue =[]
+            const requestQueue2 =[]
+
+            const data = []
+
+            const itemList = []
+            const spotList = []
+            const goodsList = []
+
+            resp.payload.map((item) => {
+                const symbol = item.symbol
+
+                requestQueue.push({ method: 'getSpotPrice', params: { token: window.localStorage.token, symbol: symbol } })
+                requestQueue2.push({ method: 'getAuction/auction_goods_info.php', params: { token: window.localStorage.token, goods_idx: item.idx } })
+            })
+
+            const request = new Promise(async (resolve, _reject) => {
+                await API.requestSync(JSON.stringify(requestQueue), async (res) => {
+                    res.map((payload) => {
+                        spotList[payload.payload[0].symbol] = payload
+                    })
+
+                })
+
+                resolve(spotList)
+            })
+
+            request.then((spotList) => {
+            })
+
+            const request2 = new Promise(async (resolve, _reject) => {
+                await API.requestSync(JSON.stringify(requestQueue2), async (res) => {
+                    res.map((payload, index) => {
+                        const symbol = payload.payload.idx
+                        goodsList[symbol] = payload.payload
+
+                        const item = resp.payload[index]
+
+                        const spot = spotList[symbol]?.payload[0]
+                        const goods = goodsList[symbol]
+
+                        data.push({
+                            name: item.name,
+                            symbol : symbol,
+                            meta_type: goods.meta_type ? goods.meta_type : '',
+                            meta_wp_production_date: goods.meta_wp_production_date ? goods.meta_wp_production_date : '',
+                            price: item.price,
+                            price_open: spot?.price_open,
+                            price_close: spot?.price_close,
+                            icon_url: item.icon_url,
+                            origin: goods?.meta_wp_origin,
+                            producer: goods?.meta_wp_producer,
+                            production_date: goods.meta_wp_production_date,
+                            scent: goods.meta_wp_scent,
+                            taste: goods.meta_wp_taste ? goods.meta_wp_taste : '',
+                            weight: goods.meta_wp_weight,
+                            keep_method: goods.meta_wp_keep_method ? goods.meta_wp_keep_method  : '',
+                            story: goods.meta_wp_story ? goods.meta_wp_story : '',
+                            teamaster_note: goods.meta_wp_teamaster_note ? goods.meta_wp_teamaster_note : '',
+                            producer_note: goods.meta_wp_producer_note ? goods.meta_wp_producer_note : '',
+                            grade: goods.meta_wp_grade ? goods.meta_wp_grade : '',
+                            certificate: goods.meta_certification_mark_name,
+                        })
+                    })
+
+                    resolve(data)
+                })
+            })
+
+            request2.then((data) => {
+                const grid = $('#jqGrid').on('draw.dt', () => {
+                const api = new $.fn.dataTable.Api( '#jqGrid' );
+
+                const row = api.row(':eq(0)')
+                const data = row.data()
+
+                row.select()
+
+                const name = data.name
+                const symbol = data.symbol
+                const type = data.meta_type
+                const division = data.meta_division
+                const producer = data.producer
+                const production_date = data.production_date
+                const origin = data.origin
+                const icon_url = data.icon_url
+                const scent = data.scent
+                const taste = data.taste
+                const weight = data.weight
+                const story = data.story
+                const keep_method = data.keep_method
+                const teamaster_note = data.teamaster_note
+                const producer_note = data.producer_note
+                const grade = data.grade
+                const certificate = data.certificate
+
+
+                const buyGrid = $('#buyGrid').DataTable({
+            
+                })
+    
+                API.getSpotPrice(symbol, (resp) => {
+                    if(resp.success) {
+                        const spot = resp.payload[0]
+    
+                        $('#highest-price').text((parseFloat(spot.price_high) * parseFloat(spot.volume)).format())
+                        $('#lowest-price').text((parseFloat(spot.price_low) * parseFloat(spot.volume)).format())
+                        $('#spot-volume').text(spot.volume.format())
+                        $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
+
+                        $('.details--price').text('$' + parseFloat(spot.price_close).toFixed(2))
+    
+                        const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
+                        const diffPercent = (diff * 100).toFixed(2)
+                        $('.details--price').next('span').find('>span').text( (diff >= 0 ? '+' : '') + diffPercent + '%')
+                        $('#spot-diff').text(diff.format())
+                    } else {
+                        alert(resp.error.message)
+                    }
+                })
+                $('.details--header .tea--name').text(name)
+                $('#tab-info .division').text(division)
+                $('#tab-info .type').text(type)
+                $('#tab-info .producer').text(producer)
+                $('#tab-info .certificate').text(certificate)
+                $('#tab-info img').attr('src', icon_url)
+                // 원산지
+                $('#white-paper [name=origin]').val(origin)
+                $('#white-paper [name=producer]').val(producer)
+                //생산
+                $('#white-paper [name=production_date]').val(production_date)
+                // 맛
+                        $('#white-paper #taste').html(taste.replaceAll(/\r\n/g, '<br>'))
+                        // 향
+                        $('#white-paper #scent').val(scent)
+                        $('#white-paper #weight').val(weight)
+                        $('#white-paper #keep-method').html(keep_method.replaceAll(/\r\n/g, '<br>'))
+                        $('#white-paper #story').html(story.replaceAll(/\r\n/g, '<br>'))
+                        $('#white-paper #teamaster-note').html(teamaster_note.replaceAll(/\r\n/g, '<br>'))
+                        $('#white-paper #producer-note').html(producer_note.replaceAll(/\r\n/g, '<br>'))
+                        $('#white-paper #grade').html(grade.replaceAll(/\r\n/g, '<br>'))
+                    }).DataTable( {
+                        data: data,
+                        columns : [
+                            { data: 'name', render: (data, _type, row) => {
+                                const classOn = row.Checked ? 'btn--star--on' : 'btn--star'
+            
+                                // 버튼
+                                return `<button type="button" class="btn ${classOn}"></button>${data}`
+                            }},
+                            { data: 'meta_type'},
+                            { data: 'meta_wp_production_date' },
+                            { data: 'price', render: (data, _type, row) => {
+                                const diff = row.price_close - row.price_open
+                        
+                                if(typeof(Intl) !== 'undefined') {
+                                    return diff >= 0 ? '<span class="text-red text-bold">' + new Intl.NumberFormat('ko-KR').format(data) + '</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(data) + '</span>'
+                                }
+                    
+                                return '<span class="text-red text-bold">' + data.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
+                            } },
+                            { data: (row, _type, _set) => {
+                                const diff = (row.price_close - row.price_open)  / row.price_open * 100
+                        
+                                if(typeof(Intl) !== 'undefined') {
+                                    return diff >= 0 ? '<span class="text-red text-bold">+' + new Intl.NumberFormat('ko-KR', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }).format(diff) + '%</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>'
+                                }
+                    
+                                return '<span class="text-red text-bold">' + diff.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
+                            } },
+                            { data: (row, _type, _set) => {
+                                let price = row.price
+                                if(price >= 1000000 && price % 1000000 == 0) {
+                                    price = price / 1000000 + '백만'
+                                    return price
+                                }
+                                return price
+                            } },
+                        ],
+                        "columnDefs": [
+                            {
+                                targets: '_all',
+                                className: 'dt-head-center',
+                            },
+                            {
+                                targets: 'name',
+                                className: 'dt-body-left',
+                                type: 'title-string',
+                            },
+                            {
+                                targets: 'meta_type',
+                                className: 'dt-body-center',
+                            },
+                            {
+                                targets: 'meta_wp_production_date',
+                                className: 'dt-body-center',
+                                "type": "any-number",
+                            },
+                            {
+                                targets: 'price',
+                                className: 'dt-body-right',
+                            },
+                            {
+                                targets: [-1, -2],
+                                className: 'dt-body-right',
+                            },
+                        ],
+                        responsive: true,
+                        lengthChange: false,
+                        select: true,
+                        info: false,
+                        paging: false,
+                    })
+
+                    
+
+
+
+
+            grid.on( 'select', function ( _e, _dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    const name = grid.rows( indexes ).data().pluck( 'name' )[0]
+                    const symbol = grid.rows( indexes ).data().pluck( 'symbol' )[0]
+                    const type = grid.rows( indexes ).data().pluck('meta_type')[0]
+                    const division = grid.rows( indexes ).data().pluck( 'meta_division' )[0]
+                    const producer = grid.rows( indexes ).data().pluck( 'producer' )[0]
+                    const production_date = grid.rows( indexes ).data().pluck( 'production_date' )[0]
+                    const origin = grid.rows( indexes ).data().pluck( 'origin' )[0]
+                    const icon_url = grid.rows( indexes ).data().pluck( 'icon_url' )[0]
+                    const scent = grid.rows( indexes ).data().pluck( 'scent' )[0]
+                    const taste = grid.rows( indexes ).data().pluck( 'taste' )[0]
+                    const weight = grid.rows( indexes ).data().pluck( 'weight' )[0]
+                    const story = grid.rows( indexes ).data().pluck( 'story' )[0]
+                    const keep_method = grid.rows( indexes ).data().pluck( 'keep_method' )[0]
+                    const teamaster_note = grid.rows( indexes ).data().pluck( 'teamaster_note' )[0]
+                    const producer_note = grid.rows( indexes ).data().pluck( 'producer_note' )[0]
+                    const grade = grid.rows( indexes ).data().pluck( 'grade' )[0]
+                    const certificate = grid.rows( indexes ).data().pluck( 'certificate' )[0]
+
+                    $('.details').addClass('loading')
+
+                    API.getSpotPrice(symbol, (resp) => {
+                        $('.details').removeClass('loading')
+                        if(resp.success) {
+                            const spot = resp.payload[0]
+
+                            $('#highest-price').text((parseFloat(spot.price_high) * parseFloat(spot.volume)).format())
+                            $('#lowest-price').text((parseFloat(spot.price_low) * parseFloat(spot.volume)).format())
+                            $('#spot-volume').text(spot.volume.format())
+                            $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
+
+                            $('.details--price').text('$' + parseFloat(spot.price_close).toFixed(2))
+
+                            const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
+                            const diffPercent = (diff * 100).toFixed(2)
+                            $('.details--price').next('span').find('>span').text( (diff >= 0 ? '+' : '') + diffPercent + '%')
+                            $('#spot-diff').text(diff.format())
+                        } else {
+                            alert(resp.error.message)
+                        }
+                    })
+
+                $('.details .tabs').on('beforeShow', (_event, _index, target) => {
+                    if(target === '#tab-sell') {
+                        const sellGrid = $('#sellGrid').DataTable({
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: `${API.BASE_URL}/getOrderList`,
+                                data: {
+                                    symbol: symbol,
+                                    trading_type: 'sell'
+                                },
+                            },
+                            paging: true,
+                            columns : [
+                                {
+                                    data: 'no',
+                                },
+                                {
+                                    data: 'category',
+                                },
+                                // 등록일
+                                {
+                                    data: 'time_order', render: (timestamp) => {
+                                        const date = new Date(timestamp * 1000)
+                    
+                                        return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
+                                    }
+                                },
+                                // 가격
+                                {
+                                    data: 'price', render: (price) => {
+                                        return `$${price}`
+                                    }
+                                },
+                                // 수량
+                                { data: 'volume', render: (volume) => {
+                    
+                                    // 버튼
+                                    return `${volume}`
+                                }},
+                                // 거래금액
+                                {
+                                    data: 'amount',
+                                },
+                                // 상태
+                                {
+                                    data: 'status', render: (data, _type, _row) => {
+                                        switch(data) {
+                                            case 'close':
+                                                return '판매완료'
+                                            case '':
+                                                return ''
+                                        }
+                                    }
+                                },
+                                { data: () => {
+                                    return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-target="#modal-sell" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">구매</button>'
+                    
+                                } },
+                            ],
+                            columnDefs: [
+                                {
+                                    targets: '_all',
+                                    className: 'dt-head-center',
+                                },
+                                {
+                                    targets: 0,
+                                    className: 'dt-body-center',
+                                    type: 'any-number',
+                                },
+                                {
+                                    targets: 1,
+                                    className: 'dt-body-center',
+                                    type: 'title-string',
+                                },
+                                {
+                                    targets: 2,
+                                    className: 'dt-body-center',
+                                    type: 'any-number',
+                                },
+                                {
+                                    targets: 3,
+                                    className: 'dt-body-right',
+                                },
+                                {
+                                    targets: 4,
+                                    className: 'dt-body-center',
+                                },
+                                {
+                                    targets: 5,
+                                    className: 'dt-body-center',
+                                },
+                                {
+                                    targets: 6,
+                                    className: 'dt-body-center',
+                                },
+                                {
+                                    targets: 7,
+                                    className: 'dt-body-center',
+                                },
+                            ],
+                            scrollY: true,
+                            scroller: {
+                                rowHeight: 30
+                            }
+                        })
+
+
+                        //sellGrid.destory()
+                        //sellGrid.clear().load()
+
+                        /*
+                        API.getOrderList(symbol, 'sell', (resp) => {
+                            const orderData = []
+
+                            resp.payload.map((item) => {
+                                orderData.push({
+                                    // 번호
+                                    no: 1,
+                                    // 구분
+                                    category: '구분',
+                                    // 거래금액
+                                    amount: item.amount,
+                                    // 상태
+                                    status: item.status,
+                                    time_order: item.time_order,
+                                    // 수량
+                                    volume: item.volume,
+                                    // 가격
+                                    price: item.price,
+                                })
+                            })*/
+
+
+                            //sellGrid.clear().rows.add(orderData).draw()
+                    } else if ( target === '#tab-buy') {
+                        API.getOrderList(symbol, 'buy', (resp) => {
+                            const orderData = []
+
+                            resp.payload.map((item) => {
+                                orderData.push({
+                                    // 번호
+                                    no: 1,
+                                    // 구분
+                                    category: '구분',
+                                    // 거래금액
+                                    amount: item.amount,
+                                    // 상태
+                                    status: item.status,
+                                    time_order: item.time_order,
+                                    // 수량
+                                    volume: item.volume,
+                                    // 가격
+                                    price: item.price,
+                                })
+                            })
+
+                            buyGrid.clear().rows.add(orderData).draw()
+                        })
+                    }
+            })
+
+                    $('.details--header .tea--name').text(name)
+                    $('#tab-info .division').text(division)
+                    $('#tab-info .type').text(type)
+                    $('#tab-info .producer').text(producer)
+                    $('#tab-info .certificate').text(certificate)
+                    $('#tab-info img').attr('src', icon_url)
+                    // 원산지
+                    $('#white-paper [name=origin]').val(origin)
+                    $('#white-paper [name=producer]').val(producer)
+                    //생산
+                    $('#white-paper [name=production_date]').val(production_date)
+                    // 맛
+                    $('#white-paper #taste').html(taste.replaceAll(/\r\n/g, '<br>'))
+                    // 향
+                    $('#white-paper #scent').val(scent)
+                    $('#white-paper #weight').val(weight)
+                    $('#white-paper #keep-method').html(keep_method.replaceAll(/\r\n/g, '<br>'))
+                    $('#white-paper #story').html(story.replaceAll(/\r\n/g, '<br>'))
+                    $('#white-paper #teamaster-note').html(teamaster_note.replaceAll(/\r\n/g, '<br>'))
+                    $('#white-paper #producer-note').html(producer_note.replaceAll(/\r\n/g, '<br>'))
+                    $('#white-paper #grade').html(grade.replaceAll(/\r\n/g, '<br>'))
+                }
+            } );
+
+
+            })
+
+        } else {
+
+        }
+    })
+
+
+
+    /*
     $("#jqGrid").jqGrid({
         url: 'data.json',
         datatype: "json",
@@ -85,9 +554,9 @@ $(function() {
         height: 971,
         rowNum: 20,
         viewrecords: true
-    })
+    })*/
 
-    $("#detailsGrid").jqGrid({
+    /*$("#detailsGrid").jqGrid({
         url: 'data2.json',
         datatype: "json",
         colModel: [
@@ -102,7 +571,7 @@ $(function() {
             { label: '총액', name: 'TotalPrice', width: detailsWidth * 92 / 834, sorttype:'integer', align: 'right', formatter: Exchange.TotalPrice, resizable: false },
             { label: '상태', name: 'Status', width: detailsWidth * 148 / 834, align: 'center', resizable: false },
             { label: '거래버튼', width: detailsWidth * 70 / 834, formatter: (_cellValue) => {
-                return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-target="#modal-sell" style="width: 100%; height: 25px; line-height: 25px">판매</button>'
+                return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-target="#modal-sell" style="width: 100%; height: 25px; line-height: 25px">`판매`</button>'
             }}
         ],
         loadonce: true,
@@ -111,8 +580,8 @@ $(function() {
         rowNum: 20,
         viewrecords: true,
         shrinkToFit: false,
-    })
-    $("#detailsGrid2").jqGrid({
+    })*/
+    /*$("#detailsGrid2").jqGrid({
         url: 'data2.json',
         datatype: "json",
         rownumbers: false,
@@ -144,12 +613,20 @@ $(function() {
         rowNum: 20,
         viewrecords: true,
         shrinkToFit: false,
-    })
+    })*/
 
     $('#modal-buy').submit(() => {
         $('#alert-buy').addClass('modal--open')
         return false
     })
+
+    
+const period = $('#period').dropdown('selected')
+
+API.getChartData('btc', period, (resp) => {
+displayChart(resp);
+
+})
 })
 
 
@@ -311,10 +788,6 @@ function getRandomPrice() {
 return 10 + Math.round(Math.random() * 10000) / 100;
 }
 };
-API.getChartData('btc', (resp) => {
-displayChart(resp);
-
-})
 
 $('.tab--sell').click((e) => {
     API.getTradingList(() => {

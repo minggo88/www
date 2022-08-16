@@ -4,7 +4,24 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="끽다거">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
 <title>끽다거</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
@@ -34,11 +51,15 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/common.js"></script>
 <script src="./assets/js/api.js"></script>
 <script src="./assets/js/components.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" src="./assets/js/transaction.js" defer></script>
+<script>
+    let USER_INFO = {}
+</script>
 </head>
 <!-- BODY -->
 <body class="sub transaction">
@@ -115,7 +136,32 @@
             <header class="contents--header">
                 <h1>Trading History</h1>
             </header>
-            <div class="d-flex" style="margin-bottom: 49px">
+            <div class="d-flex mobile-only" style="margin-bottom: 16px">
+                <div class="dropdown-wrapper">
+                    <button type="button" class="dropdown">기간</button>
+                    <div class="dropdown--item">
+                        <ul>
+                            <li>
+                                <button type="button">1주일</button>
+                            </li>
+                            <li>
+                                <button type="button">1개월</button>
+                            </li>
+                            <li>
+                                <button type="button">6개월</button>
+                            </li>
+                            <li>
+                                <button type="button">1년</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px">
+                <button type="submit" class="btn btn--red" style="width: 136px">조회하기</button>
+
+
+            </div>
+            <div class="d-flex desktop-only" style="margin-bottom: 49px">
                 <div class="flex-center flex-self-center text--medium text-bold" style="width: 68px; text-align: center; margin-right: 7px">기간</div>
                 <button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px">1주일</button>
                 <button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px">1개월</button 7pxbutton>
@@ -164,10 +210,49 @@
             </script>
             <script>
                 let page = 1
-                let symbol = ''
-                API.getTransactionList(symbol, page, (resp) => {
+                let symbol = 'ETH'
+                API.getTradingList(symbol, '', page, (resp) => {
                     if(resp.success) {
+                        resp.payload.map((item) => {
+                            console.log(item)
 
+                            const tr = $('<tr>')
+
+                            let category
+
+                            switch (item.msg) {
+                                case 'bidding':
+                                    category = '경매'
+                                    break
+                                case 'buy':
+                                    category = '구매'
+                                    break
+                            
+                                default:
+                                    break;
+                            }
+
+                            const timeTraded = new Date(item.time_traded)
+
+                            const tradedDate  = timeTraded.getYear() + '-' . timeTraded.getMonth()
+
+                            tr.append(`<td class="text--left" style="font-size: 12px"><i class="ico-${category}"></i> ${category}</td>`)
+                            // 제품이미지
+                            tr.append(`<td class="text--left" style="font-size: 12px"><span class="product--image">
+                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
+                                </span>
+                                원영호 원창호</td>`)
+                            // 가격?
+                            tr.append(`<td class="text--right" style="font-size: 12px">${item.symbol} ${item.price}</td>`)
+                            // 수량
+                            tr.append(`<td class="text--right" style="font-size: 12px">${item.volume}</td>`)
+                            tr.append(`<td class="text--right" style="font-size: 12px">${item.amount}</td>`)
+                            tr.append(`<td class="" style="font-size: 10px">${item.from_name}</td>`)
+                            tr.append(`<td class="" style="font-size: 10px">${item.to_name}</td>`)
+                            tr.append(`<td class="" style="font-size: 12px">${tradedDate}</td>`)
+
+                                tr.appendTo('.transaction--list tbody')
+                        })
                     } else {
                         
                     }
@@ -185,7 +270,7 @@
                         <col style="width: calc(100% * (130 / 919))">
                         <col style="width: calc(100% * (84 / 919))">
                     </colgroup>
-                    <thead>
+                    <thead class="desktop-only">
                         <tr>
                             <th style="position: relative; line-height: 1">
                                 <div class="category dropdown-wrapper">
@@ -407,7 +492,26 @@
             </div>
         </div>
     </main>
-    <footer>
+    <div class="mobile-bottom mobile-only">
+        <ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+            <li class="exchange">
+                <a href="exchange.html">거래소</a>
+            </li>
+            <li class="area" >
+                <a href="">티드로우</a>
+            </li>
+            <li class="auction">
+                <a href="">경매</a>
+            </li>
+            <li class="transaction" >
+                <a href="transaction.html">거래내역</a>
+            </li>
+            <li class="more">
+                <a href="">더보기</a>
+            </li>
+        </ul>
+    </div>
+    <footer class="desktop-only">
         <div class="logo">Teaplat</div>
         <nav class="fnb">
             <ul>

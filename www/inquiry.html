@@ -4,10 +4,29 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="끽다거">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
+<!-- TITLE -->
 <title>끽다거</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;350;400;500;700;900&display=swap" rel="stylesheet">
+<!-- CSS -->
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
 <link rel="stylesheet" href="./assets/css/components.css">
@@ -19,6 +38,9 @@
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/components.js"></script>
 <script src="./assets/js/api.js"></script>
+<script>
+    let USER_INFO = {}
+</script>
 </head>
 <!-- BODY -->
 <body class="sub notice">
@@ -66,10 +88,10 @@
                     <button type="button" class="dropdown">지갑관리</button>
                     <div class="dropdown--item" style="width: 100px">
                         <ul>
-                            <li><a href="">보유 자산</a></li>
-                            <li><a href="">입금</a></li>
-                            <li><a href="">출금</a></li>
-                            <li><a href="">종합 분석</a></li>
+                            <li><a href="wallet.html">보유 자산</a></li>
+                            <li><a href="wallet-deposit.html">입금</a></li>
+                            <li><a href="wallet-withdrawal.html">출금</a></li>
+                            <li><a href="wallet-analysis.html">종합 분석</a></li>
                         </ul>
                     </div>
                 </div>
@@ -79,8 +101,6 @@
                         <div class="dropdown--item" style="width: 81px">
                             <span>한국어</span>
                             <ul>
-                                <li class="dropdown--selected"><a href="">ENG</a></li>
-                                <li><a href="">中文</a></li>
                             </ul>
                         </div>
                     </div>
@@ -261,21 +281,31 @@
                 const pageCount = 10
 
                 const fetchList = (page = 1) => {
+                    $('.board--list').addClass('loading')
+
                     API.getM2MList(page, (resp) => {
+                        $('.board--list').removeClass('loading')
+
                         if(resp.success) {
                             $('.board--list tbody').empty()
 
                             resp.payload.data.map((item) => {
                                 const tr = $('<tr>')
 
+                                const regDate = new Date(parseInt(item.regdate))
+
+                                console.log(item.regdate)
+                                console.log(regDate)
+
+                                tr.append(`<td><a href=""></a></td>`);
                                 tr.append(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
                                 tr.append(`<td class="text-red">${item.process}</td>`);
-                                tr.append(`<td><a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
+                                tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
+                                tr.append(`<td><a href="inquiry_write.html" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
                                 tr.appendTo('.board--list tbody')
                             })
 
                             $('.board--pagination > ul').empty()
-
 
                             pagination.point = 0
 
@@ -294,17 +324,15 @@
                                 $('<li>').append(`<a href="#page-${page}">${page}</a>`).appendTo('.board--pagination > ul')
                             }
 
-                            
-
                             if(page < totalPage) {
                                 $('<li>').addClass('pagination--next').append(`<a href="#page-${page + 1}">다음 페이지</a>`).appendTo('.board--pagination > ul')
                             }
 
-                            if(!resp.total) {
+                            if(!resp.payload.total) {
                                 $('<tr>').addClass('board--empty').append('<td colspan="5">문의 내용이 없습니다</td>').appendTo('.board--list tbody')
                             }
                         } else {
-
+                            alert(resp.error.message)
                         }
                     })
                 }

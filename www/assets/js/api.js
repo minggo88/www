@@ -250,6 +250,25 @@ const API = {
             }
         })
     },
+    getTradingList: (symbol, exchange = null, page = 1, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getTradingList/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+                symbol: symbol,
+                exchange: exchange,
+                page: page,
+                rows: 100,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
     getTransactionList: (symbol, page = 1, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getTransactionList/`,
@@ -350,7 +369,6 @@ const API = {
                 lang: window.localStorage.locale,
             },
             success: (resp) => {
-                console.log(resp)
                 if(callback) {
                     callback(resp)
                 }
@@ -407,7 +425,7 @@ const API = {
             }
         })
     },
-    getCurrency: (symbol = null, callback = null) => {
+    getCurrency: (symbol = null, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getCurrency/`,
             type: 'POST',
@@ -525,6 +543,123 @@ const API = {
                 callback(resp)
             }
         })
+    },
+    validateAddress: (symbol, address, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/validateAddress/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                symbol: symbol,
+                address: address,
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+    getSpotPrice: (symbol, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getSpotPrice/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                symbol: symbol,
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+    buyDirect: (data, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/buyDirect/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                ...data,
+                token: token,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    request: (item, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/request/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                item: item,
+                token: window.localStorage.token,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    requestSync: async (item, callback = null) => {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${API.BASE_URL}/request/`,
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    item: item,
+                    token: window.localStorage.token,
+                },
+                success: (resp) => {
+                    resolve(resp)
+                },
+                error: (e) => {
+                    reject(e)
+                }
+            })
+        }).then((resp) => {
+            const payLoadList = []
+
+            resp.payload.map((payload) => {
+                payLoadList.push(JSON.parse(payload.data))
+            })
+            if(callback) {
+                callback(payLoadList)
+            }
+        })
+
+    },
+    getOrderList: (symbol, tradingType, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getOrderList/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+                symbol: symbol,
+                trading_type: tradingType,
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+    getAuctionGoodsInfo: (goods_idx, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getAuction/auction_goods_info.php`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                goods_idx: goods_idx,
+                token: window.localStorage.token,
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
     }
 }
 
@@ -542,6 +677,8 @@ API.getMyInfo((resp) => {
             ...USER_INFO,
             userno: payload.userno,
             userid: payload.userid,
+            phone: payload.phone,
+            mobile: payload.mobile,
             bool_email: payload.bool_email,
             bool_sms: payload.bool_sms,
             regdate: payload.regdate,

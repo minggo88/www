@@ -7,7 +7,6 @@
 <title>끽다거</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
@@ -15,6 +14,9 @@
 <link rel="stylesheet" href="./assets/css/sub.css">
 <link rel="stylesheet" href="./assets/css/login.css">
 <!-- JS -->
+<script>
+    let USER_INFO = {}
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/components.js"></script>
@@ -22,7 +24,7 @@
 <script src="./assets/js/forget.js" defer></script>
 </head>
 <!-- BODY -->
-<body class="login">
+<body class="sub login forget">
     <header>
         <h1 class="logo"><a href="/">Teaplat</a></h1>
         <nav class="nav">
@@ -43,28 +45,31 @@
                     <a href="">다도 문화</a>
                 </li>
                 <li>
-                    <a href="">고객센터</a>
+                    <a href="notice.html">고객센터</a>
                 </li>
             </ul>
             <div class="nav--side">
                 <a href="login.html" class="btn--login">로그인</a>
-                <div class="language">
-                    한국어
-                    <button type="button" class="caret-down"></button>
+                <div class="language dropdown-wrapper">
+                    <button type="button" class="dropdown">한국어</button>
+                    <div class="dropdown--item">
+                        <ul></ul>
+                    </div>
                 </div>
             </div>
         </nav>
+        <button type="button" class="navigation--back"></button>
     </header>
     <main class="d-flex flex-center">
         <form id="forget" action="forget2.html" method="post" class="d-flex flex-row flex-center">
             <div class="form--header">
                 <h1>Reset password</h1>
             </div>
-            <div class="form--controls" style="margin-bottom: 40px">
+            <div class="email form--controls">
                 <label for="email" class="form--label">Email</label>
                 <input type="text" name="email" id="email">
             </div>
-            <div class="validation--message" style="display: none">
+            <div class="validation--message " style="display: none">
                 <p>등록되지 않은 이메일 주소입니다. 올바른 이메일 주소를 입력해 주세요.</p>
             </div>
             <div class="form--btns" style="margin-top: 44px">

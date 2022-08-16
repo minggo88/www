@@ -54,7 +54,7 @@ $(function () {
 
             if(resp.success) {
                 $('#create-account-info').hide()
-                $('#create-account-mail-auth').show()
+                $('#create-account-mail-auth').show().find('grid--code>input:eq(0)').focus()
             } else {
                 $('#create-account-info input[type=submit]').prop('disabled', false)
 

@@ -2,6 +2,11 @@ $(function() {
     $('#forget').submit((e) => {
         e.preventDefault()
 
+        if(!$('#email').val()) {
+            $('#email').focus()
+            return false
+        }
+
         $('#validation--message').hide()
 
         $('#forget').addClass('loading')

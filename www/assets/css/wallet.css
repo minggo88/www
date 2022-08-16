@@ -130,6 +130,7 @@
 .deposit .contents .d-grid{
     grid-template-columns: repeat(2, 1fr);
     column-gap: 20px;
+    grid-auto-rows: 1fr
 }
 
 .deposit .contents .d-grid .grid {
@@ -152,13 +153,18 @@
     margin: 14px 0 0;
 }
 
-.deposit .contents .d-grid .grid input[type=text] {
+.deposit .contents .d-grid .grid input[type=text],
+.deposit .contents .d-grid .grid input[type=password] {
     border-color: var(--mid-gray);
     padding: 0 11px;
     font-family: Inter;
     font-weight: 500;
     font-size: 16px;
     letter-spacing: -0.15px;
+}
+
+.deposit .contents .d-grid .grid input[type=password] {
+    font-size: 14px
 }
 
 .deposit #qrcode {
@@ -171,4 +177,102 @@
     background: var(--white);
     padding: 54px 56px 54px 52px;
     border: 0.35px solid var(--mid-gray);
+}
+
+#address+.btn {
+    width: 72px;
+    flex-shrink: 0;
+    height: 40px;
+    line-height: 40px;
+    font-family: Inter !important;
+}
+
+.grid .input--group .input--group--text {
+    color: #1C80B8;
+    font-family: Inter !important;
+    font-weight: 500;
+}
+
+/* Mobile */
+@media (max-width: 380px) {
+    .wallet > header,
+    .deposit > header {
+        display: none;
+    }
+    .wallet-summary {
+        display: flex;
+        flex-direction: column;
+    }
+    .wallet-summary .grid > div .text- {
+        flex-grow: 0 !important;
+    }
+    .wallet-summary .input::after {
+        display: none;
+    }
+    .wallet--grid {
+        display: flex;
+        flex-direction: column;
+    }
+    .wallet--grid .grid {
+        border: 0 none;
+        padding: 0;
+    }
+    .wallet--grid .grid .wallet--btn {
+        width: 64px;
+        flex-basis: 64px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 6px;
+    }
+    .wallet--grid .wallet--btn .btn {
+        width: 100%;
+        height: 32px;
+        line-height: 32px;
+    }
+    .deposit .deposit {
+        grid-template-columns: 1fr !important;
+    }
+    .deposit .deposit .form--controls {
+        display: flex;
+    }
+    .deposit .deposit .form--controls .form--label {
+        color: #191F28;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    .deposit--header {
+        display: flex !important;
+        justify-content: space-between;
+    }
+    .deposit--guide-btn {
+        color: #4E5968;
+        padding: 0 24px 0 0;
+        background: transparent url('../img/icon/icon-next.svg') no-repeat right center;
+        border: 0 none;
+    }
+    .deposit .deposit > .grid:nth-of-type(1) {
+        display: none;
+    }
+    .deposit .contents .d-grid .grid {
+        padding: 0;
+        border: 0 none;
+    }
+    .deposit .contents .d-grid .grid:nth-child(2) {
+        margin-top: 24px;
+    }
+    .deposit .input--group {
+        border: 0 none !important;
+        background: transparent;
+    }
+    .deposit .contents .d-grid .grid .input {
+        border: 0 none !important;
+    }
+    .deposit .contents .d-grid .grid input[type=text], .deposit .contents .d-grid .grid input[type=password] {
+        color: #4E5968 !important;
+        font-size: 16px;
+        text-align: right;
+    }
+    .deposit .contents .d-grid .grid .input::after {
+        display: none;
+    }
 }

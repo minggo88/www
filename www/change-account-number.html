@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>끽다거</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
@@ -32,9 +33,17 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/trirand/jquery.jqGrid.min.js"></script>
-<script src="./assets/js/trirand/i18n/grid.locale-kr.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="./assets/js/common.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js"></script>
+<script>
+    let USER_INFO = {}
+</script>
+<style>
+    .sub > header {
+        display: none;
+    }
+</style>
 </head>
 <!-- BODY -->
 <body class="sub notice">
@@ -58,14 +67,16 @@
                     <a href="">다도 문화</a>
                 </li>
                 <li>
-                    <a href="">고객센터</a>
+                    <a href="notice.html">고객센터</a>
                 </li>
             </ul>
             <div class="nav--side">
                 <a href="login.html" class="btn--login">로그인</a>
-                <div class="language">
-                    한국어
-                    <button type="button" class="caret-down"></button>
+                <div class="language dropdown-wrapper">
+                    <button type="button" class="dropdown">한국어</button>
+                    <div class="dropdown--item">
+                        <ul></ul>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -101,39 +112,42 @@
         </aside>
         <div class="contents">
             <header class="contents--header">
+                <button type="button" class="navigation--back"></button>
                 <h1>Change bank account number</h1>
             </header>
-            <form action="" method="post" style="width: 100%; height: auto" >
+            <form id="change-account-number" action="" method="post">
                 <div class="boxed boxed--transparent d-flex flex-row flex-self-center flex-center" style="height: 333px; padding: 36px 0 56px">
                     <h2 class="m-0 text--medium text-bold text--center">출금 계좌 정보를 수정합니다.</h2>
-                    <div style="margin-top: 40px;
-    width: 312.06px;
-    height: 178px;">
+                    <div class="inside">
 
-                    <p class="m-0 text-bold" style="font-size: 13px">은행 및 계좌</p>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form--controls">
-                                        <input type="text" name="" id="" placeholder="국가 및 화폐 선택">
-                                    </div>
-                                </div>
+                    <p class="m-0 text-bold desktop-only" style="font-size: 13px">은행 및 계좌</p>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form--controls">
+                                <label class="form--label mobile-only">국가 및 화폐 선택</label>
+                                <input type="text" name="" placeholder="국가 및 화폐 선택">
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form--controls">
-                                        <input type="text" name="" id="" placeholder="은행명">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form--controls">
-                                        <input type="text" name="" id="" placeholder="이름">
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    <div class="bankAndName row">
+                        <div class="col-6">
+                            <div class="form--controls">
+                                <label for="bank_name" class="form--label mobile-only">은행명</label>
+                                <input type="text" id="bank_name" name="bank_name" placeholder="은행명">
                             </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form--controls">
+                                <label for="bank_owner" class="form--label mobile-only">이름</label>
+                                <input type="text" id="bank_owner" name="bank_owner" placeholder="이름">
+                            </div>
+                        </div>
+                    </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form--controls">
-                                        <input type="text" name="" id="" placeholder="계좌번호">
+                                        <label for="bank_account" class="form--label mobile-only">계좌번호</label>
+                                        <input type="text" id="bank_account" name="bank_account" placeholder="계좌번호">
                                     </div>
                                 </div>
                             </div>
@@ -145,9 +159,24 @@
                 <div class="text--center"><input type="submit" value="수정하기" class="btn btn--red" style="width: 340px; margin-top: 40px"></div>
 
             </form>
+            <script>
+                $('#change-account-number').submit(e => {
+                    e.preventDefault()
+
+                    API.putMyInfo($('#change-account-number').serializeObject(), resp => {
+                        if(resp.success) {
+                            location.reload()
+                        } else {
+                            alert(resp.error.message)
+                        }
+                    })
+
+                    return false
+                })
+            </script>
         </div>
     </main>
-    <footer>
+    <footer class="desktop-only">
         <div class="logo">Teaplat</div>
         <nav class="fnb">
             <ul>

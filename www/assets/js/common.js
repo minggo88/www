@@ -18,9 +18,6 @@ else if(navigator.userAgent.match(/Macintosh/))
 else if(navigator.userAgent.match(/Linux/)) {
     os = 'linux'
 }
-
-let USER_INFO = {}
-
 // 기본 언어설정
 if(!window.localStorage.locale) {
     window.localStorage.locale = 'ko'
