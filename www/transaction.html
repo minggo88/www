@@ -59,6 +59,34 @@
 <script type="text/javascript" src="./assets/js/transaction.js" defer></script>
 <script>
     let USER_INFO = {}
+
+    API.getMyInfo((resp) => {
+        if(resp.success) {
+            const payload = resp.payload
+
+            USER_INFO = {
+                ...USER_INFO,
+                userno: payload.userno,
+                userid: payload.userid,
+                phone: payload.phone,
+                mobile: payload.mobile,
+                bool_email: payload.bool_email,
+                bool_sms: payload.bool_sms,
+                regdate: payload.regdate,
+                bank_name: payload.bank_name,
+                bank_account: payload.bank_account,
+                bank_owner: payload.bank_owner,
+            }
+
+            if(USER_INFO.userno) {
+                $('.nav--side .btn--login').hide()
+                $('.nav--side .btn--logout').show()
+                $('.profile').show()
+                $('.wallet').show()
+                $('.profile .dropdown').text(USER_INFO.userid)
+            }
+        }
+    })
 </script>
 </head>
 <!-- BODY -->
@@ -83,26 +111,85 @@
                     <a href="">다도 문화</a>
                 </li>
                 <li>
-                    <a href="">고객센터</a>
+                    <a href="notice">고객센터</a>
                 </li>
             </ul>
             <div class="nav--side">
+                <div class="profile dropdown-wrapper" style="display: none">
+                    <button type="button" class="dropdown text--blue-gray">
+                        kik**@teaplat.com
+                    </button>
+                    <div class="dropdown--item" style="width: 134px">
+                        <ul>
+                            <li><a href="member-account.html">정보 수정</a></li>
+                            <li><a href="verification.html">ID 인증 관리</a></li>
+                            <li><a href="change-pin-number.html">보안비밀번호변경</a></li>
+                            <li><a href="change-account-number.html">출금계좌 변경</a></li>
+                            <li><a href="transaction.html">거래 내역</a></li>
+                            <li><a href="notification.html">알림</a></li>
+                            <li><a href="withdrawal.html">회원 탈퇴</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wallet dropdown-wrapper" style="display: none">
+                    <button type="button" class="dropdown">지갑관리</button>
+                    <div class="dropdown--item" style="width: 100px">
+                        <ul>
+                            <li><a href="wallet.html">보유 자산</a></li>
+                            <li><a href="wallet-deposit.html">입금</a></li>
+                            <li><a href="wallet-withdrawal.html">출금</a></li>
+                            <li><a href="wallet-analysis.html">종합 분석</a></li>
+                        </ul>
+                    </div>
+                </div>
                 <a href="login.html" class="btn--login">로그인</a>
-                <div class="language">
-                    <div class="dropdown-wrapper">
-                        <button type="button" class="dropdown">한국어</button>
-                        <div class="dropdown--item" style="width: 81px">
-                            <span>한국어</span>
-                            <ul>
-                                <li><a href="">ENG</a></li>
-                                <li><a href="">中文</a></li>
-                            </ul>
-                        </div>
+                <button type="button" class="btn btn--logout" style="display: none">로그아웃</button>
+                <div class="language dropdown-wrapper">
+                    <button type="button" class="dropdown">한국어</button>
+                    <div class="dropdown--item" style="width: 81px">
+                        <span>한국어</span>
+                        <ul>
+                        </ul>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
+    <aside class="mobile-panel">
+        <h1 class="size--20">계정 관리</h1>
+        <ul>
+            <li>
+                <a href="member-account.html">정보 수정</a>
+            </li>
+            <li>
+                <a href="my-verification.html">ID 인증 관리</a>
+            </li>
+            <li>
+                <a href="change-pin-number.html">보안비밀번호 변경</a>
+            </li>
+            <li>
+                <a href="change-account-number.html">출금계좌 변경</a>
+            </li>
+            <li>
+                <a href="withdrawal.html">회원 탈퇴</a>
+            </li>
+        </ul>
+        <h1 class="size--20">지갑 관리</h1>
+        <ul>
+            <li>
+                <a href="wallet.html"><i class="icon-database-fill"></i> 보유 자산</a>
+            </li>
+            <li>
+                <a href="wallet-deposit.html"><i class="icon-load-circle-fill"></i> 입금</a>
+            </li>
+            <li>
+                <a href="wallet-withdrawal.html"><i class="icon-circle-fill"></i> 출금</a>
+            </li>
+            <li>
+                <a href="wallet-analysis.html"><i class="icon-circle-fill"></i> 종합 분석</a>
+            </li>
+        </ul>
+    </aside>
     <main class="d-grid">
         <aside class="side">
             <h1>계정 관리</h1>
@@ -134,8 +221,11 @@
         </aside>
         <div class="contents">
             <header class="contents--header">
+                <button type="button" class="navigation"></button>
                 <h1>Trading History</h1>
             </header>
+            <h1 class="size--20"><i class="icon-"></i> 거래 내역</h1>
+
             <div class="d-flex mobile-only" style="margin-bottom: 16px">
                 <div class="dropdown-wrapper">
                     <button type="button" class="dropdown">기간</button>
@@ -211,55 +301,10 @@
             <script>
                 let page = 1
                 let symbol = 'ETH'
-                API.getTradingList(symbol, '', page, (resp) => {
-                    if(resp.success) {
-                        resp.payload.map((item) => {
-                            console.log(item)
 
-                            const tr = $('<tr>')
-
-                            let category
-
-                            switch (item.msg) {
-                                case 'bidding':
-                                    category = '경매'
-                                    break
-                                case 'buy':
-                                    category = '구매'
-                                    break
-                            
-                                default:
-                                    break;
-                            }
-
-                            const timeTraded = new Date(item.time_traded)
-
-                            const tradedDate  = timeTraded.getYear() + '-' . timeTraded.getMonth()
-
-                            tr.append(`<td class="text--left" style="font-size: 12px"><i class="ico-${category}"></i> ${category}</td>`)
-                            // 제품이미지
-                            tr.append(`<td class="text--left" style="font-size: 12px"><span class="product--image">
-                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
-                                </span>
-                                원영호 원창호</td>`)
-                            // 가격?
-                            tr.append(`<td class="text--right" style="font-size: 12px">${item.symbol} ${item.price}</td>`)
-                            // 수량
-                            tr.append(`<td class="text--right" style="font-size: 12px">${item.volume}</td>`)
-                            tr.append(`<td class="text--right" style="font-size: 12px">${item.amount}</td>`)
-                            tr.append(`<td class="" style="font-size: 10px">${item.from_name}</td>`)
-                            tr.append(`<td class="" style="font-size: 10px">${item.to_name}</td>`)
-                            tr.append(`<td class="" style="font-size: 12px">${tradedDate}</td>`)
-
-                                tr.appendTo('.transaction--list tbody')
-                        })
-                    } else {
-                        
-                    }
-                })
             </script>
             <div class="board--body p-0">
-                <table class="transaction--list board--list">
+                <table class="transaction--list board--list desktop-only">
                     <colgroup>
                         <col width="">
                         <col style="width: calc(100% * (220 / 919))">
@@ -489,6 +534,8 @@
                         </li>
                     </ul>
                 </nav>
+                <ul class="notification--list mobile-only">
+                </ul>
             </div>
         </div>
     </main>
@@ -503,8 +550,8 @@
             <li class="auction">
                 <a href="">경매</a>
             </li>
-            <li class="transaction" >
-                <a href="transaction.html">거래내역</a>
+            <li class="transaction text--red">
+                <a href="transaction.html" class="text--red">거래내역</a>
             </li>
             <li class="more">
                 <a href="">더보기</a>

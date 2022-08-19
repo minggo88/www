@@ -54,13 +54,46 @@
 <script src="./assets/js/common.js"></script>
 <script src="./assets/js/api.js"></script>
 <script src="./assets/js/components.js"></script>
+<script src="./assets/js/member-account.js"></script>
 <script>
     let USER_INFO = {}
+
+    API.getMyInfo((resp) => {
+        if(resp.success) {
+            const payload = resp.payload
+
+            USER_INFO = {
+                ...USER_INFO,
+                userno: payload.userno,
+                userid: payload.userid,
+                phone: payload.phone,
+                mobile: payload.mobile,
+                bool_email: payload.bool_email,
+                bool_sms: payload.bool_sms,
+                regdate: payload.regdate,
+                bank_name: payload.bank_name,
+                bank_account: payload.bank_account,
+                bank_owner: payload.bank_owner,
+            }
+
+            if(USER_INFO.userno) {
+                $('.nav--side .btn--login').hide()
+                $('.profile').show()
+                $('.wallet').show()
+                $('.profile .dropdown').text(USER_INFO.userid)
+            }
+
+            if(!USER_INFO.userno) {
+        location.href = 'login.html'
+        return
+    }
+        }
+    })
 </script>
 </head>
 <!-- BODY -->
 <body class="sub notice member-account">
-    <header>
+    <header class="desktop-only">
         <h1 class="logo"><a href="/">Teaplat</a></h1>
         <nav class="nav">
             <ul>
@@ -84,7 +117,7 @@
                 </li>
             </ul>
             <div class="nav--side">
-                <div class="profile dropdown-wrapper">
+                <div class="profile dropdown-wrapper" style="display: none">
                     <button type="button" class="dropdown text--blue-gray">
                         kik**@teaplat.com
                     </button>
@@ -100,7 +133,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="wallet dropdown-wrapper">
+                <div class="wallet dropdown-wrapper" style="display: none">
                     <button type="button" class="dropdown">지갑관리</button>
                     <div class="dropdown--item" style="width: 100px">
                         <ul>
@@ -123,6 +156,41 @@
             </div>
         </nav>
     </header>
+    <aside class="mobile-panel">
+        <h1 class="size--20">계정 관리</h1>
+        <ul>
+            <li>
+                <a href="member-account.html">정보 수정</a>
+            </li>
+            <li>
+                <a href="my-verification.html">ID 인증 관리</a>
+            </li>
+            <li>
+                <a href="change-pin-number.html">보안비밀번호 변경</a>
+            </li>
+            <li>
+                <a href="change-account-number.html">출금계좌 변경</a>
+            </li>
+            <li>
+                <a href="withdrawal.html">회원 탈퇴</a>
+            </li>
+        </ul>
+        <h1 class="size--20">지갑 관리</h1>
+        <ul>
+            <li>
+                <a href="wallet.html"><i class="icon-database-fill"></i> 보유 자산</a>
+            </li>
+            <li>
+                <a href="wallet-deposit.html"><i class="icon-load-circle-fill"></i> 입금</a>
+            </li>
+            <li>
+                <a href="wallet-withdrawal.html"><i class="icon-circle-fill"></i> 출금</a>
+            </li>
+            <li>
+                <a href="wallet-analysis.html"><i class="icon-circle-fill"></i> 종합 분석</a>
+            </li>
+        </ul>
+    </aside>
     <main class="d-grid">
         <aside class="side">
             <h1>계정 관리</h1>
@@ -162,23 +230,25 @@
                 <div>
                     <h1 class="m-0 size--20 mobile-only" style="color: var(--black);"><i class="icon-user-fill"></i> 정보 수정</h1>
                     <div class="default" >
-                        <div class="form--controls">
+                        <div class="email form--controls">
                             <label for="email">이메일</label>
-                            <input type="email" name="email" id="email">
+                            <input type="email" name="email" id="email" disabled>
                         </div>
-                        <div class="form--controls">
+                        <div class="phone form--controls">
                             <label for="phone">핸드폰 번호</label>
-                            <input type="tel" name="phone" id="phone">
+                            <input type="tel" name="phone" id="phone" disabled>
                         </div>
                         <div class="region">
-                            <h1>거주지</h1>
+                            <h1 class="m-0 size--16">거주지</h1>
                             <div class="form--controls">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" name="country" id="country" placeholder="국가">
+                                        <label for="country" class="form--label mobile-only">국가</label>
+                                        <input type="text" name="country" id="country" placeholder="국가" style="width: 100%" disabled>
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" name="city" id="city" placeholder="도시">
+                                        <label for="country" class="form--label mobile-only">도시</label>
+                                        <input type="text" name="city" id="city" placeholder="도시" style="width: 100%" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -197,8 +267,9 @@
                             </div>
                         </div>
                     </div>
+                    <a href="" class="text--red mobile-only">로그인 비밀번호 변경</a>
                     <div class="text--center"><input type="submit" value="계정 수정" class="btn btn--red" style="width: 340px; margin-top: 40px"></div>
-                    <div class="text--center"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password" style="width: 340px; margin-top: 40px" data-toggle="modal" data-target="#change-password">로그인 비밀번호 변경</a></div>
+                    <div class="text--center desktop-only"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password" style="width: 340px; margin-top: 40px" data-toggle="modal" data-target="#change-password">로그인 비밀번호 변경</a></div>
                 </div>
             </form>
             <form method="post" id="change-password" class="modal modal--tiny">
@@ -227,25 +298,6 @@
                 </div>
 
             </form>
-            <script>
-                $(function() {
-                    $('#member-account [name=email]').val(USER_INFO.userid)
-                    $('#member-account [name=phone]').val(USER_INFO.phone)
-
-                })
-                //$('#member-account [name=email]').val(USER_INFO)
-                $('#member-account').submit((e) => {
-                    e.preventDefault()
-
-                    API.putMyInfo({
-                        email: $('#email').val(),
-                        phone: $('#phone').val(),
-                    }, () => {
-                        
-                    })
-                    return false
-                })
-            </script>
         </div>
     </main>
     <nav class="mobile-bottom mobile-only">

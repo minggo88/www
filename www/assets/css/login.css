@@ -19,7 +19,7 @@ header {
     align-self: flex-start;
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 600px) {
     .email {
         margin-bottom: 8px;
     }

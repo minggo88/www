@@ -56,8 +56,8 @@ const API = {
     },
     /**
      * 인증메일 확인
-     * @param {*} email 
-     * @param {*} code 
+     * @param {*} email 이메일 주소
+     * @param {*} code 인증코드
      * @param {*} callback 
      */
     checkEmailConfirmCode: (email, code, callback = null) => {
@@ -156,7 +156,7 @@ const API = {
     },
     /**
      * 로그아웃
-     * @param {*} callback 
+     * @param {*} callback 로그아웃 후 실행할 콜백함수
      */
     logout: (callback = null) => {
         $.ajax({
@@ -197,6 +197,10 @@ const API = {
             }
         })
     },
+    /**
+     * 토큰생성
+     * @param {*} callback 
+     */
     getToken: (callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getToken/`,
@@ -571,14 +575,46 @@ const API = {
             }
         })
     },
-    buyDirect: (data, callback = null) => {
+    sell: (data, callback = null) => {
         $.ajax({
-            url: `${API.BASE_URL}/buyDirect/`,
+            url: `${API.BASE_URL}/sell/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
                 ...data,
-                token: token,
+                token: window.localStorage.token,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    sellDirect: (data, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/sell_direct/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                ...data,
+                token: window.localStorage.token,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    buyDirect: (data, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/buy_direct/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                ...data,
+                token: window.localStorage.token,
             },
             success: (resp) => {
                 if(callback) {
@@ -634,7 +670,7 @@ const API = {
     },
     getOrderList: (symbol, tradingType, callback) => {
         $.ajax({
-            url: `${API.BASE_URL}/getOrderList/`,
+            url: `${API.BASE_URL}/getOrderList/?symbol=${symbol}&trading_type=${tradingType}`,
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -660,6 +696,22 @@ const API = {
                 callback(resp)
             }
         })
+    },
+    createNewAddress: (symbol, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/createNewAddress/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                symbol: symbol,
+                token: window.localStorage.token,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
     }
 }
 
@@ -668,26 +720,6 @@ if(!window.localStorage.token) {
         window.localStorage.token = resp.payload.token
     })
 }
-
-API.getMyInfo((resp) => {
-    if(resp.success) {
-        const payload = resp.payload
-
-        USER_INFO = {
-            ...USER_INFO,
-            userno: payload.userno,
-            userid: payload.userid,
-            phone: payload.phone,
-            mobile: payload.mobile,
-            bool_email: payload.bool_email,
-            bool_sms: payload.bool_sms,
-            regdate: payload.regdate,
-            bank_name: payload.bank_name,
-            bank_account: payload.bank_account,
-            bank_owner: payload.bank_owner,
-        }
-    }
-})
 
 $.fn.serializeObject = function () {
     let result = {};

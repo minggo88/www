@@ -18,7 +18,7 @@ $(function() {
         API.login(email.val(), password.val(), (resp) => {
             if(resp.success) {
                 alert('로그인 성공. 메시지 수정 필요')
-                location.href = '/exchange'
+                location.href = 'exchange.html'
             } else {
                 $('.validation--message').find('>p').text(resp.error.message).end().show()
             }

@@ -32,14 +32,41 @@
 <link rel="stylesheet" href="./assets/css/sub.css">
 <link rel="stylesheet" href="./assets/css/wallet.css">
 <!-- JS -->
-<script>
-    let USER_INFO = {}
-</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/api.js"></script>
 <script src="./assets/js/components.js"></script>
 <script src="./assets/js/qrcode.min.js"></script>
+<script>
+    let USER_INFO = {}
+
+    API.getMyInfo((resp) => {
+        if(resp.success) {
+            const payload = resp.payload
+
+            USER_INFO = {
+                ...USER_INFO,
+                userno: payload.userno,
+                userid: payload.userid,
+                phone: payload.phone,
+                mobile: payload.mobile,
+                bool_email: payload.bool_email,
+                bool_sms: payload.bool_sms,
+                regdate: payload.regdate,
+                bank_name: payload.bank_name,
+                bank_account: payload.bank_account,
+                bank_owner: payload.bank_owner,
+            }
+
+            if(USER_INFO.userno) {
+                $('.nav--side .btn--login').hide()
+                $('.profile').show()
+                $('.wallet').show()
+                $('.profile .dropdown').text(USER_INFO.userid)
+            }
+        }
+    })
+</script>
 </head>
 <!-- BODY -->
 <body class="sub wallet notice">
@@ -67,7 +94,7 @@
                 </li>
             </ul>
             <div class="nav--side">
-                <div class="profile dropdown-wrapper">
+                <div class="profile dropdown-wrapper" style="display: none">
                     <button type="button" class="dropdown text--blue-gray">
                         kik**@teaplat.com
                     </button>
@@ -83,7 +110,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="wallet dropdown-wrapper">
+                <div class="wallet dropdown-wrapper" style="display: none">
                     <button type="button" class="dropdown">지갑관리</button>
                     <div class="dropdown--item" style="width: 100px">
                         <ul>
@@ -129,17 +156,15 @@
         <div class="contents">
             <header class="contents--header">
                 <button type="button" class="navigation--back"></button>
-
                 <h1>My Wallet</h1>
-
             </header>
-            <h2 class="m-0 mobile-only"><i class="icon-database-fill"></i> 보유 자산</h2>
+            <h2 class="m-0 mobile-only" style="margin-bottom: 32px !important"><i class="icon-database-fill"></i> <span>보유 자산</span></h2>
 
             <section class="d-grid wallet-summary">
                 <div class="grid">
-                    총 보유 자산
+                    <label>총 보유 자산</label>
                     <div class="input pr-0">
-                        <div class="text- text-red">12,345,678,900</div>
+                        <div id="totalBalance" class="text- text-red">12,345,678,900</div>
                         <div class="totalBalance currency dropdown-wrapper">
                             <button type="button" class="dropdown">
                                 KRW
@@ -152,7 +177,7 @@
                     </div>
                 </div>
                 <div class="grid">
-                    사용 가능 자산
+                    <label for="">사용 가능 자산</label>
                     <div class="input pr-0">
                         <div class="text-">10,000,000,000</div>
                         <div class="availableBalance currency dropdown-wrapper">
@@ -167,7 +192,7 @@
                     </div>
                 </div>
                 <div class="grid">
-                    동결 평가 자산
+                    <label for="">동결 평가 자산</label>
                     <div class="input pr-0">
                         <div class="text-">2,345,678,900</div>
                         <div class="unconfirmedBalance currency dropdown-wrapper">
@@ -219,18 +244,28 @@
                                     className = 'grid--krw'
                                     break
                             }
+
+                            API.getBalance(item.symbol, null, (res) => {
+                                if(res.success) {
+                                    console.log('test', res.payload[0])
+
+                                    $('#totalBalance').text(res.payload[0].eval_amount.format())
+                                }
+                            })
+
                             const grid = $(`<div class="grid ${className}" style="/*border-left-color: #${item.color}*/" />`)
 
                             grid.append(`<div>${item.name}</div>`)
                             grid.append(`
                             <div class="grid--inner-right">
                                 <div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-end">
+                                    <div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">${item.name}</div>
                                     <div class="wallet--price">0.00000000 ${item.symbol}</div>
                                     ${item.crypto_currency === 'Y' ? '<div class="wallet--market-price">≈ 0.00000000 KRW</div>' : ''}
                                 </div>
                                 <div class="wallet--btn">
-                                    <a href="" class="btn btn--red btn--rounded">입금</a>
-                                    <a href="" class="btn btn--withdrawal btn--rounded">출금</a>
+                                    <a href="wallet-deposit.html" class="btn btn--red btn--rounded">입금</a>
+                                    <a href="wallet-withdrawal.html" class="btn btn--withdrawal btn--rounded">출금</a>
                                 </div>
                             </div>`)
 

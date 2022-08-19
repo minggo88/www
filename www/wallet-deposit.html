@@ -146,6 +146,11 @@
                     </ul>
                 </div>
             </div>
+            <div id="qrcode2" class="mobile-only">
+                <div class="size--14 text--center" style="margin-top: 36px; font-weight: 500; font-family: Inter;margin-bottom: 7px">QR Code</div>
+            </div>
+            <div class="text--center" style="margin-top: 15px"><button type="button" class="btn btn-create-address btn--red" style="width: 196px; align-self: center">Create BCH Address</button></div>
+
             <div class="d-grid deposit">
                 <section class="grid deposit--guid">
                     <h1>입금안내</h1>
@@ -159,20 +164,20 @@
                     </ul>
                 </section>
                 <section class="grid" style="height: unset !important">
-                    <div class="form--controls" style="margin-bottom: 18px">
+                    <div class="address form--controls" style="margin-bottom: 18px">
                         <label for="address" class="form--label" style="margin-bottom: 7px">Address</label>
                         <div class="input--group">
                             <input type="text" id="address" readonly>
                             <button type="button" class="btn btn--gray btn--copy" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px">Copy</button>
                         </div>
                     </div>
-                    <div class="form--controls" style="margin-bottom: 18px">
+                    <div class="eth form--controls" style="margin-bottom: 18px">
                         <label for="eth" class="form--label" style="margin-bottom: 7px">ETH Balance</label>
                         <div class="input--group">
                             <input type="text" id="eth" value="1,234,567 BCH" disabled class="text-right text-black">
                         </div>
                     </div>
-                    <div class="form--controls">
+                    <div class="form--controls desktop-only">
                         <label for="eth" class="form--label" style="margin-bottom: 7px">QR Code</label>
                         <div id="qrcode">
                         </div>
@@ -182,7 +187,7 @@
                 </section>
             </div>
 
-            <div class="mobile-only">
+            <div class="desktop-only">
                 <ul>
                     <li>고객님께서 (비트코인캐시)를 팔고 싶다면 먼저 지갑에 입금하거나 다른 회원으로부터 구입해야 합니다.</li>
                     <li>고객님에게 지정된 (비트코인캐시)주소로 (비트코인캐시)를 보내면 고객님의 지갑에 자동으로 반영됩니다.</li>
@@ -208,6 +213,7 @@
 
             <script>
                 new QRCode("qrcode", "http://jindo.dev.naver.com/collie");
+                new QRCode("qrcode2", "http://jindo.dev.naver.com/collie");
             </script>
 
             <ul class="desktop-only">
@@ -272,6 +278,16 @@
 
             e.clearSelection()
         });
+
+        $('.btn-create-address ').click(() => {
+            API.createNewAddress('BTC', (resp) => {
+                if(resp.success) {
+                    $('#address').val(resp.payload.address)
+                } else {
+                    alet(resp.error.message)
+                }
+            })
+        })
 
     </script>
 </body>

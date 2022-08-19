@@ -43,4 +43,12 @@ $.fn.serializeObject = function() {
     } finally {}
     
     return obj;
-};
+}
+
+$(function() {
+    $('.mobile-bottom .more').click((e) => {
+        e.preventDefault()
+
+        $('.mobile-panel').show()
+    })
+})
