@@ -142,6 +142,21 @@
     height: 24px;
     background: url('../img/icon/icon-load-circle-fill.svg') no-repeat 50%;
 }
+.icon-desk-fill {
+    width: 24px;
+    height: 24px;
+    background: url('../img/icon/icon-desk-fill.svg') no-repeat 50%;
+}
+.icon-question {
+    width: 24px;
+    height: 24px;
+    background: url('../img/icon/icon-question.svg') no-repeat 50%;
+}
+.icon-chat-alt {
+    width: 24px;
+    height: 24px;
+    background: url('../img/icon/icon-chat-alt.svg') no-repeat 50%;
+}
 [class^=ico-] {
     width: 16.79px;
     height: 14.9px;
@@ -329,7 +344,7 @@
 
 .grid-table thead th {
     padding: 0 !important;
-    height: 44px !important;
+    height: 44px;
     background: transparent !important;
     font-family: "Noto Sans KR";
     font-weight: 500;
@@ -345,18 +360,18 @@
     color: unset !important;
 }
 
-.ui-jqgrid-bdiv::-webkit-scrollbar {
+.dataTables_scrollBody::-webkit-scrollbar {
     width: 6px;
     height: 8px;
 }
-.ui-jqgrid-bdiv::-webkit-scrollbar-button {
+.dataTables_scrollBody::-webkit-scrollbar-button {
     height: 8px;
 }
-.ui-jqgrid-bdiv::-webkit-scrollbar-thumb{
+.dataTables_scrollBody::-webkit-scrollbar-thumb{
     background: rgba(131, 137, 158, .8);
     border-radius: 5px;
 }
-.ui-jqgrid-bdiv::-webkit-scrollbar-track{
+.dataTables_scrollBody::-webkit-scrollbar-track{
     background:rgba(119, 119, 119, 0.1); /* 또는 트랙에 추가한다 */
 }
 
@@ -2098,7 +2113,7 @@ input[type=file].image-selector::after{
     cursor: not-allowed !important;
 }
 
-@media (max-width: 380px) { 
+@media (max-width: 600px) { 
     .validation--message {
         padding: 0 0 0 24px;
         background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat;
@@ -2107,7 +2122,7 @@ input[type=file].image-selector::after{
     .step--list {
         top: -30px;
         left: 50%;
-        transform: translate(-50%, 0);
+        transform: translate(-50%, -50%);
         align-self: center;
 
     }
@@ -2178,7 +2193,7 @@ flex: 0 0 auto;
     justify-content: space-between;
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 425px) {
     .row .col-6 {
         width: calc(100%);
     }

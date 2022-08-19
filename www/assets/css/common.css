@@ -496,7 +496,7 @@ footer .customer--time {
     display: none;
 }
 
-@media (max-width: 380px) {
+@media (max-width: 600px) {
     .mobile-bottom {
         width: 100%;
         height: 72px;

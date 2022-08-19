@@ -27,6 +27,7 @@
     width: 70px;
     flex-basis: 70px;
     max-width: 70px;
+    height: 100%;
 }
 .wallet-summary .grid .dropdown {
     flex-basis: 70px;
@@ -171,7 +172,18 @@
     display: flex;
     justify-content: center;
 }
+.deposit #qrcode2 {
+    display: flex;
+    justify-content: center;
+}
 .deposit #qrcode img {
+    width: 72px;
+    height: 72px;
+    background: var(--white);
+    padding: 54px 56px 54px 52px;
+    border: 0.35px solid var(--mid-gray);
+}
+.deposit #qrcode2 img{
     width: 72px;
     height: 72px;
     background: var(--white);
@@ -194,7 +206,7 @@
 }
 
 /* Mobile */
-@media (max-width: 380px) {
+@media (max-width: 600px) {
     .wallet > header,
     .deposit > header {
         display: none;
@@ -202,12 +214,31 @@
     .wallet-summary {
         display: flex;
         flex-direction: column;
+        row-gap: 24px;
+    }
+    .wallet-summary label {
+        font-weight: 500;
+        font-family: Inter;
+        letter-spacing: -0.15px
     }
     .wallet-summary .grid > div .text- {
         flex-grow: 0 !important;
     }
+    .wallet-summary .input {
+        border-color: #E5E8EB;
+        border-radius: 2px;
+    }
     .wallet-summary .input::after {
         display: none;
+    }
+    .wallet-summary .dropdown {
+        height: 100%;
+        font-size: 12px;
+        padding: 0 10px 0 0;
+        justify-content: center;
+    }
+    .wallet-summary .grid > div .text- {
+        letter-spacing: -0.15px
     }
     .wallet--grid {
         display: flex;
@@ -219,7 +250,7 @@
     }
     .wallet--grid .grid .wallet--btn {
         width: 64px;
-        flex-basis: 64px;
+        flex: 0 0 64px;
         display: flex;
         flex-direction: column;
         row-gap: 6px;
@@ -249,6 +280,7 @@
         padding: 0 24px 0 0;
         background: transparent url('../img/icon/icon-next.svg') no-repeat right center;
         border: 0 none;
+        letter-spacing: -0.15px;
     }
     .deposit .deposit > .grid:nth-of-type(1) {
         display: none;
@@ -274,5 +306,17 @@
     }
     .deposit .contents .d-grid .grid .input::after {
         display: none;
+    }
+    .deposit .address,
+    .deposit .eth {
+        flex-direction: column;
+    }
+
+    .deposit #qrcode2 {
+        display: flex !important;
+        flex-direction: column;
+    }
+    .deposit #qrcode2 img {
+        align-self: center;
     }
 }

@@ -21,6 +21,11 @@
     --mid-gray: #DFDFDF;
     --warning: #F93D5C;
     --balck: #000000;
+    /* Mobile Colorset*/
+    --gray002: #333D4B;
+    --gray003: #4E5968;
+    --gray005: #8B95A1;
+    --gray006: #B0B8C1;
 }
 
 .text-black,
@@ -73,4 +78,8 @@ a.text-red:visited {
 
 .text--white {
     color: var(--white);
+}
+
+.text--gray005 {
+    color: var(--gray005);
 }

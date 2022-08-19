@@ -112,6 +112,9 @@ $(function() {
     $('.navigation--back').click(() => {
         window.history.back()
     })
+    $('.navigation').click(() => {
+        $('.mobile-panel').show()
+    })
 
     $.fn.myModal = function(action) {
         const modal = $(this)
@@ -122,7 +125,7 @@ $(function() {
 
         switch(action) {
             case 'show':
-                modal.trigger('beforeOpen')
+                modal.trigger('beforeOpen', [ LAST_MODAL_ANCHOR ])
 
                 modalStack = modalStack.filter(e => e !== modal)
                 modalStack.push(modal)
@@ -144,8 +147,11 @@ $(function() {
                 break
             case 'toggle':
                 if(modal.hasClass('modal--open')) {
+                    console.log('hide')
                     modal.myModal('hide')
                 } else {
+                    console.log('hide')
+
                     modal.myModal('show')
                 }
                 break
@@ -292,12 +298,20 @@ $(function() {
         }
     })
 
+    $('.input--spiner .spiner-plus').click((e) => {
+        const input = $(e.target).closest('.input--spiner').find('input')
+
+        let val = Math.max(Number(input.val()) + 1, 1)
+
+        input.val(val).trigger('input')
+    })
+
     $('.input--spiner .spiner-minus').click((e) => {
         const input = $(e.target).closest('.input--spiner').find('input')
 
         let val = Math.max(Number(input.val()) - 1, 1)
 
-        input.val(val)
+        input.val(val).trigger('input')
     })
 
 

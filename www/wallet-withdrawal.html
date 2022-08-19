@@ -42,6 +42,40 @@
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 <script>
     let USER_INFO = {}
+
+    API.getMyInfo((resp) => {
+        if(resp.success) {
+            const payload = resp.payload
+
+            USER_INFO = {
+                ...USER_INFO,
+                userno: payload.userno,
+                userid: payload.userid,
+                phone: payload.phone,
+                mobile: payload.mobile,
+                bool_email: payload.bool_email,
+                bool_sms: payload.bool_sms,
+                regdate: payload.regdate,
+                bank_name: payload.bank_name,
+                bank_account: payload.bank_account,
+                bank_owner: payload.bank_owner,
+            }
+
+            if(USER_INFO.userno) {
+                $('.nav--side .btn--login').hide()
+                $('.profile').show()
+                $('.wallet').show()
+                $('.profile .dropdown').text(USER_INFO.userid)
+            }
+
+            if(!USER_INFO.userno) {
+        location.href = 'login.html'
+        return
+    }
+        }
+    })
+</script>
+<script>
     const symbol = 'BCH'
 </script>
 </head>
@@ -71,7 +105,7 @@
                 </li>
             </ul>
             <div class="nav--side">
-                <div class="profile dropdown-wrapper">
+                <div class="profile dropdown-wrapper" style="display: none">
                     <button type="button" class="dropdown text--blue-gray">
                         kik**@teaplat.com
                     </button>
@@ -87,7 +121,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="wallet dropdown-wrapper">
+                <div class="wallet dropdown-wrapper" style="display: none">
                     <button type="button" class="dropdown">지갑관리</button>
                     <div class="dropdown--item" style="width: 100px">
                         <ul>
@@ -110,6 +144,41 @@
             </div>
         </nav>
     </header>
+    <aside class="mobile-panel">
+        <h1 class="size--20">계정 관리</h1>
+        <ul>
+            <li>
+                <a href="member-account.html">정보 수정</a>
+            </li>
+            <li>
+                <a href="my-verification.html">ID 인증 관리</a>
+            </li>
+            <li>
+                <a href="change-pin-number.html">보안비밀번호 변경</a>
+            </li>
+            <li>
+                <a href="change-account-number.html">출금계좌 변경</a>
+            </li>
+            <li>
+                <a href="withdrawal.html">회원 탈퇴</a>
+            </li>
+        </ul>
+        <h1 class="size--20">지갑 관리</h1>
+        <ul>
+            <li>
+                <a href="wallet.html"><i class="icon-database-fill"></i> 보유 자산</a>
+            </li>
+            <li>
+                <a href="wallet-deposit.html"><i class="icon-load-circle-fill"></i> 입금</a>
+            </li>
+            <li>
+                <a href="wallet-withdrawal.html"><i class="icon-circle-fill"></i> 출금</a>
+            </li>
+            <li>
+                <a href="wallet-analysis.html"><i class="icon-circle-fill"></i> 종합 분석</a>
+            </li>
+        </ul>
+    </aside>
     <main class="d-grid">
         <aside class="side">
             <h1>지갑 관리</h1>
@@ -140,15 +209,30 @@
                 <button type="button" class="deposit--guide-btn" onclick="location.href = 'wallet-deposit-guide.html'">출금 안내 </button>
             </div>
             <div class="mobile-only">
-                <div class="dropdown-wrapper">
+                <div id="currecny" class="dropdown-wrapper">
                     <button type="button" class="dropdown">비트코인 캐시</button>
                     <div class="dropdown--item">
                         <ul>
-                            <li>비트코인 캐시</li>
-                        </ul>
+-                        </ul>
                     </div>
                 </div>
             </div>
+            <script>
+                API.getCurrency(null, (resp) => {
+                    if(resp.success) {
+                        resp.payload.filter((currency) => {
+                            return currency.crypto_currency === 'Y'
+                        }).map((currency) => {
+                            $('#currency').dropdown('add', { text: currency.title, value: currency.symbol })
+
+                            API.getBalance(currency.symbol, (resp) => {
+                                console.log(resp)
+                            })
+
+                        })
+                    }
+                })
+            </script>
             <div class="d-grid deposit">
                 <section class="grid" style="height: 584px">
                     <h1>입금안내</h1>

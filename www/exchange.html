@@ -33,26 +33,49 @@
 <link rel="stylesheet" href="./assets/css/sub.css">
 <link rel="stylesheet" href="./assets/css/exchange.css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css"/>
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script>
-    let USER_INFO = {}
-</script>
 <script src="./assets/js/common.js"></script>
 <script src="./assets/js/api.js"></script>
 <script src="./assets/js/components.js" defer></script>
 <script src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
-<script src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
-<script src="./assets/js/trirand/jquery.jqGrid.min.js" defer></script>
-<script src="./assets/js/trirand/i18n/grid.locale-kr.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 <script src="./assets/js/exchange.js" defer></script>
+<script>
+    let USER_INFO = {}
+
+    API.getMyInfo((resp) => {
+        if(resp.success) {
+            const payload = resp.payload
+
+            USER_INFO = {
+                ...USER_INFO,
+                userno: payload.userno,
+                userid: payload.userid,
+                phone: payload.phone,
+                mobile: payload.mobile,
+                bool_email: payload.bool_email,
+                bool_sms: payload.bool_sms,
+                regdate: payload.regdate,
+                bank_name: payload.bank_name,
+                bank_account: payload.bank_account,
+                bank_owner: payload.bank_owner,
+            }
+
+            if(USER_INFO.userno) {
+                $('.nav--side .btn--login').hide()
+                $('.profile').show()
+                $('.wallet').show()
+                $('.profile .dropdown').text(USER_INFO.userid)
+            }
+        }
+    })
+</script>
 </head>
 <!-- BODY -->
 <body class="sub exchange">
@@ -82,6 +105,33 @@
                 </ul>
                 <div class="nav--side">
                     <a href="login.html" class="btn btn--login">로그인</a>
+                    <div class="profile dropdown-wrapper" style="display: none">
+                        <button type="button" class="dropdown text--blue-gray">
+                            kik**@teaplat.com
+                        </button>
+                        <div class="dropdown--item" style="width: 134px">
+                            <ul>
+                                <li><a href="member-account.html">정보 수정</a></li>
+                                <li><a href="verification.html">ID 인증 관리</a></li>
+                                <li><a href="change-pin-number.html">보안비밀번호변경</a></li>
+                                <li><a href="change-account-number.html">출금계좌 변경</a></li>
+                                <li><a href="transaction.html">거래 내역</a></li>
+                                <li><a href="notification.html">알림</a></li>
+                                <li><a href="withdrawal.html">회원 탈퇴</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="wallet dropdown-wrapper" style="display: none">
+                        <button type="button" class="dropdown">지갑관리</button>
+                        <div class="dropdown--item" style="width: 100px">
+                            <ul>
+                                <li><a href="wallet.html">보유 자산</a></li>
+                                <li><a href="wallet-deposit.html">입금</a></li>
+                                <li><a href="wallet-withdrawal.html">출금</a></li>
+                                <li><a href="wallet-analysis.html">종합 분석</a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="language dropdown-wrapper">
                         <button type="button" class="dropdown">한국어</button>
                         <div class="dropdown--item">
@@ -93,7 +143,43 @@
                 </div>
             </nav>
         </header>
+        <aside class="mobile-panel">
+            <button type="button" class="navigation--back" onclick="$('.mobile-panel').hide(); return false"></button>
+            <h1 class="size--20">고객 센터</h1>
+            <ul>
+                <li>
+                    <a href="notice.html"><i class="icon-desk-fill"></i> <span>공지 사항</span></a>
+                </li>
+                <li>
+                    <a href="my-verification.html"><i class="icon-question"></i> <span>자주하는 질문</span></a>
+                </li>
+                <li>
+                    <a href="inquiry.html"><i class="icon-chat-alt"></i> <span>1:1 문의</span></a>
+                </li>
+            </ul>
+            <h1 class="size--20">사용자 가이드</h1>
+            <ul>
+                <li>
+                    <a href=""><i class="icon-database-fill"></i> <span>거래소</span></a>
+                </li>
+                <li>
+                    <a href=""><i class="icon-load-circle-fill"></i> <span>공동구매와 경매</span></a>
+                </li>
+                <li>
+                    <a href=""><i class="icon-circle-fill"></i> <span>계정 관리</span></a>
+                </li>
+                <li>
+                    <a href=""><i class="icon-circle-fill"></i> <span>지갑 관리</span></a>
+                </li>
+            </ul>
+        </aside>
         <main class="d-grid">
+            <div class="contents mobile-only">
+                <div class="contents--header">
+                    <button type="button" class="navigation"></button>
+                    <h1>거래소</h1>
+                </div>
+            </div>
             <div class="side--panel">
                 <div class="tab-wrapper">
                     <ul class="tabs">
@@ -129,6 +215,8 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -263,7 +351,7 @@
                                 <thead>
                                     <tr>
                                         <th>번호</th>
-                                        <th>구분</th>
+                                        <th class="category">구분</th>
                                         <th>등록일</th>
                                         <th>가격</th>
                                         <th>수량</th>
@@ -284,13 +372,13 @@
                                 <thead>
                                     <tr>
                                         <th>번호</th>
-                                        <th>구분</th>
+                                        <th class="category">구분</th>
                                         <th>등록일</th>
                                         <th>가격</th>
                                         <th>수량</th>
                                         <th>총액</th>
-                                        <th>상태</th>
-                                        <th>거래버튼</th>
+                                        <th class="status">상태</th>
+                                        <th class="trade">거래버튼</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -347,7 +435,36 @@
                 </div>
             </div>
         </main>
+        <div id="modal-buy-success" class="modal modal--tiny" tabindex="-1">
+            <div class="modal--dialog">
+                <div class="modal--header">
+                    구매하기
+                    <button type="button" class="btn btn--close"></button>
+                </div>
+                <div class="modal--content">
+                    <div class="size--18 text--center">다음과 같이 구매하였습니다</div>
+                    <dl>
+                        <dt>대상</dt>
+                        <dd class="tea--name"></dd>
+                    </dl>
+                    <dl>
+                        <dt>수량</dt>
+                        <dd><span class="volume">12</span> 개</dd>
+                    </dl>
+                    <dl>
+                        <dt>총액</dt>
+                        <dd>$ <span class="total">1,200</span></dd>
+                    </dl>
+                    <div class="text--center" style="margin-top: 80px">
+                        <button type="button" class="btn btn--white" onclick="$('#modal-buy-success').myModal('hide')">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <form id="modal-buy" class="modal modal--tiny" tabindex="-1">
+            <input type="hidden" name="symbol" value="">
+            <input type="hidden" name="exchange" value="">
+            <input type="hidden" name="orderid" value="">
             <div class="modal--dialog">
                 <div class="modal--header">
                     구매하기
@@ -366,7 +483,7 @@
                         <dd>
                             <div class="input">
                                 $
-                                <input type="number" value="100.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
+                                <input type="number" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
                             </div>
                         </dd>
                     </dl>
@@ -374,7 +491,7 @@
                         <dt>수량</dt>
                         <dd>
                             <div class="input--spiner">
-                                <input type="number" value="12" min="1">
+                                <input type="number" name="volume" value="1" min="1">
                                 <div class="d-flex">
                                     <button type="button" class="spiner-minus"></button>
                                     <button type="button" class="spiner-plus"></button>
@@ -386,7 +503,7 @@
                         <dt>총액</dt>
                         <dd >
                             <div class="input">
-                                <input type="text" name="" value="$ 1,200" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
+                                <input type="text" name="total" value="$ 0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
                             </div>
                         </dd>
                     </dl>
@@ -395,33 +512,10 @@
                 </div>
             </div>
         </form>
-        <script>
-            $('#modal-buy').submit((e) => {
-                e.preventDefault()
-
-                const symbol = $('[name=symbol]').val()
-                const exchange = $('[name=exchange]').val()
-                const price = $('[name=exchange]').val()
-                const volume = $('[name=exchange]').val()
-
-                API.buy({
-                    symbol: symbol,
-                    exchange: exchange,
-                    price: price,
-                    // 수량
-                    volume: volume,
-                }, (resp) => {
-                    if(resp.success) {
-
-                    } else {
-                        alert(resp.error.message)
-                    }
-                })
-
-                return false
-            })
-        </script>
         <form id="modal-sell" class="modal modal--tiny">
+            <input type="hidden" name="symbol" value="">
+            <input type="hidden" name="exchange" value="">
+            <input type="hidden" name="orderid" value="">
             <div class="modal--dialog">
                 <div class="modal--header">
                     판매하기
@@ -429,7 +523,7 @@
                 </div>
                 <div class="modal--content">
                     <i class="btn btn--star--on"></i>
-                    <span class="" style="font-size: 18px; padding-left: 4px" class="text-bbold">영원호 원창호</span>
+                    <span class="tea--name size--18 text-bbold" style="padding-left: 4px">영원호 원창호</span>
                     <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px">#12345678</div>
                     <dl style="margin-bottom: 18px">
                         <dt>주문가능</dt>
@@ -440,7 +534,7 @@
                         <dd style="width: 220px">
                             <div class="input">
                                 $
-                                <input type="number" name="price" value="100.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
+                                <input type="number" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
                             </div>
                         </dd>
                     </dl>
@@ -448,19 +542,19 @@
                         <dt>수량</dt>
                         <dd style="width: 220px">
                             <div class="input--spiner">
-                                <input type="number" value="12" min="1">
+                                <input type="number" name="volume" value="1" min="1">
                                 <div class="d-flex">
                                     <button type="button" class="spiner-minus"></button>
                                     <button type="button" class="spiner-plus"></button>
                                 </div>
                             </div>
-                    </dd>
+                        </dd>
                     </dl>
                     <dl>
                         <dt>총액</dt>
                         <dd style="width: 220px">
                             <div class="input">
-                                <input type="text" name="" value="$ 1,200" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
+                                <input type="text" name="total" value="$ 1,200" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
                             </div>
                         </dd>
                     </dl>
@@ -659,7 +753,7 @@
             </div>
         </div>
     </div>
-    <footer>
+    <footer class="desktop-only">
         <div class="logo">Teaplat</div>
         <nav class="fnb">
             <ul>

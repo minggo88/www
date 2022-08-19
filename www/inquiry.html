@@ -32,7 +32,6 @@
 <link rel="stylesheet" href="./assets/css/components.css">
 <link rel="stylesheet" href="./assets/css/sub.css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css" />
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
@@ -40,10 +39,37 @@
 <script src="./assets/js/api.js"></script>
 <script>
     let USER_INFO = {}
+
+    API.getMyInfo((resp) => {
+        if(resp.success) {
+            const payload = resp.payload
+
+            USER_INFO = {
+                ...USER_INFO,
+                userno: payload.userno,
+                userid: payload.userid,
+                phone: payload.phone,
+                mobile: payload.mobile,
+                bool_email: payload.bool_email,
+                bool_sms: payload.bool_sms,
+                regdate: payload.regdate,
+                bank_name: payload.bank_name,
+                bank_account: payload.bank_account,
+                bank_owner: payload.bank_owner,
+            }
+
+            if(USER_INFO.userno) {
+                $('.nav--side .btn--login').hide()
+                $('.profile').show()
+                $('.wallet').show()
+                $('.profile .dropdown').text(USER_INFO.userid)
+            }
+        }
+    })
 </script>
 </head>
 <!-- BODY -->
-<body class="sub notice">
+<body class="sub notice inquiry">
     <header>
         <h1 class="logo"><a href="/">Teaplat</a></h1>
         <nav class="nav">
@@ -127,9 +153,10 @@
         </aside>
         <div class="contents">
             <header class="contents--header">
+                <button type="button" class="navigation--back"></button>
                 <h1>Direct Inquiry</h1>
             </header>
-            <table class="board--list">
+            <table class="board--list desktop-only">
                 <colgroup>
                     <col style="width: calc(100% * (64 / 900))">
                     <col style="width: calc(100% * (460 / 900))">
@@ -271,6 +298,9 @@
                     </li>-->
                 </ul>
             </nav>
+            <ul class="notification--list mobile-only">
+                <li></li>
+            </ul>
             <script>
                 let pagination = {
                     point: 0,
@@ -288,14 +318,16 @@
 
                         if(resp.success) {
                             $('.board--list tbody').empty()
+                            $('.notification--list').empty()
+
 
                             resp.payload.data.map((item) => {
                                 const tr = $('<tr>')
+                                const li = $('<li>')
 
-                                const regDate = new Date(parseInt(item.regdate))
+                                    const icon = ''
 
-                                console.log(item.regdate)
-                                console.log(regDate)
+                                const regDate = new Date(parseInt(item.regdate) * 1000)
 
                                 tr.append(`<td><a href=""></a></td>`);
                                 tr.append(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
@@ -303,6 +335,10 @@
                                 tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
                                 tr.append(`<td><a href="inquiry_write.html" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
                                 tr.appendTo('.board--list tbody')
+
+								li.append(`<div class="notification--header"><span class="notifictaion--date">${regDate.getFullYear()}.${String(regDate.getMonth()+1).padStart(2, '0')}.${String(regDate.getDate()).padStart(2, '0')} ${String(regDate.getHours()).padStart(2, '0')}:${String(regDate.getMinutes()).padStart(2, '0')}<span class="notification--nick text--red">답변완료</span></span><a href="" class="btn btn--blue-gray">수정</a></div>`)
+								li.append(`<div class="notification--content">${item.subject}</div>`);
+								li.appendTo('.notification--list')
                             })
 
                             $('.board--pagination > ul').empty()
@@ -352,7 +388,7 @@
             <div class="board--btn"><a href="inquiry_write.html" class="btn btn--red btn--write">문의하기</a></div>
         </div>
     </main>
-    <footer>
+    <footer class="desktop-only">
         <div class="logo">Teaplat</div>
         <nav class="fnb">
             <ul>
