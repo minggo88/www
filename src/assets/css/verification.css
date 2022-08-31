@@ -1,0 +1,22 @@
+main {
+    height: 100%;
+    box-sizing: border-box;
+}
+form {
+    height: auto;
+}
+.verification .form--label {
+    font-family: "Noto Sans KR";
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+.verification input[type=text] {
+    background: #F1F1F1;
+    border: 0 none;
+    height: 37px;
+    line-height: 37px;
+    font-size: 12px;
+}
+.form--btns {
+    margin-top: 167px;
+}

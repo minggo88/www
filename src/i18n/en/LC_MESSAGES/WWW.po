@@ -1,0 +1,56 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-06 13:45+0900\n"
+"PO-Revision-Date: 2022-04-06 14:21+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: ../src/assets/js/app.js:294
+msgid "Please select a image file."
+msgstr "Please select a image file."
+
+#: ../src/assets/js/app.js:300 ../src/assets/js/app.js:383
+msgid "Please select a file smaller than {max_size} MB."
+msgstr "Please select a file smaller than {max_size} MB."
+
+#: ../src/assets/js/app.js:355
+msgid "The file does not exist."
+msgstr "The file does not exist."
+
+#: ../src/assets/js/app.js:515
+msgid "Ready to work."
+msgstr "Ready to work."
+
+#: ../src/assets/js/app.js:525
+msgid "in progress..."
+msgstr "in progress..."
+
+#: ../src/assets/js/app.js:530
+msgid "Quality Improved"
+msgstr "Quality Improved"
+
+#: ../src/assets/js/app.js:532 ../src/assets/js/app.js:546
+msgid "Quality Improvement"
+msgstr "Quality Improvement"
+
+#: ../src/assets/js/app.js:541
+msgid "Processing failed because an error occurred during the remediation operation."
+msgstr "Processing failed because an error occurred during the remediation operation."
+
+#: ../src/assets/js/app.js:547
+msgid "An error occurred while requesting a video enhancements."
+msgstr "An error occurred while requesting a video enhancements."

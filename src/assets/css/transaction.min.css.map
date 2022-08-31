@@ -1,0 +1,8 @@
+{
+    "version": 3,
+    "sources": [
+        "transaction.css"
+    ],
+    "names": [],
+    "mappings": "AAAA,UACI,cAAe,MAEnB,UACI,MAAO,KACP,SAAU,SACV,KAAM,IACN,IAAK,IACL,UAAW,qBAEf,oBACI,WAAY,IACZ,OAAQ,EAAE,KACV,gBAAiB,OACjB,aAAc,EAElB,2BACI,YAAa,IACb,SAAU,SACV,QAAS,aACT,IAAK,IACL,MAAO,EACP,eAAgB,OAChB,UAAW,kBAEf,oCACI,UAAW"
+}

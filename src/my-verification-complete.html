@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- META -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="끽다거 &gt; ID 인증 완료">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
+<title>끽다거</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/colorset.css">
+<link rel="stylesheet" href="./assets/css/common.css">
+<link rel="stylesheet" href="./assets/css/components.css">
+<link rel="stylesheet" href="./assets/css/sub.css">
+<link rel="stylesheet" href="./assets/css/mypage.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
+<style>
+    .product--image {
+        width: 32px;
+        height: 32px;
+        display: inline-block;
+        line-height: 32px;
+        text-align: center;
+        border: 0.35px solid #E5E8EB;
+        border-radius: 2px;
+        margin-right: 3px;
+    }
+
+    .product--image img {
+        vertical-align: middle;
+    }
+</style>
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/common.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js"></script>
+<script>
+    let USER_INFO = {}
+</script>
+</head>
+<!-- BODY -->
+<body class="sub notice">
+    <header>
+        <h1 class="logo"><a href="/">Teaplat</a></h1>
+        <nav class="nav">
+            <ul>
+                <li>
+                    <a href="exchange.html">거래소</a>
+                </li>
+                <li>
+                    <a href="">공동구매</a>
+                </li>
+                <li>
+                    <a href="">경매</a>
+                </li>
+                <li>
+                    <a href="">가이드</a>
+                </li>
+                <li>
+                    <a href="">다도 문화</a>
+                </li>
+                <li>
+                    <a href="">고객센터</a>
+                </li>
+            </ul>
+            <div class="nav--side">
+                <div class="profile dropdown-wrapper">
+                    <button type="button" class="dropdown text--blue-gray">
+                        kik**@teaplat.com
+                    </button>
+                    <div class="dropdown--item" style="width: 134px">
+                        <ul>
+                            <li><a href="member-account.html">정보 수정</a></li>
+                            <li><a href="my-verification.html">ID 인증 관리</a></li>
+                            <li><a href="change-pin-number.html">보안비밀번호변경</a></li>
+                            <li><a href="change-account-number.html">출금계좌 변경</a></li>
+                            <li><a href="transaction.html">거래 내역</a></li>
+                            <li><a href="notification.html">알림</a></li>
+                            <li><a href="withdrawal.html">회원 탈퇴</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wallet dropdown-wrapper">
+                    <button type="button" class="dropdown">지갑관리</button>
+                    <div class="dropdown--item" style="width: 100px">
+                        <ul>
+                            <li><a href="">보유 자산</a></li>
+                            <li><a href="">입금</a></li>
+                            <li><a href="">출금</a></li>
+                            <li><a href="">종합 분석</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="language">
+                    <div class="dropdown-wrapper">
+                        <button type="button" class="dropdown">한국어</button>
+                        <div class="dropdown--item" style="width: 81px">
+                            <span>한국어</span>
+                            <ul>
+                                <li class="dropdown--selected"><a href="">ENG</a></li>
+                                <li><a href="">中文</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="d-grid">
+        <aside class="side">
+            <h1>계정 관리</h1>
+            <nav class="side--snb">
+                <ul>
+                    <li>
+                        <a href="member-account.html">정보 수정</a>
+                    </li>
+                    <li class="snb--active">
+                        <a href="my-verification.html">ID 인증 관리</a>
+                    </li>
+                    <li>
+                        <a href="change-pin-number.html">보안비밀번호 변경</a>
+                    </li>
+                    <li>
+                        <a href="change-account-number.html">출금계좌 변경</a>
+                    </li>
+                    <li>
+                        <a href="transaction.html">거래 내역</a>
+                    </li>
+                    <li>
+                        <a href="notification.html">알림</a>
+                    </li>
+                    <li>
+                        <a href="withdrawal.html">회원 탈퇴</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="contents">
+            <header class="contents--header">
+                <h1>Identity Verification</h1>
+            </header>
+            <form action="my-verification-complete.html" method="post" style="width: 100%; height: auto" >
+                <div class="boxed boxed--transparent text--center d-flex flex-row flex-center" style="height: 333px; padding: 36px 0 56px">
+                    <div class="text--center">
+                        <h2 class="m-0 mb-24 text-red" style="font-family: Inter; font-weight: 700; font-size:20px">Identity Verification Success!</h2>
+                    </div>
+                    <div class="flex-self-center">
+                        <p class="m-0 flex-self-left size--16" style="font-weight: 500">
+                            <span style="font-weight: 900">kikdda@teaplat.com</span> 님은<br>
+                            ID 본인 인증 절차가 모두 완료되었습니다.<br>
+                            <br>
+                            Teaplat에서 모든 금융거래를 진행할 수 있습니다.                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="logo">Teaplat</div>
+        <nav class="fnb">
+            <ul>
+                <li>
+                    <a href="">회사소개</a>
+                </li>
+                <li>
+                    <a href="">이용약관</a>
+                </li>
+                <li>
+                    <a href="">개인정보보호정책</a>
+                </li>
+                <li>
+                    <a href="faq.html">자주묻는질문</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            <span class="company--name">(주)끽다거</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="company--ceo">대표이사 : 안성희</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="company--number">사업자등록번호 : 824-87-00881</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span>
+            <br>
+            전화 : 02-733-9746
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            통신판매업신고번호 : 제 2021-서울종로-0444호
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            이메일 : kkikdageo@naver.com
+            <br><br>
+            Copyright © 2022 (주)끽다거. All rights reserved. 
+        </div>
+        <span class="customer--text">고객상담 · 상담 · 배송 문의</span>
+        <span class="customer--number">02-733-9746</span>
+        <span class="customer--time">평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
+    </footer>
+</body>
+</html>

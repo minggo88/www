@@ -1,0 +1,55 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-06 13:45+0900\n"
+"PO-Revision-Date: 2022-04-06 14:27+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: ../src/assets/js/app.js:294
+msgid "Please select a image file."
+msgstr "이미지 파일을 선택하세요."
+
+#: ../src/assets/js/app.js:300 ../src/assets/js/app.js:383
+msgid "Please select a file smaller than {max_size} MB."
+msgstr "{max_size}MB보다 작은 파일을 선택하세요."
+
+#: ../src/assets/js/app.js:355
+msgid "The file does not exist."
+msgstr "파일이 존재하지 않습니다."
+
+#: ../src/assets/js/app.js:515
+msgid "Ready to work."
+msgstr "준비중입니다."
+
+#: ../src/assets/js/app.js:525
+msgid "in progress..."
+msgstr "진행 중..."
+
+#: ../src/assets/js/app.js:530
+msgid "Quality Improved"
+msgstr "화질 개선 완료"
+
+#: ../src/assets/js/app.js:532 ../src/assets/js/app.js:546
+msgid "Quality Improvement"
+msgstr "화질 개선"
+
+#: ../src/assets/js/app.js:541
+msgid "Processing failed because an error occurred during the remediation operation."
+msgstr "수정 작업 중에 오류가 발생하여 처리에 실패했습니다."
+
+#: ../src/assets/js/app.js:547
+msgid "An error occurred while requesting a video enhancements."
+msgstr "동영상 보정을 요청하는 동안 오류가 발생했습니다."

@@ -1,0 +1,358 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-30 15:26+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../assets/js/app.js:112
+msgid "번역 데이터 가져오지 못함."
+msgstr ""
+
+#: ../assets/js/app.js:186
+msgid ""
+"100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
+msgstr ""
+
+#: ../assets/js/app.js:194
+msgid "파일이름"
+msgstr ""
+
+#: ../assets/js/app.js:230 ../assets/js/app.js:234
+msgid "{item_name} 파일을 저장하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:238
+msgid "{item_name} 파일을 업로드하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:638
+msgid "원"
+msgstr ""
+
+#: ../assets/js/app.js:935
+msgid "파일이 없습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1104
+msgid "로그인 해주세요"
+msgstr ""
+
+#: ../assets/js/app.js:1109
+msgid "회원정보를 등록 해주세요"
+msgstr ""
+
+#: ../assets/js/app.js:1319
+msgid "더이상 내용이 없습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1397
+msgid "후원금을 보내지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1400 ../assets/js/app.js:3105 ../assets/js/app.js:3292
+msgid "이미 사용하셨습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1404 ../assets/js/app.js:3109 ../assets/js/app.js:3296
+msgid "포인트를 보내지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1462 ../assets/js/app.js:1545 ../assets/js/app.js:1737
+#: ../assets/js/app.js:3442 ../assets/js/app.js:3659
+msgid "핀번호를 입력해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1472
+msgid "핀번호가 올바른지 확인해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1537
+msgid "ID(전화번호)를 입력해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1569
+msgid "로그인 정보가 올바른지 확인해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1642 ../assets/js/app.js:3478 ../assets/js/app.js:3695
+msgid "핸드폰 번호를 입력해주세요"
+msgstr ""
+
+#: ../assets/js/app.js:1647 ../assets/js/app.js:3468 ../assets/js/app.js:3685
+msgid "인증번호를 보내는중입니다."
+msgstr ""
+
+#: ../assets/js/app.js:1647 ../assets/js/app.js:3468 ../assets/js/app.js:3685
+msgid "잠시만 기다려주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1668
+msgid "이미 가입하셨습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1668
+msgid "로그인 해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1679 ../assets/js/app.js:3497 ../assets/js/app.js:3714
+msgid "인증번호를 발송했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1682 ../assets/js/app.js:3500 ../assets/js/app.js:3717
+msgid "인증메시지를 보내지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1706 ../assets/js/app.js:3509 ../assets/js/app.js:3726
+msgid "인증 요청을 해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1711 ../assets/js/app.js:3514 ../assets/js/app.js:3731
+msgid "유효시간이 지났습니다. 다시 인증 요청을 해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1715 ../assets/js/app.js:3518 ../assets/js/app.js:3735
+msgid "인증번호를 입력해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1723 ../assets/js/app.js:3525 ../assets/js/app.js:3742
+msgid "휴대폰번호가 인증되었습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1727 ../assets/js/app.js:3529 ../assets/js/app.js:3746
+msgid "올바른 인증번호를 입력해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1760
+msgid "회원가입을 완료했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1763
+msgid "회원가입을 하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1930
+msgid "메시지를 보냈습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1934 ../assets/js/app.js:3101 ../assets/js/app.js:3120
+#: ../assets/js/app.js:3288 ../assets/js/app.js:3307
+msgid "메시지를 보내지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1955 ../assets/js/app.js:2066
+msgid "URL을 입력해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:1970 ../assets/js/app.js:2084
+msgid "추가할 공간이 없습니다."
+msgstr ""
+
+#: ../assets/js/app.js:1970 ../assets/js/app.js:2084
+msgid "기존 사진을 삭제하시고 추가해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2000 ../assets/js/app.js:2115
+msgid "사진 제목을 선택해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2001 ../assets/js/app.js:2116
+msgid "사진 종류를 선택해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2002 ../assets/js/app.js:2118
+msgid "사진을 선택해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2009 ../assets/js/app.js:2125 ../assets/js/app.js:2463
+msgid "업로드중입니다."
+msgstr ""
+
+#: ../assets/js/app.js:2019 ../assets/js/app.js:2135
+msgid "사진 업로드"
+msgstr ""
+
+#: ../assets/js/app.js:2021 ../assets/js/app.js:2137 ../assets/js/app.js:2390
+#: ../assets/js/app.js:2475
+msgid "등록했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:2021 ../assets/js/app.js:2137
+msgid "사진 목록으로 이동하시겠습니까?"
+msgstr ""
+
+#: ../assets/js/app.js:2034 ../assets/js/app.js:2038 ../assets/js/app.js:2150
+#: ../assets/js/app.js:2154 ../assets/js/app.js:2403 ../assets/js/app.js:2407
+#: ../assets/js/app.js:2488 ../assets/js/app.js:2492
+msgid "등록하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:2053
+msgid "BDS지갑 앱을 이용해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2070
+msgid "이미지 파일의 URL을 입력해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2117
+msgid "QR 코드를 스캔해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2184
+msgid "올바른 동영상 HTML을 입력해주세요"
+msgstr ""
+
+#: ../assets/js/app.js:2349
+msgid "올바른 동영상주소를 입력해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2351
+msgid "동영상 제목을 입력해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2352 ../assets/js/app.js:2451
+msgid "동영상 종류를 선택해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2353
+msgid "미리보기 이미지를 선택해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2368
+msgid "상품 배너를 업로드하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:2372
+msgid "상품 배너를 선택해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2390 ../assets/js/app.js:2475
+msgid "동영상 목록으로 이동하시겠습니까?"
+msgstr ""
+
+#: ../assets/js/app.js:2449
+msgid "동영상 파일을 선택해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2450
+msgid "동영상 제목을 선택해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2473
+msgid "동영상 업로드"
+msgstr ""
+
+#: ../assets/js/app.js:2503
+msgid "동영상 정보가 없습니다."
+msgstr ""
+
+#: ../assets/js/app.js:2507
+msgid "\"복구할 수 없게 완전히 삭제함\"에 체크 해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:2511
+msgid "삭제중입니다."
+msgstr ""
+
+#: ../assets/js/app.js:2513
+msgid "공유영상으로 게시"
+msgstr ""
+
+#: ../assets/js/app.js:2515
+msgid "삭제했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:2515
+msgid "목록으로 이동하시겠습니까?"
+msgstr ""
+
+#: ../assets/js/app.js:2528
+msgid "삭제하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:2542
+msgid "선택한 회원을 채팅창에서 강제 퇴장시키시겠습니까?"
+msgstr ""
+
+#: ../assets/js/app.js:2542
+msgid "강제 퇴장된 회원은 모든 메시지가 자동 삭제되며 다시 입장이 불가합니다."
+msgstr ""
+
+#: ../assets/js/app.js:2542
+msgid "선택한 회원을 다시 입장시키시겠습니까?"
+msgstr ""
+
+#: ../assets/js/app.js:2542 ../assets/js/app.js:3055 ../assets/js/app.js:3069
+#: ../assets/js/app.js:3256
+msgid "삭제된 메시지는 복구되지 않습니다."
+msgstr ""
+
+#: ../assets/js/app.js:3055 ../assets/js/app.js:3242
+msgid "삭제하시겠습니까?"
+msgstr ""
+
+#: ../assets/js/app.js:3061 ../assets/js/app.js:3077 ../assets/js/app.js:3248
+#: ../assets/js/app.js:3264
+msgid "메시지를 삭제하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:3069 ../assets/js/app.js:3256
+msgid "전체 메시지를 삭제하시겠습니까?"
+msgstr ""
+
+#: ../assets/js/app.js:3073 ../assets/js/app.js:3260
+msgid "메시지를 삭제했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:3140 ../assets/js/app.js:3326
+msgid "메시지를 작성해주세요."
+msgstr ""
+
+#: ../assets/js/app.js:3454 ../assets/js/app.js:3671
+msgid "핀번호가 일치하지 않습니다!"
+msgstr ""
+
+#: ../assets/js/app.js:3562 ../assets/js/app.js:3566
+msgid "파일을 저장하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:3570
+msgid "파일을 업로드하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:3579
+msgid "저장했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:3583
+msgid "저장하지 못했습니다."
+msgstr ""
+
+#: ../assets/js/app.js:3827
+msgid "등록 되었습니다."
+msgstr ""
+
+#: ../assets/js/app.js:3827
+msgid "입금주소로 결제금액을 입금해주세요."
+msgstr ""
+
+#: ../index.html:56
+msgid "거래소"
+msgstr ""
+
+#: ../index.html:59
+msgid "공동구매"
+msgstr ""
