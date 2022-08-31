@@ -49,8 +49,9 @@ function getCookie( name ){
  * @param URL url 찾고자하는 url. undefined면 window.location.href
  */
  function getURLParameter(key, url) {
-	url = new URL(url || window.location.href);
-	return url.searchParams.get(key)??'';
+    url = new URL(url || window.location.href);
+    r = url.searchParams.get(key)
+	return r ? r : '';
 }
 
 /**
@@ -69,6 +70,20 @@ function setURLParameter(key, val, url) {
 	return url.href;
 }
 
+/**
+ * INPUT 객체에 keydown 이벤트 발생시 숫자만 입력할 수 있도록 하는 필터링함수.
+ * 숫자와 커서이동에 필요한 화살표, 탭, Del, Backspace 키등만 허용되고 모두 필터링.
+ * @param {window.event}} evt
+ * @example $('#login form input[type=password]').on('keydown', input_filter_number)
+ */
+ function input_filter_number (evt) {
+	let keyCode = evt.which?evt.which:event.keyCode,
+		val = String.fromCharCode(keyCode);
+	if(val.match(/[^0-9]/g) && keyCode!=8 && keyCode!=9 && keyCode!=46 && keyCode!=35 && keyCode!=36 && keyCode!=37 && keyCode!=38 && keyCode!=39 && keyCode!=40 && keyCode!=96 && keyCode!=97 && keyCode!=98 && keyCode!=99 && keyCode!=100 && keyCode!=101 && keyCode!=102 && keyCode!=103 && keyCode!=104 && keyCode!=105 && keyCode!=48 && keyCode!=49 && keyCode!=50 && keyCode!=51 && keyCode!=52 && keyCode!=53 && keyCode!=54 && keyCode!=55 && keyCode!=56 && keyCode!=57) {
+		return false;
+	}
+}
+
 // "use strict";
 
 // i18n.js
@@ -84,26 +99,31 @@ function setURLParameter(key, val, url) {
         default_lang = 'ko';
     var lang_data = {},
         lang = navigator.language || navigator.userLanguage,
-        cookielang = getCookie('lang');
+        // cookieLang = getCookie('lang'),
+        localeLang = window.localStorage.locale
+        ;
     lang = lang.substr(0, 2);
     // lang = in_array(lang, support_lang) ? lang : default_lang; // 브라우저 언어 설정값을 기준으로 첫번째 언어를 선택하도록 할때
     lang = default_lang; // 브라우저 언어 설정에 상관없이 처음 언어 지정할때 사용.
-    lang = cookielang && cookielang !== lang && in_array(cookielang, support_lang) ? cookielang : lang;
+    lang = localeLang && localeLang !== lang && in_array(localeLang, support_lang) ? localeLang : lang;
+    // lang = cookieLang && cookieLang !== lang && in_array(cookieLang, support_lang) ? cookieLang : lang;
 
-    if (cookielang !== lang) {
-        setCookie('lang', lang, 365);
-    }
-    if (window.lang !== lang) {
-        window.lang = lang;
-    }
+    if (window.localStorage.locale !== lang) {window.localStorage.locale = lang;}
+    // if (cookieLang !== lang) {setCookie('lang', lang, 365);}
+    if (window.lang !== lang) {window.lang = lang;}
 
-    // test data
-    window.LANG_DATA = {
-        '거래소': 'Exchange'
+    const translate = function (lang_data) {
+        $('[data-i18n]').each(function () { 
+            const str = $(this).html();
+            const trstr = lang_data[str] ? lang_data[str] : '';
+            // console.log(str, trstr)
+            if (trstr) {
+                $(this).html(trstr);
+            }
+        })
     }
 
     const get_lang_data = function(callback) {
-
         let cache_time = Math.ceil(((new Date().getTime()) / 1000) / (60 * 60 * 1));
         let data_file = '/i18n/' + lang + '/LC_MESSAGES/WWW.json?v=' + cache_time;
         httpRequest = new XMLHttpRequest();
@@ -113,11 +133,12 @@ function setURLParameter(key, val, url) {
                     if (httpRequest.status === 200) {
                         r = JSON.parse(httpRequest.responseText);
                         lang_data = r.data;
-                        Model.LANG_DATA = lang_data;
+                        translate(lang_data);
+                        // Model.LANG_DATA = lang_data;
                     } else {
                         console.error(__('번역 데이터 가져오지 못함.'));
                     }
-                    if (callback) { callback(); }
+                    if (callback && typeof callback == typeof function(){}) { callback(); }
                 }
             };
             httpRequest.open('GET', data_file);

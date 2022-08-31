@@ -49,3 +49,9 @@ msgstr "由于修复操作期间发生错误，处理失败。"
 #: ../src/assets/js/app.js:547
 msgid "An error occurred while requesting a video enhancements."
 msgstr "请求视频增强时出错。"
+
+msgid "거래소"
+msgstr "交换"
+
+msgid "공동구매"
+msgstr "团购"

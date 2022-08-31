@@ -274,14 +274,17 @@ $(function() {
     })
 
     $('.language').on('change', (_event, code) => {
-        API.setLanguage(code, (resp) => {
-            if(resp.success) {
-                window.localStorage.locale = code
-                location.reload()
-            } else {
-                alert(resp.error.message)
-            }
-        })
+        if (window.localStorage.locale != code) {
+            API.setLanguage(code, (resp) => {
+                if(resp.success) {
+                    window.localStorage.locale = code
+                    window._c(code);
+                    location.reload()
+                } else {
+                    alert(resp.error.message)
+                }
+            })
+        }
     })
 
     $('input[type=number]').on('keypress', (e) => {

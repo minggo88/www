@@ -54,3 +54,9 @@ msgstr "Processing failed because an error occurred during the remediation opera
 #: ../src/assets/js/app.js:547
 msgid "An error occurred while requesting a video enhancements."
 msgstr "An error occurred while requesting a video enhancements."
+
+msgid "거래소"
+msgstr "Exchange"
+
+msgid "공동구매"
+msgstr "Group Buying"

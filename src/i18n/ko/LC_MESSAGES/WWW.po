@@ -53,3 +53,9 @@ msgstr "수정 작업 중에 오류가 발생하여 처리에 실패했습니다
 #: ../src/assets/js/app.js:547
 msgid "An error occurred while requesting a video enhancements."
 msgstr "동영상 보정을 요청하는 동안 오류가 발생했습니다."
+
+msgid "거래소"
+msgstr "거래소"
+
+msgid "공동구매"
+msgstr "공동구매"
