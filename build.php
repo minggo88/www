@@ -35,8 +35,6 @@ if(stripos(PHP_OS, 'linux')!==false) {
 	exit('지원하지 않는 OS입니다.');
 }
 
-unlink($target_dir.'/index.php');
-
 unlink($target_dir.'/i18n/build.sh');
 unlink($target_dir.'/i18n/library.php');
 unlink($target_dir.'/i18n/po2json.php');
