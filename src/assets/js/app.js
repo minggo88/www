@@ -1378,67 +1378,23 @@ function setURLParameter(key, val, url) {
     /* Controller ----------------------------------------------------------------------------------- */
 
     const fn_index = function() {
-        use_http();
-        add_event_click_left_menu_tab();
-    }
-
-    const fn_support = function() {
-        use_http();
-        // pay 아이콘 클릭시 후원할 PAY 증가시키기
-        $('.pay_ico').on('click', function() {
-            let a = $(this).text().toNumber();
-            let $support_amount = $('[name="support_amount"]');
-            // $support_amount.val( real_number_format($support_amount.val().toNumber() + a) );
-            $support_amount.val(real_number_format(a));
-        });
-        // 후원확인
-        $('[name="btn-sendpay"]').on('click', function() {
-            let a = $('[name="support_amount"]').val().toNumber();
-            let b = $('[name="my_balance"]').val().toNumber();
-            let n = $('[name="creator_name"]').text().trim();
-            if (b < a) {
-                alert('잔액이 부족합니다.');
-                return false;
+        API.getBBSList('notice', 1, 5, (resp) => {
+            if(resp.success) {
+                $('#notice--list').empty()
+                resp.payload.data.map((item) => {
+                    const li = $('<li>')
+                    const regDate = new Date(item.regdate)
+                    li.append(`<a href="notice_detail.html" class="list--text">${item.subject}</a>`);
+                    li.append(`<span class="list--date list--right">${regDate.getFullYear()}.${regDate.getMonth()}.${regDate.getDate()}</sp>`);
+                    li.appendTo('#notice--list')
+                })
             }
-            let c = confirm(n + '회원님에게 ' + real_number_format(a) + 'PAY를 후원하시겠습니까?');
-            if (c) {
-                let send_coin_info = { 'symbol': 'SPAY', 'amount': a, 'coin_name': '' };
-                let data = { 'token': getCookie('token') };
-                // data.video_idx = window.chat_target_idx;
-                // data.service_name = SERVICE_NAME;
-                data.target_idx = window.chat_target_idx;
-                data.symbol = send_coin_info.symbol;
-                data.point_amount = send_coin_info.amount;
-                data.message = ''; //$('[name=message]:visible').val();
-                $.post(API_URL + '/putMyInfo/send_point.php', data, function(r) {
-                    if (r && r.success) {
-                        $.post(API_URL + '/putChatMessage/', data, function(r) {
-                            if (r && r.success) {
-                                $('[name=message]:visible').val('');
-                                send_coin_info = { 'symbol': '', 'amount': 0 };
-                                get_new_message();
-                                alert('후원금을 보냈습니다.');
-                                closeModal();
-                                window.location.reload();
-                            } else {
-                                let msg = r.error && r.error.message ? r.error.message : '';
-                                alert(__('후원금을 보내지 못했습니다.') + ' ' + msg);
-                            }
-                        });
-                        $('.support-coins .btn-coins').attr('disabled', true).attr('title', __('이미 사용하셨습니다.')); // 모든 버튼 비활성화 시킬때 사용.
-                        $('[name=btn-close-popup]').click();
-                    } else {
-                        let msg = r.error && r.error.message ? r.error.message : '';
-                        alert(__('포인트를 보내지 못했습니다.') + ' ' + msg);
-                    }
-                });
-            }
-            return false;
         })
     }
 
+
     const fn_check_pin = function() {
-        use_http();
+        
 
         window.keypress_support = false;
 
@@ -1506,7 +1462,7 @@ function setURLParameter(key, val, url) {
 
     }
     const fn_login = function() {
-        use_http();
+        
 
         window.keypress_support = false;
 
@@ -1623,7 +1579,7 @@ function setURLParameter(key, val, url) {
     }
     window.logout = fn_logout;
     const fn_join = function() {
-        use_http();
+        
         // 약관가져오기
         $.get('/template/stube/uselaw_ko.txt', function(r) { ///template/uselaw_'+APP_LANG+'.txt
             $('#join [name=uselaw]').text(r);
@@ -1798,7 +1754,7 @@ function setURLParameter(key, val, url) {
     }
 
     // const fn_userinfo = function() {
-    //     use_http();
+    //     
     //     check_login();
     //     rander('user_info', Model.user_info, null, true);
     //     if (Model.user_info.level) {
@@ -1810,7 +1766,7 @@ function setURLParameter(key, val, url) {
     //     }
     // }
     const fn_transaction = function() {
-        use_http();
+        
         check_login();
         let wallet_address = $('[name=wallet_address]').val();
         let rows = $('[name=rows]').val();
@@ -1846,7 +1802,7 @@ function setURLParameter(key, val, url) {
     }
 
     const fn_message = function() {
-        use_http();
+        
         check_login();
         // rander('user_info', Model.user_info, null, true);
         $('[name=btn-gotolist]').on('click', function() {
@@ -1939,7 +1895,7 @@ function setURLParameter(key, val, url) {
         })
     }
     const fn_write_msg = function() {
-        use_http();
+        
         check_login();
         var myeditor_kr = new cheditor();
         myeditor_kr.templateFile = 'template-simple.xml';
@@ -1967,13 +1923,13 @@ function setURLParameter(key, val, url) {
 
 
     const fn_upload_type = function() {
-        use_http();
+        
         check_login();
         //check_userinfo();
     }
 
     const fn_photo_upload = function() {
-        use_http();
+        
         check_login();
         // url로 가져오기
         $('[name=photo-download]').on('click', function() {
@@ -2070,7 +2026,7 @@ function setURLParameter(key, val, url) {
     }
 
     const fn_photo_event = function() {
-        use_http();
+        
         check_login();
         // QR스캔 시작
         $('.box-qr, .box-qrscan').on('click', function() {
@@ -2189,7 +2145,7 @@ function setURLParameter(key, val, url) {
     //     fn_video_link();
     // }
     const fn_video_link = function() {
-        use_http();
+        
         check_login();
         $('.modal').on('click', '[name="btn-preivew"]', function() {
             let html = $.trim($('#htmlcode').val()),
@@ -2440,7 +2396,7 @@ function setURLParameter(key, val, url) {
     }
 
     const fn_video_upload = function() {
-        use_http();
+        
         check_login();
         $('#video_file').on('change', function(event) {
             view_video(this, $($(this).attr('data-target')));
@@ -2524,7 +2480,7 @@ function setURLParameter(key, val, url) {
     }
 
     const fn_video_delete = function() {
-        use_http();
+        
         check_login();
         $('.modal').on('submit', '[name="form-video-delete"]', function() {
             let video_idx = $('[name=video_idx]').val();
@@ -3024,7 +2980,7 @@ function setURLParameter(key, val, url) {
 
     // views 페이지 controller
     const fn_views = function() {
-        use_http();
+        
         // 화상채팅시작 버튼
         $('.cam')
         .on('click', '.btn-open-cam', function(){
@@ -3242,7 +3198,7 @@ function setURLParameter(key, val, url) {
     }
 
     const fn_user_main = function() {
-        use_http();
+        
 
         // 채팅 박스 DOM 복사
         $('.mobile_cheat_box').append($('.chat_box').clone());
@@ -3407,7 +3363,7 @@ function setURLParameter(key, val, url) {
      * 회원정보 보기 및 수정
      */
     const fn_user_info = function() {
-        use_http();
+        
 
         // check pin 확인.
         if (Model.check_pin < time() - 60 * 10) {
@@ -3637,7 +3593,7 @@ function setURLParameter(key, val, url) {
     }
 
     const fn_user_edit = function() {
-        use_http();
+        
         $('#check_pin').show();
         $('#edit_info').hide();
 
@@ -3779,7 +3735,7 @@ function setURLParameter(key, val, url) {
     }
 
     const fn_cate = function() {
-        use_http();
+        
         add_event_click_left_menu_tab();
         let page = 1;
         const cate_idx = getURLParameter('cate_idx');
@@ -3801,7 +3757,7 @@ function setURLParameter(key, val, url) {
     }
 
     const fn_search = function() {
-        use_http();
+        
         let page = 1;
         const cate_idx = getURLParameter('cate_idx');
         const keyword = getURLParameter('keyword');
@@ -3883,9 +3839,10 @@ function setURLParameter(key, val, url) {
 
 
     // php 파일용 컨트롤러 실행
-    let page_controller = window.location.pathname.replace(/\/(.*).php/, '$1');
+    let page_controller = window.location.pathname.replace(/\/(.*).php|html/, '$1');
     page_controller = page_controller.replace(/-/g, '_');
     page_controller = page_controller && page_controller != '/' ? page_controller : 'index';
+    page_controller = page_controller.indexOf('/') === 0 ? substr(page_controller, 1) : page_controller;
     // function run_fn(fn) {
     //     // console.log(fn);
     //     try {
@@ -3896,7 +3853,7 @@ function setURLParameter(key, val, url) {
     // }
     // run_fn('fn_' + page_controller);
     try {
-        console.log('fn_' + page_controller + '()'); 
+        console.log('fn_' + page_controller + '()');  //fn_/index.html()
         eval('fn_' + page_controller + '()');
     } catch (e) {
         // console.error(e)
