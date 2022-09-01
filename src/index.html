@@ -41,7 +41,6 @@
 
 <script src="./assets/js/lib/php.default.min.js"></script>
 <script src="./assets/js/lib/security.min.js"></script>
-<script src="./assets/js/app.js"></script>
 <script>
     let USER_INFO = {}
 </script>
@@ -53,7 +52,7 @@
         <nav class="nav">
             <ul>
                 <li class="active">
-                    <a href="exchange.html" data-i18n placeholder="place\"holder" alt="alt" title="title">거래소</a>
+                    <a href="exchange.html" data-i18n>거래소</a>
                 </li>
                 <li>
                     <a href="" data-i18n>공동구매</a>
@@ -285,23 +284,6 @@
             </ul>
         </section>
     </main>
-    <script>
-        // API.getBBSList('notice', 1, 5, (resp) => {
-        //     if(resp.success) {
-        //         $('#notice--list').empty()
-
-        //         resp.payload.data.map((item) => {
-        //             const li = $('<li>')
-
-        //             const regDate = new Date(item.regdate)
-
-        //             li.append(`<a href="notice_detail.html" class="list--text">${item.subject}</a>`);
-        //             li.append(`<span class="list--date list--right">${regDate.getFullYear()}.${regDate.getMonth()}.${regDate.getDate()}</sp>`);
-        //             li.appendTo('#notice--list')
-        //         })
-        //     }
-        // })
-    </script>
     <section class="section--service text--white">
         <h1 data-i18n>모바일 APP에서 누리는 더 편리하고 안전한 거래</h1>
         <div style="height: 88px; align-self: center">
@@ -398,6 +380,7 @@
         <span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
     </footer>
     <script src="./assets/js/front.js"></script>
+    <script src="./assets/js/app.js?t={version}"></script>
 
 </body>
 </html>
