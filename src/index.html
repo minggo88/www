@@ -281,56 +281,26 @@
                     <span class="list--date text-right">
                         22.03.17
                     </span>
-                </li>
-                <li>
-                    <a href="notice_detail.html" class="list--text">공지사항 2</a>
-                    <span class="list--date text-right">
-                        22.03.17
-                    </span>
-                </li>
-                <li>
-                    <a href="notice_detail.html"  class="list--text">공지사항 3</a>
-                    <span class="list--date text-right">
-                        22.03.17
-                    </span>
-                </li>
-                <li>
-                    <a href="notice_detail.html" class="list--text">공지사항 4</a>
-                    <span class="list--date text-right">
-                        22.03.17
-                    </span>
-                </li>
-                <li>
-                    <a href="notice_detail.html" class="list--text">공지사항 3</a>
-                    <span class="list--date text-right">
-                        22.03.17
-                    </span>
-                </li>
-                <li>
-                    <a href="notice_detail.html" class="list--text">공지사항 4</a>
-                    <span class="list--date text-right">
-                        22.03.17
-                    </span>
                 </li>-->
             </ul>
         </section>
     </main>
     <script>
-        API.getBBSList('notice', 1, 5, (resp) => {
-            if(resp.success) {
-                $('#notice--list').empty()
+        // API.getBBSList('notice', 1, 5, (resp) => {
+        //     if(resp.success) {
+        //         $('#notice--list').empty()
 
-                resp.payload.data.map((item) => {
-                    const li = $('<li>')
+        //         resp.payload.data.map((item) => {
+        //             const li = $('<li>')
 
-                    const regDate = new Date(item.regdate)
+        //             const regDate = new Date(item.regdate)
 
-                    li.append(`<a href="notice_detail.html" class="list--text">${item.subject}</a>`);
-                    li.append(`<span class="list--date list--right">${regDate.getFullYear()}.${regDate.getMonth()}.${regDate.getDate()}</sp>`);
-                    li.appendTo('#notice--list')
-                })
-            }
-        })
+        //             li.append(`<a href="notice_detail.html" class="list--text">${item.subject}</a>`);
+        //             li.append(`<span class="list--date list--right">${regDate.getFullYear()}.${regDate.getMonth()}.${regDate.getDate()}</sp>`);
+        //             li.appendTo('#notice--list')
+        //         })
+        //     }
+        // })
     </script>
     <section class="section--service text--white">
         <h1 data-i18n>모바일 APP에서 누리는 더 편리하고 안전한 거래</h1>

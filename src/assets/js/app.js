@@ -115,8 +115,9 @@ function setURLParameter(key, val, url) {
     const translate = function (lang_data) {
         $('[data-i18n]').each(function () { 
             const str = $(this).html();
+            console.log(str)
             const trstr = lang_data[str] ? lang_data[str] : '';
-            // console.log(str, trstr)
+            console.log(trstr)
             if (trstr) {
                 $(this).html(trstr);
             }
