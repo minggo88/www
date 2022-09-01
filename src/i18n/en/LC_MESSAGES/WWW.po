@@ -60,3 +60,187 @@ msgstr "Exchange"
 
 msgid "공동구매"
 msgstr "Group Buying"
+
+#: ../index.html
+msgid "경매"
+msgstr "Auction"
+
+#: ../index.html
+msgid "가이드"
+msgstr "guide"
+
+#: ../index.html
+msgid "다도 문화"
+msgstr "tea ceremony culture"
+
+#: ../index.html
+msgid "고객센터"
+msgstr "Service center"
+
+#: ../index.html
+msgid "로그인"
+msgstr "login"
+
+#: ../index.html
+msgid "<b>새로운 인증시스템</b>의 <b>글로벌 표준 <span class=\"highlight\">차 거래소</span></b>"
+msgstr "<b>Global standard of <b>new authentication system</b> <span class=\"highlight\">Tea exchange</span></b>"
+
+#: ../index.html
+msgid "place\\"holder"
+msgstr "place\\"holder"
+
+#: ../index.html
+msgid "alt"
+msgstr "alt"
+
+#: ../index.html
+msgid "title"
+msgstr "title"
+
+#: ../index.html
+msgid "안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다."
+msgstr "We provide a fast and convenient trading environment with a safe and transparent system."
+
+#: ../index.html
+msgid "거래소 둘러보기"
+msgstr "Browse exchanges"
+
+#: ../index.html
+msgid "지수"
+msgstr "Indices"
+
+#: ../index.html
+msgid "기간"
+msgstr "period"
+
+#: ../index.html
+msgid "보이차 시세"
+msgstr "Puer Tea Price"
+
+#: ../index.html
+msgid "전체보기"
+msgstr "View all"
+
+#: ../index.html
+msgid "공지사항"
+msgstr "Notice"
+
+#: ../index.html
+msgid "전체보기"
+msgstr "View all"
+
+#: ../index.html
+msgid "모바일 APP에서 누리는 더 편리하고 안전한 거래"
+msgstr "More convenient and safer transactions in the mobile APP"
+
+#: ../index.html
+msgid "Download Teaplat APP"
+msgstr "Download Teaplat APP"
+
+#: ../index.html
+msgid "Android"
+msgstr "Android"
+
+#: ../index.html
+msgid "iOS"
+msgstr "iOS"
+
+#: ../index.html
+msgid "누구나 쉽고 빠른 거래"
+msgstr "Easy and fast transaction for anyone"
+
+#: ../index.html
+msgid "계좌이체보다 주식보다 쉽고 빠른 거래가 가능합니다"
+msgstr "It is easier and faster to trade than stocks than by bank transfer."
+
+#: ../index.html
+msgid "전문 노하우를 통한 진품 거래"
+msgstr "Genuine trade through professional know-how"
+
+#: ../index.html
+msgid "30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게<br>도와드립니다"
+msgstr "Through 30 years of professional know-how, we will help you identify and invest only genuine products."
+
+#: ../index.html
+msgid "전세계 어디에서나"
+msgstr "anywhere in the world"
+
+#: ../index.html
+msgid "글로벌 시스템으로 전세계 어디에서나 거래가 가능하며 다양한 언어를 지원합니다"
+msgstr "The global system allows you to trade anywhere in the world and supports multiple languages."
+
+#: ../index.html
+msgid "한눈에 투자 현황 조회"
+msgstr "Investment status at a glance"
+
+#: ../index.html
+msgid "내가 투자하고 거래하는 보이차의 시세 변화를 손쉽게 파악할 수 있습니다"
+msgstr "I can easily understand the price changes of Puer cars that I invest and trade"
+
+#: ../index.html
+msgid "투명하고 안전한 거래"
+msgstr "Transparent and secure transactions"
+
+#: ../index.html
+msgid "블록체인 기술의 도입으로 투명한 거래 이력과 완벽한 보안을 제공합니다"
+msgstr "With the introduction of blockchain technology, we provide transparent transaction history and complete security."
+
+#: ../index.html
+msgid "공동구매와 경매"
+msgstr "joint purchase and auction"
+
+#: ../index.html
+msgid "소액으로 고급차에 투자할 수 있도록 공동구매와 경매를 지원하여 합리적인 거래를 추구합니다"
+msgstr "We pursue reasonable transactions by supporting group purchases and auctions so that small amounts of money can be invested in luxury cars."
+
+#: ../index.html
+msgid "Teaplat"
+msgstr "Teaplat"
+
+#: ../index.html
+msgid "회사소개"
+msgstr "About Us"
+
+#: ../index.html
+msgid "이용약관"
+msgstr "Terms of service"
+
+#: ../index.html
+msgid "개인정보보호정책"
+msgstr "Privacy Policy"
+
+#: ../index.html
+msgid "자주묻는질문"
+msgstr "Frequently Asked Questions"
+
+#: ../index.html
+msgid "대표이사"
+msgstr "CEO"
+
+#: ../index.html
+msgid "사업자등록번호"
+msgstr "Company Registration Number"
+
+#: ../index.html
+msgid "주소"
+msgstr "Address"
+
+#: ../index.html
+msgid "전화"
+msgstr "Telephone"
+
+#: ../index.html
+msgid "통신판매업신고번호"
+msgstr "Mail-Order Business Report Number"
+
+#: ../index.html
+msgid "이메일"
+msgstr "E-Mail"
+
+#: ../index.html
+msgid "고객상담 · 상담 · 배송 문의"
+msgstr "Customer Consultation · Consultation · Delivery Inquiry"
+
+#: ../index.html
+msgid "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
+msgstr "Weekdays 10:00 ~ 18:00 (Lunch 13:00 ~ 14:00)"

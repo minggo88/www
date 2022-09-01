@@ -115,7 +115,7 @@ class i18n
 					preg_match('/^(.*)\s"(.*)"$/', $row, $matches); // 키 "값" 으로 추출
 					if (trim($matches[1]) != '') {
 						$key = $matches[1];
-						$val = $matches[2] ? $matches[2] : '';
+						$val = $matches[2] ? str_replace('\"', '"', $matches[2]) : '';
 						if ($key == 'msgid' || $key == 'msgstr') {
 							$$key[] = $val;
 						}
