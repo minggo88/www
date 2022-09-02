@@ -495,6 +495,7 @@ header .typography h1 .highlight::after {
 		text-overflow:ellipsis;
 		white-space:nowrap;
 	}
+
 	.section--service{height: auto;}
 	footer{
 		flex-direction: column;
