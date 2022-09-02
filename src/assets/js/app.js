@@ -88,7 +88,8 @@ function setURLParameter(key, val, url) {
 
 // i18n.js
 
-(function() {
+(function () {
+    const i18n_key = 'i189n';
     const in_array = function(val, array) {
         for (i in array) {
             if (array[i] == val) return true;
@@ -97,7 +98,7 @@ function setURLParameter(key, val, url) {
     }
     const support_lang = ['en', 'zh', 'ja', 'vi', 'th', 'ko'],
         default_lang = 'ko';
-    var lang_data = {},
+    var lang_data = window.localStorage['lang_data_'+lang] ? JSON.parse(Decrypt(window.localStorage['lang_data_'+lang], i18n_key, 256)) : {},
         lang = navigator.language || navigator.userLanguage,
         // cookieLang = getCookie('lang'),
         localeLang = window.localStorage.locale
@@ -115,9 +116,9 @@ function setURLParameter(key, val, url) {
     const translate = function (lang_data) {
         $('[data-i18n]').each(function () { 
             const str = $(this).html();
-            console.log(str)
+            // console.log(str)
             const trstr = lang_data[str] ? lang_data[str] : '';
-            console.log(trstr)
+            // console.log(trstr)
             if (trstr) {
                 $(this).html(trstr);
             }
@@ -133,8 +134,10 @@ function setURLParameter(key, val, url) {
                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
                     if (httpRequest.status === 200) {
                         r = JSON.parse(httpRequest.responseText);
+                        console.log(r);
+                        window.localStorage['lang_data_'+lang] = Encrypt(JSON.stringify(r), i18n_key, 256);
                         lang_data = r.data;
-                        translate(lang_data);
+                        translate(r.data);
                         // Model.LANG_DATA = lang_data;
                     } else {
                         console.error(__('번역 데이터 가져오지 못함.'));
@@ -146,7 +149,14 @@ function setURLParameter(key, val, url) {
             httpRequest.send();
         }
     }
-    get_lang_data();
+    // 번역 데이터 캐시 시간 확인
+    if (!lang_data.gentime || lang_data.gentime < time() - 60 * 60) {
+        get_lang_data();
+    }
+    if (lang_data.data) {
+        lang_data = lang_data.data;
+        translate(lang_data);
+    }
     window.__ = function(key) {
         return lang_data && lang_data[key] ? lang_data[key] : key;
     };
