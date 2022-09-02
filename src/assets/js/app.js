@@ -152,9 +152,7 @@ function get_str_by_keycode(keycode) {
     const translate = function (lang_data) {
         $('[data-i18n]').each(function () { 
             const str = $(this).html();
-            // console.log(str)
             const trstr = lang_data[str] ? lang_data[str] : '';
-            // console.log(trstr)
             if (trstr) {
                 $(this).html(trstr);
             }
@@ -170,7 +168,6 @@ function get_str_by_keycode(keycode) {
                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
                     if (httpRequest.status === 200) {
                         r = JSON.parse(httpRequest.responseText);
-                        console.log(r);
                         window.localStorage['lang_data_'+lang] = Encrypt(JSON.stringify(r), i18n_key, 256);
                         lang_data = r.data;
                         translate(r.data);
@@ -689,7 +686,6 @@ function get_str_by_keycode(keycode) {
         window.Model = Model;
     }
     // Model.addChangeListener = addChangeListener;
-    console.log('Model.token:', Model.token);
 
     // 기본 데이터 셋팅
     // Model.user_info = {};
@@ -1315,6 +1311,11 @@ function get_str_by_keycode(keycode) {
             window.location.href = LOGIN_PAGE;
         }
     }
+    const check_logout = function() {
+        if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
+            window.location.href = "/";
+        }
+    }
 
     /**
      * 새 채팅 매시지 가져오기
@@ -1504,7 +1505,8 @@ function get_str_by_keycode(keycode) {
         });
 
     }
-    const fn_login = function() {
+    const fn_login = function () {
+        check_logout();
         window.keypress_support = false;
 
         // 폼 초기화
@@ -1534,24 +1536,15 @@ function get_str_by_keycode(keycode) {
             API.login(email, password, (r) => {
                 if (r && r.success && r.payload) {
                     setCookie('token', r.payload.token);
-                    console.log('Model.token:', Model.token);
                     Model.token = r.payload.token;
-                    console.log('Model.token:', Model.token);
                     Model.last_login_info = { 'userid': email };
                     let user_info = { 'userid': email };
-                    console.log('Model.user_info:', Model.user_info);
-                    console.log('window.sessionStorage.user_info:', window.sessionStorage.user_info);
-                    console.log('window.localStorage.user_info:', window.localStorage.user_info);
                     Model.user_info = user_info;
-                    console.log('Model.user_info:', Model.user_info);
-                    console.log('window.sessionStorage.user_info:', window.sessionStorage.user_info);
-                    console.log('window.localStorage.user_info:', window.localStorage.user_info);
                     get_user_wallet();
                     get_user_info();
                     let ret_url = getURLParameter('ret_url')
                     ret_url = ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
                     ret_url = setURLParameter('t', time(), ret_url);
-                    console.log('Model.token:', Model.token);
                     window.location.href = ret_url;
                 } else {
                     let msg = r.error && r.error.message ? r.error.message : __('로그인 정보가 올바른지 확인해주세요.');
@@ -1563,11 +1556,12 @@ function get_str_by_keycode(keycode) {
         });
 
     }
-    const fn_logout = function() {
+    const fn_logout = function () {
         $.post(API_URL + '/logout/', { 'token': getCookie('token') }, function(r) {
             // console.log(r);
             // if(r && r.success && !r.error) {
             Model.user_info = {};
+            reset_logedin_status();
             Model.auto_login = false;
             Model.visited_notice = false;
             setCookie('token', '', -1);
@@ -1784,7 +1778,7 @@ function get_str_by_keycode(keycode) {
                 add_request_item('/getTransactionList/', {'symbol':'SPAY', 'address':wallet_address,'page':p, 'rows':rows}, function(r){
                     if(r && r.success) {
                         let html = [];
-                        console.log(r.payload);
+                        // console.log(r.payload);
                         for(i in r.payload) {
                             let row = r.payload[i];
                             if(row.cnt_total) cnt_total = row.cnt_total;
@@ -2259,7 +2253,7 @@ function get_str_by_keycode(keycode) {
                                     pe = category.indexOf(')'),
                                     ename = category.substr(0, ps),
                                     name = category.substr(ps + 1, pe - ps - 1);
-                                console.log(r.payload.keywords.match(new RegExp(ename, 'i')), r.payload.keywords.match(new RegExp(name, 'i')));
+                                // console.log(r.payload.keywords.match(new RegExp(ename, 'i')), r.payload.keywords.match(new RegExp(name, 'i')));
                                 if (r.payload.keywords.match(new RegExp(ename, 'i')) || r.payload.keywords.match(new RegExp(name, 'i'))) {
                                     $('#cate_idx').val(val);
                                 }
@@ -3006,7 +3000,7 @@ function get_str_by_keycode(keycode) {
         // 화상채팅 박스 영역 세로(수직)화면 가운데로 정렬시키기
         let check_vertical_video = function() {
             $('.cam .user video').each(function(){
-                console.log($(this).width(),$(this).height());
+                // console.log($(this).width(),$(this).height());
                 if($(this).width() < $(this).height()) {
                     $(this).addClass('vertical');
                 } else {
@@ -3811,7 +3805,7 @@ function get_str_by_keycode(keycode) {
             alert('입금자명을 입력해주세요.'); $('#pay [name=deposit_name]').focus(); return ;
         }
         $.post(API_URL+'/charge/', {'goods_no':goods_no, 'pay_amount':pay_amount, 'pay_symbol':pay_symbol, 'charge_amount':charge_amount, 'charge_symbol':charge_symbol, 'app_id':SERVICE_NAME, 'service_name':SERVICE_NAME, 'pay_method':'bank', 'deposit_name':deposit_name, 'address':address, 'token':getCookie('token')}, function(r){
-            console.log(r);
+            // console.log(r);
             if(r && r.success) {
                 alert(__('등록 되었습니다.')+'<br> '+__('입금주소로 결제금액을 입금해주세요.'));
             } else {
@@ -3822,6 +3816,19 @@ function get_str_by_keycode(keycode) {
     }
 
     /* 공통 기능 ----------------------------------------------------------------------------------- */
+
+    const reset_logedin_status = function () {
+        const user_info = Model.user_info;
+        console.log('user_info:', user_info);
+        if (user_info.userno && user_info.userid) {
+            $('[name=box_logedin]').show();
+            $('[name=box_unlogedin]').hide();
+        } else {
+            $('[name=box_logedin]').hide();
+            $('[name=box_unlogedin]').show();
+        }
+    };
+    // reset_logedin_status();
 
     /* 로그아웃 */
     $('[name="btn-logout"]').on('click', function() {
@@ -3858,7 +3865,7 @@ function get_str_by_keycode(keycode) {
     // }
     // run_fn('fn_' + page_controller);
     try {
-        console.log('fn_' + page_controller + '()');  //fn_/index.html()
+        // console.log('fn_' + page_controller + '()');  //fn_/index.html()
         eval('fn_' + page_controller + '()');
     } catch (e) {
         // console.error(e)
@@ -3870,14 +3877,11 @@ function get_str_by_keycode(keycode) {
      * 회원정보 가져오기
      */
     const get_user_info = function () {
-        console.log('get_user_info getCookie(token):', getCookie('token'))
-        console.log('get_user_info Model.token:', Model.token)
         add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
-            console.log('get_user_info r:', r)
             if (r && r.success && !r.error) {
                 let user_info = r.payload;
-                console.log('get_user_info user_info:', user_info)
                 Model.user_info = user_info;
+                reset_logedin_status();
             }
         });
     }
