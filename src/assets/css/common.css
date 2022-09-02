@@ -460,7 +460,6 @@ footer .copyright address{
 	flex-wrap:wrap;
 }
 footer .copyright address > span{display: inline-block; margin-right: 4%;}
-/* footer .copyright address > span:last-child, .copyright .email > span:last-child{margin-right: 0;} */
 
 footer .copyright .copy{margin-top: 20px;}
 
