@@ -2126,7 +2126,7 @@ input[type=file].image-selector::after{
 @media (max-width: 600px) { 
     .validation--message {
         padding: 0 0 0 24px;
-        background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat 0 50%;
+        background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat;
         color: var(--warning);
     }
     .step--list {
