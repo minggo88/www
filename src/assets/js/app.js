@@ -317,24 +317,24 @@ function get_str_by_keycode(keycode) {
     const APP_LOAD_TIME = new Date().getTime();
     let APP_RUNMODE = 'live';
     let TOKEN_DOMAIN = window.location.host; //"";
-    let API_URL = "https://api." + (window.location.host.replace('www.', '')) + "/v1.0";
+    let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
     // let API_WALLET_URL = 'https://api.wallet.smart-talk.io/v1.0';
     SERVICE_DOMAIN = window.location.host.replace('www.','');
     if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
         APP_RUNMODE = "loc";
-        API_URL = "http://api." + (window.location.host) + "/v1.0";
+        API_URL = "//api." + (window.location.host) + "/v1.0";
         // SERVICE_DOMAIN = window.location.host.replace('www.','');
         // API_WALLET_URL = 'http://loc.wallet.smart-talk.io/api/v1.0';
     }
     if (window.location.host.indexOf('dev.') !== -1) {
         APP_RUNMODE = "dev";
-        API_URL = "http://api." + (window.location.host) + "/v1.0";
+        API_URL = "//api." + (window.location.host) + "/v1.0";
         // SERVICE_DOMAIN = window.location.host.replace('www.','');
         // API_WALLET_URL = 'http://dev.wallet.smart-talk.io/api/v1.0';
     }
     if (window.location.host.indexOf('stage.') !== -1) {
         APP_RUNMODE = "stage";
-        API_URL = "https://api." + (window.location.host) + "/v1.0";
+        API_URL = "//api." + (window.location.host) + "/v1.0";
         // SERVICE_DOMAIN = window.location.host.replace('www.','');
         // API_WALLET_URL = 'http://stage.wallet.smart-talk.io/api/v1.0';
     }
