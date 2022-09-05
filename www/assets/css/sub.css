@@ -59,12 +59,37 @@ main {
 	.sub.notice .contents--header > div{display: flex;}
 	.sub.notice .contents{position: relative;}
 	.sub.notice .contents--header{display: flex; align-items: center; justify-content: space-between;}
+	.sub.notice.write .contents--header h1{display: none;}
+	.sub.notice .contents--header h2{margin: 0; font-size: 16px; color: #333;}
 	.sub.notice .contents--header .mobile-only .btn{text-indent: 100%; white-space: nowrap; overflow: hidden; width: 25px;}
+	/* .sub.notice.write .contents--header .mobile-only .btn{
+		width: 30px; background:inherit;
+		color:#BDC4CB;
+		text-indent: 0;
+		overflow: visible;
+		white-space: initial;
+		font-weight: 500;
+	} */
 	.sub.notice .contents--header .mobile-only .btn::after{
 		display: block; content:"+"; position: absolute; 
-		font-size: 28px; color:#B81C22;
+		font-size: 28px; color:#B81C22; font-weight: 500;
 		top: 0; right: 15px;
 	}
+	.sub.notice.write .contents--header .mobile-only .btn::after{
+		content:"등록";
+		font-size: 16px; color:#BDC4CB; 
+		right: 25px;
+	}
+
+	.sub.notice.write .form--controls:nth-of-type(1){
+		margin-top: 25px; padding-bottom: 20px; border-bottom: 1px solid #F5F5F5;
+	}
+	.sub.notice.write .form--controls input[type=text]{border: none; font-size: 24px; width: 100%; padding: 0; height: 32px; color: #333;}
+	.sub.notice.write .form--controls input[type=text]:focus{outline: none;}
+	.sub.notice.write .form--controls input[type=text]::placeholder{color: #DFDFDF;}
+	.sub.notice.write .form--controls textarea{color: #333; border: none; padding: 0; height: 600px; margin-top: 10px;}
+	.sub.notice.write .form--controls textarea::placeholder{font-size: 14px; color: #dfdfdf; font-weight: 400;}
+	.sub.notice.write .form--controls textarea:focus{outline: none;}
 	.sub.notice .accordion{width: 100%;}
 	.sub.notice header.accordion--header{padding-left: 0;}
 	.sub.notice .text-red + span{font-size: 16px;}
