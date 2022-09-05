@@ -14,12 +14,12 @@ if($dh = opendir($i18n_path)) {
 		if ($dir == "." || $dir == ".." || is_file($lang_path)) {
 			continue;
 		}
-		$i18n->gen_i18n_file($lang_path.'/LC_MESSAGES/www.po');
+		$i18n->gen_i18n_file($lang_path.'/LC_MESSAGES/WWW.po');
 	}
 }
-// $i18n->gen_i18n_file('www/i18n/en/LC_MESSAGES/www.po');
-// $i18n->gen_i18n_file('www/i18n/ko/LC_MESSAGES/www.po');
-// $i18n->gen_i18n_file('www/i18n/zh/LC_MESSAGES/www.po');
+// $i18n->gen_i18n_file('www/i18n/en/LC_MESSAGES/WWW.po');
+// $i18n->gen_i18n_file('www/i18n/ko/LC_MESSAGES/WWW.po');
+// $i18n->gen_i18n_file('www/i18n/zh/LC_MESSAGES/WWW.po');
 echo "다국어빌드 작업 끝 ".PHP_EOL;
 
 // 소스 복사
