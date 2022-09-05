@@ -15,12 +15,31 @@ header {
 }
 
 .tttt {
-    margin-bottom: 53px;
+    margin-bottom: 53 px;
     align-self: flex-start;
 }
 
+
+
+@media screen and (min-width: 801px) and (max-width: 1110px) {
+	.nav > ul {column-gap: 25px;}
+	.nav .nav--side .language .dropdown--item{left: -10px;}
+}
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+	header .logo, .nav {
+		display: none;
+	}
+}
+
 @media screen and (max-width: 600px) {
-    .email {
+    header .logo, .nav {
+		display: none;
+	}
+	
+	.sub main{display: flex; height: 100vh; align-items: center;}
+	
+	.email {
         margin-bottom: 8px;
     }
     .create-account .grid--code {
