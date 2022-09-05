@@ -109,10 +109,9 @@
                 </li>
             </ul>
             <div class="nav--side">
-                <div class="profile dropdown-wrapper" style="display: none">
-                    <button type="button" class="dropdown text--blue-gray">
-                        kik**@teaplat.com
-                    </button>
+
+                <div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
+                    <button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
                     <div class="dropdown--item" style="width: 134px">
                         <ul>
                             <li><a href="member-account.html" data-i18n>정보 수정</a></li>
@@ -125,7 +124,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="wallet dropdown-wrapper" style="display: none">
+                <div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
                     <button type="button" class="dropdown" data-i18n>지갑관리</button>
                     <div class="dropdown--item" style="width: 100px">
                         <ul>
@@ -136,7 +135,11 @@
                         </ul>
                     </div>
                 </div>
-                <button type="button" class="btn btn--logout" data-i18n>로그아웃</button>
+                <button name="box_logedin" style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+                <div name="box_unlogedin" style="display: none">
+                    <a href="login.html" class="btn--login" data-i18n>로그인</a>
+                </div>
+
                 <div class="language dropdown-wrapper">
                     <button type="button" class="dropdown">한국어</button>
                     <div class="dropdown--item">
