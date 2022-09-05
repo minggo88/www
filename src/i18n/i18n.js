@@ -34,6 +34,27 @@
                 $(this).html(trstr);
             }
         })
+        $('[placeholder]').each(function () { 
+            const str = trim($(this).attr('placeholder'));
+            const trstr = lang_data[str] ? lang_data[str] : '';
+            if (trstr) {
+                $(this).attr('placeholder',trstr);
+            }
+        })
+        $('[alt]').each(function () { 
+            const str = trim($(this).attr('alt'));
+            const trstr = lang_data[str] ? lang_data[str] : '';
+            if (trstr) {
+                $(this).attr('placeholder',trstr);
+            }
+        })
+        $('[title]').each(function () { 
+            const str = trim($(this).attr('title'));
+            const trstr = lang_data[str] ? lang_data[str] : '';
+            if (trstr) {
+                $(this).attr('placeholder',trstr);
+            }
+        })
     }
     window.translate = translate;
 
