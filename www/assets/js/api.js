@@ -1,5 +1,15 @@
 const API = {
-    BASE_URL: 'https://api.dev.kkikda.com/v1.0',
+    
+    BASE_URL: function() {
+        let API_URL = "https://api." + (window.location.host.replace('www.', '')) + "/v1.0";
+        if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
+            API_URL = "http://api." + (window.location.host) + "/v1.0";
+        }
+        if (window.location.host.indexOf('dev.') !== -1) {
+            API_URL = "http://api." + (window.location.host) + "/v1.0";
+        }
+        return API_URL; // 'https://api.dev.kkikda.com/v1.0'
+    }(),
 
     /**
      * 인증메일 보내기
