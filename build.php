@@ -14,12 +14,12 @@ if($dh = opendir($i18n_path)) {
 		if ($dir == "." || $dir == ".." || is_file($lang_path)) {
 			continue;
 		}
-		$i18n->gen_i18n_file($lang_path.'/LC_MESSAGES/www.po');
+		$i18n->gen_i18n_file($lang_path.'/LC_MESSAGES/WWW.po');
 	}
 }
-// $i18n->gen_i18n_file('www/i18n/en/LC_MESSAGES/www.po');
-// $i18n->gen_i18n_file('www/i18n/ko/LC_MESSAGES/www.po');
-// $i18n->gen_i18n_file('www/i18n/zh/LC_MESSAGES/www.po');
+// $i18n->gen_i18n_file('www/i18n/en/LC_MESSAGES/WWW.po');
+// $i18n->gen_i18n_file('www/i18n/ko/LC_MESSAGES/WWW.po');
+// $i18n->gen_i18n_file('www/i18n/zh/LC_MESSAGES/WWW.po');
 echo "다국어빌드 작업 끝 ".PHP_EOL;
 
 // 소스 복사
@@ -35,7 +35,7 @@ if(stripos(PHP_OS, 'linux')!==false) {
 	exit('지원하지 않는 OS입니다.');
 }
 
-unlink($target_dir.'/i18n/build.sh');
+unlink($target_dir.'/i18n/build_pot.sh');
 unlink($target_dir.'/i18n/library.php');
 unlink($target_dir.'/i18n/po2json.php');
 unlink($target_dir.'/i18n/readme.txt');
@@ -44,7 +44,7 @@ unlink($target_dir.'/i18n/WWW.pot');
 
 echo "복사 완료 ".PHP_EOL;
 
-
+exit;
 echo "html 작업시작 ".PHP_EOL;
 
 // 배포본 생성

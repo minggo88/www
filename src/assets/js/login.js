@@ -1,28 +1,30 @@
 $(function() {
-    $('#login').submit((e) => {
-        e.preventDefault()
+    // 회원정보 암호화 필요해서 app.js 파일 속에서 실행시킵니다.
+    // fn_login
 
-        const email = $('#email')
-        const password = $('#password')
+    // $('#login').submit((e) => {
+    //     e.preventDefault()
 
-        if(!email.val()) {
-            email.focus()
-            return false
-        }
+    //     const email = $('#email')
+    //     const password = $('#password')
 
-        if(!password.val()) {
-            password.focus()
-            return false
-        }
+    //     if(!email.val()) {
+    //         email.focus()
+    //         return false
+    //     }
 
-        API.login(email.val(), password.val(), (resp) => {
-            if(resp.success) {
-                alert('로그인 성공. 메시지 수정 필요')
-                location.href = 'exchange.html'
-            } else {
-                $('.validation--message').find('>p').text(resp.error.message).end().show()
-            }
-        })
-        return false
-    })
+    //     if(!password.val()) {
+    //         password.focus()
+    //         return false
+    //     }
+
+    //     API.login(email.val(), password.val(), (resp) => {
+    //         if(resp.success) {
+    //             location.href = 'exchange.html'
+    //         } else {
+    //             $('.validation--message').find('>p').text(resp.error.message).end().show()
+    //         }
+    //     })
+    //     return false
+    // })
 })

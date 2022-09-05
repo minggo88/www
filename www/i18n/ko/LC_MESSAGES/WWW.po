@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-06 13:45+0900\n"
-"PO-Revision-Date: 2022-04-06 14:27+0900\n"
+"POT-Creation-Date: 2022-09-01 15:56+0900\n"
+"PO-Revision-Date: 2022-09-01 16:19+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ko\n"
@@ -18,41 +18,248 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: ../src/assets/js/app.js:294
-msgid "Please select a image file."
-msgstr "이미지 파일을 선택하세요."
+msgid "번역 데이터 가져오지 못함."
+msgstr "번역 데이터 가져오지 못함."
 
-#: ../src/assets/js/app.js:300 ../src/assets/js/app.js:383
-msgid "Please select a file smaller than {max_size} MB."
-msgstr "{max_size}MB보다 작은 파일을 선택하세요."
+msgid "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
+msgstr "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
 
-#: ../src/assets/js/app.js:355
-msgid "The file does not exist."
-msgstr "파일이 존재하지 않습니다."
+msgid "파일이름"
+msgstr "파일이름"
 
-#: ../src/assets/js/app.js:515
-msgid "Ready to work."
-msgstr "준비중입니다."
+msgid "{item_name} 파일을 저장하지 못했습니다."
+msgstr "{item_name} 파일을 저장하지 못했습니다."
 
-#: ../src/assets/js/app.js:525
-msgid "in progress..."
-msgstr "진행 중..."
+msgid "{item_name} 파일을 업로드하지 못했습니다."
+msgstr "{item_name} 파일을 업로드하지 못했습니다."
 
-#: ../src/assets/js/app.js:530
-msgid "Quality Improved"
-msgstr "화질 개선 완료"
+msgid "원"
+msgstr "원"
 
-#: ../src/assets/js/app.js:532 ../src/assets/js/app.js:546
-msgid "Quality Improvement"
-msgstr "화질 개선"
+msgid "파일이 없습니다."
+msgstr "파일이 없습니다."
 
-#: ../src/assets/js/app.js:541
-msgid "Processing failed because an error occurred during the remediation operation."
-msgstr "수정 작업 중에 오류가 발생하여 처리에 실패했습니다."
+msgid "로그인 해주세요"
+msgstr "로그인 해주세요"
 
-#: ../src/assets/js/app.js:547
-msgid "An error occurred while requesting a video enhancements."
-msgstr "동영상 보정을 요청하는 동안 오류가 발생했습니다."
+msgid "회원정보를 등록 해주세요"
+msgstr "회원정보를 등록 해주세요"
+
+msgid "더이상 내용이 없습니다."
+msgstr "더이상 내용이 없습니다."
+
+msgid "후원금을 보내지 못했습니다."
+msgstr "후원금을 보내지 못했습니다."
+
+msgid "이미 사용하셨습니다."
+msgstr "이미 사용하셨습니다."
+
+msgid "포인트를 보내지 못했습니다."
+msgstr "포인트를 보내지 못했습니다."
+
+msgid "핀번호를 입력해주세요."
+msgstr "핀번호를 입력해주세요."
+
+msgid "핀번호가 올바른지 확인해주세요."
+msgstr "핀번호가 올바른지 확인해주세요."
+
+msgid "ID(전화번호)를 입력해주세요."
+msgstr "ID(전화번호)를 입력해주세요."
+
+msgid "로그인 정보가 올바른지 확인해주세요."
+msgstr "로그인 정보가 올바른지 확인해주세요."
+
+msgid "핸드폰 번호를 입력해주세요"
+msgstr "핸드폰 번호를 입력해주세요"
+
+msgid "인증번호를 보내는중입니다."
+msgstr "인증번호를 보내는중입니다."
+
+msgid "잠시만 기다려주세요."
+msgstr "잠시만 기다려주세요."
+
+msgid "이미 가입하셨습니다."
+msgstr "이미 가입하셨습니다."
+
+msgid "로그인 해주세요."
+msgstr "로그인 해주세요."
+
+msgid "인증번호를 발송했습니다."
+msgstr "인증번호를 발송했습니다."
+
+msgid "인증메시지를 보내지 못했습니다."
+msgstr "인증메시지를 보내지 못했습니다."
+
+msgid "인증 요청을 해주세요."
+msgstr "인증 요청을 해주세요."
+
+msgid "유효시간이 지났습니다. 다시 인증 요청을 해주세요."
+msgstr "유효시간이 지났습니다. 다시 인증 요청을 해주세요."
+
+msgid "인증번호를 입력해주세요."
+msgstr "인증번호를 입력해주세요."
+
+msgid "휴대폰번호가 인증되었습니다."
+msgstr "휴대폰번호가 인증되었습니다."
+
+msgid "올바른 인증번호를 입력해주세요."
+msgstr "올바른 인증번호를 입력해주세요."
+
+msgid "회원가입을 완료했습니다."
+msgstr "회원가입을 완료했습니다."
+
+msgid "회원가입을 하지 못했습니다."
+msgstr "회원가입을 하지 못했습니다."
+
+msgid "메시지를 보냈습니다."
+msgstr "메시지를 보냈습니다."
+
+msgid "메시지를 보내지 못했습니다."
+msgstr "메시지를 보내지 못했습니다."
+
+msgid "URL을 입력해주세요."
+msgstr "URL을 입력해주세요."
+
+msgid "추가할 공간이 없습니다."
+msgstr "추가할 공간이 없습니다."
+
+msgid "기존 사진을 삭제하시고 추가해주세요."
+msgstr "기존 사진을 삭제하시고 추가해주세요."
+
+msgid "사진 제목을 선택해주세요."
+msgstr "사진 제목을 선택해주세요."
+
+msgid "사진 종류를 선택해주세요."
+msgstr "사진 종류를 선택해주세요."
+
+msgid "사진을 선택해주세요."
+msgstr "사진을 선택해주세요."
+
+msgid "업로드중입니다."
+msgstr "업로드중입니다."
+
+msgid "사진 업로드"
+msgstr "사진 업로드"
+
+msgid "등록했습니다."
+msgstr "등록했습니다."
+
+msgid "사진 목록으로 이동하시겠습니까?"
+msgstr "사진 목록으로 이동하시겠습니까?"
+
+msgid "등록하지 못했습니다."
+msgstr "등록하지 못했습니다."
+
+msgid "BDS지갑 앱을 이용해주세요."
+msgstr "BDS지갑 앱을 이용해주세요."
+
+msgid "이미지 파일의 URL을 입력해주세요."
+msgstr "이미지 파일의 URL을 입력해주세요."
+
+msgid "QR 코드를 스캔해주세요."
+msgstr "QR 코드를 스캔해주세요."
+
+msgid "올바른 동영상 HTML을 입력해주세요"
+msgstr "올바른 동영상 HTML을 입력해주세요"
+
+msgid "올바른 동영상주소를 입력해주세요."
+msgstr "올바른 동영상주소를 입력해주세요."
+
+msgid "동영상 제목을 입력해주세요."
+msgstr "동영상 제목을 입력해주세요."
+
+msgid "동영상 종류를 선택해주세요."
+msgstr "동영상 종류를 선택해주세요."
+
+msgid "미리보기 이미지를 선택해주세요."
+msgstr "미리보기 이미지를 선택해주세요."
+
+msgid "상품 배너를 업로드하지 못했습니다."
+msgstr "상품 배너를 업로드하지 못했습니다."
+
+msgid "상품 배너를 선택해주세요."
+msgstr "상품 배너를 선택해주세요."
+
+msgid "동영상 목록으로 이동하시겠습니까?"
+msgstr "동영상 목록으로 이동하시겠습니까?"
+
+msgid "동영상 파일을 선택해주세요."
+msgstr "동영상 파일을 선택해주세요."
+
+msgid "동영상 제목을 선택해주세요."
+msgstr "동영상 제목을 선택해주세요."
+
+msgid "동영상 업로드"
+msgstr "동영상 업로드"
+
+msgid "동영상 정보가 없습니다."
+msgstr "동영상 정보가 없습니다."
+
+msgid "\"복구할 수 없게 완전히 삭제함\"에 체크 해주세요."
+msgstr "\"복구할 수 없게 완전히 삭제함\"에 체크 해주세요."
+
+msgid "삭제중입니다."
+msgstr "삭제중입니다."
+
+msgid "공유영상으로 게시"
+msgstr "공유영상으로 게시"
+
+msgid "삭제했습니다."
+msgstr "삭제했습니다."
+
+msgid "목록으로 이동하시겠습니까?"
+msgstr "목록으로 이동하시겠습니까?"
+
+msgid "삭제하지 못했습니다."
+msgstr "삭제하지 못했습니다."
+
+msgid "선택한 회원을 채팅창에서 강제 퇴장시키시겠습니까?"
+msgstr "선택한 회원을 채팅창에서 강제 퇴장시키시겠습니까?"
+
+msgid "강제 퇴장된 회원은 모든 메시지가 자동 삭제되며 다시 입장이 불가합니다."
+msgstr "강제 퇴장된 회원은 모든 메시지가 자동 삭제되며 다시 입장이 불가합니다."
+
+msgid "선택한 회원을 다시 입장시키시겠습니까?"
+msgstr "선택한 회원을 다시 입장시키시겠습니까?"
+
+msgid "삭제된 메시지는 복구되지 않습니다."
+msgstr "삭제된 메시지는 복구되지 않습니다."
+
+msgid "삭제하시겠습니까?"
+msgstr "삭제하시겠습니까?"
+
+msgid "메시지를 삭제하지 못했습니다."
+msgstr "메시지를 삭제하지 못했습니다."
+
+msgid "전체 메시지를 삭제하시겠습니까?"
+msgstr "전체 메시지를 삭제하시겠습니까?"
+
+msgid "메시지를 삭제했습니다."
+msgstr "메시지를 삭제했습니다."
+
+msgid "메시지를 작성해주세요."
+msgstr "메시지를 작성해주세요."
+
+msgid "핀번호가 일치하지 않습니다!"
+msgstr "핀번호가 일치하지 않습니다!"
+
+msgid "파일을 저장하지 못했습니다."
+msgstr "파일을 저장하지 못했습니다."
+
+msgid "파일을 업로드하지 못했습니다."
+msgstr "파일을 업로드하지 못했습니다."
+
+msgid "저장했습니다."
+msgstr "저장했습니다."
+
+msgid "저장하지 못했습니다."
+msgstr "저장하지 못했습니다."
+
+msgid "등록 되었습니다."
+msgstr "등록 되었습니다."
+
+msgid "입금주소로 결제금액을 입금해주세요."
+msgstr "입금주소로 결제금액을 입금해주세요."
 
 msgid "거래소"
 msgstr "거래소"
@@ -60,186 +267,188 @@ msgstr "거래소"
 msgid "공동구매"
 msgstr "공동구매"
 
-#: ../index.html
 msgid "경매"
 msgstr "경매"
 
-#: ../index.html
 msgid "가이드"
 msgstr "가이드"
 
-#: ../index.html
 msgid "다도 문화"
 msgstr "다도 문화"
 
-#: ../index.html
 msgid "고객센터"
 msgstr "고객센터"
 
-#: ../index.html
 msgid "로그인"
 msgstr "로그인"
 
-#: ../index.html
 msgid "<b>새로운 인증시스템</b>의 <b>글로벌 표준 <span class=\"highlight\">차 거래소</span></b>"
 msgstr "<b>새로운 인증시스템</b>의 <b>글로벌 표준 <span class=\"highlight\">차 거래소</span></b>"
 
-#: ../index.html
-msgid "place\\"holder"
-msgstr "place\\"holder"
-
-#: ../index.html
-msgid "alt"
-msgstr "alt"
-
-#: ../index.html
-msgid "title"
-msgstr "title"
-
-#: ../index.html
 msgid "안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다."
 msgstr "안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다."
 
-#: ../index.html
 msgid "거래소 둘러보기"
 msgstr "거래소 둘러보기"
 
-#: ../index.html
 msgid "지수"
 msgstr "지수"
 
-#: ../index.html
 msgid "기간"
 msgstr "기간"
 
-#: ../index.html
 msgid "보이차 시세"
 msgstr "보이차 시세"
 
-#: ../index.html
 msgid "전체보기"
 msgstr "전체보기"
 
-#: ../index.html
 msgid "공지사항"
 msgstr "공지사항"
 
-#: ../index.html
-msgid "전체보기"
-msgstr "전체보기"
-
-#: ../index.html
 msgid "모바일 APP에서 누리는 더 편리하고 안전한 거래"
 msgstr "모바일 APP에서 누리는 더 편리하고 안전한 거래"
 
-#: ../index.html
 msgid "Download Teaplat APP"
 msgstr "Download Teaplat APP"
 
-#: ../index.html
 msgid "Android"
 msgstr "Android"
 
-#: ../index.html
 msgid "iOS"
 msgstr "iOS"
 
-#: ../index.html
 msgid "누구나 쉽고 빠른 거래"
 msgstr "누구나 쉽고 빠른 거래"
 
-#: ../index.html
 msgid "계좌이체보다 주식보다 쉽고 빠른 거래가 가능합니다"
 msgstr "계좌이체보다 주식보다 쉽고 빠른 거래가 가능합니다"
 
-#: ../index.html
 msgid "전문 노하우를 통한 진품 거래"
 msgstr "전문 노하우를 통한 진품 거래"
 
-#: ../index.html
 msgid "30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게<br>도와드립니다"
 msgstr "30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게<br>도와드립니다"
 
-#: ../index.html
 msgid "전세계 어디에서나"
 msgstr "전세계 어디에서나"
 
-#: ../index.html
 msgid "글로벌 시스템으로 전세계 어디에서나 거래가 가능하며 다양한 언어를 지원합니다"
 msgstr "글로벌 시스템으로 전세계 어디에서나 거래가 가능하며 다양한 언어를 지원합니다"
 
-#: ../index.html
 msgid "한눈에 투자 현황 조회"
 msgstr "한눈에 투자 현황 조회"
 
-#: ../index.html
 msgid "내가 투자하고 거래하는 보이차의 시세 변화를 손쉽게 파악할 수 있습니다"
 msgstr "내가 투자하고 거래하는 보이차의 시세 변화를 손쉽게 파악할 수 있습니다"
 
-#: ../index.html
 msgid "투명하고 안전한 거래"
 msgstr "투명하고 안전한 거래"
 
-#: ../index.html
 msgid "블록체인 기술의 도입으로 투명한 거래 이력과 완벽한 보안을 제공합니다"
 msgstr "블록체인 기술의 도입으로 투명한 거래 이력과 완벽한 보안을 제공합니다"
 
-#: ../index.html
 msgid "공동구매와 경매"
 msgstr "공동구매와 경매"
 
-#: ../index.html
 msgid "소액으로 고급차에 투자할 수 있도록 공동구매와 경매를 지원하여 합리적인 거래를 추구합니다"
 msgstr "소액으로 고급차에 투자할 수 있도록 공동구매와 경매를 지원하여 합리적인 거래를 추구합니다"
 
-#: ../index.html
 msgid "Teaplat"
 msgstr "Teaplat"
 
-#: ../index.html
 msgid "회사소개"
 msgstr "회사소개"
 
-#: ../index.html
 msgid "이용약관"
 msgstr "이용약관"
 
-#: ../index.html
 msgid "개인정보보호정책"
 msgstr "개인정보보호정책"
 
-#: ../index.html
 msgid "자주묻는질문"
 msgstr "자주묻는질문"
 
-#: ../index.html
 msgid "대표이사"
 msgstr "대표이사"
 
-#: ../index.html
 msgid "사업자등록번호"
 msgstr "사업자등록번호"
 
-#: ../index.html
 msgid "주소"
 msgstr "주소"
 
-#: ../index.html
 msgid "전화"
 msgstr "전화"
 
-#: ../index.html
 msgid "통신판매업신고번호"
 msgstr "통신판매업신고번호"
 
-#: ../index.html
 msgid "이메일"
 msgstr "이메일"
 
-#: ../index.html
 msgid "고객상담 · 상담 · 배송 문의"
 msgstr "고객상담 · 상담 · 배송 문의"
 
-#: ../index.html
 msgid "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
 msgstr "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
+
+msgid "국가 및 화폐 선택"
+msgstr "국가 및 화폐 선택"
+
+msgid "은행명"
+msgstr "은행명"
+
+msgid "이름"
+msgstr "이름"
+
+msgid "계좌번호"
+msgstr "계좌번호"
+
+msgid "제목을 입력하세요"
+msgstr "제목을 입력하세요"
+
+msgid "문의내용을 입력하세요"
+msgstr "문의내용을 입력하세요"
+
+msgid "국가"
+msgstr "국가"
+
+msgid "도시"
+msgstr "도시"
+
+msgid "상세주소(옵션)"
+msgstr "상세주소(옵션)"
+
+msgid "우편번호"
+msgstr "우편번호"
+
+msgid "자주하는 질문"
+msgstr "자주하는 질문"
+
+msgid "1:1 문의"
+msgstr "1:1 문의"
+
+msgid "Notice"
+msgstr "Notice"
+
+msgid "날짜"
+msgstr "날짜"
+
+msgid "제목"
+msgstr "제목"
+
+msgid "작성자"
+msgstr "작성자"
+
+msgid "게시물이 없습니다"
+msgstr "게시물이 없습니다"
+
+msgid "이전 페이지"
+msgstr "이전 페이지"
+
+msgid "다음 페이지"
+msgstr "다음 페이지"
+
+msgid "보안비밀번호 입력"
+msgstr "보안비밀번호 입력"
