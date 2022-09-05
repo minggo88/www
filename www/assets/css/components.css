@@ -749,12 +749,18 @@ form .form--header h1 {
 .dropdown-wrapper {
     position: relative;
 }
+.sub.deposit .dropdown-wrapper {
+    width: 196px;
+	margin-bottom: 14px;
+	border: 0.35px solid #DFDFDF;
+	border-radius: 5px;
+}
 .dropdown {
     display: flex;
     align-items: center;
     color: var(--basic-black);
     position: relative;
-    padding: 0 15px 0 10px;
+    padding: 0 15px 0 40px;
     border: none;/*0.35px solid #DFDFDF;*/
     /* background: rgb(245, 245, 245, .7); */
     background: transparent; /* var(--white);*/
@@ -763,13 +769,13 @@ form .form--header h1 {
     font-family: Inter;
     font-size: 14px;
     width: 100%;
-    height: 40px;
+    height: 42px;
     letter-spacing: -0.05em;
 }
 .dropdown::after {
     position: absolute;
     top: 50%;
-    right: 0; /* 15px; */
+    right: 5px; /* 15px; */
     border: 0 none;
     content: "";
     display: block;
@@ -793,9 +799,9 @@ form .form--header h1 {
     left: 0;
     background: var(--white);
     border: 1px solid #DFDFDF;
-    border-radius: 6px;
+    border-radius: 4px;
     text-align: center;
-    padding-top: 9px;
+    /* padding-top: 9px; */
     box-sizing: border-box;
     z-index: 29;
     max-height: 300px;
@@ -823,15 +829,17 @@ form .form--header h1 {
 }
 
 .dropdown+.dropdown--item ul {
-    margin: 10px 0 0 0;
-    padding: 0 0 13px;
+    /* margin: 10px 0 0 0; */
+    /* padding: 0 0 13px; */
+	padding: 0;
     list-style: none;
 
 }
 
 .dropdown+.dropdown--item ul li {
     list-style: none;
-    height: 20px;
+    height: 42px;
+	height: 42px;
     line-height: 20px;
     font-weight: 500;
     font-size: 14px;
@@ -853,9 +861,11 @@ form .form--header h1 {
     color: inherit;
 }
 .dropdown+.dropdown--item ul li button {
-    background: transparent;
+    display: block;
+	background: transparent;
     border: 0 none;
     width: 100%;
+	height: 100%;
     color: inherit;
     font-weight: inherit;
 }
