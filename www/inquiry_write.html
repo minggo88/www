@@ -135,7 +135,14 @@
         </aside>
         <div class="contents">
             <header class="contents--header">
-                <h1 data-i18n>Direct Inquiry</h1>
+                <div>
+					<button type="button" class="navigation--back"></button>
+					<h1 data-i18n>Direct Inquiry</h1>
+					<h2 data-i18n class="mobile-only">문의 작성하기</h2>
+				</div>
+				<div class="mobile-only">
+					<a href="inquiry.html" class="btn">등록하기</a>
+				</div>
             </header>
             <form action="" method="post" class="board--write">
                 <input type="hidden" id="idx" name="idx" value="">
@@ -148,7 +155,7 @@
                     <label for="contents" class="form--label desktop-only" data-i18n>내용</label>
                     <textarea id="contents" placeholder="문의내용을 입력하세요" required></textarea>
                 </div>
-                <div class="board--btn" style="justify-content: center">
+                <div class="board--btn desktop-only" style="justify-content: center">
                     <input type="submit" value="작성하기" class="btn btn--red btn--write">
                 </div>
             </form>

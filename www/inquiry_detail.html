@@ -127,11 +127,15 @@
             </nav>
         </aside>
         <div class="contents">
-            <header class="contents--header">
-                <h1 data-i18n>Direct Inquiry</h1>
+			<header class="contents--header">
+                <div>
+					<button type="button" class="navigation--back"></button>
+					<h1 data-i18n>Direct Inquiry</h1>
+				</div>
+				<div class="mobile-only"><a href="inquiry_write.html" class="btn">문의하기</a></div>
             </header>
 
-                <table class="inquiry--body">
+                <table class="inquiry--body desktop-only">
                     <colgroup>
                         <col style="width:calc(100% * (80 / 839)); min-width:120px;">
                     </colgroup>
@@ -150,10 +154,22 @@
                         </tr>
                     </tbody>
                 </table>
+				<div class="inquiry_question mobile-only">
+					<h2>문의 사항입니다.</h2>
+					<div class="date">
+						<ul>
+							<li data-i18n>날짜</li>
+							<li>2022.06.22 14:03</li>
+						</ul>
+						<span class="writer">작성자</span>
+					</div>
+					<div class="inquiry_section">
+						문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유
+					</div>
+				</div>
 
-                <div class="inquiry--reply">
+                <div class="inquiry--reply desktop-only">
                     <h2><span class="text--lightlight-blue">A</span> <span data-i18n>답변</span></h2>
-
                     <table class="inquiry--body">
                         <colgroup>
                             <col style="width:calc(100% * (80 / 839)); min-width:120px;">
@@ -170,9 +186,21 @@
                         </tbody>
                     </table>
                 </div>
+				<div class="inquiry_question mobile-only box-shadow-none">
+					<h2><span class="text--lightlight-blue">A</span> <span data-i18n>답변</span></h2>
+					<div class="date">
+						<ul>
+							<li data-i18n>답변 일자</li>
+							<li>2022-06-29 15:38:43</li>
+						</ul>
+					</div>
+					<div class="inquiry_section">
+						답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 
+					</div>
+				</div>
 
                 <div class="board--btn">
-                    <a href="inquiry.html" class="btn btn--gray btn--list" data-i18n>목록</a>
+                    <a href="inquiry.html" class="desktop-only btn btn--gray btn--list" data-i18n>목록</a>
                     <a href="" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
                     <a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a>
                 </div>
