@@ -358,7 +358,7 @@ $(function() {
         })
     })
 
-    if(USER_INFO.userno) {
+    // if(USER_INFO && USER_INFO.userno) {
 
-    }
+    // }
 })

@@ -9,7 +9,7 @@ if($dh = opendir($i18n_path)) {
 		if ($dir == "." || $dir == ".." || is_file($lang_path)) {
 			continue;
 		}
-		$i18n->gen_i18n_file($lang_path.'/LC_MESSAGES/www.po');
+		$i18n->gen_i18n_file($lang_path.'/LC_MESSAGES/WWW.po');
 	}
 }
 echo "다국어빌드 작업 끝 ".PHP_EOL;

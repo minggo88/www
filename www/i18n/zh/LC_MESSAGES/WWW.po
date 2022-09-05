@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-06 13:45+0900\n"
-"PO-Revision-Date: 2022-04-06 14:32+0900\n"
+"POT-Creation-Date: 2022-09-01 15:56+0900\n"
+"PO-Revision-Date: 2022-09-01 16:13+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -14,41 +14,248 @@ msgstr ""
 "X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: .\n"
 
-#: ../src/assets/js/app.js:294
-msgid "Please select a image file."
-msgstr "请选择一个图像文件。"
+msgid "번역 데이터 가져오지 못함."
+msgstr "获取翻译数据失败。"
 
-#: ../src/assets/js/app.js:300 ../src/assets/js/app.js:383
-msgid "Please select a file smaller than {max_size} MB."
-msgstr "请选择小于 {max_size} MB 的文件。"
+msgid "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
+msgstr "如果视频超过100MB，请上传到YouTube等，并复制粘贴源代码。"
 
-#: ../src/assets/js/app.js:355
-msgid "The file does not exist."
+msgid "파일이름"
+msgstr "文件名"
+
+msgid "{item_name} 파일을 저장하지 못했습니다."
+msgstr "未能保存文件 {item_name}。"
+
+msgid "{item_name} 파일을 업로드하지 못했습니다."
+msgstr "未能上传文件 {item_name}。"
+
+msgid "원"
+msgstr "元"
+
+msgid "파일이 없습니다."
 msgstr "该文件不存在。"
 
-#: ../src/assets/js/app.js:515
-msgid "Ready to work."
-msgstr "准备好工作了。"
+msgid "로그인 해주세요"
+msgstr "请登录"
 
-#: ../src/assets/js/app.js:525
-msgid "in progress..."
-msgstr "进行中..."
+msgid "회원정보를 등록 해주세요"
+msgstr "请注册您的会员信息"
 
-#: ../src/assets/js/app.js:530
-msgid "Quality Improved"
-msgstr "图像质量提高"
+msgid "더이상 내용이 없습니다."
+msgstr "没有更多的内容。"
 
-#: ../src/assets/js/app.js:532 ../src/assets/js/app.js:546
-msgid "Quality Improvement"
-msgstr "图像质量改进"
+msgid "후원금을 보내지 못했습니다."
+msgstr "无法发送捐款。"
 
-#: ../src/assets/js/app.js:541
-msgid "Processing failed because an error occurred during the remediation operation."
-msgstr "由于修复操作期间发生错误，处理失败。"
+msgid "이미 사용하셨습니다."
+msgstr "你已经用过了。"
 
-#: ../src/assets/js/app.js:547
-msgid "An error occurred while requesting a video enhancements."
-msgstr "请求视频增强时出错。"
+msgid "포인트를 보내지 못했습니다."
+msgstr "发送积分失败。"
+
+msgid "핀번호를 입력해주세요."
+msgstr "请输入您的密码。"
+
+msgid "핀번호가 올바른지 확인해주세요."
+msgstr "请检查密码是否正确。"
+
+msgid "ID(전화번호)를 입력해주세요."
+msgstr "请输入您的 ID（电话号码）。"
+
+msgid "로그인 정보가 올바른지 확인해주세요."
+msgstr "请确保您的登录信息正确无误。"
+
+msgid "핸드폰 번호를 입력해주세요"
+msgstr "请输入您的手机号码"
+
+msgid "인증번호를 보내는중입니다."
+msgstr "正在发送验证码。"
+
+msgid "잠시만 기다려주세요."
+msgstr "请稍等。"
+
+msgid "이미 가입하셨습니다."
+msgstr "您已经订阅了。"
+
+msgid "로그인 해주세요."
+msgstr "请登录。"
+
+msgid "인증번호를 발송했습니다."
+msgstr "我们已向您发送验证码。"
+
+msgid "인증메시지를 보내지 못했습니다."
+msgstr "发送认证信息失败。"
+
+msgid "인증 요청을 해주세요."
+msgstr "请请求身份验证。"
+
+msgid "유효시간이 지났습니다. 다시 인증 요청을 해주세요."
+msgstr "有效时间已过。请重新认证。"
+
+msgid "인증번호를 입력해주세요."
+msgstr "请输入验证码。"
+
+msgid "휴대폰번호가 인증되었습니다."
+msgstr "您的手机号码已通过验证。"
+
+msgid "올바른 인증번호를 입력해주세요."
+msgstr "请输入正确的验证码。"
+
+msgid "회원가입을 완료했습니다."
+msgstr "您已完成会员注册。"
+
+msgid "회원가입을 하지 못했습니다."
+msgstr "注册失败。"
+
+msgid "메시지를 보냈습니다."
+msgstr "一条消息已发送。"
+
+msgid "메시지를 보내지 못했습니다."
+msgstr "发送消息失败。"
+
+msgid "URL을 입력해주세요."
+msgstr "请输入网址。"
+
+msgid "추가할 공간이 없습니다."
+msgstr "没有空间可以添加。"
+
+msgid "기존 사진을 삭제하시고 추가해주세요."
+msgstr "请删除现有图片并添加。"
+
+msgid "사진 제목을 선택해주세요."
+msgstr "请选择照片标题。"
+
+msgid "사진 종류를 선택해주세요."
+msgstr "请选择照片类型。"
+
+msgid "사진을 선택해주세요."
+msgstr "请选择一张照片。"
+
+msgid "업로드중입니다."
+msgstr "正在上传。"
+
+msgid "사진 업로드"
+msgstr "上传照片"
+
+msgid "등록했습니다."
+msgstr "挂号的。"
+
+msgid "사진 목록으로 이동하시겠습니까?"
+msgstr "你想去照片列表吗？"
+
+msgid "등록하지 못했습니다."
+msgstr "注册失败。"
+
+msgid "BDS지갑 앱을 이용해주세요."
+msgstr "请使用 BDS 钱包应用程序。"
+
+msgid "이미지 파일의 URL을 입력해주세요."
+msgstr "请输入图片文件的网址。"
+
+msgid "QR 코드를 스캔해주세요."
+msgstr "请扫描二维码。"
+
+msgid "올바른 동영상 HTML을 입력해주세요"
+msgstr "请输入正确的视频 HTML"
+
+msgid "올바른 동영상주소를 입력해주세요."
+msgstr "请输入正确的视频地址。"
+
+msgid "동영상 제목을 입력해주세요."
+msgstr "请输入视频标题。"
+
+msgid "동영상 종류를 선택해주세요."
+msgstr "请选择视频类型。"
+
+msgid "미리보기 이미지를 선택해주세요."
+msgstr "请选择缩略图。"
+
+msgid "상품 배너를 업로드하지 못했습니다."
+msgstr "未能上传产品横幅。"
+
+msgid "상품 배너를 선택해주세요."
+msgstr "请选择产品横幅。"
+
+msgid "동영상 목록으로 이동하시겠습니까?"
+msgstr "确定要转到视频列表吗？"
+
+msgid "동영상 파일을 선택해주세요."
+msgstr "请选择一个视频文件。"
+
+msgid "동영상 제목을 선택해주세요."
+msgstr "请选择视频标题。"
+
+msgid "동영상 업로드"
+msgstr "上传视频"
+
+msgid "동영상 정보가 없습니다."
+msgstr "没有视频信息。"
+
+msgid "\"복구할 수 없게 완전히 삭제함\"에 체크 해주세요."
+msgstr "选中“完全删除且无法恢复”。"
+
+msgid "삭제중입니다."
+msgstr "删除。"
+
+msgid "공유영상으로 게시"
+msgstr "发布为共享视频"
+
+msgid "삭제했습니다."
+msgstr "已删除。"
+
+msgid "목록으로 이동하시겠습니까?"
+msgstr "您确定要进入列表吗？"
+
+msgid "삭제하지 못했습니다."
+msgstr "删除失败。"
+
+msgid "선택한 회원을 채팅창에서 강제 퇴장시키시겠습니까?"
+msgstr "您确定要强制所选成员离开聊天窗口吗？"
+
+msgid "강제 퇴장된 회원은 모든 메시지가 자동 삭제되며 다시 입장이 불가합니다."
+msgstr "被强制离开的成员将被自动删除他们的消息，并且将无法重新进入。"
+
+msgid "선택한 회원을 다시 입장시키시겠습니까?"
+msgstr "您确定要重新输入所选成员吗？"
+
+msgid "삭제된 메시지는 복구되지 않습니다."
+msgstr "已删除的邮件不会恢复。"
+
+msgid "삭제하시겠습니까?"
+msgstr "你想删除吗？"
+
+msgid "메시지를 삭제하지 못했습니다."
+msgstr "无法删除消息。"
+
+msgid "전체 메시지를 삭제하시겠습니까?"
+msgstr "您确定要删除整条消息吗？"
+
+msgid "메시지를 삭제했습니다."
+msgstr "删除了消息。"
+
+msgid "메시지를 작성해주세요."
+msgstr "请写留言。"
+
+msgid "핀번호가 일치하지 않습니다!"
+msgstr "针号不匹配！"
+
+msgid "파일을 저장하지 못했습니다."
+msgstr "保存文件失败。"
+
+msgid "파일을 업로드하지 못했습니다."
+msgstr "上传文件失败。"
+
+msgid "저장했습니다."
+msgstr "已保存。"
+
+msgid "저장하지 못했습니다."
+msgstr "保存失败。"
+
+msgid "등록 되었습니다."
+msgstr "挂号的。"
+
+msgid "입금주소로 결제금액을 입금해주세요."
+msgstr "请将付款金额存入存款地址。"
 
 msgid "거래소"
 msgstr "交换"
@@ -56,186 +263,188 @@ msgstr "交换"
 msgid "공동구매"
 msgstr "团购"
 
-#: ../index.html
 msgid "경매"
 msgstr "拍卖"
 
-#: ../index.html
 msgid "가이드"
 msgstr "指导"
 
-#: ../index.html
 msgid "다도 문화"
 msgstr "茶道文化"
 
-#: ../index.html
 msgid "고객센터"
 msgstr "服务中心"
 
-#: ../index.html
 msgid "로그인"
 msgstr "登录"
 
-#: ../index.html
 msgid "<b>새로운 인증시스템</b>의 <b>글로벌 표준 <span class=\"highlight\">차 거래소</span></b>"
 msgstr "<b><b>新认证系统的全球标准</b> <span class=\"highlight\">茶叶交流</span></b>"
 
-#: ../index.html
-msgid "place\\"holder"
-msgstr "place\\"holder"
-
-#: ../index.html
-msgid "alt"
-msgstr "alt"
-
-#: ../index.html
-msgid "title"
-msgstr "title"
-
-#: ../index.html
 msgid "안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다."
 msgstr "我们以安全透明的系统提供快速便捷的交易环境。"
 
-#: ../index.html
 msgid "거래소 둘러보기"
 msgstr "浏览交易所"
 
-#: ../index.html
 msgid "지수"
 msgstr "指数"
 
-#: ../index.html
 msgid "기간"
 msgstr "时期"
 
-#: ../index.html
 msgid "보이차 시세"
 msgstr "普洱茶价格"
 
-#: ../index.html
 msgid "전체보기"
 msgstr "查看全部"
 
-#: ../index.html
 msgid "공지사항"
 msgstr "注意"
 
-#: ../index.html
-msgid "전체보기"
-msgstr "查看全部"
-
-#: ../index.html
 msgid "모바일 APP에서 누리는 더 편리하고 안전한 거래"
 msgstr "手机APP交易更方便更安全"
 
-#: ../index.html
 msgid "Download Teaplat APP"
 msgstr "下载茶盘APP"
 
-#: ../index.html
 msgid "Android"
 msgstr "安卓"
 
-#: ../index.html
 msgid "iOS"
 msgstr "iOS"
 
-#: ../index.html
 msgid "누구나 쉽고 빠른 거래"
 msgstr "任何人都可以轻松快速地进行交易"
 
-#: ../index.html
 msgid "계좌이체보다 주식보다 쉽고 빠른 거래가 가능합니다"
 msgstr "与银行转账相比，交易比股票更容易、更快捷。"
 
-#: ../index.html
 msgid "전문 노하우를 통한 진품 거래"
 msgstr "通过专业知识进行真正的贸易"
 
-#: ../index.html
 msgid "30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게<br>도와드립니다"
 msgstr "通过 30 年的专业知识，我们将帮助您只识别和投资正品。"
 
-#: ../index.html
 msgid "전세계 어디에서나"
 msgstr "在世界上任何地方"
 
-#: ../index.html
 msgid "글로벌 시스템으로 전세계 어디에서나 거래가 가능하며 다양한 언어를 지원합니다"
 msgstr "全球系统允许您在世界任何地方进行交易，并支持多种语言。"
 
-#: ../index.html
 msgid "한눈에 투자 현황 조회"
 msgstr "投资状况一目了然"
 
-#: ../index.html
 msgid "내가 투자하고 거래하는 보이차의 시세 변화를 손쉽게 파악할 수 있습니다"
 msgstr "我可以轻松了解我投资和交易的普洱汽车价格变化"
 
-#: ../index.html
 msgid "투명하고 안전한 거래"
 msgstr "透明和安全的交易"
 
-#: ../index.html
 msgid "블록체인 기술의 도입으로 투명한 거래 이력과 완벽한 보안을 제공합니다"
 msgstr "通过引入区块链技术，我们提供透明的交易历史和完整的安全性。"
 
-#: ../index.html
 msgid "공동구매와 경매"
 msgstr "联合购买和拍卖"
 
-#: ../index.html
 msgid "소액으로 고급차에 투자할 수 있도록 공동구매와 경매를 지원하여 합리적인 거래를 추구합니다"
 msgstr "我们通过支持团购和拍卖来追求合理的交易，以便小额资金可以投资豪车。"
 
-#: ../index.html
 msgid "Teaplat"
 msgstr "Teaplat"
 
-#: ../index.html
 msgid "회사소개"
 msgstr "关于我们"
 
-#: ../index.html
 msgid "이용약관"
 msgstr "服务条款"
 
-#: ../index.html
 msgid "개인정보보호정책"
 msgstr "隐私政策"
 
-#: ../index.html
 msgid "자주묻는질문"
 msgstr "经常问的问题"
 
-#: ../index.html
 msgid "대표이사"
 msgstr "首席执行官"
 
-#: ../index.html
 msgid "사업자등록번호"
 msgstr "公司注册号码"
 
-#: ../index.html
 msgid "주소"
 msgstr "地址"
 
-#: ../index.html
 msgid "전화"
 msgstr "电话"
 
-#: ../index.html
 msgid "통신판매업신고번호"
 msgstr "邮购业务报告编号"
 
-#: ../index.html
 msgid "이메일"
 msgstr "电子邮件"
 
-#: ../index.html
 msgid "고객상담 · 상담 · 배송 문의"
 msgstr "客户咨询·咨询·发货查询"
 
-#: ../index.html
 msgid "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
 msgstr "平日 10:00 ~ 18:00 (午餐 13:00 ~ 14:00)"
+
+msgid "국가 및 화폐 선택"
+msgstr "选择您的国家和货币"
+
+msgid "은행명"
+msgstr "银行名称"
+
+msgid "이름"
+msgstr "姓名"
+
+msgid "계좌번호"
+msgstr "帐号"
+
+msgid "제목을 입력하세요"
+msgstr "请输入标题"
+
+msgid "문의내용을 입력하세요"
+msgstr "请输入您的询问"
+
+msgid "국가"
+msgstr "国家"
+
+msgid "도시"
+msgstr "城市"
+
+msgid "상세주소(옵션)"
+msgstr "详细地址（选项）"
+
+msgid "우편번호"
+msgstr "邮政编码"
+
+msgid "자주하는 질문"
+msgstr "经常问的问题"
+
+msgid "1:1 문의"
+msgstr "1:1询价"
+
+msgid "Notice"
+msgstr "注意"
+
+msgid "날짜"
+msgstr "日期"
+
+msgid "제목"
+msgstr "标题"
+
+msgid "작성자"
+msgstr "作家"
+
+msgid "게시물이 없습니다"
+msgstr "没有帖子"
+
+msgid "이전 페이지"
+msgstr "后页"
+
+msgid "다음 페이지"
+msgstr "下一页"
+
+msgid "보안비밀번호 입력"
+msgstr "输入安全密码"

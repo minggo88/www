@@ -274,6 +274,9 @@ dl dd {
     border: 0.35px solid #DFDFDF !important;
 }
 
+[name=box_logedin] {display:none} /*로그인 사용자가 볼 수 있는 박스. 기본숨김*/
+[name=box_unlogedin] {display:auto} /*로그아웃 사용자가 볼 수 있는 박스. 기본표시*/
+
 header {
     background-size: cover;
     height: 621px;
