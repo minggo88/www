@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- META -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="끽다거">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
+<title>끽다거</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/colorset.css">
+<link rel="stylesheet" href="./assets/css/common.css">
+<link rel="stylesheet" href="./assets/css/components.css">
+<link rel="stylesheet" href="./assets/css/sub.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css" />
+<!-- JS -->
+<script>
+    let USER_INFO = []
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+<script src="./assets/js/lib/php.default.min.js"></script>
+<script src="./assets/js/lib/security.min.js"></script>
+
+</head>
+<!-- BODY -->
+<body class="sub notice notification">
+    <header class="desktop-only">
+        <h1 class="logo"><a href="/">Teaplat</a></h1>
+        <nav class="nav">
+            <ul>
+                <li>
+                    <a href="exchange.html" data-i18n>거래소</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>공동구매</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>경매</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>가이드</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>다도 문화</a>
+                </li>
+                <li class="active">
+                    <a href="" data-i18n>고객센터</a>
+                </li>
+            </ul>
+            <div class="nav--side">
+                <a href="login.html" class="btn--login">로그인</a>
+                <div class="language">
+                    한국어
+                    <button type="button" class="caret-down"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="d-grid">
+        <aside class="side">
+            <h1 data-i18n>계정 관리</h1>
+            <nav class="side--snb">
+                <ul>
+                    <li>
+                        <a href="member-account.html" data-i18n>정보 수정</a>
+                    </li>
+                    <li>
+                        <a href="my-verification.html" data-i18n>ID 인증 관리</a>
+                    </li>
+                    <li>
+                        <a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+                    </li>
+                    <li>
+                        <a href="notice.html" data-i18n>출금계좌 변경</a>
+                    </li>
+                    <li>
+                        <a href="transaction.html" data-i18n>거래 내역</a>
+                    </li>
+                    <li class="snb--active">
+                        <a href="notification.html" data-i18n>알림</a>
+                    </li>
+                    <li>
+                        <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="contents">
+            <header class="contents--header">
+                <button type="button" class="navigation--back"></button>
+                <h1 data-i18n>Notification</h1>
+            </header>
+            <div class="board--body">
+                <table class="board--list desktop-only">
+                    <colgroup>
+                        <col width="">
+                        <col style="width: calc(100% * (584 / 900))">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th data-i18n>날짜</th>
+                            <th data-i18n>제목</th>
+                            <th data-i18n>작성자</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">입금 거래가 완료되었습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">출금 거래가 완료되었습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">보이차 상품이 입점되었습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">&lt;보이차&gt; 상품을 등록하였습니다. 관리자 검토 후 알려드리겠습니다. &lt;보이차&gt; 상품을 등록하였습니다. 관리자 검토 후 알려드리겠습니다. &lt;보이차&gt; 상품을 등록하였습니다. 관리자 검토 후 알려드리겠습니다. &lt;보이차&gt; 상품을 등록하였습니다. 관리자 검토 후 알려드리겠습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">1,000 포인트를 사용하였습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">1:1 문의에 답변이 달렸습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">1:1 문의글을 등록하였습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">&lt;보이차&gt;를 구매하였습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">&lt;보이차&gt;를 구매하였습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">&lt;보이차&gt;를 구매하였습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">&lt;보이차&gt;를 구매하였습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                        <tr>
+                            <td>2022.12.22 14:33</td>
+                            <td class="text--left">&lt;보이차&gt;를 구매하였습니다</td>
+                            <td>관리자</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav class="board--pagination desktop-only">
+                    <ul>
+                        <li class="pagination--prev">
+                            <a href="" data-i18n>이전 페이지</a>
+                        </li>
+                        <li>
+                            <a href="">1</a>
+                        </li>
+                        <li class="pagination--next">
+                            <a href="" data-i18n>다음 페이지</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="mobile-only">
+                    <ul class="notification--list d-flex mobile-only">
+                        <li>
+                            <div class="notification--header">
+                                <span class="notifictaion--date">2022.12.22 14:33</span>
+                                <span class="notification--nick">관리자</span>
+                            </div>
+                            <div class="notification--content">
+                                입금 거래가 완료되었습니다 <i class="icon--new"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="notification--header">
+                                <span class="notifictaion--date">2022.12.22 14:33</span>
+                                <span class="notification--nick">관리자</span>
+                            </div>
+                            <div class="notification--content">
+                                &lt;보이차&gt; 상품이 입점되었습니다 <i class="icon--new"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="notification--header">
+                                <span class="notifictaion--date">2022.12.22 14:33</span>
+                                <span class="notification--nick">관리자</span>
+                            </div>
+                            <div class="notification--content">
+                                &lt;보이차&gt; 상품을 등록하였습니다. 관리자 검토 후 알려드리겠습니다. 관리자 검토 후 알려드리겠습니다. <i class="icon--new"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="notification--header">
+                                <span class="notifictaion--date">2022.12.22 14:33</span>
+                                <span class="notification--nick">관리자</span>
+                            </div>
+                            <div class="notification--content">
+                                1,000 포인트를 사용하였습니다
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="desktop-only">
+		<div class="logo">Teaplat</div>
+		<nav class="fnb">
+			<ul>
+				<li>
+					<a href="" data-i18n>회사소개</a>
+				</li>
+				<li>
+					<a href="" data-i18n>이용약관</a>
+				</li>
+				<li>
+					<a href="" data-i18n>개인정보보호정책</a>
+				</li>
+				<li>
+					<a href="faq.html" data-i18n>자주묻는질문</a>
+				</li>
+			</ul>
+			<div class="copyright">
+				<address>
+					<span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
+					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
+					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
+					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
+					<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
+					<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
+					<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
+				</address>
+				<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
+			</div>
+		</nav>
+		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
+		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
+		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
+	</footer>
+
+    <script src="./assets/js/app.js?t={version}"></script>
+
+</body>
+</html>
