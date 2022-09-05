@@ -448,3 +448,605 @@ msgstr "下一页"
 
 msgid "보안비밀번호 입력"
 msgstr "输入安全密码"
+
+#: ../change-account-number.html
+msgid "정보 수정"
+msgstr "更改信息"
+
+#: ../change-account-number.html
+msgid "ID 인증 관리"
+msgstr "身份认证管理"
+
+#: ../change-account-number.html
+msgid "보안비밀번호변경"
+msgstr "更改安全密码"
+
+#: ../change-account-number.html
+msgid "출금계좌 변경"
+msgstr "提款账户变更"
+
+#: ../change-account-number.html
+msgid "거래 내역"
+msgstr "交易记录"
+
+#: ../change-account-number.html
+msgid "알림"
+msgstr "注意"
+
+#: ../change-account-number.html
+msgid "회원 탈퇴"
+msgstr "退出"
+
+#: ../change-account-number.html
+msgid "지갑관리"
+msgstr "钱包管理"
+
+#: ../change-account-number.html
+msgid "보유 자산"
+msgstr "控股"
+
+#: ../change-account-number.html
+msgid "입금"
+msgstr "订金"
+
+#: ../change-account-number.html
+msgid "출금"
+msgstr "提取"
+
+#: ../change-account-number.html
+msgid "종합 분석"
+msgstr "综合分析"
+
+#: ../change-account-number.html
+msgid "로그아웃"
+msgstr "登出"
+
+#: ../change-account-number.html
+msgid "계정 관리"
+msgstr "帐户管理"
+
+#: ../change-account-number.html
+msgid "보안비밀번호 변경"
+msgstr "更改安全密码"
+
+#: ../change-account-number.html
+msgid "Change bank account number"
+msgstr "更改银行帐号"
+
+#: ../change-account-number.html
+msgid "출금 계좌 정보를 수정합니다."
+msgstr "编辑提款账户信息。"
+
+#: ../change-account-number.html
+msgid "은행 및 계좌"
+msgstr "银行和账户"
+
+#: ../change-account-number.html
+msgid "출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다."
+msgstr "只有与提交ID相同ID的存折才能注册出金账户。"
+
+#: ../change-pin-number.html
+msgid "Change Pin Number"
+msgstr "更改引脚号"
+
+#: ../change-pin-number.html
+msgid "거래용 보안비밀번호 변경"
+msgstr "更改交易安全密码"
+
+#: ../change-pin-number.html
+msgid "현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요."
+msgstr "输入当前的 PIN 码。"
+
+#: ../change-pin-number.html
+msgid "새로 사용할 보안비밀번호(Pin Number)를 입력하세요."
+msgstr "输入要使用的新 PIN 码。"
+
+#: ../change-pin-number.html
+msgid "보안비밀번호(Pin Number)를 한번 더 입력하세요."
+msgstr "再次输入 PIN 码。"
+
+#: ../change-pin-number.html
+msgid "보안비밀번호(Pin Number)가 변경되었습니다."
+msgstr "安全密码（Pin Number）已更改。"
+
+#: ../faq.html
+msgid "고객 센터"
+msgstr "服务中心"
+
+#: ../faq.html
+msgid "F.A.Q"
+msgstr "常问问题"
+
+#: ../inquiry.html
+msgid "Direct Inquiry"
+msgstr "直接查询"
+
+#: ../inquiry.html
+msgid "번호"
+msgstr "数字"
+
+#: ../inquiry.html
+msgid "상태"
+msgstr "情况"
+
+#: ../inquiry.html
+msgid "수정"
+msgstr "更正"
+
+#: ../inquiry.html
+msgid "문의 내용이 없습니다"
+msgstr "没有查询"
+
+#: ../inquiry_detail.html
+msgid "텍스트"
+msgstr "文本"
+
+#: ../inquiry_detail.html
+msgid "내용"
+msgstr "内容"
+
+#: ../inquiry_detail.html
+msgid "답변"
+msgstr "回答"
+
+#: ../inquiry_detail.html
+msgid "답변 일자"
+msgstr "回复日期"
+
+#: ../inquiry_detail.html
+msgid "답변 내용"
+msgstr "回答内容"
+
+#: ../inquiry_detail.html
+msgid "목록"
+msgstr "列表"
+
+#: ../inquiry_detail.html
+msgid "내용 수정"
+msgstr "编辑内容"
+
+#: ../inquiry_detail.html
+msgid "문의하기"
+msgstr "联系我们"
+
+#: ../login.html
+msgid "이메일을 입력해주세요."
+msgstr "请输入您的电子邮件。"
+
+#: ../login.html
+msgid "비밀번호를 입력해주세요."
+msgstr "请输入密码。"
+
+#: ../login.html
+msgid "Login"
+msgstr "登录"
+
+#: ../login.html
+msgid "Email"
+msgstr "电子邮件"
+
+#: ../login.html
+msgid "Password"
+msgstr "密码"
+
+#: ../login.html
+msgid "비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다."
+msgstr "密码不匹配。您可以通过忘记密码重设密码？"
+
+#: ../login.html
+msgid "비밀번호 찾기"
+msgstr "忘记密码了吗"
+
+#: ../login.html
+msgid "이메일로 회원가입"
+msgstr "通过电子邮件注册"
+
+#: ../member-account.html
+msgid "지갑 관리"
+msgstr "钱包管理"
+
+#: ../member-account.html
+msgid "Member Account"
+msgstr "会员账户"
+
+#: ../member-account.html
+msgid "핸드폰 번호"
+msgstr "手机号码"
+
+#: ../member-account.html
+msgid "거주지"
+msgstr "住宅"
+
+#: ../member-account.html
+msgid "로그인 비밀번호 변경"
+msgstr "更改登录密码"
+
+#: ../member-account.html
+msgid "Change password"
+msgstr "更改密码"
+
+#: ../member-account.html
+msgid "현재 비밀번호"
+msgstr "当前密码"
+
+#: ../member-account.html
+msgid "새로운 비밀번호"
+msgstr "新密码"
+
+#: ../member-account.html
+msgid "비밀번호 재입력"
+msgstr "重新输入密码"
+
+#: ../member-account.html
+msgid "티드로우"
+msgstr "潮汐"
+
+#: ../member-account.html
+msgid "거래내역"
+msgstr "交易记录"
+
+#: ../member-account.html
+msgid "더보기"
+msgstr "查看更多"
+
+#: ../my-verification.html
+msgid "Identity Verification"
+msgstr "身份验证"
+
+#: ../my-verification.html
+msgid "다음의 인증 절차를 진행하여 본인 확인을 완료하십시오."
+msgstr "请继续执行以下验证过程以完成您的身份验证。"
+
+#: ../my-verification.html
+msgid "정부에서 발행한 아래 서류 중 한가지를 준비해주세요."
+msgstr "请准备以下政府签发的文件之一。"
+
+#: ../my-verification.html
+msgid "1. ID Card"
+msgstr "1. 身份证"
+
+#: ../my-verification.html
+msgid "2. Passport"
+msgstr "2. 护照"
+
+#: ../my-verification.html
+msgid "3. Driver’s License"
+msgstr "3. 驾驶执照"
+
+#: ../notice_detail.html
+msgid "끽다거의 새로운 사이트가 곧 오픈합니다"
+msgstr "Queekdager 的新网站即将开放"
+
+#: ../notification.html
+msgid "Notification"
+msgstr "通知"
+
+#: ../transaction.html
+msgid "Trading History"
+msgstr "交易历史"
+
+#: ../transaction.html
+msgid "1주일"
+msgstr "1周"
+
+#: ../transaction.html
+msgid "1개월"
+msgstr "1个月"
+
+#: ../transaction.html
+msgid "6개월"
+msgstr "6个月"
+
+#: ../transaction.html
+msgid "1년"
+msgstr "1年"
+
+#: ../transaction.html
+msgid "조회하기"
+msgstr "查询"
+
+#: ../transaction.html
+msgid "전체"
+msgstr "全部"
+
+#: ../transaction.html
+msgid "판매"
+msgstr "销售"
+
+#: ../transaction.html
+msgid "구매"
+msgstr "购买"
+
+#: ../transaction.html
+msgid "공동 구매"
+msgstr "团购"
+
+#: ../transaction.html
+msgid "제품 등록"
+msgstr "产品注册"
+
+#: ../transaction.html
+msgid "제품"
+msgstr "产品"
+
+#: ../transaction.html
+msgid "단가"
+msgstr "单价"
+
+#: ../transaction.html
+msgid "수량"
+msgstr "数量"
+
+#: ../transaction.html
+msgid "총액"
+msgstr "总金额"
+
+#: ../transaction.html
+msgid "보냄"
+msgstr "发送"
+
+#: ../transaction.html
+msgid "받음"
+msgstr "星星"
+
+#: ../wallet.html
+msgid "My Wallet"
+msgstr "我的钱包"
+
+#: ../wallet.html
+msgid "총 보유 자산"
+msgstr "总持股"
+
+#: ../wallet.html
+msgid "사용 가능 자산"
+msgstr "可用资产"
+
+#: ../wallet.html
+msgid "동결 평가 자산"
+msgstr "冻结估值资产"
+
+#: ../wallet-analysis.html
+msgid "Profit and Loss Analysis"
+msgstr "损益分析"
+
+#: ../wallet-analysis.html
+msgid "종합분석 설명"
+msgstr "综合分析说明"
+
+#: ../wallet-analysis.html
+msgid "손익현황은 조회기간 동안 순입금액을 기준으로 투자원금을 계산하여 손익을 제공하는 수익평가용 참고자료로,입 출금이 빈번하게 발생하거나 금액 크기에 따라 평가가 왜곡될 수 있으며 해당 기간 실제 실현손익과는 다릅니다."
+msgstr "损益状况是利润评估的参考数据，根据查询期间的存款净额计算投资本金，提供损益。"
+
+#: ../wallet-analysis.html
+msgid "단순 참고용으로만 활용해주시기 바라며 당사는 해당 자료를 기반으로 한 매매 손실에 대해 책임지지 않음을 알려드립니다."
+msgstr "仅供参考，我们在此通知您，我们对基于此材料的任何交易损失概不负责。"
+
+#: ../wallet-analysis.html
+msgid "조회기간 설정은 최대 90일 까지 가능하며, 조회 당일 데이터는 조회 불가합니다."
+msgstr "您可以设置查询周期最长为90天，查询当天的数据无法查看。"
+
+#: ../wallet-analysis.html
+msgid "계산식"
+msgstr "公式"
+
+#: ../wallet-analysis.html
+msgid "총 투자금액 ∑자산 별 (기초평가금액 + ∑입금평가금액 - ∑출금평가금액)"
+msgstr "资产投资总额∑（基础评估金额+∑存款评估金额-∑提款评估金额）"
+
+#: ../wallet-analysis.html
+msgid "총 투자손익 ∑자산 별 (기말평가금액 - 기초평가금액 + ∑출금평가금액 - ∑입금평가금액)"
+msgstr "资产总投资损益∑（终期估值-基础估值+∑提款估值-∑存款估值）"
+
+#: ../wallet-analysis.html
+msgid "총 투자수익률 (총투자손익 / 총투자금액) * 100"
+msgstr "总投资回报（总投资收益/总投资金额）*100"
+
+#: ../wallet-analysis.html
+msgid "기초/기말평가금액 기초 or 기말 KRW + 기초 or 기말 가상자산 평가금액 (해당일 종가, 00시 기준)"
+msgstr "开始/结束估值金额 开始或结束 KRW + 开始或结束虚拟资产估值（当天收盘价，截至 00:00）"
+
+#: ../wallet-analysis.html
+msgid "입금/출금평가금액 기간 내 입금 or 출금 KRW + 입금 or 출금 가상자산 평가금액 (해당시간 시세기준)"
+msgstr "存取款评估金额 存取款KRW + 存取款虚拟资产评估金额（以当时的市场价格为准）"
+
+#: ../wallet-deposit.html
+msgid "Deposit"
+msgstr "订金"
+
+#: ../wallet-deposit.html
+msgid "입금 안내"
+msgstr "存款信息"
+
+#: ../wallet-deposit.html
+msgid "비트코인캐시"
+msgstr "比特币现金"
+
+#: ../wallet-deposit.html
+msgid "QR Code"
+msgstr "二维码"
+
+#: ../wallet-deposit.html
+msgid "Create BCH Address"
+msgstr "创建 BCH 地址"
+
+#: ../wallet-deposit.html
+msgid "입금안내"
+msgstr "存款信息"
+
+#: ../wallet-deposit.html
+msgid "고객님께서 (비트코인캐시)를 팔고 싶다면 먼저 지갑에 입금하거나 다른 회원으로부터 구입해야 합니다."
+msgstr "如果您想出售（比特币现金），您必须先将其存入您的钱包或从其他会员处购买。"
+
+#: ../wallet-deposit.html
+msgid "고객님에게 지정된 (비트코인캐시)주소로 (비트코인캐시)를 보내면 고객님의 지갑에 자동으로 반영됩니다."
+msgstr "当您将（比特币现金）发送到为您指定的（比特币现金）地址时，它会自动反映在您的钱包中。"
+
+#: ../wallet-deposit.html
+msgid "평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료."
+msgstr "工作日上午 10:00 之前的请求和确认：在当天上午 12:00 之前完成处理。"
+
+#: ../wallet-deposit.html
+msgid "평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료."
+msgstr "工作日下午 4 点之前的请求和确认：处理在当天下午 6 点之前完成。"
+
+#: ../wallet-deposit.html
+msgid "법정 공휴일은 입출금 서비스를 지원하지 않습니다."
+msgstr "法定节假日不支持存取款服务。"
+
+#: ../wallet-deposit.html
+msgid "토,일 및 공휴일 입출금건 → 평일 영업일에 진행"
+msgstr "周六、周日及公众假期存取款 → 平日营业日"
+
+#: ../wallet-deposit.html
+msgid "Address"
+msgstr "地址"
+
+#: ../wallet-deposit.html
+msgid "Copy"
+msgstr "复制"
+
+#: ../wallet-deposit.html
+msgid "ETH Balance"
+msgstr "以太币余额"
+
+#: ../wallet-deposit.html
+msgid "이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다."
+msgstr "即使您之前进行过存款，您每次也必须通过相同的存款程序。"
+
+#: ../wallet-deposit.html
+msgid "통장입금내역과 입금예약사항이 정확히 일치하는 경우, 입금 후 고객님의 계정에 반영되기까지 약 10분 정도 소요됩니다."
+msgstr "如果存折存款明细与存款预约明细完全一致，则存款后大约需要 10 分钟才能反映在客户的账户中。"
+
+#: ../wallet-deposit.html
+msgid "신청 후 30분 내 미입금시 관리자 확인 후 입금신청이 취소됩니다."
+msgstr "如申请后30分钟内未付款，经管理员确认后，押金申请将被取消。"
+
+#: ../wallet-deposit.html
+msgid "서버 점검 시간 또는 은행거래 처리가 많은 월말에는 평소보다 입금처리가 지연될 수 있습니다."
+msgstr "在服务器维护时间或在有大量银行交易处理的月底，存款处理可能会比平时延迟。"
+
+#: ../wallet-deposit.html
+msgid "은행 공통 점검 시간(매일 23:30~00:30)에는 입금이 불가능하거나 지연될 수 있습니다."
+msgstr "在常见的银行检查时间内（每天 23:30 - 00:30）可能无法存款或存款延迟。"
+
+#: ../wallet-deposit.html
+msgid "반드시 ‘입금’에서 입금요청한 금액만큼 계좌로부터 한번에 입금 해야 합니다."
+msgstr "您必须立即从账户中将要求的金额存入“存款”中。"
+
+#: ../wallet-deposit.html
+msgid "다음의 경우에는 입금처리가 되지 않습니다."
+msgstr "在以下情况下，将不处理存款。"
+
+#: ../wallet-deposit.html
+msgid "예약한 금액과 다른 금액을 입금 예)1,000,000원을 예약하고 100,000원을 입금"
+msgstr "存入与保留金额不同的金额示例）保留1,000,000韩元并存入100,000韩元"
+
+#: ../wallet-deposit.html
+msgid "예약한 금액을 분할해 입금 예)1,000,000원을 500,000원 두 번으로 나누어 입금"
+msgstr "按保留金额分摊存款示例）将 1,000,000 韩元分两次支付 500,000 韩元存入"
+
+#: ../wallet-deposit.html
+msgid "금액 상이로 인한 입금 지연 문의 시에는 입금여부 확인이 가능한 증빙자료를 제출해야 합니다. (이 때, 제출하시는 증빙자료는 예금주명, 계좌번호, 입금액, 입금시간을 정확히 확인할 수 있는 자료여야 합니다.)"
+msgstr "如果因金额差异导致存款延迟，您必须提交可以确认存款是否已完成的证据。 （此时，您提交的证据必须是能够准确确认账户持有人姓名、账号、存款金额、存款时间的数据。）"
+
+#: ../wallet-deposit.html
+msgid "입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다."
+msgstr "如果存款金额未反映在您的帐户中或延迟，请联系网站底部的客户支持中心电子邮件。"
+
+#: ../wallet-withdrawal.html
+msgid "출금 안내"
+msgstr "提款信息"
+
+#: ../wallet-withdrawal.html
+msgid "비트코인 캐시"
+msgstr "比特币现金"
+
+#: ../wallet-withdrawal.html
+msgid "(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다."
+msgstr "（比特币现金）可以从交易所客户的钱包转移到外部客户的钱包。"
+
+#: ../wallet-withdrawal.html
+msgid "고객님의 (비트코인캐시) 거래가 네트워크에 의해 처리되도록하기 위해 (비트코인캐시) 거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 거래소 수수료와 트랜젝션 수수료가 차감된 금액 입니다."
+msgstr "（比特币现金）交易中包含交易费用，以确保您的（比特币现金）交易由网络处理。实际存款金额是减去兑换费和交易费的金额。"
+
+#: ../wallet-withdrawal.html
+msgid "모든 인출은 관리자가 확인한 후에 실행됩니다."
+msgstr "所有提款均在管理员确认后执行。"
+
+#: ../wallet-withdrawal.html
+msgid "요금안내"
+msgstr "费用信息"
+
+#: ../wallet-withdrawal.html
+msgid "출금수수료"
+msgstr "提款费"
+
+#: ../wallet-withdrawal.html
+msgid "내부출금수수료"
+msgstr "内部提款费"
+
+#: ../wallet-withdrawal.html
+msgid "최소출금액"
+msgstr "最低提款金额"
+
+#: ../wallet-withdrawal.html
+msgid "최대출금액"
+msgstr "最大提款金额"
+
+#: ../wallet-withdrawal.html
+msgid "출금 가능금액"
+msgstr "可提款金额"
+
+#: ../wallet-withdrawal.html
+msgid "1일 출금 가능금액"
+msgstr "每天可提取的金额"
+
+#: ../wallet-withdrawal.html
+msgid "출금하실 금액"
+msgstr "提款金额"
+
+#: ../wallet-withdrawal.html
+msgid "출금 수수료"
+msgstr "提款费"
+
+#: ../wallet-withdrawal.html
+msgid "실 출금액"
+msgstr "实际提款金额"
+
+#: ../wallet-withdrawal.html
+msgid "보안비밀번호"
+msgstr "安全密码"
+
+#: ../wallet-withdrawal.html
+msgid "보안비밀번호는 계정관리 &gt; 보안비밀번호 변경에서 바꾸실수 있습니다."
+msgstr "您可以在账户管理 > 更改安全密码中更改安全密码。"
+
+#: ../wallet-withdrawal.html
+msgid "출금 (비트코인캐시) 주소"
+msgstr "提款（比特币现金）地址"
+
+#: ../wallet-withdrawal.html
+msgid "검사"
+msgstr "测试"
+
+#: ../withdrawal.html
+msgid "Teaplat Membership Withdrawal"
+msgstr "Teaplat 会员退出"
+
+#: ../withdrawal.html
+msgid "회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>
+                보유 자산을 매도해야 합니다."
+msgstr "在退出会员之前，请提取所有存款并<br>
+你必须卖掉你的资产。"
+
+#: ../withdrawal.html
+msgid "다음의 약관을 반드시 숙지한 후에 탈퇴를 진행해 주세요."
+msgstr "在继续您的提款之前，请务必阅读以下条款和条件。"
+
+#: ../withdrawal.html
+msgid "회원 탈퇴 약관에 동의합니다."
+msgstr "我同意会员取消条款和条件。"
+
+msgid "이메일 발송"
+msgstr "发送电子邮件"
+

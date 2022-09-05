@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-01 17:07+0900\n"
-"PO-Revision-Date: 2022-09-01 17:07+0900\n"
+"POT-Creation-Date: 2022-09-05 17:19+0900\n"
+"PO-Revision-Date: 2022-09-05 17:22+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -481,3 +481,605 @@ msgstr "Next Page"
 
 msgid "보안비밀번호 입력"
 msgstr "Enter Security Password"
+
+#: ../change-account-number.html
+msgid "정보 수정"
+msgstr "Changing Information"
+
+#: ../change-account-number.html
+msgid "ID 인증 관리"
+msgstr "Identity Authentication Management"
+
+#: ../change-account-number.html
+msgid "보안비밀번호변경"
+msgstr "Change Security Password"
+
+#: ../change-account-number.html
+msgid "출금계좌 변경"
+msgstr "Change of Withdrawal Account"
+
+#: ../change-account-number.html
+msgid "거래 내역"
+msgstr "Transaction History"
+
+#: ../change-account-number.html
+msgid "알림"
+msgstr "Notice"
+
+#: ../change-account-number.html
+msgid "회원 탈퇴"
+msgstr "Withdrawal"
+
+#: ../change-account-number.html
+msgid "지갑관리"
+msgstr "Wallet Management"
+
+#: ../change-account-number.html
+msgid "보유 자산"
+msgstr "Holdings"
+
+#: ../change-account-number.html
+msgid "입금"
+msgstr "Deposit"
+
+#: ../change-account-number.html
+msgid "출금"
+msgstr "Withdraw"
+
+#: ../change-account-number.html
+msgid "종합 분석"
+msgstr "Comprehensive Analysis"
+
+#: ../change-account-number.html
+msgid "로그아웃"
+msgstr "Log Out"
+
+#: ../change-account-number.html
+msgid "계정 관리"
+msgstr "Account Management"
+
+#: ../change-account-number.html
+msgid "보안비밀번호 변경"
+msgstr "Change Security Password"
+
+#: ../change-account-number.html
+msgid "Change bank account number"
+msgstr "Change Bank Account Number"
+
+#: ../change-account-number.html
+msgid "출금 계좌 정보를 수정합니다."
+msgstr "Edit Withdrawal Account Information."
+
+#: ../change-account-number.html
+msgid "은행 및 계좌"
+msgstr "Bank and Account"
+
+#: ../change-account-number.html
+msgid "출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다."
+msgstr "Only the bankbook with the same ID as the submitted ID will be registered for the withdrawal account."
+
+#: ../change-pin-number.html
+msgid "Change Pin Number"
+msgstr "Change Pin Number"
+
+#: ../change-pin-number.html
+msgid "거래용 보안비밀번호 변경"
+msgstr "Change Security Password for Transaction"
+
+#: ../change-pin-number.html
+msgid "현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요."
+msgstr "Enter the current PIN number."
+
+#: ../change-pin-number.html
+msgid "새로 사용할 보안비밀번호(Pin Number)를 입력하세요."
+msgstr "Enter the new PIN number to be used."
+
+#: ../change-pin-number.html
+msgid "보안비밀번호(Pin Number)를 한번 더 입력하세요."
+msgstr "Enter the PIN number once more."
+
+#: ../change-pin-number.html
+msgid "보안비밀번호(Pin Number)가 변경되었습니다."
+msgstr "The security password (Pin Number) has been changed."
+
+#: ../faq.html
+msgid "고객 센터"
+msgstr "Service Center"
+
+#: ../faq.html
+msgid "F.A.Q"
+msgstr "F.A.Q"
+
+#: ../inquiry.html
+msgid "Direct Inquiry"
+msgstr "Direct Inquiry"
+
+#: ../inquiry.html
+msgid "번호"
+msgstr "Number"
+
+#: ../inquiry.html
+msgid "상태"
+msgstr "Status"
+
+#: ../inquiry.html
+msgid "수정"
+msgstr "Edit"
+
+#: ../inquiry.html
+msgid "문의 내용이 없습니다"
+msgstr "There is no inquiry"
+
+#: ../inquiry_detail.html
+msgid "텍스트"
+msgstr "Text"
+
+#: ../inquiry_detail.html
+msgid "내용"
+msgstr "Contents"
+
+#: ../inquiry_detail.html
+msgid "답변"
+msgstr "Answer"
+
+#: ../inquiry_detail.html
+msgid "답변 일자"
+msgstr "Response Date"
+
+#: ../inquiry_detail.html
+msgid "답변 내용"
+msgstr "Answer Content"
+
+#: ../inquiry_detail.html
+msgid "목록"
+msgstr "List"
+
+#: ../inquiry_detail.html
+msgid "내용 수정"
+msgstr "Edit Content"
+
+#: ../inquiry_detail.html
+msgid "문의하기"
+msgstr "Contact Us"
+
+#: ../login.html
+msgid "이메일을 입력해주세요."
+msgstr "Please enter your e-mail."
+
+#: ../login.html
+msgid "비밀번호를 입력해주세요."
+msgstr "Please enter a password."
+
+#: ../login.html
+msgid "Login"
+msgstr "Login"
+
+#: ../login.html
+msgid "Email"
+msgstr "Email"
+
+#: ../login.html
+msgid "Password"
+msgstr "Password"
+
+#: ../login.html
+msgid "비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다."
+msgstr "Passwords do not match. You can reset your password through Forgot Password?"
+
+#: ../login.html
+msgid "비밀번호 찾기"
+msgstr "Forgot Your Password"
+
+#: ../login.html
+msgid "이메일로 회원가입"
+msgstr "Register by Email"
+
+#: ../member-account.html
+msgid "지갑 관리"
+msgstr "Wallet Management"
+
+#: ../member-account.html
+msgid "Member Account"
+msgstr "Member Account"
+
+#: ../member-account.html
+msgid "핸드폰 번호"
+msgstr "Cell Phone Number"
+
+#: ../member-account.html
+msgid "거주지"
+msgstr "Residence"
+
+#: ../member-account.html
+msgid "로그인 비밀번호 변경"
+msgstr "Change Login Password"
+
+#: ../member-account.html
+msgid "Change password"
+msgstr "Change Password"
+
+#: ../member-account.html
+msgid "현재 비밀번호"
+msgstr "Current Password"
+
+#: ../member-account.html
+msgid "새로운 비밀번호"
+msgstr "New Password"
+
+#: ../member-account.html
+msgid "비밀번호 재입력"
+msgstr "Re-enter Password"
+
+#: ../member-account.html
+msgid "티드로우"
+msgstr "Tidrow"
+
+#: ../member-account.html
+msgid "거래내역"
+msgstr "Transaction History"
+
+#: ../member-account.html
+msgid "더보기"
+msgstr "View More"
+
+#: ../my-verification.html
+msgid "Identity Verification"
+msgstr "Identity Verification"
+
+#: ../my-verification.html
+msgid "다음의 인증 절차를 진행하여 본인 확인을 완료하십시오."
+msgstr "Please proceed with the following verification process to complete your identity verification."
+
+#: ../my-verification.html
+msgid "정부에서 발행한 아래 서류 중 한가지를 준비해주세요."
+msgstr "Please prepare one of the following documents issued by the government."
+
+#: ../my-verification.html
+msgid "1. ID Card"
+msgstr "1. ID Card"
+
+#: ../my-verification.html
+msgid "2. Passport"
+msgstr "2. Passport"
+
+#: ../my-verification.html
+msgid "3. Driver’s License"
+msgstr "3. Driver’s License"
+
+#: ../notice_detail.html
+msgid "끽다거의 새로운 사이트가 곧 오픈합니다"
+msgstr "Queekdager's new site will be open soon."
+
+#: ../notification.html
+msgid "Notification"
+msgstr "Notification"
+
+#: ../transaction.html
+msgid "Trading History"
+msgstr "Trading History"
+
+#: ../transaction.html
+msgid "1주일"
+msgstr "1 week"
+
+#: ../transaction.html
+msgid "1개월"
+msgstr "1 month"
+
+#: ../transaction.html
+msgid "6개월"
+msgstr "6 months"
+
+#: ../transaction.html
+msgid "1년"
+msgstr "1 year"
+
+#: ../transaction.html
+msgid "조회하기"
+msgstr "Inquire"
+
+#: ../transaction.html
+msgid "전체"
+msgstr "All"
+
+#: ../transaction.html
+msgid "판매"
+msgstr "Sell"
+
+#: ../transaction.html
+msgid "구매"
+msgstr "Buy"
+
+#: ../transaction.html
+msgid "공동 구매"
+msgstr "Group Buying"
+
+#: ../transaction.html
+msgid "제품 등록"
+msgstr "Product Registration"
+
+#: ../transaction.html
+msgid "제품"
+msgstr "Product"
+
+#: ../transaction.html
+msgid "단가"
+msgstr "Unit Price"
+
+#: ../transaction.html
+msgid "수량"
+msgstr "Quantity"
+
+#: ../transaction.html
+msgid "총액"
+msgstr "Total Amount"
+
+#: ../transaction.html
+msgid "보냄"
+msgstr "Sent"
+
+#: ../transaction.html
+msgid "받음"
+msgstr "Receive"
+
+#: ../wallet.html
+msgid "My Wallet"
+msgstr "My Wallet"
+
+#: ../wallet.html
+msgid "총 보유 자산"
+msgstr "Total Holdings"
+
+#: ../wallet.html
+msgid "사용 가능 자산"
+msgstr "Available Assets"
+
+#: ../wallet.html
+msgid "동결 평가 자산"
+msgstr "Freeze Valuation Assets"
+
+#: ../wallet-analysis.html
+msgid "Profit and Loss Analysis"
+msgstr "Profit and Loss Analysis"
+
+#: ../wallet-analysis.html
+msgid "종합분석 설명"
+msgstr "Comprehensive Analysis Explanation"
+
+#: ../wallet-analysis.html
+msgid "손익현황은 조회기간 동안 순입금액을 기준으로 투자원금을 계산하여 손익을 제공하는 수익평가용 참고자료로,입 출금이 빈번하게 발생하거나 금액 크기에 따라 평가가 왜곡될 수 있으며 해당 기간 실제 실현손익과는 다릅니다."
+msgstr "The profit and loss status is a reference data for profit evaluation that provides profit and loss by calculating the investment principal based on the net deposit amount during the inquiry period. is different."
+
+#: ../wallet-analysis.html
+msgid "단순 참고용으로만 활용해주시기 바라며 당사는 해당 자료를 기반으로 한 매매 손실에 대해 책임지지 않음을 알려드립니다."
+msgstr "Please use it as a reference only, and we would like to inform you that we are not responsible for any loss of trading based on this material."
+
+#: ../wallet-analysis.html
+msgid "조회기간 설정은 최대 90일 까지 가능하며, 조회 당일 데이터는 조회 불가합니다."
+msgstr "You can set the inquiry period up to 90 days, and the data on the day of inquiry cannot be viewed."
+
+#: ../wallet-analysis.html
+msgid "계산식"
+msgstr "계산식"
+
+#: ../wallet-analysis.html
+msgid "총 투자금액 ∑자산 별 (기초평가금액 + ∑입금평가금액 - ∑출금평가금액)"
+msgstr "Total Investment Amount ∑ by Asset (Basic Evaluation Amount + ∑Deposit Evaluation Amount - ∑Withdrawal Evaluation Amount)"
+
+#: ../wallet-analysis.html
+msgid "총 투자손익 ∑자산 별 (기말평가금액 - 기초평가금액 + ∑출금평가금액 - ∑입금평가금액)"
+msgstr "Total Investment Income ∑ by Asset (Final Evaluation Amount - Basic Evaluation Amount + ∑Withdrawal Evaluation Amount - ∑Deposit Evaluation Amount)"
+
+#: ../wallet-analysis.html
+msgid "총 투자수익률 (총투자손익 / 총투자금액) * 100"
+msgstr "Total Return on Investment (Total Investment Income / Total Investment) * 100"
+
+#: ../wallet-analysis.html
+msgid "기초/기말평가금액 기초 or 기말 KRW + 기초 or 기말 가상자산 평가금액 (해당일 종가, 00시 기준)"
+msgstr "Opening/ending valuation amount Starting or ending KRW + starting or ending virtual asset valuation (close price of the day, as of 00:00)"
+
+#: ../wallet-analysis.html
+msgid "입금/출금평가금액 기간 내 입금 or 출금 KRW + 입금 or 출금 가상자산 평가금액 (해당시간 시세기준)"
+msgstr "Deposit/withdrawal evaluation amount Deposit or withdrawal KRW + Deposit or withdrawal virtual asset evaluation amount (based on market price at the time)"
+
+#: ../wallet-deposit.html
+msgid "Deposit"
+msgstr "Deposit"
+
+#: ../wallet-deposit.html
+msgid "입금 안내"
+msgstr "Deposit Information"
+
+#: ../wallet-deposit.html
+msgid "비트코인캐시"
+msgstr "Bitcoin Cash"
+
+#: ../wallet-deposit.html
+msgid "QR Code"
+msgstr "QR Code"
+
+#: ../wallet-deposit.html
+msgid "Create BCH Address"
+msgstr "Create BCH Address"
+
+#: ../wallet-deposit.html
+msgid "입금안내"
+msgstr "Deposit Information"
+
+#: ../wallet-deposit.html
+msgid "고객님께서 (비트코인캐시)를 팔고 싶다면 먼저 지갑에 입금하거나 다른 회원으로부터 구입해야 합니다."
+msgstr "If you want to sell (Bitcoin Cash), you must first deposit it into your wallet or buy from another member."
+
+#: ../wallet-deposit.html
+msgid "고객님에게 지정된 (비트코인캐시)주소로 (비트코인캐시)를 보내면 고객님의 지갑에 자동으로 반영됩니다."
+msgstr "When you send (Bitcoin Cash) to the (Bitcoin Cash) address specified for you, it is automatically reflected in your wallet."
+
+#: ../wallet-deposit.html
+msgid "평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료."
+msgstr "Requests and confirmations by 10:00 am on weekdays: processing completed before 12:00 am on the same day."
+
+#: ../wallet-deposit.html
+msgid "평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료."
+msgstr "Requests and confirmations by 4 pm on weekdays: Processing completed before 6 pm on the same day."
+
+#: ../wallet-deposit.html
+msgid "법정 공휴일은 입출금 서비스를 지원하지 않습니다."
+msgstr "Deposit and withdrawal services are not supported on statutory holidays."
+
+#: ../wallet-deposit.html
+msgid "토,일 및 공휴일 입출금건 → 평일 영업일에 진행"
+msgstr "Deposits and withdrawals on Saturdays, Sundays and public holidays → On weekdays business days"
+
+#: ../wallet-deposit.html
+msgid "Address"
+msgstr "Address"
+
+#: ../wallet-deposit.html
+msgid "Copy"
+msgstr "Copy"
+
+#: ../wallet-deposit.html
+msgid "ETH Balance"
+msgstr "ETH Balance"
+
+#: ../wallet-deposit.html
+msgid "이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다."
+msgstr "Even if you have previously made a deposit, you must go through the same deposit procedure each time."
+
+#: ../wallet-deposit.html
+msgid "통장입금내역과 입금예약사항이 정확히 일치하는 경우, 입금 후 고객님의 계정에 반영되기까지 약 10분 정도 소요됩니다."
+msgstr "If the bankbook deposit details and the deposit reservation details match exactly, it takes about 10 minutes after the deposit to be reflected in the customer's account."
+
+#: ../wallet-deposit.html
+msgid "신청 후 30분 내 미입금시 관리자 확인 후 입금신청이 취소됩니다."
+msgstr "If payment is not made within 30 minutes after application, the deposit application will be canceled after confirmation by the administrator."
+
+#: ../wallet-deposit.html
+msgid "서버 점검 시간 또는 은행거래 처리가 많은 월말에는 평소보다 입금처리가 지연될 수 있습니다."
+msgstr "Deposit processing may be delayed than usual during server maintenance hours or at the end of the month when there is a lot of bank transaction processing."
+
+#: ../wallet-deposit.html
+msgid "은행 공통 점검 시간(매일 23:30~00:30)에는 입금이 불가능하거나 지연될 수 있습니다."
+msgstr "Deposits may not be possible or may be delayed during common bank inspection hours (23:30 - 00:30 daily)."
+
+#: ../wallet-deposit.html
+msgid "반드시 ‘입금’에서 입금요청한 금액만큼 계좌로부터 한번에 입금 해야 합니다."
+msgstr "You must deposit the amount requested in ‘Deposit’ from the account at once."
+
+#: ../wallet-deposit.html
+msgid "다음의 경우에는 입금처리가 되지 않습니다."
+msgstr "Deposits will not be processed in the following cases."
+
+#: ../wallet-deposit.html
+msgid "예약한 금액과 다른 금액을 입금 예)1,000,000원을 예약하고 100,000원을 입금"
+msgstr "Deposit an amount different from the reserved amount Example) Reserve KRW 1,000,000 and deposit KRW 100,000"
+
+#: ../wallet-deposit.html
+msgid "예약한 금액을 분할해 입금 예)1,000,000원을 500,000원 두 번으로 나누어 입금"
+msgstr "Deposit by dividing the reserved amount Example) Deposit 1,000,000 KRW in two divided payments of 500,000 KRW"
+
+#: ../wallet-deposit.html
+msgid "금액 상이로 인한 입금 지연 문의 시에는 입금여부 확인이 가능한 증빙자료를 제출해야 합니다. (이 때, 제출하시는 증빙자료는 예금주명, 계좌번호, 입금액, 입금시간을 정확히 확인할 수 있는 자료여야 합니다.)"
+msgstr "In case of delay in deposit due to a difference in amount, you must submit evidence that can confirm whether or not the deposit has been made. (At this time, the evidence you submit must be data that can accurately confirm the name of the account holder, account number, deposit amount, and deposit time.)"
+
+#: ../wallet-deposit.html
+msgid "입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다."
+msgstr "If the deposit amount is not reflected in your account or is delayed, please contact the customer support center email at the bottom of the site."
+
+#: ../wallet-withdrawal.html
+msgid "출금 안내"
+msgstr "Withdrawal Information"
+
+#: ../wallet-withdrawal.html
+msgid "비트코인 캐시"
+msgstr "Bitcoin Cash"
+
+#: ../wallet-withdrawal.html
+msgid "(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다."
+msgstr "(Bitcoin Cash) can be transferred from the wallet of the exchange customer to the wallet of an external customer."
+
+#: ../wallet-withdrawal.html
+msgid "고객님의 (비트코인캐시) 거래가 네트워크에 의해 처리되도록하기 위해 (비트코인캐시) 거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 거래소 수수료와 트랜젝션 수수료가 차감된 금액 입니다."
+msgstr "A transaction fee is included in (Bitcoin Cash) transactions to ensure that your (Bitcoin Cash) transactions are processed by the network. The actual deposit amount is the amount minus the exchange fee and the transaction fee."
+
+#: ../wallet-withdrawal.html
+msgid "모든 인출은 관리자가 확인한 후에 실행됩니다."
+msgstr "All withdrawals are executed after confirmation by the administrator."
+
+#: ../wallet-withdrawal.html
+msgid "요금안내"
+msgstr "Fee Information"
+
+#: ../wallet-withdrawal.html
+msgid "출금수수료"
+msgstr "Withdrawal Fee"
+
+#: ../wallet-withdrawal.html
+msgid "내부출금수수료"
+msgstr "Internal Withdrawal Fee"
+
+#: ../wallet-withdrawal.html
+msgid "최소출금액"
+msgstr "Minimum Withdrawal Amount"
+
+#: ../wallet-withdrawal.html
+msgid "최대출금액"
+msgstr "Maximum Withdrawal Amount"
+
+#: ../wallet-withdrawal.html
+msgid "출금 가능금액"
+msgstr "Amount Available for Withdrawal"
+
+#: ../wallet-withdrawal.html
+msgid "1일 출금 가능금액"
+msgstr "Amount That Can Be Withdrawn per Day"
+
+#: ../wallet-withdrawal.html
+msgid "출금하실 금액"
+msgstr "Amount to Be Withdrawn"
+
+#: ../wallet-withdrawal.html
+msgid "출금 수수료"
+msgstr "Withdrawal Fee"
+
+#: ../wallet-withdrawal.html
+msgid "실 출금액"
+msgstr "Actual Withdrawal Amount"
+
+#: ../wallet-withdrawal.html
+msgid "보안비밀번호"
+msgstr "Security Password"
+
+#: ../wallet-withdrawal.html
+msgid "보안비밀번호는 계정관리 &gt; 보안비밀번호 변경에서 바꾸실수 있습니다."
+msgstr "You can change the security password in Account Management > Change Security Password."
+
+#: ../wallet-withdrawal.html
+msgid "출금 (비트코인캐시) 주소"
+msgstr "Withdrawal (Bitcoin Cash) Address"
+
+#: ../wallet-withdrawal.html
+msgid "검사"
+msgstr "Test"
+
+#: ../withdrawal.html
+msgid "Teaplat Membership Withdrawal"
+msgstr "Teaplat Membership Withdrawal"
+
+#: ../withdrawal.html
+msgid "회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>
+                보유 자산을 매도해야 합니다."
+msgstr "Before withdrawing from membership, withdraw all deposits and <br>
+You must sell your holdings."
+
+#: ../withdrawal.html
+msgid "다음의 약관을 반드시 숙지한 후에 탈퇴를 진행해 주세요."
+msgstr "Please be sure to read the following terms and conditions before proceeding with your withdrawal."
+
+#: ../withdrawal.html
+msgid "회원 탈퇴 약관에 동의합니다."
+msgstr "I agree to the membership cancellation terms and conditions."
+
+msgid "이메일 발송"
+msgstr "Send Email"
+
