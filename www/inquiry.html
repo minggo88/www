@@ -131,15 +131,18 @@
         </aside>
         <div class="contents">
             <header class="contents--header">
-                <button type="button" class="navigation--back"></button>
-                <h1 data-i18n>Direct Inquiry</h1>
+                <div>
+					<button type="button" class="navigation--back"></button>
+					<h1 data-i18n>Direct Inquiry</h1>
+				</div>
+				<div class="mobile-only"><a href="inquiry_write.html" class="btn">문의하기</a></div>
             </header>
             <table class="board--list desktop-only">
                 <colgroup>
-                    <col style="width: calc(100% * (64 / 900))">
+                    <col style="width: calc(100% * (64 / 900)); min-width: 70px;">
                     <col style="width: calc(100% * (460 / 900))">
-                    <col style="width: calc(100% * (120 / 900))">
-                    <col style="width: calc(100% * (119 / 900))">
+                    <col style="width: calc(100% * (120 / 900)); min-width: 75px;">
+                    <col style="width: calc(100% * (119 / 900)); min-width: 105px;">
                     <col style="width: calc(100% * (140 / 900))">
                 </colgroup>
                 <thead>
@@ -152,9 +155,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--<tr>
+                    <!-- <tr>
                         <td>1</td>
-                        <td><a href="inquiry_detail.html">문의합니다.</a></td>
+                        <td><a href="inquiry_detail.html">문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.</a></td>
                         <td class="text-red">답변완료</td>
                         <td>2022-01-25</tdclass=>
                         <td>
@@ -259,7 +262,7 @@
                         <td>
                             <a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
                         </td>
-                    </tr>-->
+                    </tr> -->
                     <tr class="board--empty">
                         <td colspan="5" data-i18n>문의 내용이 없습니다</td>
                     </tr>
@@ -267,17 +270,56 @@
             </table>
             <nav class="board--pagination">
                 <ul>
-                    <!--<li class="pagination--prev">
-                        <a href="">이전 페이지</a>
-                    </li>
-                    <li><a href="">1</a></li>
-                    <li class="pagination--next">
-                        <a href="">다음 페이지</a>
-                    </li>-->
+					<li class="pagination--prev">
+						<a href="#none">이전 페이지</a>
+					</li>
+					<li><a href="">1</a></li>
+					<li class="pagination--next">
+						<a href="#none">다음 페이지</a>
+					</li>
                 </ul>
             </nav>
             <ul class="notification--list mobile-only">
-                <li></li>
+                <li>
+					<div>
+						<div class="number"><span>[1]</span>문의합니다.</div>
+						<div class="date">
+							<p class="day">2022.12.22<span class="time">14:33</span></p>
+							<p class="text-red">답변완료</p>
+						</div>
+					</div>
+					<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+				</li>
+				<li>
+					<div>
+						<div class="number"><span>[2]</span>문의합니다.</div>
+						<div class="date">
+							<p class="day">2022.12.22<span class="time">14:33</span></p>
+							<p class="text-red">답변완료</p>
+						</div>
+					</div>
+					<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+				</li>
+				<li>
+					<div>
+						<div class="number"><span>[3]</span>문의합니다.</div>
+						<div class="date">
+							<p class="day">2022.12.22<span class="time">14:33</span></p>
+							<p class="text-red">답변완료</p>
+						</div>
+					</div>
+					<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+				</li>
+				<li>
+					<div>
+						<div class="number"><span>[4]</span>문의합니다.</div>
+						<div class="date">
+							<p class="day">2022.12.22<span class="time">14:33</span></p>
+							<p class="text-red">답변완료</p>
+						</div>
+					</div>
+					<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+				</li>
             </ul>
             <script>
                 let pagination = {
@@ -363,12 +405,12 @@
                     return false
                 })
             </script>
-            <div class="board--btn"><a href="inquiry_write.html" class="btn btn--red btn--write">문의하기</a></div>
+            <div class="board--btn desktop-only"><a href="inquiry_write.html" class="btn btn--red btn--write">문의하기</a></div>
         </div>
     </main>
     <footer class="desktop-only">
-        <div class="logo">Teaplat</div>
-        <nav class="fnb">
+		<div class="logo">Teaplat</div>
+		<nav class="fnb">
 			<ul>
 				<li>
 					<a href="" data-i18n>회사소개</a>
@@ -384,27 +426,22 @@
 				</li>
 			</ul>
 			<div class="copyright">
-                <span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
-                <br>
-                <span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span>
-                <br><br>
-                Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. 
+				<address>
+					<span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
+					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
+					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
+					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
+					<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
+					<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
+					<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
+				</address>
+				<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
 			</div>
 		</nav>
 		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
 		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
-    </footer>
+	</footer>
 
     <script src="./assets/js/app.js?t={version}"></script>
 
