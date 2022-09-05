@@ -462,7 +462,11 @@ footer .copyright address{
 	flex-direction: row;
 	flex-wrap:wrap;
 }
-footer .copyright address > span{display: inline-block; margin-right: 4%;}
+footer .copyright address > span{
+	display: inline-block; 
+	margin-right: 4%;
+}
+footer span{vertical-align:initial !important;}
 
 footer .copyright .copy{margin-top: 20px;}
 
