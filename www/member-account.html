@@ -1,1 +1,369 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="title" content="끽다거"><meta name="description" content=""><meta property="og:type" content="website"><meta property="og:url" content="https://kkikda.com"><meta property="og:title" content="끽다거"><meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png"><meta property="og:description" content=""><meta property="og:site_name" content="끽다거"><meta property="og:locale" content="ko_KR"><meta property="og:image:width" content="200"><meta property="og:image:height" content="100"><title>끽다거</title><link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png"><link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png"><link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png"><link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png"><link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png"><link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://code.jquery.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="./assets/css/colorset.css"><link rel="stylesheet" href="./assets/css/common.css"><link rel="stylesheet" href="./assets/css/components.css"><link rel="stylesheet" href="./assets/css/sub.css"><link rel="stylesheet" href="./assets/css/mypage.css"><link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" /><style> .product--image { width: 32px; height: 32px; display: inline-block; line-height: 32px; text-align: center; border: 0.35px solid #E5E8EB; border-radius: 2px; margin-right: 3px; } .product--image img { vertical-align: middle; } </style><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script><script src="./assets/js/common.js"></script><script src="./assets/js/api.js"></script><script src="./assets/js/components.js"></script><script src="./assets/js/member-account.js"></script><script> let USER_INFO = {} API.getMyInfo((resp) => { if(resp.success) { const payload = resp.payload USER_INFO = { ...USER_INFO, userno: payload.userno, userid: payload.userid, phone: payload.phone, mobile: payload.mobile, bool_email: payload.bool_email, bool_sms: payload.bool_sms, regdate: payload.regdate, bank_name: payload.bank_name, bank_account: payload.bank_account, bank_owner: payload.bank_owner, } if(USER_INFO.userno) { $('.nav--side .btn--login').hide() $('.profile').show() $('.wallet').show() $('.profile .dropdown').text(USER_INFO.userid) } if(!USER_INFO.userno) { location.href = 'login.html' return } } }) </script></head><body class="sub notice member-account"><header class="desktop-only"><h1 class="logo"><a href="/">Teaplat</a></h1><nav class="nav"><ul><li><a href="exchange.html">거래소</a></li><li><a href="">공동구매</a></li><li><a href="">경매</a></li><li><a href="">가이드</a></li><li><a href="">다도 문화</a></li><li><a href="notice.html">고객센터</a></li></ul><div class="nav--side"><div class="profile dropdown-wrapper" style="display: none"><button type="button" class="dropdown text--blue-gray"> kik**@teaplat.com </button><div class="dropdown--item" style="width: 134px"><ul><li><a href="member-account.html">정보 수정</a></li><li><a href="my-verification.html">ID 인증 관리</a></li><li><a href="change-pin-number.html">보안비밀번호변경</a></li><li><a href="change-account-number.html">출금계좌 변경</a></li><li><a href="transaction.html">거래 내역</a></li><li><a href="notification.html">알림</a></li><li><a href="withdrawal.html">회원 탈퇴</a></li></ul></div></div><div class="wallet dropdown-wrapper" style="display: none"><button type="button" class="dropdown">지갑관리</button><div class="dropdown--item" style="width: 100px"><ul><li><a href="wallet.html">보유 자산</a></li><li><a href="wallet-deposit.html">입금</a></li><li><a href="wallet-withdrawal.html">출금</a></li><li><a href="wallet-analysis.html">종합 분석</a></li></ul></div></div><button type="button" class="btn btn--logout">로그아웃</button><div class="language dropdown-wrapper"><button type="button" class="dropdown">한국어</button><div class="dropdown--item"><span>한국어</span><ul></ul></div></div></div></nav></header><aside class="mobile-panel"><h1 class="size--20">계정 관리</h1><ul><li><a href="member-account.html">정보 수정</a></li><li><a href="my-verification.html">ID 인증 관리</a></li><li><a href="change-pin-number.html">보안비밀번호 변경</a></li><li><a href="change-account-number.html">출금계좌 변경</a></li><li><a href="withdrawal.html">회원 탈퇴</a></li></ul><h1 class="size--20">지갑 관리</h1><ul><li><a href="wallet.html"><i class="icon-database-fill"></i> 보유 자산</a></li><li><a href="wallet-deposit.html"><i class="icon-load-circle-fill"></i> 입금</a></li><li><a href="wallet-withdrawal.html"><i class="icon-circle-fill"></i> 출금</a></li><li><a href="wallet-analysis.html"><i class="icon-circle-fill"></i> 종합 분석</a></li></ul></aside><main class="d-grid"><aside class="side"><h1>계정 관리</h1><nav class="side--snb"><ul><li class="snb--active"><a href="member-account.html">정보 수정</a></li><li><a href="my-verification.html">ID 인증 관리</a></li><li><a href="change-pin-number.html">보안비밀번호 변경</a></li><li><a href="change-account-number.html">출금계좌 변경</a></li><li><a href="transaction.html">거래 내역</a></li><li><a href="notification.html">알림</a></li><li><a href="withdrawal.html">회원 탈퇴</a></li></ul></nav></aside><div class="contents"><header class="contents--header"><button type="button" class="navigation--back"></button><h1>Member Account</h1></header><form id="member-account" action="change-security-password2.html" class="boxed boxed--transparent d-flex" method="post" style="width: 100%; height: auto; justify-content: center" ><div><h1 class="m-0 size--20 mobile-only" style="color: var(--black);"><i class="icon-user-fill"></i> 정보 수정</h1><div class="default" ><div class="email form--controls"><label for="email">이메일</label><input type="email" name="email" id="email" disabled></div><div class="phone form--controls"><label for="phone">핸드폰 번호</label><input type="tel" name="phone" id="phone" disabled></div><div class="region"><h1 class="m-0 size--16">거주지</h1><div class="form--controls"><div class="row"><div class="col-6"><label for="country" class="form--label mobile-only">국가</label><input type="text" name="country" id="country" placeholder="국가" style="width: 100%" disabled></div><div class="col-6"><label for="country" class="form--label mobile-only">도시</label><input type="text" name="city" id="city" placeholder="도시" style="width: 100%" disabled></div></div></div><div class="form--controls"><input type="text" name="address" id="address" placeholder="주소"></div><div class="form--controls"><div class="row"><div class="col-6"><input type="text" name="address2" id="address2" placeholder="상세주소(옵션)"></div><div class="col-6"><input type="text" name="postcode" id="postcode" placeholder="우편번호"></div></div></div></div></div><a href="" class="text--red mobile-only">로그인 비밀번호 변경</a><div class="text--center"><input type="submit" value="계정 수정" class="btn btn--red" style="width: 340px; margin-top: 40px"></div><div class="text--center desktop-only"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password" style="width: 340px; margin-top: 40px" data-toggle="modal" data-target="#change-password">로그인 비밀번호 변경</a></div></div></form><form method="post" id="change-password" class="modal modal--tiny"><div class="modal--dialog" style="width: 500px"><div class="modal--header"> Change password <button type="button" class="btn btn--close"></button></div><div class="modal--content" style="padding: 0 77px 0 55px"><div class="form--controls"><label for="">현재 비밀번호</label><input type="password" name="password" id="password"></div><div class="form--controls"><label for="">새로운 비밀번호</label><input type="password" name="new_password" id="new_password"></div><div class="form--controls"><label for="">비밀번호 재입력</label><input type="password" name="new_password2" id="new_password2"></div><div class="form--btns" style="width: 340px; align-self: flex-end"><input type="submit" value="비밀번호 변경하기" class="btn btn--red" style="width: 100%"></div></div></div></form></div></main><nav class="mobile-bottom mobile-only"><ul class="unstyled" style="width: 100%; display: flex; flex-direction: row"><li class="exchange"><a href="">거래소</a></li><li class="area" ><a href="">티드로우</a></li><li class="auction" style="flex: 1 1 auto"><a href="">경매</a></li><li class="transaction" style="flex: 1 1 auto"><a href="">거래내역</a></li><li class="more"><a href="">더보기</a></li></ul></nav><footer class="desktop-only"><div class="logo">Teaplat</div><nav class="fnb"><ul><li><a href="">회사소개</a></li><li><a href="">이용약관</a></li><li><a href="">개인정보보호정책</a></li><li><a href="faq.html">자주묻는질문</a></li></ul></nav><div class="copyright"><span class="company--name">(주)끽다거</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="company--ceo">대표이사 : 안성희</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="company--number">사업자등록번호 : 824-87-00881</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="company--address">주소 : 서울특별시 종로구 계동 126번지 1호</span><br> 전화 : 02-733-9746 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 통신판매업신고번호 : 제 2021-서울종로-0444호 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 이메일 : kkikdageo@naver.com <br><br> Copyright © 2022 (주)끽다거. All rights reserved. </div><span class="customer--text">고객상담 · 상담 · 배송 문의</span><span class="customer--number">02-733-9746</span><span class="customer--time">평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span></footer></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- META -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="끽다거">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
+<title>끽다거</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://code.jquery.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/colorset.css">
+<link rel="stylesheet" href="./assets/css/common.css">
+<link rel="stylesheet" href="./assets/css/components.css">
+<link rel="stylesheet" href="./assets/css/sub.css">
+<link rel="stylesheet" href="./assets/css/mypage.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
+<style>
+    .product--image {
+        width: 32px;
+        height: 32px;
+        display: inline-block;
+        line-height: 32px;
+        text-align: center;
+        border: 0.35px solid #E5E8EB;
+        border-radius: 2px;
+        margin-right: 3px;
+    }
+
+    .product--image img {
+        vertical-align: middle;
+    }
+</style>
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/common.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js"></script>
+<script src="./assets/js/member-account.js"></script>
+<script>
+    let USER_INFO = {}
+
+    API.getMyInfo((resp) => {
+        if(resp.success) {
+            const payload = resp.payload
+
+            USER_INFO = {
+                ...USER_INFO,
+                userno: payload.userno,
+                userid: payload.userid,
+                phone: payload.phone,
+                mobile: payload.mobile,
+                bool_email: payload.bool_email,
+                bool_sms: payload.bool_sms,
+                regdate: payload.regdate,
+                bank_name: payload.bank_name,
+                bank_account: payload.bank_account,
+                bank_owner: payload.bank_owner,
+            }
+
+            if(USER_INFO.userno) {
+                $('.nav--side .btn--login').hide()
+                $('.profile').show()
+                $('.wallet').show()
+                $('.profile .dropdown').text(USER_INFO.userid)
+            }
+
+            if(!USER_INFO.userno) {
+        location.href = 'login.html'
+        return
+    }
+        }
+    })
+</script>
+
+<script src="./assets/js/lib/php.default.min.js"></script>
+<script src="./assets/js/lib/security.min.js"></script>
+
+</head>
+<!-- BODY -->
+<body class="sub notice member-account">
+    <header class="desktop-only">
+        <h1 class="logo"><a href="/">Teaplat</a></h1>
+        <nav class="nav">
+            <ul>
+                <li>
+                    <a href="exchange.html" data-i18n>거래소</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>공동구매</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>경매</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>가이드</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>다도 문화</a>
+                </li>
+                <li>
+                    <a href="notice.html" data-i18n>고객센터</a>
+                </li>
+            </ul>
+            <div class="nav--side">
+                <div class="profile dropdown-wrapper" style="display: none">
+                    <button type="button" class="dropdown text--blue-gray">
+                        kik**@teaplat.com
+                    </button>
+                    <div class="dropdown--item" style="width: 134px">
+                        <ul>
+                            <li><a data-i18n href="member-account.html">정보 수정</a></li>
+                            <li><a data-i18n href="my-verification.html">ID 인증 관리</a></li>
+                            <li><a data-i18n href="change-pin-number.html">보안비밀번호변경</a></li>
+                            <li><a data-i18n href="change-account-number.html">출금계좌 변경</a></li>
+                            <li><a data-i18n href="transaction.html">거래 내역</a></li>
+                            <li><a data-i18n href="notification.html">알림</a></li>
+                            <li><a data-i18n href="withdrawal.html">회원 탈퇴</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wallet dropdown-wrapper" style="display: none">
+                    <button type="button" class="dropdown" data-i18n>지갑관리</button>
+                    <div class="dropdown--item" style="width: 100px">
+                        <ul>
+                            <li><a data-i18n href="wallet.html">보유 자산</a></li>
+                            <li><a data-i18n href="wallet-deposit.html">입금</a></li>
+                            <li><a data-i18n href="wallet-withdrawal.html">출금</a></li>
+                            <li><a data-i18n href="wallet-analysis.html">종합 분석</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button type="button" class="btn btn--logout" data-i18n>로그아웃</button>
+                <div class="language dropdown-wrapper">
+                    <button type="button" class="dropdown">한국어</button>
+                    <div class="dropdown--item">
+                        <span>한국어</span>
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <aside class="mobile-panel">
+        <h1 class="size--20" data-i18n>계정 관리</h1>
+        <ul>
+            <li>
+                <a href="member-account.html" data-i18n>정보 수정</a>
+            </li>
+            <li>
+                <a href="my-verification.html" data-i18n>ID 인증 관리</a>
+            </li>
+            <li>
+                <a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+            </li>
+            <li>
+                <a href="change-account-number.html" data-i18n>출금계좌 변경</a>
+            </li>
+            <li>
+                <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
+            </li>
+        </ul>
+        <h1 class="size--20" data-i18n>지갑 관리</h1>
+        <ul>
+            <li>
+                <a href="wallet.html"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
+            </li>
+            <li>
+                <a href="wallet-deposit.html"><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+            </li>
+            <li>
+                <a href="wallet-withdrawal.html"><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+            </li>
+            <li>
+                <a href="wallet-analysis.html"><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
+            </li>
+        </ul>
+    </aside>
+    <main class="d-grid">
+        <aside class="side">
+            <h1 data-i18n>계정 관리</h1>
+            <nav class="side--snb">
+                <ul>
+                    <li class="snb--active">
+                        <a href="member-account.html" data-i18n>정보 수정</a>
+                    </li>
+                    <li>
+                        <a href="my-verification.html" data-i18n>ID 인증 관리</a>
+                    </li>
+                    <li>
+                        <a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+                    </li>
+                    <li>
+                        <a href="change-account-number.html" data-i18n>출금계좌 변경</a>
+                    </li>
+                    <li>
+                        <a href="transaction.html" data-i18n>거래 내역</a>
+                    </li>
+                    <li>
+                        <a href="notification.html" data-i18n>알림</a>
+                    </li>
+                    <li>
+                        <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
+                    </li>
+                </ul>
+            </nav>
+
+        </aside>
+        <div class="contents">
+            <header class="contents--header">
+                <button type="button" class="navigation--back"></button>
+                <h1 data-i18n>Member Account</h1>
+            </header>
+            <form id="member-account" action="change-security-password2.html" class="boxed boxed--transparent d-flex" method="post" style="width: 100%; height: auto; justify-content: center" >
+                <div>
+                    <h1 class="m-0 size--20 mobile-only" style="color: var(--black);"><i class="icon-user-fill"></i> <span data-i18n>정보 수정</span></h1>
+                    <div class="default" >
+                        <div class="email form--controls">
+                            <label for="email" data-i18n>이메일</label>
+                            <input type="email" name="email" id="email" disabled>
+                        </div>
+                        <div class="phone form--controls">
+                            <label for="phone" data-i18n>핸드폰 번호</label>
+                            <input type="tel" name="phone" id="phone" disabled>
+                        </div>
+                        <div class="region">
+                            <h1 class="m-0 size--16" data-i18n>거주지</h1>
+                            <div class="form--controls">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="country" class="form--label mobile-only" data-i18n>국가</label>
+                                        <input type="text" name="country" id="country" placeholder="국가" style="width: 100%" disabled>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="country" class="form--label mobile-only" data-i18n>도시</label>
+                                        <input type="text" name="city" id="city" placeholder="도시" style="width: 100%" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form--controls">
+                                <input type="text" name="address" id="address" placeholder="주소">
+                            </div>
+                            <div class="form--controls">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" name="address2" id="address2" placeholder="상세주소(옵션)">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" name="postcode" id="postcode" placeholder="우편번호">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="" class="text--red mobile-only" data-i18n>로그인 비밀번호 변경</a>
+                    <div class="text--center"><input type="submit" value="계정 수정" class="btn btn--red" style="width: 340px; margin-top: 40px"></div>
+                    <div class="text--center desktop-only"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password" style="width: 340px; margin-top: 40px" data-toggle="modal" data-target="#change-password" data-i18n>로그인 비밀번호 변경</a></div>
+                </div>
+            </form>
+            <form method="post" id="change-password" class="modal modal--tiny">
+                <div class="modal--dialog" style="width: 500px">
+                    <div class="modal--header">
+                        <span data-i18n>Change password</span>
+                        <button type="button" class="btn btn--close"></button>
+                    </div>
+                    <div class="modal--content" style="padding: 0 77px 0 55px">
+                        <div class="form--controls">
+                            <label for="" data-i18n>현재 비밀번호</label>
+                            <input type="password" name="password" id="password">
+                        </div>
+                        <div class="form--controls">
+                            <label for="" data-i18n>새로운 비밀번호</label>
+                            <input type="password" name="new_password" id="new_password">
+                        </div>
+                        <div class="form--controls">
+                            <label for="" data-i18n>비밀번호 재입력</label>
+                            <input type="password" name="new_password2" id="new_password2">
+                        </div>
+                        <div class="form--btns" style="width: 340px; align-self: flex-end">
+                            <input type="submit" value="비밀번호 변경하기" class="btn btn--red" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </main>
+    <nav class="mobile-bottom mobile-only">
+        <ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+            <li class="exchange">
+                <a href="" data-i18n>거래소</a>
+            </li>
+            <li class="area" >
+                <a href="" data-i18n>티드로우</a>
+            </li>
+            <li class="auction" style="flex: 1 1 auto">
+                <a href="" data-i18n>경매</a>
+            </li>
+            <li class="transaction" style="flex: 1 1 auto">
+                <a href="" data-i18n>거래내역</a>
+            </li>
+            <li class="more">
+                <a href="" data-i18n>더보기</a>
+            </li>
+        </ul>
+    </nav>
+    <footer class="desktop-only">
+        <div class="logo">Teaplat</div>
+        <nav class="fnb">
+			<ul>
+				<li>
+					<a href="" data-i18n>회사소개</a>
+				</li>
+				<li>
+					<a href="" data-i18n>이용약관</a>
+				</li>
+				<li>
+					<a href="" data-i18n>개인정보보호정책</a>
+				</li>
+				<li>
+					<a href="faq.html" data-i18n>자주묻는질문</a>
+				</li>
+			</ul>
+			<div class="copyright">
+                <span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
+                <br>
+                <span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span>
+                <br><br>
+                Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. 
+			</div>
+		</nav>
+		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
+		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
+		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
+    </footer>
+
+    <script src="./assets/js/app.js?t={version}"></script>
+
+</body>
+</html>

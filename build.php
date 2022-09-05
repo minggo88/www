@@ -35,7 +35,7 @@ if(stripos(PHP_OS, 'linux')!==false) {
 	exit('지원하지 않는 OS입니다.');
 }
 
-unlink($target_dir.'/i18n/build.sh');
+unlink($target_dir.'/i18n/build_pot.sh');
 unlink($target_dir.'/i18n/library.php');
 unlink($target_dir.'/i18n/po2json.php');
 unlink($target_dir.'/i18n/readme.txt');
@@ -44,7 +44,7 @@ unlink($target_dir.'/i18n/WWW.pot');
 
 echo "복사 완료 ".PHP_EOL;
 
-
+exit;
 echo "html 작업시작 ".PHP_EOL;
 
 // 배포본 생성
