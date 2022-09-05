@@ -65,16 +65,52 @@ function getCookie( name ){
  * 
  */
 function setURLParameter(key, val, url) {
-	url = new URL(url || window.location.href);
+    url = trim(url);
+    url = url ? url : window.location.origin;
+    url = url==='.' ? window.location.href : url ;
+    url = url.indexOf('./') === 0 ? window.location.origin + url : url;
+    url = url.indexOf('/') === 0 ? window.location.origin + url : url;
+	url = new URL(url);
 	url.searchParams.set(key, val);
 	return url.href;
+}
+
+function real_number_format(n, d){
+	if(typeof n==typeof undefined || n=='' || is_null(n) || is_nan(n) ){n='0';}
+	var sign = n<0 ? '-':'';
+	if(d) { n = number_format(n, d); }
+	n = n+'';
+	n = n.replace(/[^0-9.]/g,'');
+	var r = n.split('.');
+	r[0] = r[0].length==1 ? r[0] : r[0].replace(/^0+/g,'');// 숫자얖 0 제거
+	if(1000 <= n) { r[0] = number_format(r[0]); }// 콤마추가
+	r[1] = r[1] ? r[1].replace(/0{1,}$/g, '') : '';
+	if(r[1] && r[1].length>0) {
+		r = r.join('.');
+	} else {
+		r = r[0];
+	}
+	return sign + r;
+}
+
+function get_keycode(evt) {
+	return evt.which?evt.which:window.event.keyCode;
+}
+
+function get_str_by_keycode(keycode) {
+	let char = '';
+	if (window.event.which == null)
+		char= String.fromCharCode(event.keyCode);    // old IE
+	else
+		char= String.fromCharCode(window.event.which);	  // All others
+	return char;
 }
 
 /**
  * INPUT 객체에 keydown 이벤트 발생시 숫자만 입력할 수 있도록 하는 필터링함수.
  * 숫자와 커서이동에 필요한 화살표, 탭, Del, Backspace 키등만 허용되고 모두 필터링.
  * @param {window.event}} evt
- * @example $('#login form input[type=password]').on('keydown', input_filter_number)
+ * @example $('#box_login form input[type=password]').on('keydown', input_filter_number)
  */
  function input_filter_number (evt) {
 	let keyCode = evt.which?evt.which:event.keyCode,
@@ -88,7 +124,8 @@ function setURLParameter(key, val, url) {
 
 // i18n.js
 
-(function() {
+(function () {
+    const i18n_key = 'i189n';
     const in_array = function(val, array) {
         for (i in array) {
             if (array[i] == val) return true;
@@ -97,7 +134,7 @@ function setURLParameter(key, val, url) {
     }
     const support_lang = ['en', 'zh', 'ja', 'vi', 'th', 'ko'],
         default_lang = 'ko';
-    var lang_data = {},
+    var lang_data = window.localStorage['lang_data_'+lang] ? JSON.parse(Decrypt(window.localStorage['lang_data_'+lang], i18n_key, 256)) : {},
         lang = navigator.language || navigator.userLanguage,
         // cookieLang = getCookie('lang'),
         localeLang = window.localStorage.locale
@@ -115,9 +152,7 @@ function setURLParameter(key, val, url) {
     const translate = function (lang_data) {
         $('[data-i18n]').each(function () { 
             const str = $(this).html();
-            console.log(str)
             const trstr = lang_data[str] ? lang_data[str] : '';
-            console.log(trstr)
             if (trstr) {
                 $(this).html(trstr);
             }
@@ -133,9 +168,9 @@ function setURLParameter(key, val, url) {
                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
                     if (httpRequest.status === 200) {
                         r = JSON.parse(httpRequest.responseText);
+                        window.localStorage['lang_data_'+lang] = Encrypt(JSON.stringify(r), i18n_key, 256);
                         lang_data = r.data;
-                        translate(lang_data);
-                        // Model.LANG_DATA = lang_data;
+                        translate(r.data);
                     } else {
                         console.error(__('번역 데이터 가져오지 못함.'));
                     }
@@ -146,7 +181,14 @@ function setURLParameter(key, val, url) {
             httpRequest.send();
         }
     }
-    get_lang_data();
+    // 번역 데이터 캐시 시간 확인
+    if (!lang_data.gentime || lang_data.gentime < time() - 60 * 60) {
+        get_lang_data();
+    }
+    if (lang_data.data) {
+        lang_data = lang_data.data;
+        translate(lang_data);
+    }
     window.__ = function(key) {
         return lang_data && lang_data[key] ? lang_data[key] : key;
     };
@@ -277,23 +319,23 @@ function setURLParameter(key, val, url) {
     let TOKEN_DOMAIN = window.location.host; //"";
     let API_URL = "https://api." + (window.location.host.replace('www.', '')) + "/v1.0";
     // let API_WALLET_URL = 'https://api.wallet.smart-talk.io/v1.0';
-    let SERVICE_DOMAIN = 'www.exbds.io';
+    SERVICE_DOMAIN = window.location.host.replace('www.','');
     if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
         APP_RUNMODE = "loc";
-        API_URL = "http://" + (window.location.host) + "/api/v1.0";
-        SERVICE_DOMAIN = 'loc.exbds.io';
+        API_URL = "http://api." + (window.location.host) + "/v1.0";
+        // SERVICE_DOMAIN = window.location.host.replace('www.','');
         // API_WALLET_URL = 'http://loc.wallet.smart-talk.io/api/v1.0';
     }
     if (window.location.host.indexOf('dev.') !== -1) {
         APP_RUNMODE = "dev";
-        API_URL = "http://" + (window.location.host) + "/api/v1.0";
-        SERVICE_DOMAIN = 'dev.exbds.io';
+        API_URL = "http://api." + (window.location.host) + "/v1.0";
+        // SERVICE_DOMAIN = window.location.host.replace('www.','');
         // API_WALLET_URL = 'http://dev.wallet.smart-talk.io/api/v1.0';
     }
     if (window.location.host.indexOf('stage.') !== -1) {
         APP_RUNMODE = "stage";
         API_URL = "https://api." + (window.location.host) + "/v1.0";
-        SERVICE_DOMAIN = 'stage.exbds.io';
+        // SERVICE_DOMAIN = window.location.host.replace('www.','');
         // API_WALLET_URL = 'http://stage.wallet.smart-talk.io/api/v1.0';
     }
     const LOGIN_PAGE = '/login.php';
@@ -322,20 +364,20 @@ function setURLParameter(key, val, url) {
     // set language ----------------------------------------------------------------------------
     let APP_LANG = window.lang || 'ko';
     const change_language = function(lang) {
-            if (lang && lang !== APP_LANG) {
-                tpl = {}; // let으로 정의한 tpl도 사용가능함.
-                APP_LANG = lang;
-                $('html').attr('lang', APP_LANG);
-                // 서버에 언어 저장. 쿠키 값을 사용하지만 서버에서도 필요할까하여 저장함. 이메일을 보내거나 할때 ... 사용하면 좋아서.
-                if (Model.user_info.userid) {
-                    add_request_item('putMyInfo/putLanguage.php', { 'display_language': lang }, function(r) {});
-                }
-                _c(lang, function() {
-                    reload();
-                });
+        if (lang && lang !== APP_LANG) {
+            tpl = {}; // let으로 정의한 tpl도 사용가능함.
+            APP_LANG = lang;
+            $('html').attr('lang', APP_LANG);
+            // 서버에 언어 저장. 쿠키 값을 사용하지만 서버에서도 필요할까하여 저장함. 이메일을 보내거나 할때 ... 사용하면 좋아서.
+            if (Model.user_info.userid) {
+                add_request_item('putMyInfo/putLanguage.php', { 'display_language': lang }, function(r) {});
             }
+            _c(lang, function() {
+                reload();
+            });
         }
-        // 언어 변경 버튼 처리
+    }
+    // 언어 변경 버튼 처리
     $('.box_language').on('click', function() {
         $('.box_language .flags').toggle();
     })
@@ -343,15 +385,6 @@ function setURLParameter(key, val, url) {
         let lang = $(this).attr('data-lang');
         change_language(lang);
     });
-
-    // 가격 변환
-    const dprice = function(p, c) {
-        let exchange_currency = c || Model.user_info && Model.user_info.exchange_currency || 'USD',
-            pre_symbol = Model.currency[exchange_currency].pre_symbol,
-            sub_symbol = Model.currency[exchange_currency].sub_symbol,
-            exchange_price = Model.currency[exchange_currency].exchange_price;
-        return pre_symbol + real_number_format(p * exchange_price) + sub_symbol;
-    }
 
     // 최소구매금액
     // const min_limit_balance = 200;
@@ -599,7 +632,6 @@ function setURLParameter(key, val, url) {
         set: function(target, property, value) {
             // get oldValue
             let oldValue = _get_Model_value(target, property);
-            // console.error('Model.set --- ', target, property, oldValue);
             try {
                 if (session_item.indexOf(property) > -1) {
                     sessionStorage.setItem(property, Encrypt(JSON.stringify(value), key, 256));
@@ -612,11 +644,8 @@ function setURLParameter(key, val, url) {
                     target[property] = Encrypt(JSON.stringify(value), key, 256);
                 }
                 // Notify model changes if value is changed.
-                // console.error('Model.set --- newValue: ', value);
-                // console.error('Model.set --- oldValue: ', oldValue);
                 if (JSON.stringify(value) !== JSON.stringify(oldValue) && rander) {
                     // alert(property)
-                    // console.error('Model.set --- ', property, value, oldValue);
                     rander(property, value, oldValue);
                 }
             } catch (e) {
@@ -732,7 +761,8 @@ function setURLParameter(key, val, url) {
             form.token = getCookie('token');
             $.post(API_URL + '/request/?', form, function(r) {
                 request_warkable = true;
-                for (var i in r.payload) {
+                const cnt = r.payload.length;
+                for (let i = 0; i < cnt; i++) {
                     const tr = r.payload[i];
                     const response = JSON.parse(tr.data);
                     if (response.error && response.error.code === '001') {
@@ -775,6 +805,15 @@ function setURLParameter(key, val, url) {
     };
 
     /* Utils ----------------------------------------------------------------------------------- */
+
+    // 가격 변환
+    const dprice = function(p, c) {
+        let exchange_currency = c || Model.user_info && Model.user_info.exchange_currency || 'USD',
+            pre_symbol = Model.currency[exchange_currency].pre_symbol,
+            sub_symbol = Model.currency[exchange_currency].sub_symbol,
+            exchange_price = Model.currency[exchange_currency].exchange_price;
+        return pre_symbol + real_number_format(p * exchange_price) + sub_symbol;
+    }
 
     /**
      * 페이징 HTML을 생성합니다.
@@ -1272,6 +1311,11 @@ function setURLParameter(key, val, url) {
             window.location.href = LOGIN_PAGE;
         }
     }
+    const check_logout = function() {
+        if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
+            window.location.href = "/";
+        }
+    }
 
     /**
      * 새 채팅 매시지 가져오기
@@ -1461,108 +1505,63 @@ function setURLParameter(key, val, url) {
         });
 
     }
-    const fn_login = function() {
-        
-
+    const fn_login = function () {
+        check_logout();
         window.keypress_support = false;
 
         // 폼 초기화
-        $('#login form').each(function() { if ($(this).reset) { $(this).reset(); } });
-
+        $('#box_login form').each(function() { if ($(this).reset) { $(this).reset(); } });
+        
         // 아이디 포커스
-        $('#login [name=userid]').get(0).focus();
+        $('#box_login [name=email]').get(0).focus();
 
-        // 폼 필터
-        $('#login input[type=password]').on('keypress keyup', function(evt) {
-            if(evt.type=='keypress') {window.keypress_support = true;}
-            if(window.keypress_support && evt.type=='keyup') {return false;}
-            // alert(evt.type);
-            let keyCode = get_keycode(evt);
-            let keyStr = get_str_by_keycode(keyCode);
-            if(evt.type=='keyup') {keyStr = $(this).val();}
-            // console.log(keyCode, keyStr);
-            // 8:backspace, 9:tab, 13:enter, 16:shift, 17:ctrl, 18:alt, 19:pause, 20:caps lock, 46: delete
-            if (keyCode == '8' || keyCode == '46' || keyCode == '9' || keyCode == '13' || keyCode == '16' || keyCode == '17' || keyCode == '18' || keyCode == '19' || keyCode == '20') {
-                // keydown에서 처리.
-            } else {
-                if (keyStr.match(/[^0-9]/)) { return false; }
-                $(this).val(keyStr);
-                $(this).next('input[type=password]').select();
-                $('#login [name=userpw]').val($('#login [name=userpw1]').val() + '' + $('#login [name=userpw2]').val() + '' + $('#login [name=userpw3]').val() + '' + $('#login [name=userpw4]').val() + '' + $('#login [name=userpw5]').val() + '' + $('#login [name=userpw6]').val());
+        // 로그인
+        $('#box_login form[name=login]').on('submit', function (e) {
+            
+            e.preventDefault()
+
+            const $email = $('#email'), email = trim($email.val())
+            const $password = $('#password'), password = trim($password.val())
+
+            if(!email) {
+                $email.focus()
+                return false
             }
-            return false;
-        }).on('keydown', function(evt) { // 크롬 keypress에서 backspace, space, delete 키 이벤트 작동 않되서 따로 적용합니다.
-            // alert(evt.type);
-            let keyCode = get_keycode(evt);
-            if (keyCode == '8' || keyCode == '46') { // backspace
-                $(this).prev('input[type=password]').select();
-                $(this).val('');
-                $('#login [name=userpw]').val($('#login [name=userpw1]').val() + '' + $('#login [name=userpw2]').val() + '' + $('#login [name=userpw3]').val() + '' + $('#login [name=userpw4]').val() + '' + $('#login [name=userpw5]').val() + '' + $('#login [name=userpw6]').val());
-                return false;
+
+            if(!password) {
+                $password.focus()
+                return false
             }
-            if (keyCode == 13) { // enter
-                $('.btn_group .btn:eq(0)').trigger('click');
-            }
-        }).on('click', function() {
-            $(this).select();
-        });
-        // 애러 메시지 표시
-        const display_error = function(str) {
-                $('#login .error_txt').text(str);
-            }
-            // 로그인
-        $('#login [name=btn-login]').on('click', function() {
-            let $input_userid = $('#login [name=userid]'),
-                userid = $input_userid.val(),
-                $input_userpw = $('#login [name=userpw]'),
-                userpw = $input_userpw.val(),
-                auto_login = $('#login [name=auto_login]').is(':checked');
-            if (!userid) {
-                display_error(__('ID(전화번호)를 입력해주세요.'));
-                $input_userid.focus();
-                return false;
-            } else {
-                userid = userid.replace(/^0/, '');
-                userid = 'mobile82' + userid;
-            }
-            if (!userpw) {
-                display_error(__('핀번호를 입력해주세요.'));
-                $input_userpw.focus();
-                return false;
-            } else { $('#login [name=userpw]').val(userpw); }
-            display_error('');
-            Model.user_info = {}; // 회원정보 초기화
-            var uaparser = new UAParser();
-            uaparser.setUA(window.navigator.userAgent);
-            var os = uaparser.getOS();
-            var device = uaparser.getDevice();
-            add_request_item('login', { 'userid': userid, 'userpw': userpw, 'mobile_country_code': 'KR', 'uuid': device ? device.vendor + '-' + device.model + '-' + os.name + '-' + os.version : '', 'os': os ? os.name + '-' + os.version : '', 'fcm_tokenid': getCookie('fcm_token') }, function(r) {
+
+            API.login(email, password, (r) => {
                 if (r && r.success && r.payload) {
                     setCookie('token', r.payload.token);
                     Model.token = r.payload.token;
-                    Model.last_login_info = { 'userid': userid };
-                    let user_info = { 'userid': userid };
+                    Model.last_login_info = { 'userid': email };
+                    let user_info = { 'userid': email };
                     Model.user_info = user_info;
                     get_user_wallet();
                     get_user_info();
                     let ret_url = getURLParameter('ret_url')
-                    ret_url = ret_url ? $.trim(base64_decode(ret_url)) : '/';
+                    ret_url = ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
                     ret_url = setURLParameter('t', time(), ret_url);
                     window.location.href = ret_url;
                 } else {
                     let msg = r.error && r.error.message ? r.error.message : __('로그인 정보가 올바른지 확인해주세요.');
-                    display_error(msg);
+                    $('.validation--message').find('>p').text(msg).end().show()
                 }
-            });
+            })
             return false;
+
         });
 
     }
-    const fn_logout = function() {
+    const fn_logout = function () {
         $.post(API_URL + '/logout/', { 'token': getCookie('token') }, function(r) {
             // console.log(r);
             // if(r && r.success && !r.error) {
             Model.user_info = {};
+            reset_logedin_status();
             Model.auto_login = false;
             Model.visited_notice = false;
             setCookie('token', '', -1);
@@ -1779,7 +1778,7 @@ function setURLParameter(key, val, url) {
                 add_request_item('/getTransactionList/', {'symbol':'SPAY', 'address':wallet_address,'page':p, 'rows':rows}, function(r){
                     if(r && r.success) {
                         let html = [];
-                        console.log(r.payload);
+                        // console.log(r.payload);
                         for(i in r.payload) {
                             let row = r.payload[i];
                             if(row.cnt_total) cnt_total = row.cnt_total;
@@ -2254,7 +2253,7 @@ function setURLParameter(key, val, url) {
                                     pe = category.indexOf(')'),
                                     ename = category.substr(0, ps),
                                     name = category.substr(ps + 1, pe - ps - 1);
-                                console.log(r.payload.keywords.match(new RegExp(ename, 'i')), r.payload.keywords.match(new RegExp(name, 'i')));
+                                // console.log(r.payload.keywords.match(new RegExp(ename, 'i')), r.payload.keywords.match(new RegExp(name, 'i')));
                                 if (r.payload.keywords.match(new RegExp(ename, 'i')) || r.payload.keywords.match(new RegExp(name, 'i'))) {
                                     $('#cate_idx').val(val);
                                 }
@@ -3001,7 +3000,7 @@ function setURLParameter(key, val, url) {
         // 화상채팅 박스 영역 세로(수직)화면 가운데로 정렬시키기
         let check_vertical_video = function() {
             $('.cam .user video').each(function(){
-                console.log($(this).width(),$(this).height());
+                // console.log($(this).width(),$(this).height());
                 if($(this).width() < $(this).height()) {
                     $(this).addClass('vertical');
                 } else {
@@ -3806,7 +3805,7 @@ function setURLParameter(key, val, url) {
             alert('입금자명을 입력해주세요.'); $('#pay [name=deposit_name]').focus(); return ;
         }
         $.post(API_URL+'/charge/', {'goods_no':goods_no, 'pay_amount':pay_amount, 'pay_symbol':pay_symbol, 'charge_amount':charge_amount, 'charge_symbol':charge_symbol, 'app_id':SERVICE_NAME, 'service_name':SERVICE_NAME, 'pay_method':'bank', 'deposit_name':deposit_name, 'address':address, 'token':getCookie('token')}, function(r){
-            console.log(r);
+            // console.log(r);
             if(r && r.success) {
                 alert(__('등록 되었습니다.')+'<br> '+__('입금주소로 결제금액을 입금해주세요.'));
             } else {
@@ -3817,6 +3816,19 @@ function setURLParameter(key, val, url) {
     }
 
     /* 공통 기능 ----------------------------------------------------------------------------------- */
+
+    const reset_logedin_status = function () {
+        const user_info = Model.user_info;
+        console.log('user_info:', user_info);
+        if (user_info.userno && user_info.userid) {
+            $('[name=box_logedin]').show();
+            $('[name=box_unlogedin]').hide();
+        } else {
+            $('[name=box_logedin]').hide();
+            $('[name=box_unlogedin]').show();
+        }
+    };
+    // reset_logedin_status();
 
     /* 로그아웃 */
     $('[name="btn-logout"]').on('click', function() {
@@ -3839,7 +3851,7 @@ function setURLParameter(key, val, url) {
 
 
     // php 파일용 컨트롤러 실행
-    let page_controller = window.location.pathname.replace(/\/(.*).php|html/, '$1');
+    let page_controller = window.location.pathname.replace(/\/(.*).php|.html/, '$1');
     page_controller = page_controller.replace(/-/g, '_');
     page_controller = page_controller && page_controller != '/' ? page_controller : 'index';
     page_controller = page_controller.indexOf('/') === 0 ? substr(page_controller, 1) : page_controller;
@@ -3853,7 +3865,7 @@ function setURLParameter(key, val, url) {
     // }
     // run_fn('fn_' + page_controller);
     try {
-        console.log('fn_' + page_controller + '()');  //fn_/index.html()
+        // console.log('fn_' + page_controller + '()');  //fn_/index.html()
         eval('fn_' + page_controller + '()');
     } catch (e) {
         // console.error(e)
@@ -3864,11 +3876,12 @@ function setURLParameter(key, val, url) {
     /**
      * 회원정보 가져오기
      */
-    const get_user_info = function() {
-        add_request_item('getMyInfo', { 'token': getCookie('token') }, function(r) {
+    const get_user_info = function () {
+        add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
             if (r && r.success && !r.error) {
                 let user_info = r.payload;
                 Model.user_info = user_info;
+                reset_logedin_status();
             }
         });
     }
