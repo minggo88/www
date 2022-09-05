@@ -28,7 +28,7 @@
         // alert('run translate');
         lang_data = p_lang_data ? p_lang_data : lang_data;
         $('[data-i18n]').each(function () { 
-            const str = $(this).html();
+            const str = trim($(this).html());
             const trstr = lang_data[str] ? lang_data[str] : '';
             if (trstr) {
                 $(this).html(trstr);

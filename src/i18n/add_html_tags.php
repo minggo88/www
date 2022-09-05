@@ -31,7 +31,7 @@ foreach($files as $f) {
         // $pot_text = file_get_contents($pot_file);
         $placeholder = $html->find('[placeholder]');
         foreach($placeholder as $tr) {
-            $inner_html = $tr->placeholder;
+            $inner_html = trim($tr->placeholder);
             $pot_msgid = 'msgid "'.str_replace('"', '\"', $inner_html).'"';
             $pot_msgstr = 'msgstr ""';
             $new_pot_text = "\n#: {$f}\n{$pot_msgid}\n{$pot_msgstr}\n";
@@ -43,7 +43,7 @@ foreach($files as $f) {
         // $pot_text = file_get_contents($pot_file);
         $alt = $html->find('[alt]');
         foreach($alt as $tr) {
-            $inner_html = $tr->alt;
+            $inner_html = trim($tr->alt);
             $pot_msgid = 'msgid "'.str_replace('"', '\"', $inner_html).'"';
             $pot_msgstr = 'msgstr ""';
             $new_pot_text = "\n#: {$f}\n{$pot_msgid}\n{$pot_msgstr}\n";
@@ -55,7 +55,7 @@ foreach($files as $f) {
         // $pot_text = file_get_contents($pot_file);
         $title = $html->find('[title]');
         foreach($title as $tr) {
-            $inner_html = $tr->title;
+            $inner_html = trim($tr->title);
             $pot_msgid = 'msgid "'.str_replace('"', '\"', $inner_html).'"';
             $pot_msgstr = 'msgstr ""';
             $new_pot_text = "\n#: {$f}\n{$pot_msgid}\n{$pot_msgstr}\n";
@@ -68,6 +68,7 @@ foreach($files as $f) {
         $translates = $html->find('[data-i18n]');
         foreach($translates as $tr) {
             $inner_html = $tr->innertext();
+            $inner_html = trim($inner_html);
             // if(strpos($f, 'notice')!==false) {var_dump($inner_html);            }
             $pot_msgid = 'msgid "'.str_replace('"', '\"', $inner_html).'"';
             $pot_msgstr = 'msgstr ""';
