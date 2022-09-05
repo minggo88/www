@@ -464,6 +464,10 @@ function get_str_by_keycode(keycode) {
                 if (typeof vn == typeof {}) {
                     rander(property + '.' + i, vn, vo, force);
                 } else {
+                    // console.error('property:', property);
+                    // console.error('i:', i);
+                    // console.error('value:', value);
+                    // console.error('selector:', '[data-bind="' + property + '.' + i + '"]');
                     $('[data-bind="' + property + '.' + i + '"]').each(function() {
                         var tagname = this.tagName,
                             tagname = tagname.toUpperCase(),
@@ -535,6 +539,7 @@ function get_str_by_keycode(keycode) {
                                 vt = vn;
                         }
                         // 값 지정
+                        // console.log('tagname:', tagname);
                         switch (tagname) {
                             case 'INPUT':
                                 let type = ($(this).attr('type') + '').toUpperCase();
@@ -575,6 +580,7 @@ function get_str_by_keycode(keycode) {
                                 if ('userid' != i) { // userid는 콤마 미입력
                                     vt = (vt && vt.toNumber() == vt && (typeof(vt)).toLowerCase() == 'number' && !(vt + '').match(/[^0-9.]/)) ? real_number_format(vt) : vt;
                                 }
+                                // console.log('vt:', vt, '$(this):', $(this));
                                 $(this).html(vt);
                                 break;
                         }
@@ -692,20 +698,14 @@ function get_str_by_keycode(keycode) {
     // Model.user_wallet = {};
     Model.check_SMS_for_bank = false; // 은행정보 수정시 sms 인증 확인하기여부
     Model.currency = {
-        'KRW': { 'pre_symbol': '', 'sub_symbol': __('원'), 'exchange_price': 1, 'is_blockchain': false, 'is_virtual_currency': false, 'symbol_image': '', 'name': '대한민국 원' },
-        'GWS': { 'pre_symbol': '', 'sub_symbol': ' GWS', 'exchange_price': 50000, 'is_blockchain': true, 'is_virtual_currency': true, 'symbol_image': '', 'name': 'Goldswings' },
-        'BDC': { 'pre_symbol': '', 'sub_symbol': ' BDC', 'exchange_price': 1000000, 'is_blockchain': false, 'is_virtual_currency': true, 'symbol_image': '', 'name': 'BDS Coin' },
-        'HTP': { 'pre_symbol': '', 'sub_symbol': ' HTP', 'exchange_price': 10, 'is_blockchain': false, 'is_virtual_currency': true, 'symbol_image': '', 'name': 'Heart Point' },
-        'HTC': { 'pre_symbol': '', 'sub_symbol': ' HTC', 'exchange_price': 10000, 'is_blockchain': false, 'is_virtual_currency': true, 'symbol_image': '', 'name': 'Heart Coin' }
+        'KRW': { 'pre_symbol': '', 'sub_symbol': __('원'), 'exchange_price': 0.00076, 'is_blockchain': false, 'is_virtual_currency': false, 'symbol_image': '', 'name': '대한민국 원' },
+        'USD': { 'pre_symbol': '$ ', 'sub_symbol': '', 'exchange_price': 1, 'is_blockchain': false, 'is_virtual_currency': false, 'symbol_image': '', 'name': 'USD' }
     }
     Model.exchange_rate = { // 환율
-        'base_currency': 'KRW',
-        'base_symbol': '₩',
+        'base_currency': 'USD',
+        'base_symbol': '$',
         'KRW': Model.currency.KRW.exchange_price,
-        'GWS': Model.currency.GWS.exchange_price,
-        'HTC': Model.currency.HTC.exchange_price,
-        'HTP': Model.currency.HTP.exchange_price,
-        'BDC': Model.currency.BDC.exchange_price
+        'USD': Model.currency.USD.exchange_price
     };
     Model.company_info = { // getMyInfo/company_bank_info.php
         'bank_name': '',
@@ -3878,9 +3878,11 @@ function get_str_by_keycode(keycode) {
      */
     const get_user_info = function () {
         add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
+            console.log('getMyInfo r:', r);
             if (r && r.success && !r.error) {
                 let user_info = r.payload;
                 Model.user_info = user_info;
+                force_rander('user_info', user_info);
                 reset_logedin_status();
             }
         });
