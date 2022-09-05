@@ -754,10 +754,10 @@ form .form--header h1 {
     align-items: center;
     color: var(--basic-black);
     position: relative;
-    padding: 0 0 0 10px;
-    border: 0.35px solid #DFDFDF;
-    background: rgb(245, 245, 245, .7);
-    background: var(--white);
+    padding: 0 15px 0 10px;
+    border: none;/*0.35px solid #DFDFDF;*/
+    /* background: rgb(245, 245, 245, .7); */
+    background: transparent; /* var(--white);*/
     user-select: none;
     -webkit-user-drag: none;
     font-family: Inter;
@@ -769,7 +769,7 @@ form .form--header h1 {
 .dropdown::after {
     position: absolute;
     top: 50%;
-    right: 15px;
+    right: 0; /* 15px; */
     border: 0 none;
     content: "";
     display: block;
