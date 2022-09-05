@@ -1,0 +1,455 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-01 17:07+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../assets/js/app.js:143
+
+msgid "번역 데이터 가져오지 못함."
+msgstr ""
+
+msgid "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
+msgstr ""
+
+msgid "파일이름"
+msgstr ""
+
+msgid "{item_name} 파일을 저장하지 못했습니다."
+msgstr ""
+
+msgid "{item_name} 파일을 업로드하지 못했습니다."
+msgstr ""
+
+msgid "원"
+msgstr ""
+
+msgid "파일이 없습니다."
+msgstr ""
+
+msgid "로그인 해주세요"
+msgstr ""
+
+msgid "회원정보를 등록 해주세요"
+msgstr ""
+
+msgid "더이상 내용이 없습니다."
+msgstr ""
+
+msgid "후원금을 보내지 못했습니다."
+msgstr ""
+
+msgid "이미 사용하셨습니다."
+msgstr ""
+
+msgid "포인트를 보내지 못했습니다."
+msgstr ""
+
+msgid "핀번호를 입력해주세요."
+msgstr ""
+
+msgid "핀번호가 올바른지 확인해주세요."
+msgstr ""
+
+msgid "ID(전화번호)를 입력해주세요."
+msgstr ""
+
+msgid "로그인 정보가 올바른지 확인해주세요."
+msgstr ""
+
+msgid "핸드폰 번호를 입력해주세요"
+msgstr ""
+
+msgid "인증번호를 보내는중입니다."
+msgstr ""
+
+msgid "잠시만 기다려주세요."
+msgstr ""
+
+msgid "이미 가입하셨습니다."
+msgstr ""
+
+msgid "로그인 해주세요."
+msgstr ""
+
+msgid "인증번호를 발송했습니다."
+msgstr ""
+
+msgid "인증메시지를 보내지 못했습니다."
+msgstr ""
+
+msgid "인증 요청을 해주세요."
+msgstr ""
+
+msgid "유효시간이 지났습니다. 다시 인증 요청을 해주세요."
+msgstr ""
+
+msgid "인증번호를 입력해주세요."
+msgstr ""
+
+msgid "휴대폰번호가 인증되었습니다."
+msgstr ""
+
+msgid "올바른 인증번호를 입력해주세요."
+msgstr ""
+
+msgid "회원가입을 완료했습니다."
+msgstr ""
+
+msgid "회원가입을 하지 못했습니다."
+msgstr ""
+
+msgid "메시지를 보냈습니다."
+msgstr ""
+
+msgid "메시지를 보내지 못했습니다."
+msgstr ""
+
+msgid "URL을 입력해주세요."
+msgstr ""
+
+msgid "추가할 공간이 없습니다."
+msgstr ""
+
+msgid "기존 사진을 삭제하시고 추가해주세요."
+msgstr ""
+
+msgid "사진 제목을 선택해주세요."
+msgstr ""
+
+msgid "사진 종류를 선택해주세요."
+msgstr ""
+
+msgid "사진을 선택해주세요."
+msgstr ""
+
+msgid "업로드중입니다."
+msgstr ""
+
+msgid "사진 업로드"
+msgstr ""
+
+msgid "등록했습니다."
+msgstr ""
+
+msgid "사진 목록으로 이동하시겠습니까?"
+msgstr ""
+
+msgid "등록하지 못했습니다."
+msgstr ""
+
+msgid "BDS지갑 앱을 이용해주세요."
+msgstr ""
+
+msgid "이미지 파일의 URL을 입력해주세요."
+msgstr ""
+
+msgid "QR 코드를 스캔해주세요."
+msgstr ""
+
+msgid "올바른 동영상 HTML을 입력해주세요"
+msgstr ""
+
+msgid "올바른 동영상주소를 입력해주세요."
+msgstr ""
+
+msgid "동영상 제목을 입력해주세요."
+msgstr ""
+
+msgid "동영상 종류를 선택해주세요."
+msgstr ""
+
+msgid "미리보기 이미지를 선택해주세요."
+msgstr ""
+
+msgid "상품 배너를 업로드하지 못했습니다."
+msgstr ""
+
+msgid "상품 배너를 선택해주세요."
+msgstr ""
+
+msgid "동영상 목록으로 이동하시겠습니까?"
+msgstr ""
+
+msgid "동영상 파일을 선택해주세요."
+msgstr ""
+
+msgid "동영상 제목을 선택해주세요."
+msgstr ""
+
+msgid "동영상 업로드"
+msgstr ""
+
+msgid "동영상 정보가 없습니다."
+msgstr ""
+
+msgid "\"복구할 수 없게 완전히 삭제함\"에 체크 해주세요."
+msgstr ""
+
+msgid "삭제중입니다."
+msgstr ""
+
+msgid "공유영상으로 게시"
+msgstr ""
+
+msgid "삭제했습니다."
+msgstr ""
+
+msgid "목록으로 이동하시겠습니까?"
+msgstr ""
+
+msgid "삭제하지 못했습니다."
+msgstr ""
+
+msgid "선택한 회원을 채팅창에서 강제 퇴장시키시겠습니까?"
+msgstr ""
+
+msgid "강제 퇴장된 회원은 모든 메시지가 자동 삭제되며 다시 입장이 불가합니다."
+msgstr ""
+
+msgid "선택한 회원을 다시 입장시키시겠습니까?"
+msgstr ""
+
+msgid "삭제된 메시지는 복구되지 않습니다."
+msgstr ""
+
+msgid "삭제하시겠습니까?"
+msgstr ""
+
+msgid "메시지를 삭제하지 못했습니다."
+msgstr ""
+
+msgid "전체 메시지를 삭제하시겠습니까?"
+msgstr ""
+
+msgid "메시지를 삭제했습니다."
+msgstr ""
+
+msgid "메시지를 작성해주세요."
+msgstr ""
+
+msgid "핀번호가 일치하지 않습니다!"
+msgstr ""
+
+msgid "파일을 저장하지 못했습니다."
+msgstr ""
+
+msgid "파일을 업로드하지 못했습니다."
+msgstr ""
+
+msgid "저장했습니다."
+msgstr ""
+
+msgid "저장하지 못했습니다."
+msgstr ""
+
+msgid "등록 되었습니다."
+msgstr ""
+
+msgid "입금주소로 결제금액을 입금해주세요."
+msgstr ""
+
+msgid "거래소"
+msgstr ""
+
+msgid "공동구매"
+msgstr ""
+
+msgid "경매"
+msgstr ""
+
+msgid "가이드"
+msgstr ""
+
+msgid "다도 문화"
+msgstr ""
+
+msgid "고객센터"
+msgstr ""
+
+msgid "로그인"
+msgstr ""
+
+msgid "<b>새로운 인증시스템</b>의 <b>글로벌 표준 <span class=\"highlight\">차 거래소</span></b>"
+msgstr ""
+
+msgid "안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다."
+msgstr ""
+
+msgid "거래소 둘러보기"
+msgstr ""
+
+msgid "지수"
+msgstr ""
+
+msgid "기간"
+msgstr ""
+
+msgid "보이차 시세"
+msgstr ""
+
+msgid "전체보기"
+msgstr ""
+
+msgid "공지사항"
+msgstr ""
+
+msgid "모바일 APP에서 누리는 더 편리하고 안전한 거래"
+msgstr ""
+
+msgid "Download Teaplat APP"
+msgstr ""
+
+msgid "Android"
+msgstr ""
+
+msgid "iOS"
+msgstr ""
+
+msgid "누구나 쉽고 빠른 거래"
+msgstr ""
+
+msgid "계좌이체보다 주식보다 쉽고 빠른 거래가 가능합니다"
+msgstr ""
+
+msgid "전문 노하우를 통한 진품 거래"
+msgstr ""
+
+msgid "30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게<br>도와드립니다"
+msgstr ""
+
+msgid "전세계 어디에서나"
+msgstr ""
+
+msgid "글로벌 시스템으로 전세계 어디에서나 거래가 가능하며 다양한 언어를 지원합니다"
+msgstr ""
+
+msgid "한눈에 투자 현황 조회"
+msgstr ""
+
+msgid "내가 투자하고 거래하는 보이차의 시세 변화를 손쉽게 파악할 수 있습니다"
+msgstr ""
+
+msgid "투명하고 안전한 거래"
+msgstr ""
+
+msgid "블록체인 기술의 도입으로 투명한 거래 이력과 완벽한 보안을 제공합니다"
+msgstr ""
+
+msgid "공동구매와 경매"
+msgstr ""
+
+msgid "소액으로 고급차에 투자할 수 있도록 공동구매와 경매를 지원하여 합리적인 거래를 추구합니다"
+msgstr ""
+
+msgid "Teaplat"
+msgstr ""
+
+msgid "회사소개"
+msgstr ""
+
+msgid "이용약관"
+msgstr ""
+
+msgid "개인정보보호정책"
+msgstr ""
+
+msgid "자주묻는질문"
+msgstr ""
+
+msgid "대표이사"
+msgstr ""
+
+msgid "사업자등록번호"
+msgstr ""
+
+msgid "주소"
+msgstr ""
+
+msgid "전화"
+msgstr ""
+
+msgid "통신판매업신고번호"
+msgstr ""
+
+msgid "이메일"
+msgstr ""
+
+msgid "고객상담 · 상담 · 배송 문의"
+msgstr ""
+
+msgid "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
+msgstr ""
+
+msgid "국가 및 화폐 선택"
+msgstr ""
+
+msgid "은행명"
+msgstr ""
+
+msgid "이름"
+msgstr ""
+
+msgid "계좌번호"
+msgstr ""
+
+msgid "제목을 입력하세요"
+msgstr ""
+
+msgid "문의내용을 입력하세요"
+msgstr ""
+
+msgid "국가"
+msgstr ""
+
+msgid "도시"
+msgstr ""
+
+msgid "상세주소(옵션)"
+msgstr ""
+
+msgid "우편번호"
+msgstr ""
+
+msgid "자주하는 질문"
+msgstr ""
+
+msgid "1:1 문의"
+msgstr ""
+
+msgid "Notice"
+msgstr ""
+
+msgid "날짜"
+msgstr ""
+
+msgid "제목"
+msgstr ""
+
+msgid "작성자"
+msgstr ""
+
+msgid "게시물이 없습니다"
+msgstr ""
+
+msgid "이전 페이지"
+msgstr ""
+
+msgid "다음 페이지"
+msgstr ""
+
+msgid "보안비밀번호 입력"
+msgstr ""

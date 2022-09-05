@@ -1,0 +1,76 @@
+{
+    "rows":[
+        {
+            "Num": 15,
+            "Category": "팝니다",
+            "CreatedAt": "2022/05/19",
+            "Price": 100.0,
+            "Quantity": 12,
+            "TotalPrice": 1200.0,
+            "Status": "판매중"
+        },
+        {
+            "Num": 14,
+            "Category": "팝니다",
+            "CreatedAt": "2022/05/19",
+            "Price": 100.0,
+            "Quantity": 12,
+            "TotalPrice": 1200.0,
+            "Status": "판매중"
+        },
+        {
+            "Num": 13,
+            "Category": "팝니다",
+            "CreatedAt": "2022/05/19",
+            "Price": 100.0,
+            "Quantity": 12,
+            "TotalPrice": 1200.0,
+            "Status": "판매중"
+        },
+        {
+            "Num": 12,
+            "Category": "팝니다",
+            "CreatedAt": "2022/05/19",
+            "Price": 100.0,
+            "Quantity": 12,
+            "TotalPrice": 1200.0,
+            "Status": "판매중"
+        },
+        {
+            "Num": 11,
+            "Category": "팝니다",
+            "CreatedAt": "2022/05/19",
+            "Price": 100.0,
+            "Quantity": 12,
+            "TotalPrice": 1200.0,
+            "Status": "판매중"
+        },
+        {
+            "Num": 10,
+            "Category": "팝니다",
+            "CreatedAt": "2022/05/19",
+            "Price": 100.0,
+            "Quantity": 12,
+            "TotalPrice": 1200.0,
+            "Status": "판매중"
+        },
+        {
+            "Num": 9,
+            "Category": "팝니다",
+            "CreatedAt": "2022/05/19",
+            "Price": 100.0,
+            "Quantity": 12,
+            "TotalPrice": 1200.0,
+            "Status": "판매중"
+        },
+        {
+            "Num": 8,
+            "Category": "팝니다",
+            "CreatedAt": "2022/05/19",
+            "Price": 100.0,
+            "Quantity": 12,
+            "TotalPrice": 1200.0,
+            "Status": "판매중"
+        }
+    ]
+}

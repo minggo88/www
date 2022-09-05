@@ -1,0 +1,483 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-01 17:07+0900\n"
+"PO-Revision-Date: 2022-09-01 17:07+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: ../assets/js/app.js:143
+msgid "번역 데이터 가져오지 못함."
+msgstr "Failed to get translation data."
+
+msgid ""
+"100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
+msgstr ""
+"If the video exceeds 100MB, please upload it to YouTube, etc., and copy and "
+"paste the source code."
+
+msgid "파일이름"
+msgstr "Filename"
+
+msgid "{item_name} 파일을 저장하지 못했습니다."
+msgstr "Failed to save file {item_name}."
+
+msgid "{item_name} 파일을 업로드하지 못했습니다."
+msgstr "Failed to upload file {item_name}."
+
+msgid "원"
+msgstr "Won"
+
+msgid "파일이 없습니다."
+msgstr "The file does not exist."
+
+msgid "로그인 해주세요"
+msgstr "please log in"
+
+msgid "회원정보를 등록 해주세요"
+msgstr "Please register your member information"
+
+msgid "더이상 내용이 없습니다."
+msgstr "No more content."
+
+msgid "후원금을 보내지 못했습니다."
+msgstr "Failed to send donation."
+
+msgid "이미 사용하셨습니다."
+msgstr "You have already used it."
+
+msgid "포인트를 보내지 못했습니다."
+msgstr "Failed to send points."
+
+msgid "핀번호를 입력해주세요."
+msgstr "Please enter your pin number."
+
+msgid "핀번호가 올바른지 확인해주세요."
+msgstr "Please check if the pin number is correct."
+
+msgid "ID(전화번호)를 입력해주세요."
+msgstr "Please enter your ID (phone number)."
+
+msgid "로그인 정보가 올바른지 확인해주세요."
+msgstr "Please make sure your login information is correct."
+
+msgid "핸드폰 번호를 입력해주세요"
+msgstr "Please enter your mobile number"
+
+msgid "인증번호를 보내는중입니다."
+msgstr "The verification code is being sent."
+
+msgid "잠시만 기다려주세요."
+msgstr "please wait for a moment."
+
+msgid "이미 가입하셨습니다."
+msgstr "You have already subscribed."
+
+msgid "로그인 해주세요."
+msgstr "Please log in."
+
+msgid "인증번호를 발송했습니다."
+msgstr "We have sent you a verification code."
+
+msgid "인증메시지를 보내지 못했습니다."
+msgstr "Failed to send authentication message."
+
+msgid "인증 요청을 해주세요."
+msgstr "Please request authentication."
+
+msgid "유효시간이 지났습니다. 다시 인증 요청을 해주세요."
+msgstr "Valid time has passed. Please re-authenticate."
+
+msgid "인증번호를 입력해주세요."
+msgstr "Please enter the verification code."
+
+msgid "휴대폰번호가 인증되었습니다."
+msgstr "Your mobile number has been verified."
+
+msgid "올바른 인증번호를 입력해주세요."
+msgstr "Please enter the correct verification code."
+
+msgid "회원가입을 완료했습니다."
+msgstr "You have completed your membership registration."
+
+msgid "회원가입을 하지 못했습니다."
+msgstr "Failed to sign up."
+
+msgid "메시지를 보냈습니다."
+msgstr "A message has been sent."
+
+msgid "메시지를 보내지 못했습니다."
+msgstr "Failed to send message."
+
+msgid "URL을 입력해주세요."
+msgstr "Please enter the URL."
+
+msgid "추가할 공간이 없습니다."
+msgstr "There is no space to add."
+
+msgid "기존 사진을 삭제하시고 추가해주세요."
+msgstr "Please delete the existing picture and add it."
+
+msgid "사진 제목을 선택해주세요."
+msgstr "Please select a photo title."
+
+msgid "사진 종류를 선택해주세요."
+msgstr "Please select a photo type."
+
+msgid "사진을 선택해주세요."
+msgstr "Please select a photo."
+
+msgid "업로드중입니다."
+msgstr "Uploading."
+
+msgid "사진 업로드"
+msgstr "Upload Photo"
+
+msgid "등록했습니다."
+msgstr "Registered."
+
+msgid "사진 목록으로 이동하시겠습니까?"
+msgstr "Do you want to go to the photo list?"
+
+msgid "등록하지 못했습니다."
+msgstr "Registration failed."
+
+msgid "BDS지갑 앱을 이용해주세요."
+msgstr "Please use the BDS wallet app."
+
+msgid "이미지 파일의 URL을 입력해주세요."
+msgstr "Please enter the URL of the image file."
+
+msgid "QR 코드를 스캔해주세요."
+msgstr "Please scan the QR code."
+
+msgid "올바른 동영상 HTML을 입력해주세요"
+msgstr "Please enter correct video HTML"
+
+msgid "올바른 동영상주소를 입력해주세요."
+msgstr "Please enter the correct video address."
+
+msgid "동영상 제목을 입력해주세요."
+msgstr "Please enter a video title."
+
+msgid "동영상 종류를 선택해주세요."
+msgstr "Please select a video type."
+
+msgid "미리보기 이미지를 선택해주세요."
+msgstr "Please select a thumbnail image."
+
+msgid "상품 배너를 업로드하지 못했습니다."
+msgstr "Failed to upload product banner."
+
+msgid "상품 배너를 선택해주세요."
+msgstr "Please select a product banner."
+
+msgid "동영상 목록으로 이동하시겠습니까?"
+msgstr "Are you sure you want to go to the video list?"
+
+msgid "동영상 파일을 선택해주세요."
+msgstr "Please select a video file."
+
+msgid "동영상 제목을 선택해주세요."
+msgstr "Please select a video title."
+
+msgid "동영상 업로드"
+msgstr "Upload Video"
+
+msgid "동영상 정보가 없습니다."
+msgstr "No video information."
+
+msgid "\"복구할 수 없게 완전히 삭제함\"에 체크 해주세요."
+msgstr "Check \"Completely deleted irretrievably\"."
+
+msgid "삭제중입니다."
+msgstr "Deleting."
+
+msgid "공유영상으로 게시"
+msgstr "Post as shared video"
+
+msgid "삭제했습니다."
+msgstr "Deleted."
+
+msgid "목록으로 이동하시겠습니까?"
+msgstr "Are you sure you want to go to the list?"
+
+msgid "삭제하지 못했습니다."
+msgstr "Failed to delete."
+
+msgid "선택한 회원을 채팅창에서 강제 퇴장시키시겠습니까?"
+msgstr ""
+"Are you sure you want to force the selected member to leave the chat window?"
+
+msgid "강제 퇴장된 회원은 모든 메시지가 자동 삭제되며 다시 입장이 불가합니다."
+msgstr ""
+"Members who have been forced to leave will have their messages automatically "
+"deleted and will not be able to re-enter."
+
+msgid "선택한 회원을 다시 입장시키시겠습니까?"
+msgstr "Are you sure you want to re-enter the selected member?"
+
+msgid "삭제된 메시지는 복구되지 않습니다."
+msgstr "Deleted messages are not recovered."
+
+msgid "삭제하시겠습니까?"
+msgstr "Do you want to delete?"
+
+msgid "메시지를 삭제하지 못했습니다."
+msgstr "Failed to delete message."
+
+msgid "전체 메시지를 삭제하시겠습니까?"
+msgstr "Are you sure you want to delete the entire message?"
+
+msgid "메시지를 삭제했습니다."
+msgstr "Deleted the message."
+
+msgid "메시지를 작성해주세요."
+msgstr "Please write a message."
+
+msgid "핀번호가 일치하지 않습니다!"
+msgstr "Pin numbers do not match!"
+
+msgid "파일을 저장하지 못했습니다."
+msgstr "Failed to save file."
+
+msgid "파일을 업로드하지 못했습니다."
+msgstr "Failed to upload file."
+
+msgid "저장했습니다."
+msgstr "Saved."
+
+msgid "저장하지 못했습니다."
+msgstr "Failed to save."
+
+msgid "등록 되었습니다."
+msgstr "Registered."
+
+msgid "입금주소로 결제금액을 입금해주세요."
+msgstr "Please deposit the payment amount to the deposit address."
+
+msgid "거래소"
+msgstr "Exchange"
+
+msgid "공동구매"
+msgstr "Group Buying"
+
+msgid "경매"
+msgstr "Auction"
+
+msgid "가이드"
+msgstr "Guide"
+
+msgid "다도 문화"
+msgstr "Tea Ceremony Culture"
+
+msgid "고객센터"
+msgstr "Service Center"
+
+msgid "로그인"
+msgstr "Login"
+
+msgid ""
+"<b>새로운 인증시스템</b>의 <b>글로벌 표준 <span class=\"highlight\">차 거래소"
+"</span></b>"
+msgstr ""
+"<b>Global standard of <b>new authentication system</b> <span class="
+"\"highlight\">Tea exchange</span></b>"
+
+msgid "안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다."
+msgstr ""
+"We provide a fast and convenient trading environment with a safe and "
+"transparent system."
+
+msgid "거래소 둘러보기"
+msgstr "Browse exchanges"
+
+msgid "지수"
+msgstr "Indices"
+
+msgid "기간"
+msgstr "period"
+
+msgid "보이차 시세"
+msgstr "Puer Tea Price"
+
+msgid "전체보기"
+msgstr "View all"
+
+msgid "공지사항"
+msgstr "Notice"
+
+msgid "모바일 APP에서 누리는 더 편리하고 안전한 거래"
+msgstr "More convenient and safer transactions in the mobile APP"
+
+msgid "Download Teaplat APP"
+msgstr "Download Teaplat APP"
+
+msgid "Android"
+msgstr "Android"
+
+msgid "iOS"
+msgstr "iOS"
+
+msgid "누구나 쉽고 빠른 거래"
+msgstr "Easy and fast transaction for anyone"
+
+msgid "계좌이체보다 주식보다 쉽고 빠른 거래가 가능합니다"
+msgstr "It is easier and faster to trade than stocks than by bank transfer."
+
+msgid "전문 노하우를 통한 진품 거래"
+msgstr "Genuine trade through professional know-how"
+
+msgid ""
+"30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게<br>도"
+"와드립니다"
+msgstr ""
+"Through 30 years of professional know-how, we will help you identify and "
+"invest only genuine products."
+
+msgid "전세계 어디에서나"
+msgstr "anywhere in the world"
+
+msgid ""
+"글로벌 시스템으로 전세계 어디에서나 거래가 가능하며 다양한 언어를 지원합니다"
+msgstr ""
+"The global system allows you to trade anywhere in the world and supports "
+"multiple languages."
+
+msgid "한눈에 투자 현황 조회"
+msgstr "Investment status at a glance"
+
+msgid "내가 투자하고 거래하는 보이차의 시세 변화를 손쉽게 파악할 수 있습니다"
+msgstr ""
+"I can easily understand the price changes of Puer cars that I invest and "
+"trade"
+
+msgid "투명하고 안전한 거래"
+msgstr "Transparent and secure transactions"
+
+msgid "블록체인 기술의 도입으로 투명한 거래 이력과 완벽한 보안을 제공합니다"
+msgstr ""
+"With the introduction of blockchain technology, we provide transparent "
+"transaction history and complete security."
+
+msgid "공동구매와 경매"
+msgstr "joint purchase and auction"
+
+msgid ""
+"소액으로 고급차에 투자할 수 있도록 공동구매와 경매를 지원하여 합리적인 거래"
+"를 추구합니다"
+msgstr ""
+"We pursue reasonable transactions by supporting group purchases and auctions "
+"so that small amounts of money can be invested in luxury cars."
+
+msgid "Teaplat"
+msgstr "Teaplat"
+
+msgid "회사소개"
+msgstr "About Us"
+
+msgid "이용약관"
+msgstr "Terms of service"
+
+msgid "개인정보보호정책"
+msgstr "Privacy Policy"
+
+msgid "자주묻는질문"
+msgstr "Frequently Asked Questions"
+
+msgid "대표이사"
+msgstr "CEO"
+
+msgid "사업자등록번호"
+msgstr "Company Registration Number"
+
+msgid "주소"
+msgstr "Address"
+
+msgid "전화"
+msgstr "Telephone"
+
+msgid "통신판매업신고번호"
+msgstr "Mail-Order Business Report Number"
+
+msgid "이메일"
+msgstr "E-Mail"
+
+msgid "고객상담 · 상담 · 배송 문의"
+msgstr "Customer Consultation · Consultation · Delivery Inquiry"
+
+msgid "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
+msgstr "Weekdays 10:00 ~ 18:00 (Lunch 13:00 ~ 14:00)"
+
+msgid "국가 및 화폐 선택"
+msgstr "Choose your country and currency"
+
+msgid "은행명"
+msgstr "Name of Bank"
+
+msgid "이름"
+msgstr "Name"
+
+msgid "계좌번호"
+msgstr "Account Number"
+
+msgid "제목을 입력하세요"
+msgstr "Please enter a title"
+
+msgid "문의내용을 입력하세요"
+msgstr "Please enter your inquiry"
+
+msgid "국가"
+msgstr "Country"
+
+msgid "도시"
+msgstr "City"
+
+msgid "상세주소(옵션)"
+msgstr "Detailed Address (Option)"
+
+msgid "우편번호"
+msgstr "Zip Code"
+
+msgid "자주하는 질문"
+msgstr "FAQ"
+
+msgid "1:1 문의"
+msgstr "1:1 Inquiry"
+
+msgid "Notice"
+msgstr "Notice"
+
+msgid "날짜"
+msgstr "Date"
+
+msgid "제목"
+msgstr "Title"
+
+msgid "작성자"
+msgstr "Writer"
+
+msgid "게시물이 없습니다"
+msgstr "There are no posts"
+
+msgid "이전 페이지"
+msgstr "Back Page"
+
+msgid "다음 페이지"
+msgstr "Next Page"
+
+msgid "보안비밀번호 입력"
+msgstr "Enter Security Password"
