@@ -166,6 +166,9 @@ $(function() {
         }
     }
 
+    // Datatables 에러 끄기
+    $.fn.dataTable.ext.errMode = 'none'
+
     $.extend( $.fn.dataTable.defaults, {
         responsive: true,
         lengthChange: false,
