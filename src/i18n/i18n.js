@@ -24,32 +24,39 @@
     // if (cookieLang !== lang) {setCookie('lang', lang, 365);}
     if (window.lang !== lang) {window.lang = lang;}
 
+    const reset_key = function (str) {
+        str = str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/gi, '');
+        str = str.replace("\r\n", '\\'+'n'); 
+        str = str.replace("\n", '\\'+'n'); 
+        str = str.replace('"', '\"');
+        return str;
+    }
+
     const translate = function (p_lang_data) {
-        // alert('run translate');
         lang_data = p_lang_data ? p_lang_data : lang_data;
         $('[data-i18n]').each(function () { 
-            const str = trim($(this).html());
+            const str = reset_key($(this).html());
             const trstr = lang_data[str] ? lang_data[str] : '';
             if (trstr) {
                 $(this).html(trstr);
             }
         })
         $('[placeholder]').each(function () { 
-            const str = trim($(this).attr('placeholder'));
+            const str = reset_key($(this).attr('placeholder'));
             const trstr = lang_data[str] ? lang_data[str] : '';
             if (trstr) {
                 $(this).attr('placeholder',trstr);
             }
         })
         $('[alt]').each(function () { 
-            const str = trim($(this).attr('alt'));
+            const str = reset_key($(this).attr('alt'));
             const trstr = lang_data[str] ? lang_data[str] : '';
             if (trstr) {
                 $(this).attr('placeholder',trstr);
             }
         })
         $('[title]').each(function () { 
-            const str = trim($(this).attr('title'));
+            const str = reset_key($(this).attr('title'));
             const trstr = lang_data[str] ? lang_data[str] : '';
             if (trstr) {
                 $(this).attr('placeholder',trstr);

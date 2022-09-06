@@ -135,12 +135,11 @@
 }
 
 .deposit .contents .d-grid .grid {
-    height: 525px;
-    padding: 60px 40px 40px;
+    height: 470px;
+    padding: 22px;
     border: 1px solid var(--blue-mid-gray);
     border-radius: 2px;
     box-sizing: border-box;
-	position: relative;
 }
 
 .deposit.withdrawal .contents .d-grid .grid:nth-of-type(2){
@@ -160,13 +159,13 @@
     font-weight: 500;
     font-size: 16px;
     letter-spacing: -0.15px;
-	position: absolute; left: 22px; top: 22px;
 }
 
 .deposit .contents .d-grid .grid ul {
     /* margin: 14px 0 0; */
 	padding: 0;
 }
+<<<<<<< HEAD
 .deposit .contents .d-grid .grid ul li{
 	font-size: 1.2em;
 	line-height: 1.6;
@@ -186,6 +185,8 @@
 	background: url('../img/icon/icon-bitcoin.png') no-repeat 10px 50%;
 	background-size: 24px;
 }
+=======
+>>>>>>> 0cf9ef7e4c1ae5f53070dfa028bc990eee2847c7
 
 .deposit .contents .d-grid .grid input[type=text],
 .deposit .contents .d-grid .grid input[type=password] {
@@ -237,17 +238,6 @@
     font-family: Inter !important;
     font-weight: 500;
 }
-
-.deposit .description{
-	margin: 20px auto 40px;
-	width: 100%;
-	padding: 20px; 
-	background: #FAFAFA;
-	box-sizing: border-box;
-}
-.deposit .description ul li:before{content:"•"; font-size:11pt; margin-right: 7px;}
-
-
 
 /* Mobile */
 @media (max-width: 600px) {
