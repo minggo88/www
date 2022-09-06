@@ -849,18 +849,19 @@ margin-top: 20px;
 
 @media screen and (min-width: 991px) and (max-width: 1400px) {
 	.sub footer{
+		box-sizing: border-box;
+		width: 100%;
+		padding:30px 0 25px;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		height: auto;
 	}
-	.sub footer .fnb{
-		margin-left: 0; margin-top: 20px;
-	}
+	.sub footer .fnb{margin-left: 0; margin-top: 20px;}
 	.sub footer .fnb ul{justify-content: center;}
 	.sub footer .copyright{margin-bottom: 20px; text-align: center;}
 	.sub footer .copyright address{justify-content: center; text-align: center; flex:auto;}
-	.sub footer .customer--text, .sub footer .customer--number, .sub footer .customer--time{position: static;}
+	.sub footer .customer--text, footer .customer--number, footer .customer--time{position: static;}
 }
 
 @media screen and (min-width: 601px) and (max-width: 990px) {

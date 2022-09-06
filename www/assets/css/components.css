@@ -19,7 +19,8 @@
     flex-basis: calc(100% * (219 / 427));
 }
 .list li .list--date {
-    flex-basis: 100% !important;
+    /* flex-basis: 100% !important; */
+	flex-basis:100%;
     color: var(--blue-gray);
 }
 
@@ -38,8 +39,8 @@
 /* Badge */
 .badge {
     width: 40px;
-    height: 16px;
-    line-height: 16px;
+    height: 15px;
+    line-height: 15px;
     display: inline-block;
     color: var(--basic-black);
     text-align: center;
@@ -68,6 +69,11 @@
 .badge.badge--dark-green {
     background-color: var(--dark-green);
     color: var(--white);
+}
+
+.badge.badge--white {
+    background-color: var(--white);
+    color: var(--basic-black);
 }
 
 /* Table */
