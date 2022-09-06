@@ -143,7 +143,18 @@
 	position: relative;
 }
 
-.deposit .contents .d-grid .grid h1 {
+.deposit.withdrawal .contents .d-grid .grid:nth-of-type(2){
+	padding:25px 40px 30px;
+}
+
+.deposit.withdrawal .contents .btnArea{
+	width: 100%;
+	display: flex; align-items: center;
+	justify-content: center;
+	margin: 40px 0 105px;
+}
+
+.deposit .contents .d-grid .grid h3 {
     margin: 0;
     padding: 0;
     font-weight: 500;
@@ -153,16 +164,24 @@
 }
 
 .deposit .contents .d-grid .grid ul {
-    margin: 14px 0 0;
+    /* margin: 14px 0 0; */
+	padding: 0;
 }
 .deposit .contents .d-grid .grid ul li{
 	font-size: 1.2em;
-	line-height: 1.8;
+	line-height: 1.6;
 }
 .deposit .contents .d-grid .grid ul li:before{
 	content:"•"; font-size:13pt; margin-right: 7px;
 }
 
+.deposit .contents .d-grid .grid h3:nth-of-type(2){
+	top: 240px;
+}
+
+.deposit .contents .d-grid dl dt{
+	font-weight: 400;
+}
 .deposit .contents .dropdown-wrapper > button{
 	background: url('../img/icon/icon-bitcoin.png') no-repeat 10px 50%;
 	background-size: 24px;
