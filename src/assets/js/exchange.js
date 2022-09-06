@@ -179,6 +179,8 @@ $(function() {
         ordering: true
     } )
 
+
+
     const buyGrid = $('#buyGrid').DataTable({
         processing: true,
         serverSide: true,
@@ -774,17 +776,14 @@ $(function() {
 
         API.sell($('#modal-sell').serializeObject(), (resp) => {
             if(resp.success) {
+                $('#modal-sell').myModal('hide')
 
+                $('#modal-sell-success .tea--name').text(SELECTED_NAME)
+                $('#modal-sell-success .volume').text($('#modal-sell [name=volume]').val().format())
+                $('#modal-sell-success').myModal('show')
             } else {
                 alert(resp.error.message)
             }
-
-            console.log(SELECTED_NAME)
-            $('#modal-sell').myModal('hide')
-
-            $('#modal-sell-success .tea--name').text(SELECTED_NAME)
-            $('#modal-sell-success .volume').text($('#modal-sell [name=volume]').val().format())
-            $('#modal-sell-success').myModal('show')
         })
         return false
     })
@@ -799,6 +798,7 @@ $(function() {
         const volume = parseFloat($('#modal-sell [name=volume]').val())
         $('#modal-sell [name=total]').val('$ ' + (price * volume).toFixed(2).format())
     })
+
     $('#modal-buy').submit(e => {
         e.preventDefault()
 
