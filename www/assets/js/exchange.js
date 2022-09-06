@@ -1,6 +1,7 @@
 
 let SELECTED_SYMBOL = ''
 let SELECTED_NAME = ''
+// 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 600px)').matches)
 
 $(function() {
@@ -179,8 +180,6 @@ $(function() {
         ordering: true
     } )
 
-
-
     const buyGrid = $('#buyGrid').DataTable({
         processing: true,
         serverSide: true,
@@ -195,8 +194,10 @@ $(function() {
         },
         columns : [
             {
-                data: () => {
-                    return ''
+                data: (_d, _type, _row, meta) => {
+                    const api = new $.fn.dataTable.Api( '#buyGrid' )
+                    const pageInfo = api.page.info()
+                    return pageInfo.length - meta.row + 1
                 }
             },
             {
@@ -315,8 +316,14 @@ $(function() {
         },
         columns : [
             {
-                data: () => {
-                    return ''
+                data: (_d, _type, _row, meta) => {
+                    const api = new $.fn.dataTable.Api( '#sellGrid' )
+                    const pageInfo = api.page.info()
+
+                    if(!meta) {
+                        return
+                    }
+                    return pageInfo.length - meta.row + 1
                 }
             },
             {
@@ -517,17 +524,11 @@ $(function() {
 
                     row.select()
 
-                    const name = data.name
-                    const symbol = data.symbol
+                    const { name, symbol } = data
                     const type = data.meta_type
                     const division = data.meta_division
-                    const producer = data.producer
-                    const production_date = data.production_date
-                    const origin = data.origin
-                    const icon_url = data.icon_url
-                    const scent = data.scent
-                    const taste = data.taste
-                    const weight = data.weight
+                    const { producer, production_date, origin, icon_url } = data
+                    const { scent, taste, weight } = data
                     const story = data.story
                     const keep_method = data.keep_method
                     const teamaster_note = data.teamaster_note
@@ -563,6 +564,8 @@ $(function() {
                     $('#tab-info .producer').text(producer)
                     $('#tab-info .certificate').text(certificate)
                     $('#tab-info img').attr('src', icon_url)
+                    // 입체스캔
+                    $('#scan .modal--body img').attr('src', data.animation)
                     // 원산지
                     $('#white-paper [name=origin]').val(origin)
                     $('#white-paper [name=producer]').val(producer)
@@ -714,12 +717,18 @@ DataTable( {
                                     sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&trading_type=sell`)
                                     sellGrid.clear().load()
                                     sellGrid.on('order.dt search.dt', function () {
-                                        let i = 1;
+                                        const PageInfo = sellGrid.page.info();
 
-                                        sellGrid.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
-                                            this.data(i++);
-                                        });
-                                    }).draw()
+                                        let rownum = PageInfo.length
+
+                                        sellGrid.column(0, { page: 'current' }).nodes().each( function (cell, i) {
+                                            cell.innerHTML = rownum
+
+                                            sellGrid.cell(cell).invalidate('dom');
+
+                                            rownum--
+                                        } );
+                                    }).clear().draw()
 
                                 } else if ( target === '#tab-buy') {
                                     buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&trading_type=buy`)
