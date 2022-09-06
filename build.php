@@ -39,7 +39,6 @@ unlink($target_dir.'/i18n/build_pot.sh');
 unlink($target_dir.'/i18n/library.php');
 unlink($target_dir.'/i18n/po2json.php');
 unlink($target_dir.'/i18n/readme.txt');
-unlink($target_dir.'/i18n/i18n.js');
 unlink($target_dir.'/i18n/WWW.pot');
 
 echo "복사 완료 ".PHP_EOL;

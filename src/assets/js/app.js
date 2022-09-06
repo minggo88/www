@@ -257,7 +257,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         // SERVICE_DOMAIN = window.location.host.replace('www.','');
         // API_WALLET_URL = 'http://stage.wallet.smart-talk.io/api/v1.0';
     }
-    const LOGIN_PAGE = '/login.php';
+    const LOGIN_PAGE = '/login.html';
 
 
     // jQuery plugins ----------------------------------------------------------------------------
@@ -703,6 +703,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         if (repeat_time > 0 && old_path_name !== curr_path_name) { // 이전에 얘약걸어 둔 작업이 페이지가 다르면 종료합니다.(path_name으로 확인해 전체 경로를 비교합니다.)
             return false;
         }
+        params.lang = APP_LANG; 
         if (Model.token) { params.token = Model.token; }
         const item = { "method": method_name, "params": params };
         if (!duplicate) {
@@ -1152,13 +1153,15 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         });
     }
 
-    const check_login = function() {
+    const check_login = function(msg) {
         if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+            if (msg) alert(msg);
             window.location.href = LOGIN_PAGE;
         }
     }
-    const check_logout = function() {
+    const check_logout = function(msg) {
         if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
+            if (msg) alert(msg);
             window.location.href = "/";
         }
     }
@@ -1309,6 +1312,48 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         get_user_info();
         force_rander('user_info', Model.user_info);
     }
+
+    fn_repw = function () {
+        check_logout(__('로그아웃 해주세요.'));
+
+        $('[name=btn_repw]').on('click', function () {
+            $('[name=box_notice]').html('').parent().hide();
+
+            let pin_number = $('[name=pin]').val();
+            if (!pin_number) {
+                show_notice(__('비밀번호를 입력해주세요.'));
+                $('[name=pin]').trigger('select');
+                return false;
+            }
+            let pin_number2 = $('[name=pin2]').val();
+            if (pin_number!=pin_number2) {
+                show_notice(__('비밀번호가 다릅니다.')+' '+__('올바른 비밀번호를 다시 입력해주세요.'));
+                $('[name=pin2]').trigger('select');
+                return false;
+            }
+
+            const data = {
+                't': getURLParameter('t'),
+                'pin': pin_number
+            };
+            add_request_item('resetPW', data, function(r) {
+                if (r && r.success) {
+                    if($('#form_repw').length>0) $('#form_repw').get(0).reset();
+                    alert(__('Changed your password.') + ' ' + __('Please log in again.'));
+                    setTimeout(function () { window.location.href = 'login.html'; }, 2000);
+                } else {
+                    let msg = r.error && r.error.message ? r.error.message : '';
+                    alert(__('Failed to change password.') + ' ' + msg);
+                }
+            });
+            return false;
+        });
+
+        const show_notice = function (msg) {
+            $('[name=box_notice]').html(msg).parent().show();
+        }
+    }
+
 
     /* 공통 기능 ----------------------------------------------------------------------------------- */
 

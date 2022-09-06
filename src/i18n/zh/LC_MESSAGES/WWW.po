@@ -779,3 +779,33 @@ msgstr "在继续您的提款之前，请务必阅读以下条款和条件。"
 
 msgid "회원 탈퇴 약관에 동의합니다."
 msgstr "我同意会员取消条款和条件。"
+
+msgid "로그아웃 해주세요."
+msgstr "请退出。"
+
+msgid "비밀번호가 다릅니다."
+msgstr "密码不一样。"
+
+msgid "올바른 비밀번호를 다시 입력해주세요."
+msgstr "请重新输入正确的密码。"
+
+msgid "Changed your password."
+msgstr "更改了您的密码。"
+
+msgid "Please log in again."
+msgstr "请重新登录。"
+
+msgid "Failed to change password."
+msgstr "更改密码失败。"
+
+msgid "입력한 이메일로 비밀번호 재설정 안내 메일이 발송되었습니다."
+msgstr "密码重置指南电子邮件已发送到您输入的电子邮件地址。"
+
+msgid "이메일을 확인해주세요."
+msgstr "请查看你的邮箱。"
+
+msgid "검색어를 입력해주세요."
+msgstr "请输入搜索关键字。"
+
+msgid "가입 완료"
+msgstr "注册完成"
