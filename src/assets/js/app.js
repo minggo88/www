@@ -1286,6 +1286,58 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     }
 
 
+
+    const fn_login = function () {
+        check_logout();
+        window.keypress_support = false;
+
+        // 폼 초기화
+        $('#box_login form').each(function() { if ($(this).reset) { $(this).reset(); } });
+        
+        // 아이디 포커스
+        $('#box_login [name=email]').get(0).focus();
+
+        // 로그인
+        $('#box_login form[name=login]').on('submit', function (e) {
+            
+            e.preventDefault()
+
+            const $email = $('#email'), email = trim($email.val())
+            const $password = $('#password'), password = trim($password.val())
+
+            if(!email) {
+                $email.focus()
+                return false
+            }
+
+            if(!password) {
+                $password.focus()
+                return false
+            }
+
+            API.login(email, password, (r) => {
+                if (r && r.success && r.payload) {
+                    setCookie('token', r.payload.token);
+                    Model.token = r.payload.token;
+                    Model.last_login_info = { 'userid': email };
+                    let user_info = { 'userid': email };
+                    Model.user_info = user_info;
+                    get_user_wallet();
+                    get_user_info();
+                    let ret_url = getURLParameter('ret_url')
+                    ret_url = ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
+                    ret_url = setURLParameter('t', time(), ret_url);
+                    window.location.href = ret_url;
+                } else {
+                    let msg = r.error && r.error.message ? r.error.message : __('로그인 정보가 올바른지 확인해주세요.');
+                    $('.validation--message').find('>p').text(msg).end().show()
+                }
+            })
+            return false;
+
+        });
+
+    }
     const fn_logout = function () {
         $.post(API_URL + '/logout/', { 'token': getCookie('token') }, function(r) {
             // console.log(r);
