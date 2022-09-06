@@ -444,6 +444,10 @@ margin-top: 20px;
     box-sizing: border-box;
     margin-bottom: 34px;
 }
+.sub.deposit .contents .contents--header{
+	margin-bottom: 18px;
+}
+
 
 .sub .contents .board--meta {
     display: flex;
