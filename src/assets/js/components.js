@@ -31,6 +31,7 @@ $(function() {
             if(typeof(list) === 'undefined') {
                 list = []
             }
+            // <input type="text" name="search">
 
             if(typeof(arguments[0]) === 'string') {
                 const action = arguments[0]
@@ -44,6 +45,21 @@ $(function() {
                     case 'selected':
                         return this.data('selected')
                     case 'open':
+                        break
+                    case 'add_search':
+                        this.find('.dropdown--item').prepend('<input type="text" name="search" autocomplete="off" placeholder="' + __('검색어를 입력해주세요.') + '">');
+                        const $options = this.find('.dropdown--item').find('>ul').find('>li');
+                        this.find('[name=search]').on('keyup', function () { 
+                            const skey = $(this).val();
+                            $options.each(function () { 
+                                const text = $(this).text();
+                                if (text.search(new RegExp(skey, 'i')) > -1) {
+                                    $(this).show();
+                                } else {
+                                    $(this).hide();
+                                }
+                            })
+                        })
                         break
                     case 'add':
                         if(typeof(arguments[1]) === 'string') {
@@ -253,6 +269,8 @@ $(function() {
         $('.dropdown--open').removeClass('dropdown--open')
 
         $(e.target).toggleClass('dropdown--open');
+        
+        $(e.target).parent().find('[name=search]').focus();
     })
 
     $(document).on('click', '.dropdown-wrapper .dropdown--item > ul > li', (e) => {
