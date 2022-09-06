@@ -40,6 +40,7 @@
 
 <script src="./assets/js/lib/php.default.min.js"></script>
 <script src="./assets/js/lib/security.min.js"></script>
+<script src="./i18n/i18n.js"></script>
 
 </head>
 <!-- BODY -->
@@ -135,7 +136,7 @@
 					<button type="button" class="navigation--back"></button>
 					<h1 data-i18n>Direct Inquiry</h1>
 				</div>
-				<div class="mobile-only"><a href="inquiry_write.html" class="btn">문의하기</a></div>
+				<div class="mobile-only"><a href="inquiry_write.html" class="btn" data-i18n>문의하기</a></div>
             </header>
             <table class="board--list desktop-only">
                 <colgroup>
@@ -271,11 +272,11 @@
             <nav class="board--pagination">
                 <ul>
 					<li class="pagination--prev">
-						<a href="#none">이전 페이지</a>
+						<a href="#none" data-i18n>이전 페이지</a>
 					</li>
 					<li><a href="">1</a></li>
 					<li class="pagination--next">
-						<a href="#none">다음 페이지</a>
+						<a href="#none" data-i18n>다음 페이지</a>
 					</li>
                 </ul>
             </nav>
@@ -388,7 +389,7 @@
                                 $('<tr>').addClass('board--empty').append('<td colspan="5">문의 내용이 없습니다</td>').appendTo('.board--list tbody')
                             }
                         } else {
-                            alert(resp.error.message)
+                            // alert(resp.error.message)
                         }
                     })
                 }
@@ -405,7 +406,7 @@
                     return false
                 })
             </script>
-            <div class="board--btn desktop-only"><a href="inquiry_write.html" class="btn btn--red btn--write">문의하기</a></div>
+            <div class="board--btn desktop-only"><a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a></div>
         </div>
     </main>
     <footer class="desktop-only">

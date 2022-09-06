@@ -822,6 +822,13 @@ form .form--header h1 {
     border-radius: 50%;
 }
 
+.dropdown+.dropdown--item input[name=search] {
+    height: 25px;
+    line-height: 25px;
+    margin: 0 0 9px;
+    font-size: 12px;
+}
+
 .dropdown+.dropdown--item ul {
     margin: 10px 0 0 0;
     padding: 0 0 13px;
@@ -858,6 +865,10 @@ form .form--header h1 {
     width: 100%;
     color: inherit;
     font-weight: inherit;
+    /* ellipsis */
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 .dropdown.dropdown--open+.dropdown--item {
     display: block;
