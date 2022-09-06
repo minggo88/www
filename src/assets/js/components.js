@@ -31,7 +31,6 @@ $(function() {
             if(typeof(list) === 'undefined') {
                 list = []
             }
-            // <input type="text" name="search">
 
             if(typeof(arguments[0]) === 'string') {
                 const action = arguments[0]
