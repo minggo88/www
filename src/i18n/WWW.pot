@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-06 11:37+0900\n"
+"POT-Creation-Date: 2022-09-06 17:00+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -782,4 +782,34 @@ msgid "다음의 약관을 반드시 숙지한 후에 탈퇴를 진행해 주세
 msgstr ""
 
 msgid "회원 탈퇴 약관에 동의합니다."
+msgstr ""
+
+msgid "로그아웃 해주세요."
+msgstr ""
+
+msgid "비밀번호가 다릅니다."
+msgstr ""
+
+msgid "올바른 비밀번호를 다시 입력해주세요."
+msgstr ""
+
+msgid "Changed your password."
+msgstr ""
+
+msgid "Please log in again."
+msgstr ""
+
+msgid "Failed to change password."
+msgstr ""
+
+msgid "입력한 이메일로 비밀번호 재설정 안내 메일이 발송되었습니다."
+msgstr ""
+
+msgid "이메일을 확인해주세요."
+msgstr ""
+
+msgid "검색어를 입력해주세요."
+msgstr ""
+
+msgid "가입 완료"
 msgstr ""

@@ -144,7 +144,7 @@
                 <ol>
                     <li class="step--active" data-i18n>계정 등록</li>
                     <li data-i18n>이메일 인증</li>
-                    <li data-i18n>핸드폰 번호 인증</li>
+                    <li data-i18n>핸드폰 번호 등록</li>
                     <li data-i18n>핸드폰 본인 인증</li>
                     <li data-i18n>보안 비밀번호 설정</li>
                 </ol>
@@ -184,7 +184,7 @@
                 <ol>
                     <li class="step--active" data-i18n>계정 등록</li>
                     <li class="step--active" data-i18n>이메일 인증</li>
-                    <li class="step--active" data-i18n>핸드폰 번호 인증</li>
+                    <li data-i18n>핸드폰 번호 등록</li>
                     <li data-i18n>핸드폰 본인 인증</li>
                     <li data-i18n>보안 비밀번호 설정</li>
                 </ol>
@@ -206,7 +206,7 @@
             </div>
             <div class="flex-self-left">
                 <span class="text-bold" data-i18n>이메일이 오지 않으셨나요?</span>
-                <a href="" class="d-block text-red text-bold" data-i18n>이메일 재발송</a>
+                <a href="" class="d-block text-red text-bold" data-i18n name="btn-resend-email">이메일 재발송</a>
             </div>
             <div class="form--btns" style="margin-top: 44px">
                 <button class="btn btn--block btn--red" data-i18n>다음</button>
@@ -218,13 +218,12 @@
                 <ol>
                     <li class="step--active" data-i18n>계정 등록</li>
                     <li class="step--active" data-i18n>이메일 인증</li>
-                    <li class="step--active" data-i18n>핸드폰 번호 인증</li>
+                    <li class="step--active" data-i18n>핸드폰 번호 등록</li>
                     <li data-i18n>핸드폰 본인 인증</li>
                     <li data-i18n>보안 비밀번호 설정</li>
                 </ol>
             </nav>
             <div class="mb-24 form--header text-red">
-                <h1 data-i18n>Create Your Account</h1>
                 <h1 data-i18n class="desktop-only">Create Your Account</h1>
                 <h1 data-i18n class="mobile-only">핸드폰 번호 등록</h1>
             </div>
@@ -248,13 +247,12 @@
                 <ol>
                     <li data-i18n class="step--active">계정 등록</li>
                     <li data-i18n class="step--active">이메일 인증</li>
-                    <li data-i18n class="step--active">핸드폰 번호 인증</li>
+                    <li data-i18n class="step--active">핸드폰 번호 등록</li>
                     <li data-i18n class="step--active">핸드폰 본인 인증</li>
                     <li data-i18n>보안 비밀번호 설정</li>
                 </ol>
             </nav>
             <div class="mb-24 form--header text-red">
-                <h1 data-i18n>Create Your Account</h1>
                 <h1 data-i18n class="desktop-only">Create Your Account</h1>
                 <h1 data-i18n class="mobile-only">핸드폰 본인 인증</h1>
             </div>
@@ -269,11 +267,11 @@
                 <input type="number" name="" min="0" max="9" value="" maxlength="1">
                 <input type="number" name="" min="0" max="9" value="" maxlength="1">
             </div>
-            <div class="tttt">
+            <div class="flex-self-left">
                 <span class="text-bold" data-i18n>문자가 오지 않으셨나요?</span>
-                <a href="#" onclick="" class="d-block text-red text-bold" data-i18n>인증문자 재발송</a>
+                <a href="#" onclick="" class="d-block text-red text-bold" data-i18n name="btn-resend-sms">인증문자 재발송</a>
             </div>
-            <div class="form--btns" style="margin-top: 0">
+            <div class="form--btns" style="margin-top: 44px">
                 <button class="btn btn--block btn--red" data-i18n>다음</button>
             </div>
         </form>
@@ -283,13 +281,14 @@
                 <ol>
                     <li data-i18n class="step--active">계정 등록</li>
                     <li data-i18n class="step--active">이메일 인증</li>
-                    <li data-i18n class="step--active">핸드폰 번호 인증</li>
+                    <li data-i18n class="step--active">핸드폰 번호 등록</li>
                     <li data-i18n class="step--active">핸드폰 본인 인증</li>
                     <li data-i18n class="step--active">보안 비밀번호 설정</li>
                 </ol>
             </nav>
             <div class="mb-24 form--header text-red">
-                <h1 data-i18n>Create Your Account</h1>
+                <h1 data-i18n class="desktop-only">Create Your Account</h1>
+                <h1 data-i18n class="mobile-only">보안 비밀번호 설정</h1>
             </div>
             <p class="m-0 flex-self-left text-bbold size--18" style="margin-bottom: 7px !important" data-i18n>
                 보안 비밀번호 설정
@@ -298,12 +297,12 @@
                 보안 비밀 번호 6자리를 입력해 주세요.
             </p>
             <div class="d-grid grid--code" style="margin-top: 52px; margin-bottom: 162px">
-                <input type="number" name="" min="0" max="9" value="7">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
+                <input name="pin" type="number" min="0" max="9" value="" maxlength="1">
+                <input name="pin" type="number" min="0" max="9" value="" maxlength="1">
+                <input name="pin" type="number" min="0" max="9" value="" maxlength="1">
+                <input name="pin" type="number" min="0" max="9" value="" maxlength="1">
+                <input name="pin" type="number" min="0" max="9" value="" maxlength="1">
+                <input name="pin" type="number" min="0" max="9" value="" maxlength="1">
             </div>
             <div class="form--btns mt-0">
                 <input type="submit" value="확인" class="btn btn--block btn--red">
@@ -315,13 +314,14 @@
                 <ol>
                     <li class="step--active" data-i18n>계정 등록</li>
                     <li class="step--active" data-i18n>이메일 인증</li>
-                    <li class="step--active" data-i18n>핸드폰 번호 인증</li>
+                    <li class="step--active" data-i18n>핸드폰 번호 등록</li>
                     <li class="step--active" data-i18n>핸드폰 본인 인증</li>
                     <li class="step--active" data-i18n>보안 비밀번호 설정</li>
                 </ol>
             </nav>
             <div class="mb-24 form--header text-red" >
-                <h1 data-i18n>Create Your Account</h1>
+                <h1 data-i18n class="desktop-only">Create Your Account</h1>
+                <h1 data-i18n class="mobile-only">보안 비밀번호 설정</h1>
             </div>
             <p class="m-0 flex-self-left text-bbold size--18" style="margin-bottom: 7px !important" data-i18n>
                 보안 비밀번호 설정
@@ -330,12 +330,12 @@
                 한번 더 입력해 주세요.
             </p>
             <div class="d-grid grid--code" style="margin-top: 52px; margin-bottom: 162px">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
+                <input type="number" name="" min="0" max="9" value="" maxlength="1">
+                <input type="number" name="" min="0" max="9" value="" maxlength="1">
+                <input type="number" name="" min="0" max="9" value="" maxlength="1">
+                <input type="number" name="" min="0" max="9" value="" maxlength="1">
+                <input type="number" name="" min="0" max="9" value="" maxlength="1">
+                <input type="number" name="" min="0" max="9" value="" maxlength="1">
             </div>
             <div class="form--btns mt-0">
                 <input type="submit" value="확인" class="btn btn--block btn--red">
@@ -343,7 +343,8 @@
         </form>
         <form id="create-account-complete" method="post" class="d-flex flex-row flex-center" style="display: none">
             <div class="form--header text-red" style="margin-bottom: 24px">
-                <h1 data-i18n>Create Your Account</h1>
+                <h1 data-i18n class="desktop-only">Create Your Account</h1>
+                <h1 data-i18n class="mobile-only">가입 완료</h1>
             </div>
             <p class="m-0 flex-self-left text-bbold size--18" style="margin-bottom: 72px !important" data-i18n>
                 회원 가입이 완료되었습니다
