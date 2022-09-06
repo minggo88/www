@@ -34,15 +34,10 @@ main {
 		/* grid-template-columns: initial;
 		align-content: center;
 		justify-content: center; */
-<<<<<<< Updated upstream
-		padding:30px !important;
-		padding-top: 80px !important;
-		display: block  !important;
-=======
 		padding:30px;
 		padding-top: 80px;
 		display: block;
->>>>>>> Stashed changes
+		
 	}
 	.sub.notice .inquiry--reply{
 		padding: 0;
