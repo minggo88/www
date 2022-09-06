@@ -1,23 +1,23 @@
 
-  const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-  ];
+const labels = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+];
 
-  const data = {
-    labels: labels,
-    datasets: [{
-      backgroundColor: '#2B589B',
-      borderColor: '#2B589B',
-      borderWidth: 2,
-      data: [0, 10 , 5, 2, 20, 30, 45],
-      radius: 0,
-    }]
-  }
+const data = {
+	labels: labels,
+	datasets: [{
+		backgroundColor: '#2B589B',
+		borderColor: '#2B589B',
+		borderWidth: 2,
+		data: [0, 10 , 5, 2, 20, 30, 45],
+		radius: 0,
+	}]
+}
 
   const myChart = new Chart(
     document.getElementById('indexCanvas'),
@@ -25,7 +25,7 @@
       type: 'line',
       data: data,
       options: {
-          responsive: true,
+          responsive: false, //true
           layout: {
               padding: 0,
           },
@@ -45,14 +45,14 @@
                   display: false,
               },
               yAxes:{
-                  ticks: {
-                      display: false,
-                      stepSize: 25,
-                      borderColor: '#777777'
-                  },
-                  min: 0,
-                  max: 100,
-                  pointRadus: 0,
+				ticks: {
+					display: false,
+					stepSize: 25,
+					borderColor: '#777777'
+				},
+				min: 0,
+				max: 100,
+				pointRadus: 0,
               }
           }
       }
