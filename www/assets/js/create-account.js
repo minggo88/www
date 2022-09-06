@@ -1,6 +1,11 @@
 $(function () {
     const email = $('#email')
     const password = $('#password')
+    let sended_email = ''; // 발송 성공한 이메일 - 재발송시 사용
+    let sended_phoneCountry = '';
+    let sended_phone = '';
+    let bool_confirm_email = 0; // 이메일 인증 여부
+    let bool_confirm_mobile = 0; // 핸드폰 인증 여부
 
     API.getCountry((resp) => {
         let firstItem = ''
@@ -12,7 +17,8 @@ $(function () {
             $('#country').dropdown('add', { value: country.code.toLowerCase(), text: `<i class="flag ${country.code.toLowerCase()}"></i> ${country.name}` })
         })
 
-        $('#country').dropdown('select', firstItem)
+        $('#country').dropdown('select', firstItem).dropdown('add_search')
+        
     })
 
     $('#create-account-country').on('submit', (e) => {
@@ -52,7 +58,8 @@ $(function () {
         API.sendEmailConfirmCode(email.val(), (resp) => {
             $('#create-account-info').removeClass('loading')
 
-            if(resp.success) {
+            if (resp.success) {
+                sended_email = email.val();
                 $('#create-account-info').hide()
                 $('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
             } else {
@@ -64,6 +71,22 @@ $(function () {
 
         return false
     })
+
+    // 이메일 재발송
+    $('[name="btn-resend-email"]').on('click', function () { 
+        $('#create-account-mail-auth').addClass('loading')
+        API.sendEmailConfirmCode(sended_email, (resp) => {
+            $('#create-account-mail-auth').removeClass('loading')
+            if(resp.success) {
+                // $('#create-account-info').hide()
+                $('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
+            } else {
+                // $('#create-account-info input[type=submit]').prop('disabled', false)
+                alert(resp.error.message)
+            }
+        })
+        return false;
+    });
 
     $('#create-account-mail-auth').on('submit', (e) => {
         e.preventDefault()
@@ -86,10 +109,12 @@ $(function () {
         API.checkEmailConfirmCode(email.val(), code, (resp) => {
             $('#create-account-mail-auth').removeClass('loading')
 
-            if(resp.success) {
+            if (resp.success) {
+                bool_confirm_email = 1; // 이메일 인증 여부
                 $('#create-account-mail-auth').hide()
                 $('#create-account-phone').show()
             } else {
+                bool_confirm_email = 0; // 이메일 인증 여부
                 $('#create-account-mail-auth input[type=submit]').prop('disabled', false)
 
                 alert(resp.error.message)
@@ -118,7 +143,11 @@ $(function () {
         $('#create-account-phone input[type=submit]').prop('disabled', true)
 
         API.sendMobileConfirmCode(phoneCountry, phone, (resp) => {
-            if(resp.success) {
+            if (resp.success) {
+                
+                sended_phoneCountry = phoneCountry;
+                sended_phone = phone;
+
                 $('#create-account-phone').hide()
                 $('#create-account-phone-auth').show()
             } else {
@@ -130,6 +159,25 @@ $(function () {
 
         return false
     })
+
+    // SMS 인증문자 재발송
+    $('[name="btn-resend-sms"]').on('click', function () { 
+        if (!sended_phoneCountry || !sended_phone) return;
+        $('#create-account-phone-auth').addClass('loading');
+        API.sendMobileConfirmCode(sended_phoneCountry, sended_phone, (resp) => {
+            $('#create-account-phone-auth').removeClass('loading');
+            if(resp.success) {
+                // $('#create-account-phone').hide()
+                // $('#create-account-phone-auth').show()
+            } else {
+                // $('#create-account-phone input[type=submit]').prop('disabled', false)
+
+                alert(resp.error.message)
+            }
+        })
+        return false;
+    });
+
     $('#create-account-phone-auth').on('submit', () => {
         let code = ''
 
@@ -152,10 +200,12 @@ $(function () {
             API.checkMobileConfirmCode(phone, (resp) => {
                 $('#create-account-phone-auth').removeClass('loading')
 
-                if(resp.success) {
+                if (resp.success) {
+                    bool_confirm_mobile = 1; // 핸드폰 인증 여부
                     $('#create-account-phone-auth').hide()
                     $('#create-account-pin-number').show()
                 } else {
+                    bool_confirm_mobile = 0; // 핸드폰 인증 여부
                     $('#create-account-phone-auth input[type=submit]').prop('disabled', false)
 
                     alert(resp.error.message)
@@ -166,6 +216,15 @@ $(function () {
         return false
     })
     $('#create-account-pin-number').on('submit', () => {
+
+        for (i = 0; i < 6; i++) {
+            const $i = $('#create-account-pin-number input[name=pin]:eq(' + i + ')');
+            if (!$.trim($i.val())) {
+                $i.focus();
+                break;
+            }
+        }
+
         $('#create-account-pin-number').hide()
         $('#create-account-pin-number-confirm').hide()
 
@@ -199,14 +258,19 @@ $(function () {
 
         if(check) {
             $('#create-account-pin-number-confirm').addClass('loading')
-
+            
             API.join({
-                social_id: email.val(),
-                social_name: 'email',
-                email: email.val(),
-                userpw: password.val(),
-                pin: pin,
-                bool_email: $('#mailing').is(':checked') ? 1 : 0,
+                'social_id': email.val(),
+                'social_name': '', // 아이디/비번 방식으로 email 방식 제거
+                'email': email.val(),
+                'userpw': password.val(),
+                'mobile_calling_code': sended_phoneCountry,
+                'mobile_country_code': (window.sessionStorage.country + '').toUpperCase(),
+                'pin': pin,
+                'bool_email': $('#mailing').is(':checked') ? 1 : 0,
+                'bool_marketing': $('#marketing').is(':checked') ? 1 : 0,
+                'bool_confirm_email': bool_confirm_email,
+                'bool_confirm_mobile': bool_confirm_mobile
             }, (resp) => {
                 $('#create-account-pin-number-confirm').removeClass('loading')
 
