@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-06 11:37+0900\n"
-"PO-Revision-Date: 2022-09-06 11:39+0900\n"
+"POT-Creation-Date: 2022-09-06 15:01+0900\n"
+"PO-Revision-Date: 2022-09-06 15:02+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -784,3 +784,33 @@ msgstr "Please be sure to read the following terms and conditions before proceed
 
 msgid "회원 탈퇴 약관에 동의합니다."
 msgstr "I agree to the membership cancellation terms and conditions."
+
+msgid "로그아웃 해주세요."
+msgstr "Please log out."
+
+msgid "비밀번호가 다릅니다."
+msgstr "The password is different."
+
+msgid "올바른 비밀번호를 다시 입력해주세요."
+msgstr "Please re-enter the correct password."
+
+msgid "Changed your password."
+msgstr "Changed your password."
+
+msgid "Please log in again."
+msgstr "Please log in again."
+
+msgid "Failed to change password."
+msgstr "Failed to change password."
+
+msgid "입력한 이메일로 비밀번호 재설정 안내 메일이 발송되었습니다."
+msgstr "A password reset guide email has been sent to the email address you entered."
+
+msgid "이메일을 확인해주세요."
+msgstr "Please check your email."
+
+msgid "검색어를 입력해주세요."
+msgstr "Please enter a search keyword."
+
+msgid "가입 완료"
+msgstr "Sign up Complete"
