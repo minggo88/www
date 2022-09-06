@@ -95,6 +95,7 @@ ul li {
     letter-spacing: inherit;
     font-weight: inherit;
     font-size: inherit;
+	list-style-type: none;
 }
 
 dl {
@@ -307,6 +308,7 @@ header .logo a {
     align-items: center;
     height: 60px;
     position: relative;
+	background-color: #fff;
 }
 
 .nav > ul {
