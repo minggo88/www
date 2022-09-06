@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-01 15:56+0900\n"
-"PO-Revision-Date: 2022-09-01 16:19+0900\n"
+"POT-Creation-Date: 2022-09-06 11:37+0900\n"
+"PO-Revision-Date: 2022-09-06 11:38+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ko\n"
@@ -18,9 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.0.1\n"
 
-msgid "번역 데이터 가져오지 못함."
-msgstr "번역 데이터 가져오지 못함."
-
+#: ../assets/js/app.js:175 ../assets/js/app.min.js:1
 msgid "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
 msgstr "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
 
@@ -48,218 +46,17 @@ msgstr "회원정보를 등록 해주세요"
 msgid "더이상 내용이 없습니다."
 msgstr "더이상 내용이 없습니다."
 
-msgid "후원금을 보내지 못했습니다."
-msgstr "후원금을 보내지 못했습니다."
+msgid "국가 및 화폐 선택"
+msgstr "국가 및 화폐 선택"
 
-msgid "이미 사용하셨습니다."
-msgstr "이미 사용하셨습니다."
+msgid "은행명"
+msgstr "은행명"
 
-msgid "포인트를 보내지 못했습니다."
-msgstr "포인트를 보내지 못했습니다."
+msgid "이름"
+msgstr "이름"
 
-msgid "핀번호를 입력해주세요."
-msgstr "핀번호를 입력해주세요."
-
-msgid "핀번호가 올바른지 확인해주세요."
-msgstr "핀번호가 올바른지 확인해주세요."
-
-msgid "ID(전화번호)를 입력해주세요."
-msgstr "ID(전화번호)를 입력해주세요."
-
-msgid "로그인 정보가 올바른지 확인해주세요."
-msgstr "로그인 정보가 올바른지 확인해주세요."
-
-msgid "핸드폰 번호를 입력해주세요"
-msgstr "핸드폰 번호를 입력해주세요"
-
-msgid "인증번호를 보내는중입니다."
-msgstr "인증번호를 보내는중입니다."
-
-msgid "잠시만 기다려주세요."
-msgstr "잠시만 기다려주세요."
-
-msgid "이미 가입하셨습니다."
-msgstr "이미 가입하셨습니다."
-
-msgid "로그인 해주세요."
-msgstr "로그인 해주세요."
-
-msgid "인증번호를 발송했습니다."
-msgstr "인증번호를 발송했습니다."
-
-msgid "인증메시지를 보내지 못했습니다."
-msgstr "인증메시지를 보내지 못했습니다."
-
-msgid "인증 요청을 해주세요."
-msgstr "인증 요청을 해주세요."
-
-msgid "유효시간이 지났습니다. 다시 인증 요청을 해주세요."
-msgstr "유효시간이 지났습니다. 다시 인증 요청을 해주세요."
-
-msgid "인증번호를 입력해주세요."
-msgstr "인증번호를 입력해주세요."
-
-msgid "휴대폰번호가 인증되었습니다."
-msgstr "휴대폰번호가 인증되었습니다."
-
-msgid "올바른 인증번호를 입력해주세요."
-msgstr "올바른 인증번호를 입력해주세요."
-
-msgid "회원가입을 완료했습니다."
-msgstr "회원가입을 완료했습니다."
-
-msgid "회원가입을 하지 못했습니다."
-msgstr "회원가입을 하지 못했습니다."
-
-msgid "메시지를 보냈습니다."
-msgstr "메시지를 보냈습니다."
-
-msgid "메시지를 보내지 못했습니다."
-msgstr "메시지를 보내지 못했습니다."
-
-msgid "URL을 입력해주세요."
-msgstr "URL을 입력해주세요."
-
-msgid "추가할 공간이 없습니다."
-msgstr "추가할 공간이 없습니다."
-
-msgid "기존 사진을 삭제하시고 추가해주세요."
-msgstr "기존 사진을 삭제하시고 추가해주세요."
-
-msgid "사진 제목을 선택해주세요."
-msgstr "사진 제목을 선택해주세요."
-
-msgid "사진 종류를 선택해주세요."
-msgstr "사진 종류를 선택해주세요."
-
-msgid "사진을 선택해주세요."
-msgstr "사진을 선택해주세요."
-
-msgid "업로드중입니다."
-msgstr "업로드중입니다."
-
-msgid "사진 업로드"
-msgstr "사진 업로드"
-
-msgid "등록했습니다."
-msgstr "등록했습니다."
-
-msgid "사진 목록으로 이동하시겠습니까?"
-msgstr "사진 목록으로 이동하시겠습니까?"
-
-msgid "등록하지 못했습니다."
-msgstr "등록하지 못했습니다."
-
-msgid "BDS지갑 앱을 이용해주세요."
-msgstr "BDS지갑 앱을 이용해주세요."
-
-msgid "이미지 파일의 URL을 입력해주세요."
-msgstr "이미지 파일의 URL을 입력해주세요."
-
-msgid "QR 코드를 스캔해주세요."
-msgstr "QR 코드를 스캔해주세요."
-
-msgid "올바른 동영상 HTML을 입력해주세요"
-msgstr "올바른 동영상 HTML을 입력해주세요"
-
-msgid "올바른 동영상주소를 입력해주세요."
-msgstr "올바른 동영상주소를 입력해주세요."
-
-msgid "동영상 제목을 입력해주세요."
-msgstr "동영상 제목을 입력해주세요."
-
-msgid "동영상 종류를 선택해주세요."
-msgstr "동영상 종류를 선택해주세요."
-
-msgid "미리보기 이미지를 선택해주세요."
-msgstr "미리보기 이미지를 선택해주세요."
-
-msgid "상품 배너를 업로드하지 못했습니다."
-msgstr "상품 배너를 업로드하지 못했습니다."
-
-msgid "상품 배너를 선택해주세요."
-msgstr "상품 배너를 선택해주세요."
-
-msgid "동영상 목록으로 이동하시겠습니까?"
-msgstr "동영상 목록으로 이동하시겠습니까?"
-
-msgid "동영상 파일을 선택해주세요."
-msgstr "동영상 파일을 선택해주세요."
-
-msgid "동영상 제목을 선택해주세요."
-msgstr "동영상 제목을 선택해주세요."
-
-msgid "동영상 업로드"
-msgstr "동영상 업로드"
-
-msgid "동영상 정보가 없습니다."
-msgstr "동영상 정보가 없습니다."
-
-msgid "\"복구할 수 없게 완전히 삭제함\"에 체크 해주세요."
-msgstr "\"복구할 수 없게 완전히 삭제함\"에 체크 해주세요."
-
-msgid "삭제중입니다."
-msgstr "삭제중입니다."
-
-msgid "공유영상으로 게시"
-msgstr "공유영상으로 게시"
-
-msgid "삭제했습니다."
-msgstr "삭제했습니다."
-
-msgid "목록으로 이동하시겠습니까?"
-msgstr "목록으로 이동하시겠습니까?"
-
-msgid "삭제하지 못했습니다."
-msgstr "삭제하지 못했습니다."
-
-msgid "선택한 회원을 채팅창에서 강제 퇴장시키시겠습니까?"
-msgstr "선택한 회원을 채팅창에서 강제 퇴장시키시겠습니까?"
-
-msgid "강제 퇴장된 회원은 모든 메시지가 자동 삭제되며 다시 입장이 불가합니다."
-msgstr "강제 퇴장된 회원은 모든 메시지가 자동 삭제되며 다시 입장이 불가합니다."
-
-msgid "선택한 회원을 다시 입장시키시겠습니까?"
-msgstr "선택한 회원을 다시 입장시키시겠습니까?"
-
-msgid "삭제된 메시지는 복구되지 않습니다."
-msgstr "삭제된 메시지는 복구되지 않습니다."
-
-msgid "삭제하시겠습니까?"
-msgstr "삭제하시겠습니까?"
-
-msgid "메시지를 삭제하지 못했습니다."
-msgstr "메시지를 삭제하지 못했습니다."
-
-msgid "전체 메시지를 삭제하시겠습니까?"
-msgstr "전체 메시지를 삭제하시겠습니까?"
-
-msgid "메시지를 삭제했습니다."
-msgstr "메시지를 삭제했습니다."
-
-msgid "메시지를 작성해주세요."
-msgstr "메시지를 작성해주세요."
-
-msgid "핀번호가 일치하지 않습니다!"
-msgstr "핀번호가 일치하지 않습니다!"
-
-msgid "파일을 저장하지 못했습니다."
-msgstr "파일을 저장하지 못했습니다."
-
-msgid "파일을 업로드하지 못했습니다."
-msgstr "파일을 업로드하지 못했습니다."
-
-msgid "저장했습니다."
-msgstr "저장했습니다."
-
-msgid "저장하지 못했습니다."
-msgstr "저장하지 못했습니다."
-
-msgid "등록 되었습니다."
-msgstr "등록 되었습니다."
-
-msgid "입금주소로 결제금액을 입금해주세요."
-msgstr "입금주소로 결제금액을 입금해주세요."
+msgid "계좌번호"
+msgstr "계좌번호"
 
 msgid "거래소"
 msgstr "거래소"
@@ -279,8 +76,245 @@ msgstr "다도 문화"
 msgid "고객센터"
 msgstr "고객센터"
 
+msgid "정보 수정"
+msgstr "정보 수정"
+
+msgid "ID 인증 관리"
+msgstr "ID 인증 관리"
+
+msgid "보안비밀번호변경"
+msgstr "보안비밀번호변경"
+
+msgid "출금계좌 변경"
+msgstr "출금계좌 변경"
+
+msgid "거래 내역"
+msgstr "거래 내역"
+
+msgid "알림"
+msgstr "알림"
+
+msgid "회원 탈퇴"
+msgstr "회원 탈퇴"
+
+msgid "지갑관리"
+msgstr "지갑관리"
+
+msgid "보유 자산"
+msgstr "보유 자산"
+
+msgid "입금"
+msgstr "입금"
+
+msgid "출금"
+msgstr "출금"
+
+msgid "종합 분석"
+msgstr "종합 분석"
+
+msgid "로그아웃"
+msgstr "로그아웃"
+
 msgid "로그인"
 msgstr "로그인"
+
+msgid "계정 관리"
+msgstr "계정 관리"
+
+msgid "보안비밀번호 변경"
+msgstr "보안비밀번호 변경"
+
+msgid "Change bank account number"
+msgstr "은행 계좌 번호 변경"
+
+msgid "출금 계좌 정보를 수정합니다."
+msgstr "출금 계좌 정보를 수정합니다."
+
+msgid "은행 및 계좌"
+msgstr "은행 및 계좌"
+
+msgid "출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다."
+msgstr "출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다."
+
+msgid "회사소개"
+msgstr "회사소개"
+
+msgid "이용약관"
+msgstr "이용약관"
+
+msgid "개인정보보호정책"
+msgstr "개인정보보호정책"
+
+msgid "자주묻는질문"
+msgstr "자주묻는질문"
+
+msgid "대표이사"
+msgstr "대표이사"
+
+msgid "사업자등록번호"
+msgstr "사업자등록번호"
+
+msgid "주소"
+msgstr "주소"
+
+msgid "전화"
+msgstr "전화"
+
+msgid "통신판매업신고번호"
+msgstr "통신판매업신고번호"
+
+msgid "이메일"
+msgstr "이메일"
+
+msgid "고객상담 · 상담 · 배송 문의"
+msgstr "고객상담 · 상담 · 배송 문의"
+
+msgid "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
+msgstr "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
+
+msgid "Change Pin Number"
+msgstr "핀 번호 변경"
+
+msgid "거래용 보안비밀번호 변경"
+msgstr "거래용 보안비밀번호 변경"
+
+msgid "현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요."
+msgstr "현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요."
+
+msgid "새로 사용할 보안비밀번호(Pin Number)를 입력하세요."
+msgstr "새로 사용할 보안비밀번호(Pin Number)를 입력하세요."
+
+msgid "보안비밀번호(Pin Number)를 한번 더 입력하세요."
+msgstr "보안비밀번호(Pin Number)를 한번 더 입력하세요."
+
+msgid "보안비밀번호(Pin Number)가 변경되었습니다."
+msgstr "보안비밀번호(Pin Number)가 변경되었습니다."
+
+msgid "TEAPLAT은 전 세계에서 생산되는 차들의 인증과<br>기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다."
+msgstr "TEAPLAT은 전 세계에서 생산되는 차들의 인증과<br>기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다."
+
+msgid "ID 생성"
+msgstr "ID 생성"
+
+msgid "Enter your account details."
+msgstr "계정 세부 정보를 입력합니다."
+
+msgid "ID 인증"
+msgstr "ID 인증"
+
+msgid "Verify your identity to protect your account."
+msgstr "귀하의 계정을 보호하기 위해 귀하의 신원을 확인하십시오."
+
+msgid "Country/Area of Residence"
+msgstr "국가/거주지역"
+
+msgid "회원가입에 기입한 정보는 추후 계정관리에서 변경 할 수 있습니다."
+msgstr "회원가입에 기입한 정보는 추후 계정관리에서 변경 할 수 있습니다."
+
+msgid "계정 등록"
+msgstr "계정 등록"
+
+msgid "이메일 인증"
+msgstr "이메일 인증"
+
+msgid "핸드폰 번호 인증"
+msgstr "핸드폰 번호 인증"
+
+msgid "핸드폰 본인 인증"
+msgstr "핸드폰 본인 인증"
+
+msgid "보안 비밀번호 설정"
+msgstr "보안 비밀번호 설정"
+
+msgid "Create Your Account"
+msgstr "계정 만들기"
+
+msgid "Email"
+msgstr "이메일"
+
+msgid "Password"
+msgstr "비밀번호"
+
+msgid "I agree to receive email updates from Teaplat"
+msgstr "Teaplat의 이메일 업데이트 수신에 동의합니다."
+
+msgid "I agree to share data for marketing purposes"
+msgstr "마케팅 목적으로 데이터를 공유하는 데 동의합니다."
+
+msgid "입력한 이메일로 인증번호가 발송되었습니다."
+msgstr "입력한 이메일로 인증번호가 발송되었습니다."
+
+msgid "이메일이 오지 않으셨나요?"
+msgstr "이메일이 오지 않으셨나요?"
+
+msgid "이메일 재발송"
+msgstr "이메일 재발송"
+
+msgid "다음"
+msgstr "다음"
+
+msgid "핸드폰 번호 등록"
+msgstr "핸드폰 번호 등록"
+
+msgid "핸드폰 번호를 등록하세요."
+msgstr "핸드폰 번호를 등록하세요."
+
+msgid "Phone number"
+msgstr "전화번호"
+
+msgid "입력한 휴대폰 번호로 인증번호가 발송되었습니다."
+msgstr "입력한 휴대폰 번호로 인증번호가 발송되었습니다."
+
+msgid "문자가 오지 않으셨나요?"
+msgstr "문자가 오지 않으셨나요?"
+
+msgid "인증문자 재발송"
+msgstr "인증문자 재발송"
+
+msgid "보안 비밀 번호 6자리를 입력해 주세요."
+msgstr "보안 비밀 번호 6자리를 입력해 주세요."
+
+msgid "한번 더 입력해 주세요."
+msgstr "한번 더 입력해 주세요."
+
+msgid "회원 가입이 완료되었습니다"
+msgstr "회원 가입이 완료되었습니다"
+
+msgid "거래를 하기 위해서는 로그인 후에<br>ID 본인 인증이 필요합니다."
+msgstr "거래를 하기 위해서는 로그인 후에<br>ID 본인 인증이 필요합니다."
+
+msgid "확인"
+msgstr "확인"
+
+msgid "고객 센터"
+msgstr "고객 센터"
+
+msgid "공지사항"
+msgstr "공지사항"
+
+msgid "자주하는 질문"
+msgstr "자주하는 질문"
+
+msgid "1:1 문의"
+msgstr "1:1 문의"
+
+msgid "F.A.Q"
+msgstr "F.A.Q"
+
+msgid "이전 페이지"
+msgstr "이전 페이지"
+
+msgid "다음 페이지"
+msgstr "다음 페이지"
+
+msgid "Reset password"
+msgstr "비밀번호 재설정"
+
+msgid "등록되지 않은 이메일 주소입니다. 올바른 이메일 주소를 입력해 주세요."
+msgstr "등록되지 않은 이메일 주소입니다. 올바른 이메일 주소를 입력해 주세요."
+
+msgid "이메일 발송"
+msgstr "이메일 발송"
 
 msgid "<b>새로운 인증시스템</b>의 <b>글로벌 표준 <span class=\"highlight\">차 거래소</span></b>"
 msgstr "<b>새로운 인증시스템</b>의 <b>글로벌 표준 <span class=\"highlight\">차 거래소</span></b>"
@@ -303,14 +337,11 @@ msgstr "보이차 시세"
 msgid "전체보기"
 msgstr "전체보기"
 
-msgid "공지사항"
-msgstr "공지사항"
-
 msgid "모바일 APP에서 누리는 더 편리하고 안전한 거래"
 msgstr "모바일 APP에서 누리는 더 편리하고 안전한 거래"
 
 msgid "Download Teaplat APP"
-msgstr "Download Teaplat APP"
+msgstr "Teaplat 앱 다운로드"
 
 msgid "Android"
 msgstr "Android"
@@ -357,59 +388,74 @@ msgstr "소액으로 고급차에 투자할 수 있도록 공동구매와 경매
 msgid "Teaplat"
 msgstr "Teaplat"
 
-msgid "회사소개"
-msgstr "회사소개"
+msgid "Direct Inquiry"
+msgstr "1:1문의"
 
-msgid "이용약관"
-msgstr "이용약관"
+msgid "문의하기"
+msgstr "문의하기"
 
-msgid "개인정보보호정책"
-msgstr "개인정보보호정책"
+msgid "번호"
+msgstr "번호"
 
-msgid "자주묻는질문"
-msgstr "자주묻는질문"
+msgid "제목"
+msgstr "제목"
 
-msgid "대표이사"
-msgstr "대표이사"
+msgid "상태"
+msgstr "상태"
 
-msgid "사업자등록번호"
-msgstr "사업자등록번호"
+msgid "날짜"
+msgstr "날짜"
 
-msgid "주소"
-msgstr "주소"
+msgid "수정"
+msgstr "수정"
 
-msgid "전화"
-msgstr "전화"
+msgid "문의 내용이 없습니다"
+msgstr "문의 내용이 없습니다"
 
-msgid "통신판매업신고번호"
-msgstr "통신판매업신고번호"
+msgid "텍스트"
+msgstr "텍스트"
 
-msgid "이메일"
-msgstr "이메일"
+msgid "내용"
+msgstr "내용"
 
-msgid "고객상담 · 상담 · 배송 문의"
-msgstr "고객상담 · 상담 · 배송 문의"
+msgid "답변"
+msgstr "답변"
 
-msgid "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
-msgstr "평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)"
+msgid "답변 일자"
+msgstr "답변 일자"
 
-msgid "국가 및 화폐 선택"
-msgstr "국가 및 화폐 선택"
+msgid "답변 내용"
+msgstr "답변 내용"
 
-msgid "은행명"
-msgstr "은행명"
+msgid "목록"
+msgstr "목록"
 
-msgid "이름"
-msgstr "이름"
-
-msgid "계좌번호"
-msgstr "계좌번호"
+msgid "내용 수정"
+msgstr "내용 수정"
 
 msgid "제목을 입력하세요"
 msgstr "제목을 입력하세요"
 
 msgid "문의내용을 입력하세요"
 msgstr "문의내용을 입력하세요"
+
+msgid "이메일을 입력해주세요."
+msgstr "이메일을 입력해주세요."
+
+msgid "비밀번호를 입력해주세요."
+msgstr "비밀번호를 입력해주세요."
+
+msgid "Login"
+msgstr "로그인"
+
+msgid "비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다."
+msgstr "비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다."
+
+msgid "비밀번호 찾기"
+msgstr "비밀번호 찾기"
+
+msgid "이메일로 회원가입"
+msgstr "이메일로 회원가입"
 
 msgid "국가"
 msgstr "국가"
@@ -423,20 +469,62 @@ msgstr "상세주소(옵션)"
 msgid "우편번호"
 msgstr "우편번호"
 
-msgid "자주하는 질문"
-msgstr "자주하는 질문"
+msgid "지갑 관리"
+msgstr "지갑 관리"
 
-msgid "1:1 문의"
-msgstr "1:1 문의"
+msgid "Member Account"
+msgstr "회원 계정"
+
+msgid "핸드폰 번호"
+msgstr "핸드폰 번호"
+
+msgid "거주지"
+msgstr "거주지"
+
+msgid "로그인 비밀번호 변경"
+msgstr "로그인 비밀번호 변경"
+
+msgid "Change password"
+msgstr "비밀번호 변경"
+
+msgid "현재 비밀번호"
+msgstr "현재 비밀번호"
+
+msgid "새로운 비밀번호"
+msgstr "새로운 비밀번호"
+
+msgid "비밀번호 재입력"
+msgstr "비밀번호 재입력"
+
+msgid "티드로우"
+msgstr "티드로우"
+
+msgid "거래내역"
+msgstr "거래내역"
+
+msgid "더보기"
+msgstr "더보기"
+
+msgid "Identity Verification"
+msgstr "본인 확인"
+
+msgid "다음의 인증 절차를 진행하여 본인 확인을 완료하십시오."
+msgstr "다음의 인증 절차를 진행하여 본인 확인을 완료하십시오."
+
+msgid "정부에서 발행한 아래 서류 중 한가지를 준비해주세요."
+msgstr "정부에서 발행한 아래 서류 중 한가지를 준비해주세요."
+
+msgid "1. ID Card"
+msgstr "1. 신분증"
+
+msgid "2. Passport"
+msgstr "2. 여권"
+
+msgid "3. Driver’s License"
+msgstr "3. 운전 면허증"
 
 msgid "Notice"
-msgstr "Notice"
-
-msgid "날짜"
-msgstr "날짜"
-
-msgid "제목"
-msgstr "제목"
+msgstr "공지사항"
 
 msgid "작성자"
 msgstr "작성자"
@@ -444,613 +532,275 @@ msgstr "작성자"
 msgid "게시물이 없습니다"
 msgstr "게시물이 없습니다"
 
-msgid "이전 페이지"
-msgstr "이전 페이지"
+msgid "끽다거의 새로운 사이트가 곧 오픈합니다"
+msgstr "끽다거의 새로운 사이트가 곧 오픈합니다"
 
-msgid "다음 페이지"
-msgstr "다음 페이지"
+msgid "Notification"
+msgstr "공지"
+
+msgid "Trading History"
+msgstr "거래 내역"
+
+msgid "1주일"
+msgstr "1주일"
+
+msgid "1개월"
+msgstr "1개월"
+
+msgid "6개월"
+msgstr "6개월"
+
+msgid "1년"
+msgstr "1년"
+
+msgid "조회하기"
+msgstr "조회하기"
+
+msgid "전체"
+msgstr "전체"
+
+msgid "판매"
+msgstr "판매"
+
+msgid "구매"
+msgstr "구매"
+
+msgid "공동 구매"
+msgstr "공동 구매"
+
+msgid "제품 등록"
+msgstr "제품 등록"
+
+msgid "제품"
+msgstr "제품"
+
+msgid "단가"
+msgstr "단가"
+
+msgid "수량"
+msgstr "수량"
+
+msgid "총액"
+msgstr "총액"
+
+msgid "보냄"
+msgstr "보냄"
+
+msgid "받음"
+msgstr "받음"
+
+msgid "My Wallet"
+msgstr "내 지갑"
+
+msgid "총 보유 자산"
+msgstr "총 보유 자산"
+
+msgid "사용 가능 자산"
+msgstr "사용 가능 자산"
+
+msgid "동결 평가 자산"
+msgstr "동결 평가 자산"
+
+msgid "Profit and Loss Analysis"
+msgstr "종합분석"
+
+msgid "종합분석 설명"
+msgstr "종합분석 설명"
+
+msgid "손익현황은 조회기간 동안 순입금액을 기준으로 투자원금을 계산하여 손익을 제공하는 수익평가용 참고자료로,입 출금이 빈번하게 발생하거나 금액 크기에 따라 평가가 왜곡될 수 있으며 해당 기간 실제 실현손익과는 다릅니다."
+msgstr "손익현황은 조회기간 동안 순입금액을 기준으로 투자원금을 계산하여 손익을 제공하는 수익평가용 참고자료로,입 출금이 빈번하게 발생하거나 금액 크기에 따라 평가가 왜곡될 수 있으며 해당 기간 실제 실현손익과는 다릅니다."
+
+msgid "단순 참고용으로만 활용해주시기 바라며 당사는 해당 자료를 기반으로 한 매매 손실에 대해 책임지지 않음을 알려드립니다."
+msgstr "단순 참고용으로만 활용해주시기 바라며 당사는 해당 자료를 기반으로 한 매매 손실에 대해 책임지지 않음을 알려드립니다."
+
+msgid "조회기간 설정은 최대 90일 까지 가능하며, 조회 당일 데이터는 조회 불가합니다."
+msgstr "조회기간 설정은 최대 90일 까지 가능하며, 조회 당일 데이터는 조회 불가합니다."
+
+msgid "계산식"
+msgstr "계산식"
+
+msgid "총 투자금액 ∑자산 별 (기초평가금액 + ∑입금평가금액 - ∑출금평가금액)"
+msgstr "총 투자금액 ∑자산 별 (기초평가금액 + ∑입금평가금액 - ∑출금평가금액)"
+
+msgid "총 투자손익 ∑자산 별 (기말평가금액 - 기초평가금액 + ∑출금평가금액 - ∑입금평가금액)"
+msgstr "총 투자손익 ∑자산 별 (기말평가금액 - 기초평가금액 + ∑출금평가금액 - ∑입금평가금액)"
+
+msgid "총 투자수익률 (총투자손익 / 총투자금액) * 100"
+msgstr "총 투자수익률 (총투자손익 / 총투자금액) * 100"
+
+msgid "기초/기말평가금액 기초 or 기말 KRW + 기초 or 기말 가상자산 평가금액 (해당일 종가, 00시 기준)"
+msgstr "기초/기말평가금액 기초 or 기말 KRW + 기초 or 기말 가상자산 평가금액 (해당일 종가, 00시 기준)"
+
+msgid "입금/출금평가금액 기간 내 입금 or 출금 KRW + 입금 or 출금 가상자산 평가금액 (해당시간 시세기준)"
+msgstr "입금/출금평가금액 기간 내 입금 or 출금 KRW + 입금 or 출금 가상자산 평가금액 (해당시간 시세기준)"
+
+msgid "Deposit"
+msgstr "입금"
+
+msgid "입금 안내"
+msgstr "입금 안내"
+
+msgid "비트코인캐시"
+msgstr "비트코인캐시"
+
+msgid "QR Code"
+msgstr "QR 코드"
+
+msgid "Create BCH Address"
+msgstr "BCH 주소 생성"
+
+msgid "입금안내"
+msgstr "입금안내"
+
+msgid "고객님께서 (비트코인캐시)를 팔고 싶다면 먼저 지갑에 입금하거나 다른 회원으로부터 구입해야 합니다."
+msgstr "고객님께서 (비트코인캐시)를 팔고 싶다면 먼저 지갑에 입금하거나 다른 회원으로부터 구입해야 합니다."
+
+msgid "고객님에게 지정된 (비트코인캐시)주소로 (비트코인캐시)를 보내면 고객님의 지갑에 자동으로 반영됩니다."
+msgstr "고객님에게 지정된 (비트코인캐시)주소로 (비트코인캐시)를 보내면 고객님의 지갑에 자동으로 반영됩니다."
+
+msgid "평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료."
+msgstr "평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료."
+
+msgid "평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료."
+msgstr "평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료."
+
+msgid "법정 공휴일은 입출금 서비스를 지원하지 않습니다."
+msgstr "법정 공휴일은 입출금 서비스를 지원하지 않습니다."
+
+msgid "토,일 및 공휴일 입출금건 → 평일 영업일에 진행"
+msgstr "토,일 및 공휴일 입출금건 → 평일 영업일에 진행"
+
+msgid "Address"
+msgstr "주소"
+
+msgid "Copy"
+msgstr "복사"
+
+msgid "ETH Balance"
+msgstr "ETH 잔액"
+
+msgid "이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다."
+msgstr "이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다."
+
+msgid "통장입금내역과 입금예약사항이 정확히 일치하는 경우, 입금 후 고객님의 계정에 반영되기까지 약 10분 정도 소요됩니다."
+msgstr "통장입금내역과 입금예약사항이 정확히 일치하는 경우, 입금 후 고객님의 계정에 반영되기까지 약 10분 정도 소요됩니다."
+
+msgid "신청 후 30분 내 미입금시 관리자 확인 후 입금신청이 취소됩니다."
+msgstr "신청 후 30분 내 미입금시 관리자 확인 후 입금신청이 취소됩니다."
+
+msgid "서버 점검 시간 또는 은행거래 처리가 많은 월말에는 평소보다 입금처리가 지연될 수 있습니다."
+msgstr "서버 점검 시간 또는 은행거래 처리가 많은 월말에는 평소보다 입금처리가 지연될 수 있습니다."
+
+msgid "은행 공통 점검 시간(매일 23:30~00:30)에는 입금이 불가능하거나 지연될 수 있습니다."
+msgstr "은행 공통 점검 시간(매일 23:30~00:30)에는 입금이 불가능하거나 지연될 수 있습니다."
+
+msgid "반드시 ‘입금’에서 입금요청한 금액만큼 계좌로부터 한번에 입금 해야 합니다."
+msgstr "반드시 ‘입금’에서 입금요청한 금액만큼 계좌로부터 한번에 입금 해야 합니다."
+
+msgid "다음의 경우에는 입금처리가 되지 않습니다."
+msgstr "다음의 경우에는 입금처리가 되지 않습니다."
+
+msgid "예약한 금액과 다른 금액을 입금 예)1,000,000원을 예약하고 100,000원을 입금"
+msgstr "예약한 금액과 다른 금액을 입금 예)1,000,000원을 예약하고 100,000원을 입금"
+
+msgid "예약한 금액을 분할해 입금 예)1,000,000원을 500,000원 두 번으로 나누어 입금"
+msgstr "예약한 금액을 분할해 입금 예)1,000,000원을 500,000원 두 번으로 나누어 입금"
+
+msgid "금액 상이로 인한 입금 지연 문의 시에는 입금여부 확인이 가능한 증빙자료를 제출해야 합니다. (이 때, 제출하시는 증빙자료는 예금주명, 계좌번호, 입금액, 입금시간을 정확히 확인할 수 있는 자료여야 합니다.)"
+msgstr "금액 상이로 인한 입금 지연 문의 시에는 입금여부 확인이 가능한 증빙자료를 제출해야 합니다. (이 때, 제출하시는 증빙자료는 예금주명, 계좌번호, 입금액, 입금시간을 정확히 확인할 수 있는 자료여야 합니다.)"
+
+msgid "입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다."
+msgstr "입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다."
 
 msgid "보안비밀번호 입력"
 msgstr "보안비밀번호 입력"
 
-#: ../change-account-number.html
-msgid "정보 수정"
-msgstr "정보 수정"
-
-#: ../change-account-number.html
-msgid "ID 인증 관리"
-msgstr "ID 인증 관리"
-
-#: ../change-account-number.html
-msgid "보안비밀번호변경"
-msgstr "보안비밀번호변경"
-
-#: ../change-account-number.html
-msgid "출금계좌 변경"
-msgstr "출금계좌 변경"
-
-#: ../change-account-number.html
-msgid "거래 내역"
-msgstr "거래 내역"
-
-#: ../change-account-number.html
-msgid "알림"
-msgstr "알림"
-
-#: ../change-account-number.html
-msgid "회원 탈퇴"
-msgstr "회원 탈퇴"
-
-#: ../change-account-number.html
-msgid "지갑관리"
-msgstr "지갑관리"
-
-#: ../change-account-number.html
-msgid "보유 자산"
-msgstr "보유 자산"
-
-#: ../change-account-number.html
-msgid "입금"
-msgstr "입금"
-
-#: ../change-account-number.html
-msgid "출금"
-msgstr "출금"
-
-#: ../change-account-number.html
-msgid "종합 분석"
-msgstr "종합 분석"
-
-#: ../change-account-number.html
-msgid "로그아웃"
-msgstr "로그아웃"
-
-#: ../change-account-number.html
-msgid "계정 관리"
-msgstr "계정 관리"
-
-#: ../change-account-number.html
-msgid "보안비밀번호 변경"
-msgstr "보안비밀번호 변경"
-
-#: ../change-account-number.html
-msgid "Change bank account number"
-msgstr "Change bank account number"
-
-#: ../change-account-number.html
-msgid "출금 계좌 정보를 수정합니다."
-msgstr "출금 계좌 정보를 수정합니다."
-
-#: ../change-account-number.html
-msgid "은행 및 계좌"
-msgstr "은행 및 계좌"
-
-#: ../change-account-number.html
-msgid "출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다."
-msgstr "출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다."
-
-#: ../change-pin-number.html
-msgid "Change Pin Number"
-msgstr "Change Pin Number"
-
-#: ../change-pin-number.html
-msgid "거래용 보안비밀번호 변경"
-msgstr "거래용 보안비밀번호 변경"
-
-#: ../change-pin-number.html
-msgid "현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요."
-msgstr "현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요."
-
-#: ../change-pin-number.html
-msgid "새로 사용할 보안비밀번호(Pin Number)를 입력하세요."
-msgstr "새로 사용할 보안비밀번호(Pin Number)를 입력하세요."
-
-#: ../change-pin-number.html
-msgid "보안비밀번호(Pin Number)를 한번 더 입력하세요."
-msgstr "보안비밀번호(Pin Number)를 한번 더 입력하세요."
-
-#: ../change-pin-number.html
-msgid "보안비밀번호(Pin Number)가 변경되었습니다."
-msgstr "보안비밀번호(Pin Number)가 변경되었습니다."
-
-#: ../faq.html
-msgid "고객 센터"
-msgstr "고객 센터"
-
-#: ../faq.html
-msgid "F.A.Q"
-msgstr "F.A.Q"
-
-#: ../inquiry.html
-msgid "Direct Inquiry"
-msgstr "Direct Inquiry"
-
-#: ../inquiry.html
-msgid "번호"
-msgstr "번호"
-
-#: ../inquiry.html
-msgid "상태"
-msgstr "상태"
-
-#: ../inquiry.html
-msgid "수정"
-msgstr "수정"
-
-#: ../inquiry.html
-msgid "문의 내용이 없습니다"
-msgstr "문의 내용이 없습니다"
-
-#: ../inquiry_detail.html
-msgid "텍스트"
-msgstr "텍스트"
-
-#: ../inquiry_detail.html
-msgid "내용"
-msgstr "내용"
-
-#: ../inquiry_detail.html
-msgid "답변"
-msgstr "답변"
-
-#: ../inquiry_detail.html
-msgid "답변 일자"
-msgstr "답변 일자"
-
-#: ../inquiry_detail.html
-msgid "답변 내용"
-msgstr "답변 내용"
-
-#: ../inquiry_detail.html
-msgid "목록"
-msgstr "목록"
-
-#: ../inquiry_detail.html
-msgid "내용 수정"
-msgstr "내용 수정"
-
-#: ../inquiry_detail.html
-msgid "문의하기"
-msgstr "문의하기"
-
-#: ../login.html
-msgid "이메일을 입력해주세요."
-msgstr "이메일을 입력해주세요."
-
-#: ../login.html
-msgid "비밀번호를 입력해주세요."
-msgstr "비밀번호를 입력해주세요."
-
-#: ../login.html
-msgid "Login"
-msgstr "Login"
-
-#: ../login.html
-msgid "Email"
-msgstr "Email"
-
-#: ../login.html
-msgid "Password"
-msgstr "Password"
-
-#: ../login.html
-msgid "비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다."
-msgstr "비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다."
-
-#: ../login.html
-msgid "비밀번호 찾기"
-msgstr "비밀번호 찾기"
-
-#: ../login.html
-msgid "이메일로 회원가입"
-msgstr "이메일로 회원가입"
-
-#: ../member-account.html
-msgid "지갑 관리"
-msgstr "지갑 관리"
-
-#: ../member-account.html
-msgid "Member Account"
-msgstr "Member Account"
-
-#: ../member-account.html
-msgid "핸드폰 번호"
-msgstr "핸드폰 번호"
-
-#: ../member-account.html
-msgid "거주지"
-msgstr "거주지"
-
-#: ../member-account.html
-msgid "로그인 비밀번호 변경"
-msgstr "로그인 비밀번호 변경"
-
-#: ../member-account.html
-msgid "Change password"
-msgstr "Change password"
-
-#: ../member-account.html
-msgid "현재 비밀번호"
-msgstr "현재 비밀번호"
-
-#: ../member-account.html
-msgid "새로운 비밀번호"
-msgstr "새로운 비밀번호"
-
-#: ../member-account.html
-msgid "비밀번호 재입력"
-msgstr "비밀번호 재입력"
-
-#: ../member-account.html
-msgid "티드로우"
-msgstr "티드로우"
-
-#: ../member-account.html
-msgid "거래내역"
-msgstr "거래내역"
-
-#: ../member-account.html
-msgid "더보기"
-msgstr "더보기"
-
-#: ../my-verification.html
-msgid "Identity Verification"
-msgstr "Identity Verification"
-
-#: ../my-verification.html
-msgid "다음의 인증 절차를 진행하여 본인 확인을 완료하십시오."
-msgstr "다음의 인증 절차를 진행하여 본인 확인을 완료하십시오."
-
-#: ../my-verification.html
-msgid "정부에서 발행한 아래 서류 중 한가지를 준비해주세요."
-msgstr "정부에서 발행한 아래 서류 중 한가지를 준비해주세요."
-
-#: ../my-verification.html
-msgid "1. ID Card"
-msgstr "1. ID Card"
-
-#: ../my-verification.html
-msgid "2. Passport"
-msgstr "2. Passport"
-
-#: ../my-verification.html
-msgid "3. Driver’s License"
-msgstr "3. Driver’s License"
-
-#: ../notice_detail.html
-msgid "끽다거의 새로운 사이트가 곧 오픈합니다"
-msgstr "끽다거의 새로운 사이트가 곧 오픈합니다"
-
-#: ../notification.html
-msgid "Notification"
-msgstr "Notification"
-
-#: ../transaction.html
-msgid "Trading History"
-msgstr "Trading History"
-
-#: ../transaction.html
-msgid "1주일"
-msgstr "1주일"
-
-#: ../transaction.html
-msgid "1개월"
-msgstr "1개월"
-
-#: ../transaction.html
-msgid "6개월"
-msgstr "6개월"
-
-#: ../transaction.html
-msgid "1년"
-msgstr "1년"
-
-#: ../transaction.html
-msgid "조회하기"
-msgstr "조회하기"
-
-#: ../transaction.html
-msgid "전체"
-msgstr "전체"
-
-#: ../transaction.html
-msgid "판매"
-msgstr "판매"
-
-#: ../transaction.html
-msgid "구매"
-msgstr "구매"
-
-#: ../transaction.html
-msgid "공동 구매"
-msgstr "공동 구매"
-
-#: ../transaction.html
-msgid "제품 등록"
-msgstr "제품 등록"
-
-#: ../transaction.html
-msgid "제품"
-msgstr "제품"
-
-#: ../transaction.html
-msgid "단가"
-msgstr "단가"
-
-#: ../transaction.html
-msgid "수량"
-msgstr "수량"
-
-#: ../transaction.html
-msgid "총액"
-msgstr "총액"
-
-#: ../transaction.html
-msgid "보냄"
-msgstr "보냄"
-
-#: ../transaction.html
-msgid "받음"
-msgstr "받음"
-
-#: ../wallet.html
-msgid "My Wallet"
-msgstr "My Wallet"
-
-#: ../wallet.html
-msgid "총 보유 자산"
-msgstr "총 보유 자산"
-
-#: ../wallet.html
-msgid "사용 가능 자산"
-msgstr "사용 가능 자산"
-
-#: ../wallet.html
-msgid "동결 평가 자산"
-msgstr "동결 평가 자산"
-
-#: ../wallet-analysis.html
-msgid "Profit and Loss Analysis"
-msgstr "Profit and Loss Analysis"
-
-#: ../wallet-analysis.html
-msgid "종합분석 설명"
-msgstr "종합분석 설명"
-
-#: ../wallet-analysis.html
-msgid "손익현황은 조회기간 동안 순입금액을 기준으로 투자원금을 계산하여 손익을 제공하는 수익평가용 참고자료로,입 출금이 빈번하게 발생하거나 금액 크기에 따라 평가가 왜곡될 수 있으며 해당 기간 실제 실현손익과는 다릅니다."
-msgstr "손익현황은 조회기간 동안 순입금액을 기준으로 투자원금을 계산하여 손익을 제공하는 수익평가용 참고자료로,입 출금이 빈번하게 발생하거나 금액 크기에 따라 평가가 왜곡될 수 있으며 해당 기간 실제 실현손익과는 다릅니다."
-
-#: ../wallet-analysis.html
-msgid "단순 참고용으로만 활용해주시기 바라며 당사는 해당 자료를 기반으로 한 매매 손실에 대해 책임지지 않음을 알려드립니다."
-msgstr "단순 참고용으로만 활용해주시기 바라며 당사는 해당 자료를 기반으로 한 매매 손실에 대해 책임지지 않음을 알려드립니다."
-
-#: ../wallet-analysis.html
-msgid "조회기간 설정은 최대 90일 까지 가능하며, 조회 당일 데이터는 조회 불가합니다."
-msgstr "조회기간 설정은 최대 90일 까지 가능하며, 조회 당일 데이터는 조회 불가합니다."
-
-#: ../wallet-analysis.html
-msgid "계산식"
-msgstr "계산식"
-
-#: ../wallet-analysis.html
-msgid "총 투자금액 ∑자산 별 (기초평가금액 + ∑입금평가금액 - ∑출금평가금액)"
-msgstr "총 투자금액 ∑자산 별 (기초평가금액 + ∑입금평가금액 - ∑출금평가금액)"
-
-#: ../wallet-analysis.html
-msgid "총 투자손익 ∑자산 별 (기말평가금액 - 기초평가금액 + ∑출금평가금액 - ∑입금평가금액)"
-msgstr "총 투자손익 ∑자산 별 (기말평가금액 - 기초평가금액 + ∑출금평가금액 - ∑입금평가금액)"
-
-#: ../wallet-analysis.html
-msgid "총 투자수익률 (총투자손익 / 총투자금액) * 100"
-msgstr "총 투자수익률 (총투자손익 / 총투자금액) * 100"
-
-#: ../wallet-analysis.html
-msgid "기초/기말평가금액 기초 or 기말 KRW + 기초 or 기말 가상자산 평가금액 (해당일 종가, 00시 기준)"
-msgstr "기초/기말평가금액 기초 or 기말 KRW + 기초 or 기말 가상자산 평가금액 (해당일 종가, 00시 기준)"
-
-#: ../wallet-analysis.html
-msgid "입금/출금평가금액 기간 내 입금 or 출금 KRW + 입금 or 출금 가상자산 평가금액 (해당시간 시세기준)"
-msgstr "입금/출금평가금액 기간 내 입금 or 출금 KRW + 입금 or 출금 가상자산 평가금액 (해당시간 시세기준)"
-
-#: ../wallet-deposit.html
-msgid "Deposit"
-msgstr "Deposit"
-
-#: ../wallet-deposit.html
-msgid "입금 안내"
-msgstr "입금 안내"
-
-#: ../wallet-deposit.html
-msgid "비트코인캐시"
-msgstr "비트코인캐시"
-
-#: ../wallet-deposit.html
-msgid "QR Code"
-msgstr "QR Code"
-
-#: ../wallet-deposit.html
-msgid "Create BCH Address"
-msgstr "Create BCH Address"
-
-#: ../wallet-deposit.html
-msgid "입금안내"
-msgstr "입금안내"
-
-#: ../wallet-deposit.html
-msgid "고객님께서 (비트코인캐시)를 팔고 싶다면 먼저 지갑에 입금하거나 다른 회원으로부터 구입해야 합니다."
-msgstr "고객님께서 (비트코인캐시)를 팔고 싶다면 먼저 지갑에 입금하거나 다른 회원으로부터 구입해야 합니다."
-
-#: ../wallet-deposit.html
-msgid "고객님에게 지정된 (비트코인캐시)주소로 (비트코인캐시)를 보내면 고객님의 지갑에 자동으로 반영됩니다."
-msgstr "고객님에게 지정된 (비트코인캐시)주소로 (비트코인캐시)를 보내면 고객님의 지갑에 자동으로 반영됩니다."
-
-#: ../wallet-deposit.html
-msgid "평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료."
-msgstr "평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료."
-
-#: ../wallet-deposit.html
-msgid "평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료."
-msgstr "평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료."
-
-#: ../wallet-deposit.html
-msgid "법정 공휴일은 입출금 서비스를 지원하지 않습니다."
-msgstr "법정 공휴일은 입출금 서비스를 지원하지 않습니다."
-
-#: ../wallet-deposit.html
-msgid "토,일 및 공휴일 입출금건 → 평일 영업일에 진행"
-msgstr "토,일 및 공휴일 입출금건 → 평일 영업일에 진행"
-
-#: ../wallet-deposit.html
-msgid "Address"
-msgstr "Address"
-
-#: ../wallet-deposit.html
-msgid "Copy"
-msgstr "Copy"
-
-#: ../wallet-deposit.html
-msgid "ETH Balance"
-msgstr "ETH Balance"
-
-#: ../wallet-deposit.html
-msgid "이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다."
-msgstr "이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다."
-
-#: ../wallet-deposit.html
-msgid "통장입금내역과 입금예약사항이 정확히 일치하는 경우, 입금 후 고객님의 계정에 반영되기까지 약 10분 정도 소요됩니다."
-msgstr "통장입금내역과 입금예약사항이 정확히 일치하는 경우, 입금 후 고객님의 계정에 반영되기까지 약 10분 정도 소요됩니다."
-
-#: ../wallet-deposit.html
-msgid "신청 후 30분 내 미입금시 관리자 확인 후 입금신청이 취소됩니다."
-msgstr "신청 후 30분 내 미입금시 관리자 확인 후 입금신청이 취소됩니다."
-
-#: ../wallet-deposit.html
-msgid "서버 점검 시간 또는 은행거래 처리가 많은 월말에는 평소보다 입금처리가 지연될 수 있습니다."
-msgstr "서버 점검 시간 또는 은행거래 처리가 많은 월말에는 평소보다 입금처리가 지연될 수 있습니다."
-
-#: ../wallet-deposit.html
-msgid "은행 공통 점검 시간(매일 23:30~00:30)에는 입금이 불가능하거나 지연될 수 있습니다."
-msgstr "은행 공통 점검 시간(매일 23:30~00:30)에는 입금이 불가능하거나 지연될 수 있습니다."
-
-#: ../wallet-deposit.html
-msgid "반드시 ‘입금’에서 입금요청한 금액만큼 계좌로부터 한번에 입금 해야 합니다."
-msgstr "반드시 ‘입금’에서 입금요청한 금액만큼 계좌로부터 한번에 입금 해야 합니다."
-
-#: ../wallet-deposit.html
-msgid "다음의 경우에는 입금처리가 되지 않습니다."
-msgstr "다음의 경우에는 입금처리가 되지 않습니다."
-
-#: ../wallet-deposit.html
-msgid "예약한 금액과 다른 금액을 입금 예)1,000,000원을 예약하고 100,000원을 입금"
-msgstr "예약한 금액과 다른 금액을 입금 예)1,000,000원을 예약하고 100,000원을 입금"
-
-#: ../wallet-deposit.html
-msgid "예약한 금액을 분할해 입금 예)1,000,000원을 500,000원 두 번으로 나누어 입금"
-msgstr "예약한 금액을 분할해 입금 예)1,000,000원을 500,000원 두 번으로 나누어 입금"
-
-#: ../wallet-deposit.html
-msgid "금액 상이로 인한 입금 지연 문의 시에는 입금여부 확인이 가능한 증빙자료를 제출해야 합니다. (이 때, 제출하시는 증빙자료는 예금주명, 계좌번호, 입금액, 입금시간을 정확히 확인할 수 있는 자료여야 합니다.)"
-msgstr "금액 상이로 인한 입금 지연 문의 시에는 입금여부 확인이 가능한 증빙자료를 제출해야 합니다. (이 때, 제출하시는 증빙자료는 예금주명, 계좌번호, 입금액, 입금시간을 정확히 확인할 수 있는 자료여야 합니다.)"
-
-#: ../wallet-deposit.html
-msgid "입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다."
-msgstr "입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다."
-
-#: ../wallet-withdrawal.html
 msgid "출금 안내"
 msgstr "출금 안내"
 
-#: ../wallet-withdrawal.html
 msgid "비트코인 캐시"
 msgstr "비트코인 캐시"
 
-#: ../wallet-withdrawal.html
 msgid "(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다."
 msgstr "(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다."
 
-#: ../wallet-withdrawal.html
 msgid "고객님의 (비트코인캐시) 거래가 네트워크에 의해 처리되도록하기 위해 (비트코인캐시) 거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 거래소 수수료와 트랜젝션 수수료가 차감된 금액 입니다."
 msgstr "고객님의 (비트코인캐시) 거래가 네트워크에 의해 처리되도록하기 위해 (비트코인캐시) 거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 거래소 수수료와 트랜젝션 수수료가 차감된 금액 입니다."
 
-#: ../wallet-withdrawal.html
 msgid "모든 인출은 관리자가 확인한 후에 실행됩니다."
 msgstr "모든 인출은 관리자가 확인한 후에 실행됩니다."
 
-#: ../wallet-withdrawal.html
 msgid "요금안내"
 msgstr "요금안내"
 
-#: ../wallet-withdrawal.html
 msgid "출금수수료"
 msgstr "출금수수료"
 
-#: ../wallet-withdrawal.html
 msgid "내부출금수수료"
 msgstr "내부출금수수료"
 
-#: ../wallet-withdrawal.html
 msgid "최소출금액"
 msgstr "최소출금액"
 
-#: ../wallet-withdrawal.html
 msgid "최대출금액"
 msgstr "최대출금액"
 
-#: ../wallet-withdrawal.html
 msgid "출금 가능금액"
 msgstr "출금 가능금액"
 
-#: ../wallet-withdrawal.html
 msgid "1일 출금 가능금액"
 msgstr "1일 출금 가능금액"
 
-#: ../wallet-withdrawal.html
 msgid "출금하실 금액"
 msgstr "출금하실 금액"
 
-#: ../wallet-withdrawal.html
 msgid "출금 수수료"
 msgstr "출금 수수료"
 
-#: ../wallet-withdrawal.html
 msgid "실 출금액"
 msgstr "실 출금액"
 
-#: ../wallet-withdrawal.html
 msgid "보안비밀번호"
 msgstr "보안비밀번호"
 
-#: ../wallet-withdrawal.html
 msgid "보안비밀번호는 계정관리 &gt; 보안비밀번호 변경에서 바꾸실수 있습니다."
 msgstr "보안비밀번호는 계정관리 &gt; 보안비밀번호 변경에서 바꾸실수 있습니다."
 
-#: ../wallet-withdrawal.html
 msgid "출금 (비트코인캐시) 주소"
 msgstr "출금 (비트코인캐시) 주소"
 
-#: ../wallet-withdrawal.html
 msgid "검사"
 msgstr "검사"
 
-#: ../withdrawal.html
 msgid "Teaplat Membership Withdrawal"
-msgstr "Teaplat Membership Withdrawal"
+msgstr "Teaplat 회원탈퇴"
 
-#: ../withdrawal.html
-msgid "회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>
-                보유 자산을 매도해야 합니다."
-msgstr "회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>
-                보유 자산을 매도해야 합니다."
+msgid "회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>보유 자산을 매도해야 합니다."
+msgstr "회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>보유 자산을 매도해야 합니다."
 
-#: ../withdrawal.html
 msgid "다음의 약관을 반드시 숙지한 후에 탈퇴를 진행해 주세요."
 msgstr "다음의 약관을 반드시 숙지한 후에 탈퇴를 진행해 주세요."
 
-#: ../withdrawal.html
 msgid "회원 탈퇴 약관에 동의합니다."
 msgstr "회원 탈퇴 약관에 동의합니다."
 
-msgid "이메일 발송"
-msgstr "이메일 발송"
+#~ msgid ""
+#~ "TEAPLAT은 전 세계에서 생산되는 차들의 인증과<br>\n"
+#~ "                기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다."
+#~ msgstr ""
+#~ "TEAPLAT은 전 세계에서 생산되는 차들의 인증과<br>\n"
+#~ "                기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다."
 
+#~ msgid ""
+#~ "거래를 하기 위해서는 로그인 후에<br>\n"
+#~ "                ID 본인 인증이 필요합니다."
+#~ msgstr ""
+#~ "거래를 하기 위해서는 로그인 후에<br>\n"
+#~ "ID 본인 인증이 필요합니다."
+
+#~ msgid ""
+#~ "회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>\n"
+#~ "                보유 자산을 매도해야 합니다."
+#~ msgstr ""
+#~ "회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>\n"
+#~ "                보유 자산을 매도해야 합니다."
