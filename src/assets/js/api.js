@@ -8,6 +8,9 @@ const API = {
         if (window.location.host.indexOf('dev.') !== -1) {
             API_URL = "//api." + (window.location.host) + "/v1.0";
         }
+        if (window.location.host.indexOf('127.0.0.1') !== -1) {
+            API_URL = "https://api.dev.kkikda.com/v1.0"
+        }
         return API_URL; // 'https://api.dev.kkikda.com/v1.0'
     }(),
 
@@ -440,6 +443,7 @@ const API = {
         })
     },
     getCurrency: (symbol = null, callback) => {
+        console.log( `${API.BASE_URL}/getCurrency/`)
         $.ajax({
             url: `${API.BASE_URL}/getCurrency/`,
             type: 'POST',
@@ -449,6 +453,9 @@ const API = {
             },
             success: (resp) => {
                 callback(resp)
+            },
+            error: (jqXHR) => {
+                console.error(jqXHR)
             }
         })
     },
