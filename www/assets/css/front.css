@@ -289,8 +289,28 @@ header .typography h1 {
     align-items: center;
 }
 
+/* .front main .section:nth-child(2) .list li{
+	justify-content: space-around;
+}
+
 .front main .section:last-child .list li{
 	justify-content: space-between;
+} */
+
+.front main .section .list li{
+	justify-content: space-between;
+}
+.front main .section:nth-child(2) .list--text{
+	flex-basis: 40%;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.front main .section:nth-child(2) .list--text:nth-child(2){
+	flex-basis:35%;
+}
+.front main .section:nth-child(2) .list--text:last-child{
+	flex-basis:20%;
 }
 
 .front main .section:last-child .list li a{
@@ -308,7 +328,7 @@ header .typography h1 {
     height: 740px;
     background: url('../img/bg2.png') no-repeat center;
     background-size: cover;
-    position: relative;
+    /* position: relative; */
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -325,6 +345,10 @@ header .typography h1 {
     line-height: 38px;
     letter-spacing: -0.02em;
 }
+.section--service h1 + div{
+	height: 98px; 
+	align-self: center;
+}
 
 .section--service p {
     margin: 10px 0 0;
@@ -334,6 +358,13 @@ header .typography h1 {
     font-size: 14px;
     text-align: center;
 }
+
+.section--service .descArea{
+	padding-top: 53px; 
+	padding-bottom: 40px; 
+	background: url('../img/phone.png') no-repeat center 53px;
+}
+
 .section--service [class^=app--] {
     width: 360px;
     letter-spacing: -0.02em
@@ -406,20 +437,13 @@ header .typography h1 {
 
 @media screen and (min-width: 1020px) and (max-width: 1400px) {
 	.nav .nav--side .language .dropdown--item{left: -10px;}
-	.front main {
-		margin: 23px 0 40px;
-		padding: 0 30px;
-		height: 375px;
-		display: flex;
+	.section--service{
+
 	}
-	
-	.front main .section {width: 33%; padding: 0;}
-	.front main .section:first-child .tabs li{font-size: 10px; font-weight: 400;}
-	.front main .section:nth-child(2) .list li .list--text{font-size: 12px; flex-basis: calc(100% * (167 / 427));}
-	.front main .section:nth-child(2) .list li span:nth-child(2){flex-basis: calc(100% * (219 / 427));}
-	.front main .section:nth-child(2) .list li span:last-child{flex-basis: calc(100% * (129 / 427));}
-	
-	
+
+
+
+
 	footer{
 		box-sizing: border-box;
 		width: 100%;
@@ -454,29 +478,31 @@ header .typography h1 {
 	.front main .section .canvas{
 		width: 80vw!important;
 	}
-	/* .front main .section .section--header {height: 60px!important;}
-	.front main .section:first-child .section--header {height: 60px!important;}
-	.front main .section .section--header > .text--price {height: 60px;} */
-	.front main .section:first-child .tabs li{font-size: 10px; font-weight: 400;}
-
-	/* .front .news .column > div > ul > li > a{line-height: 17px;display: flex; flex-direction:row;}
-	.front .news .column > div > ul > li > span{display: inline-block;}
-	.front .news .column .badge{width: 60px;}
-	.front .news .column .news--text {
-		display: inline-block;
-		width: 100%;
-		overflow:hidden;
-		text-overflow:ellipsis;
-		white-space:nowrap;
-	} */
-
-	.front main .section:nth-child(2) .list li .list--text{font-size: 12px; flex-basis: calc(100% * (167 / 427));}
-	.front main .section:nth-child(2) .list li span:nth-child(2){flex-basis: calc(100% * (219 / 427));}
-	.front main .section:nth-child(2) .list li span:last-child{flex-basis: calc(100% * (129 / 427));}
-	
-	
-	
 	.section--service{height: auto;}
+
+	footer{
+		box-sizing: border-box;
+		width: 100%;
+		padding:30px 0 25px;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: auto;
+	}
+	footer .fnb{margin-left: 0; margin-top: 20px;}
+	footer .fnb ul{justify-content: center;}
+	footer .copyright{margin-bottom: 20px; text-align: center;}
+	footer .copyright address{justify-content: center; text-align: center; flex:auto;}
+	footer .customer--text,footer .customer--number,footer .customer--time{position: static;}
+
+}
+
+
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+	
+	
+	
 	
 	
 	
@@ -492,13 +518,6 @@ header .typography h1 {
 	footer .copyright{margin-bottom: 20px; text-align: center;}
 	footer .copyright address{justify-content: center; text-align: center; flex:auto;}
 	footer .customer--text, footer .customer--number, footer .customer--time{position: static;}
-
-}
-
-
-
-@media screen and (min-width: 601px) and (max-width: 800px) {
-	
 }
 
 

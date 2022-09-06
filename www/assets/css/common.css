@@ -579,7 +579,7 @@ footer .customer--time {
         display: none !important;
     }
     .mobile-only {
-        display: block;
+        display: block !important;
     }
     .nav ul {
         display: none
