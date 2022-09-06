@@ -165,7 +165,7 @@
     /* margin: 14px 0 0; */
 	padding: 0;
 }
-<<<<<<< HEAD
+
 .deposit .contents .d-grid .grid ul li{
 	font-size: 1.2em;
 	line-height: 1.6;
@@ -185,8 +185,6 @@
 	background: url('../img/icon/icon-bitcoin.png') no-repeat 10px 50%;
 	background-size: 24px;
 }
-=======
->>>>>>> 0cf9ef7e4c1ae5f53070dfa028bc990eee2847c7
 
 .deposit .contents .d-grid .grid input[type=text],
 .deposit .contents .d-grid .grid input[type=password] {
