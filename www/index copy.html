@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
-<link rel="stylesheet" href="./assets/css/header.css">
+<link rel="stylesheet" href="./assets/css/nav.css">
 <link rel="stylesheet" href="./assets/css/footer.css">
 <link rel="stylesheet" href="./assets/css/components.css">
 <link rel="stylesheet" href="./assets/css/front.css">
@@ -74,8 +74,8 @@
 					<a href="notice.html" data-i18n>고객센터</a>
 				</li>
 			</ul>
-			<div class="nav--side">
-				<div name="box_logedin" class="profile dropdown-wrapper">
+			<div class="nav--side" style="background-color: #ff0;">
+				<div class="profile dropdown-wrapper"><!--  name="box_logedin"  -->
 					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
 					<div class="dropdown--item" style="width: 134px">
 						<ul>
@@ -100,8 +100,8 @@
 						</ul>
 					</div>
 				</div> -->
-				<button name="box_logedin" style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-				<div name="box_unlogedin">
+				<button name="box_logedin" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+				<div name="box_unlogedin"><!-- style="display: none"  -->
 					<a href="login.html" class="btn--login" data-i18n>로그인</a>
 				</div>
 
@@ -114,27 +114,26 @@
 				</div>
 			</div>
 		</nav>
-	</header>
-	<section class="viusalArea">
-		<div class="typography">
-			<h1 data-i18n>새로운 인증시스템의 글로벌 표준 차 거래소</span></b></h1>
-			<p data-i18n>안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다.</p>
-		</div>
-		<div class="statistics">
-			<section class="statistics--tea">
-				<h1>Tea</h1>
-				<em>32</em>
-			</section>
-			<section class="statistics--teaware">
-				<h1>Teaware</h1>
-				<em>19</em>
-			</section>
-		</div>
-		<div class="getting-started">
-			<a href="exchange.html" class="btn--" data-i18n>거래소 둘러보기</a>
-			<a href="login.html" class="btn--login" data-i18n>로그인</a>
-		</div>
-	</section>
+        <section class="typography">
+            <h1 data-i18n>새로운 인증시스템의 글로벌 표준 차 거래소</span></b></h1>
+            <p data-i18n>안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다.</p>
+        </section>
+
+        <div class="statistics">
+            <section class="statistics--tea">
+                <h1>Tea</h1>
+                <em>32</em>
+            </section>
+            <section class="statistics--teaware">
+                <h1>Teaware</h1>
+                <em>19</em>
+            </section>
+        </div>
+        <div class="getting-started">
+            <a href="exchange.html" class="btn--" data-i18n>거래소 둘러보기</a>
+            <a href="login.html" class="btn--login" data-i18n>로그인</a>
+        </div>
+    </header>
     <div class="d-grid grid-3-column news">
         <!-- 공지사항-->
         <div class="column">
