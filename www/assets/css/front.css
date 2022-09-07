@@ -7,16 +7,16 @@
 	color: #333;
 }
 
-/* Header */
-header {
+/* viusalArea */
+.viusalArea {
     background: url('../img/bg.png') no-repeat center center;
     background-size: cover;
-    height: 519px;
+    height: 461px;
     padding-bottom: 61px;
     box-sizing: border-box;
 }
 
-header .typography {
+.viusalArea .typography {
     margin-top: 48px;
     display: flex;
     flex-direction: column;
@@ -26,7 +26,7 @@ header .typography {
     letter-spacing: -0.02em;
 }
 
-header .typography h1 {
+.viusalArea .typography h1 {
     margin: 0;
     height: 60px;
     font-size: 26px;
@@ -35,7 +35,7 @@ header .typography h1 {
     color: var(--white);
 }
 
-.front header .typography p {
+.front .viusalArea .typography p {
     margin: 0;
     font-size: 16px;
     font-weight: 300;
@@ -44,7 +44,7 @@ header .typography h1 {
     line-height: 23px;
 }
 
-.front header .statistics {
+.front .viusalArea .statistics {
 	margin-top: 40px;
 	display: flex;
 	justify-content: center;
@@ -55,7 +55,7 @@ header .typography h1 {
 	position: relative;
 }
 
-.front header .statistics h1 {
+.front .viusalArea .statistics h1 {
 	position: absolute;
 	margin: 0;
 	width: 100px;
@@ -71,7 +71,7 @@ header .typography h1 {
 }
 
 
-.front header .statistics em {
+.front .viusalArea .statistics em {
 	font-family: 'Noto Sans KR';
 	font-style: normal;
 	font-weight: 400;
@@ -136,22 +136,12 @@ header .typography h1 {
     box-sizing: border-box;
 }
 
-
-
-@media screen and (min-width: 801px) and (max-width: 1019px) {
-	.front header .typography{margin-top: 85px;}
-}
-
-@media screen and (min-width: 601px) and (max-width: 800px) {
-	header .logo{display: none;}
-}
-
 @media (max-width: 600px) {
-	header{height: 100vh; min-height: 600px;}
-	header .logo{display: none;}
-	header .typography {margin-top: 120px;}
-	header .typography h1 {font-size: 18px; line-height: 26px;}
-	.front header .typography p {margin: 20px; font-size: 16px; font-weight: 300; line-height: 23px;}
+	.viusalArea{height: 100vh; min-height: 600px;}
+	.viusalArea .logo{display: none;}
+	.viusalArea .typography {margin-top: 180px;}
+	.viusalArea .typography h1 {font-size: 20px; line-height: 60px;}
+	.front .viusalArea .typography p {margin: 20px; font-size: 16px; font-weight: 300; line-height: 23px;}
 	.front .getting-started {margin-top: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; column-gap: 36px;}
 	.front .getting-started > *{display: block;}
 	.front .getting-started .btn-- {margin-bottom: 20px;}
@@ -486,5 +476,5 @@ header .typography h1 {
 
 
 @media (max-width: 600px) {
-	.front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none;}
+	header, .front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none;}
 }

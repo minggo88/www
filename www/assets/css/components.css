@@ -868,7 +868,7 @@ form .form--header h1 {
 .dropdown.dropdown--open+.dropdown--item {
     display: block;
 }
-.nav--side .language .dropdown--item{left: inherit; right: 0;}
+.nav--side .language .dropdown--item{left: -5px; /* right: 0; */}
 
 /* */
 .grid--code {
