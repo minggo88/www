@@ -100,6 +100,44 @@ header .logo a {
     opacity: .5;
 }
 
+.nav--side {
+    z-index: 9;
+}
+.nav--side .btn--login {
+    color: var(--white);
+}
+
+.nav--side .profile .dropdown,
+.nav--side .wallet .dropdown {
+    border: 0 none;
+}
+.nav--side .profile .dropdown::after,
+.nav--side .wallet .dropdown::after {
+    display: none;
+}
+.nav--side .profile .dropdown+.dropdown--item {
+    left: 0;
+}
+.nav--side .wallet .dropdown+.dropdown--item {
+    left: -25%;
+}
+.nav--side .profile .dropdown+.dropdown--item,
+.nav--side .wallet .dropdown+.dropdown--item {
+    padding-top: 0;
+    top: 48px;
+}
+.nav--side .profile .dropdown+.dropdown--item ul li {
+    height: 17px;
+    line-height: 17px;
+}
+.nav--side .profile .dropdown+.dropdown--item ul li:not(:last-child) {
+    margin-bottom: 10px;
+}
+.nav--side .language .dropdown+.dropdown--item{
+    left: -21px;
+	top: 10px;
+}
+
 @media screen and (max-width: 1650px) {
 	.nav {width: 75%;}
 	.nav > ul{padding-left: 0;}
