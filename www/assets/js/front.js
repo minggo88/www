@@ -25,7 +25,7 @@
       type: 'line',
       data: data,
       options: {
-          responsive: true,
+          responsive: false, //true
           layout: {
               padding: 0,
           },

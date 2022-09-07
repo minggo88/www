@@ -19,7 +19,8 @@
     flex-basis: calc(100% * (219 / 427));
 }
 .list li .list--date {
-    flex-basis: 100% !important;
+    /* flex-basis: 100% !important; */
+	flex-basis:100%;
     color: var(--blue-gray);
 }
 
@@ -38,8 +39,8 @@
 /* Badge */
 .badge {
     width: 40px;
-    height: 16px;
-    line-height: 16px;
+    height: 15px;
+    line-height: 15px;
     display: inline-block;
     color: var(--basic-black);
     text-align: center;
@@ -68,6 +69,11 @@
 .badge.badge--dark-green {
     background-color: var(--dark-green);
     color: var(--white);
+}
+
+.badge.badge--white {
+    background-color: var(--white);
+    color: var(--basic-black);
 }
 
 /* Table */
@@ -822,13 +828,6 @@ form .form--header h1 {
     border-radius: 50%;
 }
 
-.dropdown+.dropdown--item input[name=search] {
-    height: 25px;
-    line-height: 25px;
-    margin: 0 0 9px;
-    font-size: 12px;
-}
-
 .dropdown+.dropdown--item ul {
     margin: 10px 0 0 0;
     padding: 0 0 13px;
@@ -865,10 +864,6 @@ form .form--header h1 {
     width: 100%;
     color: inherit;
     font-weight: inherit;
-    /* ellipsis */
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
 }
 .dropdown.dropdown--open+.dropdown--item {
     display: block;
