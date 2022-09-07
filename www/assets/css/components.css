@@ -796,12 +796,12 @@ form .form--header h1 {
     display: none;
     position: absolute;
     top: 0;
-    left: 0;
+	left: 0;
     background: var(--white);
     border: 1px solid #DFDFDF;
     border-radius: 6px;
     text-align: center;
-    padding-top: 9px;
+    /* padding-top: 9px; */
     box-sizing: border-box;
     z-index: 29;
     max-height: 300px;
@@ -868,6 +868,7 @@ form .form--header h1 {
 .dropdown.dropdown--open+.dropdown--item {
     display: block;
 }
+.nav--side .language .dropdown--item{left: inherit; right: 0;}
 
 /* */
 .grid--code {

@@ -1,0 +1,121 @@
+.nav {
+    display: flex;
+    /* justify-content: center; */
+	justify-content: space-around;
+    align-items: center;
+    height: 60px;
+    position: relative;
+	background-color: #fff;
+}
+
+.nav > ul {
+    margin: 0;
+    display: flex;
+    column-gap: 65px;
+	background-color: #fdd;
+	margin-right: 4em;
+}
+
+.nav > ul li {
+	margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 23px;
+}
+
+.nav > ul li a {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--basic-black);
+    letter-spacing: -0.05em;
+    opacity: .6;
+}
+
+.nav ul li.active a {
+    opacity: 1;
+}
+
+.nav--side {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 24px;
+    top: 50%;
+    right: 14px;
+    font-size: 14px;
+    transform: translateY(-50%);
+}
+
+.nav--side .btn--login {
+    display: block;
+    width: 72px;
+    height: 22px;
+    line-height: 22px;
+    border-radius: 30px;
+    background: rgba(131, 137, 158, .2);
+    color: var(--basic-black) !important;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+}
+.nav--side .btn--logout {
+    display: block;
+    width: 72px;
+    height: 22px;
+    line-height: 22px;
+    border-radius: 30px;
+    background: rgba(131, 137, 158, .2);
+    color: var(--basic-black) !important;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.nav--side .language .dropdown {
+    border: 0 none;
+    padding:0 14px 0 0;
+    font-weight: 500;
+}
+.nav--side .language .dropdown::after {
+    width: 10px;
+    right: 0;
+    opacity: .5;
+}
+
+/* @media screen and (min-width: 1020px) and (max-width: 1400px) {
+	.nav .nav--side .language .dropdown--item{left:-5px;}
+} */
+
+@media screen and (max-width: 1350px) {
+	/* .nav {display: none;} */
+	.nav > ul{
+		padding-left: 0;
+		column-gap: 4em;
+		margin-right: 10%;
+	}
+}
+
+/* @media screen and (max-width: 1250px) {
+	.nav > ul{column-gap: 4em; margin-right: 6%;}
+} */
+
+@media screen and (max-width: 1180px) {
+	.nav > ul{column-gap: 3.5em; margin-right: 20%;}
+	.nav > ul li a {font-size: 14px}
+	/* .nav--side{font-size: 12px;} */
+	.nav--side .dropdown{font-size: 12px;}
+	.nav--side .dropdown+.dropdown--item ul li a{font-size: 12px;}
+	.nav--side .dropdown+.dropdown--item ul li{font-size: 12px;}
+	.nav--side [class*=btn--]{font-size: 12px;}
+}
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+	/* header .logo, .nav {display: none;} */
+}
+
+@media (max-width: 600px) {
+	.nav {display: none;}
+	.nav ul {display: none}
+	.nav .language {display: none}
+}

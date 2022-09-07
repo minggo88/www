@@ -136,24 +136,19 @@ header .typography h1 {
     box-sizing: border-box;
 }
 
-@media screen and (min-width: 1020px) and (max-width: 1400px) {
-	.nav .nav--side .language .dropdown--item{left: -10px;}
-}
+
 
 @media screen and (min-width: 801px) and (max-width: 1019px) {
-	.nav {display: none;}
-	
 	.front header .typography{margin-top: 85px;}
 }
 
 @media screen and (min-width: 601px) and (max-width: 800px) {
-	header .logo, .nav {display: none;}
+	header .logo{display: none;}
 }
-
 
 @media (max-width: 600px) {
 	header{height: 100vh; min-height: 600px;}
-	header .logo, .nav {display: none;}
+	header .logo{display: none;}
 	header .typography {margin-top: 120px;}
 	header .typography h1 {font-size: 18px; line-height: 26px;}
 	.front header .typography p {margin: 20px; font-size: 16px; font-weight: 300; line-height: 23px;}
