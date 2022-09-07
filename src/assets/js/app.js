@@ -1323,7 +1323,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     let user_info = { 'userid': email };
                     Model.user_info = user_info;
                     get_user_wallet();
-                    get_user_info();
+                    request_user_info();
                     let ret_url = getURLParameter('ret_url')
                     ret_url = ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
                     ret_url = setURLParameter('t', time(), ret_url);
@@ -1361,7 +1361,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     window.logout = fn_logout;
 
     fn_member_account = function () {
-        get_user_info();
+        request_user_info();
         force_rander('user_info', Model.user_info);
     }
 
@@ -1494,7 +1494,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     /**
      * 회원정보 가져오기
      */
-    const get_user_info = function () {
+    const request_user_info = function () {
         add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
             console.log('getMyInfo r:', r);
             if (r && r.success && !r.error) {
@@ -1505,7 +1505,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             }
         });
     }
-    get_user_info();
+    request_user_info();
+
+    window.get_user_info = function () {
+        return clone(Model.user_info);
+    }
 
     /**
      * 회원지갑(잔액)정보 가져오기
