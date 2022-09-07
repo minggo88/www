@@ -829,3 +829,9 @@ msgstr "Please check again"
 
 msgid "약관에 동의하고 회원 탈퇴하기"
 msgstr "Agree to the Terms and Cancel Membership"
+
+msgid "계정 수정"
+msgstr "Edit Account"
+
+msgid "비밀번호 변경하기"
+msgstr "Change Password"
