@@ -493,42 +493,6 @@ margin-top: 20px;
 .board--body .board--btn .btn--list {
     width: 195px;
 }
-.nav--side {
-    z-index: 9;
-}
-.nav--side .btn--login {
-    color: var(--white);
-}
-
-.nav--side .profile .dropdown,
-.nav--side .wallet .dropdown {
-    border: 0 none;
-}
-.nav--side .profile .dropdown::after,
-.nav--side .wallet .dropdown::after {
-    display: none;
-}
-.nav--side .profile .dropdown+.dropdown--item {
-    left: 0;
-}
-.nav--side .wallet .dropdown+.dropdown--item {
-    left: -25%;
-}
-.nav--side .profile .dropdown+.dropdown--item,
-.nav--side .wallet .dropdown+.dropdown--item {
-    padding-top: 0;
-    top: 48px;
-}
-.nav--side .profile .dropdown+.dropdown--item ul li {
-    height: 17px;
-    line-height: 17px;
-}
-.nav--side .profile .dropdown+.dropdown--item ul li:not(:last-child) {
-    margin-bottom: 10px;
-}
-.nav--side .language .dropdown+.dropdown--item{
-    left: -21px;
-}
 
 .inquiry--body {
     width: calc(100% * (839 / 900));
@@ -702,7 +666,7 @@ margin-top: 20px;
 /* Mobile */
 
 @media screen and (min-width: 801px) and (max-width: 1260px) {
-	.nav > ul {column-gap: 30px; padding-right: 100px; padding-left: 0;}
+	/* .nav > ul {column-gap: 30px; padding-right: 100px; padding-left: 0;} */
 	.nav .nav--side .language .dropdown--item{left: -10px;}
 }
 
