@@ -19,7 +19,8 @@
     flex-basis: calc(100% * (219 / 427));
 }
 .list li .list--date {
-    flex-basis: 100% !important;
+    /* flex-basis: 100% !important; */
+	flex-basis:100%;
     color: var(--blue-gray);
 }
 
@@ -38,8 +39,8 @@
 /* Badge */
 .badge {
     width: 40px;
-    height: 16px;
-    line-height: 16px;
+    height: 15px;
+    line-height: 15px;
     display: inline-block;
     color: var(--basic-black);
     text-align: center;
@@ -68,6 +69,10 @@
 .badge.badge--dark-green {
     background-color: var(--dark-green);
     color: var(--white);
+}
+.badge.badge--white {
+    background-color: var(--white);
+    color: var(--basic-black);
 }
 
 /* Table */
@@ -795,7 +800,7 @@ form .form--header h1 {
     border: 1px solid #DFDFDF;
     border-radius: 6px;
     text-align: center;
-    padding-top: 9px;
+    /* padding-top: 9px; */
     box-sizing: border-box;
     z-index: 29;
     max-height: 300px;
@@ -873,6 +878,7 @@ form .form--header h1 {
 .dropdown.dropdown--open+.dropdown--item {
     display: block;
 }
+.nav--side .language .dropdown--item{left: -5px; /* right: 0; */}
 
 /* */
 .grid--code {
