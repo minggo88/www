@@ -437,9 +437,9 @@ header .typography h1 {
 
 @media screen and (min-width: 1020px) and (max-width: 1400px) {
 	.nav .nav--side .language .dropdown--item{left: -10px;}
-	.section--service{
+	/* .section--service{
 
-	}
+	} */
 
 
 
