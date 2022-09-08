@@ -2,9 +2,9 @@
     --SIDE-WIDTH: calc(100% * (546 / 1440));
 }
 
-header {
+/* header {
     height: 72.77px;
-}
+} */
 
 main {
     padding: 0 20px 26px;

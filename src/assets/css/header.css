@@ -5,10 +5,6 @@ header {
 	align-items: center;
 }
 
-.sub header {
-	width: 100%!important;
-}
-
 header .logo {
 	width: 70px;
 	height: 25.5px;
@@ -20,7 +16,6 @@ header .logo {
 	z-index: 2;
 	margin-left: 30px;
 	display: flex;
-	/* flex-basis: 20%; */
 }
 header .logo a {
     width: 100%;
@@ -34,7 +29,6 @@ header .logo a {
     align-items: center;
     height: 60px;
 	background-color: #fff;
-	/* width: 70%; */
 	flex-basis: 70%;
 }
 
@@ -145,13 +139,19 @@ header .logo a {
 	top: 10px;
 }
 
+.sub .nav{
+	margin-left: 25%;
+	flex: auto;
+}
+
+
 @media screen and (max-width: 1650px) {
-	.nav {flex-basis: 75%;}
+	.front .nav {flex-basis: 75%;}
 	.nav > ul{padding-left: 0;}
 }
 
 @media screen and (max-width: 1550px) {
-	.nav {flex-basis: 80%;}
+	.front .nav{flex-basis: 80%;}
 }
 
 @media screen and (max-width: 1350px) {
@@ -168,7 +168,7 @@ header .logo a {
 }
 
 @media screen and (max-width: 1050px){
-	.nav {flex-basis: 87%;}
+	.front .nav {flex-basis: 87%;}
 	header{height: 80px;}
 	.nav{
 		height: 80px;

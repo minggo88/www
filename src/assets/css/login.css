@@ -1,9 +1,9 @@
 main {
     height: calc(100% - 72.77px);
 }
-header { 
+/* header { 
     height: 60px;
-}
+} */
 
 .email {
     margin-bottom: 40px;
