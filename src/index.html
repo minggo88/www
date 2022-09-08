@@ -85,7 +85,7 @@
                             <li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
                             <li><a href="transaction.html" data-i18n>거래 내역</a></li>
                             <li><a href="notification.html" data-i18n>알림</a></li>
-                            <li><a href="withdrawal.html" data-i18n>회원 탈퇴</a></li>
+                            <li><a href="#" name="btn-logout" data-i18n>로그아웃</a></li>
                         </ul>
                     </div>
                 </div>
@@ -100,7 +100,9 @@
                         </ul>
                     </div>
 				</div> -->
-                <button name="box_logedin" style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+                <!-- <div name="box_logedin">
+                    <button style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+                </div> -->
 				<div name="box_unlogedin">
                     <a href="login.html" class="btn--login" data-i18n>로그인</a>
                 </div>
@@ -123,24 +125,34 @@
         <div class="statistics">
             <section class="statistics--tea">
                 <h1>Tea</h1>
-                <em>32</em>
+                <em data-bind="trade_goods_summary.cnt_tea">0</em>
             </section>
             <section class="statistics--teaware">
                 <h1>Teaware</h1>
-                <em>19</em>
+                <em data-bind="trade_goods_summary.cnt_teaware">0</em>
             </section>
         </div>
         <div class="getting-started">
             <a href="exchange.html" class="btn--" data-i18n>거래소 둘러보기</a>
-            <a href="login.html" class="btn--login" data-i18n>로그인</a>
+            <span name="box_logedin" style="display: none" >
+                <button class="btn--login" name="btn-logout"data-i18n>로그아웃</button>
+            </span>
+            <a href="login.html" name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a>
         </div>
 	</section>
-    <div class="d-grid grid-3-column news">
+    <div class="d-grid grid-3-column news" style="height:auto;">
         <!-- 공지사항-->
-        <div class="column">
+        <div class="column" style="height:auto;">
             <div class="swiper">
-                <ul class="swiper-wrapper">
-                    <li class="swiper-slide">
+                <ul class="swiper-wrapper" name="main_notice" style="height:50px;">
+                    <li class="swiper-slide hide" name="tpl" style="display:none;height:auto">
+                        <a href="notice_detail.html">
+                            <span class="badge badge--white" {hide_tag}>공지</span>
+                            <span class="news--text">{message}</span>
+                            <span class="icon-new" {hide_new}></span>
+                        </a>
+                    </li>
+                    <!-- <li class="swiper-slide">
                         <a href="notice_detail.html">
                             <span class="badge badge--white">공지</span>
                             <span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
@@ -153,7 +165,7 @@
                             <span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
                             <span class="icon-new"></span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>

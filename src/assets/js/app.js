@@ -20,6 +20,40 @@ $(document).ready(function() {
     });
 });
 
+String.prototype.trim = function() {
+	var str = this;
+	return this.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '');
+}
+
+String.prototype.toNumber = Number.prototype.toNumber = function() {
+	var num = this.toString();
+	num = num.replace(/[^0-9.]/g, '');
+	return (num=='') ? 0 : num*1;
+	num = /^[0-9]+\.[0-9]+$/.test(num) ? parseFloat(num) : parseInt(num);
+	if(isNaN(num)) num = 0;
+	return num;
+}
+
+String.prototype.format = function(args1, args2, args3, args4, args5) {
+	var arguments = new Array();
+	if(args1) arguments[0] = args1;
+	if(args2) arguments[1] = args2;
+	if(args3) arguments[2] = args3;
+	if(args4) arguments[3] = args4;
+	if(args5) arguments[4] = args5;
+
+    var formatted = this;
+    for (var arg in arguments) {
+        formatted = formatted.replace("{" + arg + "}", arguments[arg]);
+    }
+    return formatted;
+}
+if(! Object.assign) {
+	Object.prototype.assign = function(o1, o2) {
+		jQuery.extend(o1, o2); // for un-support assign
+	}
+}
+
 function setCookie(name, value, expiredays){
 	var todayDate = new Date();
 	todayDate.setDate( todayDate.getDate() + expiredays );
@@ -94,6 +128,17 @@ function real_number_format(n, d){
 	return sign + r;
 }
 
+function remove_array_by_value(array, value) {
+    var what, a = arguments, L = a.length, ax;
+    while (L && array.length) {
+        what = a[--L];
+        while ((ax = array.indexOf(what)) !== -1) {
+            array.splice(ax, 1);
+        }
+    }
+    return array;
+};
+
 function get_keycode(evt) {
 	return evt.which?evt.which:window.event.keyCode;
 }
@@ -119,6 +164,18 @@ function get_str_by_keycode(keycode) {
 	if(val.match(/[^0-9]/g) && keyCode!=8 && keyCode!=9 && keyCode!=46 && keyCode!=35 && keyCode!=36 && keyCode!=37 && keyCode!=38 && keyCode!=39 && keyCode!=40 && keyCode!=96 && keyCode!=97 && keyCode!=98 && keyCode!=99 && keyCode!=100 && keyCode!=101 && keyCode!=102 && keyCode!=103 && keyCode!=104 && keyCode!=105 && keyCode!=48 && keyCode!=49 && keyCode!=50 && keyCode!=51 && keyCode!=52 && keyCode!=53 && keyCode!=54 && keyCode!=55 && keyCode!=56 && keyCode!=57) {
 		return false;
 	}
+}
+
+function inIframe () {
+	try {
+		return window.self !== window.top;
+	} catch (e) {
+		return true;
+	}
+}
+
+function inPopup () {
+	return window.opener ? true : false;
 }
 
 // "use strict";
@@ -1283,6 +1340,49 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 })
             }
         })
+        add_request_item('getTradeGoodsSummary', {}, function (r) {
+            if (r && r.success && r.payload) {
+                Model.trade_goods_summary = r.payload;
+            }
+        });
+        add_request_item('getMainNoticeList', {'bbscode':'notice','by_category':'N'}, function (r) {
+            if (r && r.success && r.payload) {
+                let html = [];
+                const $target = $('[name=main_notice]');
+                const tpl = $('<div></div>').append($target.find('[name=tpl]').clone().attr('name','').css('display','').removeClass('hide')).html();
+                notice_list = r.payload;
+                for (i in notice_list) {
+                    let r = notice_list[i];
+                    console.log(r);
+                    if (r.file) {
+                        html.push(tpl
+                            .replace('{message}', r.file ? '<img src="' + r.file + '" style="height:50px">' : r.contents)
+                            .replace('{hide_new}', 'style="display:none;"')
+                            .replace('{hide_tag}', 'style="display:none;"')
+                        )
+                    }
+                }
+                if (!notice_list || notice_list.length < 1) {
+                    $target.closest('.news').hide();
+                }
+                console.log(html);
+                $('[name=main_notice]').empty().append(html.join(''));
+                // swiper 시작
+                new Swiper('.news .column .swiper', {
+                    slidesPerView: 1,
+                    direction: 'vertical',
+                    loop: true,
+                    allowTouchMove: true,
+                    noSwiping: true,
+                    noSwipingClass: 'swiper-slide',
+                    preventInteractionOnTransition:true,
+                    autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                    },
+                })
+            }
+        });
     }
 
 
