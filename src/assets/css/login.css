@@ -20,28 +20,53 @@ header {
 }
 
 
+.login .find--password {
+    color: var(--red-up);
+}
 
+.login .find--password a{
+    color: inherit;
+}
+
+
+
+.login header .btn--login {
+	display: none;
+}
+.login .find--password {
+	/* margin-top: 56px;
+	align-self: center !important;
+	justify-content: center !important; */
+	color: var(--basic-gray) !important;
+	letter-spacing: 0.15px;
+}
+.login .find--password::after {
+	display: inline-block;
+	content: "";
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+	background: url('../img/icon/icon-next.svg') no-repeat 50%;
+	background-size: 7.42px 14.02px;
+}
+
+
+/* 
 @media screen and (min-width: 801px) and (max-width: 1110px) {
 	.nav > ul {column-gap: 25px;}
 	.nav .nav--side .language .dropdown--item{left: -10px;}
-}
+} */
 
 @media screen and (min-width: 601px) and (max-width: 800px) {
-	header .logo, .nav {
+	/* header .logo, .nav {
 		display: none;
-	}
+	} */
 }
 
 @media screen and (max-width: 600px) {
-    header .logo, .nav {
-		display: none;
-	}
+	.login main{display: flex; height: 100vh; align-items: center;}
 	
-	.sub main{display: flex; height: 100vh; align-items: center;}
-	
-	.email {
-        margin-bottom: 8px;
-    }
+	.email {margin-bottom: 8px;}
     .create-account .grid--code {
         margin-top: 48px;
         margin-bottom: 64px
@@ -49,4 +74,25 @@ header {
     .create-account .tttt {
         align-self: center;
     }
+
+	.login header .btn--login {
+        display: none;
+    }
+    .login .find--password {
+		margin-top: 56px;
+		align-self: center !important;
+		justify-content: center !important;
+        color: var(--basic-gray) !important;
+        letter-spacing: 0.15px;
+    }
+    .login .find--password::after {
+        display: inline-block;
+        content: "";
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+        background: url('../img/icon/icon-next.svg') no-repeat 50%;
+        background-size: 7.42px 14.02px;
+    }
+	.form--btns{margin-top: 54px;}
 }
