@@ -26,8 +26,8 @@ $(function () {
 
         window.sessionStorage.country = $('#country').dropdown('selected')
 
-        $('#create-account-country').hide()
-        $('#create-account-info').show()
+        $('#create-account-country').parent("section").hide()
+        $('#create-account-info').parent("section").show()
 
         return false
     })
@@ -60,8 +60,8 @@ $(function () {
 
             if (resp.success) {
                 sended_email = email.val();
-                $('#create-account-info').hide()
-                $('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
+                $('#create-account-info').parent("section").hide()
+                $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
             } else {
                 $('#create-account-info input[type=submit]').prop('disabled', false)
 
@@ -79,7 +79,7 @@ $(function () {
             $('#create-account-mail-auth').removeClass('loading')
             if(resp.success) {
                 // $('#create-account-info').hide()
-                $('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
+                $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
             } else {
                 // $('#create-account-info input[type=submit]').prop('disabled', false)
                 alert(resp.error.message)
@@ -111,8 +111,8 @@ $(function () {
 
             if (resp.success) {
                 bool_confirm_email = 1; // 이메일 인증 여부
-                $('#create-account-mail-auth').hide()
-                $('#create-account-phone').show()
+                $('#create-account-mail-auth').parent("section").hide()
+                $('#create-account-phone').parent("section").show()
             } else {
                 bool_confirm_email = 0; // 이메일 인증 여부
                 $('#create-account-mail-auth input[type=submit]').prop('disabled', false)
@@ -148,8 +148,8 @@ $(function () {
                 sended_phoneCountry = phoneCountry;
                 sended_phone = phone;
 
-                $('#create-account-phone').hide()
-                $('#create-account-phone-auth').show()
+                $('#create-account-phone').parent("section").hide()
+                $('#create-account-phone-auth').parent("section").show()
             } else {
                 $('#create-account-phone input[type=submit]').prop('disabled', false)
 
@@ -202,8 +202,8 @@ $(function () {
 
                 if (resp.success) {
                     bool_confirm_mobile = 1; // 핸드폰 인증 여부
-                    $('#create-account-phone-auth').hide()
-                    $('#create-account-pin-number').show()
+                    $('#create-account-phone-auth').parent("section").hide()
+                    $('#create-account-pin-number').parent("section").show()
                 } else {
                     bool_confirm_mobile = 0; // 핸드폰 인증 여부
                     $('#create-account-phone-auth input[type=submit]').prop('disabled', false)
@@ -225,8 +225,8 @@ $(function () {
             }
         }
 
-        $('#create-account-pin-number').hide()
-        $('#create-account-pin-number-confirm').hide()
+        $('#create-account-pin-number').parent("section").hide()
+        $('#create-account-pin-number-confirm').parent("section").hide()
 
         return false
     })

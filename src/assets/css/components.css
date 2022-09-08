@@ -2136,20 +2136,16 @@ input[type=file].image-selector::after{
         background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat;
         color: var(--warning);
     }
-    .step--list {
+    /* .step--list {
         top: -30px;
         left: 50%;
         transform: translate(-50%, -50%);
         align-self: center;
 
-    }
-    .step--list .step--header {
+    } */
+    /* .step--list .step--header {
         display: none;
-    }
-    .step--list ol {
-        flex-direction: row;
-        column-gap: 6px;
-    }
+    } */
     .step--list ol li {
         width: 10px;
         height: 10px;
