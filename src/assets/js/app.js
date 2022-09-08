@@ -1353,7 +1353,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 notice_list = r.payload;
                 for (i in notice_list) {
                     let r = notice_list[i];
-                    console.log(r);
                     if (r.file) {
                         html.push(tpl
                             .replace('{message}', r.file ? '<img src="' + r.file + '" style="height:50px">' : r.contents)
@@ -1365,7 +1364,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 if (!notice_list || notice_list.length < 1) {
                     $target.closest('.news').hide();
                 }
-                console.log(html);
                 $('[name=main_notice]').empty().append(html.join(''));
                 // swiper 시작
                 new Swiper('.news .column .swiper', {
