@@ -99,7 +99,7 @@ main {
 
 
 .sub main {
-    grid-template-columns: calc(100% * (238 / 1440)) auto;
+	grid-template-columns: calc(100% * (238 / 1440)) auto;
     column-gap: 107px;
 }
 
@@ -669,7 +669,11 @@ margin-top: 20px;
 		display: none;
 	}
 } */
-
+@media (max-width: 800px) {
+	.sub main{
+		height:calc(100% - 60px);
+	}
+}
 @media (max-width: 600px) { 
     .sub main{display: flex; height: 100vh; align-items: center;}
 	.sub .contents .contents--header {
