@@ -115,6 +115,11 @@
     margin-bottom: 40px;
 }
 
+#scan iframe {
+    width: 100%;
+    height: 100%;
+}
+
 /* Mobile */
 @media screen and (max-width: 600px) {
     .side--panel .tabs {
