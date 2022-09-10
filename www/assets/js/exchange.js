@@ -606,7 +606,7 @@ $(function() {
                         $('#white-paper #producer-note').html(producer_note.replaceAll(/\r\n/g, '<br>'))
                         $('#white-paper #grade').html(grade.replaceAll(/\r\n/g, '<br>'))
 
-                        const isYoutube = animation.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$)/)
+                        const isYoutube = animation.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/)
                         const scanEmbbed = isYoutube ? $('<iframe />').attr('src', animation).attr('frameborder', 0).attr('allowfullscreen', true) : $('<img />').attr('src', animation)
 
                         $('#scan .modal--body').empty().append(scanEmbbed)
