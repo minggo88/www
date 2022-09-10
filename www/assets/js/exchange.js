@@ -494,6 +494,7 @@ $(function() {
                             producer_note: goods.meta_wp_producer_note ? goods.meta_wp_producer_note : '',
                             grade: goods.meta_wp_grade ? goods.meta_wp_grade : '',
                             certificate: goods.meta_certification_mark_name,
+                            animation: goods.animation,
                         })
                     })
 
@@ -605,7 +606,10 @@ $(function() {
                         $('#white-paper #producer-note').html(producer_note.replaceAll(/\r\n/g, '<br>'))
                         $('#white-paper #grade').html(grade.replaceAll(/\r\n/g, '<br>'))
 
-                        $('#scan .modal--body img').attr('src', animation)
+                        const isYoutube = animation.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$)/)
+                        const scanEmbbed = isYoutube ? $('<iframe />').attr('src', animation).attr('frameborder', 0).attr('allowfullscreen', true) : $('<img />').attr('src', animation)
+
+                        $('#scan .modal--body').empty().append(scanEmbbed)
                     }
                 }).on('draw.dt', () => {
                     const api = new $.fn.dataTable.Api( '#jqGrid' )
