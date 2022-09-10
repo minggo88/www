@@ -180,8 +180,6 @@ $(function() {
         ordering: true
     } )
 
-    SELECTED_SYMBOL
-
     const buyGrid = $('#buyGrid').DataTable({
         processing: false,
         serverSide: true,
@@ -533,6 +531,7 @@ $(function() {
                         const { teamaster_note, producer_note }= data
                         const { grade } = data
                         const { certificate } = data
+                        const { animation } = data
 
                         SELECTED_SYMBOL = symbol
                         SELECTED_NAME = name
@@ -605,6 +604,8 @@ $(function() {
                         $('#white-paper #teamaster-note').html(teamaster_note.replaceAll(/\r\n/g, '<br>'))
                         $('#white-paper #producer-note').html(producer_note.replaceAll(/\r\n/g, '<br>'))
                         $('#white-paper #grade').html(grade.replaceAll(/\r\n/g, '<br>'))
+
+                        $('#scan .modal--body img').attr('src', animation)
                     }
                 }).on('draw.dt', () => {
                     const api = new $.fn.dataTable.Api( '#jqGrid' )
