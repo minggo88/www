@@ -43,7 +43,6 @@ unlink($target_dir.'/i18n/WWW.pot');
 
 echo "복사 완료 ".PHP_EOL;
 
-exit;
 echo "html 작업시작 ".PHP_EOL;
 
 // 배포본 생성
@@ -79,16 +78,19 @@ if($dh = opendir($source_dir)) {
 			}
 
             // 다국어 처리
+			/*
 			$html = preg_replace("/<\?=__\('(.*?)'\);\?>/", '<span data-bind="LANG_DATA.$1">$1</span>', $html);
 			$html = preg_replace('/<\?=__\("(.*?)"\);\?>/', '<span data-bind="LANG_DATA.$1">$1</span>', $html);
 			$html = preg_replace("/<\?_e\('(.*?)'\);\?>/", '<span data-bind="LANG_DATA.$1">$1</span>', $html);
 			$html = preg_replace('/<\?_e\("(.*?)"\);\?>/', '<span data-bind="LANG_DATA.$1">$1</span>', $html);
+			*/
+
 			// minify
-			$html = preg_replace('/\/\/.*$/', '', $html);
-			$html = preg_replace('/\/\*.*\*\//', '', $html);
-			$html = preg_replace('/<!--.*-->/', '', $html);
-			$html = preg_replace('/\s+/', ' ', $html);
-			$html = preg_replace('/>\s+</', '><', $html);
+			// $html = preg_replace('/\/\/.*$/', '', $html);
+			// $html = preg_replace('/\/\*.*\*\//', '', $html);
+			// $html = preg_replace('/<!--.*-->/', '', $html);
+			// $html = preg_replace('/\s+/', ' ', $html);
+			// $html = preg_replace('/>\s+</', '><', $html);
 
 			file_put_contents($target_dir.'/'.$file, $html);
 		}
