@@ -162,6 +162,11 @@ main {
 @media screen and (max-width: 800px) {
 	.login main{
 		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+	}
+	
+	.create-account main{
 		align-items: center;
 		justify-content: flex-start;
 	}
@@ -177,7 +182,7 @@ main {
         color: var(--basic-black);
     }
 
-	.login form{height: auto;}
+	.create-account form{height: auto;}
 	.create-account .guide .guide--step .guide--desc {
 		font-size: 12px;
 		color: #777777;
