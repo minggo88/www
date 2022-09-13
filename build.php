@@ -68,12 +68,12 @@ if($dh = opendir($source_dir)) {
 				} else {
 					echo "파일이 없습니다. 소스를 수정하거나 파일을 생성해주세요. {$_f}\n";
 				}
-				$_f_min = str_replace(array('.js','.css'), array('.min.js','.min.css'), $_f);
-				if(file_exists($_f_min)) {
-					$f_min = str_replace(array('.js','.css'), array('.min.js','.min.css'), $f);
-				} else {
+				// $_f_min = str_replace(array('.js','.css'), array('.min.js','.min.css'), $_f);
+				// if(file_exists($_f_min)) {
+				// 	$f_min = str_replace(array('.js','.css'), array('.min.js','.min.css'), $f);
+				// } else {
 					$f_min = $f;
-				}
+				// }
 				$html = str_replace($f, str_replace('{version}',$t,$f_min), $html);
 			}
 
