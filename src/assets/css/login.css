@@ -152,7 +152,7 @@ main {
 
 
 @media screen and (min-width: 801px) and (max-width: 1300px) {
-	.create-account section:nth-child(2) form{
+	.create-account section form{
 		height: 530px;
 	}
 }
