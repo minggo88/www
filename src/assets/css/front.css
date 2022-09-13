@@ -198,6 +198,7 @@
 .front .news .column li {
     width: 100%;
     align-self: center;
+	justify-content: center;
     display: -webkit-box;
     display: -ms-flexbox;
     display: -webkit-flex;
@@ -365,7 +366,7 @@
 
 
 .section--service {
-    height: 830px;
+    height: 745px;
     background: url('../img/bg2.png') no-repeat center;
     background-size: cover;
     display: flex;
@@ -480,7 +481,7 @@
 }
 
 @media screen and (min-width: 601px) and (max-width: 1100px) {
-	.section--service{padding-top: 30px;}
+	.section--service{padding-top: 30px; height: 715px;}
 	.section--service .descArea > div {
 		column-gap: 225px;
 		padding: 0 30px;
@@ -493,7 +494,6 @@
 	.section--service .service--title {font-size: 15px;}
 	.section--service .service--desc{font-size: 12px;}
 }
-
 
 @media (max-width: 600px) {
 	header, .front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none;}
