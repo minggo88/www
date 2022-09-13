@@ -1,3 +1,10 @@
+form.boxed{
+	width: 910px; 
+	height: 470px;
+	justify-content: center;
+	padding: 0;
+}
+
 
 .form--label {
     font-family: "Noto Sans KR";
@@ -6,15 +13,19 @@
 }
 input[type=text] {
     background: #F1F1F1;
-    border: 0 none !important;
+    /* border: 0 none !important; */
     height: 37px;
     line-height: 37px;
     font-size: 12px !important;
+	border: 0.35px solid #dfdfdf;
 }
 
 
 .default {
-    width: 340px; align-self: center; height: 333px; padding: 39px 0 68px
+	/*  width: 340px; 
+	height: 333px;  */
+	align-self: center; 
+	padding: 39px 0 60px
 }
 
 .default .form--controls {
@@ -24,14 +35,38 @@ input[type=text] {
 
 .default .form--controls label {
     flex-grow: 1;
-    flex-basis: aut
+    flex-basis: auto;
+	font-weight: 500;
+	font-size: 12px;
+	margin-bottom: 8px;
 }
 .default .form--controls label+input {
     width: auto;
+	border: 1px solid #dfdfdf;
+}
+
+.default .email.form--controls label+input{
+	margin-bottom: 36px;
 }
 
 .region {
-    margin-top: 8px;
+    margin-top: 36px;
+}
+
+.region .form--controls label {
+    display: none;
+}
+
+.region .form--controls{
+	margin-top: 8px;
+}
+
+.region .form--controls input{
+	border: 0.35px solid #dfdfdf;
+}
+
+.region .row {
+	margin-bottom: 0;
 }
 
 form {

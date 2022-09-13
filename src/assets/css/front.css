@@ -3,17 +3,13 @@
 	background-color: #fafbfc;
 }
 
-.wrap{
-	position: relative;
-	min-width: 1440px;
-}
-
-.content{
+.content_wrap{
 	background-color: #fafbfc;
 	max-width: 1440px;
 	width: 100%;
 	margin: 0 auto;
 }
+
 .language .dropdown {
     background: transparent;
 	color: #333;
@@ -21,7 +17,7 @@
 
 /* viusalArea */
 .viusalArea {
-	/* width: 100%; */
+	width: 100%;
 	height: 555px;
 	margin: 0 auto;
     background: url('../img/bg.png') no-repeat center center;
