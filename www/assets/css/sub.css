@@ -1,10 +1,22 @@
 :root {
     --SIDE-WIDTH: calc(100% * (546 / 1440));
 }
+.sub{
+	position: relative;
+	background-color: #fafbfc;
+}
 
 /* header {
     height: 72.77px;
 } */
+
+.content_wrap{
+	background-color: #fafbfc;
+	max-width: 1440px;
+	width: 100%;
+	margin: 0 auto;
+	height: calc(100% - 60px);
+}
 
 main {
     padding: 0 20px 26px;
@@ -19,7 +31,8 @@ main {
 }
 
 .sub.notice main {
-    padding: 60px 140px 60px 40px;
+    /* padding: 60px 140px 60px 40px; */
+	padding:60px 0;
 }
 
 /* @media screen and (min-width: 991px) and (max-width: 1400px) {
@@ -364,6 +377,8 @@ margin-top: 20px;
 	line-height: 20px;
 }
 
+
+
 @media screen and (min-width: 601px) and (max-width: 1100px) {
 	.sub .board--list tbody tr td{font-size: 12px;}
 	.sub .board--list tbody tr td .btn--modify{max-width: 70px; width:100%; font-size: 11px;}
@@ -601,14 +616,6 @@ margin-top: 20px;
     color: var(--blue-gray);
 }
 
-/* .login .find--password {
-    color: var(--red-up);
-}
-
-.login .find--password a{
-    color: inherit;
-} */
-
 .navigation,
 .navigation--back {
     display: none;
@@ -654,6 +661,90 @@ margin-top: 20px;
     color: var(--gray002);
 }
 
+
+/* 정보수정 */
+.sub.member-account .contents form{
+	/* width: 910px; 
+	height: 407px;
+	justify-content: center;
+	padding: 0; */
+	/* width: 100%; height: auto; */ 
+}
+
+.sub.member-account .contents form .default .form--controls{
+	flex-direction: column;
+}
+
+/* 회원탈퇴 */
+.sub.withdrawal main{padding-bottom: 100px !important}
+.sub.withdrawal p.text--medium:nth-of-type(2){font-size: 15px;}
+.sub.withdrawal .boxed{padding: 22px 60px 0 35px;}
+.sub.withdrawal .boxed ul{padding-left: 0;}
+.sub.withdrawal .boxed ul li{list-style-type: disc;}
+.sub.withdrawal .boxed ul li::marker{font-size: 3px;}
+.sub.withdrawal .btn{margin-top: 52px;}
+
+@media screen and (max-width: 800px){
+	.sub.withdrawal > header{display: none;}
+	.sub.withdrawal .contents{margin-top: 0;}
+	.sub.withdrawal main header.contents--header{line-height: 60px; padding-left: 0;}
+	.sub.withdrawal .navigation--back{height: 60px;}
+	.sub.withdrawal main{
+		display: flex;
+		justify-content: flex-start;
+		padding:0 30px;
+	}
+	.sub.withdrawal main header.contents--header{
+		display: flex; border-bottom: none;
+	}
+	.sub.withdrawal .side{display: none;}
+	.sub.withdrawal p.text--medium:nth-of-type(2){font-size: 14px; font-weight: 400;}
+	.sub.withdrawal .boxed{/* max-height:438px; height: fit-content; */ height: 285px; padding: 22px 20px 25px 35px; overflow: hidden;}
+	.sub.withdrawal .btn{width: 100%!important;}
+
+	.sub.withdrawal .mobile-only{display: block!important;}
+}
+
+@media screen and (max-width: 600px){
+	.sub.withdrawal main header.contents--header{line-height: 48px;}
+	.sub.withdrawal .navigation--back{height: 48px;}
+	.sub.withdrawal .boxed{height: 400px;}
+	.sub.withdrawal .btn{margin-top: 30px;}
+}
+
+
+
+
+
+/* identity verfication */
+/* .sub.idverify{} */
+@media screen and (max-width: 800px){
+	.sub.idverify > header{display: none;}
+	.sub.idverify .contents{margin-top: 0;}
+	.sub.idverify main header.contents--header{line-height: 60px; padding-left: 0;}
+	.sub.idverify .navigation--back{height: 60px;}
+	.sub.idverify main{
+		display: flex;
+		justify-content: flex-start;
+		padding:0 30px;
+	}
+	.sub.idverify main header.contents--header{
+		display: flex; border-bottom: none;
+	}
+	.sub.idverify .side{display: none;}
+	.sub.idverify p.text--medium:nth-of-type(2){font-size: 14px; font-weight: 400;}
+	.sub.idverify .boxed{/* max-height:438px; height: fit-content; */ height: 285px; padding: 22px 20px 25px 35px; overflow: hidden;}
+	.sub.idverify .btn{width: 100%!important;}
+
+	.sub.idverify .mobile-only{display: block!important;}
+}
+
+@media screen and (max-width: 600px){
+	.sub.idverify main header.contents--header{line-height: 48px;}
+	.sub.idverify .navigation--back{height: 48px;}
+	.sub.idverify .boxed{height: 400px;}
+	.sub.idverify .btn{margin-top: 30px;}
+}
 
 
 
@@ -753,15 +844,11 @@ margin-top: 20px;
         align-items: flex-start;
     }
 	.sub.notice.inquiry > header{display: none;}
-    /* .sub .side {
-        display: none;
-    } */
 
     .sub form {
         height: auto;
     }
     .forget main {
-        /* align-items: flex-start; */
 		align-items: center;
     }
     .forget main form {
@@ -779,16 +866,6 @@ margin-top: 20px;
 		border: 0 none;
 	}
 
-    /* .create-account .guide {
-
-    }
-
-    .create-account > * {
-    } */
-
-    /* .create-account .grid--code {
-        align-self: center;
-    } */
     .sub .boxed--transparent {
         border: 0 none;
     }
