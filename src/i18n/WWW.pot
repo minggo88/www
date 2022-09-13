@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-06 17:00+0900\n"
+"POT-Creation-Date: 2022-09-07 15:21+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -812,4 +812,25 @@ msgid "검색어를 입력해주세요."
 msgstr ""
 
 msgid "가입 완료"
+msgstr ""
+
+msgid "로그인 정보가 올바른지 확인해주세요."
+msgstr ""
+
+msgid "수정하기"
+msgstr ""
+
+msgid "핀번호가 다릅니다."
+msgstr ""
+
+msgid "다시 확인해 주세요"
+msgstr ""
+
+msgid "약관에 동의하고 회원 탈퇴하기"
+msgstr ""
+
+msgid "계정 수정"
+msgstr ""
+
+msgid "비밀번호 변경하기"
 msgstr ""

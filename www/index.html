@@ -28,6 +28,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css">
 <link rel="stylesheet" href="./assets/css/common.css">
+<link rel="stylesheet" href="./assets/css/header.css">
+<link rel="stylesheet" href="./assets/css/footer.css">
 <link rel="stylesheet" href="./assets/css/components.css">
 <link rel="stylesheet" href="./assets/css/front.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
@@ -49,115 +51,126 @@
 </head>
 <!-- BODY -->
 <body class="front">
-    <header>
-        <h1 class="logo"><a href="/">Teaplat</a></h1>
-        <nav class="nav">
-            <ul>
-                <li class="active">
-                    <a href="exchange.html" data-i18n>거래소</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>공동구매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>경매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>가이드</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>다도 문화</a>
-                </li>
-                <li>
-                    <a href="notice.html" data-i18n>고객센터</a>
-                </li>
-            </ul>
-            <div class="nav--side">
+<header>
+	<h1 class="logo"><a href="/">Teaplat</a></h1>
+	<nav class="nav">
+		<ul>
+			<li class="active">
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<li>
+				<a href="" data-i18n>공동구매</a>
+			</li>
+			<li>
+				<a href="" data-i18n>경매</a>
+			</li>
+			<li>
+				<a href="" data-i18n>입출금</a>
+			</li>
+			<li>
+				<a href="" data-i18n>다도 문화</a>
+			</li>
+			<li>
+				<a href="notice.html" data-i18n>고객센터</a>
+			</li>
+		</ul>
+		<div class="nav--side">
+			<div name="box_logedin" class="profile dropdown-wrapper">
+				<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
+				<div class="dropdown--item" style="width: 134px">
+					<ul>
+						<li><a href="member-account.html" data-i18n>정보 수정</a></li>
+						<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
+						<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
+						<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
+						<li><a href="transaction.html" data-i18n>거래 내역</a></li>
+						<li><a href="notification.html" data-i18n>알림</a></li>
+						<li><a href="#" name="btn-logout" data-i18n>로그아웃</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- <div name="box_logedin" class="wallet dropdown-wrapper">
+				<button type="button" class="dropdown" data-i18n>지갑관리</button>
+				<div class="dropdown--item" style="width: 100px">
+					<ul>
+						<li><a href="wallet.html" data-i18n>보유 자산</a></li>
+						<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
+						<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
+						<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
+					</ul>
+				</div>
+			</div> -->
+			<!-- <div name="box_logedin">
+                    <button style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+                </div> -->
+			<div name="box_unlogedin">
+				<a href="login.html" class="btn--login" data-i18n>로그인</a>
+			</div>
 
-                <div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
-                    <button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-                    <div class="dropdown--item" style="width: 134px">
-                        <ul>
-                            <li><a href="member-account.html" data-i18n>정보 수정</a></li>
-                            <li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-                            <li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-                            <li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-                            <li><a href="transaction.html" data-i18n>거래 내역</a></li>
-                            <li><a href="notification.html" data-i18n>알림</a></li>
-                            <li><a href="withdrawal.html" data-i18n>회원 탈퇴</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
-                    <button type="button" class="dropdown" data-i18n>지갑관리</button>
-                    <div class="dropdown--item" style="width: 100px">
-                        <ul>
-                            <li><a href="wallet.html" data-i18n>보유 자산</a></li>
-                            <li><a href="wallet-deposit.html" data-i18n>입금</a></li>
-                            <li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
-                            <li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <button name="box_logedin" style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-                <div name="box_unlogedin" style="display: none">
-                    <a href="login.html" class="btn--login" data-i18n>로그인</a>
-                </div>
-
-                <div class="language dropdown-wrapper">
-                    <button type="button" class="dropdown">한국어</button>
-                    <div class="dropdown--item">
-                        <ul>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <section class="typography">
-            <h1 data-i18n><b>새로운 인증시스템</b>의 <b>글로벌 표준 <span class="highlight">차 거래소</span></b></h1>
+			<div class="language dropdown-wrapper">
+				<button type="button" class="dropdown">한국어</button>
+				<div class="dropdown--item">
+					<ul>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+</header>
+	<section class="viusalArea">
+		<div class="typography">
+			<h1 data-i18n>새로운 인증시스템의 글로벌 표준 차 거래소</h1>
             <p data-i18n>안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다.</p>
-        </section>
-
+		</div>
         <div class="statistics">
             <section class="statistics--tea">
                 <h1>Tea</h1>
-                <em>32</em>
+                <em data-bind="trade_goods_summary.cnt_tea">0</em>
             </section>
             <section class="statistics--teaware">
                 <h1>Teaware</h1>
-                <em>19</em>
+                <em data-bind="trade_goods_summary.cnt_teaware">0</em>
             </section>
         </div>
         <div class="getting-started">
             <a href="exchange.html" class="btn--" data-i18n>거래소 둘러보기</a>
-            <a href="login.html" class="btn--login" data-i18n>로그인</a>
+            <span name="box_logedin" style="display: none" >
+                <button class="btn--login" name="btn-logout"data-i18n>로그아웃</button>
+            </span>
+            <a href="login.html" name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a>
         </div>
-    </header>
-    <div class="d-grid grid-3-column news">
+	</section>
+    <div class="d-grid grid-3-column news" style="height:auto;">
         <!-- 공지사항-->
-        <div class="column">
+        <div class="column" style="height:auto;">
             <div class="swiper">
-                <ul class="swiper-wrapper">
-                    <li class="swiper-slide">
+                <ul class="swiper-wrapper" name="main_notice" style="height:50px;">
+                    <li class="swiper-slide hide" name="tpl" style="display:none;height:auto">
                         <a href="notice_detail.html">
-                            <span class="badge badge--green">공지</span>
+                            <span class="badge badge--white" {hide_tag}>공지</span>
+                            <span class="news--text">{message}</span>
+                            <span class="icon-new" {hide_new}></span>
+                        </a>
+                    </li>
+                    <!-- <li class="swiper-slide">
+                        <a href="notice_detail.html">
+                            <span class="badge badge--white">공지</span>
                             <span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
                             <span class="icon-new"></span>
                         </a>
                     </li>
                     <li class="swiper-slide">
                         <a href="notice_detail.html">
-                            <span class="badge badge--green">공지</span>
+                            <span class="badge badge--white">공지</span>
                             <span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
                             <span class="icon-new"></span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
-
         </div>
         <!-- 보도자료 -->
-        <div class="column">
+		<!-- <div class="column">
             <div class="swiper">
                 <ul class="swiper-wrapper">
                     <li class="swiper-slide">
@@ -176,9 +189,9 @@
                     </li>
                 </ul>
             </div>
-        </div>
+		</div> -->
         <!-- 이벤트 -->
-        <div class="column">
+		<!-- <div class="column">
             <div class="swiper">
                 <ul class="swiper-wrapper">
                     <li class="swiper-slide">
@@ -197,24 +210,23 @@
                     </li>
                 </ul>
             </div>
-        </div>
+		</div> -->
     </div>
     <main class="d-grid grid-3-column">
         <section class="section section--index">
             <div class="section--header" style="height: 30px; line-height: 1">
                 <h1 style="height: 23px" data-i18n>지수</h1>
-                <div class="text--price">280,000 KRW</div>
+                <div class="text--price"><span data-bind="selected_spot_price.price_close">0</span> <span data-bind="selected_spot_price.exchange">USD</span></div>
             </div>
             <div class="text--info d-flex" style="justify-content: space-between">
                 <div class="text--date">2022.06.16 10:40AM</div>
                 <div class="text--price">
-                    <span class="text--red">▲ 64,289.21</span>
-                    <span class="text--red">+ 2.35%</span>
+                    <span class="" data-bind="selected_spot_price.price_updown_color" data-format="add-class"><span data-bind="selected_spot_price.price_updown_symbol"></span> <span data-bind="selected_spot_price.price_updown_amount" data-format="comma">0</span></span>
+                    <span class="" data-bind="selected_spot_price.price_updown_color"><span data-bind="selected_spot_price.price_updown_sign">+</span> <span data-bind="selected_spot_price.price_updown_percent">0.00%</span></span>
                 </div>
             </div>
-
-        
-            <canvas id="indexCanvas" width="447" height="204" style="border-top: 1px solid #777"></canvas>
+            <div id="indexCanvas" class="canvas" style="width: 30vW; height: 22vh; max-height: 200px;"></div>
+            <!-- <canvas id="indexCanvas" class="canvas" style="width: 30vW; height: 22vh; max-height: 200px;"></canvas> -->
             <div class="controller d-flex d-justify" style="padding-left: 10px; margin-top: 5px">
                 <div style="flex-basis: calc(100% * (74 / 427))" data-i18n>기간</div>
                 <ul class="tabs">
@@ -244,61 +256,18 @@
                 <h1 data-i18n>보이차 시세</h1>
                 <a href="exchange.html" class="section--more" data-i18n>전체보기</a>
             </div>
-            <ul class="list">
-                <li>
-                    <span class="list--text">원영호 송빙</span>
-                    <span class="list--text text-right text-red">
-                        280,000 KRW
+            <ul class="list" name="price_table">
+                <li name="tpl" style="display:none">
+                    <span class="list--text">{stock_name}</span>
+                    <span class="list--text text-right {stock_updown_color}">
+                        {stock_price} {stock_exchange}
                     </span>
-                    <span class="list--text text-right text-red">
-                        +2.35%
-                    </span>
-                </li>
-                <li>
-                    <span class="list--text">원영호 원창호</span>
-                    <span class="list--text text-right text-red">
-                        170,000 KRW
-                    </span>
-                    <span class="list--text text-right text-red">
-                        +1.80%
+                    <span class="list--text text-right {stock_updown_color}">
+                        {stock_updown_percent}
                     </span>
                 </li>
-                <li>
-                    <span class="list--text">끽다거 빙도</span>
-                    <span class="list--text text-right text-red">
-                        220,000 KRW
-                    </span>
-                    <span class="list--text text-right text-red">
-                        +1.60%
-                    </span>
-                </li>
-                <li>
-                    <span class="list--text">8892 후기홍인</span>
-                    <span class="list--text text-right text-red">
-                        220,000 KRW
-                    </span>
-                    <span class="list--text text-right text-red">
-                        +1.60%
-                    </span>
-                </li>
-                <li>
-                    <span class="list--text">원성호 청병</span>
-                    <span class="list--text text-right text-red">
-                        190,000 KRW
-                    </span>
-                    <span class="list--text text-right text-red">
-                        +1.14%
-                    </span>
-                </li>
-                <li>
-                    <span class="list--text">복전차</span>
-                    <span class="list--text text-right text-blue">
-                        50,000 KRW
-                    </span>
-                    <span class="list--text text-right text-blue">
-                        -0.85%
-                    </span>
-                </li>
+                <div class="text--center" name="search" style="display:none" data-i18n>조회 중입니다.</div>
+                <div class="text--center" name="empty" style="display:none" data-i18n>거래종목이 없습니다.</div>
             </ul>
         </section>
         <section class="section">
@@ -362,7 +331,7 @@
             </div>
         </div>
         <div class="descArea">
-            <div class="row m-0 flex-self-center" style="column-gap: 280px;justify-content: center">
+            <div class="row m-0 flex-self-center">
                 <div class="app--1 text--right">
                     <img src="./assets/img/icon-app-1.svg" alt="">
                     <div class="service--title" data-i18n>누구나 쉽고 빠른 거래</div>
@@ -371,10 +340,10 @@
                 <div class="app--2 text--left">
                     <img src="./assets/img/icon-app-2.svg" alt="">
                     <div class="service--title" data-i18n>전문 노하우를 통한 진품 거래</div>
-                    <div class="service--desc" data-i18n>30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게<br>도와드립니다</div>
+                    <div class="service--desc" data-i18n>30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게 도와드립니다</div>
                 </div>
             </div>
-            <div class="row m-0 flex-self-center" style="column-gap: 280px;justify-content: center">
+            <div class="row m-0 flex-self-center">
                 <div class="app--3 text--right">
                     <img src="./assets/img/icon-app-3.svg" alt="">
                     <div class="service--title" data-i18n>전세계 어디에서나</div>
@@ -386,7 +355,7 @@
                     <div class="service--desc" data-i18n>내가 투자하고 거래하는 보이차의 시세 변화를 손쉽게 파악할 수 있습니다</div>
                 </div>
             </div>
-            <div class="row m-0 flex-self-center" style="column-gap: 280px;justify-content: center">
+            <div class="row m-0 flex-self-center">
                 <div class="app--5 text--right">
                     <img src="./assets/img/icon-app-5.svg" alt="">
         
@@ -400,16 +369,11 @@
                 </div>
             </div>
         </div>
-
-
-        
-
         <div style="width: 360px;  right: 220px; top:582px; text-align: left; letter-spacing: -0.02em">
-
         </div>
     </section>
-    <footer>
-        <div class="logo" data-i18n>Teaplat</div>
+    <footer class="desktop-only">
+		<div class="logo">Teaplat</div>
         <nav class="fnb">
             <ul>
                 <li>
@@ -426,21 +390,16 @@
                 </li>
             </ul>
             <div class="copyright">
+				<address>
                 <span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
-                <br>
-                <span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span>
-                <br><br>
-                Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. 
+					<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
+					<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
+					<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
+				</address>
+				<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
             </div>
         </nav>
         <span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
