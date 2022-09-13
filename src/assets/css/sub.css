@@ -1,10 +1,22 @@
 :root {
     --SIDE-WIDTH: calc(100% * (546 / 1440));
 }
+.sub{
+	position: relative;
+	background-color: #fafbfc;
+}
 
 /* header {
     height: 72.77px;
 } */
+
+.content_wrap{
+	background-color: #fafbfc;
+	max-width: 1440px;
+	width: 100%;
+	margin: 0 auto;
+	height: calc(100% - 60px);
+}
 
 main {
     padding: 0 20px 26px;
@@ -19,7 +31,8 @@ main {
 }
 
 .sub.notice main {
-    padding: 60px 140px 60px 40px;
+    /* padding: 60px 140px 60px 40px; */
+	padding:60px 0;
 }
 
 /* @media screen and (min-width: 991px) and (max-width: 1400px) {
@@ -649,6 +662,18 @@ margin-top: 20px;
 }
 
 
+/* 정보수정 */
+.sub.member-account .contents form{
+	/* width: 910px; 
+	height: 407px;
+	justify-content: center;
+	padding: 0; */
+	/* width: 100%; height: auto; */ 
+}
+
+.sub.member-account .contents form .default .form--controls{
+	flex-direction: column;
+}
 
 /* 회원탈퇴 */
 .sub.withdrawal main{padding-bottom: 100px !important}
@@ -686,6 +711,9 @@ margin-top: 20px;
 	.sub.withdrawal .boxed{height: 400px;}
 	.sub.withdrawal .btn{margin-top: 30px;}
 }
+
+
+
 
 
 /* identity verfication */
