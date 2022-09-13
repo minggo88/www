@@ -1,17 +1,29 @@
 main {
-    height: calc(100% - 72.77px);
+    height: calc(100% - 60px);
 }
 /* header { 
     height: 60px;
 } */
+
+.login main > section{
+	display: block;
+	position: relative;
+	margin: 0;
+	align-items: center;
+	justify-content: center;
+}
 
 .email {
     margin-bottom: 40px;
 }
 
 .create-account .grid--code {
-    margin-top: 75px;
-    margin-bottom: 75px
+	margin-top: 75px;
+	margin-bottom: 75px
+}
+
+.create-account div.grid--code {
+	align-self: center;
 }
 
 .tttt {
@@ -50,27 +62,179 @@ main {
 	background-size: 7.42px 14.02px;
 }
 
+.login.forget form{position: relative;}
+.login.forget form .btn{position: absolute; left: 50%; transform: translateX(-50%); bottom: 0;}
 
-/* 
-@media screen and (min-width: 801px) and (max-width: 1110px) {
-	.nav > ul {column-gap: 25px;}
-	.nav .nav--side .language .dropdown--item{left: -10px;}
-} */
+.login.forget form .grid--code{
+	margin-top: 75px; 
+	margin-bottom: 88px;
+	align-self: center;
+}
 
-@media screen and (min-width: 601px) and (max-width: 800px) {
-	/* header .logo, .nav {
+.create-account main .dropdown{
+	border: 0.35px solid #DFDFDF;
+	padding: 0 25px 0 10px;
+	border-radius: 3px;
+}
+
+.create-account main .dropdown::after{
+	right: 10px;
+}
+
+.create-account .guide .guide--step .guide--desc {
+    font-family: Inter;
+    font-weight: 400;
+}
+
+.create-account main .dropdown--item input[name=search]{
+	height: 40px;
+	line-height: 40px;
+	margin-bottom: 0;
+}
+
+.create-account main .dropdown--item ul{
+	padding: 0;
+	
+}
+.create-account main .dropdown--item ul li:not(:last-child){
+	margin-bottom: 0; 
+}
+
+.create-account main .dropdown--item ul > li{
+	padding: 7px 0;
+	
+}
+
+.create-account .step--list{top: inherit;}
+.create-account section .step--list{top: 0;}
+
+
+
+@media screen and (max-width: 1300px) {
+	.create-account main{flex-direction: column;}
+
+	
+	.create-account .step--list{
+		width: 340px;
+		position: static;
+		top: 465px;
+		left: 0;
+		align-self: center;
+		transform: inherit;
+	}
+	
+	.create-account .step--list .step--header {
+		display: block;
+    }
+	.create-account .step--list ol{
+		flex-direction: column;
+		row-gap: 15px;
+	}
+	.create-account .step--list ol li{
+		text-indent: inherit;
+		border-radius: initial;
+		background-color: transparent;
+		font-size: 16px;
+		width: auto;
+		height: auto;
+	}
+	.create-account .step--list ol li::before{
+		width: 22px;
+		height: 22px;
+		line-height: 22px;
+		font-size: 14px;
+	}
+
+
+
+
+}
+
+
+@media screen and (min-width: 801px) and (max-width: 1300px) {
+	.create-account section form{
+		height: 530px;
+	}
+}
+
+
+
+@media screen and (max-width: 800px) {
+	.login main{
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+	}
+	
+	.login.forget form .grid--code{
+		margin-top: 48px; 
+		margin-bottom: 64px;
+	}
+	.login.forget form div.flex-self-left{
+		align-self: center;
+	}
+	form .form--header h1 {
+        color: var(--basic-black);
+    }
+
+	.login form{height: auto;}
+	.create-account .guide .guide--step .guide--desc {
+		font-size: 12px;
+		color: #777777;
+	}
+
+	.create-account .grid--code {
+		align-self: center;
+	}
+
+	.create-account .rounded{
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+		font-size: 12px;
+		margin-top: 5px;
+	}
+	
+	.create-account section .step--list{
+		/* margin-top: 30px; */
+		position: absolute;
+		top: -8%
+		
+	}
+	.create-account .step--list .step--header {
 		display: none;
-	} */
+    }
+	
+	.create-account .step--list ol{
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.create-account .step--list ol li{
+		font-size: 0px;
+	}
+	.create-account .step--list ol li::before{
+		width: 10px;
+		height: 10px;
+		line-height: 10px;
+		font-size: 0px;
+	}
+
+	.create-account div.form--controls:nth-child(1){
+		margin-top: 30px!important;
+	}
+
 }
 
 @media screen and (max-width: 600px) {
-	.login main{display: flex; height: 100vh; align-items: center;}
+	.login main{display: flex;}
 	
 	.email {margin-bottom: 8px;}
-    .create-account .grid--code {
+    /* .create-account .grid--code {
         margin-top: 48px;
         margin-bottom: 64px
-    }
+    } */
     .create-account .tttt {
         align-self: center;
     }
@@ -95,4 +259,8 @@ main {
         background-size: 7.42px 14.02px;
     }
 	.form--btns{margin-top: 54px;}
+	.login.forget .validation--message{
+		background: transparent url(../img/icon/ico-warn-pink.svg) no-repeat 2px 5px;
+	}
+	.login.forget form{height: 416px;}
 }

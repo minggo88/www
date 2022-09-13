@@ -99,7 +99,7 @@ main {
 
 
 .sub main {
-    grid-template-columns: calc(100% * (238 / 1440)) auto;
+	grid-template-columns: calc(100% * (238 / 1440)) auto;
     column-gap: 107px;
 }
 
@@ -627,11 +627,6 @@ margin-top: 20px;
 
 }
 
-.create-account .guide .guide--step .guide--desc {
-    font-family: Inter;
-    font-weight: 400;
-}
-
 .mobile-panel {
     display: none;
     position: fixed;
@@ -669,12 +664,16 @@ margin-top: 20px;
 	.nav .nav--side .language .dropdown--item{left: -10px;}
 }
 
-@media screen and (min-width: 601px) and (max-width: 800px) {
+/* @media screen and (min-width: 601px) and (max-width: 800px) {
 	header .logo, .nav {
 		display: none;
 	}
+} */
+@media (max-width: 800px) {
+	.sub main{
+		height:calc(100% - 60px);
+	}
 }
-
 @media (max-width: 600px) { 
     .sub main{display: flex; height: 100vh; align-items: center;}
 	.sub .contents .contents--header {
@@ -702,10 +701,10 @@ margin-top: 20px;
     /* .sub .contents .contents--header .navigation--back {
         margin: 0 33px 0 0;
     } */
-    form .form--header h1 {
-        /* background: none; */
+    /* form .form--header h1 {
+        background: none;
         color: var(--basic-black);
-    }
+    } */
     .sub header .logo,
     .verification header .logo {
         display: none;
@@ -732,12 +731,12 @@ margin-top: 20px;
 		background: url('../img/icon/icon-next.svg') no-repeat 50%;
 		background-size: 7.42px 14.02px;
 	} */
-    .sub header,
+    /* .sub header,
     .forget header {
         display: flex;
         align-items: center;
         padding-left: 11px;
-    }
+    } */
 /* 	.sub.login header {
 		display: none;
 	} */
@@ -787,13 +786,9 @@ margin-top: 20px;
     .create-account > * {
     } */
 
-    .create-account .guide .guide--step .guide--desc {
-        font-size: 12px;
-        color: #777777;
-    }
-    .create-account .grid--code {
+    /* .create-account .grid--code {
         align-self: center;
-    }
+    } */
     .sub .boxed--transparent {
         border: 0 none;
     }

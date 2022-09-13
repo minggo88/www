@@ -3,6 +3,7 @@ header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background: rgba(0, 0, 0, 0.02);
 }
 
 header .logo {
@@ -28,7 +29,6 @@ header .logo a {
 	justify-content: space-between;
     align-items: center;
     height: 60px;
-	background-color: #fff;
 	flex-basis: 70%;
 }
 
@@ -186,7 +186,8 @@ header .logo a {
 
 @media screen and (max-width: 800px){
 	 /* 뒤로가기 버튼 */
-	.sub header{padding-left: 11px;}
+	.sub header{padding-left: 11px; height: 60px; background: #fff;}
+	.sub header .logo, .sub header .nav{display: none;}
 	.sub header .navigation--back {
 		display: block;
 		text-indent: -9999px;
@@ -198,4 +199,5 @@ header .logo a {
 	.sub .contents .contents--header .navigation--back {
 		margin: 0 33px 0 0;
 	}
+
 }

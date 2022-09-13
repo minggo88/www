@@ -350,6 +350,6 @@ dl dd {
         display: block !important;
     }
 	.mobile-only-block{
-		display: block;
+		display: block
 	}
 }
