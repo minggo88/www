@@ -46,13 +46,13 @@
 
 .front .viusalArea .statistics {
 	margin-top: 40px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	column-gap: 36px;
-	color: var(--white);
-	position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    column-gap: 36px;
+    color: var(--white);
+    position: relative;
 }
 
 .front .viusalArea .statistics h1 {
@@ -61,10 +61,10 @@
 	width: 100px;
 	height: 30px;
 	font-size: 18px;
-	font-weight: 500;
+    font-weight: 500;
 	line-height: 1.5;
 	left: 50%;
-	letter-spacing: -0.02em;
+    letter-spacing: -0.02em;
 	transform: translateX(-50%);
 	top: 100%;
 	text-align: center;
@@ -74,12 +74,12 @@
 .front .viusalArea .statistics em {
 	font-family: 'Noto Sans KR';
 	font-style: normal;
-	font-weight: 400;
+    font-weight: 400;
 	font-size: 36px;
 	height: 30px;
 	line-height: 30px;
 	background:transparent;
-	display: block;
+    display: block;
 	text-align: center;
 	padding: 0;
 	margin: 20px 0 15px;
@@ -95,7 +95,7 @@
 	content: '';
 	position: relative;
 	left: 110%; top: -30px;
-	display: block;
+    display: block;
 	width: 1px;
 	height: 40px;
 	background: #fff;
@@ -267,9 +267,9 @@
 
 
 .front main .section .section--header .text--info {
-	position: absolute;
-	bottom: 0;
-	display: flex;
+    position: absolute;
+    bottom: 0;
+    display: flex;
 }
 .front main .section .section--header .text--date {
     color: var(--darkgray);

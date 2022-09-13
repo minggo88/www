@@ -20,6 +20,40 @@ $(document).ready(function() {
     });
 });
 
+String.prototype.trim = function() {
+	var str = this;
+	return this.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '');
+}
+
+String.prototype.toNumber = Number.prototype.toNumber = function() {
+	var num = this.toString();
+	num = num.replace(/[^0-9.]/g, '');
+	return (num=='') ? 0 : num*1;
+	num = /^[0-9]+\.[0-9]+$/.test(num) ? parseFloat(num) : parseInt(num);
+	if(isNaN(num)) num = 0;
+	return num;
+}
+
+String.prototype.format = function(args1, args2, args3, args4, args5) {
+	var arguments = new Array();
+	if(args1) arguments[0] = args1;
+	if(args2) arguments[1] = args2;
+	if(args3) arguments[2] = args3;
+	if(args4) arguments[3] = args4;
+	if(args5) arguments[4] = args5;
+
+    var formatted = this;
+    for (var arg in arguments) {
+        formatted = formatted.replace("{" + arg + "}", arguments[arg]);
+    }
+    return formatted;
+}
+if(! Object.assign) {
+	Object.prototype.assign = function(o1, o2) {
+		jQuery.extend(o1, o2); // for un-support assign
+	}
+}
+
 function setCookie(name, value, expiredays){
 	var todayDate = new Date();
 	todayDate.setDate( todayDate.getDate() + expiredays );
@@ -94,6 +128,17 @@ function real_number_format(n, d){
 	return sign + r;
 }
 
+function remove_array_by_value(array, value) {
+    var what, a = arguments, L = a.length, ax;
+    while (L && array.length) {
+        what = a[--L];
+        while ((ax = array.indexOf(what)) !== -1) {
+            array.splice(ax, 1);
+        }
+    }
+    return array;
+};
+
 function get_keycode(evt) {
 	return evt.which?evt.which:window.event.keyCode;
 }
@@ -119,6 +164,18 @@ function get_str_by_keycode(keycode) {
 	if(val.match(/[^0-9]/g) && keyCode!=8 && keyCode!=9 && keyCode!=46 && keyCode!=35 && keyCode!=36 && keyCode!=37 && keyCode!=38 && keyCode!=39 && keyCode!=40 && keyCode!=96 && keyCode!=97 && keyCode!=98 && keyCode!=99 && keyCode!=100 && keyCode!=101 && keyCode!=102 && keyCode!=103 && keyCode!=104 && keyCode!=105 && keyCode!=48 && keyCode!=49 && keyCode!=50 && keyCode!=51 && keyCode!=52 && keyCode!=53 && keyCode!=54 && keyCode!=55 && keyCode!=56 && keyCode!=57) {
 		return false;
 	}
+}
+
+function inIframe () {
+	try {
+		return window.self !== window.top;
+	} catch (e) {
+		return true;
+	}
+}
+
+function inPopup () {
+	return window.opener ? true : false;
 }
 
 // "use strict";
@@ -708,6 +765,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         const item = { "method": method_name, "params": params };
         if (!duplicate) {
             for (var i in items) {
+                // console.log('add_request_item 중복여부:', JSON.stringify(items[i]) == JSON.stringify(item), JSON.stringify(items[i]) ,  JSON.stringify(item))
                 if (JSON.stringify(items[i]) == JSON.stringify(item)) {
                     return; // 중복시 추가 종료.
                 }
@@ -1283,7 +1341,113 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 })
             }
         })
+        add_request_item('getTradeGoodsSummary', {}, function (r) {
+            if (r && r.success && r.payload) {
+                Model.trade_goods_summary = r.payload;
+            }
+        });
+        add_request_item('getMainNoticeList', {'bbscode':'notice','by_category':'N'}, function (r) {
+            if (r && r.success && r.payload) {
+                let html = [];
+                const $target = $('[name=main_notice]');
+                const tpl = $('<div></div>').append($target.find('[name=tpl]').clone().attr('name','').css('display','').removeClass('hide')).html();
+                notice_list = r.payload;
+                for (i in notice_list) {
+                    let r = notice_list[i];
+                    if (r.file) {
+                        html.push(tpl
+                            .replace('{message}', r.file ? '<img src="' + r.file + '" style="height:50px">' : r.contents)
+                            .replace('{hide_new}', 'style="display:none;"')
+                            .replace('{hide_tag}', 'style="display:none;"')
+                        )
+                    }
+                }
+                if (!notice_list || notice_list.length < 1) {
+                    $target.closest('.news').hide();
+                }
+                $('[name=main_notice]').empty().append(html.join(''));
+                // swiper 시작
+                new Swiper('.news .column .swiper', {
+                    slidesPerView: 1,
+                    direction: 'vertical',
+                    loop: true,
+                    allowTouchMove: true,
+                    noSwiping: true,
+                    noSwipingClass: 'swiper-slide',
+                    preventInteractionOnTransition:true,
+                    autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                    },
+                })
+            }
+        });
     }
+    // 인기 종목 표시 ( + 차트)
+    const $PriceTableTarget = $('[name=price_table]');
+    const $PriceTableEmpty = $PriceTableTarget.find('[name=empty]');
+    const $PriceTableSearch = $PriceTableTarget.find('[name=search]');
+    $PriceTableSearch.removeClass('hide').show();
+    add_request_item('getSpotPrice', { 'symbol': 'HOT' }, function (r) {
+        if (r && r.success && r.payload) {
+            const spot_prices = r.payload;
+            Model.chart_data = [];
+
+            // 가격표 표시
+            let html = [];
+            const tpl = $('<div></div>').append($PriceTableTarget.find('[name=tpl]').clone().attr('name','').css('display','').removeClass('hide')).html();
+            for (i in spot_prices) {
+                const r = spot_prices[i];
+                if (!r || !r.name) { continue;  }
+                console.log('i:',i)
+                // $.get(API_URL+'/getChartData/', { 'symbol': r.symbol }, function (r) { 
+                add_request_item('getChartData', { 'symbol': r.symbol }, function (r) { 
+                    console.log(' r.payload:',  r.payload);
+                    Model.chart_data[i] = r.payload;
+
+                }); // 차트 데이터 요청
+
+                r.price_open *= 1;
+                r.price_close *= 1;
+                r.exchange = 'USD';
+                r.price_updown_sign = r.price_close > r.price_open ? '+' : ( r.price_close < r.price_open ? '-' : '');
+                r.price_updown_symbol = r.price_updown_sign=='+' ? '▲' : ( r.price_updown_sign=='-' ? '▼' : '');
+                r.price_updown_color = r.price_updown_sign=='+' ? 'text-red' : ( r.price_updown_sign=='-' ? 'text-blue' : '');
+                r.price_updown_amount = r.price_close - r.price_open ;
+                r.price_updown_rate = (r.price_close - r.price_open)/r.price_open ;
+                r.price_updown_percent = ((r.price_close - r.price_open) / r.price_open * 100).toFixed(2) + '%';
+                
+                spot_prices[i] = r;  /// 계산값 재사용하기
+
+                html.push(tpl
+                    .replace('{stock_name}', r.name)
+                    .replace(/\{stock_updown_color\}/g, r.price_updown_color)
+                    .replace('{stock_price}', real_number_format(r.price_close))
+                    .replace('{stock_exchange}', r.exchange)
+                    .replace('{stock_updown_percent}', r.price_updown_percent )
+                )
+            }
+            
+            Model.spot_prices = spot_prices;
+
+            $PriceTableTarget.children().not('[name=tpl],[name=search],[name=empty]').remove();
+            if (html.length > 0) {
+                $PriceTableTarget.append(html.join('')).find('li:visible').trigger('click');
+            } else {
+                $PriceTableEmpty.removeClass('hide').show()
+            }
+            $PriceTableSearch.addClass('hide').hide()
+        }
+    });
+    $('[name=price_table]').on('click', 'li', function () { 
+        const no = $(this).siblings().length - $(this).index(); // index는 안보이는것까지 포함되서 순위가 나와서 전체 친구들 수에서 index 값을 빼서 정확한 순서를 정합니다.
+        let p = Model.spot_prices[no];
+        console.log(p);
+        Model.selected_spot_price = p; // 선택된 상품 가격이 차트주변 지수가격에 보이도록 선택.
+
+        draw_chart();
+
+    })
 
 
 

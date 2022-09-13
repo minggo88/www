@@ -3,6 +3,7 @@ header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background: rgba(0, 0, 0, 0.02);
 }
 
 header .logo {
@@ -15,6 +16,7 @@ header .logo {
 	text-indent: -9999px;
 	z-index: 2;
 	margin-left: 30px;
+	display: flex;
 }
 header .logo a {
     width: 100%;
@@ -27,8 +29,7 @@ header .logo a {
 	justify-content: space-between;
     align-items: center;
     height: 60px;
-	background-color: #fff;
-	width: 70%;
+	flex-basis: 70%;
 }
 
 .nav > ul {
@@ -138,13 +139,19 @@ header .logo a {
 	top: 10px;
 }
 
+.sub .nav{
+	margin-left: 25%;
+	flex: auto;
+}
+
+
 @media screen and (max-width: 1650px) {
-	.nav {width: 75%;}
+	.front .nav {flex-basis: 75%;}
 	.nav > ul{padding-left: 0;}
 }
 
 @media screen and (max-width: 1550px) {
-	.nav {width: 80%;}
+	.front .nav{flex-basis: 80%;}
 }
 
 @media screen and (max-width: 1350px) {
@@ -161,7 +168,7 @@ header .logo a {
 }
 
 @media screen and (max-width: 1050px){
-	.nav {width: 87%;}
+	.front .nav {flex-basis: 87%;}
 	header{height: 80px;}
 	.nav{
 		height: 80px;
@@ -175,4 +182,22 @@ header .logo a {
 		column-gap: 2.5em;
 	}
 	.nav--side{height: 45px; }
+}
+
+@media screen and (max-width: 800px){
+	 /* 뒤로가기 버튼 */
+	.sub header{padding-left: 11px; height: 60px; background: #fff;}
+	.sub header .logo, .sub header .nav{display: none;}
+	.sub header .navigation--back {
+		display: block;
+		text-indent: -9999px;
+		width: 24px;
+		height: 24px;
+		background: transparent url('../img/icon/icon-back.svg') no-repeat 50%;
+		border: 0 none;
+	}
+	.sub .contents .contents--header .navigation--back {
+		margin: 0 33px 0 0;
+	}
+
 }
