@@ -52,25 +52,25 @@
         <h1 class="logo"><a href="/">Teaplat</a></h1>
         <nav class="nav">
             <ul>
-                <li>
-                    <a href="exchange.html" data-i18n>거래소</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>공동구매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>경매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>가이드</a>
-                </li>
-                <li>   
-                    <a href="" data-i18n>다도 문화</a>
-                </li>
-                <li>
-                    <a href="notice.html" data-i18n>고객센터</a>
-                </li>
-            </ul>
+				<li class="active">
+					<a href="exchange.html" data-i18n>거래소</a>
+				</li>
+				<li>
+					<a href="" data-i18n>공동구매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>경매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>입출금</a>
+				</li>
+				<li>
+					<a href="" data-i18n>다도 문화</a>
+				</li>
+				<li>
+					<a href="notice.html" data-i18n>고객센터</a>
+				</li>
+			</ul>
             <div class="nav--side">
 
                 <div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
@@ -83,7 +83,7 @@
                             <li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
                             <li><a href="transaction.html" data-i18n>거래 내역</a></li>
                             <li><a href="notification.html" data-i18n>알림</a></li>
-                            <li><a href="withdrawal.html" data-i18n>회원 탈퇴</a></li>
+                            <li><a href="#" name="btn-logout" data-i18n>로그아웃</a></li>
                         </ul>
                     </div>
                 </div>
@@ -103,19 +103,20 @@
                     <a href="login.html" class="btn--login" data-i18n>로그인</a>
                 </div>
 
-                <div class="language dropdown-wrapper">
-                    <button type="button" class="dropdown">한국어</button>
-                    <div class="dropdown--item">
-                        <span>한국어</span>
-                        <ul>
-                        </ul>
-                    </div>
-                </div>
+				<div class="language dropdown-wrapper">
+					<button type="button" class="dropdown">한국어</button>
+					<div class="dropdown--item">
+						<span>한국어</span>
+						<ul>
+						</ul>
+					</div>
+				</div>
             </div>
         </nav>
-        <div class="navigator--back">
-
-        </div>
+        <div class="navigatorArea">
+			<a href="index.html" class="navigation--back">이전으로</a>
+			<!-- <button type="button" class="navigation--back"></button> -->
+		</div>
     </header>
     <main class="d-flex flex-center" id="box_login">
         <form id="login" name="login" action="login.html" method="post" class="d-flex flex-row flex-center">
@@ -130,7 +131,7 @@
                 <label for="password" class="form--label" data-i18n>Password</label>
                 <input type="password" name="password" id="password" required  placeholder="비밀번호를 입력해주세요."/>
             </div>
-            <div class="validation--message mobile-only" style="display: none">
+            <div class="validation--message mobile-only-block" style="display: none">
                 <p data-i18n>비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다.</p>
             </div>
             <div class="find--password flex-right" style="margin-bottom: 11px">
