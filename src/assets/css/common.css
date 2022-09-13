@@ -285,7 +285,7 @@ dl dd {
     display: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .mobile-bottom {
         width: 100%;
         height: 72px;
@@ -343,7 +343,10 @@ dl dd {
         content: "";
         background: url('../img/icon/icon-more.svg') no-repeat 50%;
     }
-    .desktop-only {
+}
+
+@media (max-width: 600px) {
+	.desktop-only {
         display: none !important;
     }
     .mobile-only {
@@ -353,3 +356,4 @@ dl dd {
 		display: block
 	}
 }
+
