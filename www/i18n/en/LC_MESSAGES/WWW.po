@@ -814,3 +814,24 @@ msgstr "Please enter a search keyword."
 
 msgid "가입 완료"
 msgstr "Sign up Complete"
+
+msgid "로그인 정보가 올바른지 확인해주세요."
+msgstr "Please make sure your login information is correct."
+
+msgid "수정하기"
+msgstr "Change"
+
+msgid "핀번호가 다릅니다."
+msgstr "The pin number is different."
+
+msgid "다시 확인해 주세요"
+msgstr "Please check again"
+
+msgid "약관에 동의하고 회원 탈퇴하기"
+msgstr "Agree to the Terms and Cancel Membership"
+
+msgid "계정 수정"
+msgstr "Edit Account"
+
+msgid "비밀번호 변경하기"
+msgstr "Change Password"

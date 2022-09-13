@@ -277,34 +277,6 @@ dl dd {
 [name=box_logedin] {display:none} /*로그인 사용자가 볼 수 있는 박스. 기본숨김*/
 [name=box_unlogedin] {display:auto} /*로그아웃 사용자가 볼 수 있는 박스. 기본표시*/
 
-header {
-    background-size: cover;
-    height: 621px;
-}
-
-header .logo {
-    width: 70px;
-    height: 25.5px;
-    background: url('../img/logo.svg') no-repeat center center;
-    background-size: cover;
-    position: absolute;
-    left: 30px;
-    top: 17px;
-    font-size: 1px;
-    line-height: 0;
-    text-indent: -9999px;
-    z-index: 2;
-}
-header .logo a {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-
-
-
-
 .mobile-only {
     display: none;
 }
@@ -377,4 +349,7 @@ header .logo a {
     .mobile-only {
         display: block !important;
     }
+	.mobile-only-block{
+		display: block
+	}
 }

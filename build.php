@@ -43,7 +43,6 @@ unlink($target_dir.'/i18n/WWW.pot');
 
 echo "복사 완료 ".PHP_EOL;
 
-exit;
 echo "html 작업시작 ".PHP_EOL;
 
 // 배포본 생성
@@ -69,26 +68,29 @@ if($dh = opendir($source_dir)) {
 				} else {
 					echo "파일이 없습니다. 소스를 수정하거나 파일을 생성해주세요. {$_f}\n";
 				}
-				$_f_min = str_replace(array('.js','.css'), array('.min.js','.min.css'), $_f);
-				if(file_exists($_f_min)) {
-					$f_min = str_replace(array('.js','.css'), array('.min.js','.min.css'), $f);
-				} else {
+				// $_f_min = str_replace(array('.js','.css'), array('.min.js','.min.css'), $_f);
+				// if(file_exists($_f_min)) {
+				// 	$f_min = str_replace(array('.js','.css'), array('.min.js','.min.css'), $f);
+				// } else {
 					$f_min = $f;
-				}
+				// }
 				$html = str_replace($f, str_replace('{version}',$t,$f_min), $html);
 			}
 
             // 다국어 처리
+			/*
 			$html = preg_replace("/<\?=__\('(.*?)'\);\?>/", '<span data-bind="LANG_DATA.$1">$1</span>', $html);
 			$html = preg_replace('/<\?=__\("(.*?)"\);\?>/', '<span data-bind="LANG_DATA.$1">$1</span>', $html);
 			$html = preg_replace("/<\?_e\('(.*?)'\);\?>/", '<span data-bind="LANG_DATA.$1">$1</span>', $html);
 			$html = preg_replace('/<\?_e\("(.*?)"\);\?>/', '<span data-bind="LANG_DATA.$1">$1</span>', $html);
+			*/
+
 			// minify
-			$html = preg_replace('/\/\/.*$/', '', $html);
-			$html = preg_replace('/\/\*.*\*\//', '', $html);
-			$html = preg_replace('/<!--.*-->/', '', $html);
-			$html = preg_replace('/\s+/', ' ', $html);
-			$html = preg_replace('/>\s+</', '><', $html);
+			// $html = preg_replace('/\/\/.*$/', '', $html);
+			// $html = preg_replace('/\/\*.*\*\//', '', $html);
+			// $html = preg_replace('/<!--.*-->/', '', $html);
+			// $html = preg_replace('/\s+/', ' ', $html);
+			// $html = preg_replace('/>\s+</', '><', $html);
 
 			file_put_contents($target_dir.'/'.$file, $html);
 		}

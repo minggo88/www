@@ -26,24 +26,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css">
-<link rel="stylesheet" href="./assets/css/common.css">
-<link rel="stylesheet" href="./assets/css/header.css">
-<link rel="stylesheet" href="./assets/css/footer.css">
-<link rel="stylesheet" href="./assets/css/components.css">
-<link rel="stylesheet" href="./assets/css/sub.css">
-<link rel="stylesheet" href="./assets/css/login.css">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
+<link rel="stylesheet" href="./assets/css/common.css?t=1663044877">
+<link rel="stylesheet" href="./assets/css/header.css?t=1663044877">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1662601748">
+<link rel="stylesheet" href="./assets/css/components.css?t=1663044877">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1663044877">
+<link rel="stylesheet" href="./assets/css/login.css?t=1663044877">
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js"></script>
-<script src="./assets/js/api.js"></script>
-<script src="./assets/js/components.js"></script>
-<script src="./assets/js/login.js" defer></script>
+<script src="./assets/js/common.js?t=1661823297"></script>
+<script src="./assets/js/api.js?t=1662531294"></script>
+<script src="./assets/js/components.js?t=1662455477"></script>
+<script src="./assets/js/login.js?t=1662086832" defer></script>
 
-<script src="./assets/js/lib/php.default.min.js"></script>
-<script src="./assets/js/lib/security.min.js"></script>
-<script src="./i18n/i18n.js"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
+<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
+<script src="./i18n/i18n.js?t=1662430807"></script>
 
 </head>
 <!-- BODY -->
@@ -52,25 +52,25 @@
         <h1 class="logo"><a href="/">Teaplat</a></h1>
         <nav class="nav">
             <ul>
-                <li>
-                    <a href="exchange.html" data-i18n>거래소</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>공동구매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>경매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>가이드</a>
-                </li>
-                <li>   
-                    <a href="" data-i18n>다도 문화</a>
-                </li>
-                <li>
-                    <a href="notice.html" data-i18n>고객센터</a>
-                </li>
-            </ul>
+				<li class="active">
+					<a href="exchange.html" data-i18n>거래소</a>
+				</li>
+				<li>
+					<a href="" data-i18n>공동구매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>경매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>입출금</a>
+				</li>
+				<li>
+					<a href="" data-i18n>다도 문화</a>
+				</li>
+				<li>
+					<a href="notice.html" data-i18n>고객센터</a>
+				</li>
+			</ul>
             <div class="nav--side">
 
                 <div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
@@ -83,7 +83,7 @@
                             <li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
                             <li><a href="transaction.html" data-i18n>거래 내역</a></li>
                             <li><a href="notification.html" data-i18n>알림</a></li>
-                            <li><a href="withdrawal.html" data-i18n>회원 탈퇴</a></li>
+                            <li><a href="#" name="btn-logout" data-i18n>로그아웃</a></li>
                         </ul>
                     </div>
                 </div>
@@ -103,19 +103,17 @@
                     <a href="login.html" class="btn--login" data-i18n>로그인</a>
                 </div>
 
-                <div class="language dropdown-wrapper">
-                    <button type="button" class="dropdown">한국어</button>
-                    <div class="dropdown--item">
-                        <span>한국어</span>
-                        <ul>
-                        </ul>
-                    </div>
-                </div>
+				<div class="language dropdown-wrapper">
+					<button type="button" class="dropdown">한국어</button>
+					<div class="dropdown--item">
+						<span>한국어</span>
+						<ul>
+						</ul>
+					</div>
+				</div>
             </div>
         </nav>
-        <div class="navigator--back">
-
-        </div>
+        <button type="button" class="navigation--back"></button>
     </header>
     <main class="d-flex flex-center" id="box_login">
         <form id="login" name="login" action="login.html" method="post" class="d-flex flex-row flex-center">
@@ -130,7 +128,7 @@
                 <label for="password" class="form--label" data-i18n>Password</label>
                 <input type="password" name="password" id="password" required  placeholder="비밀번호를 입력해주세요."/>
             </div>
-            <div class="validation--message mobile-only" style="display: none">
+            <div class="validation--message mobile-only-block" style="display: none">
                 <p data-i18n>비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다.</p>
             </div>
             <div class="find--password flex-right" style="margin-bottom: 11px">
@@ -146,7 +144,7 @@
         </form>
     </main>
 
-    <script src="./assets/js/app.js?t={version}"></script>
+    <script src="./assets/js/app.js?t=1662627865"></script>
 
 </body>
 </html>
