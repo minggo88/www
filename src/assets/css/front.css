@@ -1,7 +1,19 @@
 .front {
     position: relative;
+	background-color: #fafbfc;
 }
 
+.wrap{
+	position: relative;
+	min-width: 1440px;
+}
+
+.content{
+	background-color: #fafbfc;
+	max-width: 1440px;
+	width: 100%;
+	margin: 0 auto;
+}
 .language .dropdown {
     background: transparent;
 	color: #333;
@@ -9,15 +21,18 @@
 
 /* viusalArea */
 .viusalArea {
+	/* width: 100%; */
+	height: 555px;
+	margin: 0 auto;
     background: url('../img/bg.png') no-repeat center center;
-    background-size: cover;
-    height: 461px;
-    padding-bottom: 61px;
-    box-sizing: border-box;
+    background-size: 100% 100%;
+	padding-top: 100px;
+    padding-bottom: 141px;
+	box-sizing: border-box;
 }
 
 .viusalArea .typography {
-    margin-top: 48px;
+    /* margin-top: 61px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,7 +60,7 @@
 }
 
 .front .viusalArea .statistics {
-	margin-top: 40px;
+	margin-top: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,7 +128,8 @@
     height: 40px;
     line-height: 40px;
     text-align: center;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(8px);
 	border: 1px solid #FFFFFF;
     color: var(--white);
     font-weight: 700;
@@ -139,8 +155,12 @@
 @media (max-width: 600px) {
 	.viusalArea{height: 100vh; min-height: 600px;}
 	.viusalArea .logo{display: none;}
-	.viusalArea .typography {margin-top: 180px;}
-	.viusalArea .typography h1 {font-size: 20px; line-height: 60px;}
+	.viusalArea{
+		padding-top: 0;
+		background-size: cover;
+	}
+	.viusalArea .typography {padding-top: 180px;}
+	.viusalArea .typography h1 {font-size: 24px; line-height: 60px;}
 	.front .viusalArea .typography p {margin: 20px; font-size: 16px; font-weight: 300; line-height: 23px;}
 	.front .getting-started {margin-top: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; column-gap: 36px;}
 	.front .getting-started > *{display: block;}
