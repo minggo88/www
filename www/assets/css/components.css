@@ -70,7 +70,6 @@
     background-color: var(--dark-green);
     color: var(--white);
 }
-
 .badge.badge--white {
     background-color: var(--white);
     color: var(--basic-black);
@@ -796,7 +795,7 @@ form .form--header h1 {
     display: none;
     position: absolute;
     top: 0;
-	left: 0;
+    left: 0;
     background: var(--white);
     border: 1px solid #DFDFDF;
     border-radius: 6px;
@@ -826,6 +825,13 @@ form .form--header h1 {
     mask-image: url('../img/icon/dropdown-caret.svg');
     transform: translateY(-50%);
     border-radius: 50%;
+}
+
+.dropdown+.dropdown--item input[name=search] {
+    height: 25px;
+    line-height: 25px;
+    margin: 0 0 9px;
+    font-size: 12px;
 }
 
 .dropdown+.dropdown--item ul {
@@ -864,6 +870,10 @@ form .form--header h1 {
     width: 100%;
     color: inherit;
     font-weight: inherit;
+    /* ellipsis */
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 .dropdown.dropdown--open+.dropdown--item {
     display: block;
