@@ -25,7 +25,7 @@
       type: 'line',
       data: data,
       options: {
-          responsive: true,
+          responsive: false, //true
           layout: {
               padding: 0,
           },
@@ -59,18 +59,19 @@
     }
   );
 
-  $(function() {
-    new Swiper('.news .column .swiper', {
-      slidesPerView: 1,
-      direction: 'vertical',
-      loop: true,
-      allowTouchMove: true,
-      noSwiping: true,
-      noSwipingClass: 'swiper-slide',
-      preventInteractionOnTransition:true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-      },
-    })
+$(function () {
+    // app.js 로 이동시킵니다.
+    // new Swiper('.news .column .swiper', {
+    //   slidesPerView: 1,
+    //   direction: 'vertical',
+    //   loop: true,
+    //   allowTouchMove: true,
+    //   noSwiping: true,
+    //   noSwipingClass: 'swiper-slide',
+    //   preventInteractionOnTransition:true,
+    //   autoplay: {
+    //     delay: 2500,
+    //     disableOnInteraction: false,
+    //   },
+    // })
   })

@@ -7,16 +7,16 @@
 	color: #333;
 }
 
-/* Header */
-header {
+/* viusalArea */
+.viusalArea {
     background: url('../img/bg.png') no-repeat center center;
     background-size: cover;
-    height: 519px;
+    height: 461px;
     padding-bottom: 61px;
     box-sizing: border-box;
 }
 
-header .typography {
+.viusalArea .typography {
     margin-top: 48px;
     display: flex;
     flex-direction: column;
@@ -26,7 +26,7 @@ header .typography {
     letter-spacing: -0.02em;
 }
 
-header .typography h1 {
+.viusalArea .typography h1 {
     margin: 0;
     height: 60px;
     font-size: 26px;
@@ -35,7 +35,7 @@ header .typography h1 {
     color: var(--white);
 }
 
-.front header .typography p {
+.front .viusalArea .typography p {
     margin: 0;
     font-size: 16px;
     font-weight: 300;
@@ -44,42 +44,42 @@ header .typography h1 {
     line-height: 23px;
 }
 
-.front header .statistics {
+.front .viusalArea .statistics {
 	margin-top: 40px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	column-gap: 36px;
-	color: var(--white);
-	position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    column-gap: 36px;
+    color: var(--white);
+    position: relative;
 }
 
-.front header .statistics h1 {
+.front .viusalArea .statistics h1 {
 	position: absolute;
 	margin: 0;
 	width: 100px;
 	height: 30px;
 	font-size: 18px;
-	font-weight: 500;
+    font-weight: 500;
 	line-height: 1.5;
 	left: 50%;
-	letter-spacing: -0.02em;
+    letter-spacing: -0.02em;
 	transform: translateX(-50%);
 	top: 100%;
 	text-align: center;
 }
 
 
-.front header .statistics em {
+.front .viusalArea .statistics em {
 	font-family: 'Noto Sans KR';
 	font-style: normal;
-	font-weight: 400;
+    font-weight: 400;
 	font-size: 36px;
 	height: 30px;
 	line-height: 30px;
 	background:transparent;
-	display: block;
+    display: block;
 	text-align: center;
 	padding: 0;
 	margin: 20px 0 15px;
@@ -95,7 +95,7 @@ header .typography h1 {
 	content: '';
 	position: relative;
 	left: 110%; top: -30px;
-	display: block;
+    display: block;
 	width: 1px;
 	height: 40px;
 	background: #fff;
@@ -134,6 +134,17 @@ header .typography h1 {
     font-size: 16px;
     letter-spacing: -0.02em;
     box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+	.viusalArea{height: 100vh; min-height: 600px;}
+	.viusalArea .logo{display: none;}
+	.viusalArea .typography {margin-top: 180px;}
+	.viusalArea .typography h1 {font-size: 20px; line-height: 60px;}
+	.front .viusalArea .typography p {margin: 20px; font-size: 16px; font-weight: 300; line-height: 23px;}
+	.front .getting-started {margin-top: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; column-gap: 36px;}
+	.front .getting-started > *{display: block;}
+	.front .getting-started .btn-- {margin-bottom: 20px;}
 }
 
 .front .news {
@@ -200,6 +211,7 @@ header .typography h1 {
 	color: var(--yellow);
 }
 
+
 .front main {
 	padding:0 40px;
 	margin:23px 0 40px;
@@ -255,9 +267,9 @@ header .typography h1 {
 
 
 .front main .section .section--header .text--info {
-	position: absolute;
-	bottom: 0;
-	display: flex;
+    position: absolute;
+    bottom: 0;
+    display: flex;
 }
 .front main .section .section--header .text--date {
     color: var(--darkgray);
@@ -289,14 +301,6 @@ header .typography h1 {
     align-items: center;
 }
 
-/* .front main .section:nth-child(2) .list li{
-	justify-content: space-around;
-}
-
-.front main .section:last-child .list li{
-	justify-content: space-between;
-} */
-
 .front main .section .list li{
 	justify-content: space-between;
 }
@@ -315,24 +319,39 @@ header .typography h1 {
 
 .front main .section:last-child .list li a{
 	font-weight: 500;
-	flex-basis: 50%;
+	flex-basis: 70%;
 	overflow:hidden;
 	text-overflow:ellipsis;
 	white-space:nowrap;
 }
 .front main .section:last-child .list li span{
-	flex-basis: 40%;
+	flex-basis: 25%;
 }
 
+@media screen and (min-width: 601px) and (max-width: 900px) {
+	.front main {
+		margin: 30px 0 40px;
+		padding: 0 75px;
+		height: auto;
+		display: flex;
+		flex-direction: column;
+	}
+	.front main .section{margin-bottom: 20px;}
+	.front main .section:last-child{margin-bottom:0px;}
+	.front main .section .canvas{
+		width: 80vw!important;
+	}
+}
+
+
 .section--service {
-    height: 740px;
+    height: 830px;
     background: url('../img/bg2.png') no-repeat center;
     background-size: cover;
-    /* position: relative; */
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 59px 0 40px;
+	padding-top: 60px;
 }
 
 .section--service h1 {
@@ -360,9 +379,17 @@ header .typography h1 {
 }
 
 .section--service .descArea{
-	padding-top: 53px; 
-	padding-bottom: 40px; 
-	background: url('../img/phone.png') no-repeat center 53px;
+	padding: 30px 0 20px;
+	height: 500px;
+    background: url(../img/phone.png) no-repeat center 53px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section--service .descArea > div{
+	column-gap: 280px; justify-content: center;
 }
 
 .section--service [class^=app--] {
@@ -394,7 +421,7 @@ header .typography h1 {
     font-size:18px; font-weight: 500
 }
 .section--service .service--desc {
-    font-size: 12px;font-weight: 400;
+    font-size: 14px; font-weight: 400;
     height: 62px;
 }
 
@@ -432,130 +459,22 @@ header .typography h1 {
     font-weight: 700
 }
 
-
-
-
-@media screen and (min-width: 1020px) and (max-width: 1400px) {
-	.nav .nav--side .language .dropdown--item{left: -10px;}
-	.section--service{
-
+@media screen and (min-width: 601px) and (max-width: 1100px) {
+	.section--service{padding-top: 30px;}
+	.section--service .descArea > div {
+		column-gap: 225px;
+		padding: 0 30px;
 	}
-
-
-
-
-	footer{
-		box-sizing: border-box;
-		width: 100%;
-		padding:30px 0 25px;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		height: auto;
+	.section--service [class^=app--] img {width: 48px;}
+	.section--service [class^=app--] {
+		width: 35%; min-width: 145px;
+		letter-spacing: -0.02em;
 	}
-	footer .fnb{margin-left: 0; margin-top: 20px;}
-	footer .fnb ul{justify-content: center;}
-	footer .copyright{margin-bottom: 20px; text-align: center;}
-	footer .copyright address{justify-content: center; text-align: center; flex:auto;}
-	footer .customer--text,footer .customer--number,footer .customer--time{position: static;}
-	
-	
-}
-
-@media screen and (min-width: 801px) and (max-width: 1019px) {
-	.nav {display: none;}
-	
-	.front header .typography{margin-top: 85px;}
-	.front main {
-		margin: 30px 0 40px;
-		padding: 0 75px;
-		height: auto;
-		display: flex;
-		flex-direction: column;
-	}
-	.front main .section{margin-bottom: 20px;}
-	.front main .section:last-child{margin-bottom:0px;}
-	.front main .section .canvas{
-		width: 80vw!important;
-	}
-	.section--service{height: auto;}
-
-	footer{
-		box-sizing: border-box;
-		width: 100%;
-		padding:30px 0 25px;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		height: auto;
-	}
-	footer .fnb{margin-left: 0; margin-top: 20px;}
-	footer .fnb ul{justify-content: center;}
-	footer .copyright{margin-bottom: 20px; text-align: center;}
-	footer .copyright address{justify-content: center; text-align: center; flex:auto;}
-	footer .customer--text,footer .customer--number,footer .customer--time{position: static;}
-
-}
-
-
-
-@media screen and (min-width: 601px) and (max-width: 800px) {
-	
-	
-	
-	
-	
-	
-	footer{
-		padding:30px 10px 25px;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		height: auto;
-	}
-	footer .fnb{margin-left: 0; margin-top: 20px;}
-	footer .fnb ul{justify-content: center;}
-	footer .copyright{margin-bottom: 20px; text-align: center;}
-	footer .copyright address{justify-content: center; text-align: center; flex:auto;}
-	footer .customer--text, footer .customer--number, footer .customer--time{position: static;}
+	.section--service .service--title {font-size: 15px;}
+	.section--service .service--desc{font-size: 12px;}
 }
 
 
 @media (max-width: 600px) {
-	/* Header */
-	header{height: 100vh; min-height: 600px;}
-	header .logo, .nav {
-		display: none;
-	}
-	header .typography {
-		margin-top: 120px;
-	}
-	header .typography h1 {
-		font-size: 18px;
-		line-height: 26px;
-	}
-
-	.front header .typography p {
-		
-		margin: 20px;
-		font-size: 16px;
-		font-weight: 300;
-		line-height: 23px;
-	}
-	.front .getting-started {
-		margin-top: 120px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center     ;
-		column-gap: 36px;
-	}
-	.front .getting-started > *{display: block;}
-	.front .getting-started .btn-- {
-		margin-bottom: 20px;
-	}
-
-	.front main, .front main .section, .front .news, .section--service, footer, .appdown  {
-		display: none;
-	}
+	header, .front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none;}
 }
