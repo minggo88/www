@@ -1382,73 +1382,98 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 })
             }
         });
-    }
-    // 인기 종목 표시 ( + 차트)
-    const $PriceTableTarget = $('[name=price_table]');
-    const $PriceTableEmpty = $PriceTableTarget.find('[name=empty]');
-    const $PriceTableSearch = $PriceTableTarget.find('[name=search]');
-    $PriceTableSearch.removeClass('hide').show();
-    add_request_item('getSpotPrice', { 'symbol': 'HOT' }, function (r) {
-        if (r && r.success && r.payload) {
-            const spot_prices = r.payload;
-            Model.chart_data = [];
-
-            // 가격표 표시
-            let html = [];
-            const tpl = $('<div></div>').append($PriceTableTarget.find('[name=tpl]').clone().attr('name','').css('display','').removeClass('hide')).html();
-            for (i in spot_prices) {
-                const r = spot_prices[i];
-                if (!r || !r.name) { continue;  }
-                console.log('i:',i)
-                // $.get(API_URL+'/getChartData/', { 'symbol': r.symbol }, function (r) { 
-                add_request_item('getChartData', { 'symbol': r.symbol }, function (r) { 
-                    console.log(' r.payload:',  r.payload);
-                    Model.chart_data[i] = r.payload;
-
-                }); // 차트 데이터 요청
-
-                r.price_open *= 1;
-                r.price_close *= 1;
-                r.exchange = 'USD';
-                r.price_updown_sign = r.price_close > r.price_open ? '+' : ( r.price_close < r.price_open ? '-' : '');
-                r.price_updown_symbol = r.price_updown_sign=='+' ? '▲' : ( r.price_updown_sign=='-' ? '▼' : '');
-                r.price_updown_color = r.price_updown_sign=='+' ? 'text-red' : ( r.price_updown_sign=='-' ? 'text-blue' : '');
-                r.price_updown_amount = r.price_close - r.price_open ;
-                r.price_updown_rate = (r.price_close - r.price_open)/r.price_open ;
-                r.price_updown_percent = ((r.price_close - r.price_open) / r.price_open * 100).toFixed(2) + '%';
+        // 인기 종목 표시 ( + 차트)
+        const $PriceTableTarget = $('[name=price_table]');
+        const $PriceTableEmpty = $PriceTableTarget.find('[name=empty]');
+        const $PriceTableSearch = $PriceTableTarget.find('[name=search]');
+        $PriceTableSearch.removeClass('hide').show();
+        add_request_item('getSpotPrice', { 'symbol': 'HOT' }, function (r) {
+            if (r && r.success && r.payload) {
+                const spot_prices = r.payload;
+                // Model.chart_data = [];
+    
+                // 가격표 표시
+                let html = [];
+                const tpl = $('<div></div>').append($PriceTableTarget.find('[name=tpl]').clone().attr('name','').css('display','').removeClass('hide')).html();
+                for (i in spot_prices) {
+                    const r = spot_prices[i];
+                    if (!r || !r.name) { continue;  }
+                    console.log('i:',i)
+                    // $.get(API_URL+'/getChartData/', { 'symbol': r.symbol }, function (r) { 
+                    // add_request_item('getChartData', { 'symbol': r.symbol }, function (r) { 
+                    //     console.log(' r.payload:',  r.payload);
+                    //     Model.chart_data[i] = r.payload;
+                    // }); // 차트 데이터 요청
+    
+                    r.price_open *= 1;
+                    r.price_close *= 1;
+                    r.exchange = 'USD';
+                    r.price_updown_sign = r.price_close > r.price_open ? '+' : ( r.price_close < r.price_open ? '-' : '');
+                    r.price_updown_symbol = r.price_updown_sign=='+' ? '▲' : ( r.price_updown_sign=='-' ? '▼' : '');
+                    r.price_updown_color = r.price_updown_sign=='+' ? 'text-red' : ( r.price_updown_sign=='-' ? 'text-blue' : '');
+                    r.price_updown_amount = r.price_close - r.price_open ;
+                    r.price_updown_rate = (r.price_close - r.price_open)/r.price_open ;
+                    r.price_updown_percent = ((r.price_close - r.price_open) / r.price_open * 100).toFixed(2) + '%';
+                    
+                    spot_prices[i] = r;  /// 계산값 재사용하기
+    
+                    html.push(tpl
+                        .replace('{stock_name}', r.name)
+                        .replace(/\{stock_updown_color\}/g, r.price_updown_color)
+                        .replace('{stock_price}', real_number_format(r.price_close))
+                        .replace('{stock_exchange}', r.exchange)
+                        .replace('{stock_updown_percent}', r.price_updown_percent )
+                    )
+                }
                 
-                spot_prices[i] = r;  /// 계산값 재사용하기
-
-                html.push(tpl
-                    .replace('{stock_name}', r.name)
-                    .replace(/\{stock_updown_color\}/g, r.price_updown_color)
-                    .replace('{stock_price}', real_number_format(r.price_close))
-                    .replace('{stock_exchange}', r.exchange)
-                    .replace('{stock_updown_percent}', r.price_updown_percent )
-                )
+                Model.spot_prices = spot_prices;
+    
+                $PriceTableTarget.children().not('[name=tpl],[name=search],[name=empty]').remove();
+                if (html.length > 0) {
+                    $PriceTableTarget.append(html.join('')).find('li:visible').trigger('click');
+                } else {
+                    $PriceTableEmpty.removeClass('hide').show()
+                }
+                $PriceTableSearch.addClass('hide').hide()
             }
-            
-            Model.spot_prices = spot_prices;
-
-            $PriceTableTarget.children().not('[name=tpl],[name=search],[name=empty]').remove();
-            if (html.length > 0) {
-                $PriceTableTarget.append(html.join('')).find('li:visible').trigger('click');
-            } else {
-                $PriceTableEmpty.removeClass('hide').show()
-            }
-            $PriceTableSearch.addClass('hide').hide()
+        });
+        Model.chart_info = {
+            symbol: '',
+            exchange: '',
+            term: '12h',
+            last_time: time(),
+            last_date: date('Y.m.d H:i A')
         }
-    });
-    $('[name=price_table]').on('click', 'li', function () { 
-        const no = $(this).siblings().length - $(this).index(); // index는 안보이는것까지 포함되서 순위가 나와서 전체 친구들 수에서 index 값을 빼서 정확한 순서를 정합니다.
-        let p = Model.spot_prices[no];
-        console.log(p);
-        Model.selected_spot_price = p; // 선택된 상품 가격이 차트주변 지수가격에 보이도록 선택.
-
-        draw_chart();
-
-    })
-
+        $('[name=price_table]').on('click', 'li', function () { 
+            const no = $(this).siblings().length - $(this).index(); // index는 안보이는것까지 포함되서 순위가 나와서 전체 친구들 수에서 index 값을 빼서 정확한 순서를 정합니다.
+            let p = Model.spot_prices[no];
+            if (p) {
+                // 모델에 저장
+                Model.selected_spot_price = p; // 선택된 상품 가격이 차트주변 지수가격에 보이도록 선택.
+                // 차트 그리기
+                chart_info = clone(Model.chart_info);
+                chart_info.symbol = p.symbol;
+                chart_info.exchange = p.exchange;
+                chart_info.last_time = time();
+                chart_info.last_date = date('Y.m.d H:i A');
+                Model.chart_info = chart_info;
+                window.displayChart('indexCanvas', chart_info.symbol, chart_info.exchange, chart_info.term); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
+                // 차트 기간 버튼 on/off
+                $('[name="chart_term"]').find('[name="btn-term-' + chart_info.term + '"]').closest('li').addClass('on').siblings('li').removeClass('on');
+            }
+        })
+        // 차트 기간 변경
+        $('[name="chart_term"] button').on('click', function () { 
+            const name = $(this).attr('name');
+            const term = name.replace('btn-term-', '');
+            chart_info = clone(Model.chart_info);
+            chart_info.term = term;
+            Model.chart_info = chart_info;
+            window.displayChart('indexCanvas', chart_info.symbol, chart_info.exchange, chart_info.term); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
+            $(this).closest('li').addClass('on').siblings('li').removeClass('on');
+        })
+    
+    }
 
 
     const fn_login = function () {

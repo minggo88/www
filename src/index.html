@@ -37,6 +37,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 <script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}"></script>
@@ -219,35 +220,24 @@
                 <div class="text--price"><span data-bind="selected_spot_price.price_close">0</span> <span data-bind="selected_spot_price.exchange">USD</span></div>
             </div>
             <div class="text--info d-flex" style="justify-content: space-between">
-                <div class="text--date">2022.06.16 10:40AM</div>
+                <div class="text--date" data-bind="chart_info.last_date">-</div>
                 <div class="text--price">
                     <span class="" data-bind="selected_spot_price.price_updown_color" data-format="add-class"><span data-bind="selected_spot_price.price_updown_symbol"></span> <span data-bind="selected_spot_price.price_updown_amount" data-format="comma">0</span></span>
                     <span class="" data-bind="selected_spot_price.price_updown_color"><span data-bind="selected_spot_price.price_updown_sign">+</span> <span data-bind="selected_spot_price.price_updown_percent">0.00%</span></span>
                 </div>
             </div>
             <div id="indexCanvas" class="canvas" style="width: 30vW; height: 22vh; max-height: 200px;"></div>
-            <!-- <canvas id="indexCanvas" class="canvas" style="width: 30vW; height: 22vh; max-height: 200px;"></canvas> -->
             <div class="controller d-flex d-justify" style="padding-left: 10px; margin-top: 5px">
                 <div style="flex-basis: calc(100% * (74 / 427))" data-i18n>기간</div>
-                <ul class="tabs">
-                    <li>
-                        <button type="button">24H</button>
-                    </li>
-                    <li>
-                        <button type="button">7D</button>
-                    </li>
-                    <li>
-                        <button type="button">1M</button>
-                    </li>
-                    <li>
-                        <button type="button">3M</button>
-                    </li>
-                    <li>
-                        <button type="button">1Year</button>
-                    </li>
-                    <li>
-                        <button type="button">ALL</button>
-                    </li>
+                <ul class="tabs" name="chart_term">
+                    <li><button type="button" name="btn-term-1h">1H</button></li>
+                    <li><button type="button" name="btn-term-12h">12H</button></li>
+                    <li><button type="button" name="btn-term-1d">24H</button></li>
+                    <li><button type="button" name="btn-term-1w">7D</button></li>
+                    <li><button type="button" name="btn-term-1M">1M</button></li>
+                    <!-- <li><button type="button" name="btn-term-3M">3M</button></li> -->
+                    <!-- <li><button type="button">1Year</button></li> -->
+                    <!-- <li><button type="button">ALL</button></li> -->
                 </ul>
             </div>
         </section>
@@ -407,6 +397,7 @@
         <span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
     </footer>
     <script src="./assets/js/front.js?t={version}"></script>
+    <script src="./assets/js/tradingview-lightweight-chart.js?t={version}"></script>
     <script src="./assets/js/app.js?t={version}"></script>
 
 </body>
