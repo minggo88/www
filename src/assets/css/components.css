@@ -318,11 +318,17 @@
     box-sizing: border-box;
 }
 
-.tabs li:first-child {
+.tabs li.on {
     background: rgba(35, 145, 170, 0.5);
     border: 0.5px solid #2391AA;
     color: var(--white);
     font-size: 12px;
+}
+.tabs li:first-child {
+    /* background: rgba(35, 145, 170, 0.5);
+    border: 0.5px solid #2391AA;
+    color: var(--white);
+    font-size: 12px; */
 }
 
 .tabs li button {
