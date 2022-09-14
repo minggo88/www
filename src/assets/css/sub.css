@@ -670,10 +670,74 @@ margin-top: 20px;
 	padding: 0;
 	width: 100%; height: auto; 
 } */
+/* .sub.member-account .contents--header{
+	position: relative;
+	margin-bottom: 74px;
+}
+
+.sub.member-account .contents--header a{
+	position: absolute;
+	font-size: 14px;
+	font-weight: 500;
+	color:#777;
+	right: 25px;
+	top: 80px;
+
+}
+
+.sub.member-account .side{
+	max-width:236px;
+	width: 100%;
+}
+
+.sub.member-account .contents{
+	max-width:910px;
+	width: 100%;
+}
 
 .sub.member-account .contents form .default .form--controls{
 	flex-direction: column;
 }
+
+@media screen and (max-width: 800px){
+	.sub.member-account > header{display: none;}
+	.sub.member-account .contents--header{
+		display: flex; 
+		border-bottom: none;
+		margin-bottom: 24px;
+	}
+	.sub.member-account .boxed--transparent{border: transparent!important;}
+	.sub.member-account .contents form.boxed{display: block;}
+	.sub.member-account .contents form .default .form--controls{flex-direction: row;}
+	.sub.member-account .contents{margin-top: 0;}
+	.sub.member-account main header.contents--header{line-height: 60px; padding-left: 0;}
+	.sub.member-account .navigation--back{height: 60px;}
+	.sub.member-account main{
+		display: flex;
+		justify-content: flex-start;
+		padding:0 30px;
+	}
+
+	.sub.member-account .contents--header a{top: calc(100vh - 120px); right: 0px;}
+	
+	.sub.member-account .side{display: none;}
+	
+	
+
+
+	.sub.member-account .mobile-only{display: block!important;}
+} */
+
+@media screen and (max-width: 600px){
+	/* .sub.member-account main header.contents--header{line-height: 48px;}
+	.sub.member-account .navigation--back{height: 48px;}
+	.sub.member-account .boxed{height: 400px;}
+	.sub.member-account .btn{margin-top: 30px;} */
+}
+
+
+
+
 
 /* 회원탈퇴 */
 .sub.withdrawal main{padding-bottom: 100px !important}
