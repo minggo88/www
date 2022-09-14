@@ -240,7 +240,7 @@ $(function() {
                         case 'trading':
                             return '거래중'
                         case 'open':
-                            return 'OPEN'
+                            return '대기'
                     }
                 }
             },
@@ -364,7 +364,7 @@ $(function() {
                         case 'trading':
                             return '거래중'
                         case 'open':
-                            return 'OPEN'
+                            return '대기'
                     }
                 }
             },
