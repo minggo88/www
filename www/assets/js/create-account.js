@@ -6,8 +6,29 @@ $(function () {
     let sended_phone = '';
     let bool_confirm_email = 0; // 이메일 인증 여부
     let bool_confirm_mobile = 0; // 핸드폰 인증 여부
+    
+    let my_calling_code = '+82'; // 접속자 국제전화번호
+    let my_country_code = 'KR'; // 접속자 국가코드
+    let my_ip = ''; // 접속자 아이피
+    
+    // 국가 선택 
+    function select_country(code) {
+        $('#country').find('button[value=' + (code.toLowerCase()) + ']').trigger('click');
+    }
+
+    API.getCurrentCountryInfo(my_ip, (resp) => {
+        if(resp.payload.calling_code) my_calling_code = resp.payload.calling_code
+        if (resp.payload.country_code) my_country_code = resp.payload.country_code
+        // 국가 선택
+        select_country(my_country_code)
+        if (resp.payload.ip) my_ip = resp.payload.ip
+        
+        // preset value
+        $('#phoneCountry').val(my_calling_code);
+    })
 
     API.getCountry((resp) => {
+        // console.log('getCountry resp:', resp)
         let firstItem = ''
         resp.payload.map((country) => {
             if(!firstItem) {
@@ -18,6 +39,9 @@ $(function () {
         })
 
         $('#country').dropdown('select', firstItem).dropdown('add_search')
+
+        // 국가 선택
+        select_country(my_country_code)
         
     })
 
@@ -34,6 +58,24 @@ $(function () {
         return false
     })
 
+    
+        // 가입여부 확인하기
+    $('#email').on('change', function () { 
+        const email = $(this).val();
+        API.checkJoin('userid', email, function(r){
+            console.log('checkJoin result:', r);
+            if(r && r.success) {
+                $('#checkJoin').val('N');
+                for (row of r.payload) {
+                    if (row.id == email && row.status == 'joined') {
+                        $('#checkJoin').val('Y');
+                    }
+                }
+            }
+        })
+    })
+
+
     $('#create-account-info').on('submit', (e) => {
         e.preventDefault()
 
@@ -45,9 +87,16 @@ $(function () {
         // 메일주소가 아닌경우
         if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.val()) === false) {
             email.focus()
-            alert('올바른 E-mail 주소를 입력해주세요')
+            alert(__('올바른 E-mail 주소를 입력해주세요'))
             return false
         }
+
+        // 가입여부 확인하기
+        if ($('#checkJoin').val() == 'Y') {
+            alert(__('이미 가입되어있는 이메일입니다.')+' \n'+__('다른 이메일을 입력해주세요.'))
+            return false
+        }
+
 
         if(!password.val()) {
             password.focus()

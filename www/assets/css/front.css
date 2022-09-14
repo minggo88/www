@@ -236,10 +236,12 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 40px;
+	overflow: hidden;
 }
 
 .front main .section {
     position: relative;
+	height: 100%;
 	overflow: hidden;
 }
 .front main .section .section--header {

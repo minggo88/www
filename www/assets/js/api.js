@@ -68,6 +68,30 @@ const API = {
         })
     },
     /**
+     * 가입 확인
+     * @param {*} media 기기종류. mobile:핸드폰, email: 이메일, userid: 일반 아이디
+     * @param {*} ids 가입여부 확인하고 싶은아이디들. 콤마로 구분
+     * @param {*} callback 
+     */
+    checkJoin: (media, ids, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/checkJoin/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                'token': window.localStorage.token,
+                'media': media,
+                'ids': ids,
+                'lang': 'en', // status 값 영어로만 받기 위함
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
      * 인증메일 확인
      * @param {*} email 이메일 주소
      * @param {*} code 인증코드
@@ -523,10 +547,11 @@ const API = {
             }
         })
     },
-    getCurrentCountryInfo: (callback) => {
+    getCurrentCountryInfo: (ip, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getCurrentCountryInfo/`,
             type: 'POST',
+            data: {'ip': ip},
             dataType: 'JSON',
             success: (resp) => {
                 callback(resp)
