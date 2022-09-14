@@ -194,6 +194,10 @@ form {
     .bankAndName .col-6 {
         flex: 0 0 100%;
     }
+	.default {
+		padding: 39px 0 120px
+	}
+	
 
     .default label {
         font-size: 16px;

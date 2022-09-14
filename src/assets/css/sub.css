@@ -49,18 +49,19 @@ main {
 } */
 
 @media screen and (max-width: 990px) {
-	.sub.notice header .logo{display: block;}
-	.sub.notice header nav{display: none;}
+	/* .sub.notice header .logo{display: block;}
+	.sub.notice header nav{display: none;} */
 	.sub.notice .contents{margin-top: 30px;}
 	.sub.withdrawal.notice .contents{margin-top: 0;}
+	.sub.member-account.notice .contents{margin-top: 0;}
 	.sub.notice main {
-		/* grid-template-columns: initial;
-		align-content: center;
-		justify-content: center; */
 		padding:30px;
 		padding-top: 80px;
 		display: block;
 	}
+	
+
+
 	.sub.notice .inquiry--reply{
 		padding: 0;
 		width: 100%;
