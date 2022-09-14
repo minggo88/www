@@ -663,13 +663,13 @@ margin-top: 20px;
 
 
 /* 정보수정 */
-.sub.member-account .contents form{
-	/* width: 910px; 
+/* .sub.member-account .contents form{
+	width: 910px; 
 	height: 407px;
 	justify-content: center;
-	padding: 0; */
-	/* width: 100%; height: auto; */ 
-}
+	padding: 0;
+	width: 100%; height: auto; 
+} */
 
 .sub.member-account .contents form .default .form--controls{
 	flex-direction: column;
