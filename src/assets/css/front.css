@@ -494,5 +494,5 @@
 }
 
 @media (max-width: 600px) {
-	header, .front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none;}
+	header, .front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none!important;}
 }
