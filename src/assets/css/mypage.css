@@ -96,10 +96,10 @@ form {
 
 }
 
-.sub.member-account .side{
+/* .sub.member-account .side{
 	max-width:200px;
 	width: 100%;
-}
+} */
 
 .sub.member-account .contents{
 	max-width:910px;
@@ -114,7 +114,7 @@ form {
 
 
 @media screen and (min-width:801px) and (max-width: 1440px){
-	.content_wrap{width: 95%; margin: 0 auto;}
+	/* .content_wrap{width: 95%; margin: 0 auto;} */
 	.sub.member-account main{
 		display: flex;
 	}
@@ -145,7 +145,10 @@ form {
 		padding:0 30px;
 	}
 
-	.sub.member-account .contents--header a{top: calc(100vh - 135px); right: 0px;}
+	.sub.member-account .contents--header a{
+		top: calc(100vh - 135px); 
+		right: 0px;
+	}
 	.sub.member-account .side{display: none;}
 	.sub.member-account .mobile-only{display: block!important;}
 	

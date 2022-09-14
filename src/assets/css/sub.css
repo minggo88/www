@@ -6,6 +6,11 @@
 	background-color: #fafbfc;
 }
 
+.sub  .side{
+	max-width:200px;
+	width: 100%;
+}
+
 /* header {
     height: 72.77px;
 } */
@@ -16,6 +21,10 @@
 	width: 100%;
 	margin: 0 auto;
 	height: calc(100% - 60px);
+}
+
+@media screen and (min-width:801px) and (max-width: 1440px){
+	.content_wrap{width: 95%; margin: 0 auto;}
 }
 
 main {
@@ -43,6 +52,7 @@ main {
 	.sub.notice header .logo{display: block;}
 	.sub.notice header nav{display: none;}
 	.sub.notice .contents{margin-top: 30px;}
+	.sub.withdrawal.notice .contents{margin-top: 0;}
 	.sub.notice main {
 		/* grid-template-columns: initial;
 		align-content: center;
@@ -662,85 +672,9 @@ margin-top: 20px;
 }
 
 
-/* 정보수정 */
-/* .sub.member-account .contents form{
-	width: 910px; 
-	height: 407px;
-	justify-content: center;
-	padding: 0;
-	width: 100%; height: auto; 
-} */
-/* .sub.member-account .contents--header{
-	position: relative;
-	margin-bottom: 74px;
-}
-
-.sub.member-account .contents--header a{
-	position: absolute;
-	font-size: 14px;
-	font-weight: 500;
-	color:#777;
-	right: 25px;
-	top: 80px;
-
-}
-
-.sub.member-account .side{
-	max-width:236px;
-	width: 100%;
-}
-
-.sub.member-account .contents{
-	max-width:910px;
-	width: 100%;
-}
-
-.sub.member-account .contents form .default .form--controls{
-	flex-direction: column;
-}
-
-@media screen and (max-width: 800px){
-	.sub.member-account > header{display: none;}
-	.sub.member-account .contents--header{
-		display: flex; 
-		border-bottom: none;
-		margin-bottom: 24px;
-	}
-	.sub.member-account .boxed--transparent{border: transparent!important;}
-	.sub.member-account .contents form.boxed{display: block;}
-	.sub.member-account .contents form .default .form--controls{flex-direction: row;}
-	.sub.member-account .contents{margin-top: 0;}
-	.sub.member-account main header.contents--header{line-height: 60px; padding-left: 0;}
-	.sub.member-account .navigation--back{height: 60px;}
-	.sub.member-account main{
-		display: flex;
-		justify-content: flex-start;
-		padding:0 30px;
-	}
-
-	.sub.member-account .contents--header a{top: calc(100vh - 120px); right: 0px;}
-	
-	.sub.member-account .side{display: none;}
-	
-	
-
-
-	.sub.member-account .mobile-only{display: block!important;}
-} */
-
-@media screen and (max-width: 600px){
-	/* .sub.member-account main header.contents--header{line-height: 48px;}
-	.sub.member-account .navigation--back{height: 48px;}
-	.sub.member-account .boxed{height: 400px;}
-	.sub.member-account .btn{margin-top: 30px;} */
-}
-
-
-
-
 
 /* 회원탈퇴 */
-.sub.withdrawal main{padding-bottom: 100px !important}
+.sub.withdrawal .contents{max-width: 900px; width: 100%;}
 .sub.withdrawal p.text--medium:nth-of-type(2){font-size: 15px;}
 .sub.withdrawal .boxed{padding: 22px 60px 0 35px;}
 .sub.withdrawal .boxed ul{padding-left: 0;}
@@ -748,10 +682,29 @@ margin-top: 20px;
 .sub.withdrawal .boxed ul li::marker{font-size: 3px;}
 .sub.withdrawal .btn{margin-top: 52px;}
 
+@media screen and (min-width:801px) and (max-width: 1440px){
+	.sub.withdrawal--btn {
+		flex-direction: row;
+		row-gap: 35px;
+	}  
+	.sub.withdrawal main{
+		display: flex;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.sub.withdrawal .boxed{
+		height: fit-content;
+		padding:22px 40px 30px 35px;
+	}
+}
+
 @media screen and (max-width: 800px){
 	.sub.withdrawal > header{display: none;}
 	.sub.withdrawal .contents{margin-top: 0;}
-	.sub.withdrawal main header.contents--header{line-height: 60px; padding-left: 0;}
+	.sub.withdrawal main header.contents--header{
+		line-height: 60px; 
+		padding-left: 0;
+	}
 	.sub.withdrawal .navigation--back{height: 60px;}
 	.sub.withdrawal main{
 		display: flex;
@@ -763,19 +716,20 @@ margin-top: 20px;
 	}
 	.sub.withdrawal .side{display: none;}
 	.sub.withdrawal p.text--medium:nth-of-type(2){font-size: 14px; font-weight: 400;}
-	.sub.withdrawal .boxed{/* max-height:438px; height: fit-content; */ height: 285px; padding: 22px 20px 25px 35px; overflow: hidden;}
-	.sub.withdrawal .btn{width: 100%!important;}
-
+	.sub.withdrawal .boxed{
+		height: fit-content;
+		max-height:390px;
+		padding:22px 40px 30px 35px;
+		overflow: hidden;
+	}
 	.sub.withdrawal .mobile-only{display: block!important;}
 }
 
 @media screen and (max-width: 600px){
 	.sub.withdrawal main header.contents--header{line-height: 48px;}
 	.sub.withdrawal .navigation--back{height: 48px;}
-	.sub.withdrawal .boxed{height: 400px;}
 	.sub.withdrawal .btn{margin-top: 30px;}
 }
-
 
 
 
