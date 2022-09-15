@@ -866,3 +866,87 @@ msgstr "无内容。"
 
 msgid "30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게 도와드립니다"
 msgstr "通过 30 年的专业知识，我们将帮助您只识别和投资正品。"
+
+msgid "인증 진행"
+msgstr "认证进行中"
+
+msgid "계속 진행하여 본인 확인을 완료하십시오."
+msgstr "继续完成身份验证。"
+
+msgid "아래 나열된 문서만 승인되고 다른 모든 문서는 거부됩니다."
+msgstr "仅接受下列文件，所有其他文件将被拒绝。"
+
+msgid "ID Card"
+msgstr "身份证"
+
+msgid "Passport"
+msgstr "护照"
+
+msgid "Driver’s License"
+msgstr "驾驶执照"
+
+msgid "사진을 업로드 하기전에 아래 기준을 체크해주세요."
+msgstr "在上传照片之前，请检查以下标准。"
+
+msgid "만료되지 않은 정부 발행 문서입니다."
+msgstr "政府签发的未过期文件。"
+
+msgid "스캔 또는 사본이 아닌 원본입니다."
+msgstr "原件，不是扫描件或复印件。"
+
+msgid "반사 또는 흐릿함을 방지하기 위해 카드 홀더 또는 커버를 제거하십시오."
+msgstr "取下卡片夹或盖子以避免反射或模糊。"
+
+msgid "단색 배경에 문서를 배치합니다."
+msgstr "将文档放在纯色背景上。"
+
+msgid "주민등록증을 업로드합니다."
+msgstr "上传您的身份证。"
+
+msgid "문서가 아래의 모든 표준을 충족하는지 확인하십시오."
+msgstr "确保您的文件符合以下所有标准。"
+
+msgid "읽기 쉽고 선명하며 조명이 밝음"
+msgstr "易于阅读、清晰且光线充足"
+
+msgid "반사되지 않음, 흐릿하지 않음"
+msgstr "无反光，无模糊"
+
+msgid "흑백 영상 없음, 편집 없음"
+msgstr "没有黑白镜头，没有剪辑"
+
+msgid "문서는 단색 배경에 배치됩니다."
+msgstr "文档放置在纯色背景上。"
+
+msgid "출금 계좌 및 주소지를 등록합니다."
+msgstr "注册提款账户和地址。"
+
+msgid "수고하셨습니다.<br>(주)끽다거 관리자가 제출하신 자료를 검토한 후에 ID 본인 인증 여부를 회신드립니다.<br>최대 2영업일 이내로 결과를 안내받으실 수 있습니다.<br>인증 절차에 참여해 주셔서 감사합니다."
+msgstr "谢谢你。<br>(주)끽다거 经理提交的数据后，<br>我们将回复身份验证与否。<br>최您将在 2 个工作日内收到结果通知。<br>感谢您参与认证过程。"
+
+msgid "Front Side"
+msgstr "前面"
+
+msgid "Back Side"
+msgstr "背面"
+
+msgid "안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 완료되었습니다.<br><br>따라서, <span data-bind="user_info.name">OOO</span>님께서는 본 사이트에서<br>모든 금융 거래를 진행하실 수 있습니다."
+msgstr "您好。<br>根据<span data-bind="user_info.name">OOO</span>提交的文件审核结果身份验证已完成。<br><br>因此，<span data-bind="user_info.name">OOO</span>可以在本站进行所有金融交易。"
+
+msgid "안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 거절되었습니다."
+msgstr "您好。<br>由于审核<span data-bind="user_info.name">OOO</span>提交的文件<br>身份认证被拒绝。"
+
+msgid "거절 사유"
+msgstr "拒绝理由"
+
+msgid "다시 서류를 제출하시겠습니까?"
+msgstr "您要重新提交文件吗？"
+
+msgid "ID 인증 서류 제출"
+msgstr "提交身份证明文件"
+
+msgid "ID 거절 사유에 대해 더 알고 싶습니까?"
+msgstr "您想了解更多关于身份证被拒的原因吗？"
+
+msgid "자주 묻는 질문으로 이동"
+msgstr "转到常见问题"
