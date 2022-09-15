@@ -1,6 +1,8 @@
 
 let SELECTED_SYMBOL = ''
 let SELECTED_NAME = ''
+let SELECTED_SYMBOL_PRICE = 0
+
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 600px)').matches)
 
@@ -561,7 +563,9 @@ $(function() {
                                 $('#spot-volume').text(spot.volume.format())
                                 $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
 
-                                $('.details--price').text('$' + parseFloat(spot.price_close).toFixed(2))
+                                SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
+
+                                $('.details--price').text('$' + parseFloat(spot.price_close).toFixed(2).format())
 
                                 const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
                                 const diffPercent = (diff * 100).toFixed(2)
@@ -866,5 +870,25 @@ $(function() {
         modal.find('[name=volume]').val(volume)
         modal.find('[name=total]').val('$ ' + (price * volume).toFixed(2))
         modal.find('.tea--name').text(name)
+    })
+    $('#modal-buy2').myModal('beforeOpen', _e => {
+        const modal = $('#modal-buy2')
+
+        modal.find('.tea--available').text('$ 0')
+        modal.find('[name=symbol]').val(SELECTED_SYMBOL)
+        modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
+        modal.find('[name=volume]').val('')
+        modal.find('[name=total]').val('$ 0')
+        modal.find('.tea--name').text(SELECTED_NAME)
+    })
+    $('#modal-sell2').myModal('beforeOpen', _e => {
+        const modal = $('#modal-sell2')
+
+        modal.find('.tea--available').text('$ 0')
+        modal.find('[name=symbol]').val(SELECTED_SYMBOL)
+        modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
+        modal.find('[name=volume]').val('')
+        modal.find('[name=total]').val('$ 0')
+        modal.find('.tea--name').text(SELECTED_NAME)
     })
 })
