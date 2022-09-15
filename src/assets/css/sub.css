@@ -1464,7 +1464,7 @@
 }
 
 /* ###################################################### */
-/* 수정중 */
+/* 수정완료 -> 피그마에 이상한 부분이 있지만 이대로 수정 완료 */
 /* change-account-number 출금계좌 변경 */
 .sub.changeAccount .boxed{
 	max-height: 333px;
@@ -1491,7 +1491,7 @@
 	.sub.changeAccount main header.contents--header h1{
 		color: #333;
 	}
-	
+
 	.sub.changeAccount .navigation--back{height: 60px;}
 	.sub.changeAccount main{
 		display: flex;
@@ -1544,14 +1544,6 @@
 	.sub.changeAccount main header.contents--header{line-height: 48px;}
 	.sub.changeAccount .navigation--back{height: 48px;}
 }
-
-
-
-
-
-
-
-
 
 /* ###################################################### */
 /* pagination */
