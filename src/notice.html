@@ -271,7 +271,7 @@
 										.addClass('pagination--prev')
 										.append(`<a href="#page-${page - 1}">이전 페이지</a>`)
 										.appendTo('.board--pagination > ul')
-							}
+								}
 								while (pagination.point < pageCount && currentPage + pagination.point <= totalPage) {
 									const page = currentPage + pagination.point
 									pagination.point++
