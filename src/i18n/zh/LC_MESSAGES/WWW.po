@@ -930,10 +930,10 @@ msgstr "前面"
 msgid "Back Side"
 msgstr "背面"
 
-msgid "안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 완료되었습니다.<br><br>따라서, <span data-bind="user_info.name">OOO</span>님께서는 본 사이트에서<br>모든 금융 거래를 진행하실 수 있습니다."
+msgid "안녕하세요.<br><span data-bind=\"user_info.name\">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 완료되었습니다.<br><br>따라서, <span data-bind=\"user_info.name\">OOO</span>님께서는 본 사이트에서<br>모든 금융 거래를 진행하실 수 있습니다."
 msgstr "您好。<br>根据<span data-bind="user_info.name">OOO</span>提交的文件审核结果身份验证已完成。<br><br>因此，<span data-bind="user_info.name">OOO</span>可以在本站进行所有金融交易。"
 
-msgid "안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 거절되었습니다."
+msgid "안녕하세요.<br><span data-bind=\"user_info.name\">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 거절되었습니다."
 msgstr "您好。<br>由于审核<span data-bind="user_info.name">OOO</span>提交的文件<br>身份认证被拒绝。"
 
 msgid "거절 사유"
@@ -950,3 +950,9 @@ msgstr "您想了解更多关于身份证被拒的原因吗？"
 
 msgid "자주 묻는 질문으로 이동"
 msgstr "转到常见问题"
+
+msgid "문의 작성하기"
+msgstr "写一个询问"
+
+msgid "작성하기"
+msgstr "写"
