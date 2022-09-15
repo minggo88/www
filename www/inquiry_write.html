@@ -26,152 +26,148 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/header.css?t=1663122371">
+<link rel="stylesheet" href="./assets/css/common.css?t=1663240012">
+<link rel="stylesheet" href="./assets/css/header.css?t=1663202358">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663057249">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663122371">
+<link rel="stylesheet" href="./assets/css/components.css?t=1663202358">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1663240012">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/components.js?t=1662455477"></script>
-<script src="./assets/js/api.js?t=1663122010"></script>
+<script src="./assets/js/api.js?t=1663207029"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
 <script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1662430807"></script>
+<script src="./i18n/i18n.js?t=1663208420"></script>
 
 </head>
 <!-- BODY -->
 <body class="sub notice write">
     <header>
-        <h1 class="logo"><a href="/">Teaplat</a></h1>
-        <nav class="nav">
-            <ul>
-                <li>
-                    <a href="exchange.html" data-i18n>거래소</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>공동구매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>경매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>가이드</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>다도 문화</a>
-                </li>
-                <li class="active">
-                    <a href="notice.html" data-i18n>고객센터</a>
-                </li>
-            </ul>
-            <div class="nav--side">
-
-                <div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
-                    <button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-                    <div class="dropdown--item" style="width: 134px">
-                        <ul>
-                            <li><a href="member-account.html" data-i18n>정보 수정</a></li>
-                            <li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-                            <li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-                            <li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-                            <li><a href="transaction.html" data-i18n>거래 내역</a></li>
-                            <li><a href="notification.html" data-i18n>알림</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
-                    <button type="button" class="dropdown" data-i18n>지갑관리</button>
-                    <div class="dropdown--item" style="width: 100px">
-                        <ul>
-                            <li><a href="wallet.html" data-i18n>보유 자산</a></li>
-                            <li><a href="wallet-deposit.html" data-i18n>입금</a></li>
-                            <li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
-                            <li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <button name="box_logedin" style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-                <div name="box_unlogedin" style="display: none">
-                    <a href="login.html" class="btn--login" data-i18n>로그인</a>
-                </div>
-
-                <div class="language">
-                    <div class="dropdown-wrapper">
-                        <button type="button" class="dropdown">한국어</button>
-                        <div class="dropdown--item" style="width: 81px">
-                            <span>한국어</span>
-                            <ul>
-                                <li class="dropdown--selected"><a href="">ENG</a></li>
-                                <li><a href="">中文</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <div class="header_inner">
+			<h1 class="logo"><a href="/">Teaplat</a></h1>
+			<nav class="nav">
+				<ul>
+					<li>
+						<a href="exchange.html" data-i18n>거래소</a>
+					</li>
+					<li>
+						<a href="" data-i18n>공동구매</a>
+					</li>
+					<li>
+						<a href="" data-i18n>경매</a>
+					</li>
+					<li>
+						<a href="" data-i18n>입출금</a>
+					</li>
+					<li>
+						<a href="" data-i18n>다도 문화</a>
+					</li>
+					<li class="active">
+						<a href="notice.html" data-i18n>고객센터</a>
+					</li>
+				</ul>
+				<div class="nav--side">
+					<div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
+						<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
+						<div class="dropdown--item" style="width: 134px">
+							<ul>
+								<li><a href="member-account.html" data-i18n>정보 수정</a></li>
+								<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
+								<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
+								<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
+								<li><a href="transaction.html" data-i18n>거래 내역</a></li>
+								<li><a href="notification.html" data-i18n>알림</a></li>
+							</ul>
+						</div>
+					</div>
+					<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
+						<button type="button" class="dropdown" data-i18n>지갑관리</button>
+						<div class="dropdown--item" style="width: 100px">
+							<ul>
+								<li><a href="wallet.html" data-i18n>보유 자산</a></li>
+								<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
+								<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
+								<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
+							</ul>
+						</div>
+					</div>
+					<button name="box_logedin" style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+					<div name="box_unlogedin" style="display: none">
+						<a href="login.html" class="btn--login" data-i18n>로그인</a>
+					</div>
+					<div class="language dropdown-wrapper">
+						<button type="button" class="dropdown">한국어</button>
+						<div class="dropdown--item" style="width: 81px">
+							<span>한국어</span>
+							<ul></ul>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
     </header>
-    <main class="d-grid">
-        <aside class="side">
-            <h1 data-i18n>고객 센터</h1>
-            <nav class="side--snb">
-                <ul>
-                    <li>
-                        <a href="notice.html" data-i18n>공지사항</a>
-                    </li>
-                    <li>
-                        <a href="faq.html" data-i18n>자주하는 질문</a>
-                    </li>
-                    <li class="snb--active">
-                        <a href="inquiry.html" data-i18n>1:1 문의</a>
-                    </li>
-                    <li>
-                        <a href="" data-i18n>텍스트</a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-        <div class="contents">
-            <header class="contents--header">
-                <h1 data-i18n>Direct Inquiry</h1>
-            </header>
-            <form action="" method="post" class="board--write">
-                <input type="hidden" id="idx" name="idx" value="">
-
-                <div class="form--controls">
-                    <label for="subject" class="form--label desktop-only"></label>
-                    <input type="text" name="subject" id="subject" placeholder="제목을 입력하세요" required>
-                </div>
-                <div class="form--controls">
-                    <label for="contents" class="form--label desktop-only" data-i18n>내용</label>
-                    <textarea id="contents" placeholder="문의내용을 입력하세요" required></textarea>
-                </div>
-                <div class="board--btn" style="justify-content: center">
-                    <input type="submit" value="작성하기" class="btn btn--red btn--write">
-                </div>
-            </form>
-            <script>
-                if($('#idx').val()) {
-                    //API.getM2M()
-                }
-                $('.board--write').on('submit', (e) => {
-                    e.preventDefault()
-
-                    API.putM2M($('#subject').val(), $('#contents').val(), $('#idx').val(), (resp) => {
-                        if(resp.success) {
-                            location.href = 'inquiry.html'
-                        }
-                    })
-
-                    return false
-                })
-            </script>
-        </div>
-    </main>
-	<footer class="desktop-only">
+    <div class="content_wrap">
+		<main class="d-flex d-justify">
+			<aside class="side">
+				<h1 data-i18n>고객 센터</h1>
+				<nav class="side--snb">
+					<ul>
+						<li>
+							<a href="notice.html" data-i18n>공지사항</a>
+						</li>
+						<li>
+							<a href="faq.html" data-i18n>자주하는 질문</a>
+						</li>
+						<li class="snb--active">
+							<a href="inquiry.html" data-i18n>1:1 문의</a>
+						</li>
+					</ul>
+				</nav>
+			</aside>
+			<div class="contents">
+				<header class="contents--header">
+					<div>
+						<button type="button" class="navigation--back"></button>
+						<h1 class="desktop-only" data-i18n>Direct Inquiry</h1>
+						<h2 class="mobile-only" data-i18n>문의 작성하기</h2>
+					</div>
+					<div class="mobile-only"><a href="inquiry_detail.html" class="btn" data-i18n>등록하기</a></div>
+				</header>
+				<form action="" method="post" class="board--write">
+					<input type="hidden" id="idx" name="idx" value="">
+					<div class="form--controls border">
+						<label for="subject" class="form--label desktop-only"></label>
+						<input type="text" name="subject" id="subject" placeholder="제목을 입력하세요" required>
+					</div>
+					<div class="form--controls">
+						<label for="contents" class="form--label desktop-only" data-i18n>내용</label>
+						<textarea id="contents" placeholder="문의내용을 입력하세요" required></textarea>
+					</div>
+					<div class="board--btn" style="justify-content: center">
+						<button class="btn btn--red btn--write" data-i18n>작성하기</button>
+					</div>
+				</form>
+				<script>
+					if($('#idx').val()) {
+						//API.getM2M()
+					}
+					$('.board--write').on('submit', (e) => {
+						e.preventDefault()
+						API.putM2M($('#subject').val(), $('#contents').val(), $('#idx').val(), (resp) => {
+							if(resp.success) {
+								location.href = 'inquiry.html'
+							}
+						})
+						return false
+					})
+				</script>
+			</div>
+		</main>
+	</div>
+	<!-- <footer class="desktop-only">
 		<div class="logo">Teaplat</div>
 		<nav class="fnb">
 			<ul>
@@ -204,9 +200,9 @@
 		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
 		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
-	</footer>
+	</footer> -->
 
-    <script src="./assets/js/app.js?t=1663058305"></script>
+    <script src="./assets/js/app.js?t=1663239931"></script>
 
 </body>
 </html>
