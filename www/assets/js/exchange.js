@@ -2,6 +2,7 @@
 let SELECTED_SYMBOL = ''
 let SELECTED_NAME = ''
 let SELECTED_SYMBOL_PRICE = 0
+let CHART_TIMER
 
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 600px)').matches)
@@ -28,6 +29,19 @@ $(function() {
         })
 
         return rdata;
+    }
+
+    const mergeTickToBar = (price) => {
+        const bar = {
+            time: price.time,
+            open: price.open,
+            high: price.high,
+            low: price.low,
+            close: price.close,
+            volume: price.volume
+        }
+
+        return bar
     }
 
     /**
@@ -58,6 +72,60 @@ $(function() {
         scaleMargins: {top: 0.8,bottom: 0,},
     })
 
+    const periodList = [
+        { text: '1분', value: '1m' },
+        { text: '3분', value: '3m' },
+        { text: '3분', value: '3m' },
+        { text: '5분', value: '5m' },
+        { text: '10분', value: '10m' },
+        { text: '15분', value: '15m' },
+        { text: '1시간', value: '1h' },
+        { text: '12시간', value: '12h' },
+        { text: '1일', value: '1d' },
+        { text: '1주', value: '1w' },
+    ]
+
+    periodList.map((period) => {
+        $('#period').dropdown('add', period )
+    })
+
+    $('#period').dropdown('select', '1d')
+    $('#period').on('change', (event, text) => {
+        let period;
+
+        period = text.replaceAll('주', 'w')
+        period = text.replaceAll('일', 'd')
+        period = text.replaceAll('시간', 'h')
+        period = text.replaceAll('분', 'm')
+
+        clearTimeout(CHART_TIMER)
+
+        API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+            $('.details').removeClass('loading')
+
+            if(resp.success) {
+                displayChart(resp.payload)
+            } else {
+                alert(resp.error.message)
+            }
+        })
+
+        CHART_TIMER = setTimeout(() => {
+            API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+                $('.details').removeClass('loading')
+
+                if(resp.success) {
+                    updateChart(resp.payload)
+                } else {
+                    alert(resp.error.message)
+                }
+            })
+        }, 10000)
+
+        API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+            displayChart(resp.payload, period)
+        })
+    })
     const period = $('#period').dropdown('selected')
 
     const displayChart = async (data) => {
@@ -167,6 +235,22 @@ $(function() {
         function getRandomPrice() {
             return 10 + Math.round(Math.random() * 10000) / 100;
         }
+    }
+
+    const updateChart = async (data) => {
+        const cdata = data.split('\n').slice(1).map((row, index) => {
+            const [time1, _time2, open, high, low, close, volume] = row.split('\t');
+
+            candleSeries.update({
+                'time': new Date(time1).getTime() / 1000,
+                'open': open * 1,
+                'high': high * 1,
+                'low': low * 1,
+                'close': close * 1,
+                'volume': volume * 1,
+            })
+        })
+
     }
 
     // Datatables 에러 끄기
@@ -551,6 +635,18 @@ $(function() {
                                 } else {
                                     alert(resp.error.message)
                                 }
+
+                                CHART_TIMER = setTimeout(() => {
+                                    API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+                                        $('.details').removeClass('loading')
+        
+                                        if(resp.success) {
+                                            updateChart(resp.payload)
+                                        } else {
+                                            alert(resp.error.message)
+                                        }
+                                    })
+                                }, 10000)
                             })
 
                             if(resp.success) {
