@@ -944,6 +944,11 @@
 		line-height: 60px; 
 		margin-bottom: 0;
 	}
+	.sub.write main header.contents--header h2{
+		margin-top: 0;
+		font-size: 16px;
+		color: #333;
+	}
 	.sub.write .navigation--back{height: 60px;}
 	.sub.write main{
 		display: flex;
@@ -956,11 +961,39 @@
 	.sub.write .side{display: none;}
 	.sub.write .desktop-only{display: none!important;}
 	.sub.write .mobile-only{display: block!important;}
-	.sub.write .btn.btn--write{width: 340px;}
+
+	.sub.write .board--write{
+		height: calc(100vh - 60px);
+	}
+	.sub.write .form--controls.border::after{
+		content: "";
+		display: block;
+		width: 100%;
+		height: 1px;
+		background: #F5F5F5;
+		margin-top: 24px;
+	}
+
+	.sub.write .board--write .form--controls input,
+	.sub.write .board--write .form--controls textarea
+	{
+		width: 100%;
+		border: none;
+		background-color: transparent;
+	}
+	.sub.write .board--btn{
+		margin-top: 0;
+		position: absolute;
+		left: 0;
+		bottom: 30px;
+	}
+	.sub.write .board--btn{width: 100%;}
+	.sub.write .board--btn .btn{width: 100%;}
 }
 
 @media screen and (max-width: 600px){
-	.sub.write .btn.btn--write{width: 100%;}
+	.sub.write main header.contents--header{line-height: 48px;}
+	.sub.write .navigation--back{height: 48px;}
 }
 
 
