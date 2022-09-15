@@ -131,51 +131,79 @@
 			</aside>
 			<div class="contents">
 				<header class="contents--header">
-					<button type="button" class="navigation--back"></button>
-					<h1 data-i18n>Direct Inquiry</h1>
+					<div>
+						<button type="button" class="navigation--back"></button>
+						<h1 data-i18n>Direct Inquiry</h1>
+					</div>
+					<div class="mobile-only"><a href="inquiry_write.html" class="btn" data-i18n>문의하기</a></div>
 				</header>
+				<table class="inquiry--body desktop-only">
+					<colgroup>
+						<col style="width:calc(100% * (80 / 839)); min-width:120px;">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th data-i18n>제목</th>
+							<td>문의 사항입니다.</td>
+						</tr>
+						<tr>
+							<th data-i18n>날짜</th>
+							<td>2022-06-29 15:38:43</td>
+						</tr>
+						<tr>
+							<th data-i18n>내용</th>
+							<td>문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유</td>
+						</tr>
+					</tbody>
+				</table>
+				<dl class="inquiry--body mobile-only">
+					<dt>문의 사항입니다.</dt>
+					<dd class="day">
+						<div class="date">
+							<span data-i18n>날짜</span>
+							<span>2022-06-29 15:38:43</span>
+						</div>
+						<div class="writer">작성자</div>
+					</dd>
+					<dd class="inquiryArea">
+						문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유
+					</dd>
+				</dl>
+				<div class="inquiry--reply desktop-only">
+					<h2><span class="text--lightlight-blue">A</span> <span data-i18n>답변</span></h2>
 					<table class="inquiry--body">
 						<colgroup>
 							<col style="width:calc(100% * (80 / 839)); min-width:120px;">
 						</colgroup>
 						<tbody>
 							<tr>
-								<th data-i18n>제목</th>
-								<td>문의 사항입니다.</td>
-							</tr>
-							<tr>
-								<th data-i18n>날짜</th>
+								<th data-i18n>답변 일자</th>
 								<td>2022-06-29 15:38:43</td>
 							</tr>
 							<tr>
-								<th data-i18n>내용</th>
-								<td>문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유</td>
+								<th data-i18n>답변 내용</th>
+								<td>답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. </td>
 							</tr>
 						</tbody>
 					</table>
-					<div class="inquiry--reply">
-						<h2><span class="text--lightlight-blue">A</span> <span data-i18n>답변</span></h2>
-						<table class="inquiry--body">
-							<colgroup>
-								<col style="width:calc(100% * (80 / 839)); min-width:120px;">
-							</colgroup>
-							<tbody>
-								<tr>
-									<th data-i18n>답변 일자</th>
-									<td>2022-06-29 15:38:43</td>
-								</tr>
-								<tr>
-									<th data-i18n>답변 내용</th>
-									<td>답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. </td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="board--btn">
-						<a href="inquiry.html" class="btn btn--gray btn--list" data-i18n>목록</a>
-						<a href="" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
-						<a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a>
-					</div>
+				</div>
+				<dl class="inquiry--reply mobile-only">
+					<dt><span class="text--lightlight-blue">A</span> <span data-i18n>답변</span></dt>
+					<dd class="day">
+						<div class="date">
+							<span data-i18n>날짜</span>
+							<span>2022-06-29 15:38:43</span>
+						</div>
+					</dd>
+					<dd class="inquiryArea">
+						문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유
+					</dd>
+				</dl>
+				<div class="board--btn">
+					<a href="inquiry.html" class="btn btn--gray btn--list" data-i18n>목록</a>
+					<a href="" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
+					<a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a>
+				</div>
 			</div>
 		</main>
 	</div>

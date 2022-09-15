@@ -278,7 +278,7 @@ dl dd {
 [name=box_unlogedin] {display:auto} /*로그아웃 사용자가 볼 수 있는 박스. 기본표시*/
 
 .mobile-only {
-    display: none;
+    display: none!important;
 }
 
 .mobile-bottom {
