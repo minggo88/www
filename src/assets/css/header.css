@@ -179,7 +179,8 @@ header .logo a {
 
 @media screen and (max-width: 1050px){
 	.front .nav {flex-basis: 87%;}
-	header{height: 80px;}
+	body > header{height: 80px;}
+	.header_inner{height: 100%;}
 	.nav{
 		height: 80px;
 		flex-direction: column-reverse;
@@ -196,7 +197,7 @@ header .logo a {
 
 @media screen and (max-width: 800px){
 	 /* 뒤로가기 버튼 */
-	.sub header{padding-left: 11px; height: 60px; background: #fff;}
+	.sub header{padding-left: 11px; height: 60px;}
 	.sub header .logo, .sub header .nav{display: none!important;}
 	.sub header .navigation--back {
 		display: block;

@@ -1,0 +1,155 @@
+/**
+ * TradingView Lightweight Charts
+ * 
+ * https://www.tradingview.com/lightweight-charts/
+ * https://tradingview.github.io/lightweight-charts/docs
+ * 
+ * @example window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
+ */
+; (function ($) {
+
+  const getData = async (symbol, exchange, period) => {
+
+    // http://api.loc.kkikda.com/v1.0/getChartData/?symbol=GCA18KTDKK
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period, false); // false for synchronous request
+    xmlHttp.send(null);
+    let json = xmlHttp.responseText;
+    if (json.indexOf('{') === 0) {
+      json = JSON.parse(json);
+      if (json && json.success) {
+        resp = json.payload;
+        // const res = await fetch('data.csv');
+        // const resp = await res.text();
+        const cdata = resp.split('\n').filter((row) => {
+          if (row.indexOf('date') > -1) { return; } // 첫번째 줄 데이터 컬럼명 일때 제외
+          return row;
+        }).map((row) => {
+          // const [time1, time2, open, high, low, close, volume] = row.split(',');
+          const [date, open, high, low, close, volume, symbol] = row.split('\t');
+          return {
+            // 'time': new Date(`${time1}, ${time2}`).getTime() / 1000,
+            'time': new Date(`${date}`).getTime() / 1000,
+            // 'close': close * 1,
+            'value': volume * 1,
+          };
+        });
+        return cdata;
+      }
+    }
+  };
+
+  /**
+   * 차트를 만듭니다. 데이터도 알아서 가져와서 만듭니다.
+   * @param {*} target_id 
+   * @param {*} symbol 코인심볼
+   * @param {*} exchange 교환화폐. 
+   * @param {*} period 봉차트 기간. 1m, 3m, 5m, 10m, 15m, 30m, 1h, 12h, 1d, 1w, 1M
+   */
+  const displayChart = async (target_id, symbol, exchange, period) => {
+
+    symbol = symbol || '';
+    exchange = exchange || 'USD';
+    period = period || '1d';
+    // document.body.style.position = 'relative';
+
+    // var container = document.createElement('div');
+    var container = document.getElementById(target_id);
+    // document.body.appendChild(container);
+    $(container).empty();
+
+    var width = 600;
+    var height = 300;
+
+    // ---------------------------------------------------
+    // 차트 생성 
+
+    var chart = LightweightCharts.createChart(container, {
+      // width: width,
+      // height: height,
+      rightPriceScale: {
+        scaleMargins: {top: 0.35,bottom: 0.2,},
+        borderVisible: false,
+      },
+      timeScale: {
+        borderVisible: false,
+      },
+      grid: {
+        horzLines: {color: '#F00',visible: false,},
+        vertLines: {color: '#eee',},
+      },
+      crosshair: {
+        horzLine: {visible: false,labelVisible: false},
+        vertLine: {visible: true,style: 0,width: 2,color: 'rgba(32, 38, 46, 0.1)',labelVisible: false,}
+      },
+      layout: {
+        backgroundColor: 'transparent',
+      },
+    });
+
+    // 반응형처리
+    $(window).resize(function() {
+      chart.applyOptions({
+        width: $('#'+target_id).outerWidth(),
+        height: $('#'+target_id).outerHeight()
+      });
+    });
+
+    // ---------------------------------------------------
+    // arealine 차트 생성
+
+    var series = chart.addAreaSeries({	
+      topColor: 'rgba(19, 68, 193, 0.4)',	
+      bottomColor: 'rgba(0, 120, 255, 0.0)',
+      lineColor: 'rgba(19, 40, 153, 1.0)',
+      lineWidth: 3
+    });
+
+    // ---------------------------------------------------
+    // 데이터 추가 
+
+    var data = await getData(symbol, exchange, period); // 날짜,시간,시,고,저,종,거래량
+    series.setData(data);
+
+    // ---------------------------------------------------
+    // 차트 스타일
+
+    function businessDayToString(businessDay) {
+      return new Date(Date.UTC(businessDay.year, businessDay.month - 1, businessDay.day, 0, 0, 0)).toLocaleDateString();
+    }
+    
+    var toolTipMargin = 10;
+    var priceScaleWidth = 50;
+    var toolTip = document.createElement('div');
+    toolTip.className = 'three-line-legend';
+    container.appendChild(toolTip);
+    toolTip.style.display = 'block';
+    toolTip.style.left = 3 + 'px';
+    toolTip.style.top = 3 + 'px';
+    
+    function setLastBarText() {
+      const t = new Date(data[data.length - 1].time * 1000);
+      const dateStr = t.getFullYear() + '-' + ((t.getMonth()+1+ 100).toString().substring(1)) + '-' + ((t.getDate()*1 + 100).toString().substring(1));
+      toolTip.innerHTML =	'<div style="font-size: 24px; margin: 4px 0px; color: #20262E">'+__('지수')+'</div>'+ '<div style="font-size: 22px; margin: 4px 0px; color: #20262E">' + data[data.length-1].value + '</div>' +
+        '<div>' + dateStr + '</div>';
+    }
+    
+    setLastBarText(); 
+    
+    chart.subscribeCrosshairMove(function(param) {
+      if ( param === undefined || param.time === undefined || param.point.x < 0 || param.point.x > width || param.point.y < 0 || param.point.y > height ) {
+        setLastBarText();   
+      } else {
+        // dateStr = param.time.year +' - '+ param.time.month + ' - ' + param.time.day;
+        const t = new Date(param.time * 1000);
+        const dateStr = t.getFullYear() + '-' + ((t.getMonth()*1 + 1 + 100).toString().substring(1)) + '-' + ((t.getDate()*1 + 100).toString().substring(1));
+        var price = param.seriesPrices.get(series);
+        toolTip.innerHTML =	'<div style="font-size: 24px; margin: 4px 0px; color: #20262E">'+__('지수')+'</div>'+ '<div style="font-size: 22px; margin: 4px 0px; color: #20262E">' + (Math.round(price * 100) / 100).toFixed(2) + '</div>' + '<div>' + dateStr + '</div>';
+      }
+    });
+
+  };
+  
+  window.displayChart = displayChart;
+
+})(jQuery); // jQuery 필요. window.resize 이벤트 때문에
