@@ -269,15 +269,6 @@
                         <div class="dropdown--item" style="top: 0; border-radius: 0; max-height: unset">
                             <span>1일</span>
                             <ul>
-                                <li><button type="button">1분</button></li>
-                                <li><button type="button">3분</button></li>
-                                <li><button type="button">5분</button></li>
-                                <li><button type="button">10분</button></li>
-                                <li><button type="button">15분</button></li>
-                                <li><button type="button">1시간</button></li>
-                                <li><button type="button">12시간</button></li>
-                                <li class="dropdown--selected"><button type="button">1일</button></li>
-                                <li><button type="button">1주</button></li>
                             </ul>
                         </div>
                     </div>
@@ -304,20 +295,6 @@
                         </div>
                     </div>
                 </div>
-                <script>
-                    $('#period').on('change', (event, text) => {
-                        let period;
-
-                        period = text.replaceAll('주', 'w')
-                        period = text.replaceAll('일', 'd')
-                        period = text.replaceAll('시간', 'h')
-                        period = text.replaceAll('분', 'm')
-
-                        API.getChartData('', period, (resp) => {
-                            displayChart(resp, period)
-                        })
-                    })
-                </script>
 
                 <div id="tvchart"></div>
 
