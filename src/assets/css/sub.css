@@ -41,7 +41,8 @@
 
 
 
-.sub main {padding: 60px 140px 60px 40px;
+.sub main {
+	padding: 60px 140px 60px 40px;
 	grid-template-columns: calc(100% * (238 / 1440)) auto;
     column-gap: 107px;
 }
@@ -56,6 +57,12 @@
 		display: flex;
 		padding-left: 0;
 		padding-right: 0;
+	}
+}
+
+@media screen and (min-width:801px) and (max-width: 950px){
+	.sub.faq main {
+		column-gap: 30px;
 	}
 }
 
