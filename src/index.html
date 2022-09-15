@@ -136,7 +136,7 @@
 			<div class="getting-started">
 				<a href="exchange.html" class="btn--" data-i18n>거래소 둘러보기</a>
 	            <span name="box_logedin" style="display: none" >
-	                <button class="btn--login" name="btn-logout"data-i18n>로그아웃</button>
+	                <button class="btn--login" name="btn-logout" data-i18n>로그아웃</button>
 	            </span>
 	            <a href="login.html" name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a>
 			</div>
@@ -148,55 +148,13 @@
 					<ul class="swiper-wrapper" name="main_notice" style="height:50px;">
 						<li class="swiper-slide hide" name="tpl" style="display:none;height:auto">
                         <a href="notice_detail.html">
-                            <span class="badge badge--white" {hide_tag}>공지</span>
+                            <span class="badge badge--white" {hide_tag} data-i18n>공지</span>
                             <span class="news--text">{message}</span>
                             <span class="icon-new" {hide_new}></span>
                         </a>
 					</ul>
 				</div>
 			</div>
-			<!-- 보도자료 -->
-			<!-- <div class="column">
-				<div class="swiper">
-					<ul class="swiper-wrapper">
-						<li class="swiper-slide">
-							<a href="">
-								<span class="badge badge--green" style="width: 60px">보도자료</span>
-								<span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
-								<span class="icon-new"></span>
-							</a>
-						</li>
-						<li class="swiper-slide">
-							<a href="">
-								<span class="badge badge--green" style="width: 60px">보도자료</span>
-								<span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
-								<span class="icon-new"></span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div> -->
-			<!-- 이벤트 -->
-			<!-- <div class="column">
-				<div class="swiper">
-					<ul class="swiper-wrapper">
-						<li class="swiper-slide">
-							<a href="">
-								<span class="badge badge--dark-green">이벤트</span>
-								<span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
-								<span class="news--date">6/15</span>
-							</a>
-						</li>
-						<li class="swiper-slide">
-							<a href="">
-								<span class="badge badge--dark-green">이벤트</span>
-								<span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
-								<span class="news--date">6/15</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div> -->
 		</div>
 		<main class="d-grid grid-3-column">
 			<section class="section section--index">
@@ -216,14 +174,11 @@
 				<div class="controller d-flex d-justify" style="padding-left: 10px; margin-top: 5px">
 					<div style="flex-basis: calc(100% * (74 / 427))" data-i18n>기간</div>
 					<ul class="tabs" name="chart_term">
-	                    <li><button type="button" name="btn-term-1h">1H</button></li>
-	                    <li><button type="button" name="btn-term-12h">12H</button></li>
-	                    <li><button type="button" name="btn-term-1d">24H</button></li>
-	                    <li><button type="button" name="btn-term-1w">7D</button></li>
-	                    <li><button type="button" name="btn-term-1M">1M</button></li>
-	                    <!-- <li><button type="button" name="btn-term-3M">3M</button></li> -->
-	                    <!-- <li><button type="button">1Year</button></li> -->
-	                    <!-- <li><button type="button">ALL</button></li> -->
+	                    <li><button type="button" name="btn-term-1h" data-i18n>1H</button></li>
+	                    <li><button type="button" name="btn-term-12h" data-i18n>12H</button></li>
+	                    <li><button type="button" name="btn-term-1d" data-i18n>24H</button></li>
+	                    <li><button type="button" name="btn-term-1w" data-i18n>7D</button></li>
+	                    <li><button type="button" name="btn-term-1M" data-i18n>1M</button></li>
 					</ul>
 				</div>
 			</section>
@@ -252,48 +207,8 @@
 					<a href="notice.html" class="section--more" data-i18n>전체보기</a>
 				</div>
 				<ul id="notice--list" class="list">
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1 공지사항 공지사항 공지사항 공지</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<!--<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>-->
+					<div class="text--center" name="search" data-i18n>조회 중입니다.</div>
+					<div class="text--center" style="display:none" name="empty" data-i18n>내용이 없습니다.</div>
 				</ul>
 			</section>
 		</main>
