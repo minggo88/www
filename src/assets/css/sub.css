@@ -10,6 +10,11 @@
 	height: calc(100% - 60px);
 }
 
+.content_wrap .contents{
+	max-width: 910px;
+	width: 100%;
+}
+
 @media screen and (min-width:801px) and (max-width: 1440px){
 	.content_wrap{width: 95%; margin: 0 auto;}
 }
@@ -1228,37 +1233,64 @@
 
 
 /* ###################################################### */
-
-
-
-/* identity verfication */
-/* .sub.idverify{} */
+/* 수정완료 */
+/* identity verfication ID 인증관리 */
 @media screen and (max-width: 800px){
-	.sub.idverify > header{display: none;}
-	.sub.idverify .contents{margin-top: 0;}
-	.sub.idverify main header.contents--header{line-height: 60px; padding-left: 0;}
-	.sub.idverify .navigation--back{height: 60px;}
-	.sub.idverify main{
+	.sub.verifiy > header{display: none;}
+	.sub.verifiy .contents{margin-top: 0; height: 100vh;}
+	.sub.verifiy main header.contents--header{line-height: 60px; padding-left: 0;}
+	.sub.verifiy .navigation--back{height: 60px;}
+	.sub.verifiy main{
 		display: flex;
 		justify-content: flex-start;
 		padding:0 30px;
 	}
-	.sub.idverify main header.contents--header{
-		display: flex; border-bottom: none;
+	.sub.verifiy main header.contents--header{
+		display: flex; border-bottom: none; margin-bottom: 0;
 	}
-	.sub.idverify .side{display: none;}
-	.sub.idverify p.text--medium:nth-of-type(2){font-size: 14px; font-weight: 400;}
-	.sub.idverify .boxed{/* max-height:438px; height: fit-content; */ height: 285px; padding: 22px 20px 25px 35px; overflow: hidden;}
-	.sub.idverify .btn{width: 100%!important;}
+	.sub.verifiy .side{display: none;}
+	.sub.verifiy p.text--medium:nth-of-type(2){font-size: 14px; font-weight: 400;}
+	.sub.verifiy form{
+		/* height: 100%!important; */
+		height: calc(100% - 132px)!important;
+	}
+	.sub.verifiy .boxed{
+		height: 285px; 
+		padding: 22px 20px 25px 35px; 
+		overflow: hidden;
+		text-align: left;
+	}
+	.sub.verifiy .boxed .text--center{text-align: left;}
+	.sub.verifiy .submitBtn{
+		position: absolute;
+		left: 0;
+		bottom: 72px;
+		width: 100%;
+	}
+	.sub.verifiy .btn{width: 100%!important;}
 
-	.sub.idverify .mobile-only{display: block!important;}
+	.sub.verifiy .mobile-only{display: block!important;}
 }
 
 @media screen and (max-width: 600px){
-	.sub.idverify main header.contents--header{line-height: 48px;}
-	.sub.idverify .navigation--back{height: 48px;}
-	.sub.idverify .boxed{height: 400px;}
-	.sub.idverify .btn{margin-top: 30px;}
+	.sub.verifiy main header.contents--header{line-height: 48px;}
+	.sub.verifiy .navigation--back{height: 48px;}
+	.sub.verifiy .boxed{height: 400px;}
+	.sub.verifiy .btn{margin-top: 30px;}
+}
+
+/* ###################################################### */
+/* 수정완료 */
+/* identity verfication complete ID 인증관리 */
+@media screen and (max-width: 800px){
+	.sub.complete form{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.sub.verifiy.complete .submitBtn{
+		bottom: 10px;
+	}
 }
 
 
@@ -1383,6 +1415,9 @@
 		/* height:calc(100% - 60px); */
 		height: 100vh;
 	}
+	.sub .boxed--transparent {
+        border: 0 none;
+    }
 }
 @media (max-width: 600px) { 
     .sub main{display: flex; 
@@ -1488,9 +1523,7 @@
 		border: 0 none;
 	}
 
-    .sub .boxed--transparent {
-        border: 0 none;
-    }
+    
 
     .notification > header {
         display: none;
