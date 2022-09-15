@@ -8,16 +8,25 @@
 	width: 100%;
 	margin: 0 auto;
 	height: calc(100% - 60px);
+	
 }
 
 .content_wrap .contents{
 	max-width: 910px;
 	width: 100%;
+	position: relative;
 }
 
 @media screen and (min-width:801px) and (max-width: 1440px){
 	.content_wrap{width: 95%; margin: 0 auto;}
 }
+
+@media screen and (max-width: 800px){
+	.content_wrap .contents{
+		height: calc(100vh - 60px);
+	}
+}
+
 
 .sub{
 	position: relative;
@@ -1174,7 +1183,6 @@
 /* ###################################################### */
 
 /* 회원탈퇴 */
-.sub.withdrawal .contents{max-width: 900px; width: 100%;}
 .sub.withdrawal p.text--medium:nth-of-type(2){font-size: 15px;}
 .sub.withdrawal .boxed{padding: 22px 60px 0 35px;}
 .sub.withdrawal .boxed ul{padding-left: 0;}
@@ -1200,10 +1208,10 @@
 
 @media screen and (max-width: 800px){
 	.sub.withdrawal > header{display: none;}
-	/* .sub.withdrawal .contents{margin-top: 0;} */
 	.sub.withdrawal main header.contents--header{
 		line-height: 60px; 
 		padding-left: 0;
+		margin-bottom: 0;
 	}
 	.sub.withdrawal .navigation--back{height: 60px;}
 	.sub.withdrawal main{
@@ -1222,13 +1230,18 @@
 		padding:22px 40px 30px 35px;
 		overflow: hidden;
 	}
+	.sub.withdrawal .btn{
+		margin-top: 0px;
+		position: absolute;
+		left: 0;
+		bottom: 30px;
+	}
 	.sub.withdrawal .mobile-only{display: block!important;}
 }
 
 @media screen and (max-width: 600px){
 	.sub.withdrawal main header.contents--header{line-height: 48px;}
 	.sub.withdrawal .navigation--back{height: 48px;}
-	.sub.withdrawal .btn{margin-top: 30px;}
 }
 
 
