@@ -89,6 +89,9 @@
       crosshair: {
         mode: LightweightCharts.CrosshairMode.Normal,
       },
+      layout: {
+        backgroundColor: 'transparent',
+      },
     });
 
     // 반응형처리
