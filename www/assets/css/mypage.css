@@ -1,5 +1,6 @@
 form.boxed{
-	width: 910px; 
+	/* width: 910px; */ 
+	width: 100%;
 	height: 470px;
 	justify-content: center;
 	padding: 0;
@@ -80,13 +81,84 @@ form {
     height: 178px;
 }
 
-@media screen and (max-width: 600px) {
-    [name=email],
+.sub.member-account .contents--header{
+	position: relative;
+	margin-bottom: 74px;
+}
+
+.sub.member-account .contents--header a{
+	position: absolute;
+	font-size: 14px;
+	font-weight: 500;
+	color:#777;
+	right: 25px;
+	top: 80px;
+
+}
+
+.sub.member-account .side{
+	max-width:200px;
+	width: 100%;
+}
+
+.sub.member-account .contents{
+	max-width:910px;
+	width: 100%;
+}
+
+.sub.member-account .contents form .default .form--controls{
+	flex-direction: column;
+}
+
+.size--16{font-size: 18px;}
+
+
+@media screen and (min-width:801px) and (max-width: 1440px){
+	.content_wrap{width: 95%; margin: 0 auto;}
+	.sub.member-account main{
+		display: flex;
+	}
+}
+
+@media screen and (max-width: 800px) {	
+	.sub.member-account > header{display: none;}
+	.sub.member-account .contents--header{
+		display: flex; 
+		border-bottom: none;
+		margin-bottom: 24px;
+	}
+	.sub.member-account .boxed--transparent{border: transparent!important;}
+	.sub.member-account .contents form.boxed{display: block;}
+	.sub.member-account .contents form .default .form--controls{
+		flex-direction: row;
+		justify-content: space-between
+	}
+	.sub.member-account .contents{margin-top: 0;}
+	.sub.member-account main header.contents--header{
+		line-height: 60px;
+		padding-left: 0;
+	}
+	.sub.member-account .navigation--back{height: 60px;}
+	.sub.member-account main{
+		display: flex;
+		justify-content: flex-start;
+		padding:0 30px;
+	}
+
+	.sub.member-account .contents--header a{top: calc(100vh - 135px); right: 0px;}
+	.sub.member-account .side{display: none;}
+	.sub.member-account .mobile-only{display: block!important;}
+	
+	.row > * {
+		flex:auto;
+		margin-right: 0;
+	}
+	[name=email],
     [name=phone] {
         text-align: right;
     }
     .email {
-        margin-bottom: 32px;
+        margin-bottom: 20px;
     }
     .form--controls input[type=text],
     .form--controls input[type=password],
@@ -124,6 +196,32 @@ form {
         font-size: 16px;
     }
 
+
+	.default .form--controls label{
+		display: inline-block;
+		height: 35px;
+		line-height: 35px;
+		font-size: 16px;
+		margin-bottom: 0;
+		flex-grow: initial;
+		flex-basis: initial;
+		width: 100%;
+		font-family: "Noto Sans KR";
+	}
+
+	.default .email.form--controls label+input, .default .phone.form--controls label+input{
+		display: inline-block;
+		height: 35px;
+		line-height: 35px;
+		font-size: 16px;
+		margin-bottom: 0;
+		padding-left: 0;
+		width: 100%;
+	}
+	.default .address.form--controls{
+		margin-top: 25px;
+	}
+
     .region::before {
         display: block;
         content: "";
@@ -139,9 +237,42 @@ form {
 
     .region .row {
         flex-direction: column;
-        row-gap: 32px;
+        row-gap: 25px;
     }
     .region .row .col-6 {
         display: flex;
+		justify-content: space-between;
+		width: 100%;
+		height: 30px;
+		line-height: 30px;
     }
+
+	.region .row .col-6 input{
+		height: 35px;
+		line-height: 35px;
+	}
+
+	.region .form--controls label{
+		display: inline-block;
+		height: 35px;
+		line-height: 35px;
+		font-size: 16px;
+		font-weight: 500;
+		margin-bottom: 0;
+	}
+	.region .form--controls input{
+		display: inline-block;
+		align-self: flex-end;
+		height: 35px;
+		line-height: 35px;
+		font-size: 16px;
+		margin-bottom: 0;
+		padding-left: 0;
+	}
+	.sub.member-account .text--red.mobile-only{
+		text-align: center;
+	}
+
+	.default .addressDesc{display: none;}
+	.desktop-only{display: none;}
 }

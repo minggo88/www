@@ -24,7 +24,7 @@ const API = {
             url: `${API.BASE_URL}/sendConfirmCode/`,
             type: 'POST',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 media: 'email',
                 email_address: email,
                 lang: window.localStorage.locale,
@@ -54,11 +54,35 @@ const API = {
             url: `${API.BASE_URL}/sendConfirmCode/`,
             type: 'POST',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 media: 'mobile',
                 mobile_number: asYouType.getNumber().number,
                 mobile_country_code: asYouType.getNumber().country,
                 lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
+     * 가입 확인
+     * @param {*} media 기기종류. mobile:핸드폰, email: 이메일, userid: 일반 아이디
+     * @param {*} ids 가입여부 확인하고 싶은아이디들. 콤마로 구분
+     * @param {*} callback 
+     */
+    checkJoin: (media, ids, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/checkJoin/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                'token': window.localStorage.token,
+                'media': media,
+                'ids': ids,
+                'lang': 'en', // status 값 영어로만 받기 위함
             },
             success: (resp) => {
                 if(callback) {
@@ -78,7 +102,7 @@ const API = {
             url: `${API.BASE_URL}/checkConfirmCode/`,
             type: 'POST',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 media: 'email',
                 email_address: email,
                 confirm_number: code,
@@ -101,7 +125,7 @@ const API = {
             url: `${API.BASE_URL}/checkConfirmCode/`,
             type: 'POST',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 media: 'mobile',
                 mobile_number: mobile,
                 confirm_number: code,
@@ -120,7 +144,7 @@ const API = {
      */
     join: (data, callback = null) => {
         data = $.extend(data, {
-            token: window.localStorage.token,
+            token: window.localStorage.token, lang: window.localStorage.locale,
             os: os,
         })
         $.ajax({
@@ -147,7 +171,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 social_id: email,
                 social_name: 'email',
                 userpw: password,
@@ -177,7 +201,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale
             },
             success: (resp) => {
                 if(callback) {
@@ -198,10 +222,9 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 address: address,
                 address_type: 'email',
-                lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -237,7 +260,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 pin: pin,
             },
             success: (resp) => {
@@ -258,7 +281,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: $.extend({}, data, {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             }),
             success: (resp) => {
                 if(callback) {
@@ -273,7 +296,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol,
                 exchange: exchange,
                 page: page,
@@ -292,7 +315,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol,
                 page: page,
                 rows: 100,
@@ -314,7 +337,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
                 callback(resp)
@@ -327,7 +350,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: ',',
                 exchange: 'KRW',
                 page: page,
@@ -343,7 +366,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol,
                 exchange: exchange,
             },
@@ -360,11 +383,10 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 bbscode: bbscode,
                 page: page,
                 rows: rows,
-                lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -379,11 +401,10 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 faqcode: '',
                 page: page,
                 rows: rows,
-                lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -398,6 +419,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 idx: idx,
             },
             success: (resp) => {
@@ -413,7 +435,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 page: page,
                 rows: 10,
             },
@@ -430,7 +452,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 subject: subject,
                 contents: contents,
                 idx: idx,
@@ -448,6 +470,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
+                lang: window.localStorage.locale,
                 symbol: symbol
             },
             success: (resp) => {
@@ -469,7 +492,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol,
                 period: period,
             },
@@ -513,7 +536,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -522,10 +545,11 @@ const API = {
             }
         })
     },
-    getCurrentCountryInfo: (callback) => {
+    getCurrentCountryInfo: (ip, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getCurrentCountryInfo/`,
             type: 'POST',
+            data: {'ip': ip, lang: window.localStorage.locale},
             dataType: 'JSON',
             success: (resp) => {
                 callback(resp)
@@ -544,7 +568,7 @@ const API = {
             dataType: 'JSON',
             data: {
                 ...data,
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
                 callback(resp)
@@ -572,6 +596,7 @@ const API = {
             data: {
                 symbol: symbol,
                 address: address,
+                lang: window.localStorage.locale,
             },
             success: (resp) => {
                 callback(resp)
@@ -585,6 +610,7 @@ const API = {
             dataType: 'JSON',
             data: {
                 symbol: symbol,
+                lang: window.localStorage.locale,
             },
             success: (resp) => {
                 callback(resp)
@@ -598,7 +624,7 @@ const API = {
             dataType: 'JSON',
             data: {
                 ...data,
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -614,7 +640,7 @@ const API = {
             dataType: 'JSON',
             data: {
                 ...data,
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -630,7 +656,7 @@ const API = {
             dataType: 'JSON',
             data: {
                 ...data,
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -646,7 +672,7 @@ const API = {
             dataType: 'JSON',
             data: {
                 item: item,
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
@@ -663,7 +689,7 @@ const API = {
                 dataType: 'JSON',
                 data: {
                     item: item,
-                    token: window.localStorage.token,
+                    token: window.localStorage.token, lang: window.localStorage.locale,
                 },
                 success: (resp) => {
                     resolve(resp)
@@ -690,7 +716,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol,
                 trading_type: tradingType,
             },
@@ -706,7 +732,7 @@ const API = {
             dataType: 'JSON',
             data: {
                 goods_idx: goods_idx,
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
                 callback(resp)
@@ -720,7 +746,7 @@ const API = {
             dataType: 'JSON',
             data: {
                 symbol: symbol,
-                token: window.localStorage.token,
+                token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
                 if(callback) {
