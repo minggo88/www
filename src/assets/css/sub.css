@@ -932,24 +932,46 @@
 /* ###################################################### */
 /* 수정완료 */
 /* inquiry 1:1 글쓰기 */
-.sub.write .contents{
-	width: 100%;
-	max-width: 910px;
-}
-
 @media screen and (max-width: 800px){
 	.sub.write > header{display: none;}
-	.sub.write .contents form{margin-top: 20px;}
 	.sub.write main header.contents--header{
 		line-height: 60px; 
 		margin-bottom: 0;
+		display: flex;
+		align-items: center; 
+		justify-content: space-between;
 	}
+	.sub.write .contents--header > div{display: flex;}
 	.sub.write main header.contents--header h2{
 		margin-top: 0;
+		margin-bottom: 0;
 		font-size: 16px;
 		color: #333;
 	}
+
+	.sub.write .contents--header .mobile-only .btn{
+		text-indent: 100%; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		width: 25px;
+	}
+	.sub.write .contents--header .mobile-only .btn::after{
+		display: block; 
+		content:"등록"; 
+		position: absolute; 
+		font-size: 16px; 
+		color:#BDC4CB;
+		top: 0; 
+		right: 15px;
+		font-family: Inter;
+		line-height: 60px;
+	}
+	.sub.write .contents--header .mobile-only .btn.active::after{
+		color:var(--red-up);
+	}
+	
 	.sub.write .navigation--back{height: 60px;}
+	.sub.write .contents form{margin-top: 20px;}
 	.sub.write main{
 		display: flex;
 		justify-content: flex-start;
@@ -994,6 +1016,9 @@
 @media screen and (max-width: 600px){
 	.sub.write main header.contents--header{line-height: 48px;}
 	.sub.write .navigation--back{height: 48px;}
+	.sub.write .contents--header .mobile-only .btn::after{
+		line-height: 48px;
+	}
 }
 
 
