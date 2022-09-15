@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-06 11:37+0900\n"
-"PO-Revision-Date: 2022-09-06 11:38+0900\n"
+"POT-Creation-Date: 2022-09-15 11:06+0900\n"
+"PO-Revision-Date: 2022-09-15 11:08+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ko\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: ../assets/js/app.js:175 ../assets/js/app.min.js:1
+#: ../assets/js/app.js:175 ../assets/js/app.min.js:1 ../assets/js/app.js:232
 msgid "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
 msgstr "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
 
@@ -834,3 +834,123 @@ msgstr "계정 수정"
 
 msgid "비밀번호 변경하기"
 msgstr "비밀번호 변경하기"
+
+msgid "입출금"
+msgstr "입출금"
+
+msgid "새로운 인증시스템의 글로벌 표준 차 거래소"
+msgstr "새로운 인증시스템의 글로벌 표준 차 거래소"
+
+msgid "공지"
+msgstr "공지"
+
+msgid "1H"
+msgstr "1시간"
+
+msgid "12H"
+msgstr "12시간"
+
+msgid "24H"
+msgstr "1일"
+
+msgid "7D"
+msgstr "1주"
+
+msgid "1M"
+msgstr "1달"
+
+msgid "조회 중입니다."
+msgstr "조회 중입니다."
+
+msgid "거래종목이 없습니다."
+msgstr "거래종목이 없습니다."
+
+msgid "내용이 없습니다."
+msgstr "내용이 없습니다."
+
+msgid "30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게 도와드립니다"
+msgstr "30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게 도와드립니다."
+
+msgid "인증 진행"
+msgstr "인증 진행"
+
+msgid "계속 진행하여 본인 확인을 완료하십시오."
+msgstr "계속 진행하여 본인 확인을 완료하십시오."
+
+msgid "아래 나열된 문서만 승인되고 다른 모든 문서는 거부됩니다."
+msgstr "아래 나열된 문서만 승인되고 다른 모든 문서는 거부됩니다."
+
+msgid "ID Card"
+msgstr "ID Card"
+
+msgid "Passport"
+msgstr "Passport"
+
+msgid "Driver’s License"
+msgstr "Driver’s License"
+
+msgid "사진을 업로드 하기전에 아래 기준을 체크해주세요."
+msgstr "사진을 업로드 하기전에 아래 기준을 체크해주세요."
+
+msgid "만료되지 않은 정부 발행 문서입니다."
+msgstr "만료되지 않은 정부 발행 문서입니다."
+
+msgid "스캔 또는 사본이 아닌 원본입니다."
+msgstr "스캔 또는 사본이 아닌 원본입니다."
+
+msgid "반사 또는 흐릿함을 방지하기 위해 카드 홀더 또는 커버를 제거하십시오."
+msgstr "반사 또는 흐릿함을 방지하기 위해 카드 홀더 또는 커버를 제거하십시오."
+
+msgid "단색 배경에 문서를 배치합니다."
+msgstr "단색 배경에 문서를 배치합니다."
+
+msgid "주민등록증을 업로드합니다."
+msgstr "주민등록증을 업로드합니다."
+
+msgid "문서가 아래의 모든 표준을 충족하는지 확인하십시오."
+msgstr "문서가 아래의 모든 표준을 충족하는지 확인하십시오."
+
+msgid "읽기 쉽고 선명하며 조명이 밝음"
+msgstr "읽기 쉽고 선명하며 조명이 밝음"
+
+msgid "반사되지 않음, 흐릿하지 않음"
+msgstr "반사되지 않음, 흐릿하지 않음"
+
+msgid "흑백 영상 없음, 편집 없음"
+msgstr "흑백 영상 없음, 편집 없음"
+
+msgid "문서는 단색 배경에 배치됩니다."
+msgstr "문서는 단색 배경에 배치됩니다."
+
+msgid "출금 계좌 및 주소지를 등록합니다."
+msgstr "출금 계좌 및 주소지를 등록합니다."
+
+msgid "수고하셨습니다.<br>(주)끽다거 관리자가 제출하신 자료를 검토한 후에 ID 본인 인증 여부를 회신드립니다.<br>최대 2영업일 이내로 결과를 안내받으실 수 있습니다.<br>인증 절차에 참여해 주셔서 감사합니다."
+msgstr "수고하셨습니다.<br>(주)끽다거 관리자가 제출하신 자료를 검토한 후에 ID 본인 인증 여부를 회신드립니다.<br>최대 2영업일 이내로 결과를 안내받으실 수 있습니다.<br>인증 절차에 참여해 주셔서 감사합니다."
+
+msgid "Front Side"
+msgstr "Front Side"
+
+msgid "Back Side"
+msgstr "Back Side"
+
+msgid "안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 완료되었습니다.<br><br>따라서, <span data-bind="user_info.name">OOO</span>님께서는 본 사이트에서<br>모든 금융 거래를 진행하실 수 있습니다."
+msgstr "Hello.<br>As a result of reviewing documents submitted by <span data-bind="user_info.name">OOO</span><br>ID verification has been completed.<br><br>Therefore, <span data-bind="user_info.name">OOO</span> can conduct all financial transactions<br>on this site."
+
+msgid "안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 거절되었습니다."
+msgstr "Hello.<br>As a result of reviewing documents submitted by <span data-bind="user_info.name">OOO</span><br>ID authentication was rejected."
+
+msgid "거절 사유"
+msgstr "Reason for refusal"
+
+msgid "다시 서류를 제출하시겠습니까?"
+msgstr "Would you like to resubmit the documents?"
+
+msgid "ID 인증 서류 제출"
+msgstr "Submit ID verification documents"
+
+msgid "ID 거절 사유에 대해 더 알고 싶습니까?"
+msgstr "Would you like to know more about the reasons for ID rejection?"
+
+msgid "자주 묻는 질문으로 이동"
+msgstr "Go to Frequently Asked Questions"

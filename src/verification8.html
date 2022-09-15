@@ -80,11 +80,12 @@
                     <a href="login.html" class="btn--login" data-i18n>로그인</a>
                 </div>
 
-                <div class="language">
+                <div class="language dropdown-wrapper">
                     <button type="button" class="dropdown">한국어</button>
-                    <ul class="dropdown--item">
-                        <li></li>
-                    </ul>
+                    <div class="dropdown--item" style="width: 81px">
+                        <span>한국어</span>
+                        <ul></ul>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -92,29 +93,27 @@
     <main class="d-flex flex-center">
         <form action="verification3.html" method="post" class="d-flex flex-row flex-center">
             <div class="form--header text-red" style="margin-bottom: 56px">
-                <h1>Identity Verification</h1>
+                <h1 data-i18n>Identity Verification</h1>
             </div>
             <div class="flex-self-left" style="width: 100%">
-                <p class="m-0 flex-self-left text--medium text-bold nowrap" style="margin-bottom: 16px !important">
-                    안녕하세요.<br>
-                    OOO님이 제출하신 서류 검토 결과<br>
-                    ID 인증이 거절되었습니다.
+                <p class="m-0 flex-self-left text--medium text-bold nowrap" style="margin-bottom: 16px !important" data-i18n>
+                    안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 거절되었습니다.
                 </p>
                 <p class="m-0 text--blue-gray text-bold" style="font-size: 14px; margin-bottom: 84px !important ">
-                    거절 사유 : 신분증 불인정(사진 없는 신분증)
+                    <span data-i18n>거절 사유</span> : <span>신분증 불인정(사진 없는 신분증)</span>
                 </p>
                 <p class="m-0 mb-24 text-bold">
-                    다시 서류를 제출하시겠습니까?
-                    <a href="" class="d-block text-red">ID 인증 서류 제출</a>
+                    <span data-i18n>다시 서류를 제출하시겠습니까?</span>
+                    <a href="" class="d-block text-red" data-i18n>ID 인증 서류 제출</a>
                 </p>
                 <p class="m-0 text-bold">
-                    ID 거절 사유에 대해 더 알고 싶습니까?
-                    <a href="faq.html" class="d-block text-red">자주 묻는 질문으로 이동</a>
+                    <span data-i18n>ID 거절 사유에 대해 더 알고 싶습니까?</span>
+                    <a href="faq.html" class="d-block text-red" data-i18n>자주 묻는 질문으로 이동</a>
                 </p>
             </div>
 
             <div class="form--btns" style="margin-top: 85px">
-                <input type="submit" value="다음" class="btn btn--block btn--red text-bold">
+                <button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
             </div>
         </form>
     </main>

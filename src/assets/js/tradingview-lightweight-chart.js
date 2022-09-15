@@ -12,7 +12,7 @@
 
     // http://api.loc.kkikda.com/v1.0/getChartData/?symbol=GCA18KTDKK
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", '//api.'+(window.location.origin.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period, false); // false for synchronous request
+    xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period, false); // false for synchronous request
     xmlHttp.send(null);
     let json = xmlHttp.responseText;
     if (json.indexOf('{') === 0) {
