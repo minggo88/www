@@ -1382,6 +1382,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 })
             }
         });
+        // 지수 차트 생성
+        window.displayChart('indexCanvas', 'GCA18KTDKK', 'USD', '1h'); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
+
         // 인기 종목 표시 ( + 차트)
         const $PriceTableTarget = $('[name=price_table]');
         const $PriceTableEmpty = $PriceTableTarget.find('[name=empty]');
@@ -1418,6 +1421,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     spot_prices[i] = r;  /// 계산값 재사용하기
     
                     html.push(tpl
+                        .replace('{symbol}', r.symbol)
+                        .replace('{exchange}', r.exchange)
                         .replace('{stock_name}', r.name)
                         .replace(/\{stock_updown_color\}/g, r.price_updown_color)
                         .replace('{stock_price}', real_number_format(r.price_close))
@@ -1444,23 +1449,24 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             last_time: time(),
             last_date: date('Y.m.d H:i A')
         }
+        // 종목 클릭시 차트 보여주기 .. 미사용
         $('[name=price_table]').on('click', 'li', function () { 
-            const no = $(this).siblings().length - $(this).index(); // index는 안보이는것까지 포함되서 순위가 나와서 전체 친구들 수에서 index 값을 빼서 정확한 순서를 정합니다.
-            let p = Model.spot_prices[no];
-            if (p) {
-                // 모델에 저장
-                Model.selected_spot_price = p; // 선택된 상품 가격이 차트주변 지수가격에 보이도록 선택.
-                // 차트 그리기
-                chart_info = clone(Model.chart_info);
-                chart_info.symbol = p.symbol;
-                chart_info.exchange = p.exchange;
-                chart_info.last_time = time();
-                chart_info.last_date = date('Y.m.d H:i A');
-                Model.chart_info = chart_info;
-                window.displayChart('indexCanvas', chart_info.symbol, chart_info.exchange, chart_info.term); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
-                // 차트 기간 버튼 on/off
-                $('[name="chart_term"]').find('[name="btn-term-' + chart_info.term + '"]').closest('li').addClass('on').siblings('li').removeClass('on');
-            }
+            // const no = $(this).siblings().length - $(this).index(); // index는 안보이는것까지 포함되서 순위가 나와서 전체 친구들 수에서 index 값을 빼서 정확한 순서를 정합니다.
+            // let p = Model.spot_prices[no];
+            // if (p) {
+            //     // 모델에 저장
+            //     Model.selected_spot_price = p; // 선택된 상품 가격이 차트주변 지수가격에 보이도록 선택.
+            //     // 차트 그리기
+            //     chart_info = clone(Model.chart_info);
+            //     chart_info.symbol = p.symbol;
+            //     chart_info.exchange = p.exchange;
+            //     chart_info.last_time = time();
+            //     chart_info.last_date = date('Y.m.d H:i A');
+            //     Model.chart_info = chart_info;
+            //     window.displayChart('indexCanvas', chart_info.symbol, chart_info.exchange, chart_info.term); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
+            //     // 차트 기간 버튼 on/off
+            //     $('[name="chart_term"]').find('[name="btn-term-' + chart_info.term + '"]').closest('li').addClass('on').siblings('li').removeClass('on');
+            // }
         })
         // 차트 기간 변경
         $('[name="chart_term"] button').on('click', function () { 

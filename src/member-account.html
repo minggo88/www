@@ -56,42 +56,6 @@
 <script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}"></script>
-<script src="./assets/js/member-account.js?t={version}"></script>
-<script>
-    let USER_INFO = {}
-
-    API.getMyInfo((resp) => {
-        if(resp.success) {
-            const payload = resp.payload
-
-            USER_INFO = {
-                ...USER_INFO,
-                userno: payload.userno,
-                userid: payload.userid,
-                phone: payload.phone,
-                mobile: payload.mobile,
-                bool_email: payload.bool_email,
-                bool_sms: payload.bool_sms,
-                regdate: payload.regdate,
-                bank_name: payload.bank_name,
-                bank_account: payload.bank_account,
-                bank_owner: payload.bank_owner,
-            }
-
-            if(USER_INFO.userno) {
-                $('.nav--side .btn--login').hide()
-                $('.profile').show()
-                $('.wallet').show()
-                $('.profile .dropdown').text(USER_INFO.userid)
-            }
-
-            if(!USER_INFO.userno) {
-        // location.href = 'login.html'
-        return
-    }
-        }
-    })
-</script>
 
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
