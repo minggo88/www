@@ -95,21 +95,16 @@
     <main class="d-flex flex-center">
         <form action="verification8.html" method="post" class="d-flex flex-row flex-center">
             <div class="form--header text-red" style="margin-bottom: 56px">
-                <h1>Identity Verification</h1>
+                <h1 data-i18n>Identity Verification</h1>
             </div>
             <div class="flex-self-left" style="width: 100%">
-                <p class="m-0 flex-self-left text--medium text-bold nowrap">
-                    안녕하세요.<br>
-                    OOO님이 제출하신 서류 검토 결과<br>
-                    ID 인증이 완료되었습니다.<br>
-                    <br>
-                    따라서, OOO님께서는 본 사이트에서<br>
-                    모든 금융 거래를 진행하실 수 있습니다.
+                <p class="m-0 flex-self-left text--medium text-bold nowrap" data-i18n>
+                    안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 완료되었습니다.<br><br>따라서, <span data-bind="user_info.name">OOO</span>님께서는 본 사이트에서<br>모든 금융 거래를 진행하실 수 있습니다.
                 </p>
             </div>
 
             <div class="form--btns" style="margin-top:218px">
-                <input type="submit" value="다음" class="btn btn--block btn--red text-bold">
+                <button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
             </div>
         </form>
     </main>
