@@ -27,12 +27,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/header.css?t=1663122371">
+<link rel="stylesheet" href="./assets/css/common.css?t=1663240012">
+<link rel="stylesheet" href="./assets/css/header.css?t=1663202358">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663057249">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663122371">
-<link rel="stylesheet" href="./assets/css/mypage.css?t=1663122371">
+<link rel="stylesheet" href="./assets/css/components.css?t=1663202358">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1663240012">
+<link rel="stylesheet" href="./assets/css/mypage.css?t=1663202358">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <style>
     .product--image {
@@ -54,48 +54,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/common.js?t=1661823297"></script>
-<script src="./assets/js/api.js?t=1663122010"></script>
+<script src="./assets/js/api.js?t=1663207029"></script>
 <script src="./assets/js/components.js?t=1662455477"></script>
-<script src="./assets/js/member-account.js?t=1662534035"></script>
-<script>
-    let USER_INFO = {}
-
-    API.getMyInfo((resp) => {
-        if(resp.success) {
-            const payload = resp.payload
-
-            USER_INFO = {
-                ...USER_INFO,
-                userno: payload.userno,
-                userid: payload.userid,
-                phone: payload.phone,
-                mobile: payload.mobile,
-                bool_email: payload.bool_email,
-                bool_sms: payload.bool_sms,
-                regdate: payload.regdate,
-                bank_name: payload.bank_name,
-                bank_account: payload.bank_account,
-                bank_owner: payload.bank_owner,
-            }
-
-            if(USER_INFO.userno) {
-                $('.nav--side .btn--login').hide()
-                $('.profile').show()
-                $('.wallet').show()
-                $('.profile .dropdown').text(USER_INFO.userid)
-            }
-
-            if(!USER_INFO.userno) {
-        // location.href = 'login.html'
-        return
-    }
-        }
-    })
-</script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
 <script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1662430807"></script>
+<script src="./i18n/i18n.js?t=1663208420"></script>
 
 </head>
 <!-- BODY -->
@@ -287,12 +251,12 @@
 					</div>
 				</form>
 				<form method="post" id="change-password" class="modal modal--tiny">
-					<div class="modal--dialog" style="width: 500px">
+					<div class="modal--dialog" style="width: 500px; height: 600px;">
 						<div class="modal--header">
 							<span data-i18n>Change password</span>
 							<button type="button" class="btn btn--close"></button>
 						</div>
-						<div class="modal--content" style="padding: 0 77px 0 55px">
+						<div class="modal--content" style="padding: 53px 77px 0 55px">
 							<div class="form--controls">
 								<label for="" data-i18n>현재 비밀번호</label>
 								<input type="password" name="password" id="password">
@@ -305,7 +269,7 @@
 								<label for="" data-i18n>비밀번호 재입력</label>
 								<input type="password" name="new_password2" id="new_password2">
 							</div>
-							<div class="form--btns" style="width: 340px; align-self: flex-end">
+							<div class="form--btns" style="align-self: flex-end">
 								<button class="btn btn--red" style="width: 100%" data-i18n>비밀번호 변경하기</button>
 							</div>
 						</div>
@@ -370,7 +334,7 @@
 		</div>
 	</footer> -->
 
-    <script src="./assets/js/app.js?t=1663058305"></script>
+    <script src="./assets/js/app.js?t=1663239931"></script>
 
 </body>
 </html>

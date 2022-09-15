@@ -10,21 +10,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/header.css?t=1663122371">
+<link rel="stylesheet" href="./assets/css/common.css?t=1663240012">
+<link rel="stylesheet" href="./assets/css/header.css?t=1663202358">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663057249">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663122371">
+<link rel="stylesheet" href="./assets/css/components.css?t=1663202358">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1663240012">
 <link rel="stylesheet" href="./assets/css/verification.css?t=1661823297">
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/api.js?t=1663122010"></script>
+<script src="./assets/js/api.js?t=1663207029"></script>
 <script src="./assets/js/components.js?t=1662455477"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
 <script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1662430807"></script>
+<script src="./i18n/i18n.js?t=1663208420"></script>
 
 </head>
 <!-- BODY -->
@@ -83,11 +83,12 @@
                     <a href="login.html" class="btn--login" data-i18n>로그인</a>
                 </div>
 
-                <div class="language">
+                <div class="language dropdown-wrapper">
                     <button type="button" class="dropdown">한국어</button>
-                    <ul class="dropdown--item">
-                        <li></li>
-                    </ul>
+                    <div class="dropdown--item" style="width: 81px">
+                        <span>한국어</span>
+                        <ul></ul>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -95,26 +96,21 @@
     <main class="d-flex flex-center">
         <form action="verification8.html" method="post" class="d-flex flex-row flex-center">
             <div class="form--header text-red" style="margin-bottom: 56px">
-                <h1>Identity Verification</h1>
+                <h1 data-i18n>Identity Verification</h1>
             </div>
             <div class="flex-self-left" style="width: 100%">
-                <p class="m-0 flex-self-left text--medium text-bold nowrap">
-                    안녕하세요.<br>
-                    OOO님이 제출하신 서류 검토 결과<br>
-                    ID 인증이 완료되었습니다.<br>
-                    <br>
-                    따라서, OOO님께서는 본 사이트에서<br>
-                    모든 금융 거래를 진행하실 수 있습니다.
+                <p class="m-0 flex-self-left text--medium text-bold nowrap" data-i18n>
+                    안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 완료되었습니다.<br><br>따라서, <span data-bind="user_info.name">OOO</span>님께서는 본 사이트에서<br>모든 금융 거래를 진행하실 수 있습니다.
                 </p>
             </div>
 
             <div class="form--btns" style="margin-top:218px">
-                <input type="submit" value="다음" class="btn btn--block btn--red text-bold">
+                <button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
             </div>
         </form>
     </main>
 
-    <script src="./assets/js/app.js?t=1663058305"></script>
+    <script src="./assets/js/app.js?t=1663239931"></script>
 
 </body>
 </html>
