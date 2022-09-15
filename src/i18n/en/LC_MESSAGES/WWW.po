@@ -835,3 +835,39 @@ msgstr "Edit Account"
 
 msgid "비밀번호 변경하기"
 msgstr "Change Password"
+
+msgid "입출금"
+msgstr "Deposit and Withdrawal"
+
+msgid "새로운 인증시스템의 글로벌 표준 차 거래소"
+msgstr "Global Standard Tea Exchange with New Certification System"
+
+msgid "공지"
+msgstr "Notice"
+
+msgid "1H"
+msgstr "1h"
+
+msgid "12H"
+msgstr "12h"
+
+msgid "24H"
+msgstr "1D"
+
+msgid "7D"
+msgstr "1W"
+
+msgid "1M"
+msgstr "1M"
+
+msgid "조회 중입니다."
+msgstr "It is being viewed."
+
+msgid "거래종목이 없습니다."
+msgstr "There are no trade items."
+
+msgid "내용이 없습니다."
+msgstr "No content."
+
+msgid "30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게 도와드립니다"
+msgstr "Through 30 years of professional know-how, we will help you identify and invest only genuine products."
