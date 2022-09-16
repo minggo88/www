@@ -21,7 +21,7 @@
 	height: 555px;
 	margin: 0 auto;
     background: url('../img/bg.png') no-repeat center center;
-    background-size: 100% 100%;
+    background-size: cover;
 	padding-top: 100px;
     padding-bottom: 141px;
 	box-sizing: border-box;
@@ -124,8 +124,9 @@
     height: 40px;
     line-height: 40px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.15);
-	backdrop-filter: blur(8px);
+	background-color: transparent;
+    /* background: rgba(255, 255, 255, 0.15); */
+	/* backdrop-filter: blur(8px); */
 	border: 1px solid #FFFFFF;
     color: var(--white);
     font-weight: 700;
@@ -153,7 +154,6 @@
 	.viusalArea .logo{display: none;}
 	.viusalArea{
 		padding-top: 0;
-		background-size: cover;
 	}
 	.viusalArea .typography {padding-top: 180px;}
 	.viusalArea .typography h1 {font-size: 24px; line-height: 60px;}
@@ -163,9 +163,11 @@
 	.front .getting-started .btn-- {margin-bottom: 20px;}
 }
 
+
 .front .news {
-	height: 56px;
-    padding: 18px 40px;
+	/* height: 56px; */
+    /* padding: 18px 40px; */
+	height: 82px;
     box-sizing: border-box;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 	background: #B81C22;
@@ -204,6 +206,15 @@
     -ms-flex-align: center;
     -webkit-align-items: center;
     align-items: center;
+}
+
+.front .news .column li a{
+	display: block;
+	height: 100%;
+}
+
+.front .news .column li a img{
+	height: 80px;
 }
 .front .news .column .badge {
     width: 50px;
@@ -267,13 +278,34 @@
 }
 
 .front main .section:first-child .section--header {
-    justify-content: space-between;
+    position: relative;
+	justify-content: space-between;
 	height: 30px;
 	padding-top: 15px;
 }
 .front main .section:first-child .section--header h1 {
     align-items: flex-start
 }
+
+.front main .section:first-child .section--header h1 .icon--help{
+	width: 16px;
+	height: 18px;
+	background: url('../img/icon/btn_help.svg') no-repeat 50%;
+	margin-left: 5px;
+	vertical-align: top;
+}
+
+.front main .section:first-child .pop_up{
+	display: none;
+	position: absolute;
+	left: 45px;
+	top: 30px;
+	padding: 12px 15px 11px 17px;
+	max-width: 200px;
+	background-color: #FFF176;
+}
+
+
 .front main .section .section--header > .text--price {
     height: 30px;
     font-weight: 700;
@@ -346,7 +378,6 @@
 .front main .section:last-child .list li span{
 	flex-basis: 25%;
 }
-
 @media screen and (min-width: 601px) and (max-width: 900px) {
 	.front main {
 		margin: 30px 0 40px;
@@ -478,7 +509,7 @@
     font-weight: 700
 }
 
-@media screen and (min-width: 601px) and (max-width: 1100px) {
+@media screen and (min-width: 801px) and (max-width: 1100px) {
 	.section--service{padding-top: 30px; height: 715px;}
 	.section--service .descArea > div {
 		column-gap: 225px;
