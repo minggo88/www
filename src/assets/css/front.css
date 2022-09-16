@@ -165,19 +165,15 @@
 
 
 .front .news {
-	/* height: 56px; */
-    /* padding: 18px 40px; */
 	height: 82px;
     box-sizing: border-box;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 	background: #B81C22;
 	color: #fff;
-	display: flex;
-	justify-content: center;
 }
 
 .front .news .column{
-	height: 17px;
+	height: 100%;
 	overflow: hidden;
 }
 .front .news .column .swiper {
@@ -210,13 +206,19 @@
 
 .front .news .column li a{
 	display: block;
+	width: 100%;
 	height: 100%;
 }
 
-.front .news .column li a img{
-	height: 80px;
+.front .news .column li a .bg{
+	max-width: 1440px;
+	width:100% ; 
+	margin: 0 auto;
+	height: 100%; 
+	background:#B81C22 url('../img/notice-001.png') no-repeat 50% 50%/cover;
 }
-.front .news .column .badge {
+
+/* .front .news .column .badge {
     width: 50px;
     margin-right: 10px;
 }
@@ -237,8 +239,15 @@
 .front .news .column .icon-new::before {
 	font-weight: 700;
 	color: var(--yellow);
-}
+} */
 
+@media (max-width: 960px) {
+	.front .news .column li a .bg{
+		max-width: 800px;
+		background-image: url('../img/notice-moblie-001.png');
+		background-size: 100% 100%;
+	}
+}
 
 .front main {
 	padding:0 40px;
