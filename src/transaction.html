@@ -112,7 +112,7 @@
                     <a href="" data-i18n>경매</a>
                 </li>
                 <li>
-                    <a href="" data-i18n>가이드</a>
+                    <a href="" data-i18n>입출금</a>
                 </li>
                 <li>
                     <a href="" data-i18n>다도 문화</a>
@@ -122,7 +122,6 @@
                 </li>
             </ul>
             <div class="nav--side">
-
                 <div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
                     <button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
                     <div class="dropdown--item" style="width: 134px">
@@ -178,9 +177,9 @@
             <li>
                 <a href="change-account-number.html" data-i18n>출금계좌 변경</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
-            </li>
+            </li> -->
         </ul>
         <h1 class="size--20" data-i18n>지갑 관리</h1>
         <ul>
@@ -198,7 +197,7 @@
             </li>
         </ul>
     </aside>
-    <main class="d-grid">
+    <main class="d-flex d-justify">
         <aside class="side">
             <h1 data-i18n>계정 관리</h1>
             <nav class="side--snb">
@@ -221,9 +220,9 @@
                     <li>
                         <a href="notification.html" data-i18n>알림</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
         </aside>
@@ -270,41 +269,39 @@
             </div>
             <script>
                 $('input[name="range"]').daterangepicker({
-                    maxDate: moment(),
-                    autoUpdateInput: true,
-                    autoApply: true,
-                    locale: {
-                        format: 'YYYY-MM-DD',
-                        "daysOfWeek": [
-                            "일",
-                            "월",
-                            "화",
-                            "수",
-                            "목",
-                            "금",
-                            "토"
-                        ],
-                        "monthNames": [
-                            "1월",
-                            "2월",
-                            "3월",
-                            "4월",
-                            "5월",
-                            "6월",
-                            "7월",
-                            "8월",
-                            "9월",
-                            "10월",
-                            "11월",
-                            "12월"
-                        ],
-                    }
+					maxDate: moment(),
+					autoUpdateInput: true,
+					autoApply: true,
+					locale: {
+						format: 'YYYY-MM-DD',
+						"daysOfWeek": [
+							"일",
+							"월",
+							"화",
+							"수",
+							"목",
+							"금",
+							"토"
+						],
+						"monthNames": [
+							"1월",
+							"2월",
+							"3월",
+							"4월",
+							"5월",
+							"6월",
+							"7월",
+							"8월",
+							"9월",
+							"10월",
+							"11월",
+							"12월"
+						],
+					}
                 });
                 $('input[name="range"]').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('YYYY-MM-DD') + '      ~      ' + picker.endDate.format('YYYY-MM-DD'));
-  });
-
-
+					$(this).val(picker.startDate.format('YYYY-MM-DD') + '      ~      ' + picker.endDate.format('YYYY-MM-DD'));
+				});
             </script>
             <script>
                 let page = 1
