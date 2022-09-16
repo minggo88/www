@@ -162,11 +162,8 @@ $(function() {
                 break
             case 'toggle':
                 if(modal.hasClass('modal--open')) {
-                    console.log('hide')
                     modal.myModal('hide')
                 } else {
-                    console.log('hide')
-
                     modal.myModal('show')
                 }
                 break

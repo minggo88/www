@@ -27,11 +27,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/header.css?t=1663122371">
+<link rel="stylesheet" href="./assets/css/common.css?t=1663240012">
+<link rel="stylesheet" href="./assets/css/header.css?t=1663202358">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663057249">
-<link rel="stylesheet" href="./assets/css/front.css?t=1663115052">
+<link rel="stylesheet" href="./assets/css/components.css?t=1663202358">
+<link rel="stylesheet" href="./assets/css/front.css?t=1663202358">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -39,12 +39,12 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 <script src="./assets/js/common.js?t=1661823297"></script>
-<script src="./assets/js/api.js?t=1663122010"></script>
+<script src="./assets/js/api.js?t=1663207029"></script>
 <script src="./assets/js/components.js?t=1662455477"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
 <script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1662430807"></script>
+<script src="./i18n/i18n.js?t=1663208420"></script>
 
 <script>
     let USER_INFO = {}
@@ -135,10 +135,10 @@
 			</div>
 			<div class="getting-started">
 				<a href="exchange.html" class="btn--" data-i18n>거래소 둘러보기</a>
-	            <span name="box_logedin" style="display: none" >
-	                <button class="btn--login" name="btn-logout"data-i18n>로그아웃</button>
+	            <!-- <span name="box_logedin" style="display: none" >
+	                <button class="btn--login" name="btn-logout" data-i18n>로그아웃</button>
 	            </span>
-	            <a href="login.html" name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a>
+	            <a href="login.html" name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a> -->
 			</div>
 		</section>
 		<div class="d-grid grid-3-column news" style="height:auto;">
@@ -148,59 +148,17 @@
 					<ul class="swiper-wrapper" name="main_notice" style="height:50px;">
 						<li class="swiper-slide hide" name="tpl" style="display:none;height:auto">
                         <a href="notice_detail.html">
-                            <span class="badge badge--white" {hide_tag}>공지</span>
+                            <span class="badge badge--white" {hide_tag} data-i18n>공지</span>
                             <span class="news--text">{message}</span>
                             <span class="icon-new" {hide_new}></span>
                         </a>
 					</ul>
 				</div>
 			</div>
-			<!-- 보도자료 -->
-			<!-- <div class="column">
-				<div class="swiper">
-					<ul class="swiper-wrapper">
-						<li class="swiper-slide">
-							<a href="">
-								<span class="badge badge--green" style="width: 60px">보도자료</span>
-								<span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
-								<span class="icon-new"></span>
-							</a>
-						</li>
-						<li class="swiper-slide">
-							<a href="">
-								<span class="badge badge--green" style="width: 60px">보도자료</span>
-								<span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
-								<span class="icon-new"></span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div> -->
-			<!-- 이벤트 -->
-			<!-- <div class="column">
-				<div class="swiper">
-					<ul class="swiper-wrapper">
-						<li class="swiper-slide">
-							<a href="">
-								<span class="badge badge--dark-green">이벤트</span>
-								<span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
-								<span class="news--date">6/15</span>
-							</a>
-						</li>
-						<li class="swiper-slide">
-							<a href="">
-								<span class="badge badge--dark-green">이벤트</span>
-								<span class="news--text">주요 공지 주요 공지 주요 공지 주요 공지 주요 공지</span>
-								<span class="news--date">6/15</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div> -->
 		</div>
 		<main class="d-grid grid-3-column">
 			<section class="section section--index">
-				<div class="section--header" style="height: 30px; line-height: 1">
+				<!-- <div class="section--header" style="height: 30px; line-height: 1">
 					<h1 style="height: 23px" data-i18n>지수</h1>
 					<div class="text--price"><span data-bind="selected_spot_price.price_close">0</span> <span data-bind="selected_spot_price.exchange">USD</span></div>
 				</div>
@@ -210,22 +168,32 @@
 						<span class="" data-bind="selected_spot_price.price_updown_color" data-format="add-class"><span data-bind="selected_spot_price.price_updown_symbol"></span> <span data-bind="selected_spot_price.price_updown_amount" data-format="comma">0</span></span>
 						<span class="" data-bind="selected_spot_price.price_updown_color"><span data-bind="selected_spot_price.price_updown_sign">+</span> <span data-bind="selected_spot_price.price_updown_percent">0.00%</span></span>
 					</div>
-				</div>
-		
-				<div id="indexCanvas" class="canvas" style="width: 100%; height: 22vh; max-height: 200px;"></div>
-				<div class="controller d-flex d-justify" style="padding-left: 10px; margin-top: 5px">
+				</div> -->
+				<style>
+					.three-line-legend {
+						width: 96px;
+						height: 70px;
+						position: absolute;
+						padding: 8px;
+						font-size: 12px;
+						color: '#20262E';
+						background-color: rgba(255, 255, 255, 0.23);
+						text-align: left;
+						z-index: 1000;
+						pointer-events: none;
+					}
+				</style>
+				<div id="indexCanvas" class="canvas" style="width: 100%; height: 22vh; max-height: 200px;    margin-top: 60px;"></div>
+				<!-- <div class="controller d-flex d-justify" style="padding-left: 10px; margin-top: 5px">
 					<div style="flex-basis: calc(100% * (74 / 427))" data-i18n>기간</div>
 					<ul class="tabs" name="chart_term">
-	                    <li><button type="button" name="btn-term-1h">1H</button></li>
-	                    <li><button type="button" name="btn-term-12h">12H</button></li>
-	                    <li><button type="button" name="btn-term-1d">24H</button></li>
-	                    <li><button type="button" name="btn-term-1w">7D</button></li>
-	                    <li><button type="button" name="btn-term-1M">1M</button></li>
-	                    <!-- <li><button type="button" name="btn-term-3M">3M</button></li> -->
-	                    <!-- <li><button type="button">1Year</button></li> -->
-	                    <!-- <li><button type="button">ALL</button></li> -->
+	                    <li><button type="button" name="btn-term-1h" data-i18n>1H</button></li>
+	                    <li><button type="button" name="btn-term-12h" data-i18n>12H</button></li>
+	                    <li><button type="button" name="btn-term-1d" data-i18n>24H</button></li>
+	                    <li><button type="button" name="btn-term-1w" data-i18n>7D</button></li>
+	                    <li><button type="button" name="btn-term-1M" data-i18n>1M</button></li>
 					</ul>
-				</div>
+				</div> -->
 			</section>
 			<section class="section">
 				<div class="section--header">
@@ -234,7 +202,7 @@
 				</div>
 				<ul class="list" name="price_table">
 					<li name="tpl" style="display:none">
-	                    <span class="list--text">{stock_name}</span>
+	                    <span class="list--text"><a href="exchange.html?symbol={symbol}&exchange={exchange}">{stock_name}</a></span>
 	                    <span class="list--text text-right {stock_updown_color}">
 	                        {stock_price} {stock_exchange}
 	                    </span>
@@ -252,48 +220,8 @@
 					<a href="notice.html" class="section--more" data-i18n>전체보기</a>
 				</div>
 				<ul id="notice--list" class="list">
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1 공지사항 공지사항 공지사항 공지</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>
-					<!--<li>
-						<a href="notice_detail.html" class="list--text">공지사항 1</a>
-						<span class="list--date text-right">
-							22.03.17
-						</span>
-					</li>-->
+					<div class="text--center" name="search" data-i18n>조회 중입니다.</div>
+					<div class="text--center" style="display:none" name="empty" data-i18n>내용이 없습니다.</div>
 				</ul>
 			</section>
 		</main>
@@ -387,8 +315,8 @@
 	</footer>
 
     <script src="./assets/js/front.js?t=1662606135"></script>
-    <script src="./assets/js/tradingview-lightweight-chart.js?t=1663123328"></script>
-    <script src="./assets/js/app.js?t=1663058305"></script>
+    <script src="./assets/js/tradingview-lightweight-arealine-chart.js?t=1663239724"></script>
+    <script src="./assets/js/app.js?t=1663239931"></script>
 
 </body>
 </html>
