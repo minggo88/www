@@ -88,7 +88,7 @@
         }
     }
     // 번역 데이터 캐시 시간 확인
-    if (!lang_data.gentime || lang_data.gentime < time() - 60 * 60) {
+    if (!lang_data.gentime || lang_data.gentime < time() - 60 * 15) {
         get_lang_data();
     }
     if (lang_data.data) {

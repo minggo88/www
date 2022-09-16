@@ -934,10 +934,10 @@ msgstr "Front Side"
 msgid "Back Side"
 msgstr "Back Side"
 
-msgid "안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 완료되었습니다.<br><br>따라서, <span data-bind="user_info.name">OOO</span>님께서는 본 사이트에서<br>모든 금융 거래를 진행하실 수 있습니다."
+msgid "안녕하세요.<br><span data-bind=\"user_info.name\">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 완료되었습니다.<br><br>따라서, <span data-bind=\"user_info.name\">OOO</span>님께서는 본 사이트에서<br>모든 금융 거래를 진행하실 수 있습니다."
 msgstr "Hello.<br>As a result of reviewing documents submitted by <span data-bind="user_info.name">OOO</span><br>ID verification has been completed.<br><br>Therefore, <span data-bind="user_info.name">OOO</span> can conduct all financial transactions<br>on this site."
 
-msgid "안녕하세요.<br><span data-bind="user_info.name">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 거절되었습니다."
+msgid "안녕하세요.<br><span data-bind=\"user_info.name\">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 거절되었습니다."
 msgstr "Hello.<br>As a result of reviewing documents submitted by <span data-bind="user_info.name">OOO</span><br>ID authentication was rejected."
 
 msgid "거절 사유"
@@ -954,3 +954,9 @@ msgstr "Would you like to know more about the reasons for ID rejection?"
 
 msgid "자주 묻는 질문으로 이동"
 msgstr "Go to Frequently Asked Questions"
+
+msgid "문의 작성하기"
+msgstr "문의 작성하기"
+
+msgid "작성하기"
+msgstr "작성하기"

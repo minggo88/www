@@ -135,10 +135,10 @@
 			</div>
 			<div class="getting-started">
 				<a href="exchange.html" class="btn--" data-i18n>거래소 둘러보기</a>
-	            <span name="box_logedin" style="display: none" >
+	            <!-- <span name="box_logedin" style="display: none" >
 	                <button class="btn--login" name="btn-logout" data-i18n>로그아웃</button>
 	            </span>
-	            <a href="login.html" name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a>
+	            <a href="login.html" name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a> -->
 			</div>
 		</section>
 		<div class="d-grid grid-3-column news" style="height:auto;">
@@ -158,7 +158,7 @@
 		</div>
 		<main class="d-grid grid-3-column">
 			<section class="section section--index">
-				<div class="section--header" style="height: 30px; line-height: 1">
+				<!-- <div class="section--header" style="height: 30px; line-height: 1">
 					<h1 style="height: 23px" data-i18n>지수</h1>
 					<div class="text--price"><span data-bind="selected_spot_price.price_close">0</span> <span data-bind="selected_spot_price.exchange">USD</span></div>
 				</div>
@@ -168,10 +168,23 @@
 						<span class="" data-bind="selected_spot_price.price_updown_color" data-format="add-class"><span data-bind="selected_spot_price.price_updown_symbol"></span> <span data-bind="selected_spot_price.price_updown_amount" data-format="comma">0</span></span>
 						<span class="" data-bind="selected_spot_price.price_updown_color"><span data-bind="selected_spot_price.price_updown_sign">+</span> <span data-bind="selected_spot_price.price_updown_percent">0.00%</span></span>
 					</div>
-				</div>
-		
-				<div id="indexCanvas" class="canvas" style="width: 100%; height: 22vh; max-height: 200px;"></div>
-				<div class="controller d-flex d-justify" style="padding-left: 10px; margin-top: 5px">
+				</div> -->
+				<style>
+					.three-line-legend {
+						width: 96px;
+						height: 70px;
+						position: absolute;
+						padding: 8px;
+						font-size: 12px;
+						color: '#20262E';
+						background-color: rgba(255, 255, 255, 0.23);
+						text-align: left;
+						z-index: 1000;
+						pointer-events: none;
+					}
+				</style>
+				<div id="indexCanvas" class="canvas" style="width: 100%; height: 22vh; max-height: 200px;    margin-top: 60px;"></div>
+				<!-- <div class="controller d-flex d-justify" style="padding-left: 10px; margin-top: 5px">
 					<div style="flex-basis: calc(100% * (74 / 427))" data-i18n>기간</div>
 					<ul class="tabs" name="chart_term">
 	                    <li><button type="button" name="btn-term-1h" data-i18n>1H</button></li>
@@ -180,7 +193,7 @@
 	                    <li><button type="button" name="btn-term-1w" data-i18n>7D</button></li>
 	                    <li><button type="button" name="btn-term-1M" data-i18n>1M</button></li>
 					</ul>
-				</div>
+				</div> -->
 			</section>
 			<section class="section">
 				<div class="section--header">
@@ -189,7 +202,7 @@
 				</div>
 				<ul class="list" name="price_table">
 					<li name="tpl" style="display:none">
-	                    <span class="list--text">{stock_name}</span>
+	                    <span class="list--text"><a href="exchange.html?symbol={symbol}&exchange={exchange}">{stock_name}</a></span>
 	                    <span class="list--text text-right {stock_updown_color}">
 	                        {stock_price} {stock_exchange}
 	                    </span>
@@ -302,7 +315,7 @@
 	</footer>
 
     <script src="./assets/js/front.js?t={version}"></script>
-    <script src="./assets/js/tradingview-lightweight-chart.js?t={version}"></script>
+    <script src="./assets/js/tradingview-lightweight-arealine-chart.js?t={version}"></script>
     <script src="./assets/js/app.js?t={version}"></script>
 
 </body>
