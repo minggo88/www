@@ -1,6 +1,8 @@
-.sub main {
-    padding-right: 136px;
-}
+/* ###################################################### */
+/* 수정중 */
+/* transaction 거래내역 */
+
+
 .category {
     width: 76px;
     position: absolute;
@@ -27,4 +29,206 @@
     min-width: 76px;
 }
 .category .dropdown+.dropdown--item ul {
+}
+
+
+/* board */
+.sub.transaction .board--body{
+	width: 100%;
+}
+
+.sub.transaction .transaction--list{
+	table-layout: fixed;
+	border-spacing: 0;
+	width: 100%;
+}
+
+.sub.transaction .transaction--list thead:after{
+	display: block;
+	content:'';
+	width: 100%;
+	height: 1px;
+}
+.sub.transaction .transaction--list thead th,
+.sub.transaction .transaction--list tbody td{
+    height: 46px; 
+	border: 0.35px solid #BDC4CB; 
+	background-color: #f5f5f5; 
+	text-align: center; 
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.sub.transaction .transaction--list thead th:first-of-type{
+	min-width: 140px;
+	border-top-left-radius: 10px;
+}
+.sub.transaction .transaction--list thead th:nth-of-type(2),
+.sub.transaction .transaction--list tbody tr td:nth-of-type(2)
+{
+	/* width: 68%; */
+	border-left: none;
+}
+.sub.transaction .transaction--list thead th:last-of-type{
+	/* width: 12%; */
+	min-width: 100px;
+	border-top-right-radius: 10px;
+	border-left: none;
+}
+
+.sub.transaction .transaction--list tbody td{
+	background-color: transparent;
+	height: auto;
+}
+
+.sub.transaction .transaction--list tbody tr:not(:first-child) td{
+	border-top: none;
+}
+
+.sub.transaction .transaction--list tbody td:nth-of-type(2){
+	/* 가운데 td*/
+	border-left: none;
+	padding: 13px 10px;
+	box-sizing: border-box;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.sub.transaction .transaction--list tbody td:last-of-type{
+	border-left: none;
+}
+
+.sub.transaction .period .btn{
+	width: 136px;
+}
+
+/* ############################ */
+
+@media screen and (max-width: 1100px){
+	.sub.transaction .transaction--list thead th, 
+	.sub.transaction .transaction--list tbody td{
+		font-size: 12px;
+	}
+}
+
+
+@media screen and (min-width:801px) and (max-width: 1440px){
+	.sub.transaction main{
+
+	}
+	.sub.transaction .daterange{
+		width: 25%;
+	}
+	
+}
+
+@media screen and (max-width: 800px){
+	.sub.transaction > header{display: none;}
+
+	.sub.transaction main{
+		display: flex;
+		justify-content: flex-start;
+		padding:0 30px;
+	}
+
+	.sub.transaction main header.contents--header{
+		display: flex; 
+		border-bottom: none; 
+		margin-bottom: 0;
+		line-height: 60px; 
+		padding-left: 0;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.sub.transaction .contents--header > div{
+		display: flex;
+		align-items: center; 
+	}
+	.sub.transaction .contents--header > div .icon-alarm{
+		background: url('../img/icon/icon-alarm.svg') no-repeat 50%;
+		margin-right: 15px;
+	}
+	
+	.sub.transaction .contents--header > div .icon-setting{
+		background: url('../img/icon/icon-setting.svg') no-repeat 50%;
+	}
+	.sub.transaction main header.contents--header{
+		line-height: 60px; 
+		padding-left: 0;
+		margin-bottom: 0;
+		border-bottom: none;
+		display: flex;
+	}
+
+	.sub.transaction main header.contents--header h1{
+		color: #333;
+		padding-left: 31px;
+	}
+
+	.sub.transaction .navigation{
+		display: block;
+		width: 24px;
+		height: 24px;
+		background: url(../img/menu.svg) no-repeat 50%;
+		border: 0 none;
+		float: left;
+		
+	}
+
+	.sub.transaction .side{display: none;}
+
+	.sub.transaction .contents h1.size--20.mobile-only{
+		margin:24px 0 31px;
+		height: 20px;
+		line-height: 20px;
+	}
+	.sub.transaction .contents .icon-transaction{
+		background: url('../img/icon/icon-transaction-red.svg') no-repeat 50%;
+		background-size: contain;
+	}
+	.sub.transaction .contents h1.size--20.mobile-only > span{
+		vertical-align: middle;
+		padding-left: 10px;
+		font-size: 20px;
+	}
+	
+	.sub.transaction .desktop-only{display: none!important;}
+	.sub.transaction .mobile-only{display: block!important;}
+
+	.sub.transaction .period{
+		padding-bottom:28px;
+		border-bottom: 8px solid #f5f5f5;
+	}
+	.sub.transaction .period .dropdown-wrapper{
+		width: 70px;
+	}
+
+	.sub.transaction .period .dropdown{
+		padding: 0;
+		justify-content: space-between;
+	}
+	.sub.transaction .period .dropdown:after{
+		position: static; 
+		top: inherit;
+		transform: none;
+		margin-right: 5px;
+		background-repeat: no-repeat;
+	}
+	
+	.sub.transaction .period .daterange{
+		height: 44px;
+		width: 64%;
+	}
+
+	.sub.transaction .period .btn{
+		width: 34%;
+		border-radius: 5px;
+	}
+}
+
+@media screen and (max-width: 600px){
+	.sub.transaction main header.contents--header{line-height: 48px;}
+	.sub.transaction .navigation--back{height: 48px;}
 }
