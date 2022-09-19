@@ -940,7 +940,7 @@ $(function() {
     $('#modal-buy2').submit(e => {
         e.preventDefault()
 
-        API.buyDirect($('#modal-buy2').serializeObject(), (resp) => {
+        API.buy($('#modal-buy2').serializeObject(), (resp) => {
             if(resp.success) {
                 $('#modal-buy2').myModal('hide')
 
@@ -982,7 +982,7 @@ $(function() {
         API.sellDirect($('#modal-sell').serializeObject(), (resp) => {
             if(resp.success) {
                 $('#modal-sell').myModal('hide')
-                $('#modal-sell-success').myModal('show')
+                $('#alert-sell').myModal('show')
             } else {
                 alert(resp.error.message)
             }
@@ -996,7 +996,7 @@ $(function() {
         API.sell($('#modal-sell2').serializeObject(), (resp) => {
             if(resp.success) {
                 $('#modal-sell2').myModal('hide')
-                $('#modal-sell-success').myModal('show')
+                $('#alert-sell').myModal('show')
             } else {
                 alert(resp.error.message)
             }
