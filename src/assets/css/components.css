@@ -705,7 +705,7 @@ form .form--header h1 {
     height: 37px;
     content: "";
     display: block;
-    background: url('../img/btn-rollup.svg') no-repeat;
+    background: url('../img/btn-rolldown.svg') no-repeat;
     position: absolute;
     right: 16px;
     top: 50%;
@@ -749,7 +749,8 @@ form .form--header h1 {
     background: var(--lightgray);
 }
 .accordion--item.accordion--open .accordion--header::after {
-    transform: rotate(-180deg) translateY(50%);
+    /* transform: rotate(-180deg) translateY(50%); */
+	background: url('../img/btn-rollup.svg') no-repeat;
 }
 .accordion--item .accordion--contents span {
     display: block;
