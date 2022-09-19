@@ -2,6 +2,7 @@
 let SELECTED_SYMBOL = ''
 let SELECTED_NAME = ''
 let SELECTED_SYMBOL_PRICE = 0
+let SELECTED_EXCHANGE = getURLParameter('exchange') || 'USD'
 let CHART_TIMER
 
 // 모바일 접속 여부
@@ -274,7 +275,7 @@ $(function() {
         deferRender: true,
         scroller: true,
         ajax: {
-            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&trading_type=buy`,
+            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy`,
             type: 'POST',
             dataSrc: 'payload',
         },
@@ -589,15 +590,30 @@ $(function() {
             })
 
             request2.then((data) => {
-                SELECTED_SYMBOL = data[0].symbol
+                SELECTED_SYMBOL = getURLParameter('symbol') || data[0].symbol
 
                 const grid = $('#jqGrid').on( 'init.dt', function (_e, _settings) {
                     const api = new $.fn.dataTable.Api( '#jqGrid' );
-                    api.row(0).select()
+
+                    const REQUEST_SYMBOL = getURLParameter('symbol')
+                    const ROWS_COUNT = api.rows().data().length
+
+                    if(REQUEST_SYMBOL) {
+                        for(let i = 0; i < ROWS_COUNT; i++) {
+                            const row = api.row(i).data()
+                            const symbol = row.symbol
+
+                            if(REQUEST_SYMBOL === symbol) {
+                                api.row(i).select()
+                                break
+                            }
+                        }
+                    } else {
+                        api.row(0).select()
+                    }
+
 
                     if(isMobile) {
-
-
                         api.column(1).visible(false)
                     }
                 } ).on('responsive-resize', function() {
