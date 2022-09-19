@@ -45,6 +45,14 @@ $.fn.serializeObject = function() {
     return obj;
 }
 
+if(typeof window.getURLParameter === 'undefined') {
+    function getURLParameter(key, url) {
+        url = new URL(url || window.location.href);
+        r = url.searchParams.get(key)
+        return r ? r : '';
+    }
+}
+
 $(function() {
     $('.mobile-bottom .more').click((e) => {
         e.preventDefault()
