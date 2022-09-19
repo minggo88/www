@@ -28,8 +28,8 @@
 .category .dropdown+.dropdown--item {
     min-width: 76px;
 }
-.category .dropdown+.dropdown--item ul {
-}
+/* .category .dropdown+.dropdown--item ul {
+} */
 
 
 /* board */
@@ -114,9 +114,9 @@
 
 
 @media screen and (min-width:801px) and (max-width: 1440px){
-	.sub.transaction main{
+	/* .sub.transaction main{
 
-	}
+	} */
 	.sub.transaction .daterange{
 		width: 25%;
 	}
