@@ -27,11 +27,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
 <link rel="stylesheet" href="./assets/css/common.css?t=1663240012">
-<link rel="stylesheet" href="./assets/css/header.css?t=1663202358">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663202358">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663240012">
-<link rel="stylesheet" href="./assets/css/transaction.css?t=1661823297">
+<link rel="stylesheet" href="./assets/css/header.css?t=1663583665">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1663583665">
+<link rel="stylesheet" href="./assets/css/components.css?t=1663583665">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1663583665">
+<link rel="stylesheet" href="./assets/css/transaction.css?t=1663583665">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
@@ -53,9 +53,9 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1661823297"></script>
-<script src="./assets/js/api.js?t=1663207029"></script>
-<script src="./assets/js/components.js?t=1662455477"></script>
+<script src="./assets/js/common.js?t=1663583938"></script>
+<script src="./assets/js/api.js?t=1663584012"></script>
+<script src="./assets/js/components.js?t=1663240160"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" src="./assets/js/transaction.js?t=1661823297" defer></script>
@@ -98,71 +98,95 @@
 </head>
 <!-- BODY -->
 <body class="sub transaction">
-    <header>
-        <h1 class="logo"><a href="/">Teaplat</a></h1>
-        <nav class="nav">
-            <ul>
-                <li>
-                    <a href="exchange.html" data-i18n>거래소</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>공동구매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>경매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>가이드</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>다도 문화</a>
-                </li>
-                <li>
-                    <a href="notice" data-i18n>고객센터</a>
-                </li>
-            </ul>
-            <div class="nav--side">
-
-                <div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
-                    <button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-                    <div class="dropdown--item" style="width: 134px">
-                        <ul>
-                            <li><a href="member-account.html" data-i18n>정보 수정</a></li>
-                            <li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-                            <li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-                            <li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-                            <li><a href="transaction.html" data-i18n>거래 내역</a></li>
-                            <li><a href="notification.html" data-i18n>알림</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
-                    <button type="button" class="dropdown" data-i18n>지갑관리</button>
-                    <div class="dropdown--item" style="width: 100px">
-                        <ul>
-                            <li><a href="wallet.html" data-i18n>보유 자산</a></li>
-                            <li><a href="wallet-deposit.html" data-i18n>입금</a></li>
-                            <li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
-                            <li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <button name="box_logedin" style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-                <div name="box_unlogedin" style="display: none">
-                    <a href="login.html" class="btn--login" data-i18n>로그인</a>
-                </div>
-
-                <div class="language dropdown-wrapper">
-                    <button type="button" class="dropdown">한국어</button>
-                    <div class="dropdown--item" style="width: 81px">
-                        <span>한국어</span>
-                        <ul>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+	<header>
+		<div class="header_inner">
+			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
+			<nav class="nav">
+				<ul>
+					<li>
+						<a href="exchange.html" data-i18n>거래소</a>
+					</li>
+					<li>
+						<a href="" data-i18n>공동구매</a>
+					</li>
+					<li>
+						<a href="" data-i18n>경매</a>
+					</li>
+					<li>
+						<a href="" data-i18n>입출금</a>
+					</li>
+					<li>
+						<a href="" data-i18n>다도 문화</a>
+					</li>
+					<li>
+						<a href="notice.html" data-i18n>고객센터</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="nav--side">
+				<div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
+					<div class="dropdown--item" style="width: 134px">
+						<ul>
+							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
+							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
+							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
+							<li><a href="notification.html" data-i18n>알림</a></li>
+						</ul>
+					</div>
+				</div>
+				<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
+					<button type="button" class="dropdown" data-i18n>지갑관리</button>
+					<div class="dropdown--item" style="width: 100px">
+						<ul>
+							<li><a href="wallet.html" data-i18n>보유 자산</a></li>
+							<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
+							<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
+							<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
+						</ul>
+					</div>
+				</div>
+				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+				<div name="box_unlogedin">
+					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
+				</div>
+				<div class="language dropdown-wrapper">
+					<button type="button" class="dropdown">한국어</button>
+					<div class="dropdown--item" style="width: 81px">
+						<span>한국어</span>
+						<ul>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="box-mobile-menu">
+				<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
+			</div>
+			<ul class="gnb box-menu" name="box-menu">
+				<li>
+					<a href="exchange.html" data-i18n>거래소</a>
+				</li>
+				<li>
+					<a href="" data-i18n>공동구매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>경매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>입출금</a>
+				</li>
+				<li>
+					<a href="" data-i18n>다도 문화</a>
+				</li>
+				<li>
+					<a href="notice.html" data-i18n>고객센터</a>
+				</li>
+			</ul>
+		</div>
+	</header>
     <aside class="mobile-panel">
         <h1 class="size--20" data-i18n>계정 관리</h1>
         <ul>
@@ -178,9 +202,9 @@
             <li>
                 <a href="change-account-number.html" data-i18n>출금계좌 변경</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
-            </li>
+            </li> -->
         </ul>
         <h1 class="size--20" data-i18n>지갑 관리</h1>
         <ul>
@@ -198,355 +222,366 @@
             </li>
         </ul>
     </aside>
-    <main class="d-grid">
-        <aside class="side">
-            <h1 data-i18n>계정 관리</h1>
-            <nav class="side--snb">
-                <ul>
-                    <li>
-                        <a href="notice.html" data-i18n>정보 수정</a>
-                    </li>
-                    <li>
-                        <a href="notice.html" data-i18n>ID 인증 관리</a>
-                    </li>
-                    <li>
-                        <a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
-                    </li>
-                    <li>
-                        <a href="change-account-number.html" data-i18n>출금계좌 변경</a>
-                    </li>
-                    <li class="snb--active">
-                        <a href="transaction.html" data-i18n>거래 내역</a>
-                    </li>
-                    <li>
-                        <a href="notification.html" data-i18n>알림</a>
-                    </li>
-                    <li>
-                        <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-        <div class="contents">
-            <header class="contents--header">
-                <button type="button" class="navigation"></button>
-                <h1 data-i18n>Trading History</h1>
-            </header>
-            <h1 class="size--20"><i class="icon-"></i> <span data-i18n>거래 내역</span></h1>
-
-            <div class="d-flex mobile-only" style="margin-bottom: 16px">
-                <div class="dropdown-wrapper">
-                    <button type="button" class="dropdown" data-i18n>기간</button>
-                    <div class="dropdown--item">
-                        <ul>
-                            <li>
-                                <button type="button" data-i18n>1주일</button>
-                            </li>
-                            <li>
-                                <button type="button" data-i18n>1개월</button>
-                            </li>
-                            <li>
-                                <button type="button" data-i18n>6개월</button>
-                            </li>
-                            <li>
-                                <button type="button" data-i18n>1년</button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px">
-                <button type="submit" class="btn btn--red" style="width: 136px" data-i18n>조회하기</button>
-
-
-            </div>
-            <div class="d-flex desktop-only" style="margin-bottom: 49px">
-                <div class="flex-center flex-self-center text--medium text-bold" style="width: 68px; text-align: center; margin-right: 7px" data-i18n>기간</div>
-                <button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px" data-i18n>1주일</button>
-                <button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px" data-i18n>1개월</button 7pxbutton>
-                <button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px" data-i18n>6개월</button>
-                <button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px" data-i18n>1년</button>
-                <input type="text" name="range" id="range" readonly class="daterange" style="margin-right: 10px">
-                <button type="submit" class="btn btn--red" style="width: 136px" data-i18n>조회하기</button>
-            </div>
-            <script>
-                $('input[name="range"]').daterangepicker({
-                    maxDate: moment(),
-                    autoUpdateInput: true,
-                    autoApply: true,
-                    locale: {
-                        format: 'YYYY-MM-DD',
-                        "daysOfWeek": [
-                            "일",
-                            "월",
-                            "화",
-                            "수",
-                            "목",
-                            "금",
-                            "토"
-                        ],
-                        "monthNames": [
-                            "1월",
-                            "2월",
-                            "3월",
-                            "4월",
-                            "5월",
-                            "6월",
-                            "7월",
-                            "8월",
-                            "9월",
-                            "10월",
-                            "11월",
-                            "12월"
-                        ],
-                    }
-                });
-                $('input[name="range"]').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('YYYY-MM-DD') + '      ~      ' + picker.endDate.format('YYYY-MM-DD'));
-  });
-
-
-            </script>
-            <script>
-                let page = 1
-                let symbol = 'ETH'
-
-            </script>
-            <div class="board--body p-0">
-                <table class="transaction--list board--list desktop-only">
-                    <colgroup>
-                        <col width="">
-                        <col style="width: calc(100% * (220 / 919))">
-                        <col style="width: calc(100% * (80 / 919))">
-                        <col style="width: calc(100% * (70 / 919))">
-                        <col style="width: calc(100% * (110 / 919))">
-                        <col style="width: calc(100% * (130 / 919))">
-                        <col style="width: calc(100% * (130 / 919))">
-                        <col style="width: calc(100% * (84 / 919))">
-                    </colgroup>
-                    <thead class="desktop-only">
-                        <tr>
-                            <th style="position: relative; line-height: 1">
-                                <div class="category dropdown-wrapper">
-                                    <button type="button" class="dropdown" data-i18n>전체</button>
-                                    <div class="dropdown--item">
-                                        <span data-i18n>전체</span>
-                                        <ul>
-                                            <li><a href="" data-i18n>판매</a></li>
-                                            <li><a href="" data-i18n>구매</a></li>
-                                            <li><a href="" data-i18n>공동 구매</a></li>
-                                            <li><a href="" data-i18n>경매</a></li>
-                                            <li><a href="" data-i18n>제품 등록</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </th>
-                            <th data-i18n>제품</th>
-                            <th data-i18n>단가</th>
-                            <th data-i18n>수량</th>
-                            <th data-i18n>총액</th>
-                            <th data-i18n>보냄</th>
-                            <th data-i18n>받음</th>
-                            <th data-i18n>날짜</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text--left"  style="font-size: 12px"><i class="ico-제품등록"></i> 제품 등록</td>
-                            <td class="text--left"  style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
-                                </span>
-                                원영호 원창호</td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 10px">관리자</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-판매"></i> 판매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/원성호생차_누끼이미지1.png" alt="">
-                                </span>
-                                원영호 원창호
-                            </td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 10px">hong1234@naver.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-구매"></i> 구매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/빙도_누끼이미지4.png" alt="">
-                                </span>
-                                원영호 송빙</td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-공동구매"></i> 공동 구매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/원성호생차_누끼이미지1.png" alt="">
-                                </span>
-                                8892 후기홍인</td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-경매등록"></i> 경매 등록</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/복전차.png" alt="">
-                                </span>
-                                복전차
-                            </td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 10px">관리자</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-경매구매"></i> 경매 구매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
-                                </span>
-                                끽다거 빙도
-                            </td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="" style="font-size: 10px">china@gmail.com</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
-                                </span>
-                                복전차
-                            </td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="" style="font-size: 10px">china@gmail.com</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
-                                </span>
-                                복전차
-                            </td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="" style="font-size: 10px">china@gmail.com</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
-                                </span>
-                                복전차
-                            </td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="" style="font-size: 10px">china@gmail.com</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
-                                </span>
-                                복전차
-                            </td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="" style="font-size: 10px">china@gmail.com</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
-                                </span>
-                                복전차
-                            </td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="" style="font-size: 10px">china@gmail.com</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                        <tr>
-                            <td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
-                            <td class="text--left" style="font-size: 12px">
-                                <span class="product--image">
-                                    <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
-                                </span>
-                                복전차
-                            </td>
-                            <td class="text--right" style="font-size: 12px">$1,000</td>
-                            <td class="text--right" style="font-size: 12px">100</td>
-                            <td class="text--right" style="font-size: 12px"></td>
-                            <td class="" style="font-size: 10px">china@gmail.com</td>
-                            <td class="" style="font-size: 10px">kikdda@teaplat.com</td>
-                            <td class="" style="font-size: 12px">22-06-24</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <nav class="board--pagination">
-                    <ul>
-                        <li class="pagination--prev">
-                            <a href="" data-i18n>이전 페이지</a>
-                        </li>
-                        <li>
-                            <a href="">1</a>
-                        </li>
-                        <li class="pagination--next">
-                            <a href="" data-i18n>다음 페이지</a>
-                        </li>
-                    </ul>
-                </nav>
-                <ul class="notification--list mobile-only">
-                </ul>
-            </div>
-        </div>
-    </main>
+	<div class="content_wrap">
+		<main class="d-flex d-justify">
+			<aside class="side">
+				<h1 data-i18n>계정 관리</h1>
+				<nav class="side--snb">
+					<ul>
+						<li>
+							<a href="notice.html" data-i18n>정보 수정</a>
+						</li>
+						<li>
+							<a href="notice.html" data-i18n>ID 인증 관리</a>
+						</li>
+						<li>
+							<a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+						</li>
+						<li>
+							<a href="change-account-number.html" data-i18n>출금계좌 변경</a>
+						</li>
+						<li class="snb--active">
+							<a href="transaction.html" data-i18n>거래 내역</a>
+						</li>
+						<li>
+							<a href="notification.html" data-i18n>알림</a>
+						</li>
+						<!-- <li>
+							<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
+						</li> -->
+					</ul>
+				</nav>
+			</aside>
+			<div class="contents">
+				<header class="contents--header">
+					<div>
+						<button type="button" class="navigation"></button>
+						<h1 data-i18n>Trading History</h1>
+					</div>
+					<div class="mobile-only">
+						<i class="icon-user-fill icon-alarm"></i>
+						<i class="icon-user-fill icon-setting"></i>
+					</div>
+				</header>
+				<h1 class="size--20 mobile-only"><i class="icon-user-fill icon-transaction"></i> <span data-i18n>거래 내역</span></h1>
+				<div class="d-flex mobile-only period" style="margin-bottom: 16px">
+					<div class="dropdown-wrapper">
+						<button type="button" class="dropdown" data-i18n>기간</button>
+						<div class="dropdown--item">
+							<ul>
+								<li>
+									<button type="button" data-i18n>1주일</button>
+								</li>
+								<li>
+									<button type="button" data-i18n>1개월</button>
+								</li>
+								<li>
+									<button type="button" data-i18n>6개월</button>
+								</li>
+								<li>
+									<button type="button" data-i18n>1년</button>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div style="display: flex; justify-content: space-between;">
+						<input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px">
+						<button type="submit" class="btn btn--red" data-i18n>조회하기</button>
+					</div>
+				</div>
+				<div class="d-flex desktop-only" style="margin-bottom: 49px">
+					<div class="flex-center flex-self-center text--medium text-bold" style="width: 68px; text-align: center; margin-right: 7px" data-i18n>기간</div>
+					<button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px" data-i18n>1주일</button>
+					<button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px" data-i18n>1개월</button 7pxbutton>
+					<button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px" data-i18n>6개월</button>
+					<button type="button" class="btn btn--blue-gray" style="width: 60px; margin-right: 10px" data-i18n>1년</button>
+					<input type="text" name="range" id="range" readonly class="daterange" style="margin-right: 10px">
+					<button type="submit" class="btn btn--red" data-i18n>조회하기</button>
+				</div>
+				<script>
+					$('input[name="range"]').daterangepicker({
+						maxDate: moment(),
+						autoUpdateInput: true,
+						autoApply: true,
+						locale: {
+							format: 'YYYY-MM-DD',
+							"daysOfWeek": [
+								"일",
+								"월",
+								"화",
+								"수",
+								"목",
+								"금",
+								"토"
+							],
+							"monthNames": [
+								"1월",
+								"2월",
+								"3월",
+								"4월",
+								"5월",
+								"6월",
+								"7월",
+								"8월",
+								"9월",
+								"10월",
+								"11월",
+								"12월"
+							],
+						}
+					});
+					$('input[name="range"]').on('apply.daterangepicker', function(ev, picker) {
+						$(this).val(picker.startDate.format('YYYY-MM-DD') + '      ~      ' + picker.endDate.format('YYYY-MM-DD'));
+					});
+				</script>
+				<script>
+					let page = 1
+					let symbol = 'ETH'
+				</script>
+				<div class="board--body p-0">
+					<table class="transaction--list board--list desktop-only">
+						<colgroup>
+							<col style="width:15%; min-width: 100px"><!--전체-->
+							<col style="width:25%; min-width: 145px"><!--제품-->
+							<col style="width:10%; min-width: 60px;"><!--단가-->
+							<col style="width:10%; min-width: 60px;"><!--수량-->
+							<col style="width:10%; min-width: 70px;"><!--총액-->
+							<col style="width:20%"><!--보냄-->
+							<col style="width:20%"><!--받음-->
+							<col style="width:15%"><!--날짜-->
+							<!-- <col style="width: calc(100% * (220 / 919))">
+							<col style="width: calc(100% * (80 / 919))">
+							<col style="width: calc(100% * (70 / 919))">
+							<col style="width: calc(100% * (110 / 919))">
+							<col style="width: calc(100% * (130 / 919))">
+							<col style="width: calc(100% * (130 / 919))">
+							<col style="width: calc(100% * (84 / 919))"> -->
+						</colgroup>
+						<thead class="desktop-only">
+							<tr>
+								<th style="position: relative; line-height: 1">
+									<div class="category dropdown-wrapper">
+										<button type="button" class="dropdown" data-i18n>전체</button>
+										<div class="dropdown--item">
+											<span data-i18n>전체</span>
+											<ul>
+												<li><a href="" data-i18n>판매</a></li>
+												<li><a href="" data-i18n>구매</a></li>
+												<li><a href="" data-i18n>공동 구매</a></li>
+												<li><a href="" data-i18n>경매</a></li>
+												<li><a href="" data-i18n>제품 등록</a></li>
+											</ul>
+										</div>
+									</div>
+								</th>
+								<th data-i18n>제품</th>
+								<th data-i18n>단가</th>
+								<th data-i18n>수량</th>
+								<th data-i18n>총액</th>
+								<th data-i18n>보냄</th>
+								<th data-i18n>받음</th>
+								<th data-i18n>날짜</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text--left"  style="font-size: 12px"><i class="ico-제품등록"></i> 제품 등록</td>
+								<td class="text--left"  style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/청소타차_누끼이미지1.png" alt="">
+									</span>
+									원영호 원창호</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 10px">관리자</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-판매"></i> 판매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/원성호생차_누끼이미지1.png" alt="">
+									</span>
+									원영호 원창호
+								</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 10px">hong1234@naver.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-구매"></i> 구매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/빙도_누끼이미지4.png" alt="">
+									</span>
+									원영호 송빙</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-공동구매"></i> 공동 구매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/원성호생차_누끼이미지1.png" alt="">
+									</span>
+									8892 후기홍인</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-경매등록"></i> 경매 등록</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/복전차.png" alt="">
+									</span>
+									복전차
+								</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 10px">관리자</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-경매구매"></i> 경매 구매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/청소타차_누끼이미지1.png" alt="">
+									</span>
+									끽다거 빙도
+								</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="" style="font-size: 10px">china@gmail.com</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/청소타차_누끼이미지1.png" alt="">
+									</span>
+									복전차
+								</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="" style="font-size: 10px">china@gmail.com</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/청소타차_누끼이미지1.png" alt="">
+									</span>
+									복전차
+								</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="" style="font-size: 10px">china@gmail.com</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/청소타차_누끼이미지1.png" alt="">
+									</span>
+									복전차
+								</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="" style="font-size: 10px">china@gmail.com</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/청소타차_누끼이미지1.png" alt="">
+									</span>
+									복전차
+								</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="" style="font-size: 10px">china@gmail.com</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/청소타차_누끼이미지1.png" alt="">
+									</span>
+									복전차
+								</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="" style="font-size: 10px">china@gmail.com</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+							<tr>
+								<td class="text--left" style="font-size: 12px"><i class="ico-경매판매"></i> 경매 판매</td>
+								<td class="text--left" style="font-size: 12px">
+									<span class="product--image">
+										<img src="./assets/img/청소타차_누끼이미지1.png" alt="">
+									</span>
+									복전차
+								</td>
+								<td class="text--right" style="font-size: 12px">$1,000</td>
+								<td class="text--right" style="font-size: 12px">100</td>
+								<td class="text--right" style="font-size: 12px"></td>
+								<td class="" style="font-size: 10px">china@gmail.com</td>
+								<td class="" style="font-size: 10px">kikdda@teaplat.com</td>
+								<td class="" style="font-size: 12px">22-06-24</td>
+							</tr>
+						</tbody>
+					</table>
+					<nav class="board--pagination desktop-only">
+						<ul>
+							<li class="pagination--prev">
+								<a href="" data-i18n>이전 페이지</a>
+							</li>
+							<li>
+								<a href="">1</a>
+							</li>
+							<li class="pagination--next">
+								<a href="" data-i18n>다음 페이지</a>
+							</li>
+						</ul>
+					</nav>
+					<ul class="notification--list mobile-only">
+					</ul>
+				</div>
+			</div>
+		</main>
+	</div>
     <div class="mobile-bottom mobile-only">
         <ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
             <li class="exchange">
@@ -566,7 +601,7 @@
             </li>
         </ul>
     </div>
-    <footer class="desktop-only">
+    <!-- <footer class="desktop-only">
 		<div class="logo">Teaplat</div>
 		<nav class="fnb">
 			<ul>
@@ -599,9 +634,9 @@
 		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
 		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
-	</footer>
+	</footer> -->
 
-    <script src="./assets/js/app.js?t=1663239931"></script>
+    <script src="./assets/js/app.js?t=1663583665"></script>
 
 </body>
 </html>

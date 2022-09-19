@@ -2,6 +2,7 @@
 let SELECTED_SYMBOL = ''
 let SELECTED_NAME = ''
 let SELECTED_SYMBOL_PRICE = 0
+let SELECTED_EXCHANGE = getURLParameter('exchange') || 'USD'
 let CHART_TIMER
 
 // 모바일 접속 여부
@@ -266,6 +267,8 @@ $(function() {
         ordering: true
     } )
 
+
+
     const buyGrid = $('#buyGrid').DataTable({
         processing: false,
         serverSide: true,
@@ -274,7 +277,7 @@ $(function() {
         deferRender: true,
         scroller: true,
         ajax: {
-            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&trading_type=buy`,
+            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy`,
             type: 'POST',
             dataSrc: 'payload',
         },
@@ -396,7 +399,7 @@ $(function() {
         deferRender: true,
         scroller: true,
         ajax: {
-            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&trading_type=sell`,
+            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell`,
             type: 'POST',
             dataSrc: 'payload',
         },
@@ -527,7 +530,7 @@ $(function() {
             resp.payload.map((item) => {
                 const symbol = item.symbol
 
-                requestQueue.push({ method: 'getSpotPrice', params: { token: window.localStorage.token, symbol: symbol } })
+                requestQueue.push({ method: 'getSpotPrice', params: { token: window.localStorage.token, symbol: symbol, exchange: SELECTED_EXCHANGE } })
                 requestQueue2.push({ method: 'getAuction/auction_goods_info.php', params: { token: window.localStorage.token, goods_idx: item.idx } })
             })
 
@@ -593,11 +596,26 @@ $(function() {
 
                 const grid = $('#jqGrid').on( 'init.dt', function (_e, _settings) {
                     const api = new $.fn.dataTable.Api( '#jqGrid' );
-                    api.row(0).select()
+
+                    const REQUEST_SYMBOL = getURLParameter('symbol')
+                    const ROWS_COUNT = api.rows().data().length
+
+                    if(REQUEST_SYMBOL) {
+                        for(let i = 0; i < ROWS_COUNT; i++) {
+                            const row = api.row(i).data()
+                            const symbol = row.symbol
+
+                            if(REQUEST_SYMBOL === symbol) {
+                                api.row(i).select()
+                                break
+                            }
+                        }
+                    } else {
+                        api.row(0).select()
+                    }
+
 
                     if(isMobile) {
-
-
                         api.column(1).visible(false)
                     }
                 } ).on('responsive-resize', function() {
@@ -626,7 +644,7 @@ $(function() {
                         // 로딩 애니메이션 출력
                         $('.details').addClass('loading')
 
-                        API.getSpotPrice(SELECTED_SYMBOL, (resp) => {
+                        API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
                             API.getChartData(SELECTED_SYMBOL, period, (resp) => {
                                 $('.details').removeClass('loading')
 
@@ -674,10 +692,10 @@ $(function() {
 
                         $('.details .tabs').on('beforeShow', (_event, _index, target) => {
                             if(target === '#tab-sell') {
-                                sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&trading_type=sell`)
+                                sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell`)
                                 sellGrid.clear().load()
                             } else if ( target === '#tab-buy') {
-                                buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&trading_type=buy`)
+                                buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy`)
                                 buyGrid.clear().load()
                             }
                         })
@@ -732,7 +750,7 @@ $(function() {
                     const { teamaster_note, producer_note } = data
                     const { grade, certificate } = data
 
-                    API.getSpotPrice(symbol, (resp) => {
+                    API.getSpotPrice(symbol, SELECTED_EXCHANGE, (resp) => {
                         if(resp.success) {
                             const spot = resp.payload[0]
     
@@ -921,6 +939,29 @@ $(function() {
         return false
     })
 
+    $('#modal-buy2').submit(e => {
+        e.preventDefault()
+
+        API.buy($('#modal-buy2').serializeObject(), (resp) => {
+            if(resp.success) {
+                $('#modal-buy2').myModal('hide')
+
+                const price = parseFloat($('#modal-buy2 [name=price]').val())
+                const volume = parseFloat($('#modal-buy2 [name=volume]').val())
+
+                $('#modal-buy-success .tea--name').text(SELECTED_NAME)
+                $('#modal-buy-success .volume').text(volume.format())
+                $('#modal-buy-success .total').text((price * volume).format())
+                $('#modal-buy-success').myModal('show')
+            } else {
+                alert(resp.error.message)
+            }
+
+        })
+
+        return false
+    })
+
     $('#modal-buy').myModal('beforeOpen', (_event, btn) => {
         const orderid = btn.data('orderid')
         const symbol = btn.data('symbol')
@@ -943,7 +984,21 @@ $(function() {
         API.sellDirect($('#modal-sell').serializeObject(), (resp) => {
             if(resp.success) {
                 $('#modal-sell').myModal('hide')
-                $('#modal-sell-success').myModal('show')
+                $('#alert-sell').myModal('show')
+            } else {
+                alert(resp.error.message)
+            }
+        })
+
+        return false
+    })
+    $('#modal-sell2').submit(e => {
+        e.preventDefault()
+
+        API.sell($('#modal-sell2').serializeObject(), (resp) => {
+            if(resp.success) {
+                $('#modal-sell2').myModal('hide')
+                $('#alert-sell').myModal('show')
             } else {
                 alert(resp.error.message)
             }
