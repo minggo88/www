@@ -97,7 +97,9 @@
 		/* padding-top: 80px; */
 		/* display: block; */
 	}
-	.sub.notice.inquiry main{
+	.sub.notice.inquiry main,
+	.sub.notification main
+	{
 		padding-left: 0;
 		padding-right: 0;
 	}
@@ -1265,7 +1267,7 @@
 
 
 /* ###################################################### */
-
+/* 수정완료 */
 /* 회원탈퇴 */
 .sub.withdrawal p.text--medium:nth-of-type(2){font-size: 15px;}
 .sub.withdrawal .boxed{padding: 22px 60px 0 35px;}
@@ -1351,6 +1353,8 @@
 		align-items: center;
 	}
 
+	
+
 	.sub.verifiy .contents--header > div{display: flex;}
 	.sub.verifiy .contents--header > div .icon-alarm{
 		background: url('../img/icon/icon-alarm.svg') no-repeat 50%;
@@ -1394,6 +1398,8 @@
 /* ###################################################### */
 /* 수정완료 */
 /* identity verfication complete ID 인증관리 */
+
+
 @media screen and (max-width: 800px){
 	.sub.complete form{
 		display: flex;
@@ -1402,6 +1408,9 @@
 	}
 	.sub.verifiy.complete .submitBtn{
 		bottom: 10px;
+	}
+	.sub.verifiy.complete main header.contents--header{
+		justify-content: flex-start;
 	}
 }
 
@@ -1548,6 +1557,137 @@
 	.sub.changeAccount main header.contents--header{line-height: 48px;}
 	.sub.changeAccount .navigation--back{height: 48px;}
 }
+
+
+/* ###################################################### */
+/* 수정중 */
+/* taransction 거래내역 */
+
+
+
+
+
+/* ###################################################### */
+/* 수정확인 */
+/* notification 알림 */
+.sub.notification .board--body{
+	max-width: 900px;
+	width: 100%;
+}
+
+.sub.notification .board--list{
+	table-layout: fixed;
+	border-spacing: 0;
+	width: 100%;
+}
+.sub.notification .board--list thead:after{
+	display: block;
+	content:'';
+	width: 100%;
+	height: 1px;
+}
+.sub.notification .board--list thead th,
+.sub.notification .board--list tbody td{
+    height: 46px; 
+	border: 0.35px solid #BDC4CB; 
+	background-color: #f5f5f5; 
+	text-align: center; 
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.sub.notification .board--list thead th:first-of-type{
+	min-width: 140px;
+	border-top-left-radius: 10px;
+}
+.sub.notification .board--list thead th:nth-of-type(2),
+.sub.notification .board--list tbody tr td:nth-of-type(2)
+{
+	width: 68%;
+	border-left: none;
+}
+.sub.notification .board--list thead th:last-of-type{
+	width: 12%;
+	min-width: 100px;
+	border-top-right-radius: 10px;
+	border-left: none;
+}
+
+.sub.notification .board--list tbody td{
+	background-color: transparent;
+	height: auto;
+}
+
+.sub.notification .board--list tbody tr:not(:first-child) td{
+	border-top: none;
+}
+
+.sub.notification .board--list tbody td:nth-of-type(2){
+	/* 가운데 td*/
+	border-left: none;
+	padding: 13px 10px;
+	box-sizing: border-box;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.sub.notification .board--list tbody td:last-of-type{
+	border-left: none;
+}
+
+@media screen and (max-width: 1100px){
+	.sub.notification .board--list thead th, 
+	.sub.notification .board--list tbody td{
+		font-size: 12px;
+	}
+}
+
+@media screen and (max-width: 800px){
+	.sub.notification > header{display: none;}
+
+
+	.sub.notification main{
+		display: flex;
+		justify-content: flex-start;
+		padding:0 30px!important;
+	}
+	.sub.notification .navigation--back{height: 60px;}
+	.sub.notification .side{display: none;}
+
+	.sub.notification main header.contents--header{
+		line-height: 60px; 
+		padding-left: 0;
+		margin-bottom: 0;
+		display: flex; 
+		border-bottom: none;
+		align-items: center; 
+	}
+
+	.sub.notification .desktop-only{display: none!important;}
+	.sub.notification .mobile-only{display: block!important;}
+	
+	.sub.notification .notification--list li:not(:last-child){
+		border-bottom: 1px solid #f5f5f5;
+	}
+
+	.sub.notification .notification--list li:not(:first-child){
+		margin-top: 24px;
+	}
+
+	.sub.notification .notification--list .notification--content{
+		width: 85%;
+		padding-bottom: 24px;
+	}
+}
+
+@media screen and (max-width: 600px){ 
+	.sub.notificationl main header.contents--header{
+		line-height: 48px;
+	}
+	.sub.notification .navigation--back{height: 48px;}
+}
+
 
 /* ###################################################### */
 /* pagination */
