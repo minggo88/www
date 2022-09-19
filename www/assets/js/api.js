@@ -576,13 +576,14 @@ const API = {
             }
         })
     },
-    getQuoteList: (symbol, callback) => {
+    getQuoteList: (symbol, exchange, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getQuoteList/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
                 symbol: symbol,
+                exchange: exchange,
             },
             success: (resp) => {
                 callback(resp)
@@ -604,13 +605,14 @@ const API = {
             }
         })
     },
-    getSpotPrice: (symbol, callback) => {
+    getSpotPrice: (symbol, exchange, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getSpotPrice/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
                 symbol: symbol,
+                exchange: exchange,
                 lang: window.localStorage.locale,
             },
             success: (resp) => {
