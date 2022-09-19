@@ -267,6 +267,8 @@ $(function() {
         ordering: true
     } )
 
+
+
     const buyGrid = $('#buyGrid').DataTable({
         processing: false,
         serverSide: true,
