@@ -528,7 +528,7 @@ $(function() {
             resp.payload.map((item) => {
                 const symbol = item.symbol
 
-                requestQueue.push({ method: 'getSpotPrice', params: { token: window.localStorage.token, symbol: symbol } })
+                requestQueue.push({ method: 'getSpotPrice', params: { token: window.localStorage.token, symbol: symbol, exchange: SELECTED_EXCHANGE } })
                 requestQueue2.push({ method: 'getAuction/auction_goods_info.php', params: { token: window.localStorage.token, goods_idx: item.idx } })
             })
 
@@ -642,7 +642,7 @@ $(function() {
                         // 로딩 애니메이션 출력
                         $('.details').addClass('loading')
 
-                        API.getSpotPrice(SELECTED_SYMBOL, (resp) => {
+                        API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
                             API.getChartData(SELECTED_SYMBOL, period, (resp) => {
                                 $('.details').removeClass('loading')
 
@@ -748,7 +748,7 @@ $(function() {
                     const { teamaster_note, producer_note } = data
                     const { grade, certificate } = data
 
-                    API.getSpotPrice(symbol, (resp) => {
+                    API.getSpotPrice(symbol, SELECTED_EXCHANGE, (resp) => {
                         if(resp.success) {
                             const spot = resp.payload[0]
     
