@@ -101,8 +101,14 @@ main {
 }
 
 .create-account main .dropdown--item ul > li{
-	padding: 7px 0;
+	padding: 4px 0 4px 15px;
+	height: 26px;
+	line-height: 24px;
 	
+}
+
+.dropdown+.dropdown--item ul li button{
+	text-align: left;
 }
 
 .create-account .step--list{top: inherit;}
@@ -160,15 +166,20 @@ main {
 
 
 @media screen and (max-width: 800px) {
+	.create-account .box-mobile-menu{
+		display: none;
+	}
 	.login main{
 		display: flex;
 		align-items: flex-start;
 		justify-content: center;
+		
 	}
 	
 	.create-account main{
 		align-items: center;
 		justify-content: flex-start;
+		padding: 15px 16px 56px 16px;
 	}
 	
 	.login.forget form .grid--code{
@@ -203,7 +214,7 @@ main {
 	.create-account section .step--list{
 		/* margin-top: 30px; */
 		position: absolute;
-		top: -8%
+		top: 0px;
 		
 	}
 	.create-account .step--list .step--header {
@@ -229,7 +240,7 @@ main {
 	.create-account div.form--controls:nth-child(1){
 		margin-top: 30px!important;
 	}
-	.login main > section > form{padding-top: 10px;}
+	.login main > section > form{padding-top: 30px;}
 
 }
 
@@ -241,6 +252,10 @@ main {
         margin-top: 48px;
         margin-bottom: 64px
     } */
+
+	.create-account main{
+		padding: 15px 16px 56px 16px!important;
+	}
     .create-account .tttt {
         align-self: center;
     }

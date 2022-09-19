@@ -29,10 +29,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;350;400;500;700;900&display=swap">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
 <link rel="stylesheet" href="./assets/css/common.css?t=1663240012" />
-<link rel="stylesheet" href="./assets/css/header.css?t=1663202358">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1663058405">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663202358">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663240012">
+<link rel="stylesheet" href="./assets/css/header.css?t=1663583665">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1663583665">
+<link rel="stylesheet" href="./assets/css/components.css?t=1663583665">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1663583665">
 <link rel="stylesheet" href="./assets/css/exchange.css?t=1661823297">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css">
@@ -40,14 +40,14 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1661823297"></script>
-<script src="./assets/js/api.js?t=1663207029"></script>
-<script src="./assets/js/components.js?t=1662455477" defer></script>
+<script src="./assets/js/common.js?t=1663583938"></script>
+<script src="./assets/js/api.js?t=1663584012"></script>
+<script src="./assets/js/components.js?t=1663240160" defer></script>
 <script src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-<script src="./assets/js/exchange.js?t=1662455717" defer></script>
+<script src="./assets/js/exchange.js?t=1663583972" defer></script>
 <script>
     let USER_INFO = {}
 
@@ -207,7 +207,7 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th class="name">한글명</th>
+                                    <th class="name">이름</th>
                                     <th class="meta_type">타입</th>
                                     <th class="meta_wp_production_date">생산연도</th>
                                     <th class="price">현재가</th>
@@ -269,6 +269,15 @@
                         <div class="dropdown--item" style="top: 0; border-radius: 0; max-height: unset">
                             <span>1일</span>
                             <ul>
+                                <li><button type="button">1분</button></li>
+                                <li><button type="button">3분</button></li>
+                                <li><button type="button">5분</button></li>
+                                <li><button type="button">10분</button></li>
+                                <li><button type="button">15분</button></li>
+                                <li><button type="button">1시간</button></li>
+                                <li><button type="button">12시간</button></li>
+                                <li class="dropdown--selected"><button type="button">1일</button></li>
+                                <li><button type="button">1주</button></li>
                             </ul>
                         </div>
                     </div>
@@ -295,6 +304,20 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                    $('#period').on('change', (event, text) => {
+                        let period;
+
+                        period = text.replaceAll('주', 'w')
+                        period = text.replaceAll('일', 'd')
+                        period = text.replaceAll('시간', 'h')
+                        period = text.replaceAll('분', 'm')
+
+                        API.getChartData('', period, (resp) => {
+                            displayChart(resp, period)
+                        })
+                    })
+                </script>
 
                 <div id="tvchart"></div>
 
@@ -343,7 +366,7 @@
                                 </tbody>
                             </table>
                             <div class="text--right" style="margin-top: 20px">
-                                <a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy2">구매 등록</a>
+                                <a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy">구매 등록</a>
                             </div>
                         </div>
                         <div class="tab-content" id="tab-sell"  style="display: block">
@@ -364,7 +387,7 @@
                                 </tbody>
                             </table>
                             <div class="text--right" style="margin-top: 20px">
-                                <a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell2">판매 등록</a>
+                                <a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell">판매 등록</a>
                             </div>
                         </div>
                         <div class="tab-content" id="tab-info" style="display: none">
@@ -402,7 +425,7 @@
                                         <td>
                                             <div style="height: 90px">서쌍판납주 이무정산의 야생 고차수 여린 잎을 채취하여 지금은 전설이 되어버린 1950년 홍인 보이병차를 1988년에 재현하여 만든 차세대의 전설이 될 수 있는 최고급 보이병차입니다.</div>
                                             <div class="btns">
-                                                <button type="button" class="btn btn--white" data-toggle="modal" data-target="#scan" data-animation="">입체스캔</button>
+                                                <button type="button" class="btn btn--white" data-toggle="modal" data-target="#scan">입체스캔</button>
                                                 <button type="button" class="btn btn--white" data-toggle="modal" data-target="#white-paper">백서</button>
                                             </div>
                                         </td>
@@ -412,9 +435,6 @@
                         </div>
                 </div>
                 </div>
-            </div>
-            <div>
-
             </div>
         </main>
         <div id="modal-buy-success" class="modal modal--tiny" tabindex="-1">
@@ -541,107 +561,6 @@
                         </dd>
                     </dl>
                     <div class="text--center" style="margin-top: 32px"><input type="submit" value="판매하기" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px"></div>
-
-                </div>
-            </div>
-        </form>
-        <form id="modal-sell2" class="modal modal--tiny" tabindex="-1">
-            <input type="hidden" name="symbol" value="">
-            <input type="hidden" name="exchange" value="">
-            <input type="hidden" name="orderid" value="">
-            <div class="modal--dialog">
-                <div class="modal--header">
-                    판매하기
-                    <button type="button" class="btn btn--close"></button>
-                </div>
-                <div class="modal--content">
-                    <i class="btn btn--star--on"></i>
-                    <span class="tea--name size--18 text-bbold" style="padding-left: 4px">영원호 원창호</span>
-                    <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px">#12345678</div>
-                    <dl style="margin-bottom: 18px">
-                        <dt>주문가능</dt>
-                        <dd class="tea--available">$ 4,000.0</dd>
-                    </dl>
-                    <dl>
-                        <dt>가격</dt>
-                        <dd style="width: 220px">
-                            <div class="input">
-                                $
-                                <input type="number" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl style="margin-bottom: 40px">
-                        <dt>수량</dt>
-                        <dd style="width: 220px">
-                            <div class="input--spiner">
-                                <input type="number" name="volume" value="0" min="0" step="any">
-                                <div class="d-flex">
-                                    <button type="button" class="spiner-minus"></button>
-                                    <button type="button" class="spiner-plus"></button>
-                                </div>
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt>총액</dt>
-                        <dd style="width: 220px">
-                            <div class="input">
-                                <input type="text" name="total" value="$ 1,200" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
-                            </div>
-                        </dd>
-                    </dl>
-                    <div class="text--center" style="margin-top: 32px"><input type="submit" value="판매하기" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px"></div>
-
-                </div>
-            </div>
-        </form>
-        <form id="modal-buy2" class="modal modal--tiny" tabindex="-1">
-            <input type="hidden" name="symbol" value="">
-            <input type="hidden" name="exchange" value="">
-            <div class="modal--dialog">
-                <div class="modal--header">
-                    구매하기
-                    <button type="button" class="btn btn--close"></button>
-                </div>
-                <div class="modal--content">
-                    <i class="btn btn--star--on"></i>
-                    <span class="tea--name size--18">영원호 원창호</span>
-                    <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px">#12345678</div>
-                    <dl class="tea--" style="margin-bottom: 18px">
-                        <dt>주문가능</dt>
-                        <dd class="tea--available">$ 4,000.0</dd>
-                    </dl>
-                    <dl>
-                        <dt>가격</dt>
-                        <dd>
-                            <div class="input">
-                                $
-                                <input type="number" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl class="tea--volume">
-                        <dt>수량</dt>
-                        <dd>
-                            <div class="input--spiner">
-                                <input type="number" name="volume" value="0" min="0" step="any">
-                                <div class="d-flex">
-                                    <button type="button" class="spiner-minus"></button>
-                                    <button type="button" class="spiner-plus"></button>
-                                </div>
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl class="tea--price">
-                        <dt>총액</dt>
-                        <dd >
-                            <div class="input">
-                                <input type="text" name="total" value="$ 0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
-                            </div>
-                        </dd>
-                    </dl>
-                    <div class="text--center" style="margin-top: 32px"><input type="submit" value="구매하기" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"></div>
 
                 </div>
             </div>

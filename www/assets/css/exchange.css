@@ -73,23 +73,20 @@
 }
 
 /* 구매하기 */
-#modal-buy .modal--content,
-#modal-buy2 .modal--content {
+#modal-buy .modal--content {
     margin-top: 36px;
     padding-left: 39px;
     padding-right: 21px;
     position: relative; background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
 }
-#modal-buy .tea--name,
-#modal-buy2 .tea--name {
+#modal-buy .tea--name {
     padding-left: 4px;
     font-weight: 700;
     letter-spacing: -0.02em;
 }
 
 /* 판매하기 */
-#modal-sell .modal--content,
-#modal-sell2 .modal--content{
+#modal-sell .modal--content{
     margin-top: 36px;
     padding-left: 39px;
     padding-right: 21px;
@@ -98,18 +95,14 @@
 }
 
 #modal-buy .btn--star--on,
-#modal-buy2 .btn--star--on,
-#modal-sell .btn--star--on,
-#modal-sell2 .btn--star--on {
+#modal-sell .btn--star--on {
     position: absolute;
     left: 19px;
     top: 5px;
 }
 
 #modal-buy dd,
-#modal-sell dd,
-#modal-buy2 dd,
-#modal-sell2 dd {
+#modal-sell dd {
     width: 220px;
 }
 
@@ -120,11 +113,6 @@
 
 .tea--volume {
     margin-bottom: 40px;
-}
-
-#scan iframe {
-    width: 100%;
-    height: 100%;
 }
 
 /* Mobile */

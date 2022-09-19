@@ -8,6 +8,26 @@ function disableclick(event) {
         return false;
     }
 }
+
+
+$(document).ready(function() {
+	// 상단 모바일 매뉴
+	$('[name=btn-hamburger]').on('click', function () {
+		$(this).toggleClass('on');
+		$("[name=box-menu]").animate({
+			width: "toggle", opacity: "toggle"
+		}, 50, "swing");
+		return false;
+	});
+	// 모바일 사이즈에서 매뉴를 닫은 후 창을 키우면 매뉴가 안보임
+	$(window).on('resize', function(){
+		if($(window).width() > 840) {
+			$('[name="box-menu"]').attr('style','');
+		}
+	})
+});
+
+
 // F12 버튼 방지
 $(document).ready(function() {
     $(document).bind('keydown', function(evt) {
