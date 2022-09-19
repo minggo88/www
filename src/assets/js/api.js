@@ -465,6 +465,7 @@ const API = {
         })
     },
     getCurrency: (symbol = null, callback) => {
+        console.log( `${API.BASE_URL}/getCurrency/`)
         $.ajax({
             url: `${API.BASE_URL}/getCurrency/`,
             type: 'POST',
@@ -575,13 +576,14 @@ const API = {
             }
         })
     },
-    getQuoteList: (symbol, callback) => {
+    getQuoteList: (symbol, exchange, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getQuoteList/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
                 symbol: symbol,
+                exchange: exchange,
             },
             success: (resp) => {
                 callback(resp)
@@ -603,13 +605,14 @@ const API = {
             }
         })
     },
-    getSpotPrice: (symbol, callback) => {
+    getSpotPrice: (symbol, exchange, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getSpotPrice/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
                 symbol: symbol,
+                exchange: exchange,
                 lang: window.localStorage.locale,
             },
             success: (resp) => {
