@@ -20,7 +20,17 @@
     }
     /* 탭 영역 */
     .tabs {
+        display: flex;
+        align-items: center;
         width: 181px;
+        height: 37px;
+        li {
+            height: 27.42px;
+            line-height: 27.42px;
+        }
+    }
+    .grid-table {
+        border-top: 0.5px solid #BBBBBB;
     }
 }
 

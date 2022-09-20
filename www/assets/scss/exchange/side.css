@@ -21,7 +21,17 @@
   box-sizing: border-box;
 }
 .side--panel .tabs {
+  display: flex;
+  align-items: center;
   width: 181px;
+  height: 37px;
+}
+.side--panel .tabs li {
+  height: 27.42px;
+  line-height: 27.42px;
+}
+.side--panel .grid-table {
+  border-top: 0.5px solid #BBBBBB;
 }
 
 /* Mobile */
