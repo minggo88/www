@@ -3,7 +3,8 @@
 }
 
 .content_wrap{
-	background-color: #fafbfc;
+	/* background-color: #fafbfc; */
+	background-color: #fff;
 	max-width: 1440px;
 	width: 100%;
 	margin: 0 auto;
@@ -30,7 +31,8 @@
 
 .sub{
 	position: relative;
-	background-color: #fafbfc;
+	/* background-color: #fafbfc; */
+	background-color: #fff;
 }
 
 .sub .side{
@@ -1849,7 +1851,7 @@
     height: calc(100% - 72px);
     background: var(--white);
     padding: 0 0 0 16px;
-    z-index: 2;
+    z-index: 51;
 }
 
 .mobile-panel ul {
@@ -1998,6 +2000,14 @@
 		width: 24px;
 		height: 24px;
 		background: transparent url('../img/icon/icon-back.svg') no-repeat 50%;
+		border: 0 none;
+	}
+
+	.navigation--close {
+		display: block;
+		width: 24px;
+		height: 24px;
+		background: transparent url('../img/icon/icon-close.svg') no-repeat 50%;
 		border: 0 none;
 	}
 

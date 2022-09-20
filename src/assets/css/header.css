@@ -7,6 +7,9 @@ body > header {
 	align-items: center;
 	background: rgba(0, 0, 0, 0.02);
 }
+body.exchange > .container > header{
+	background: rgba(0, 0, 0, 0.02);
+} 
 
 .header_inner{
 	width: 1440px;
