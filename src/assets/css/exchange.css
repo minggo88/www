@@ -33,7 +33,7 @@
     border-bottom: 0 none !important;
 }
 .details .tabs li.tab--sell.tab--active {
-    border-bottom: 4px solid var(--lightlight-red) !important
+    border-bottom: 4px solid var(--red-up) !important
 }
 .details .tabs li.tab--buy.tab--active {
     border-bottom: 4px solid var(--blue-dn) !important
