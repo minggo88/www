@@ -1,0 +1,52 @@
+@charset "UTF-8";
+.side--panel {
+  /* 검색창 */
+  /* 탭 영역 */
+}
+.side--panel .search--box {
+  padding: 0 0 8px 12px;
+  border-bottom: 2px solid var(--red-up);
+}
+.side--panel .search--box .search--input {
+  padding: 0 0 0 29px;
+  display: block;
+  width: 375px;
+  height: 30px;
+  line-height: 30px;
+  background: url("../img/icon/icon-search.svg") no-repeat 7px center;
+  border: 0 none;
+  color: #3C3C43;
+}
+.side--panel .search--box * {
+  box-sizing: border-box;
+}
+.side--panel .tabs {
+  width: 181px;
+}
+
+/* Mobile */
+@media screen and (max-width: 600px) {
+  .side--panel .tabs {
+    border-bottom: 4px solid var(--lightgray);
+    height: 36px;
+    box-sizing: border-box;
+  }
+  .side--panel .tabs li {
+    padding: 0 0 10px;
+    color: var(--gray006);
+    font-size: 18px !important;
+    height: 32px;
+    box-sizing: border-box;
+    border-bottom-width: 0 !important;
+    line-height: 1;
+  }
+  .side--panel .tabs li.tab--active {
+    border-bottom: 4px solid var(--red-up) !important;
+  }
+  .side--panel .grid-table thead th {
+    height: 32px !important;
+    border: 1px solid #E5E8EB !important;
+    border-radius: 2px;
+    color: var(--gray005);
+  }
+}/*# sourceMappingURL=side.css.map */
