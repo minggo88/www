@@ -22,7 +22,17 @@
   box-sizing: border-box;
 }
 .side--panel .tabs {
+  display: flex;
+  align-items: center;
   width: 181px;
+  height: 37px;
+}
+.side--panel .tabs li {
+  height: 27.42px;
+  line-height: 27.42px;
+}
+.side--panel .grid-table {
+  border-top: 0.5px solid #BBBBBB;
 }
 
 /* Mobile */
@@ -61,43 +71,26 @@
   box-sizing: border-box;
   margin-bottom: 20px;
 }
-
 .details--body .details--price {
+  display: flex;
+  align-self: center;
   font-weight: 700;
   font-size: 26px;
   color: var(--red-up);
-}
-
-.details--price {
-  display: flex;
-  align-self: center;
-}
-
-.details--diff {
-  font-size: 16px;
 }
 
 .details .tabs {
   width: 546px;
   margin: 0 auto;
 }
-
 .details .tabs li {
   background: var(--white);
   color: var(--basic-black);
   border-bottom: 0 none !important;
 }
 
-.details .tabs li.tab--sell.tab--active {
-  border-bottom: 4px solid var(--lightlight-red) !important;
-}
-
-.details .tabs li.tab--buy.tab--active {
-  border-bottom: 4px solid var(--blue-dn) !important;
-}
-
-.details .tabs li.tab--info.tab--active {
-  border-bottom: 4px solid var(--basic-black) !important;
+.details--diff {
+  font-size: 16px;
 }
 
 #tab-info {
@@ -106,28 +99,23 @@
   -moz-column-gap: 11px;
        column-gap: 11px;
 }
-
 #tab-info img {
   width: 278px;
   height: 267px;
 }
-
 #tab-info .table {
   margin-top: 21px;
 }
-
 #tab-info .table th {
   width: 9.8880597015%;
   text-align: left;
   padding-right: 17px;
 }
-
 #tab-info .table th,
 #tab-info .table td {
   padding: 0 0 17px;
   vertical-align: top;
 }
-
 #tab-info .btns {
   margin-top: 24px;
 }
@@ -141,10 +129,19 @@
   background: url("../img/logo.svg") no-repeat calc(100% - 20px) top;
 }
 
-#modal-buy .tea--name {
+.modal .tea--name {
   padding-left: 4px;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+.modal .tea--volume {
+  margin-bottom: 40px;
+}
+.modal .btn--star--on,
+.modal .btn--star--on {
+  position: absolute;
+  left: 19px;
+  top: 5px;
 }
 
 /* 판매하기 */
@@ -154,13 +151,6 @@
   padding-right: 21px;
   position: relative;
   background: url("../img/logo.svg") no-repeat calc(100% - 20px) top;
-}
-
-#modal-buy .btn--star--on,
-#modal-sell .btn--star--on {
-  position: absolute;
-  left: 19px;
-  top: 5px;
 }
 
 #modal-buy dd,
@@ -173,35 +163,8 @@
   background: url("../img/logo.svg") no-repeat calc(100% - 20px) 17px;
 }
 
-.tea--volume {
-  margin-bottom: 40px;
-}
-
 /* Mobile */
 @media screen and (max-width: 600px) {
-  .side--panel .tabs {
-    border-bottom: 4px solid var(--lightgray);
-    height: 36px;
-    box-sizing: border-box;
-  }
-  .side--panel .tabs li {
-    padding: 0 0 10px;
-    color: var(--gray006);
-    font-size: 18px !important;
-    height: 32px;
-    box-sizing: border-box;
-    border-bottom-width: 0 !important;
-    line-height: 1;
-  }
-  .side--panel .tabs .tab--active {
-    border-bottom: 4px solid var(--red-up) !important;
-  }
-  .side--panel .grid-table thead th {
-    height: 32px !important;
-    border: 1px solid #E5E8EB !important;
-    border-radius: 2px;
-    color: var(--gray005);
-  }
   .details {
     display: none;
   }
