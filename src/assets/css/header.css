@@ -18,9 +18,9 @@ body > header {
 }
 
 header .logo {
-	width: 70px;
-	height: 25.5px;
-	background: url('../img/logo.svg') no-repeat center center;
+	width: 142px;
+	height: 32px;
+	background: url('../img/Teaplat-logo_color.png') no-repeat center center;
 	background-size: cover;
 	font-size: 1px;
 	line-height: 0;
