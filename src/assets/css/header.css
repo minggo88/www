@@ -87,7 +87,8 @@ header .logo a {
 	height: 60px;
 	display: flex;
 	flex-wrap: nowrap;
-	justify-content: space-between;
+	/* justify-content: space-between; */
+	justify-content: flex-end;
 	align-items: center;
 	column-gap:10%;
 	font-size: 14px;
@@ -205,6 +206,7 @@ header .logo a {
 
 
 @media screen and (max-width: 1440px) {
+	.header_inner{width: 100%;}
 	.nav > ul li a {font-size: 14px}
 	.nav--side [class*=btn--]{font-size: 14px;}
 }
@@ -299,6 +301,8 @@ header .logo a {
 	.sub .contents .contents--header .navigation--back {
 		margin: 0 33px 0 0;
 	}
+
+	.box-mobile-menu{display: none;}
 }
 
 @media screen and (max-width: 600px){

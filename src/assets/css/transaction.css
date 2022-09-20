@@ -60,21 +60,21 @@
 }
 
 .sub.transaction .transaction--list thead th:first-of-type{
-	min-width: 140px;
+	/* 첫번째 th */
 	border-top-left-radius: 10px;
 }
-.sub.transaction .transaction--list thead th:nth-of-type(2),
-.sub.transaction .transaction--list tbody tr td:nth-of-type(2)
-{
-	/* width: 68%; */
-	border-left: none;
-}
+
 .sub.transaction .transaction--list thead th:last-of-type{
-	/* width: 12%; */
-	min-width: 100px;
+	/* 마지막 th */
 	border-top-right-radius: 10px;
+}
+
+.sub.transaction .transaction--list thead th:not(:first-child),
+.sub.transaction .transaction--list tbody tr td:not(:first-child)
+{
 	border-left: none;
 }
+
 
 .sub.transaction .transaction--list tbody td{
 	background-color: transparent;
@@ -104,23 +104,20 @@
 }
 
 /* ############################ */
-
-@media screen and (max-width: 1100px){
-	.sub.transaction .transaction--list thead th, 
-	.sub.transaction .transaction--list tbody td{
-		font-size: 12px;
+@media screen and (min-width:801px) and (max-width: 1440px){
+	.sub.transaction .daterange{
+		width: 30%;
 	}
 }
 
-
-@media screen and (min-width:801px) and (max-width: 1440px){
-	/* .sub.transaction main{
-
-	} */
-	.sub.transaction .daterange{
-		width: 25%;
+@media screen and (max-width: 1200px){
+	.sub.transaction .side{display: none;}
+	.sub.transaction main{
+		padding-top: 30px;
 	}
-	
+	.sub.transaction .content_wrap .contents {
+		max-width: initial;
+	}
 }
 
 @media screen and (max-width: 800px){
@@ -176,8 +173,6 @@
 		float: left;
 		
 	}
-
-	.sub.transaction .side{display: none;}
 
 	.sub.transaction .contents h1.size--20.mobile-only{
 		margin:24px 0 31px;
