@@ -304,11 +304,7 @@ $(function() {
         },
         columns : [
             {
-                data: (_d, _type, _row, meta) => {
-                    const api = new $.fn.dataTable.Api( '#buyGrid' )
-                    const pageInfo = api.page.info()
-                    return pageInfo.length - meta.row + 1
-                }
+                data: 'orderid'
             },
             {
                 data: () => {
@@ -373,6 +369,12 @@ $(function() {
                 className: 'dt-head-center',
             },
             {
+                targets: 0,
+                className: 'dt-body-center',
+                type: 'title-string',
+                orderable: false,
+            },
+            {
                 targets: 1,
                 className: 'dt-body-center',
                 type: 'title-string',
@@ -426,15 +428,7 @@ $(function() {
         },
         columns : [
             {
-                data: (_d, _type, _row, meta) => {
-                    const api = new $.fn.dataTable.Api( '#sellGrid' )
-                    const pageInfo = api.page.info()
-
-                    if(!meta) {
-                        return
-                    }
-                    return pageInfo.length - meta.row + 1
-                }
+                data: 'orderid'
             },
             {
                 data: () => {
@@ -495,6 +489,12 @@ $(function() {
             {
                 targets: '_all',
                 className: 'dt-head-center',
+            },
+            {
+                targets: 0,
+                className: 'dt-body-center',
+                type: 'title-string',
+                orderable: false,
             },
             {
                 targets: 1,
@@ -943,22 +943,41 @@ $(function() {
     $('#modal-buy').submit(e => {
         e.preventDefault()
 
-        API.buyDirect($('#modal-buy').serializeObject(), (resp) => {
-            if(resp.success) {
-                $('#modal-buy').myModal('hide')
+        const data = $('#modal-buy').serializeObject()
 
-                const price = parseFloat($('#modal-buy [name=price]').val())
-                const volume = parseFloat($('#modal-buy [name=volume]').val())
-
-                $('#modal-buy-success .tea--name').text(SELECTED_NAME)
-                $('#modal-buy-success .volume').text(volume.format())
-                $('#modal-buy-success .total').text((price * volume).format())
-                $('#modal-buy-success').myModal('show')
-            } else {
-                alert(resp.error.message)
-            }
-
-        })
+        if(data.orderid) {
+            API.buyDirect(data, (resp) => {
+                if(resp.success) {
+                    $('#modal-buy').myModal('hide')
+    
+                    const price = parseFloat($('#modal-buy [name=price]').val())
+                    const volume = parseFloat($('#modal-buy [name=volume]').val())
+    
+                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
+                    $('#modal-buy-success .volume').text(volume.format())
+                    $('#modal-buy-success .total').text((price * volume).format())
+                    $('#modal-buy-success').myModal('show')
+                } else {
+                    alert(resp.error.message)
+                }
+            })
+        } else {
+            API.buy(data, (resp) => {
+                if(resp.success) {
+                    $('#modal-buy').myModal('hide')
+    
+                    const price = parseFloat($('#modal-buy [name=price]').val())
+                    const volume = parseFloat($('#modal-buy [name=volume]').val())
+    
+                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
+                    $('#modal-buy-success .volume').text(volume.format())
+                    $('#modal-buy-success .total').text((price * volume).format())
+                    $('#modal-buy-success').myModal('show')
+                } else {
+                    alert(resp.error.message)
+                }
+            })
+        }
 
         return false
     })
@@ -987,83 +1006,73 @@ $(function() {
     })
 
     $('#modal-buy').myModal('beforeOpen', (_event, btn) => {
-        const orderid = btn.data('orderid')
-        const symbol = btn.data('symbol')
-        const price = btn.data('price')
-        const volume = btn.data('volume')
-        const name = SELECTED_NAME
+        const orderid = btn.data('orderid') || ''
+        const symbol = btn.data('symbol') || SELECTED_SYMBOL
+        const price = btn.data('price') || SELECTED_SYMBOL_PRICE
+        const volume = btn.data('volume') || 0
         const modal = $('#modal-buy')
 
+        if(orderid) {
+            modal.find('[name=volume]').val(volume)
+        } else {
+            modal.find('[name=volume]').val('')
+        }
+
+        modal.find('.tea--name').text(SELECTED_NAME)
         modal.find('.tea--available').text('$ ' + (price * volume).toFixed(2))
         modal.find('[name=orderid]').val(orderid)
         modal.find('[name=symbol]').val(symbol)
         modal.find('[name=price]').val(price)
-        modal.find('[name=volume]').val(volume)
         modal.find('[name=total]').val('$ ' + (price * volume).toFixed(2))
-        modal.find('.tea--name').text(name)
     })
     $('#modal-sell').submit(e => {
         e.preventDefault()
 
-        API.sellDirect($('#modal-sell').serializeObject(), (resp) => {
-            if(resp.success) {
-                $('#modal-sell').myModal('hide')
-                $('#alert-sell').myModal('show')
-            } else {
-                alert(resp.error.message)
-            }
-        })
+        const data = $('#modal-sell').serializeObject()
+
+        if(data.orderid) {
+            API.sellDirect(data, (resp) => {
+                if(resp.success) {
+                    $('#modal-sell').myModal('hide')
+                    $('#alert-sell').myModal('show')
+                } else {
+                    alert(resp.error.message)
+                }
+            })
+        } else {
+            API.sell(data, (resp) => {
+                if(resp.success) {
+                    $('#modal-sell').myModal('hide')
+                    $('#alert-sell').myModal('show')
+                } else {
+                    alert(resp.error.message)
+                }
+            })
+        }
 
         return false
     })
-    $('#modal-sell2').submit(e => {
-        e.preventDefault()
 
-        API.sell($('#modal-sell2').serializeObject(), (resp) => {
-            if(resp.success) {
-                $('#modal-sell2').myModal('hide')
-                $('#alert-sell').myModal('show')
-            } else {
-                alert(resp.error.message)
-            }
-        })
-
-        return false
-    })
     $('#modal-sell').myModal('beforeOpen', (_event, btn) => {
-        const orderid = btn.data('orderid')
-        const symbol = btn.data('symbol')
-        const price = btn.data('price')
-        const volume = btn.data('volume')
-        const name = SELECTED_NAME
+        const orderid = btn.data('orderid') || ''
+        const symbol = btn.data('symbol') || SELECTED_SYMBOL
+        const price = btn.data('price') || SELECTED_SYMBOL_PRICE
+        const volume = btn.data('volume') || 0
         const modal = $('#modal-sell')
 
+        if(orderid) {
+            modal.find('[name=orderid]').val(orderid)
+            modal.find('[name=volume]').val(volume)
+        // 신규 판매인 경우
+        } else {
+            modal.find('.tea--available').text('$ 0')
+            modal.find('[name=volume]').val('')
+        }
+
+        modal.find('.tea--name').text(SELECTED_NAME)
         modal.find('.tea--available').text('$ ' + (price * volume).toFixed(2))
-        modal.find('[name=orderid]').val(orderid)
         modal.find('[name=symbol]').val(symbol)
         modal.find('[name=price]').val(price)
-        modal.find('[name=volume]').val(volume)
         modal.find('[name=total]').val('$ ' + (price * volume).toFixed(2))
-        modal.find('.tea--name').text(name)
-    })
-    $('#modal-buy2').myModal('beforeOpen', _e => {
-        const modal = $('#modal-buy2')
-
-        modal.find('.tea--available').text('$ 0')
-        modal.find('[name=symbol]').val(SELECTED_SYMBOL)
-        modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
-        modal.find('[name=volume]').val('')
-        modal.find('[name=total]').val('$ 0')
-        modal.find('.tea--name').text(SELECTED_NAME)
-    })
-    $('#modal-sell2').myModal('beforeOpen', _e => {
-        const modal = $('#modal-sell2')
-
-        modal.find('.tea--available').text('$ 0')
-        modal.find('[name=symbol]').val(SELECTED_SYMBOL)
-        modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
-        modal.find('[name=volume]').val('')
-        modal.find('[name=total]').val('$ 0')
-        modal.find('.tea--name').text(SELECTED_NAME)
     })
 })
