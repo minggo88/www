@@ -1797,7 +1797,7 @@
 .tabs .tab--active {
     color: var(--basic-black) !important;
     background: transparent !important;
-    border-bottom: 4px solid var(--lightlight-red) !important;
+    border-bottom: 4px solid var(--red-up) !important;
 }
 .exchange main {
     grid-template-columns: var(--SIDE-WIDTH) auto;

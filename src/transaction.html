@@ -341,13 +341,14 @@
 				</script>
 				<div class="board--body p-0">
 					<div class="tab_bar mobile-only">
+						<div class="background"></div>
 						<div class="tab_header">
 							<div class="select dropdown--wrapper">
 								<button type="button" class="dropdown" data-i18n="">전체</button>
 								<div class="dropdown--item">
 									<div class="title">
 										내역선택
-										<button type="button" class="navigation--close" onclick="$('.tab_bar .dropdown--item').hide(); return false"></button>
+										<button type="button" class="navigation--close" onclick="$('.tab_bar .dropdown').removeClass('dropdown--open'); return false"></button>
 									</div>
 									<ul>
 										<li>
@@ -372,7 +373,7 @@
 								</div>
 							</div>
 							<div class="refresh">
-								<button type="button" class="refresh-btn">방금전</button>
+								<button type="button" class="refresh-btn" onclick="location.reload(true);">방금전</button>
 							</div>
 						</div>
 					</div>

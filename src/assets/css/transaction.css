@@ -232,6 +232,10 @@
 	/* ################################## */
 	/* tab head */
 	/* .sub.transaction .board--body .tab_bar{
+		position: relative;
+	} */
+
+	.sub.transaction .board--body .tab_bar .background{
 		display: none;
 		position: fixed;
 		left: 0;
@@ -239,11 +243,12 @@
 		width: 100vw;
 		height: 100vh;
 		background-color: rgba(0, 0, 0, 0.5);
-	} */
+		z-index: 1;
+	}
 
-	/* .sub.transaction .board--body .tab_bar.active{
+	.sub.transaction .board--body .tab_bar .background.active{
 		display: block;
-	} */
+	}
 
 	.sub.transaction .board--body .tab_header{
 		display: flex;
