@@ -1,0 +1,66 @@
+.side--panel {
+    /* 검색창 */
+    .search--box {
+        padding: 0 0 8px 12px;
+        border-bottom: 2px solid var(--red-up);
+
+        .search--input {
+            padding: 0 0 0 29px;
+            display: block;
+            width: 375px;
+            height: 30px;
+            line-height: 30px;
+            background: url('../img/icon/icon-search.svg') no-repeat 7px center;
+            border: 0 none;
+            color: #3C3C43;
+        }
+        * {
+            box-sizing: border-box;
+        }
+    }
+    /* 탭 영역 */
+    .tabs {
+        display: flex;
+        align-items: center;
+        width: 181px;
+        height: 37px;
+        margin-left: 19px;
+        li {
+            height: 27.42px;
+            line-height: 27.42px;
+        }
+    }
+    .grid-table {
+        border-top: 0.5px solid #BBBBBB;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 600px) {
+    .side--panel {
+        .tabs {
+            border-bottom: 4px solid var(--lightgray);
+            height: 36px;
+            box-sizing: border-box;
+            li {
+                padding: 0 0 10px;
+                color: var(--gray006);
+                font-size: 18px !important;
+                height: 32px;
+                box-sizing: border-box;
+                border-bottom-width: 0 !important;
+                line-height: 1; 
+                &.tab--active {
+                    border-bottom: 4px solid var(--red-up) !important;
+                }
+            }
+        }
+
+        .grid-table thead th {
+            height: 32px !important;
+            border: 1px solid #E5E8EB !important;
+            border-radius: 2px;
+            color: var(--gray005);
+        }
+    }
+}
