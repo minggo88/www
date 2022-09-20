@@ -25,6 +25,9 @@
   color: var(--basic-black);
   border-bottom: 0 none !important;
 }
+.details .details--header .tabs {
+  width: auto;
+}
 
 .details--diff {
   font-size: 16px;
