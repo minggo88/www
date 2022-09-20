@@ -1,4 +1,8 @@
 
+/* 사이드 영역*/
+.side--panel .tabs {
+    width: 181px;
+}
 .details--body {
     display: flex;
     padding: 12px 0 21px 10px;
