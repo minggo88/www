@@ -533,6 +533,10 @@
 	.section--service .service--desc{font-size: 12px;}
 }
 
+@media screen and (min-width: 601px) and (max-width: 800px) {
+	.front .box-mobile-menu{display: block;}
+}
+
 @media (max-width: 600px) {
 	header, .front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none!important;}
 }
