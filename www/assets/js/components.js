@@ -255,7 +255,7 @@ $(function() {
         }
         if(!$(e.target).closest('.dropdown').hasClass('dropdown--item')) {
             $('.dropdown--open').removeClass('dropdown--open')
-
+			$('.background').removeClass('active')
         }
     })
 
@@ -263,7 +263,7 @@ $(function() {
         e.stopPropagation()
 
         $('.dropdown--open').removeClass('dropdown--open')
-
+		$('.background').toggleClass('active');
         $(e.target).toggleClass('dropdown--open');
         
         $(e.target).parent().find('[name=search]').focus();
@@ -275,11 +275,13 @@ $(function() {
         const value = self.data('value')
 
         const wrapper = $(e.target).closest('.dropdown-wrapper')
+		/* const Background = $('tab_bar').closest('.dropdown-wrapper') */
 
         wrapper.dropdown('select', value)
         wrapper.data('selected', value)
         wrapper.find('.dropdown--selected').removeClass('dropdown--selected')
         wrapper.find('.dropdown').removeClass('dropdown--open')
+		/* Background.removeClass('active') */
 
         $(e.target).closest('li').addClass('dropdown--selected')
         $(e.target).closest('.dropdown--item').find('>span').text(text)
