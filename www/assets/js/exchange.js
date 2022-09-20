@@ -283,11 +283,7 @@ $(function() {
         },
         columns : [
             {
-                data: (_d, _type, _row, meta) => {
-                    const api = new $.fn.dataTable.Api( '#buyGrid' )
-                    const pageInfo = api.page.info()
-                    return pageInfo.length - meta.row + 1
-                }
+                data: 'orderid'
             },
             {
                 data: () => {
@@ -352,6 +348,12 @@ $(function() {
                 className: 'dt-head-center',
             },
             {
+                targets: 0,
+                className: 'dt-body-center',
+                type: 'title-string',
+                orderable: false,
+            },
+            {
                 targets: 1,
                 className: 'dt-body-center',
                 type: 'title-string',
@@ -405,15 +407,7 @@ $(function() {
         },
         columns : [
             {
-                data: (_d, _type, _row, meta) => {
-                    const api = new $.fn.dataTable.Api( '#sellGrid' )
-                    const pageInfo = api.page.info()
-
-                    if(!meta) {
-                        return
-                    }
-                    return pageInfo.length - meta.row + 1
-                }
+                data: 'orderid'
             },
             {
                 data: () => {
@@ -474,6 +468,12 @@ $(function() {
             {
                 targets: '_all',
                 className: 'dt-head-center',
+            },
+            {
+                targets: 0,
+                className: 'dt-body-center',
+                type: 'title-string',
+                orderable: false,
             },
             {
                 targets: 1,
