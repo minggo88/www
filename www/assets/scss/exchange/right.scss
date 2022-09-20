@@ -26,6 +26,11 @@
             border-bottom: 0 none !important;  
         }
     }
+    .details--header {
+        .tabs {
+            width: auto;
+        }
+    }
 }
 
 .details--diff {

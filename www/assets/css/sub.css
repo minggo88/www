@@ -1,5 +1,5 @@
 :root {
-    --SIDE-WIDTH: calc(100% * (546 / 1440));
+    --SIDE-WIDTH: calc(100% * (560 / 1440));
 }
 
 .content_wrap{

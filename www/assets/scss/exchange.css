@@ -26,6 +26,7 @@
   align-items: center;
   width: 181px;
   height: 37px;
+  margin-left: 19px;
 }
 .side--panel .tabs li {
   height: 27.42px;
@@ -87,6 +88,9 @@
   background: var(--white);
   color: var(--basic-black);
   border-bottom: 0 none !important;
+}
+.details .details--header .tabs {
+  width: auto;
 }
 
 .details--diff {
