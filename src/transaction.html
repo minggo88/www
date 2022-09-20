@@ -188,7 +188,8 @@
 		</div>
 	</header>
     <aside class="mobile-panel">
-        <h1 class="size--20" data-i18n>계정 관리</h1>
+        <button type="button" class="navigation--back" onclick="$('.mobile-panel').hide(); return false"></button>
+		<h1 class="size--20" data-i18n>계정 관리</h1>
         <ul>
             <li>
                 <a href="member-account.html" data-i18n>정보 수정</a>
@@ -339,16 +340,53 @@
 					let symbol = 'ETH'
 				</script>
 				<div class="board--body p-0">
-					<table class="transaction--list board--list desktop-only">
-						<colgroup>
-							<col style="width:15%; min-width: 100px"><!--전체-->
-							<col style="width:25%; min-width: 145px"><!--제품-->
-							<col style="width:10%; min-width: 60px;"><!--단가-->
-							<col style="width:10%; min-width: 60px;"><!--수량-->
-							<col style="width:10%; min-width: 70px;"><!--총액-->
-							<col style="width:20%"><!--보냄-->
-							<col style="width:20%"><!--받음-->
-							<col style="width:15%"><!--날짜-->
+					<div class="tab_bar mobile-only">
+						<div class="background"></div>
+						<div class="tab_header">
+							<div class="select dropdown--wrapper">
+								<button type="button" class="dropdown" data-i18n="">전체</button>
+								<div class="dropdown--item">
+									<div class="title">
+										내역선택
+										<button type="button" class="navigation--close" onclick="$('.tab_bar .dropdown').removeClass('dropdown--open'); return false"></button>
+									</div>
+									<ul>
+										<li>
+											<button type="button" data-i18n="">전체</button>
+										</li>
+										<li>
+											<button type="button" data-i18n="">판매</button>
+										</li>
+										<li>
+											<button type="button" data-i18n="">구매</button>
+										</li>
+										<li>
+											<button type="button" data-i18n="">공동 구매</button>
+										</li>
+										<li>
+											<button type="button" data-i18n="">경매</button>
+										</li>
+										<li>
+											<button type="button" data-i18n="">제품 등록</button>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="refresh">
+								<button type="button" class="refresh-btn" onclick="location.reload(true);">방금전</button>
+							</div>
+						</div>
+					</div>
+					<table class="transaction--list board--list">
+						<colgroup class="desktop-only">
+							<col style="width:14%;"><!--전체-->
+							<col style="width:25%;"><!--제품-->
+							<col style="width:11%;"><!--단가-->
+							<col style="width:11%;"><!--수량-->
+							<col style="width:11%;"><!--총액-->
+							<col style="width:21%"><!--보냄-->
+							<col style="width:21%"><!--받음-->
+							<col style="width:11%"><!--날짜-->
 							<!-- <col style="width: calc(100% * (220 / 919))">
 							<col style="width: calc(100% * (80 / 919))">
 							<col style="width: calc(100% * (70 / 919))">

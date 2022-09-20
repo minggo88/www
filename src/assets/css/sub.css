@@ -3,7 +3,8 @@
 }
 
 .content_wrap{
-	background-color: #fafbfc;
+	/* background-color: #fafbfc; */
+	background-color: #fff;
 	max-width: 1440px;
 	width: 100%;
 	margin: 0 auto;
@@ -30,7 +31,8 @@
 
 .sub{
 	position: relative;
-	background-color: #fafbfc;
+	/* background-color: #fafbfc; */
+	background-color: #fff;
 }
 
 .sub .side{
@@ -1795,7 +1797,7 @@
 .tabs .tab--active {
     color: var(--basic-black) !important;
     background: transparent !important;
-    border-bottom: 4px solid var(--lightlight-red) !important;
+    border-bottom: 4px solid var(--red-up) !important;
 }
 .exchange main {
     grid-template-columns: var(--SIDE-WIDTH) auto;
@@ -1849,7 +1851,7 @@
     height: calc(100% - 72px);
     background: var(--white);
     padding: 0 0 0 16px;
-    z-index: 2;
+    z-index: 51;
 }
 
 .mobile-panel ul {
@@ -1897,7 +1899,7 @@
         border: 0 none;
     }
 }
-@media (max-width: 600px) { 
+@media (max-width: 800px) { 
     .sub main{display: flex; 
 		/* height: 100vh;  */
 		align-items: center;
@@ -1998,6 +2000,14 @@
 		width: 24px;
 		height: 24px;
 		background: transparent url('../img/icon/icon-back.svg') no-repeat 50%;
+		border: 0 none;
+	}
+
+	.navigation--close {
+		display: block;
+		width: 24px;
+		height: 24px;
+		background: transparent url('../img/icon/icon-close.svg') no-repeat 50%;
 		border: 0 none;
 	}
 
