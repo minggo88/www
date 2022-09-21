@@ -1,3 +1,72 @@
+.exchange main{
+	padding: 0;
+	/* grid-auto-columns: minmax(100px, auto); */
+	grid-template-columns: 2fr 3fr;
+	/* grid-template-columns: var(--SIDE-WIDTH) auto; */
+	column-gap: 30px;
+}
+@media screen and (min-width: 801px) and (max-width: 1440px){
+	.exchange main{
+		display: grid;
+		grid-template-columns: 1fr;
+		column-gap: 0px;
+	}
+	
+}
+
+
+.exchange .tab-wrapper{
+	width: 100%;
+}
+/* #jqGrid_wrapper{
+	height: 250px;
+	overflow-y: auto;
+} */
+.exchange .tab--content{
+	clear:both;
+	width: 100%;
+}
+
+#jqGrid tbody{
+	height: auto;
+	
+}
+/* .exchange .tab--content .dataTables_wrapper{
+	
+} */
+.exchange table.dataTable.no-footer{
+	width: 100%!important;
+}
+.exchange .table.dataTable.no-footer tbody{
+	position: relative; 
+	overflow: auto; 
+	/* max-height: 308px; 
+	height: 308px; */ 
+	width: 100%;
+	background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);
+}
+
+
+.details {
+	width: 100%;
+}
+
+.details--header {
+    font-weight: 700;
+    font-size: 14px;
+    height: 46px;
+    line-height: 46px;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid var(--linegray);
+    box-sizing: border-box;
+}
+
+.details--header small {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    color: var(--blue-gray);
+}
 
 .details--body {
     display: flex;
@@ -24,7 +93,8 @@
 }
 
 .details .tabs {
-    width: 546px;
+    /* width: 546px; */
+	width: 100%;
     margin: 0 auto;
 }
 .details .tabs li {
@@ -32,7 +102,12 @@
     color: var(--basic-black);
     border-bottom: 0 none !important;
 }
-.details .tabs li.tab--sell.tab--active {
+
+.details .tabs li.tab--active {
+    border-bottom: 4px solid var(--red-up) !important
+}
+
+/* .details .tabs li.tab--sell.tab--active {
     border-bottom: 4px solid var(--red-up) !important
 }
 .details .tabs li.tab--buy.tab--active {
@@ -40,7 +115,7 @@
 }
 .details .tabs li.tab--info.tab--active {
     border-bottom: 4px solid var(--basic-black) !important
-}
+} */
 
 #tab-info {
     padding-top: 10px;
@@ -70,6 +145,10 @@
 
 #tab-info .btns {
     margin-top: 24px;
+}
+
+.exchange .btn.btn--star{
+	margin-right: 10px;
 }
 
 /* 구매하기 */
