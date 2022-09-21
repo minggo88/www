@@ -49,8 +49,9 @@ $(function() {
      * #TODO: https://jsfiddle.net/TradingView/yozeu6k1/ 참고해서 실시간 업데이트 구현
      */
     var height = 300
-    const sidePanelWidth = $('.side--panel').width()
-    const detailsWidth = $('main').width() - sidePanelWidth - 20
+   	// const sidePanelWidth = $('.side--panel').width()
+    // const detailsWidth = $('main').width() - sidePanelWidth - 30
+	const detailsWidth = $('.details').width()
     // ---------------------------------------------------
     // 차트 생성 
     // const container = document.getElementById('tvchart')
@@ -820,6 +821,10 @@ $(function() {
                     })
                     .DataTable( {
                         data: data,
+						scrollY: 820,
+						scroller: true,
+						deferRender: true,
+						processing: false,
                         columns : [
                             {
                                 data: 'name',
