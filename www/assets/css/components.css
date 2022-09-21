@@ -162,6 +162,16 @@
     height: 24px;
     background: url('../img/icon/icon-chat-alt.svg') no-repeat 50%;
 }
+.icon-refresh{
+    width: 24px;
+    height: 24px;
+    background: url('../img/icon/icon-Refresh.svg') no-repeat 50%;
+}
+.icon-search {
+    width: 14px;
+    height: 14px;
+    background: url('../img/icon/icon-search.svg') no-repeat 50%;
+}
 [class^=ico-] {
     width: 16.79px;
     height: 14.9px;
