@@ -173,7 +173,7 @@ header .logo a {
 .nav--side .profile .dropdown+.dropdown--item,
 .nav--side .wallet .dropdown+.dropdown--item {
     padding-top: 0;
-    top: 48px;
+    top: 40px;
 }
 .nav--side .profile .dropdown+.dropdown--item ul li {
     height: 17px;
