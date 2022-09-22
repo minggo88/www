@@ -817,13 +817,14 @@ form .form--header h1 {
     left: 0;
     background: var(--white);
     border: 1px solid #DFDFDF;
-    border-radius: 6px;
+    border-radius: 5px;
     text-align: center;
     /* padding-top: 9px; */
     box-sizing: border-box;
     z-index: 29;
     max-height: 300px;
     overflow-y: auto;
+	box-sizing: border-box;
 }
 .dropdown+.dropdown--item  span {
     position: relative;
