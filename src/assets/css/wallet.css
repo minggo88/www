@@ -1,3 +1,20 @@
+/* wallet 보유자산 */
+@media screen and (max-width:1440px) {
+	.sub.wallet main{
+		height: 100%;
+		box-sizing: border-box;
+	}
+}
+
+@media screen and (max-width:1100px) {
+	.sub.wallet .side{
+		display: none;
+	}
+	.sub.wallet .contents{
+		max-width: initial;
+	}
+}
+
 .wallet-summary {
     grid-template-columns: repeat(3, 1fr);
     column-gap: 30px;
@@ -29,11 +46,14 @@
     max-width: 70px;
     height: 100%;
 }
+
+.wallet-summary .grid .input:after{content:none;}
 .wallet-summary .grid .dropdown {
     flex-basis: 70px;
     background-color: var(--lightgray);
     border: 0 none !important;
     border-left: 0.35px solid var(--blue-gray2) !important;
+	height: 38px;
 }
 .wallet-summary .grid .dropdown-wrapper .dropdown--item {
     min-width: auto;
@@ -50,7 +70,7 @@
 .wallet--grid .grid {
     display: flex;
     padding: 18px 10px 18px 52px;
-    border: 0.35px solid var(--blue-gray2);
+    border: 0.35px solid #BDC4CB;
     align-items: center;
     justify-content: space-between;
     border-left: 12px solid;

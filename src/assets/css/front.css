@@ -173,7 +173,7 @@
 }
 
 .front .news .column{
-	height: 100%;
+	height: 82px;
 	overflow: hidden;
 }
 .front .news .column .swiper {
@@ -184,11 +184,15 @@
 .front .news .column li{
     margin: 0;
     padding: 0;
-    height: 17px;
+    height: 82px;
     list-style: none;
     font-size: 14px;
     letter-spacing: -0.05em;
 }
+.front .news .column ul.swiper-wrapper{
+	transform: translate3d(0px,0px,0px);
+}
+
 .front .news .column li {
     width: 100%;
     align-self: center;
@@ -215,7 +219,11 @@
 	width:100% ; 
 	margin: 0 auto;
 	height: 100%; 
-	background:#B81C22 url('../img/notice-001.png') no-repeat 50% 50%/cover;
+	background:#B81C22 url('../img/banner01.jpg') no-repeat 50% 50%/cover;
+}
+
+.front .news .column li:nth-child(2) a .bg{
+	background:#B81C22 url('../img/banner02.jpg') no-repeat 50% 50%/cover;
 }
 
 /* .front .news .column .badge {
@@ -241,13 +249,13 @@
 	color: var(--yellow);
 } */
 
-@media (max-width: 960px) {
+/* @media (max-width: 960px) {
 	.front .news .column li a .bg{
 		max-width: 800px;
 		background-image: url('../img/notice-moblie-001.png');
 		background-size: 100% 100%;
 	}
-}
+} */
 
 .front main {
 	padding:0 40px;

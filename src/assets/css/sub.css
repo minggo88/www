@@ -116,6 +116,14 @@
 
 }
 
+/* @media screen and (min-width:801px) and (max-width: 1440px){
+	.sub.wallet main{
+		display: block;
+		padding-left: 0;
+		padding-right: 0;
+	}
+} */
+
 
 @media screen and (max-width: 600px) {
 	.sub.notice{overflow-x: hidden;}
