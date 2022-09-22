@@ -6,14 +6,7 @@
 	}
 }
 
-@media screen and (max-width:1100px) {
-	.sub.wallet .side{
-		display: none;
-	}
-	.sub.wallet .contents{
-		max-width: initial;
-	}
-}
+
 
 .wallet-summary {
     grid-template-columns: repeat(3, 1fr);
@@ -41,9 +34,9 @@
 }
 
 .wallet-summary .grid .dropdown-wrapper {
-    width: 70px;
-    flex-basis: 70px;
-    max-width: 70px;
+    width: 100px;
+    flex-basis: 100px;
+    max-width: 100px;
     height: 100%;
 }
 
@@ -54,6 +47,7 @@
     border: 0 none !important;
     border-left: 0.35px solid var(--blue-gray2) !important;
 	height: 38px;
+	justify-content: center;
 }
 .wallet-summary .grid .dropdown-wrapper .dropdown--item {
     min-width: auto;
@@ -109,7 +103,7 @@
 
 .wallet--grid .grid .grid--inner-right {
     display: flex;
-    flex-basis: 258px;
+    flex-basis: 245px;
     column-gap: 10px;
 }
 
@@ -143,6 +137,43 @@
     background: #1C80B8;
     color: var(--white) !important;
 }
+
+@media screen and (max-width:1200px) {
+	.sub.wallet .side{
+		display: none;
+	}
+	.sub.wallet .contents{
+		max-width: initial;
+	}
+}
+
+@media screen and (min-width:801px) and (max-width: 1200px){
+	.sub.notice.wallet main{
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+@media screen and (max-width: 800px) {
+
+	.wallet-summary {
+		padding-bottom: 40px;
+		position: relative;
+	}
+	.wallet-summary:after{
+		content:"";
+		display: block;
+		width: 100%;
+		height: 8px;
+		background-color: #F5F5F5;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+	}
+}
+
+
+
+
 
 .deposit main {
     padding-right: 145px;
@@ -226,11 +257,33 @@
 }
 
 /* Mobile */
-@media (max-width: 600px) {
-    .wallet > header,
+@media (max-width: 800px) {
+    .sub.wallet .mobile-only{display: block!important;}
+	.sub.wallet .desktop-only{display: none!important;}
+	.sub.deposit .mobile-only{display: block!important;}
+	.sub.deposit .desktop-only{display: none!important;}
+	
+	.wallet > header,
     .deposit > header {
         display: none;
     }
+	.wallet .contents .contents--header,
+	.deposit .contents .contents--header{
+		line-height: 48px; 
+		padding-left: 0;
+		margin-bottom: 0;
+	}
+
+	.wallet .contents--header .navigation--back,
+	.deposit .contents--header .navigation--back{
+		height: 48px;
+	}
+
+	.wallet .contents--header,
+	.deposit .contents--header{
+		display: flex; border-bottom: none;
+	}
+
     .wallet-summary {
         display: flex;
         flex-direction: column;
