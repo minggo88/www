@@ -690,6 +690,7 @@ form .form--header h1 {
 .accordion .accordion--item:not(.accordion--open) .accordion--header{
     border-radius: 4px;
 }
+
 .accordion .accordion--item:not(:last-child) {
     margin-bottom: 12px;
 }
@@ -699,6 +700,7 @@ form .form--header h1 {
 }
 .accordion .accordion--item.accordion--open .accordion--header {
     border-bottom: 0.35px solid #BDC4CB;
+	border-radius: 4px 4px 0 0;
 }
 .accordion .accordion--item .accordion--header {
     height: 55.59px;
