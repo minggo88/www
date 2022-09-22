@@ -120,6 +120,8 @@
 	}
 }
 
+
+
 @media screen and (max-width: 800px){
 	.sub.transaction > header{display: none;}
 
@@ -214,6 +216,7 @@
 		transform: none;
 		background: transparent url(../img/btn-rolldown.svg) no-repeat 50% 50%;
 		background-size: contain;
+		mask-image: none;
 		-webkit-mask-image: none;
 		/* background-repeat: no-repeat; */
 		/* -webkit-mask-image: url(../img/btn-rolldown.svg); */
@@ -229,7 +232,7 @@
 		border-radius: 5px;
 	}
 
-	/* ################################## */
+	/* ########################################################################### */
 	/* tab head */
 	/* .sub.transaction .board--body .tab_bar{
 		position: relative;
@@ -337,11 +340,6 @@
 		padding-top: 0;
 	}
 
-	/* .sub.transaction .board--body .dropdown--item li{
-		height: 16px;
-		line-height: 16px;
-	} */
-
 	.sub.transaction .board--body .dropdown--item li:not(:last-child){
 		margin-bottom:20px;
 	}
@@ -354,40 +352,131 @@
 		font-weight: 400;
 	}
 
-
-
-
-
-
-
-
-
-	/* ################################## */
-
-
-
-
-	.sub.transaction .transaction--list{
+	/* ############################################################################# */
+	.m-transaction--list{
 		width: 100%;
 	}
 
-	/* .sub.transaction .transaction--list tbody{
+	.m-transaction--list .date{
+		font-size: 14px;
+		font-weight: 400;
+		color: #8B95A1;
+		margin-bottom: 30px;
+	}
+	
+	.m-transaction--list.accordion .accordion--item .accordion--header{
+		height: 102px;
+		padding-left: 0;
+	}
+	.m-transaction--list.accordion .accordion--item:not(.accordion--open) .accordion--header{
+		border-radius: none;
+	}
+	
+	.m-transaction--list.accordion .accordion--item:not(:last-child) {
+		margin-bottom: 0;
+	}
+	.m-transaction--list.accordion .accordion--item {
+		border: none;
+		border-radius: initial;
+		/* 전부변경 */
+	}
+	.m-transaction--list.accordion .accordion--item.accordion--open .accordion--header {
+		border-bottom: none;
+		border-radius: initial;
+		/* 전부변경 */
+	}
+
+	.m-transaction--list.accordion .accordion--item .accordion--header {
+		height: 102px;
+		background: var(--white);
+		/* font-weight: 700;
+		font-size: 18px;
+		position: relative;
+		display: flex;
+		line-height: 1;
+		align-items: center; */
+	}
+	.m-transaction--list.accordion .accordion--item .accordion--header::after {
+		/* width: 35px;
+		height: 37px;
+		content: "";
+		display: block;
+		background: url('../img/btn-rolldown.svg') no-repeat;
+		position: absolute; */
+		right: 0px;
+		/* top: 50%;
+		transform: translateY(-50%); */
+	}
+	.m-transaction--list.accordion .accordion--item .accordion--header a {
+		/* display: flex;
+		align-items: center;
+		flex: 1 1 auto;
+		height: 100%; */
+		width: 80%;
+		padding: 0 48px 0 0;
+		justify-content: space-between;
+	}
+
+	.m-transaction--list.accordion .accordion--item .accordion--header .product{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.m-transaction--list.accordion .accordion--item .accordion--header .items{
+		height: 45px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		font-size: 16px;
+		font-weight: 500;
+		color: #333;
+	}
+
+	.m-transaction--list.accordion .accordion--item .accordion--header .item{
+		color:#8B95A1;
+		font-size: 12px;
+		font-weight: 400;
+	}
+
+	.m-transaction--list.accordion .accordion--item .accordion--contents {
+		height: 0;
+		padding: 0 16px 0 52px;
+		background: #F9FAFB;
+		border-radius: initial;
+		-webkit-transition: all .12s cubic-bezier(0, 0, 1, 1);
+		transition: all .12s cubic-bezier(0, 0, 1, 1);
 		box-sizing: border-box;
-	} */
-
-	.sub.transaction .transaction--list tr{
-		display: block;
-		padding: 9px 0 11px;
-		border-bottom: 1px solid #f5f5f5;
+		overflow: hidden;
+		position: relative;
+	}
+	.m-transaction--list .accordion--item .accordion--contents ul li{
+		list-style-type: none;
 	}
 
-	.sub.transaction .transaction--list tbody td{
-		display: block;
-		width: 100%;
-		padding: 1px 0;
-		border:0 none;
-		text-align: left;
-		line-height: 1.6;
+	.m-transaction--list .accordion--item.accordion--open .accordion--contents {
+		padding: 24px 12px 31px;
+		height: auto;
+		line-height: 14px;
+	}
+	
+	.m-transaction--list .accordion--item.accordion--open .accordion--contents ul li{
+		list-style-type: none;
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 14px;
+	}
+
+	.m-transaction--list .accordion--item.accordion--open .accordion--contents ul li:not(:last-child){
+		margin-bottom: 20px;
+	}
+
+	.m-transaction--list .accordion--item.accordion--open .accordion--header {
+		background: var(--white);
+	}
+	.m-transaction--list .accordion--item.accordion--open .accordion--contents ul li span{
+		display: inline;
+		float: right;
 	}
 
 
