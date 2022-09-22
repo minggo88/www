@@ -61,7 +61,7 @@
 					<li>
 						<a href="" data-i18n>경매</a>
 					</li>
-					<li>
+					<li class="active">
 						<a href="wallet.html" data-i18n>입출금</a>
 					</li>
 					<li>
@@ -260,7 +260,7 @@
 								grid.append(`<div>${item.name}</div>`)
 								grid.append(`
 								<div class="grid--inner-right">
-									<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-end">
+									<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 										<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">${item.name}</div>
 										<div class="wallet--price">${item.confirmed_str} ${item.symbol}</div>
 										${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+' '+exchange+'</div>' : ''}
