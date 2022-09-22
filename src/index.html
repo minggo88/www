@@ -34,12 +34,12 @@
 <link rel="stylesheet" href="./assets/css/front.css?t={version}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
 <!-- JS -->
-<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-<script src="//unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-<script src="./assets/js/common.js?t={version}"></script>
-<script src="./assets/js/api.js?t={version}"></script>
-<script src="./assets/js/components.js?t={version}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script src="./assets/js/common.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
@@ -56,7 +56,7 @@
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
 			<nav class="nav">
 				<ul>
-					<li class="active">
+					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
 					<li>
@@ -125,7 +125,7 @@
 					<a href="" data-i18n>경매</a>
 				</li>
 				<li>
-					<a href="" data-i18n>입출금</a>
+					<a href="wallet.html" data-i18n>입출금</a>
 				</li>
 				<li>
 					<a href="" data-i18n>다도 문화</a>
@@ -162,12 +162,14 @@
 	<div class="news">
 		<div class="column">
 			<div class="swiper">
-				<ul class="swiper-wrapper" name="main_notice" style="height:auto;">
-					<li class="swiper-slide hide" name="tpl" style="height:82px;">
+				<ul class="swiper-wrapper" name="main_notice">
+					<li class="swiper-slide" name="tpl">
 						<a href="" style="width:100% ;">
-							<!-- <span class="badge badge--white" {hide_tag} data-i18n>공지</span>
-							<span class="news--text">{message}</span>
-							<span class="icon-new" {hide_new}></span> -->
+							<div class="bg"></div>
+						</a>
+					</li>
+					<li class="swiper-slide" name="tpl">
+						<a href style="width:100% ;">
 							<div class="bg"></div>
 						</a>
 					</li>
