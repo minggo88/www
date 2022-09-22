@@ -1387,7 +1387,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 }
                 $('[name=main_notice]').empty().append(html.join(''));
                 // swiper 시작
-                new Swiper('.news .column .swiper', {
+                new Swiper('.news .column .swiper .swiper-wrapper', {
                     slidesPerView: 1,
                     direction: 'vertical',
                     loop: true,
@@ -1396,8 +1396,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     noSwipingClass: 'swiper-slide',
                     preventInteractionOnTransition:true,
                     autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: false,
+						delay: 2500,
+						disableOnInteraction: false,
                     },
                 })
             }
