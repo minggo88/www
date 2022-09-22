@@ -6,7 +6,9 @@
 	}
 }
 
-
+.wallet ul, .deposit ul{
+	list-style: none;
+}
 
 .wallet-summary {
     grid-template-columns: repeat(3, 1fr);
@@ -154,10 +156,14 @@
 	}
 }
 @media screen and (max-width: 800px) {
-
+	.sub.wallet .mobile-only{display: block!important;}
+	.sub.wallet .desktop-only{display: none!important;}
 	.wallet-summary {
 		padding-bottom: 40px;
 		position: relative;
+		display: flex;
+        flex-direction: column;
+        row-gap: 24px;
 	}
 	.wallet-summary:after{
 		content:"";
@@ -169,126 +175,7 @@
 		left: 0;
 		bottom: 0;
 	}
-}
 
-
-
-
-
-.deposit main {
-    padding-right: 145px;
-}
-
-.deposit .contents .d-grid{
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 20px;
-    grid-auto-rows: 1fr
-}
-
-.deposit .contents .d-grid .grid {
-    height: 470px;
-    padding: 22px;
-    border: 1px solid var(--blue-mid-gray);
-    border-radius: 2px;
-    box-sizing: border-box;
-}
-
-.deposit .contents .d-grid .grid h1 {
-    margin: 0;
-    padding: 0;
-    font-weight: 500;
-    font-size: 16px;
-    letter-spacing: -0.15px;
-}
-
-.deposit .contents .d-grid .grid ul {
-    margin: 14px 0 0;
-}
-
-.deposit .contents .d-grid .grid input[type=text],
-.deposit .contents .d-grid .grid input[type=password] {
-    border-color: var(--mid-gray);
-    padding: 0 11px;
-    font-family: Inter;
-    font-weight: 500;
-    font-size: 16px;
-    letter-spacing: -0.15px;
-}
-
-.deposit .contents .d-grid .grid input[type=password] {
-    font-size: 14px
-}
-
-.deposit #qrcode {
-    display: flex;
-    justify-content: center;
-}
-.deposit #qrcode2 {
-    display: flex;
-    justify-content: center;
-}
-.deposit #qrcode img {
-    width: 72px;
-    height: 72px;
-    background: var(--white);
-    padding: 54px 56px 54px 52px;
-    border: 0.35px solid var(--mid-gray);
-}
-.deposit #qrcode2 img{
-    width: 72px;
-    height: 72px;
-    background: var(--white);
-    padding: 54px 56px 54px 52px;
-    border: 0.35px solid var(--mid-gray);
-}
-
-#address+.btn {
-    width: 72px;
-    flex-shrink: 0;
-    height: 40px;
-    line-height: 40px;
-    font-family: Inter !important;
-}
-
-.grid .input--group .input--group--text {
-    color: #1C80B8;
-    font-family: Inter !important;
-    font-weight: 500;
-}
-
-/* Mobile */
-@media (max-width: 800px) {
-    .sub.wallet .mobile-only{display: block!important;}
-	.sub.wallet .desktop-only{display: none!important;}
-	.sub.deposit .mobile-only{display: block!important;}
-	.sub.deposit .desktop-only{display: none!important;}
-	
-	.wallet > header,
-    .deposit > header {
-        display: none;
-    }
-	.wallet .contents .contents--header,
-	.deposit .contents .contents--header{
-		line-height: 48px; 
-		padding-left: 0;
-		margin-bottom: 0;
-	}
-
-	.wallet .contents--header .navigation--back,
-	.deposit .contents--header .navigation--back{
-		height: 48px;
-	}
-
-	.wallet .contents--header,
-	.deposit .contents--header{
-		display: flex; border-bottom: none;
-	}
-
-    .wallet-summary {
-        display: flex;
-        flex-direction: column;
-        row-gap: 24px;
-    }
     .wallet-summary label {
         font-weight: 500;
         font-family: Inter;
@@ -333,7 +220,205 @@
         height: 32px;
         line-height: 32px;
     }
-    .deposit .deposit {
+}
+
+
+/* deposit */
+/* 입금 */
+.deposit .contents .d-grid{
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+    grid-auto-rows: 1fr
+}
+
+.deposit .contents .d-grid .grid {
+    height: 470px;
+    padding: 22px;
+    border: 1px solid var(--blue-mid-gray);
+    border-radius: 2px;
+    box-sizing: border-box;
+	overflow: hidden;
+}
+
+.deposit .contents .d-grid .grid h1 {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.15px;
+}
+
+.deposit .contents .d-grid .grid ul{
+    margin: 14px 0 0;
+	padding-left: 0;
+}
+.deposit .contents .d-grid .grid ul li:before,
+.deposit .guide ul li:before{
+	content:"•"; 
+	font-size:10pt;
+	margin-right: 7px;
+}
+
+.deposit .contents .d-grid .grid input[type=text],
+.deposit .contents .d-grid .grid input[type=password] {
+    border-color: var(--mid-gray);
+    padding: 0 11px;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.15px;
+}
+
+.deposit .contents .d-grid .grid input[type=password] {
+    font-size: 14px
+}
+
+.deposit #qrcode {
+    display: flex;
+    justify-content: center;
+}
+.deposit #qrcode2 {
+    display: flex;
+    justify-content: center;
+}
+.deposit #qrcode img {
+    width: 72px;
+    height: 72px;
+    background: var(--white);
+    padding: 54px 56px 54px 52px;
+    border: 0.35px solid var(--mid-gray);
+}
+.deposit #qrcode2 img{
+    width: 72px;
+    height: 72px;
+    background: var(--white);
+    padding: 54px 56px 54px 52px;
+    border: 0.35px solid var(--mid-gray);
+}
+
+.deposit .guide{
+	margin-top: 20px;
+	padding:20px 34px 20px 20px;
+	background-color: #FAFAFA;
+}
+
+.deposit .guide ul{
+	padding-left: 0;
+}
+
+#address+.btn {
+    width: 72px;
+    flex-shrink: 0;
+    height: 40px;
+    line-height: 40px;
+    font-family: Inter !important;
+}
+
+.grid .input--group .input--group--text {
+    color: #1C80B8;
+    font-family: Inter !important;
+    font-weight: 500;
+}
+
+
+.sub.deposit .contents .contents--header{
+	margin-bottom: 18px;
+}
+
+.deposit .contents .dropdown-wrapper{
+	width: 196px;
+	margin-bottom: 14px;
+	border: 0.35px solid #DFDFDF;
+	border-radius: 5px;
+}
+.deposit .contents .dropdown-wrapper > button{
+	padding-left: 40px;
+}
+.deposit .contents .dropdown::after{
+	right: 16px;
+}
+
+
+
+@media screen and (max-width:1200px) {
+	.sub.deposit .side{
+		display: none;
+	}
+	.sub.deposit .contents{
+		max-width: initial;
+	}
+}
+
+@media screen and (min-width:801px) and (max-width: 1200px){
+	.sub.notice.deposit main{
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+@media screen and (max-width: 800px) {
+	.sub.deposit .mobile-only{display: block!important;}
+	.sub.deposit .desktop-only{display: none!important;}
+	
+	.deposit .deposit {
+        grid-template-columns: 1fr !important;
+    }
+    .deposit .deposit .form--controls {
+        display: flex;
+    }
+    .deposit .deposit .form--controls .form--label {
+        color: #191F28;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    .sub.deposit .deposit--header {
+        display: flex !important;
+        justify-content: space-between;
+    }
+    .deposit--guide-btn {
+        color: #4E5968;
+        padding: 0 24px 0 0;
+        background: transparent url('../img/icon/icon-next.svg') no-repeat right center;
+        border: 0 none;
+        letter-spacing: -0.15px;
+    }
+    .deposit .deposit > .grid:nth-of-type(1) {
+        display: none;
+    }
+    .deposit .contents .d-grid .grid {
+        padding: 0;
+        border: 0 none;
+    }
+    .deposit .contents .d-grid .grid:nth-child(2) {
+        margin-top: 24px;
+    }
+    .deposit .input--group {
+        border: 0 none !important;
+        background: transparent;
+    }
+    .deposit .contents .d-grid .grid .input {
+        border: 0 none !important;
+    }
+    .deposit .contents .d-grid .grid input[type=text], .deposit .contents .d-grid .grid input[type=password] {
+        color: #4E5968 !important;
+        font-size: 16px;
+        text-align: right;
+    }
+    .deposit .contents .d-grid .grid .input::after {
+        display: none;
+    }
+    .deposit .address,
+    .deposit .eth {
+        flex-direction: column;
+    }
+
+    .deposit #qrcode2 {
+        display: flex !important;
+        flex-direction: column;
+    }
+    .deposit #qrcode2 img {
+        align-self: center;
+    }
+	.deposit .deposit {
         grid-template-columns: 1fr !important;
     }
     .deposit .deposit .form--controls {
@@ -392,4 +477,39 @@
     .deposit #qrcode2 img {
         align-self: center;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Mobile */
+@media (max-width: 800px) {
+	.wallet > header,
+    .deposit > header {
+        display: none;
+    }
+	.wallet .contents .contents--header,
+	.deposit .contents .contents--header{
+		line-height: 48px; 
+		padding-left: 0;
+		margin-bottom: 0;
+	}
+
+	.wallet .contents--header .navigation--back,
+	.deposit .contents--header .navigation--back{
+		height: 48px;
+	}
+
+	.wallet .contents--header,
+	.deposit .contents--header{
+		display: flex; 
+		border-bottom: none;
+	}
 }
