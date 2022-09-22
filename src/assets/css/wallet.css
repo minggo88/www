@@ -252,7 +252,7 @@
     margin: 14px 0 0;
 	padding-left: 0;
 }
-.deposit .contents .d-grid .grid ul li:before,
+.deposit .deposit--guid ul li:before,
 .deposit .guide ul li:before{
 	content:"•"; 
 	font-size:10pt;
@@ -370,6 +370,10 @@
         font-size: 14px;
         font-weight: 400;
     }
+	.sub.deposit .contents .contents--header{
+		margin-bottom: 0;
+	}
+
     .sub.deposit .deposit--header {
         display: flex !important;
         justify-content: space-between;
@@ -479,7 +483,11 @@
     }
 }
 
-
+/* deposit-guide */
+/* 안내 */
+.deposit-guide .boxed{
+	height: 190px;
+}
 
 
 
