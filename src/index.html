@@ -34,12 +34,12 @@
 <link rel="stylesheet" href="./assets/css/front.css?t={version}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
 <!-- JS -->
-<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-<script src="//unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-<script src="./assets/js/common.js?t={version}"></script>
-<script src="./assets/js/api.js?t={version}"></script>
-<script src="./assets/js/components.js?t={version}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script src="./assets/js/common.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
@@ -171,20 +171,14 @@
 	<div class="news">
 		<div class="column">
 			<div class="swiper">
-				<ul class="swiper-wrapper" name="main_notice" style="flex-direction: column; height: auto;">
-					<li class="swiper-slide hide" name="tpl">
+				<ul class="swiper-wrapper" name="main_notice">
+					<li class="swiper-slide" name="tpl">
 						<a href="" style="width:100% ;">
-							<!-- <span class="badge badge--white" {hide_tag} data-i18n>공지</span>
-							<span class="news--text">{message}</span>
-							<span class="icon-new" {hide_new}></span> -->
 							<div class="bg"></div>
 						</a>
 					</li>
-					<li class="swiper-slide hide" name="tpl">
+					<li class="swiper-slide" name="tpl">
 						<a href style="width:100% ;">
-							<!-- <span class="badge badge--white" {hide_tag} data-i18n>공지</span>
-							<span class="news--text">{message}</span>
-							<span class="icon-new" {hide_new}></span> -->
 							<div class="bg"></div>
 						</a>
 					</li>
