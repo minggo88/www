@@ -57,7 +57,7 @@
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
 			<nav class="nav">
 				<ul>
-					<li class="active">
+					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
 					<li>
@@ -67,7 +67,7 @@
 						<a href="" data-i18n>경매</a>
 					</li>
 					<li>
-						<a href="" data-i18n>입출금</a>
+						<a href="wallet.html" data-i18n>입출금</a>
 					</li>
 					<li>
 						<a href="" data-i18n>다도 문화</a>
@@ -106,7 +106,7 @@
 				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
 				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
 				<div name="box_unlogedin">
-					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
+					<a href="login.html" class="btn--login" style="display: none" data-i18n>로그인</a>
 				</div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
@@ -130,7 +130,7 @@
 					<a href="" data-i18n>경매</a>
 				</li>
 				<li>
-					<a href="" data-i18n>입출금</a>
+					<a href="wallet.html" data-i18n>입출금</a>
 				</li>
 				<li>
 					<a href="" data-i18n>다도 문화</a>
@@ -167,9 +167,17 @@
 	<div class="news">
 		<div class="column">
 			<div class="swiper">
-				<ul class="swiper-wrapper" name="main_notice" style="height:auto;">
-					<li class="swiper-slide hide" name="tpl" style="height:82px;">
+				<ul class="swiper-wrapper" name="main_notice" style="flex-direction: column; height: auto;">
+					<li class="swiper-slide hide" name="tpl">
 						<a href="" style="width:100% ;">
+							<!-- <span class="badge badge--white" {hide_tag} data-i18n>공지</span>
+							<span class="news--text">{message}</span>
+							<span class="icon-new" {hide_new}></span> -->
+							<div class="bg"></div>
+						</a>
+					</li>
+					<li class="swiper-slide hide" name="tpl">
+						<a href style="width:100% ;">
 							<!-- <span class="badge badge--white" {hide_tag} data-i18n>공지</span>
 							<span class="news--text">{message}</span>
 							<span class="icon-new" {hide_new}></span> -->
