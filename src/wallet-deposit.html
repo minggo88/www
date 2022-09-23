@@ -40,7 +40,6 @@
 <script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}"></script>
-<script src="./assets/js/wallet-deposit.js?t={version}" defer></script>
 <script src="./assets/js/qrcode.min.js?t={version}"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 
@@ -166,26 +165,26 @@
 					<h2><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></h2>
 					<button type="button" class="deposit--guide-btn" onclick="location.href = 'wallet-deposit-guide.html'" data-i18n>입금 안내 </button>
 				</div>
-				<div class="dropdown-wrapper">
-					<button type="button" class="dropdown" data-i18n>비트코인캐시</button>
+				<div class="dropdown-wrapper" style="display:">
+					<button type="button" class="dropdown" name="symbol" data-i18n>USD</button>
 					<div class="dropdown--item">
 						<ul>
 							<li>
-								<button type="button" data-i18n>비트코인캐시</button>
+								<button type="button" data-i18n>USD</button>
 							</li>
 						</ul>
 					</div>
 				</div>
-				<div id="qrcode2" class="mobile-only">
+				<div id="qrcode2" class="mobile-only" style="display:none !important">
 					<div class="size--14 text--center" style="margin-top: 36px; font-weight: 500; font-family: Inter;margin-bottom: 7px" data-i18n>QR Code</div>
 				</div>
-				<div class="text--center mobile-only" style="margin-top: 15px"><button type="button" class="btn btn-create-address btn--red" style="width: 196px; align-self: center" data-i18n>Create BCH Address</button></div>
+				<div class="text--center mobile-only" style="display:none !important;margin-top: 15px"><button type="button" class="btn btn-create-address btn--red" style="width: 196px; align-self: center" data-i18n>Create Address</button></div>
 				<div class="d-grid deposit">
 					<section class="grid deposit--guid">
 						<h1 data-i18n>입금안내</h1>
 						<ul>
-							<li data-i18n>고객님께서 (비트코인캐시)를 팔고 싶다면 먼저 지갑에 입금하거나 다른 회원으로부터 구입해야 합니다.</li>
-							<li data-i18n>고객님에게 지정된 (비트코인캐시)주소로 (비트코인캐시)를 보내면 고객님의 지갑에 자동으로 반영됩니다.</li>
+							<li data-i18n>거래소 상품을 구매하기 위해서는 거래소 지갑에 입금을 하셔야 합니다.</li>
+							<li data-i18n>입금정보를 저장 후 입금용 주소로 이채하시면 담당자가 확인 후 입금처리 됩니다.</li>
 							<li data-i18n>평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료.</li>
 							<li data-i18n>평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료.</li>
 							<li data-i18n>법정 공휴일은 입출금 서비스를 지원하지 않습니다.</li>
@@ -196,17 +195,35 @@
 						<div class="address form--controls" style="margin-bottom: 18px">
 							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>Address</label>
 							<div class="input--group">
-								<input type="text" id="address" readonly>
-								<button type="button" class="btn btn--gray btn--copy" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</button>
+								<input type="text" name="address" readonly value="" data-bind="site_info.bank_full_info">
+								<div type="button" class="btn btn--gray btn--copy" data-clipboard-target="[name=address]" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</div>
 							</div>
 						</div>
 						<div class="eth form--controls" style="margin-bottom: 18px">
-							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>ETH Balance</label>
+							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>잔액</label>
 							<div class="input--group">
-								<input type="text" id="eth" value="1,234,567 BCH" disabled class="text-right text-black">
+								<input type="text" disabled class="text-right text-black" value="0" data-bind="user_wallet.USD.confirmed" data-format="comma">
+								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>USD</div>
 							</div>
 						</div>
-						<div class="form--controls desktop-only">
+						<div class="eth form--controls" style="margin-bottom: 18px">
+							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>입금액</label>
+							<div class="input--group">
+								<input type="text" name="deposit_amount" class="text-right text-black" value="0">
+								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>USD</div>
+							</div>
+						</div>
+						<div class="eth form--controls" style="margin-bottom: 18px">
+							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>입금자 이름</label>
+							<div class="input--group">
+								<input type="text" name="deposit_name" class="text-left text-black" value="" data-bind="user_info.name">
+							</div>
+						</div>
+						<div class="">
+							<div class="d-flex flex-center" style="margin-top: 15px"><button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 196px; align-self: center" data-i18n>입금하기</button></div>
+						</div>
+						<div class="form--controls desktop-only" style="display:none">
+							<!-- QR Code는 블록체인용입니다. -->
 							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>QR Code</label>
 							<div id="qrcode">
 							</div>
@@ -230,8 +247,8 @@
 					</ul>
 				</div>
 				<script>
-					new QRCode("qrcode", "http://jindo.dev.naver.com/collie");
-					new QRCode("qrcode2", "http://jindo.dev.naver.com/collie");
+					// new QRCode("qrcode", "http://jindo.dev.naver.com/collie");
+					// new QRCode("qrcode2", "http://jindo.dev.naver.com/collie");
 				</script>
 			</div>
 		</main>
@@ -270,26 +287,6 @@
 		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
-    <script>
-        const clipboard = new ClipboardJS('.btn--copy');
-
-        clipboard.on('success', function (e) {
-            alert('클립보드에 복사되었습니다.')
-
-            e.clearSelection()
-        });
-
-        $('.btn-create-address ').click(() => {
-            API.createNewAddress('BTC', (resp) => {
-                if(resp.success) {
-                    $('#address').val(resp.payload.address)
-                } else {
-                    alet(resp.error.message)
-                }
-            })
-        })
-
-    </script>
 
     <script src="./assets/js/app.js?t={version}"></script>
 
