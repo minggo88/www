@@ -11,8 +11,11 @@
         display: flex;
         align-self: center;
         font-weight: 700;
-        font-size: 26px;
+        font-size: 24px;
         color: var(--red-up);
+    }
+    .volume {
+        padding-right: 24px;
     }
 }
 
@@ -35,7 +38,11 @@
 }
 
 .details--diff {
-    font-size: 16px
+    img {
+        width: 9px;
+        height: 8.22px;
+        margin-right: 4px;
+    }
 }
 
 #tab-info {
