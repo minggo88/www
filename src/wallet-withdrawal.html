@@ -87,7 +87,7 @@
 
 </head>
 <!-- BODY -->
-<body class="sub deposit-withdrawal">
+<body class="sub deposit deposit-withdrawal">
 	<header>
 		<div class="header_inner">
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
@@ -188,9 +188,9 @@
             <li>
                 <a href="change-account-number.html" data-i18n>출금계좌 변경</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
-            </li>
+            </li> -->
         </ul>
         <h1 class="size--20" data-i18n>지갑 관리</h1>
         <ul>
@@ -208,165 +208,172 @@
             </li>
         </ul>
     </aside>
-    <main class="d-grid">
-        <aside class="side">
-            <h1 data-i18n>지갑 관리</h1>
-            <nav class="side--snb">
-                <ul>
-                    <li>
-                        <a href="wallet.html" data-i18n>보유 자산</a>
-                    </li>
-                    <li>
-                        <a href="wallet-deposit.html" data-i18n>입금</a>
-                    </li>
-                    <li class="snb--active">
-                        <a href="wallet-withdrawal.html" data-i18n>출금</a>
-                    </li>
-                    <li>
-                        <a href="wallet-analysis.html" data-i18n>종합 분석</a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-        <div class="contents">
-            <header class="contents--header">
-                <button type="button" class="navigation--back"></button>
-                <h1 data-i18n>Deposit</h1>
-            </header>
-            <div class="deposit--header mobile-only">
-                <h2><i class="icon-circle-fill"></i> 출금</h2>
-                <button type="button" class="deposit--guide-btn" onclick="location.href = 'wallet-deposit-guide.html'" data-i18n>출금 안내 </button>
-            </div>
-            <div class="mobile-only">
-                <div id="currecny" class="dropdown-wrapper">
-                    <button type="button" class="dropdown" data-i18n>비트코인 캐시</button>
-                    <div class="dropdown--item">
-                        <ul>
--                        </ul>
-                    </div>
-                </div>
-            </div>
-            <script>
-                API.getCurrency(null, (resp) => {
-                    if(resp.success) {
-                        resp.payload.filter((currency) => {
-                            return currency.crypto_currency === 'Y'
-                        }).map((currency) => {
-                            $('#currency').dropdown('add', { text: currency.title, value: currency.symbol })
-
-                            API.getBalance(currency.symbol, (resp) => {
-                                console.log(resp)
-                            })
-
-                        })
-                    }
-                })
-            </script>
-            <div class="d-grid deposit">
-                <section class="grid" style="height: 584px">
-                    <h1 data-i18n>입금안내</h1>
-                    <div style="padding-left: 9px">
-                        <ul style=" margin-bottom: 20px">
-                            <li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
-                            <li data-i18n>고객님의 (비트코인캐시) 거래가 네트워크에 의해 처리되도록하기 위해 (비트코인캐시) 거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 거래소 수수료와 트랜젝션 수수료가 차감된 금액 입니다.</li>
-                            <li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
-                            <li data-i18n>모든 인출은 관리자가 확인한 후에 실행됩니다.</li>
-                        </ul>
-                    </div>
-
-                    <h1 data-i18n>요금안내</h1>
-
-                    <div style="width:224px; margin-top: 14px; padding-left: 8px;box-sizing: border-box">
-                        <dl>
-                            <dt class="size--14" id="fee_out" style="height: 32px; line-height: 32px" data-i18n>출금수수료</dt>
-                            <dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
-                        </dl>
-                        <dl>
-                            <dt class="size--14" id="fee_in" style="height: 32px; line-height: 32px" data-i18n>내부출금수수료</dt>
-                            <dd class="size--14 text-red" style="height: 32px; line-height: 32px">0 BCH</dd>
-                        </dl>
-                        <dl>
-                            <dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최소출금액</dt>
-                            <dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
-                        </dl>
-                        <dl>
-                            <dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최대출금액</dt>
-                            <dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.00000000 BCH</dd>
-                        </dl>
-                    </div>
-
-                    <div style="padding-left: 9px">
-                        <ul>
-                            <li data-i18n>평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료.</li>
-                            <li data-i18n>평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료.</li>
-                            <li data-i18n>법정 공휴일은 입출금 서비스를 지원하지 않습니다.</li>
-                            <li data-i18n>토,일 및 공휴일 입출금건 → 평일 영업일에 진행</li>
-                        </ul>
-                    </div>
-                </section>
-                <section class="grid" style="height: auto !important">
-                    <div class="form--controls" style="margin-bottom: 10px">
-                        <label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 가능금액</label>
-                        <div class="input--group bg--lightgray b-dfdfdf">
-                            <input type="text" id="" readonly class="bg--none b--none">
-                            <span class="input--group--text">BTC</span>
-                        </div>
-                    </div>
-                    <div class="form--controls" style="margin-bottom: 10px">
-                        <label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>1일 출금 가능금액</label>
-                        <div class="input b--dfdfdf" style="height: 40px">
-                            <div class="input--group">
-                                <input type="text" id="eth" value="1,234,567" disabled class="b-none text-right text-black">
-                                <span class="input--group--text">BTC</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form--controls" style="margin-bottom: 10px">
-                        <label for="price" class="form--label" style="margin-bottom: 7px" data-i18n>출금하실 금액</label>
-                        <div class="input b--dfdfdf" style="height: 40px">
-                            <div class="input--group">
-                                <input type="text" id="text" value="1,234,567" inputmode="numeric" class="bg--none b-none text-right text-black">
-                                <span class="input--group--text">BTC</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form--controls" style="margin-bottom: 10px">
-                        <label for="fee" class="form--label" style="margin-bottom: 7px" data-i18n>출금 수수료</label>
-                        <div class="input b--dfdfdf">
-                            <div class="input--group">
-                                <input type="text" id="fee" value="" readonly class="bg--none b-none">
-                                <span class="input--group--text">BTC</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form--controls" style="margin-bottom: 10px">
-                        <label for="" class="form--label" style="margin-bottom: 7px" data-i18n>실 출금액</label>
-                        <div class="input b--dfdfdf">
-                            <div class="input--group">
-                                <input type="text" id="realOut" value="" readonly class="bg--none b-none">
-                                <span class="input--group--text">BTC</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form--controls desktop-only" style="margin-bottom: 10px">
-                        <label for="pin" class="form--label" style="margin-bottom: 7px" data-i18n>보안비밀번호</label>
-                        <div class="input--group">
-                            <input type="password" id="pin" value="" class="text--blue-gray" placeholder="보안비밀번호 입력">
-                        </div>
-                        <p class="text--blue-gray" data-i18n>보안비밀번호는 계정관리 &gt; 보안비밀번호 변경에서 바꾸실수 있습니다.</p>
-                    </div>
-                    <div class="form--controls desktop-only">
-                        <label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 (비트코인캐시) 주소</label>
-                        <div class="input--group">
-                            <input type="text" id="address" readonly>
-                            <button type="button" class="btn btn--validate btn--blue-gray" data-i18n>검사</button>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </main>
-    <footer class="desktop-only">
+    <div class="content_wrap">
+		<main class="d-grid">
+			<aside class="side">
+				<h1 data-i18n>입출금</h1>
+				<nav class="side--snb">
+					<ul>
+						<li>
+							<a href="wallet.html" data-i18n>보유 자산</a>
+						</li>
+						<li>
+							<a href="wallet-deposit.html" data-i18n>입금</a>
+						</li>
+						<li class="snb--active">
+							<a href="wallet-withdrawal.html" data-i18n>출금</a>
+						</li>
+						<li>
+							<a href="wallet-analysis.html" data-i18n>종합 분석</a>
+						</li>
+					</ul>
+				</nav>
+			</aside>
+			<div class="contents">
+				<header class="contents--header">
+					<button type="button" class="navigation--back"></button>
+					<h1 data-i18n>Deposit</h1>
+				</header>
+				<div class="deposit--header mobile-only">
+					<h2><i class="icon-circle-fill"></i> 출금</h2>
+					<button type="button" class="deposit--guide-btn" onclick="location.href = 'wallet-deposit-guide.html'" data-i18n>출금 안내 </button>
+				</div>
+				<div class="mobile-only">
+					<div id="currecny" class="dropdown-wrapper">
+						<button type="button" class="dropdown" data-i18n>비트코인 캐시</button>
+						<div class="dropdown--item">
+							<ul>
+								<li>
+									<button type="button" data-i18n>비트코인캐시</button>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<script>
+					API.getCurrency(null, (resp) => {
+						if(resp.success) {
+							resp.payload.filter((currency) => {
+								return currency.crypto_currency === 'Y'
+							}).map((currency) => {
+								$('#currency').dropdown('add', { text: currency.title, value: currency.symbol })
+								API.getBalance(currency.symbol, (resp) => {
+									console.log(resp)
+								})
+							})
+						}
+					})
+				</script>
+				<div class="d-grid deposit">
+					<section class="grid" style="height: 584px">
+						<h1 data-i18n>입금안내</h1>
+						<div style="padding-left: 9px">
+							<ul style=" margin-bottom: 20px">
+								<li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
+								<li data-i18n>고객님의 (비트코인캐시) 거래가 네트워크에 의해 처리되도록하기 위해 (비트코인캐시) 거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 거래소 수수료와 트랜젝션 수수료가 차감된 금액 입니다.</li>
+								<li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
+								<li data-i18n>모든 인출은 관리자가 확인한 후에 실행됩니다.</li>
+							</ul>
+						</div>
+						<h1 data-i18n>요금안내</h1>
+						<div style="width:224px; margin-top: 14px; padding-left: 8px;box-sizing: border-box">
+							<dl>
+								<dt class="size--14" id="fee_out" style="height: 32px; line-height: 32px" data-i18n>출금수수료</dt>
+								<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
+							</dl>
+							<dl>
+								<dt class="size--14" id="fee_in" style="height: 32px; line-height: 32px" data-i18n>내부출금수수료</dt>
+								<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0 BCH</dd>
+							</dl>
+							<dl>
+								<dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최소출금액</dt>
+								<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
+							</dl>
+							<dl>
+								<dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최대출금액</dt>
+								<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.00000000 BCH</dd>
+							</dl>
+						</div>
+						<div style="padding-left: 9px">
+							<ul>
+								<li data-i18n>평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료.</li>
+								<li data-i18n>평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료.</li>
+								<li data-i18n>법정 공휴일은 입출금 서비스를 지원하지 않습니다.</li>
+								<li data-i18n>토,일 및 공휴일 입출금건 → 평일 영업일에 진행</li>
+							</ul>
+						</div>
+					</section>
+					<section class="grid" style="height: auto !important">
+						<div class="form--controls" style="margin-bottom: 10px">
+							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 가능금액</label>
+							<div class="input bg--lightgray b--dfdfdf" style="height: 40px">
+								<div class="input--group bg--lightgray">
+									<input type="text" id="address" value="1,234,567" disabled readonly class="bg--none b--none text-right text-black">
+									<span class="input--group--text">BTC</span>
+								</div>
+							</div>
+						</div>
+						<div class="form--controls border" style="margin-bottom: 10px">
+							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>1일 출금 가능금액</label>
+							<div class="input bg--lightgray b--dfdfdf" style="height: 40px">
+								<div class="input--group">
+									<input type="text" id="eth" value="1,234,567" disabled class="bg--none b-none text-right text-black">
+									<span class="input--group--text">BTC</span>
+								</div>
+							</div>
+						</div>
+						<div class="form--controls input--box" style="margin-bottom: 10px">
+							<label for="price" class="form--label" style="margin-bottom: 7px" data-i18n>출금하실 금액</label>
+							<div class="input b--dfdfdf" style="height: 40px">
+								<div class="input--group">
+									<input type="text" id="text" value="1,234,567" inputmode="numeric" class="bg--none b-none text-right text-black">
+									<span class="input--group--text">BTC</span>
+								</div>
+							</div>
+						</div>
+						<div class="form--controls" style="margin-bottom: 10px">
+							<label for="fee" class="form--label" style="margin-bottom: 7px" data-i18n>출금 수수료</label>
+							<div class="input bg--lightgray b--dfdfdf" style="height: 40px">
+								<div class="input--group">
+									<input type="text" id="fee" value="" readonly class="bg--none b-none">
+									<span class="input--group--text">BTC</span>
+								</div>
+							</div>
+						</div>
+						<div class="form--controls" style="margin-bottom: 10px">
+							<label for="" class="form--label" style="margin-bottom: 7px" data-i18n>실 출금액</label>
+							<div class="input bg--lightgray b--dfdfdf" style="height: 40px">
+								<div class="input--group">
+									<input type="text" id="realOut" value="" readonly class="bg--none b-none">
+									<span class="input--group--text">BTC</span>
+								</div>
+							</div>
+						</div>
+						<div class="form--controls desktop-only" style="margin-bottom: 10px">
+							<label for="pin" class="form--label" style="margin-bottom: 7px" data-i18n>보안비밀번호</label>
+							<div class="input--group">
+								<input type="password" id="pin" value="" class="text--blue-gray" placeholder="보안비밀번호 입력">
+							</div>
+							<p class="text--blue-gray" data-i18n>보안비밀번호는 계정관리 &gt; 보안비밀번호 변경에서 바꾸실수 있습니다.</p>
+						</div>
+						<div class="form--controls desktop-only">
+							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 (비트코인캐시) 주소</label>
+							<div class="input--group">
+								<input type="text" id="address" readonly>
+								<button type="button" class="btn btn--validate btn--blue-gray" data-i18n>검사</button>
+							</div>
+						</div>
+					</section>
+				</div>
+				<div class="mobile-only btnArea">
+					
+						<a href="#" class="btn btn--red btn--write" data-i18n="">다음</a>
+					
+				</div>
+			</div>
+		</main>
+	</div>
+    <!-- <footer class="desktop-only">
 		<div class="logo">Teaplat</div>
 		<nav class="fnb">
 			<ul>
@@ -399,7 +406,7 @@
 		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
 		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
-	</footer>
+	</footer> -->
 
     <script src="./assets/js/app.js?t={version}"></script>
 
