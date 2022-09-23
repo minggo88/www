@@ -1801,6 +1801,7 @@
 }
 .exchange main {
     grid-template-columns: var(--SIDE-WIDTH) auto;
+    column-gap: 0;
 }
 
 
