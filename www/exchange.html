@@ -274,7 +274,7 @@
 							</span>
 						</div>
 						<div class="d-grid" style="font-weight: 400">
-							<div class="d-flex" style="column-gap: ; flex-direction: column">
+							<div class="d-flex" style="flex-direction: column">
 								<div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
 									<div style="width: 59px">거래량</div> <div><span id="spot-volume">574,170,000</span></div>
 								</div>
@@ -298,7 +298,8 @@
 					</div>
 					<div id="tvchart"></div>
 					
-					<div style="height: 509px"><div class="tab-wrapper">
+					<div class="d-flex" style="height: 509px">
+						<div class="tab-wrapper" style="width: 469px">
 			
 							<div class="" style="border-bottom: 1px solid var(--linegray)">
 								<ul class="tabs">
@@ -408,7 +409,25 @@
 									</table>
 								</div>
 							</div>
-					</div>
+						</div>
+						<div style="flex-shrink: 1; width: 100%">
+							<div class="tab-wrapper">
+								<ul class="tabs" style="width: 100%">
+									<li class="tab--active" data-target="#right-tab-sell">
+										<button type="button">매수</button>
+									</li>
+									<li data-target="#right-tab-buy">
+										<button type="button">매도</button>
+									</li>
+								</ul>
+								<div class="tab-content" id="right-tab-sell" style="display: block">
+									매수
+								</div>
+								<div class="tab-content" id="right-tab-buy">
+									매도
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</main>

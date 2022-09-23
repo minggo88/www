@@ -1790,18 +1790,18 @@
     line-height: 46px;
     border: 0 none !important;
     /*border-bottom: 1px solid #0B232D !important;*/
-    color: var(--blue-gray);
+    color: var(--basic-black);
     font-size: 14px !important;
 }
 
 .tabs .tab--active {
-    color: var(--basic-black) !important;
+    color: var(--red-up) !important;
     background: transparent !important;
     /*border-bottom: 4px solid var(--red-up) !important;*/
 }
 .exchange main {
     grid-template-columns: var(--SIDE-WIDTH) auto;
-    column-gap: 0;
+    column-gap: 6px;
 }
 
 
