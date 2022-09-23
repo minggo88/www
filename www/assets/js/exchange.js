@@ -6,11 +6,11 @@ let SELECTED_EXCHANGE = getURLParameter('exchange') || 'USD'
 let CHART_TIMER
 
 // 모바일 접속 여부
-let isMobile = (window.matchMedia('(max-width: 600px)').matches)
+let isMobile = (window.matchMedia('(max-width: 800px)').matches)
 
 $(function() {
     $(window).on('resize', () => {
-        isMobile = (window.matchMedia('(max-width: 600px)').matches)
+        isMobile = (window.matchMedia('(max-width: 800px)').matches)
     })
 
     const genVolumeData = (data) => {
@@ -312,12 +312,8 @@ $(function() {
                     return `$${price}`
                 }
             },
-            // 수량
-            { data: 'volume', render: (volume) => {
-
-                // 버튼
-                return `${volume}`
-            }},
+            // 개수
+            { data: 'volume' },
             // 거래금액
             {
                 data: 'amount',
@@ -421,12 +417,8 @@ $(function() {
             {
                 data: 'price', render: DataTable.render.number( null, null, 2, '$' )
             },
-            // 수량
-            { data: 'volume', render: (volume) => {
-
-                // 버튼
-                return `${volume}`
-            }},
+            // 개수
+            { data: 'volume' },
             // 거래금액
             {
                 data: 'amount',

@@ -159,9 +159,6 @@
     border-bottom-width: 0 !important;
     line-height: 1;
   }
-  .side--panel .tabs li.tab--active {
-    /*border-bottom: 4px solid var(--red-up) !important;*/
-  }
   .side--panel .grid-table thead th {
     height: 32px !important;
     border: 1px solid #E5E8EB !important;

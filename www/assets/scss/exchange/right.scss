@@ -1,3 +1,5 @@
+@import '../@mixin.scss';
+
 .details {
     .tabs {
         width: 546px;
@@ -167,9 +169,6 @@
                 box-sizing: border-box;
                 border-bottom-width: 0 !important;
                 line-height: 1;
-                &.tab--active{
-                    /*border-bottom: 4px solid var(--red-up) !important;*/
-                }
             }
         }
         .grid-table thead th {
