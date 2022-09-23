@@ -222,7 +222,6 @@
     }
 }
 
-
 /* deposit */
 /* 입금 */
 .deposit .contents .d-grid{
@@ -320,7 +319,6 @@
     font-weight: 500;
 }
 
-
 .sub.deposit .contents .contents--header{
 	margin-bottom: 18px;
 }
@@ -337,7 +335,6 @@
 .deposit .contents .dropdown::after{
 	right: 16px;
 }
-
 
 
 @media screen and (max-width:1200px) {
@@ -574,8 +571,6 @@
 	.deposit-withdrawal .d-grid .btnArea .btn.btn--write {
 		width: 100%;
 	}
-
-
 }
 
 
@@ -596,11 +591,6 @@
 	/* padding:0 50px; */
 	box-sizing: border-box;
 }
-
-/* .wallet-analysis .row{
-	margin-right: -15px;
-    margin-left: -15px;
-} */
 
 .wallet-analysis .row:before{
 	display: table;
@@ -793,11 +783,6 @@
 	border-bottom: 1px solid #cacaca;
 }
 
-/* .historyTb tbody tr td.mergeTd.middle{
-	padding: 5px 0;
-	vertical-align: middle;
-} */
-
 .historyTb tbody tr.firstTr td {
 	padding-top: 18px;
 	padding-bottom: 18px;
@@ -814,7 +799,6 @@
 }
 
 .historyTb tbody tr td.mergeTd {
-	/* padding-top: 2rem; */
 	font-weight: 500;
 }
 
@@ -868,10 +852,6 @@
 	justify-content: center;
 	gap: 5px;
 }
-
-
-
-
 
 .historyTb .btn{
 	border-radius: 7px;
@@ -937,13 +917,6 @@
 	display: none!important;
 }
 
-
-
-
-
-
-
-
 @media screen and (min-width: 1200px) {
 	.wallet-analysis .col-lg-12{
 		width: 100%;
@@ -954,8 +927,6 @@
 @media screen and (min-width: 801px) and (max-width: 1200px) {
 	.wallet-analysis main{padding-bottom: 30px;}
 }
-
-
 
 @media screen and (max-width: 800px) { 
 	.wallet-analysis .content_wrap .contents{
@@ -1058,7 +1029,6 @@
 		font-size: 12px;
 	}
 
-
 	.historyTb tbody tr td .number_div,
 	.historyTb tbody tr td .symbol_div{
 		padding-right: 0.5rem;
@@ -1073,17 +1043,6 @@
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /* Mobile */
 @media (max-width: 800px) {
