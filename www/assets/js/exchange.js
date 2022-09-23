@@ -682,10 +682,6 @@ $(function() {
                                 if(resp.success) {
                                     const spot = resp.payload[0]
 
-                                    // 최고가
-                                    $('#highest-price').text((parseFloat(spot.price_high) * parseFloat(spot.volume)).format())
-                                    // 최저가
-                                    $('#lowest-price').text((parseFloat(spot.price_low) * parseFloat(spot.volume)).format())
                                     $('#spot-volume').text(spot.volume.format())
                                     $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
 
