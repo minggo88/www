@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
 <link rel="stylesheet" href="./assets/css/components.css?t=1663661193">
 <link rel="stylesheet" href="./assets/css/sub.css?t=1663671111">
-<link rel="stylesheet" href="./assets/css/exchange.css?t=1663671111">
+<link rel="stylesheet" href="./assets/scss/exchange.css?t=1663671111">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css"/>
@@ -209,7 +209,11 @@
 						<h1>거래소</h1>
 					</div>
 				</div>
+
 				<div class="side--panel">
+					<div class="search--box desktop-only">
+						<input type="search" name="q" id="q" placeholder="검색하기" class="search--input">
+					</div>
 					<div class="tab-wrapper">
 						<ul class="tabs">
 							<li class="tab--active">
@@ -355,8 +359,7 @@
 								<table id="buyGrid" class="grid-table">
 									<thead>
 										<tr>
-											<th>번호</th>
-											<th class="category">구분</th>
+											<th>주문번호</th>
 											<th>등록일</th>
 											<th>가격</th>
 											<th>수량</th>
@@ -376,8 +379,7 @@
 								<table id="sellGrid" class="grid-table">
 									<thead>
 										<tr>
-											<th>번호</th>
-											<th class="category">구분</th>
+											<th>주문번호</th>
 											<th>등록일</th>
 											<th>가격</th>
 											<th>수량</th>

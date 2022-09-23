@@ -3,10 +3,3 @@
 @import './exchange/side.scss';
 /* 우측 영역 */
 @import './exchange/right.scss';
-
-/* Mobile */
-@media screen and (max-width: 600px) {
-    .details {
-        display: none;
-    }
-}

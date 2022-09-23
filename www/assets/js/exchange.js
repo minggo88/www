@@ -306,11 +306,6 @@ $(function() {
             {
                 data: 'orderid'
             },
-            {
-                data: () => {
-                    return '삽니다'
-                }
-            },
             // 등록일
             {
                 data: 'time_order', render: (timestamp) => {
@@ -429,11 +424,6 @@ $(function() {
         columns : [
             {
                 data: 'orderid'
-            },
-            {
-                data: () => {
-                    return '삽니다'
-                }
             },
             // 등록일
             {
@@ -585,7 +575,6 @@ $(function() {
                             no: 1,
                             name: item.name,
                             symbol : symbol,
-                            category: '삽니다',
                             meta_type: goods.meta_type ? goods.meta_type : '',
                             meta_wp_production_date: goods.meta_wp_production_date ? goods.meta_wp_production_date : '',
                             price: item.price,
