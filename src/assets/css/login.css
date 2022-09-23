@@ -1,9 +1,6 @@
 main {
     height: calc(100% - 60px);
 }
-/* header { 
-    height: 60px;
-} */
 
 .login main > section{
 	display: block;
@@ -46,9 +43,6 @@ main {
 	display: none;
 }
 .login .find--password {
-	/* margin-top: 56px;
-	align-self: center !important;
-	justify-content: center !important; */
 	color: var(--basic-gray) !important;
 	letter-spacing: 0.15px;
 }
@@ -62,14 +56,7 @@ main {
 	background-size: 7.42px 14.02px;
 }
 
-.login.forget form{position: relative;}
-.login.forget form .btn{position: absolute; left: 50%; transform: translateX(-50%); bottom: 0;}
 
-.login.forget form .grid--code{
-	margin-top: 75px; 
-	margin-bottom: 88px;
-	align-self: center;
-}
 
 .create-account main .dropdown{
 	border: 0.35px solid #DFDFDF;
@@ -116,10 +103,62 @@ main {
 
 
 
-@media screen and (max-width: 1300px) {
-	.create-account main{flex-direction: column;}
-
+/* forget 비밀번호 찾기 */
+.login.forget form .grid--code{
+	margin-top: 75px; 
+	margin-bottom: 88px;
+	align-self: center;
+}
+@media screen and (max-width: 800px) {
+	.forget .content_wrap{
+		height: 100vh;
+	}
 	
+	.forget main{
+		padding-bottom: 0!important;
+	}
+	.login.forget form{
+		width: 100%;
+		height: 100vh;
+		position: relative;
+	}
+
+	.login.forget .form--btns{
+		margin-top: 0!important;
+	}
+	.login.forget form .btn{
+		position: absolute; 
+		left: 50%; 
+		transform: translateX(-50%); 
+		bottom: 40px;
+	}
+
+	.forget form .form--header{
+		display: flex;
+		line-height: 60px; 
+		padding-left: 0;
+		margin-bottom: 20px;
+	}
+	
+
+	.forget form .form--header h1{
+		background: none;
+		margin-left: 10px;
+	}
+
+	.forget .navigation--back{height: 60px;}
+
+}
+
+
+
+
+
+@media screen and (max-width: 1300px) {
+	.create-account main{
+		flex-direction: column;
+	}
+
 	.create-account .step--list{
 		width: 340px;
 		position: static;
@@ -150,10 +189,6 @@ main {
 		line-height: 22px;
 		font-size: 14px;
 	}
-
-
-
-
 }
 
 
@@ -163,9 +198,11 @@ main {
 	}
 }
 
-
-
 @media screen and (max-width: 800px) {
+	.login.forget > header{
+		display: none;
+	}
+
 	.create-account .box-mobile-menu{
 		display: none;
 	}
@@ -175,7 +212,7 @@ main {
 		justify-content: center;
 		
 	}
-	
+
 	.create-account main{
 		align-items: center;
 		justify-content: flex-start;
@@ -212,7 +249,6 @@ main {
 	}
 	
 	.create-account section .step--list{
-		/* margin-top: 30px; */
 		position: absolute;
 		top: 0px;
 		
@@ -248,10 +284,6 @@ main {
 	.login main{display: flex;}
 	
 	.email {margin-bottom: 8px;}
-    /* .create-account .grid--code {
-        margin-top: 48px;
-        margin-bottom: 64px
-    } */
 
 	.create-account main{
 		padding: 15px 16px 56px 16px!important;
@@ -279,9 +311,9 @@ main {
         background: url('../img/icon/icon-next.svg') no-repeat 50%;
         background-size: 7.42px 14.02px;
     }
-	.form--btns{margin-top: 54px;}
+	/* .form--btns{margin-top: 54px;} */
 	.login.forget .validation--message{
 		background: transparent url(../img/icon/ico-warn-pink.svg) no-repeat 2px 5px;
 	}
-	.login.forget form{height: 416px;}
+	/* .login.forget form{height: 416px;} */
 }
