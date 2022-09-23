@@ -465,7 +465,7 @@ const API = {
         })
     },
     getCurrency: (symbol = null, callback) => {
-        console.log( `${API.BASE_URL}/getCurrency/`)
+        // console.log( `${API.BASE_URL}/getCurrency/`)
         $.ajax({
             url: `${API.BASE_URL}/getCurrency/`,
             type: 'POST',
