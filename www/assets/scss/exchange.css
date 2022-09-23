@@ -63,26 +63,9 @@
   }
 }
 /* 우측 영역 */
-.details--body {
-  display: flex;
-  padding: 12px 0 21px 28px;
-  justify-content: space-between;
-  border-bottom: 0.5px solid var(--linegray);
-  height: 65px;
-  box-sizing: border-box;
-  margin-bottom: 20px;
+.details {
+  /* 차트 툴바 */
 }
-.details--body .details--price {
-  display: flex;
-  align-self: center;
-  font-weight: 700;
-  font-size: 24px;
-  color: var(--red-up);
-}
-.details--body .volume {
-  padding-right: 24px;
-}
-
 .details .tabs {
   width: 546px;
   margin: 0 auto;
@@ -97,6 +80,30 @@
 }
 .details .details--header .tabs {
   width: auto;
+}
+.details .details--body {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0 21px 28px;
+  border-bottom: 0.5px solid var(--linegray);
+  height: 65px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.details .details--body .details--price {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--red-up);
+}
+.details .details--body .volume {
+  padding-right: 24px;
+}
+.details .chart--toolbar {
+  padding-left: 27px;
+  border-top: 1px solid var(--basic-black);
+  border-bottom: 1px solid var(--basic-black);
 }
 
 .details--diff img {

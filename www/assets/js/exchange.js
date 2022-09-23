@@ -306,14 +306,6 @@ $(function() {
             {
                 data: 'orderid'
             },
-            // 등록일
-            {
-                data: 'time_order', render: (timestamp) => {
-                    const date = new Date(timestamp * 1000)
-
-                    return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
-                }
-            },
             // 가격
             {
                 data: 'price', render: (price) => {
@@ -424,14 +416,6 @@ $(function() {
         columns : [
             {
                 data: 'orderid'
-            },
-            // 등록일
-            {
-                data: 'time_order', render: (timestamp) => {
-                    const date = new Date(timestamp * 1000)
-
-                    return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
-                }
             },
             // 가격
             {
