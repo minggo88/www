@@ -1167,6 +1167,7 @@
 		line-height:22.4px;
 	}
 
+	.sub.inquiry_detail .board--btn{margin-top: 0;}
 	.sub.inquiry_detail .btn.btn--list{display: none;}
 	.sub.inquiry_detail .btn.btn--modify{width: 40%;}
 	.sub.inquiry_detail .btn.btn--write{width: 60%;}
