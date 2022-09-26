@@ -46,9 +46,15 @@
 	background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);
 }
 
+/* 태이블 데이터 없을때 배경색 사선 그려지는것 제거 */
+div.dts div.dataTables_scrollBody {
+    background: transparent !important;
+}
+
 
 .details {
 	width: 100%;
+    overflow:hidden;
 }
 
 .details--header {
@@ -81,7 +87,7 @@
 .details--body .details--price {
     font-weight: 700;
     font-size: 26px;
-    color: var(--red-up);
+    /* color: var(--red-up); */
 }
 
 .details--price {

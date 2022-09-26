@@ -47,37 +47,11 @@
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-<script src="./assets/js/exchange.js?t={version}" defer></script>
-<script>
-    let USER_INFO = {}
 
-    API.getMyInfo((resp) => {
-        if(resp.success) {
-            const payload = resp.payload
+<script src="./assets/js/lib/php.default.min.js?t={version}"></script>
+<script src="./assets/js/lib/security.min.js?t={version}"></script>
+<script src="./i18n/i18n.js?t={version}"></script>
 
-            USER_INFO = {
-                ...USER_INFO,
-                userno: payload.userno,
-                userid: payload.userid,
-                phone: payload.phone,
-                mobile: payload.mobile,
-                bool_email: payload.bool_email,
-                bool_sms: payload.bool_sms,
-                regdate: payload.regdate,
-                bank_name: payload.bank_name,
-                bank_account: payload.bank_account,
-                bank_owner: payload.bank_owner,
-            }
-
-            if(USER_INFO.userno) {
-                $('.nav--side .btn--login').hide()
-                $('.profile').show()
-                $('.wallet').show()
-                $('.profile .dropdown').text(USER_INFO.userid)
-            }
-        }
-    })
-</script>
 </head>
 <!-- BODY -->
 <body class="sub exchange">
@@ -87,7 +61,7 @@
 				<h1 class="logo"><a href="index.html">Teaplat</a></h1>
 				<nav class="nav">
 					<ul>
-						<li class="active">
+						<li>
 							<a href="exchange.html" data-i18n>거래소</a>
 						</li>
 						<li>
@@ -211,13 +185,13 @@
 							<div style="border-bottom: 1px solid var(--linegray)">
 								<ul class="tabs">
 									<li class="tab--active">
-										<button type="button">전체</button>
+										<button type="button" name="tab_item" data-target="all">전체</button>
 									</li>
 									<li>
-										<button type="button">보유</button>
+										<button type="button" name="tab_item" data-target="hold">보유</button>
 									</li>
 									<li>
-										<button type="button">관심</button>
+										<button type="button" name="tab_item" data-target="wish">관심</button>
 									</li>
 								</ul>
 							</div>
@@ -256,34 +230,35 @@
 				</div>
 				<div class="details">
 					<div class="details--header">
-						<button type="button" class="btn btn--star--on"></button>
-						<span class="tea--name">영원호 원창호</span>
-						<small>BING DO RAW PUER TEA CAKE</small>
+						<!-- btn--star--on -->
+						<button type="button" class="btn btn--star"></button>
+						<span class="tea--name"><!-- 상품명 --></span>
+						<small><!-- BING DO RAW PUER TEA CAKE --></small>
 					</div>
 					<div class="details--body">
 						<div class="d-flex" styl="flex-direction: column">
-							<span class="details--price">$17,000</span>
-							<span class="d-flex text-bold" style="margin-left: 10px; align-items: flex-end">전일대비 <span class="text--medium text--bold text-red" style="margin-left: 5px">+2.00% </span></span>
-							<span class="details--diff text--bold text-red d-flex" style="margin-left: 8px; align-items: flex-end">
-								<img src="./assets/img/icon/icon-up.svg" alt="" width="9" height="8.22" style="margin-right: 4px; margin-bottom: 8px">
-								<span id="spot-diff" class="text--bold">4,000</span>
+							<span class="details--price">0 원</span>
+							<span class="d-flex text-bold" style="margin-left: 10px; align-items: flex-end">전일대비 <span class="text--medium text--bold " style="margin-left: 5px">0% </span></span>
+							<span class="details--diff text--bold d-flex" style="margin-left: 8px; align-items: flex-end">
+								<img src="about:blank" alt="" width="9" height="8.22" style="margin-right: 4px; margin-bottom: 8px">
+								<span id="spot-diff" class="text--bold">0</span>
 							</span>
 						</div>
 						<div class="d-grid grid-2-column" style="width: 392px; column-gap: 20px; font-weight: 400;">
 							<div>
 								<div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
-									고가 <span id="highest-price" class="text--red">27,485,000</span>
+									고가 <span id="highest-price" class="text--red">0</span>
 								</div>
 								<div class="row d-flex" style="justify-content: space-between; height: 22px; ">
-									저가 <span id="lowest-price" class="text--blue">27,485,000</span>
+									저가 <span id="lowest-price" class="text--blue">0</span>
 								</div>
 							</div>
 							<div>
 								<div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
-									거래량(24H) <div><span id="spot-volume">574,170,000</span> <span class="text--blue-gray">KRW</span></div>
+									거래량(24H) <div><span id="spot-volume">0</span> <span class="text--blue-gray">KRW</span></div>
 								</div>
 								<div class="row d-flex"  style="justify-content: space-between; height: 22px;">
-									거래대금(24H) <div><span id="spot-volume2">574,170,000</span> <span class="text--blue-gray">KRW</span></div>
+									거래대금(24H) <div><span id="spot-volume2">0</span> <span class="text--blue-gray">KRW</span></div>
 								</div>
 							</div>
 						</div>
@@ -694,7 +669,7 @@
 						<button type="button" class="btn btn--close"></button>
 					</div>
 					<div class="modal--body">
-						<div style="padding: 0 33px 0 52px"><i class="btn btn--star--on"></i> <span class="text--bbold" style="font-size: 18px">영원호 원창호</span></div>
+						<div style="padding: 0 33px 0 52px"><i class="btn btn--star--on"></i> <span class="text--bbold" style="font-size: 18px">-</span></div>
 						<div class="d-grid grid-2-column" style="column-gap: 48px; padding: 0 33px 0 52px">
 							<div class="column">
 								<dl>
@@ -899,5 +874,7 @@
 			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span> -->
 		</div>
 	</footer>
+	<script src="./assets/js/exchange.js?t={version}" defer></script>
+    <script src="./assets/js/app.js?t={version}"></script>
 </body>
 </html>

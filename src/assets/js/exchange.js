@@ -1,6 +1,36 @@
 
-let SELECTED_SYMBOL = ''
-let SELECTED_NAME = ''
+    let USER_INFO = {}
+
+    API.getMyInfo((resp) => {
+        if(resp.success) {
+            const payload = resp.payload
+
+            USER_INFO = {
+                ...USER_INFO,
+                userno: payload.userno,
+                userid: payload.userid,
+                phone: payload.phone,
+                mobile: payload.mobile,
+                bool_email: payload.bool_email,
+                bool_sms: payload.bool_sms,
+                regdate: payload.regdate,
+                bank_name: payload.bank_name,
+                bank_account: payload.bank_account,
+                bank_owner: payload.bank_owner,
+            }
+
+            if(USER_INFO.userno) {
+                // $('.nav--side .btn--login').hide()
+                // $('.profile').show()
+                // $('.wallet').show()
+                // $('.profile .dropdown').text(USER_INFO.userid)
+            }
+        }
+    })
+
+
+let SELECTED_SYMBOL = '';  //'G4K95O56R2'
+let SELECTED_NAME = '';  //'끽다거 세작'
 let SELECTED_SYMBOL_PRICE = 0
 let SELECTED_EXCHANGE = getURLParameter('exchange') || 'USD'
 let CHART_TIMER
@@ -10,7 +40,7 @@ let isMobile = (window.matchMedia('(max-width: 600px)').matches)
 
 $(function() {
     $(window).on('resize', () => {
-        isMobile = (window.matchMedia('(max-width: 600px)').matches)
+        // isMobile = (window.matchMedia('(max-width: 600px)').matches)
     })
 
     const genVolumeData = (data) => {
@@ -286,9 +316,23 @@ $(function() {
         info: false,
         paging: false,
         searching: false,
-        ordering: true
+        ordering: true,
+        "language": {
+            "emptyTable": "데이터가 없음.",
+            "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+            "info": "현재 _START_ - _END_ / _TOTAL_건",
+            "infoEmpty": "",
+            "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+            "search": "검색: ",
+            "zeroRecords": "일치하는 데이터가 없음",
+            "loadingRecords": "로딩중...",
+            "processing": '<img src="/template/vwyx3Z/script/plug_in/loading/loading.gif"> 잠시만 기다려 주세요.',
+            "paginate": {
+                "next": "다음",
+                "previous": "이전"
+            }
+        },
     } )
-
 
 
     const buyGrid = $('#buyGrid').DataTable({
@@ -299,7 +343,7 @@ $(function() {
         deferRender: true,
         scroller: true,
         ajax: {
-            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy`,
+            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=trading`,
             type: 'POST',
             dataSrc: 'payload',
         },
@@ -320,25 +364,26 @@ $(function() {
             {
                 data: 'time_order', render: (timestamp) => {
                     const date = new Date(timestamp * 1000)
-
                     return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
                 }
             },
             // 가격
             {
                 data: 'price', render: (price) => {
-                    return `$${price}`
+                    return real_number_format(price);
                 }
             },
             // 수량
-            { data: 'volume', render: (volume) => {
-
-                // 버튼
-                return `${volume}`
-            }},
+            {
+                data: 'volume', render: (volume) => {
+                    return number_format(volume, 4);
+                }
+            },
             // 거래금액
             {
-                data: 'amount',
+                data: 'amount', render: (amount) => {
+                    return real_number_format(amount);
+                }
             },
             // 상태
             {
@@ -371,6 +416,7 @@ $(function() {
             },
             {
                 targets: '_all',
+                orderable: false,
                 className: 'dt-head-center',
             },
             {
@@ -383,27 +429,30 @@ $(function() {
                 targets: 2,
                 className: 'dt-body-center',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
 
             },
             {
-                targets: 'price',
-                className: 'dt-body-right',
+                targets: 3,
+                className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
             },
             {
                 targets: 4,
-                className: 'dt-body-center',
+                className: 'dt-body-right text-right',
                 type: 'any-number',
+                orderable: false,
             },
             {
                 targets: 5,
-                className: 'dt-body-center',
+                className: 'dt-body-right text-right',
+                orderable: false,
             },
             {
-                targets: 'status',
+                targets: 6,
                 className: 'dt-body-center',
+                orderable: false,
             },
             {
                 targets: -1,
@@ -411,6 +460,7 @@ $(function() {
                 orderable: false,
             }
         ],
+        order: [[0, 'desc']],
     })
 
     const sellGrid = $('#sellGrid').DataTable({
@@ -421,7 +471,7 @@ $(function() {
         deferRender: true,
         scroller: true,
         ajax: {
-            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell`,
+            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=trading`,
             type: 'POST',
             dataSrc: 'payload',
         },
@@ -446,23 +496,27 @@ $(function() {
             {
                 data: 'time_order', render: (timestamp) => {
                     const date = new Date(timestamp * 1000)
-
                     return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
                 }
             },
             // 가격
             {
-                data: 'price', render: DataTable.render.number( null, null, 2, '$' )
+                // data: 'price', render: DataTable.render.number( null, null, 0, '' )
+                data: 'price', render: (price) => {
+                    return real_number_format(price);
+                }
             },
             // 수량
-            { data: 'volume', render: (volume) => {
-
-                // 버튼
-                return `${volume}`
-            }},
+            {
+                data: 'volume', render: (volume) => {
+                    return number_format(volume, 4);
+                }
+            },
             // 거래금액
             {
-                data: 'amount',
+                data: 'amount', render: (volume) => {
+                    return real_number_format(volume);
+                }
             },
             // 상태
             {
@@ -496,6 +550,7 @@ $(function() {
             {
                 targets: '_all',
                 className: 'dt-head-center',
+                orderable: false,
             },
             {
                 targets: 1,
@@ -507,27 +562,30 @@ $(function() {
                 targets: 2,
                 className: 'dt-body-center',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
 
             },
             {
-                targets: 'price',
-                className: 'dt-body-right',
+                targets: 3,
+                className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
             },
             {
                 targets: 4,
-                className: 'dt-body-center',
+                className: 'dt-body-right text-right',
                 type: 'any-number',
+                orderable: false,
             },
             {
                 targets: 5,
-                className: 'dt-body-center',
+                className: 'dt-body-right text-right',
+                orderable: false,
             },
             {
-                targets: 'status',
+                targets: 6,
                 className: 'dt-body-center',
+                orderable: false,
             },
             {
                 targets: -1,
@@ -535,9 +593,328 @@ $(function() {
                 orderable: false,
             }
         ],
-        order: [[1, 'asc']],
+        order: [[0, 'desc']],
 
     })
+
+    const itemGrid = $('#jqGrid')
+    .on('init.dt', function (_e, _settings) {
+        const api = new $.fn.dataTable.Api( '#jqGrid' );
+
+        const REQUEST_SYMBOL = getURLParameter('symbol')
+        const ROWS_COUNT = api.rows().data().length
+
+        if(REQUEST_SYMBOL) {
+            for(let i = 0; i < ROWS_COUNT; i++) {
+                const row = api.row(i).data()
+                const symbol = row.symbol
+
+                if(REQUEST_SYMBOL === symbol) {
+                    api.row(i).select()
+                    break
+                }
+            }
+        } else {
+            api.row(ROWS_COUNT-1).select() // 첫번째 선택
+            // api.row(0).select() // 마지막 선택
+        }
+
+        if(isMobile) {
+            api.column(1).visible(false)
+        }
+    })
+    .on('responsive-resize', function () {
+        const api = new $.fn.dataTable.Api( '#jqGrid' );
+
+        if(isMobile) {
+            api.column(1).visible(false)
+        } else {
+            api.column(1).visible(true)
+        }
+    })// 그리드를 선택하면
+    .on('select.dt', function (_e, row, type, indexes) {
+        if ( type === 'row' ) {
+            const data = row.data()
+            const { name, symbol, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
+            const { weight, story } = data
+            const { keep_method } = data
+            const { teamaster_note, producer_note }= data
+            const { grade } = data
+            const { certificate } = data
+            const { animation } = data
+
+            SELECTED_SYMBOL = symbol
+            SELECTED_NAME = name
+
+            // 로딩 애니메이션 출력
+            $('.details').addClass('loading')
+
+            API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
+                API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+                    $('.details').removeClass('loading')
+
+                    if (resp.success) {
+                        displayChart(resp.payload)
+                        // 갱신은 이렇게 말고 함수로 변경합니다.
+                        // CHART_TIMER = setTimeout(() => {
+                        //     API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+                        //         $('.details').removeClass('loading')
+
+                        //         if(resp.success) {
+                        //             updateChart(resp.payload)
+                        //         } else {
+                        //             alert(resp.error.message)
+                        //         }
+                        //     })
+                        // }, 10000)
+                    } else {
+                        alert(resp.error.message)
+                    }
+
+                })
+
+                if(resp.success && resp.payload[0]) {
+                    const spot = resp.payload[0]
+
+                    // 최고가
+                    $('#highest-price').text((parseFloat(spot.price_high) * parseFloat(spot.volume)).format())
+                    // 최저가
+                    $('#lowest-price').text((parseFloat(spot.price_low) * parseFloat(spot.volume)).format())
+                    $('#spot-volume').text(spot.volume.format())
+                    $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
+
+                    SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
+
+                    const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
+                    const diffPercent = (diff * 100).toFixed(2)
+                    const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
+                    const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
+                    const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'about:blank');
+
+                    $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2).format() + '원').removeClass('text-red text-blue').addClass(diff_text)
+                    $('.details--price').next('span').find('>span').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
+                    $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
+                    $('#spot-diff').siblings('img').attr('src', diff_icon)
+                } else {
+                    const msg = resp.error && resp.error.message ? resp.error.message : '';
+                    if(msg) alert(msg)
+                }
+            })
+
+            $('.details .tabs').on('beforeShow', (_event, _index, target) => {
+                if (!SELECTED_SYMBOL) {
+                    alert('SELECTED_SYMBOL 없음. 버그 고치시오');
+                    return;
+                }
+                if(target === '#tab-sell') {
+                    sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=trading`)
+                    sellGrid.clear().load()
+                } else if ( target === '#tab-buy') {
+                    buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=trading`)
+                    buyGrid.clear().load()
+                }
+            })
+
+            $('.tab--sell').click()
+
+            $('.details--header .tea--name').text(name)
+            $('#tab-info .division').text(meta_division)
+            $('#tab-info .type').text(type)
+            $('#tab-info .producer').text(producer)
+            $('#tab-info .certificate').text(certificate)
+            $('#tab-info img').attr('src', icon_url)
+            // 원산지
+            $('#white-paper [name=origin]').val(origin)
+            $('#white-paper [name=producer]').val(producer)
+            //생산
+            $('#white-paper [name=production_date]').val(production_date)
+            // 맛
+            $('#white-paper #taste').html(taste.replaceAll(/\r\n/g, '<br>'))
+            // 향
+            $('#white-paper #scent').val(scent)
+            $('#white-paper #weight').val(weight)
+            $('#white-paper #keep-method').html(keep_method.replaceAll(/\r\n/g, '<br>'))
+            $('#white-paper #story').html(story.replaceAll(/\r\n/g, '<br>'))
+            $('#white-paper #teamaster-note').html(teamaster_note.replaceAll(/\r\n/g, '<br>'))
+            $('#white-paper #producer-note').html(producer_note.replaceAll(/\r\n/g, '<br>'))
+            $('#white-paper #grade').html(grade.replaceAll(/\r\n/g, '<br>'))
+
+            const isYoutube = animation.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/)
+            // const scanEmbbed = isYoutube ? $('<iframe />').attr('src', animation).attr('frameborder', 0).attr('allowfullscreen', true) : $('<img />').attr('src', animation)
+
+            $('#scan .modal--body').empty().append(scanEmbbed)
+        }
+    })
+    .on('draw.dt', () => {
+        const api = new $.fn.dataTable.Api( '#jqGrid' )
+
+        const row = api.row(':eq(0)')
+        const data = row.data()
+
+        const { name, symbol } = data
+
+        SELECTED_SYMBOL = symbol
+        SELECTED_NAME = name
+
+        // row.select() // ?? getChartData 를 두번 부르게 하는 원인... 선택시 차트 그리기때문에 여기서는 제외함.
+
+        const type = data.meta_type
+        const division = data.meta_division
+        const { producer, production_date, origin, icon_url } = data
+        const { scent, taste, weight } = data
+        const { story, keep_method }= data
+        const { teamaster_note, producer_note } = data
+        const { grade, certificate } = data
+
+        API.getSpotPrice(symbol, SELECTED_EXCHANGE, (resp) => {
+            if(resp.success) {
+                // console.log(' ==== symbol: ', symbol)
+                // console.log(' ==== SELECTED_EXCHANGE: ', SELECTED_EXCHANGE)
+                // console.log(' ==== resp.payload: ', resp)
+                const spot = resp.payload[0]
+                if (!undefined) return;
+                $('#highest-price').text((parseFloat(spot.price_high) * parseFloat(spot.volume)).format())
+                $('#lowest-price').text((parseFloat(spot.price_low) * parseFloat(spot.volume)).format())
+                $('#spot-volume').text(spot.volume.format())
+                $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
+
+                $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2) + '원')
+
+                const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
+                const diffPercent = (diff * 100).toFixed(2)
+                $('.details--price').next('span').find('>span').text( (diff >= 0 ? '+' : '') + diffPercent + '%')
+                $('#spot-diff').text(diff.format())
+            } else {
+                alert(resp.error.message)
+            }
+        })
+
+        $('.details--header .tea--name').text(name)
+        $('#tab-info .division').text(division)
+        $('#tab-info .type').text(type)
+        $('#tab-info .producer').text(producer)
+        $('#tab-info .certificate').text(certificate)
+        $('#tab-info img').attr('src', icon_url)
+        // 입체스캔
+        $('#scan .modal--body img').attr('src', data.animation)
+        // 원산지
+        $('#white-paper [name=origin]').val(origin)
+        $('#white-paper [name=producer]').val(producer)
+        //생산
+        $('#white-paper [name=production_date]').val(production_date)
+        // 맛
+        $('#white-paper #taste').html(taste.replaceAll(/\r\n/g, '<br>'))
+        // 향
+        $('#white-paper #scent').val(scent)
+        $('#white-paper #weight').val(weight)
+        $('#white-paper #keep-method').html(keep_method.replaceAll(/\r\n/g, '<br>'))
+        $('#white-paper #story').html(story.replaceAll(/\r\n/g, '<br>'))
+        $('#white-paper #teamaster-note').html(teamaster_note.replaceAll(/\r\n/g, '<br>'))
+        $('#white-paper #producer-note').html(producer_note.replaceAll(/\r\n/g, '<br>'))
+        $('#white-paper #grade').html(grade.replaceAll(/\r\n/g, '<br>'))
+    })
+    const setItemGrid = function (data) {
+        console.log('setItemGrid START');
+        itemGrid.DataTable({
+            data: data,
+            scrollY: 820,
+            scroller: true,
+            deferRender: true,
+            processing: false,
+            columns : [
+                {
+                    data: 'name',
+                    render: (data, _type, row) => {
+                        const classOn = row.Checked ? 'btn--star--on' : 'btn--star'
+
+                        // 버튼
+                        if(isMobile) {
+                            return `<button type="button" class="btn ${classOn}"></button>${data}<br><span class="text--gray005">${row.meta_type}</span>`
+                        }
+                        return `<button type="button" class="btn ${classOn}"></button>${data}`
+                    }
+                },
+                // 타입
+                { data: 'meta_type'},
+                // 생산년도
+                { data: 'meta_wp_production_date' },
+                // 현재가
+                { data: 'price', render: (data, _type, row) => {
+                    const diff = row.price_close - row.price_open
+                
+                    if(typeof(Intl) !== 'undefined') {
+                        return diff >= 0 ? '<span class="text-red text-bold">' + new Intl.NumberFormat('ko-KR').format(data) + '</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(data) + '</span>'
+                    }
+            
+                    return '<span class="text-red text-bold">' + data.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
+                }
+                },
+                // 전일대비
+                {
+                    data: (row, _type, _set) => {
+                    const diff = row.price_close > 0 && row.price_close > 0 ? (row.price_close - row.price_open) / row.price_open * 100 : 0;
+
+                    if(typeof(Intl) !== 'undefined') {
+                        return diff >= 0 ? '<span class="text-red text-bold">+' + new Intl.NumberFormat('ko-KR', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        }).format(diff) + '%</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>'
+                    }
+        
+                    return '<span class="text-red text-bold">' + diff.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
+                }},
+                // 거래대금
+                { data: (row, _type, _set) => {
+                    let price = row.price
+                    if(price >= 1000000 && price % 1000000 == 0) {
+                        price = price / 1000000 + '백만'
+                        return price
+                    }
+                    return price
+                } },
+            ],
+            columnDefs: [
+                {
+                    targets: '_all',
+                    className: 'dt-head-center',
+                    "orderable": true,
+                },
+                {
+                    targets: 'name',
+                    className: 'dt-body-left',
+                    type: 'title-string',
+                    "orderable": false,
+                },
+                {
+                    targets: 'meta_type',
+                    className: 'dt-body-center',
+                    "orderable": false,
+                },
+                {
+                    targets: 'meta_wp_production_date',
+                    className: 'dt-body-center',
+                    "type": "any-number",
+                    "orderable": false,
+                },
+                {
+                    targets: 'price',
+                    className: 'dt-body-right',
+                    "orderable": false,
+                },
+                {
+                    targets: [-1, -2],
+                    className: 'dt-body-right',
+                    "orderable": false,
+                },
+            ],
+            responsive: true,
+            lengthChange: false,
+            select: true,
+            info: false,
+            paging: false,
+            order: [[0, 'desc']],
+        })
+    }
 
     API.getCurrency('', (resp) => {
         if(resp.success) {
@@ -549,16 +926,18 @@ $(function() {
             const spotList = []
             const goodsList = []
 
+            console.log('getCurrency resp.payload:', resp.payload);
             resp.payload.map((item) => {
                 const symbol = item.symbol
 
                 requestQueue.push({ method: 'getSpotPrice', params: { token: window.localStorage.token, symbol: symbol, exchange: SELECTED_EXCHANGE } })
-                requestQueue2.push({ method: 'getAuction/auction_goods_info.php', params: { token: window.localStorage.token, goods_idx: item.idx } })
+                if(item.idx) requestQueue2.push({ method: 'getAuction/auction_goods_info.php', params: { token: window.localStorage.token, goods_idx: item.idx } })
             })
 
             const request = new Promise(async (resolve, _reject) => {
                 await API.requestSync(JSON.stringify(requestQueue), async (res) => {
                     res.map((payload) => {
+                        if (!payload || !payload.payload || payload.payload.length<1) return;
                         spotList[payload.payload[0].symbol] = payload
                     })
 
@@ -571,8 +950,11 @@ $(function() {
             })
 
             const request2 = new Promise(async (resolve, _reject) => {
+                console.log('requestQueue2:',requestQueue2)
                 await API.requestSync(JSON.stringify(requestQueue2), async (res) => {
                     res.map((payload, index) => {
+                        if (!payload || !payload.payload || payload.payload.length<1) return;
+                            
                         const symbol = payload.payload.idx
 
                         goodsList[symbol] = payload.payload
@@ -615,304 +997,19 @@ $(function() {
 
             request2.then((data) => {
                 SELECTED_SYMBOL = data[0].symbol
-
-                const grid = $('#jqGrid')
-                    .on('init.dt', function (_e, _settings) {
-                        const api = new $.fn.dataTable.Api( '#jqGrid' );
-
-                        const REQUEST_SYMBOL = getURLParameter('symbol')
-                        const ROWS_COUNT = api.rows().data().length
-
-                        if(REQUEST_SYMBOL) {
-                            for(let i = 0; i < ROWS_COUNT; i++) {
-                                const row = api.row(i).data()
-                                const symbol = row.symbol
-
-                                if(REQUEST_SYMBOL === symbol) {
-                                    api.row(i).select()
-                                    break
-                                }
-                            }
-                        } else {
-                            api.row(0).select()
-                        }
-
-
-                        if(isMobile) {
-                            api.column(1).visible(false)
-                        }
-                    })
-                    .on('responsive-resize', function () {
-                        const api = new $.fn.dataTable.Api( '#jqGrid' );
-
-                        if(isMobile) {
-                            api.column(1).visible(false)
-                        } else {
-                            api.column(1).visible(true)
-                        }
-                    })// 그리드를 선택하면
-                    .on('select.dt', function (_e, row, type, indexes) {
-                        if ( type === 'row' ) {
-                            const data = row.data()
-                            const { name, symbol, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
-                            const { weight, story } = data
-                            const { keep_method } = data
-                            const { teamaster_note, producer_note }= data
-                            const { grade } = data
-                            const { certificate } = data
-                            const { animation } = data
-
-                            SELECTED_SYMBOL = symbol
-                            SELECTED_NAME = name
-
-                            // 로딩 애니메이션 출력
-                            $('.details').addClass('loading')
-
-                            API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
-                                API.getChartData(SELECTED_SYMBOL, period, (resp) => {
-                                    $('.details').removeClass('loading')
-
-                                    if (resp.success) {
-                                        displayChart(resp.payload)
-                                        CHART_TIMER = setTimeout(() => {
-                                            API.getChartData(SELECTED_SYMBOL, period, (resp) => {
-                                                $('.details').removeClass('loading')
-                
-                                                if(resp.success) {
-                                                    updateChart(resp.payload)
-                                                } else {
-                                                    alert(resp.error.message)
-                                                }
-                                            })
-                                        }, 10000)
-                                    } else {
-                                        alert(resp.error.message)
-                                    }
-
-                                })
-
-                                if(resp.success) {
-                                    const spot = resp.payload[0]
-
-                                    // 최고가
-                                    $('#highest-price').text((parseFloat(spot.price_high) * parseFloat(spot.volume)).format())
-                                    // 최저가
-                                    $('#lowest-price').text((parseFloat(spot.price_low) * parseFloat(spot.volume)).format())
-                                    $('#spot-volume').text(spot.volume.format())
-                                    $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
-
-                                    SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
-
-                                    $('.details--price').text('$' + parseFloat(spot.price_close).toFixed(2).format())
-
-                                    const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
-                                    const diffPercent = (diff * 100).toFixed(2)
-                                    $('.details--price').next('span').find('>span').text( (diff >= 0 ? '+' : '') + diffPercent + '%')
-                                    $('#spot-diff').text(diff.format())
-                                } else {
-                                    alert(resp.error.message)
-                                }
-                            })
-
-                            $('.details .tabs').on('beforeShow', (_event, _index, target) => {
-                                if(target === '#tab-sell') {
-                                    sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell`)
-                                    sellGrid.clear().load()
-                                } else if ( target === '#tab-buy') {
-                                    buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy`)
-                                    buyGrid.clear().load()
-                                }
-                            })
-
-                            $('.tab--sell').click()
-
-                            $('.details--header .tea--name').text(name)
-                            $('#tab-info .division').text(meta_division)
-                            $('#tab-info .type').text(type)
-                            $('#tab-info .producer').text(producer)
-                            $('#tab-info .certificate').text(certificate)
-                            $('#tab-info img').attr('src', icon_url)
-                            // 원산지
-                            $('#white-paper [name=origin]').val(origin)
-                            $('#white-paper [name=producer]').val(producer)
-                            //생산
-                            $('#white-paper [name=production_date]').val(production_date)
-                            // 맛
-                            $('#white-paper #taste').html(taste.replaceAll(/\r\n/g, '<br>'))
-                            // 향
-                            $('#white-paper #scent').val(scent)
-                            $('#white-paper #weight').val(weight)
-                            $('#white-paper #keep-method').html(keep_method.replaceAll(/\r\n/g, '<br>'))
-                            $('#white-paper #story').html(story.replaceAll(/\r\n/g, '<br>'))
-                            $('#white-paper #teamaster-note').html(teamaster_note.replaceAll(/\r\n/g, '<br>'))
-                            $('#white-paper #producer-note').html(producer_note.replaceAll(/\r\n/g, '<br>'))
-                            $('#white-paper #grade').html(grade.replaceAll(/\r\n/g, '<br>'))
-
-                            const isYoutube = animation.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/)
-                            const scanEmbbed = isYoutube ? $('<iframe />').attr('src', animation).attr('frameborder', 0).attr('allowfullscreen', true) : $('<img />').attr('src', animation)
-
-                            $('#scan .modal--body').empty().append(scanEmbbed)
-                        }
-                    })
-                    .on('draw.dt', () => {
-                        const api = new $.fn.dataTable.Api( '#jqGrid' )
-
-                        const row = api.row(':eq(0)')
-                        const data = row.data()
-
-                        const { name, symbol } = data
-
-                        SELECTED_SYMBOL = symbol
-                        SELECTED_NAME = name
-
-                        row.select()
-
-                        const type = data.meta_type
-                        const division = data.meta_division
-                        const { producer, production_date, origin, icon_url } = data
-                        const { scent, taste, weight } = data
-                        const { story, keep_method }= data
-                        const { teamaster_note, producer_note } = data
-                        const { grade, certificate } = data
-
-                        API.getSpotPrice(symbol, SELECTED_EXCHANGE, (resp) => {
-                            if(resp.success) {
-                                const spot = resp.payload[0]
-        
-                                $('#highest-price').text((parseFloat(spot.price_high) * parseFloat(spot.volume)).format())
-                                $('#lowest-price').text((parseFloat(spot.price_low) * parseFloat(spot.volume)).format())
-                                $('#spot-volume').text(spot.volume.format())
-                                $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
-
-                                $('.details--price').text('$' + parseFloat(spot.price_close).toFixed(2))
-
-                                const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
-                                const diffPercent = (diff * 100).toFixed(2)
-                                $('.details--price').next('span').find('>span').text( (diff >= 0 ? '+' : '') + diffPercent + '%')
-                                $('#spot-diff').text(diff.format())
-                            } else {
-                                alert(resp.error.message)
-                            }
-                        })
-
-                        $('.details--header .tea--name').text(name)
-                        $('#tab-info .division').text(division)
-                        $('#tab-info .type').text(type)
-                        $('#tab-info .producer').text(producer)
-                        $('#tab-info .certificate').text(certificate)
-                        $('#tab-info img').attr('src', icon_url)
-                        // 입체스캔
-                        $('#scan .modal--body img').attr('src', data.animation)
-                        // 원산지
-                        $('#white-paper [name=origin]').val(origin)
-                        $('#white-paper [name=producer]').val(producer)
-                        //생산
-                        $('#white-paper [name=production_date]').val(production_date)
-                        // 맛
-                        $('#white-paper #taste').html(taste.replaceAll(/\r\n/g, '<br>'))
-                        // 향
-                        $('#white-paper #scent').val(scent)
-                        $('#white-paper #weight').val(weight)
-                        $('#white-paper #keep-method').html(keep_method.replaceAll(/\r\n/g, '<br>'))
-                        $('#white-paper #story').html(story.replaceAll(/\r\n/g, '<br>'))
-                        $('#white-paper #teamaster-note').html(teamaster_note.replaceAll(/\r\n/g, '<br>'))
-                        $('#white-paper #producer-note').html(producer_note.replaceAll(/\r\n/g, '<br>'))
-                        $('#white-paper #grade').html(grade.replaceAll(/\r\n/g, '<br>'))
-                    })
-                    .DataTable( {
-                        data: data,
-						scrollY: 820,
-						scroller: true,
-						deferRender: true,
-						processing: false,
-                        columns : [
-                            {
-                                data: 'name',
-                                render: (data, _type, row) => {
-                                    const classOn = row.Checked ? 'btn--star--on' : 'btn--star'
-                
-                                    // 버튼
-                                    if(isMobile) {
-                                        return `<button type="button" class="btn ${classOn}"></button>${data}<br><span class="text--gray005">${row.meta_type}</span>`
-                                    }
-                                    return `<button type="button" class="btn ${classOn}"></button>${data}`
-                                }
-                            },
-                            // 타입
-                            { data: 'meta_type'},
-                            // 생산년도
-                            { data: 'meta_wp_production_date' },
-                            // 현재가
-                            { data: 'price', render: (data, _type, row) => {
-                                const diff = row.price_close - row.price_open
-                            
-                                if(typeof(Intl) !== 'undefined') {
-                                    return diff >= 0 ? '<span class="text-red text-bold">' + new Intl.NumberFormat('ko-KR').format(data) + '</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(data) + '</span>'
-                                }
-                        
-                                return '<span class="text-red text-bold">' + data.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
-                            } },
-                            { data: (row, _type, _set) => {
-                                const diff = (row.price_close - row.price_open)  / row.price_open * 100
-
-                                if(typeof(Intl) !== 'undefined') {
-                                    return diff >= 0 ? '<span class="text-red text-bold">+' + new Intl.NumberFormat('ko-KR', {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    }).format(diff) + '%</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>'
-                                }
-                    
-                                return '<span class="text-red text-bold">' + diff.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
-                            } },
-                            { data: (row, _type, _set) => {
-                                let price = row.price
-                                if(price >= 1000000 && price % 1000000 == 0) {
-                                    price = price / 1000000 + '백만'
-                                    return price
-                                }
-                                return price
-                            } },
-                        ],
-                        columnDefs: [
-                            {
-                                targets: '_all',
-                                className: 'dt-head-center',
-                            },
-                            {
-                                targets: 'name',
-                                className: 'dt-body-left',
-                                type: 'title-string',
-                            },
-                            {
-                                targets: 'meta_type',
-                                className: 'dt-body-center',
-                            },
-                            {
-                                targets: 'meta_wp_production_date',
-                                className: 'dt-body-center',
-                                "type": "any-number",
-                            },
-                            {
-                                targets: 'price',
-                                className: 'dt-body-right',
-                            },
-                            {
-                                targets: [-1, -2],
-                                className: 'dt-body-right',
-                            },
-                        ],
-                        responsive: true,
-                        lengthChange: false,
-                        select: true,
-                        info: false,
-                        paging: false,
-                    })
+                console.log('-----------', data); 
+                setItemGrid(data);
             })
 
         } else {
 
         }
     })
+})
+
+$('[name=tab_item]').on('click', function () { 
+    const target = $(this).attr('data-target');
+
 })
 
 
