@@ -18,5 +18,22 @@ form {
     font-size: 12px;
 }
 .form--btns {
-    margin-top: 167px;
+    margin-top: 70px;
+}
+
+@media screen and (max-width: 800px) {
+	.verification > header{
+		display: none;
+	}
+
+	.verification #verification6 p.nowrap{
+		white-space: initial!important;
+	}
+
+	.navigation--back{
+		position: relative;
+		left: 0;
+		top: 0;
+		margin-bottom: 20px;
+	}
 }
