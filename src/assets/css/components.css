@@ -936,15 +936,20 @@ form .form--header h1 {
 }
 
 
+/* .validation--message {
+        padding: 0 0 0 24px;
+        background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat 0 50%;
+        color: var(--warning);
+    } */
 .validation--message {
     width: 100%;
-    padding: 0 0 0 24px;
-    background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat 0 50%;
+    padding: 14px 10px 14px 40px;
+    background: var(--warning) url('../img/icon/ico-warn.svg') no-repeat 10px 13px;
     max-height: 62px;
     letter-spacing: -0.15px;
-	color: var(--warning);
+    color: var(--white);
     font-weight: 500;
-    position: relative;
+    position: relative; 
     box-sizing: border-box;
     word-break: keep-all;
 }
