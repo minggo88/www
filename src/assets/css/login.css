@@ -215,6 +215,14 @@ main {
 		font-size: 0px;
 	}
 
+	.sub.login.create-account .step--list{
+		width: initial;
+		position: absolute;
+		top: inherit;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
 	.create-account div.form--controls:nth-child(1){
 		margin-top: 30px!important;
 	}

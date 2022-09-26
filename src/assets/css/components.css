@@ -935,17 +935,23 @@ form .form--header h1 {
     -moz-appearance: textfield;
 }
 
+
 .validation--message {
     width: 100%;
-    padding: 14px 10px 14px 40px;
-    background: var(--warning) url('../img/icon/ico-warn.svg') no-repeat 10px 13px;
+    padding: 0 0 0 24px;
+    background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat 0 50%;
     max-height: 62px;
     letter-spacing: -0.15px;
-    color: var(--white);
+	color: var(--warning);
     font-weight: 500;
     position: relative;
     box-sizing: border-box;
     word-break: keep-all;
+}
+
+.validation--message.subtract{
+    background: url('../img/icon/ico-subtract.svg') no-repeat 0 50%;
+	color: #34C759;
 }
 
 .validation--message p {
@@ -2168,9 +2174,14 @@ input[type=file].image-selector::after{
 @media (max-width: 600px) { 
     .validation--message {
         padding: 0 0 0 24px;
-        background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat;
+        background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat 0 50%;
         color: var(--warning);
     }
+	.validation--message.subtract{
+		padding: 0 0 0 24px;
+        background: transparent url('../img/icon/ico-subtract.svg') no-repeat 0 50%;
+        color: #34C759;
+	}
     /* .step--list {
         top: -30px;
         left: 50%;

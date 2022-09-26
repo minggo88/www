@@ -1069,3 +1069,137 @@
 		border-bottom: none;
 	}
 }
+
+
+/* deposit-withdrawal-address */
+/* 출금 (비트코인) 주소 */
+.address main{
+	padding: 0;
+	flex-direction: column;
+	display: flex;
+}
+
+.address .content_wrap .contents{
+	width: initial
+}
+
+.address form{
+	height: auto;
+}
+
+.address form .form--header h1{
+	background: none;
+	font-size: 24px;
+}
+
+.address form .form--header h2{
+	margin: 0;
+	margin-top: 45px;
+	font-size: 16px;
+}
+
+.address form .form--header + .form--controls .form--label{
+	margin-bottom: 48px;
+	font-size: 16px;
+	font-weight: 500;
+	font-family: "Noto Sans KR";
+}
+
+.address form .form--header + .form--controls input{
+	border: 1px solid #E5E8EB;
+}
+
+.text--center p{
+	margin-top: 45px;
+	font-size: 10px;
+	color: #83899E;
+	font-family: "Inter"!important;
+}
+
+
+
+
+@media screen and (max-width: 800px) {	
+	.address.deposit .contents--header{
+		height: 60px;
+		align-self: flex-start;
+		margin-bottom: 20px;
+	}
+	.address main .contents--header h1{
+		margin: 0;
+		line-height: 60px;
+		color: var(--red-up);
+		font-size: 16px;
+	}
+	.address main .contents--header .navigation--back{
+		height: 60px;
+		line-height:60px;
+		margin-right: 30px;
+	}
+
+	.address form{
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		height: 100%;
+		align-self: center;
+	}
+	.address .form--btns{
+		position: absolute;
+		left: 0;
+		bottom: 40px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.address.deposit .contents--header{
+		height: 48px;
+	}
+	.address main .contents--header h1{
+		line-height: 48px;
+	}
+	.address main .contents--header .navigation--back{
+		height: 48px;
+		line-height: 48px;
+	}
+}
+
+
+/* withdrawal-guide */
+/* 출금 안내 */
+.withdrawal-guide .deposit--guid ul li{
+	list-style-type: disc;
+}
+.withdrawal-guide .deposit--guid ul li::marker{
+	font-size: 1px;
+	padding-left: 15px;
+}
+
+.withdrawal-guide .guide{
+	background-color: transparent;
+	margin-top: 0;
+	padding: 0;
+}
+
+.withdrawal-guide .background{
+	margin-top: 40px;
+	padding: 12px;
+	color: #777;
+	background-color: #fafafa;
+}
+
+
+@media screen and (max-width: 800px) {
+	.withdrawal-guide .guide{
+		background-color: transparent;
+		margin-top: 0;
+		padding: 0;
+	}
+
+	.withdrawal-guide .guide h1{
+		font-size: 16px;
+		font-weight: 500;
+		color:#333333;
+
+	}
+}
