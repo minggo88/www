@@ -40,7 +40,7 @@
 
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
-<script src="./i18n/i18n.js?t={version}"></script>
+<!-- <script src="./i18n/i18n.js?t={version}"></script> -->
 
 </head>
 <!-- BODY -->
@@ -179,6 +179,7 @@
 						$('.accordion').empty().addClass('loading')
 						API.getFaqList(page, rows, (resp) => {
 							if (resp.success) {
+								// let no = resp.payload.total - 1;
 								resp.payload.data.map((faq) => {
 									const item = $('<div class="accordion--item" />')
 									faq.contents = faq.contents.replaceAll(/\r\n/g, '<br>')
