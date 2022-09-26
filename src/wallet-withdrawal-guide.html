@@ -40,6 +40,7 @@
 <script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}"></script>
+<script src="./assets/js/wallet-deposit.js?t={version}" defer></script>
 <script src="./assets/js/qrcode.min.js?t={version}"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 
@@ -49,7 +50,7 @@
 
 </head>
 <!-- BODY -->
-<body class="sub deposit">
+<body class="sub deposit withdrawal-guide">
 	<header>
 		<div class="header_inner">
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
@@ -138,7 +139,7 @@
     <div class="content_wrap">
 		<main class="d-flex d-justify">
 			<aside class="side">
-				<h1 data-i18n>지갑 관리</h1>
+				<h1 data-i18n>입출금</h1>
 				<nav class="side--snb">
 					<ul>
 						<li>
@@ -157,99 +158,53 @@
 				</nav>
 			</aside>
 			<div class="contents">
-				<header class="contents--header">
+				<header class="contents--header mobile-only">
 					<button type="button" class="navigation--back"></button>
-					<h1 data-i18n>Deposit</h1>
 				</header>
 				<div class="deposit--header mobile-only">
-					<h2><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></h2>
-					<button type="button" class="deposit--guide-btn" onclick="location.href = 'wallet-deposit-guide.html'" data-i18n>입금 안내 </button>
+					<h2><i class="icon-circle-fill"></i> 출금 안내 </h2>
 				</div>
-				<div class="dropdown-wrapper" style="display:block">
-					<button type="button" class="dropdown" name="symbol" data-i18n>USD</button>
-					<div class="dropdown--item">
-						<ul>
-							<li>
-								<button type="button" data-i18n>USD</button>
-							</li>
-						</ul>
+				<div class="boxed boxed--transparent deposit--guid">
+					<h1 class="desktop-only" data-i18n>출금 안내</h1> 
+					<ul style="margin-bottom: 67px">
+						<li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
+						<li data-i18n>고객님의 (비트코인캐시) 거래가 네트워크에 의해 처리되도록하기 위해 (비트코인캐시) 거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 거래소 수수료와 트랜젝션 수수료가 차감된 금액 입니다.</li>
+						<li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
+						<li data-i18n>모든 인출은 관리자가 확인한 후에 실행됩니다.</li>
+					</ul>
+				</div>
+				<script>
+					new QRCode("qrcode", "http://jindo.dev.naver.com/collie");
+				</script>
+				<div class="guide">
+					<h1 data-i18n>요금안내</h1> 
+					<div style="margin-top: 14px; box-sizing: border-box">
+						<dl>
+							<dt class="size--14" id="fee_out" style="height: 32px; line-height: 32px" data-i18n>출금수수료</dt>
+							<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
+						</dl>
+						<dl>
+							<dt class="size--14" id="fee_in" style="height: 32px; line-height: 32px" data-i18n>내부출금수수료</dt>
+							<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0 BCH</dd>
+						</dl>
+						<dl>
+							<dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최소출금액</dt>
+							<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
+						</dl>
+						<dl>
+							<dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최대출금액</dt>
+							<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.00000000 BCH</dd>
+						</dl>
 					</div>
-				</div>
-				<div id="qrcode2" class="mobile-only" style="display:none !important">
-					<div class="size--14 text--center" style="margin-top: 36px; font-weight: 500; font-family: Inter;margin-bottom: 7px" data-i18n>QR Code</div>
-				</div>
-				<div class="text--center mobile-only" style="display:none !important;margin-top: 15px"><button type="button" class="btn btn-create-address btn--red" style="width: 196px; align-self: center" data-i18n>Create Address</button></div>
-				<div class="d-grid deposit">
-					<section class="grid deposit--guid">
-						<h1 data-i18n>입금안내</h1>
+					<div class="background">
 						<ul>
-							<li data-i18n>거래소 상품을 구매하기 위해서는 거래소 지갑에 입금을 하셔야 합니다.</li>
-							<li data-i18n>입금정보를 저장 후 입금용 주소로 이채하시면 담당자가 확인 후 입금처리 됩니다.</li>
 							<li data-i18n>평일 오전 10시 까지 요청 및 확인 : 당일 오전 12시 전에 처리 완료.</li>
 							<li data-i18n>평일 오후 4시 까지 요청 및 확인 : 당일 오후 6시 전에 처리 완료.</li>
 							<li data-i18n>법정 공휴일은 입출금 서비스를 지원하지 않습니다.</li>
 							<li data-i18n>토,일 및 공휴일 입출금건 → 평일 영업일에 진행</li>
 						</ul>
-					</section>
-					<section class="grid" style="height: unset !important">
-						<div class="address form--controls" style="margin-bottom: 18px">
-							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>Address</label>
-							<div class="input--group">
-								<input type="text" name="address" readonly value="" data-bind="site_info.bank_full_info">
-								<div type="button" class="btn btn--gray btn--copy" data-clipboard-target="[name=address]" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</div>
-							</div>
-						</div>
-						<div class="eth form--controls" style="margin-bottom: 18px">
-							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>잔액</label>
-							<div class="input--group">
-								<input type="text" disabled class="text-right text-black" value="0" data-bind="user_wallet.USD.confirmed" data-format="comma">
-								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>USD</div>
-							</div>
-						</div>
-						<div class="eth form--controls" style="margin-bottom: 18px">
-							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>입금액</label>
-							<div class="input--group">
-								<input type="text" name="deposit_amount" class="text-right text-black" value="0">
-								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>USD</div>
-							</div>
-						</div>
-						<div class="eth form--controls" style="margin-bottom: 18px">
-							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>입금자 이름</label>
-							<div class="input--group">
-								<input type="text" name="deposit_name" class="text-left text-black" value="" data-bind="user_info.name">
-							</div>
-						</div>
-						<div class="">
-							<div class="d-flex flex-center" style="margin-top: 15px"><button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 196px; align-self: center" data-i18n>입금하기</button></div>
-						</div>
-						<div class="form--controls desktop-only" style="display:none">
-							<!-- QR Code는 블록체인용입니다. -->
-							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>QR Code</label>
-							<div id="qrcode">
-							</div>
-							<div class="d-flex flex-center" style="margin-top: 15px"><button type="button" class="btn btn--red" style="width: 196px; align-self: center" data-i18n>Create BCH Address</button></div>
-						</div>
-					</section>
+					</div>
 				</div>
-				<div class="guide desktop-only">
-					<ul>
-						<li data-i18n>이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다.</li>
-						<li data-i18n>통장입금내역과 입금예약사항이 정확히 일치하는 경우, 입금 후 고객님의 계정에 반영되기까지 약 10분 정도 소요됩니다.</li>
-						<li data-i18n>신청 후 30분 내 미입금시 관리자 확인 후 입금신청이 취소됩니다.</li>
-						<li data-i18n>서버 점검 시간 또는 은행거래 처리가 많은 월말에는 평소보다 입금처리가 지연될 수 있습니다.</li>
-						<li data-i18n>은행 공통 점검 시간(매일 23:30~00:30)에는 입금이 불가능하거나 지연될 수 있습니다.</li>
-						<li data-i18n>반드시 ‘입금’에서 입금요청한 금액만큼 계좌로부터 한번에 입금 해야 합니다.</li>
-						<li data-i18n>다음의 경우에는 입금처리가 되지 않습니다.</li>
-						<li data-i18n>예약한 금액과 다른 금액을 입금 예)1,000,000원을 예약하고 100,000원을 입금</li>
-						<li data-i18n>예약한 금액을 분할해 입금 예)1,000,000원을 500,000원 두 번으로 나누어 입금</li>
-						<li data-i18n>금액 상이로 인한 입금 지연 문의 시에는 입금여부 확인이 가능한 증빙자료를 제출해야 합니다. (이 때, 제출하시는 증빙자료는 예금주명, 계좌번호, 입금액, 입금시간을 정확히 확인할 수 있는 자료여야 합니다.)</li>
-						<li data-i18n>입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다.</li>
-					</ul>
-				</div>
-				<script>
-					// new QRCode("qrcode", "http://jindo.dev.naver.com/collie");
-					// new QRCode("qrcode2", "http://jindo.dev.naver.com/collie");
-				</script>
 			</div>
 		</main>
 	</div>
@@ -287,6 +242,16 @@
 		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
+    <script>
+        const clipboard = new ClipboardJS('.btn--copy');
+
+        clipboard.on('success', function (e) {
+            alert('클립보드에 복사되었습니다.')
+
+            e.clearSelection()
+        });
+
+    </script>
 
     <script src="./assets/js/app.js?t={version}"></script>
 
