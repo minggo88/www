@@ -58,38 +58,6 @@
 <script src="./assets/js/components.js?t={version}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="./assets/js/transaction.js?t={version}" defer></script>
-<script>
-    let USER_INFO = {}
-
-    API.getMyInfo((resp) => {
-        if(resp.success) {
-            const payload = resp.payload
-
-            USER_INFO = {
-                ...USER_INFO,
-                userno: payload.userno,
-                userid: payload.userid,
-                phone: payload.phone,
-                mobile: payload.mobile,
-                bool_email: payload.bool_email,
-                bool_sms: payload.bool_sms,
-                regdate: payload.regdate,
-                bank_name: payload.bank_name,
-                bank_account: payload.bank_account,
-                bank_owner: payload.bank_owner,
-            }
-
-            if(USER_INFO.userno) {
-                $('.nav--side .btn--login').hide()
-                $('.nav--side .btn--logout').show()
-                $('.profile').show()
-                $('.wallet').show()
-                $('.profile .dropdown').text(USER_INFO.userid)
-            }
-        }
-    })
-</script>
 
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
@@ -243,9 +211,6 @@
 						<li>
 							<a href="notification.html" data-i18n>알림</a>
 						</li>
-						<!-- <li>
-							<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
-						</li> -->
 					</ul>
 				</nav>
 			</aside>
