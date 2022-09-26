@@ -492,19 +492,15 @@
 /* notice detail 고객센터 상세 */
 /* 수정 완료 */
 .sub.detail .contents{max-width: 910px; width: 100%;}
-.sub.detail .contents .board--body {
+/* .sub.detail .contents .board--body {
     padding: 0 0 0 29px;
-}
+} */
 .sub.detail .contents .board--body .board--subject {
     height: 26px;
     line-height: 26px;
     font-size: 18px;
     margin-bottom: 16px;
 	padding-left: 0;
-}
-.sub.detail .contents .board--body .board--subject h1 {
-    margin: 0;
-    padding: 0;
 }
 
 .sub.detail .contents .board--body .board--subject h1 > span{

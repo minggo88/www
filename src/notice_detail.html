@@ -157,61 +157,36 @@
 				</header>
 				<section class="board--body">
 					<header class="board--subject">
-						<h1><span>[공지]</span>곧 오픈합니다!!!!!</h1>
+						<h1 id="subject"></h1>
 					</header>
 					<div class="board--meta">
 						<dl>
 							<dt data-i18n>날짜</dt>
-							<dd><time>2022.06.22 14:03</time></dd>
+							<dd><time id="rdate"></time></dd>
 						</dl>
-						<span class="board--author">관리자</span>
+						<span class="board--author" id="author"></span>
 					</div>
-					<div class="board--contents" data-i18n>
-						끽다거의 새로운 사이트가 곧 오픈합니다
-					</div>
+					<div class="board--contents" id="content"></div>
 					<div class="board--btn desktop-only">
-						<a href="" class="btn btn--list btn--blue-gray" data-i18n>목록</a>
+						<a href="notice.html" class="btn btn--list btn--blue-gray" data-i18n>목록</a>
 					</div>
 				</section>
 			</div>
 		</main>
 	</div>
-    <!-- <footer class="desktop-only">
-		<div class="logo">Teaplat</div>
-		<nav class="fnb">
-			<ul>
-				<li>
-					<a href="" data-i18n>회사소개</a>
-				</li>
-				<li>
-					<a href="" data-i18n>이용약관</a>
-				</li>
-				<li>
-					<a href="" data-i18n>개인정보보호정책</a>
-				</li>
-				<li>
-					<a href="faq.html" data-i18n>자주묻는질문</a>
-				</li>
-			</ul>
-			<div class="copyright">
-				<address>
-					<span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
-					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
-					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
-					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
-					<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
-					<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
-					<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
-				</address>
-				<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
-			</div>
-		</nav>
-		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
-		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
-		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
-	</footer> -->
 
     <script src="./assets/js/app.js?t={version}"></script>
+	<script>
+		const idx = getURLParameter('idx');
+		API.getBBSView(idx, (resp) => {
+			if(resp && resp.payload) {
 
+				$('#subject').html(resp.payload.subject);
+				$('#author').html(resp.payload.author);
+				$('#rdate').html(resp.payload.regdate);
+				$('#content').html(resp.payload.contents);
+			}
+		})
+	</script>
 </body>
 </html>

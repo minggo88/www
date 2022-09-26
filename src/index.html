@@ -353,6 +353,24 @@
 
     <script src="./assets/js/tradingview-lightweight-arealine-chart.js?t={version}"></script>
     <script src="./assets/js/app.js?t={version}"></script>
-
+	<script>
+		const idx = getURLParameter('idx');
+		API.getBBSView(idx, (resp) => {
+			$('#notice--list div').empty()
+			resp.payload.data.map((item) => {
+				const noticeList = $('#notice--list')
+				// let appendHtmlli = $('<li>')
+				noticeList.appendHtml += (`<li>${resp.payload.subject}</li>`)
+				
+				// if(resp && resp.payload) {
+				// 	$('#notice--list').html(resp.payload.subject);
+				// 	$('#author').html(resp.payload.author);
+				// 	$('#rdate').html(resp.payload.regdate);
+				// 	$('#content').html(resp.payload.contents);
+				// }
+			})
+			
+		})
+	</script>
 </body>
 </html>
