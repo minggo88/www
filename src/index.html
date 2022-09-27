@@ -356,11 +356,12 @@
 	<script>
 		const idx = getURLParameter('idx');
 		API.getBBSView(idx, (resp) => {
-			$('#notice--list div').empty()
+			// $('#notice--list div').empty()
 			resp.payload.data.map((item) => {
 				const noticeList = $('#notice--list')
-				// let appendHtmlli = $('<li>')
-				noticeList.appendHtml += (`<li>${resp.payload.subject}</li>`)
+				noticeList.append(`<li>${resp.payload.subject}</li>`)
+				// let li = $(`<li>${resp.payload.subject}</li>`)
+				// noticeList.append(li)
 				
 				// if(resp && resp.payload) {
 				// 	$('#notice--list').html(resp.payload.subject);
