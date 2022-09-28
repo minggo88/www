@@ -306,7 +306,7 @@
 					</ul>
 				</nav>
 				<ul class="notification--list mobile-only">
-					<li>
+					<!-- <li>
 						<div class="notification--header">
 							<div class="number">[<span id="mno1"></span>] <span id="mTilte1"></span></div>
 							<div class="date">
@@ -347,7 +347,7 @@
 							</div>
 						</div>
 						<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
-					</li>
+					</li> -->
 				</ul>
 				<div class="board--btn desktop-only"><a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a></div>
 			</section>
@@ -366,28 +366,28 @@
 					<tbody>
 						<tr>
 							<th data-i18n>제목</th>
-							<td id="pcTitle1"><!-- 문의 사항입니다. --></td>
+							<td id="pcTitle"><!-- 문의 사항입니다. --></td>
 						</tr>
 						<tr>
 							<th data-i18n>날짜</th>
-							<td id="pcRgdate1"><!-- 2022-06-29 15:38:43 --></td>
+							<td id="pcRgdate"><!-- 2022-06-29 15:38:43 --></td>
 						</tr>
 						<tr>
 							<th data-i18n>내용</th>
-							<td id="pcContents1"><!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 --></td>
+							<td id="pcContents"><!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 --></td>
 						</tr>
 					</tbody>
 				</table>
 				<dl class="inquiry--body mobile-only">
-					<dt><!-- 문의 사항입니다. --></dt>
+					<dt id="mTitle"><!-- 문의 사항입니다. --></dt>
 					<dd class="day">
 						<div class="date">
 							<span data-i18n>날짜</span>
-							<span id="mRgdate1"><!-- 2022-06-29 15:38:43 --></span>
+							<span id="mRgdate"><!-- 2022-06-29 15:38:43 --></span>
 						</div>
-						<div class="writer">작성자</div>
+						<div class="writer" id="mauthor">작성자</div>
 					</dd>
-					<dd class="inquiryArea">
+					<dd class="inquiryArea" id="mContents">
 						<!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 -->
 					</dd>
 				</dl>
@@ -400,11 +400,11 @@
 						<tbody>
 							<tr>
 								<th data-i18n>답변 일자</th>
-								<td id="pcRgdate2"><!-- 2022-06-29 15:38:43 --></td>
+								<td id="pcRplDate"><!-- 2022-06-29 15:38:43 --></td>
 							</tr>
 							<tr>
 								<th data-i18n>답변 내용</th>
-								<td id="pcContents2"><!-- 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다.  --></td>
+								<td id="pcRplcontents"><!-- 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다.  --></td>
 							</tr>
 						</tbody>
 					</table>
@@ -414,10 +414,10 @@
 					<dd class="day">
 						<div class="date">
 							<span data-i18n>날짜</span>
-							<span>2022-06-29 15:38:43</span>
+							<span id="mRplDate"><!-- 2022-06-29 15:38:43 --></span>
 						</div>
 					</dd>
-					<dd class="inquiryArea">
+					<dd class="inquiryArea" id="mRplcontents">
 						<!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 -->
 					</dd>
 				</dl>
@@ -468,20 +468,21 @@
 
 						let status_class = ''
 						let status_str = ''
-						if( `${item.rplcontents}` !== "" && `${item.rpldate}` !== ""){
+						if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== ""){
 							status_class = "text-red"
 							status_str = "답변완료"
 						}else{
 							status_class = "text--gray005"
 							status_str = "답변대기중"
 						}
+
 						
 
 						tr.append(`<td class="${status_class}">${status_str}</td>`);
 
 						
 						tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
-						tr.append(`<td><a href="inquiry_write.html" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
+						tr.append(`<td><a href="#${item.idx}" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
 						tr.appendTo('.board--list tbody')
 						
 						li.append(`<div class="notification--header">
@@ -490,28 +491,36 @@
 								<p class="day" style="padding-right:20px">${regDate.getFullYear()}.${String(regDate.getMonth()+1).padStart(2, '0')}.${String(regDate.getDate()).padStart(2, '0')} ${String(regDate.getMinutes()).padStart(2, '0')}:${String(regDate.getSeconds()).padStart(2, '0')}</p>
 								<p class="${status_class}">${status_str}</p>
 							</div>`);
-						li.append(`<div class="notification--content">
-								<a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</div>`);
+						const m_aLink = li.append(`<div class="notification--content">
+											<a href="#${item.idx}"class="btn btn--gray btn--rounded btn--modify">수정하기</a>
+										</div>`);
 						li.appendTo('.notification--list')
 						
 						no--;
+
+						m_aLink.click(function(){
+							$("#inquiry").hide();
+							$("#inquiry_detail").show();
+
+							$("#mTitle").html(`${item.subject}`);
+							$("#mauthor").html(`${item.author}`);
+							$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+							$("#mContents").html(`${item.contents}`);
+							$("#mRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+							$("#mRplcontents").html(`${item.rplcontents}`);
+						})
 
 						aLink.click(function(){
 							let no = resp.payload.total - ((page - 1)*pageCount);
 							$("#inquiry").hide();
 							$("#inquiry_detail").show();
 
-							$("#pcTitle1").html(`${item.subject}`);
-							$("#pcRgdate1").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
-							$("#pcContents1").html(`${item.contents}`);
-							$("#pcRgdate2").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
-							$("#pcContents2").html(`${item.rplcontents}`);
+							$("#pcTitle").html(`${item.subject}`);
+							$("#pcRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+							$("#pcContents").html(`${item.contents}`);
+							$("#pcRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+							$("#pcRplcontents").html(`${item.rplcontents}`);
 
-							$("#mno1").html(`${item.no}`);
-							$("#mTilte1").html(`${item.subject}`);
-							$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
-							
 							no--;
 						})
 					})
