@@ -990,13 +990,13 @@ msgid "생산연도"
 msgstr "Date of Prod."
 
 msgid "현재가"
-msgstr "Current Price"
+msgstr "Price"
 
 msgid "전일대비"
 msgstr "24h Change"
 
 msgid "거래대금"
-msgstr "Transaction Amount"
+msgstr "24h Amount"
 
 msgid "고가"
 msgstr "High Price"
@@ -1005,10 +1005,10 @@ msgid "저가"
 msgstr "Low Price"
 
 msgid "거래량(24H)"
-msgstr "Trading Volume (24h)"
+msgstr "24h Volume"
 
 msgid "거래대금(24H)"
-msgstr "Transaction Amount (24h)"
+msgstr "24h Amount"
 
 msgid "시간단위"
 msgstr "Unit of Time"
@@ -1038,10 +1038,10 @@ msgid "거래버튼"
 msgstr "Trade Button"
 
 msgid "구매 등록"
-msgstr "Purchase Registration"
+msgstr "Buy"
 
 msgid "판매 등록"
-msgstr "Sales Registration"
+msgstr "Sell"
 
 msgid "생산"
 msgstr "Produce"
@@ -1053,7 +1053,7 @@ msgid "차 소개"
 msgstr "Tea Introduction"
 
 msgid "구매하기"
-msgstr "Purchase"
+msgstr "Buy"
 
 msgid "다음과 같이 구매하였습니다"
 msgstr "I bought it like this:"
@@ -1065,7 +1065,7 @@ msgid "구매가능금액"
 msgstr "Amount Available for Purchase"
 
 msgid "판매하기"
-msgstr "To Sell"
+msgstr "Sell"
 
 msgid "판매가능수량"
 msgstr "Available Quantity for Sale"
@@ -1074,7 +1074,7 @@ msgid "입체스캔"
 msgstr "3D Scan"
 
 msgid "백서"
-msgstr "White Book"
+msgstr "White Paper"
 
 msgid "분류"
 msgstr "Classification"
@@ -1198,3 +1198,42 @@ msgstr "Withdrawal Request"
 
 msgid "보안 비밀번호 입력"
 msgstr "Enter Your Security Password"
+
+msgid "데이터가 없음"
+msgstr "No data"
+
+msgid "페이지당 _MENU_ 개씩 보기"
+msgstr "View _MENU_ per page"
+
+msgid "현재 _START_ - _END_ / _TOTAL_건"
+msgstr "Current _START_ - _END_ / _TOTAL_"
+
+msgid "_MAX_건의 데이터에서 필터링됨"
+msgstr "Filtered from _MAX_ cases of data"
+
+msgid "검색"
+msgstr "Search"
+
+msgid "로딩중..."
+msgstr "Loading..."
+
+msgid "잠시만 기다려 주세요."
+msgstr "Please wait for a moment."
+
+msgid "이전"
+msgstr "Before"
+
+msgid "판매완료"
+msgstr "Sold Out"
+
+msgid "구매완료"
+msgstr "Purchase Complete"
+
+msgid "거래중"
+msgstr "Trading"
+
+msgid "대기"
+msgstr "Waiting"
+
+msgid "백만"
+msgstr "Million"

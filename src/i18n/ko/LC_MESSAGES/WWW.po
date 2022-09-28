@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-15 11:06+0900\n"
-"PO-Revision-Date: 2022-09-28 11:56+0900\n"
+"PO-Revision-Date: 2022-09-28 14:16+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ko\n"
@@ -1197,3 +1197,42 @@ msgstr "출금요청"
 
 msgid "보안 비밀번호 입력"
 msgstr "보안 비밀번호 입력"
+
+msgid "데이터가 없음"
+msgstr "데이터가 없음"
+
+msgid "페이지당 _MENU_ 개씩 보기"
+msgstr "페이지당 _MENU_ 개씩 보기"
+
+msgid "현재 _START_ - _END_ / _TOTAL_건"
+msgstr "현재 _START_ - _END_ / _TOTAL_건"
+
+msgid "_MAX_건의 데이터에서 필터링됨"
+msgstr "_MAX_건의 데이터에서 필터링됨"
+
+msgid "검색"
+msgstr "검색"
+
+msgid "로딩중..."
+msgstr "로딩중..."
+
+msgid "잠시만 기다려 주세요."
+msgstr "잠시만 기다려 주세요."
+
+msgid "이전"
+msgstr "이전"
+
+msgid "판매완료"
+msgstr "판매완료"
+
+msgid "구매완료"
+msgstr "구매완료"
+
+msgid "거래중"
+msgstr "거래중"
+
+msgid "대기"
+msgstr "대기"
+
+msgid "백만"
+msgstr "백만"

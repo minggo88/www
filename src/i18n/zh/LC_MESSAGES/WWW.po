@@ -1193,3 +1193,42 @@ msgstr "提款请求"
 
 msgid "보안 비밀번호 입력"
 msgstr "输入您的安全密码"
+
+msgid "데이터가 없음"
+msgstr "没有数据"
+
+msgid "페이지당 _MENU_ 개씩 보기"
+msgstr "每页查看_MENU_"
+
+msgid "현재 _START_ - _END_ / _TOTAL_건"
+msgstr "当前 _START_ - _END_ / _TOTAL_"
+
+msgid "_MAX_건의 데이터에서 필터링됨"
+msgstr "从_MAX_个数据案例中过滤"
+
+msgid "검색"
+msgstr "搜索"
+
+msgid "로딩중..."
+msgstr "正在加载..."
+
+msgid "잠시만 기다려 주세요."
+msgstr "请稍等。"
+
+msgid "이전"
+msgstr "前"
+
+msgid "판매완료"
+msgstr "售罄"
+
+msgid "구매완료"
+msgstr "购买完成"
+
+msgid "거래중"
+msgstr "贸易"
+
+msgid "대기"
+msgstr "等待"
+
+msgid "백만"
+msgstr "百万"

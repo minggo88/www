@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-28 11:51+0900\n"
+"POT-Creation-Date: 2022-09-28 16:09+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1197,4 +1197,43 @@ msgid "출금요청"
 msgstr ""
 
 msgid "보안 비밀번호 입력"
+msgstr ""
+
+msgid "페이지당 _MENU_ 개씩 보기"
+msgstr ""
+
+msgid "현재 _START_ - _END_ / _TOTAL_건"
+msgstr ""
+
+msgid "_MAX_건의 데이터에서 필터링됨"
+msgstr ""
+
+msgid "검색"
+msgstr ""
+
+msgid "데이터가 없음"
+msgstr ""
+
+msgid "로딩중..."
+msgstr ""
+
+msgid "잠시만 기다려 주세요."
+msgstr ""
+
+msgid "이전"
+msgstr ""
+
+msgid "판매완료"
+msgstr ""
+
+msgid "구매완료"
+msgstr ""
+
+msgid "거래중"
+msgstr ""
+
+msgid "대기"
+msgstr ""
+
+msgid "백만"
 msgstr ""
