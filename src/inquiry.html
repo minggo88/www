@@ -150,7 +150,7 @@
 					</ul>
 				</nav>
 			</aside>
-			<div class="contents">
+			<section class="contents" id="inquiry">
 				<header class="contents--header">
 					<div>
 						<button type="button" class="navigation--back"></button>
@@ -160,11 +160,16 @@
 				</header>
 				<table class="board--list desktop-only">
 					<colgroup>
-						<col style="width: calc(100% * (64 / 900)); min-width: 70px;">
+						<col style="width:10%" />
+						<col>
+						<col style="width:15%" />
+						<col style="width:15%" />
+						<col style="width:15%" />
+						<!-- <col style="width: calc(100% * (64 / 900)); min-width: 70px;">
 						<col style="width: calc(100% * (460 / 900))">
 						<col style="width: calc(100% * (120 / 900)); min-width: 75px;">
 						<col style="width: calc(100% * (119 / 900)); min-width: 105px;">
-						<col style="width: calc(100% * (140 / 900))">
+						<col style="width: calc(100% * (140 / 900))"> -->
 					</colgroup>
 					<thead>
 						<tr>
@@ -289,7 +294,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<nav class="board--pagination" style="display: none;">
+				<nav class="board--pagination desktop-only">
 					<ul>
 						<li class="pagination--prev">
 							<a href="#none" data-i18n>이전 페이지</a>
@@ -301,148 +306,260 @@
 					</ul>
 				</nav>
 				<ul class="notification--list mobile-only">
+					<!-- <li>
+						<div class="notification--header">
+							<div class="number">[<span id="mno1"></span>] <span id="mTilte1"></span></div>
+							<div class="date">
+								<p class="day" id="mRgdate1">2022.12.22 14:33</p>
+								<p class="text-red" id="msubject1">답변완료</p>
+							</div>
+						</div>
+						<div class="notification--content">
+							<a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a>
+						</div>
+					</li>
 					<li>
-							<div>
-								<div class="number"><span>[1]</span>문의합니다.</div>
-								<div class="date">
-									<p class="day">2022.12.22<span class="time">14:33</span></p>
-									<p class="text-red">답변완료</p>
-								</div>
+						<div>
+							<div class="number"><span>[2]</span>문의합니다.</div>
+							<div class="date">
+								<p class="day">2022.12.22<span class="time">14:33</span></p>
+								<p class="text-red">답변완료</p>
 							</div>
-							<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
-						</li>
-						<li>
-							<div>
-								<div class="number"><span>[2]</span>문의합니다.</div>
-								<div class="date">
-									<p class="day">2022.12.22<span class="time">14:33</span></p>
-									<p class="text-red">답변완료</p>
-								</div>
+						</div>
+						<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+					</li>
+					<li>
+						<div>
+							<div class="number"><span>[3]</span>문의합니다.</div>
+							<div class="date">
+								<p class="day">2022.12.22<span class="time">14:33</span></p>
+								<p class="text-red">답변완료</p>
 							</div>
-							<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
-						</li>
-						<li>
-							<div>
-								<div class="number"><span>[3]</span>문의합니다.</div>
-								<div class="date">
-									<p class="day">2022.12.22<span class="time">14:33</span></p>
-									<p class="text-red">답변완료</p>
-								</div>
+						</div>
+						<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+					</li>
+					<li>
+						<div>
+							<div class="number"><span>[4]</span>문의합니다.</div>
+							<div class="date">
+								<p class="day">2022.12.22<span class="time">14:33</span></p>
+								<p class="text-red">답변완료</p>
 							</div>
-							<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
-						</li>
-						<li>
-							<div>
-								<div class="number"><span>[4]</span>문의합니다.</div>
-								<div class="date">
-									<p class="day">2022.12.22<span class="time">14:33</span></p>
-									<p class="text-red">답변완료</p>
-								</div>
-							</div>
-							<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
-						</li>
+						</div>
+						<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+					</li> -->
 				</ul>
-				<script>
-					let pagination = {
-						point: 0,
-					}
-					let currentPage = 1
-					let totalPage = 1
-					const pageCount = 10
-					const fetchList = (page = 1) => {
-						$('.board--list').addClass('loading')
-						API.getM2MList(page, (resp) => {
-							$('.board--list').removeClass('loading')
-							if(resp.success) {
-								$('.board--list tbody').empty()
-								$('.notification--list').empty()
-								resp.payload.data.map((item) => {
-									const tr = $('<tr>')
-									const li = $('<li>')
-										const icon = ''
-									const regDate = new Date(parseInt(item.regdate) * 1000)
-									tr.append(`<td><a href=""></a></td>`);
-									tr.append(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
-									tr.append(`<td class="text-red">${item.process}</td>`);
-									tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
-									tr.append(`<td><a href="inquiry_write.html" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
-									tr.appendTo('.board--list tbody')
-		
-										li.append(`<div class="notification--header"><span class="notifictaion--date">${regDate.getFullYear()}.${String(regDate.getMonth()+1).padStart(2, '0')}.${String(regDate.getDate()).padStart(2, '0')} ${String(regDate.getHours()).padStart(2, '0')}:${String(regDate.getMinutes()).padStart(2, '0')}<span class="notification--nick text--red">답변완료</span></span><a href="" class="btn btn--blue-gray">수정</a></div>`)
-										li.append(`<div class="notification--content">${item.subject}</div>`);
-										li.appendTo('.notification--list')
-								})
-								$('.board--pagination > ul').empty()
-								pagination.point = 0
-								if(page > 1) {
-									$('<li>').addClass('pagination--prev').append(`<a href="#page-${page - 1}">이전 페이지</a>`).appendTo('.board--pagination > ul')
-								}
-		
-								totalPage = Math.ceil(resp.total / 10)
-								while(pagination.point < pageCount && currentPage + pagination.point <= totalPage) {
-									const page = currentPage + pagination.point
-									pagination.point++
-									$('<li>').append(`<a href="#page-${page}">${page}</a>`).appendTo('.board--pagination > ul')
-								}
-								if(page < totalPage) {
-									$('<li>').addClass('pagination--next').append(`<a href="#page-${page + 1}">다음 페이지</a>`).appendTo('.board--pagination > ul')
-								}
-								if(!resp.payload.total) {
-									$('<tr>').addClass('board--empty').append('<td colspan="5">문의 내용이 없습니다</td>').appendTo('.board--list tbody')
-								}
-							} else {
-								// alert(resp.error.message)
-							}
-						})
-					}
-					fetchList(currentPage)
-					$('.board--pagination').on('click', 'a', (e) => {
-						e.preventDefault()
-						const page = $(e.target).attr('href').replaceAll(/#page-/g, '')
-						fetchList(page)
-						return false
-					})
-				</script>
 				<div class="board--btn desktop-only"><a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a></div>
-			</div>
+			</section>
+			<section class="contents" id="inquiry_detail" style="display: none;">
+				<header class="contents--header">
+					<div>
+						<button type="button" class="navigation--back"></button>
+						<h1 data-i18n>Direct Inquiry</h1>
+					</div>
+					<div class="mobile-only"><a href="inquiry_write.html" class="btn" data-i18n>문의하기</a></div>
+				</header>
+				<table class="inquiry--body desktop-only">
+					<colgroup>
+						<col style="width:calc(100% * (80 / 839)); min-width:120px;">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th data-i18n>제목</th>
+							<td id="pcTitle"><!-- 문의 사항입니다. --></td>
+						</tr>
+						<tr>
+							<th data-i18n>날짜</th>
+							<td id="pcRgdate"><!-- 2022-06-29 15:38:43 --></td>
+						</tr>
+						<tr>
+							<th data-i18n>내용</th>
+							<td id="pcContents"><!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 --></td>
+						</tr>
+					</tbody>
+				</table>
+				<dl class="inquiry--body mobile-only">
+					<dt id="mTitle"><!-- 문의 사항입니다. --></dt>
+					<dd class="day">
+						<div class="date">
+							<span data-i18n>날짜</span>
+							<span id="mRgdate"><!-- 2022-06-29 15:38:43 --></span>
+						</div>
+						<div class="writer" id="mauthor">작성자</div>
+					</dd>
+					<dd class="inquiryArea" id="mContents">
+						<!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 -->
+					</dd>
+				</dl>
+				<div class="inquiry--reply desktop-only">
+					<h2><span class="text--lightlight-blue">A</span> <span data-i18n>답변</span></h2>
+					<table class="inquiry--body">
+						<colgroup>
+							<col style="width:calc(100% * (80 / 839)); min-width:120px;">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th data-i18n>답변 일자</th>
+								<td id="pcRplDate"><!-- 2022-06-29 15:38:43 --></td>
+							</tr>
+							<tr>
+								<th data-i18n>답변 내용</th>
+								<td id="pcRplcontents"><!-- 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다.  --></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<dl class="inquiry--reply mobile-only">
+					<dt><span class="text--lightlight-blue">A</span> <span data-i18n>답변</span></dt>
+					<dd class="day">
+						<div class="date">
+							<span data-i18n>날짜</span>
+							<span id="mRplDate"><!-- 2022-06-29 15:38:43 --></span>
+						</div>
+					</dd>
+					<dd class="inquiryArea" id="mRplcontents">
+						<!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 -->
+					</dd>
+				</dl>
+				<div class="board--btn">
+					<a href="#" class="btn btn--gray btn--list" onclick="location.href = 'inquiry.html'" data-i18n>목록</a>
+					<a href="" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
+					<a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a>
+				</div>
+			</section>
 		</main>
 	</div>
-    <!-- <footer class="desktop-only">
-		<div class="logo">Teaplat</div>
-		<nav class="fnb">
-			<ul>
-				<li>
-					<a href="" data-i18n>회사소개</a>
-				</li>
-				<li>
-					<a href="" data-i18n>이용약관</a>
-				</li>
-				<li>
-					<a href="" data-i18n>개인정보보호정책</a>
-				</li>
-				<li>
-					<a href="faq.html" data-i18n>자주묻는질문</a>
-				</li>
-			</ul>
-			<div class="copyright">
-				<address>
-					<span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
-					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
-					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
-					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
-					<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
-					<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
-					<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
-				</address>
-				<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
-			</div>
-		</nav>
-		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
-		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
-		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
-	</footer> -->
 
     <script src="./assets/js/app.js?t={version}"></script>
+	<script>
+		let pagination = {
+			point: 0,
+		}
+		let currentPage = 1
+		let totalPage = 1
+		const pageCount = 10
+		const fetchList = (page = 1) => {
+			$('.board--list').addClass('loading')
+			API.getM2MList(page, (resp) => {
+				$('.board--list').removeClass('loading')
+				if(resp.success) {
+					$('.board--list tbody').empty()
+					$('.notification--list').empty()
+
+					$('.inquiry--body tbody tr td').empty()
+					$('.inquiry--reply tbody tr td').empty()
+					
+					let no = resp.payload.total - ((page - 1)*pageCount);
+					console.log(pageCount)
+					console.log(no)
+					resp.payload.data.map((item) => {
+						const tr = $('<tr>')
+						const th = $('<th>')
+						const li = $('<li>')
+						const td = $('<td>')
+						const inquiry = $("#inquiry tbody tr")
+						const inquiryDetail = $("#inquiry_detail .inquiry--body tbody tr")
+						const icon = ''
+						const regDate = new Date(parseInt(item.regdate) * 1000)
+						const rplDate = new Date(parseInt(item.rpldate) * 1000)
+						tr.append(`<td>${no}</td>`)
+						const aLink = tr.append(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
+
+
+						let status_class = ''
+						let status_str = ''
+						if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== ""){
+							status_class = "text-red"
+							status_str = "답변완료"
+						}else{
+							status_class = "text--gray005"
+							status_str = "답변대기중"
+						}
+
+						
+
+						tr.append(`<td class="${status_class}">${status_str}</td>`);
+
+						
+						tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
+						tr.append(`<td><a href="#${item.idx}" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
+						tr.appendTo('.board--list tbody')
+						
+						li.append(`<div class="notification--header">
+							<div class="number">[ <span>${no}</span>] <span>${item.subject}</span></div>
+							<div class="date">
+								<p class="day" style="padding-right:20px">${regDate.getFullYear()}.${String(regDate.getMonth()+1).padStart(2, '0')}.${String(regDate.getDate()).padStart(2, '0')} ${String(regDate.getMinutes()).padStart(2, '0')}:${String(regDate.getSeconds()).padStart(2, '0')}</p>
+								<p class="${status_class}">${status_str}</p>
+							</div>`);
+						const m_aLink = li.append(`<div class="notification--content">
+											<a href="#${item.idx}"class="btn btn--gray btn--rounded btn--modify">수정하기</a>
+										</div>`);
+						li.appendTo('.notification--list')
+						
+						no--;
+
+						m_aLink.click(function(){
+							$("#inquiry").hide();
+							$("#inquiry_detail").show();
+
+							$("#mTitle").html(`${item.subject}`);
+							$("#mauthor").html(`${item.author}`);
+							$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+							$("#mContents").html(`${item.contents}`);
+							$("#mRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+							$("#mRplcontents").html(`${item.rplcontents}`);
+						})
+
+						aLink.click(function(){
+							let no = resp.payload.total - ((page - 1)*pageCount);
+							$("#inquiry").hide();
+							$("#inquiry_detail").show();
+
+							$("#pcTitle").html(`${item.subject}`);
+							$("#pcRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+							$("#pcContents").html(`${item.contents}`);
+							$("#pcRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+							$("#pcRplcontents").html(`${item.rplcontents}`);
+
+							no--;
+						})
+					})
+
+					// $('.board--pagination > ul').empty()
+					pagination.point = 0
+					if(page > 1) {
+						$('<li>').addClass('pagination--prev').append(`<a href="#${page}-${page - 1}">이전 페이지</a>`).appendTo('.board--pagination > ul')
+					}
+
+					totalPage = Math.ceil(resp.total / 10)
+					while(pagination.point < pageCount && currentPage + pagination.point <= totalPage) {
+						const page = currentPage + pagination.point
+						pagination.point++
+						$('<li>').append(`<a href="#${page}-${page}">${page}</a>`).appendTo('.board--pagination > ul')
+					}
+					if(page < totalPage) {
+						$('<li>').addClass('pagination--next').append(`<a href="#${page}-${page + 1}">다음 페이지</a>`).appendTo('.board--pagination > ul')
+					}
+					if(!resp.payload.total) {
+						$('<tr>').addClass('board--empty').append('<td colspan="5">문의 내용이 없습니다</td>').appendTo('.board--list tbody')
+					}
+				} else {
+					// alert(resp.error.message)
+				}
+			})
+		}
+		fetchList(currentPage)
+		$('.board--pagination').on('click', 'a', (e) => {
+			e.preventDefault()
+			const page = $(e.target).attr('href').replaceAll(/#page-/g, '')
+			fetchList(page)
+			return false
+		})
+
+		
+
+		
+	</script>
 
 </body>
 </html>

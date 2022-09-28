@@ -260,24 +260,27 @@
 					let totalPage = 1
 					const pageCount = 10
 					const fetchList = (page = 1) => {
-						API.getBBSList('NOTICE', page, 10, (resp) => {
+						API.getBBSList('NOTICE', page, pageCount, (resp) => {
 							$('.board--list tbody').empty()
 							$('.notification--list').empty()
+							let no = resp.payload.total - ((page - 1)*pageCount);
 							resp.payload.data.map((item) => {
 								const tr = $('<tr>')
 								const li = $('<li>')
 								let icon = ''
 								const regDate = new Date(item.regdate)
-								if (regDate.getTime() + +60 * 60 * 24 >= new Date().getTime()) {
+								if ( new Date().getTime() - 60 * 60 * 24 *1000 <= regDate.getTime() ) {
 									icon = '<i class="icon--new"></i>'
 								}
+								tr.append(`<td>${no}</td>`)
+								tr.append(`<td><a href="notice_detail.html?idx=${item.idx}">${item.subject}</a>${icon}</td>`)
 								tr.append(`<td>${item.regdate.substr(0, 16)}</td>`)
-								tr.append(`<td><a href="#${item.idx}">${item.subject}</a>${icon}</td>`)
-								tr.append(`<td>${item.author}</td>`)
 								tr.appendTo('.board--list tbody')
 								li.append(`<div class="notification--header"><span class="notifictaion--date">${item.regdate.substr(0, 16)}</span><span class="notification--nick">${item.author}</span></div>`)
 								li.append(`<div class="notification--content">${item.subject}${icon}</div>`);
 								li.appendTo('.notification--list')
+
+								no--;
 							})
 							$('.board--pagination').find('>ul').empty().end().show()
 							totalPage = Math.ceil(resp.payload.total / 10)
