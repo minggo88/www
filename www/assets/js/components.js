@@ -255,15 +255,39 @@ $(function() {
         }
         if(!$(e.target).closest('.dropdown').hasClass('dropdown--item')) {
             $('.dropdown--open').removeClass('dropdown--open')
+			// $('.background').removeClass('active')
+        }
+    })
+
+	/////////////////////////////////////////////////
+	$(document).on('click', ':not(.tab_header .dropdown--wrapper .dropdown)', (e) => {
+        if($(e.target).closest('.dropdown-wrapper').length) {
+            $(e.target).closest('.dropdown--wrapper').find('.dropdown--open').toggleClass('dropdown--open')
+            return
+        }
+        if(!$(e.target).closest('.dropdown').hasClass('dropdown--item')) {
+            $('.dropdown--open').removeClass('dropdown--open')
 			$('.background').removeClass('active')
         }
     })
+
+	$(document).on('click', '.tab_header .dropdown--wrapper .dropdown', (e) => {
+        e.stopPropagation()
+
+        $('.dropdown--open').removeClass('dropdown--open')
+		$('.background').toggleClass('active');
+        $(e.target).toggleClass('dropdown--open');
+        
+        $(e.target).parent().find('[name=search]').focus();
+    })
+
+	////////////////////////////////////////////////////////
 
     $(document).on('click', '.dropdown', (e) => {
         e.stopPropagation()
 
         $('.dropdown--open').removeClass('dropdown--open')
-		$('.background').toggleClass('active');
+		// $('.background').toggleClass('active');
         $(e.target).toggleClass('dropdown--open');
         
         $(e.target).parent().find('[name=search]').focus();

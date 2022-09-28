@@ -21,6 +21,7 @@
 <link rel="stylesheet" href="./assets/css/components.css?t=1664191797">
 <link rel="stylesheet" href="./assets/css/sub.css?t=1664341873">
 <link rel="stylesheet" href="./assets/css/login.css?t=1664191797">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1664191797">
 <!-- JS -->
 <script>
     let USER_INFO = {}
@@ -37,7 +38,7 @@
 
 </head>
 <!-- BODY -->
-<body class="sub login forget">
+<body class="sub deposit deposit-withdrawal address">
 	<header>
 		<div class="header_inner">
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
@@ -123,49 +124,129 @@
 			</ul>
 		</div>
 	</header>
+    <aside class="mobile-panel">
+        <h1 class="size--20" data-i18n>계정 관리</h1>
+        <ul>
+            <li>
+                <a href="member-account.html" data-i18n>정보 수정</a>
+            </li>
+            <li>
+                <a href="my-verification.html" data-i18n>ID 인증 관리</a>
+            </li>
+            <li>
+                <a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+            </li>
+            <li>
+                <a href="change-account-number.html" data-i18n>출금계좌 변경</a>
+            </li>
+            <!-- <li>
+                <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
+            </li> -->
+        </ul>
+        <h1 class="size--20" data-i18n>지갑 관리</h1>
+        <ul>
+            <li>
+                <i class="icon-database-fill"></i><a href="wallet.html" data-i18n> 보유 자산</a></li>
+            </li>
+            <li>
+                <i class="icon-load-circle-fill"></i><a href="wallet-deposit.html" data-i18n> 입금</a></li>
+            </li>
+            <li>
+                <i class="icon-circle-fill"></i><a href="wallet-withdrawal.html" data-i18n> 출금</a></li>
+            </li>
+            <li>
+                <i class="icon-circle-fill"></i><a href="wallet-analysis.html" data-i18n> 종합 분석</a></li>
+            </li>
+        </ul>
+    </aside>
     <div class="content_wrap">
 		<main class="d-flex flex-center">
-			<form id="forget" action="" method="post" class="flex-row">
-				<div class="form--header">
-					<button type="button" class="navigation--back"></button>
-						<h1 data-i18n>Reset password</h1>
+			<header class="contents--header">
+				<button type="button" class="navigation--back"></button>
+				<h1 data-i18n>Deposit</h1>
+			</header>
+			<form id="withdrawal-address" action="withdrawal-address2.html" method="post" class="flex-row">
+				<div class="form--header mobile-only">
+					<h1 data-i18n>출금 (비트코인 주소) 주소</h1>
 				</div>
 				<div name="box-form" class="email form--controls">
-					<label for="email" class="form--label" data-i18n>Email</label>
-					<input type="text" name="email" id="email" placeholder="이메일을 입력해주세요.">
+					<label for="email" class="form--label" data-i18n>출금하실 주소를 입력해주세요. </label>
+					<input type="text" name="email" id="email" placeholder="">
 				</div>
-				<div name="box-form" class="validation--message " style="display: none">
-					<p data-i18n>등록되지 않은 이메일 주소입니다. 올바른 이메일 주소를 입력해 주세요.</p>
+				<div name="box-form" class="validation--message " style="display:none" >
+					<p data-i18n>잘못 된 주소입니다.</p>
 				</div>
-				<div name="box-form" class="form--btns" style="margin-top: 44px">
-					<button class="btn btn--block btn--red" data-i18n>이메일 발송</button>
+				<div name="box-success" class="form--btns" style="margin-top: 44px;">
+					<button class="btn btn--block btn--blue-gray" data-i18n>검사</button>
 				</div>
-				<div name="box-success" clasts="email form--controls" style="display:none;margin-bottom: 88px;">
-					<p class="m-0 flex-self-left text-bold" style="font-size: 16px" data-i18n>입력한 이메일로 비밀번호 재설정 안내 메일이 발송되었습니다.</p>
-					<p class="m-0 flex-self-left text-bold" style="font-size: 16px" data-i18n>이메일을 확인해주세요.</p>
+			</form>
+			<form id="withdrawal-address2" action="withdrawal-address3.html" method="post" class="d-flex flex-row flex-center" style="display: none">
+				<div class="form--header mobile-only">
+					<h1 data-i18n>출금 (비트코인 주소) 주소</h1>
 				</div>
-				<!-- <div name="box-success" clasts="email form--controls" style="display:none">
-					<p class="m-0 flex-self-left text-bold" style="font-size: 16px" data-i18n>입력한 이메일로 인증번호가 발송되었습니다.</p>
-					<p class="m-0 flex-self-left text-bold" style="font-size: 16px" data-i18n>이메일을 확인해주세요.</p>
-				</div> -->
-				<!-- <div name="box-success" class="d-grid grid--code" style="margin-top: 75px; margin-bottom: 88px;display:none">
-					<input type="number" min="0" max="9" value="">
-					<input type="number" min="0" max="9" value="">
-					<input type="number" min="0" max="9" value="">
-					<input type="number" min="0" max="9" value="">
-					<input type="number" min="0" max="9" value="">
-					<input type="number" min="0" max="9" value="">
-				</div> -->
-				<div name="box-success" class="d-flex flex-row flex-self-left" style="display:none">
-					<span class="d-block tex-bold" data-i18n>이메일이 오지 않으셨나요?</span>
-					<a href="" class="d-block text-red text-bold" data-i18n name="btn-resend">이메일 재발송</a>
+				<div name="box-form" class="email form--controls">
+					<label for="email" class="form--label" data-i18n>출금하실 주소를 입력해주세요. </label>
+					<input type="text" name="email" id="email" placeholder="">
 				</div>
-				<div name="box-success" class="form--btns" style="margin-top: 44px;display:none">
-					<button class="btn btn--block btn--red" data-i18n>확인</button>
+				<div name="box-form" class="validation--message subtract " style="display:none">
+					<p data-i18n>출금 가능한 주소입니다.</p>
+				</div>
+				<div name="box-success" class="form--btns" style="margin-top: 44px;">
+					<button class="btn btn--block btn--red text-bold" data-i18n>출금요청</button>
+				</div>
+			</form>
+			<form id="withdrawal-address3" action="withdrawal-address4.html" method="post" class="d-flex flex-row flex-center" style="display: none">
+				<div class="form--header mobile-only">
+					<h1 data-i18n>보안 비밀번호 입력</h1>
+					<h2 class="text-bold" data-i18n>보안 비밀 번호 6자리를 입력해 주세요.</h2>
+				</div>
+				<div class="text--center">
+					<div style="margin-top: 52px;">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="" min="0" max="9" maxlength="1" autofocus>
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+							</div>
+						</div>
+					</div>
+					<div class="text--center">
+						<p data-i18n>보안비밀번호는 계정관리 &gt; 보안비밀번호 변경에서 바꾸실수 있습니다.</p>
+					</div>
+				</div>
+				<div name="box-success" class="form--btns" style="margin-top: 44px;">
+					<button class="btn btn--block btn--red text-bold" onclick="location.href = 'wallet-withdrawal-guide.html'" data-i18n>확인</button>
 				</div>
 			</form>
 		</main>
 	</div>
+	<script>
+        $('#withdrawal-address').submit((e) => {
+            e.preventDefault()
+
+            $('#withdrawal-address').hide()
+            $('#withdrawal-address2').show()
+            return false
+        })
+        $('#withdrawal-address2').submit((e) => {
+            e.preventDefault()
+
+            $('#withdrawal-address2').hide()
+            $('#withdrawal-address3').show()
+            return false
+        })
+		$('#withdrawal-address3').submit((e) => {
+            e.preventDefault()
+
+            $('#withdrawal-address3').hide()
+            // $('#withdrawal-address4').show()
+            return false
+        })
+        
+    </script>
 
     <script src="./assets/js/app.js?t=1664333383"></script>
 

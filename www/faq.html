@@ -27,20 +27,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748" />
 <link rel="stylesheet" href="./assets/css/common.css?t=1663240012" />
-<link rel="stylesheet" href="./assets/css/header.css?t=1663661193">
+<link rel="stylesheet" href="./assets/css/header.css?t=1664350978">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663661193" />
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663671111" />
+<link rel="stylesheet" href="./assets/css/components.css?t=1664191797" />
+<link rel="stylesheet" href="./assets/css/sub.css?t=1664341873" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/api.js?t=1663584012"></script>
-<script src="./assets/js/components.js?t=1663671111" defer></script>
+<script src="./assets/js/api.js?t=1664349972"></script>
+<script src="./assets/js/components.js?t=1664191797" defer></script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
 <script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1663208420"></script>
+<!-- <script src="./i18n/i18n.js?t=1664333383"></script> -->
 
 </head>
 <!-- BODY -->
@@ -60,7 +60,7 @@
 						<a href="" data-i18n>경매</a>
 					</li>
 					<li>
-						<a href="" data-i18n>입출금</a>
+						<a href="wallet.html" data-i18n>입출금</a>
 					</li>
 					<li>
 						<a href="" data-i18n>다도 문화</a>
@@ -71,19 +71,6 @@
 				</ul>
 			</nav>
 			<div class="nav--side">
-				<div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-					<div class="dropdown--item" style="width: 134px">
-						<ul>
-							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
-							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
-							<li><a href="notification.html" data-i18n>알림</a></li>
-						</ul>
-					</div>
-				</div>
 				<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
 					<button type="button" class="dropdown" data-i18n>지갑관리</button>
 					<div class="dropdown--item" style="width: 100px">
@@ -95,11 +82,21 @@
 						</ul>
 					</div>
 				</div>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-				<div name="box_unlogedin">
-					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
+						<ul>
+							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
+							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
+							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
+							<li><a href="notification.html" data-i18n>알림</a></li>
+						</ul>
+					</div>
 				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" class="btn--login" data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
@@ -122,7 +119,7 @@
 					<a href="" data-i18n>경매</a>
 				</li>
 				<li>
-					<a href="" data-i18n>입출금</a>
+					<a href="wallet.html" data-i18n>입출금</a>
 				</li>
 				<li>
 					<a href="" data-i18n>다도 문화</a>
@@ -182,6 +179,7 @@
 						$('.accordion').empty().addClass('loading')
 						API.getFaqList(page, rows, (resp) => {
 							if (resp.success) {
+								// let no = resp.payload.total - 1;
 								resp.payload.data.map((faq) => {
 									const item = $('<div class="accordion--item" />')
 									faq.contents = faq.contents.replaceAll(/\r\n/g, '<br>')
@@ -265,7 +263,7 @@
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
 		
-    <script src="./assets/js/app.js?t=1663583665"></script>
+    <script src="./assets/js/app.js?t=1664333383"></script>
 
 </body>
 </html>

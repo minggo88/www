@@ -123,6 +123,7 @@ header .logo a {
     background: rgba(131, 137, 158, .2);
     color: var(--basic-black) !important;
     font-size: 14px;
+	padding: 0 1rem;
 }
 
 .nav--side .btn--mypage{
@@ -142,11 +143,16 @@ header .logo a {
     border: 0 none;
     padding:0 14px 0 0;
     font-weight: 500;
+	text-transform: capitalize;
 }
 .nav--side .language .dropdown::after {
     width: 10px;
     right: 0;
     opacity: .5;
+}
+.nav--side .language .dropdown--item>span,
+.nav--side .language .dropdown--item button {
+	text-transform: capitalize;
 }
 
 .nav--side {
@@ -173,7 +179,7 @@ header .logo a {
 .nav--side .profile .dropdown+.dropdown--item,
 .nav--side .wallet .dropdown+.dropdown--item {
     padding-top: 0;
-    top: 48px;
+    top: 40px;
 }
 .nav--side .profile .dropdown+.dropdown--item ul li {
     height: 17px;
