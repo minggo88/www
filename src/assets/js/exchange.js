@@ -41,7 +41,7 @@ let CURRENCY_INFO = [];
 let SELECTED_SYMBOL = '';  //'G4K95O56R2'
 let SELECTED_NAME = '';  //'끽다거 세작'
 let SELECTED_SYMBOL_PRICE = 0
-let SELECTED_EXCHANGE = getURLParameter('exchange') || 'USD'
+let SELECTED_EXCHANGE = getURLParameter('exchange') || 'KRW'
 let CHART_TIMER
 
 // 모바일 접속 여부
@@ -623,15 +623,20 @@ $(function() {
             
             console.log('select.dt === data:', data);
 
-            const { name, symbol, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
-            console.log(window.itemGridData);
+            const { name, symbol, exchange, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
+            // console.log(window.itemGridData);
             const { weight, story } = data
             const { keep_method } = data
             const { teamaster_note, producer_note }= data
             const { grade } = data
             const { animation } = data
 
+            if (!symbol || !exchange) {
+                return false;
+            }
+
             SELECTED_SYMBOL = symbol
+            SELECTED_EXCHANGE = exchange
             SELECTED_NAME = name
 
             // 로딩 애니메이션 출력
@@ -679,7 +684,7 @@ $(function() {
                     const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
                     const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'about:blank');
 
-                    $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2).format() + '원').removeClass('text-red text-blue').addClass(diff_text)
+                    $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2).format() + SELECTED_EXCHANGE).removeClass('text-red text-blue').addClass(diff_text)
                     $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').siblings('img').attr('src', diff_icon)
@@ -772,7 +777,7 @@ $(function() {
     //             $('#spot-volume').text(real_number_format(spot.volume))
     //             $('#spot-volume2').text(real_number_format(parseFloat(spot.price_close) * parseFloat(spot.volume)))
 
-    //             $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2) + '원')
+    //             $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2) + SELECTED_EXCHANGE)
 
     //             const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
     //             const diffPercent = (diff * 100).toFixed(2)
@@ -1097,7 +1102,7 @@ $(function() {
             const modal = $('#modal-buy-direct')
             const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
 
-            modal.find('.tea--available').text('' + real_number_format(cnt_buyable) + ' 원')
+            modal.find('.tea--available').text('' + real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
             modal.find('[name=orderid]').val(orderid)
             modal.find('[name=symbol]').val(symbol)
             modal.find('[name=orderid]').text('#'+orderid)
