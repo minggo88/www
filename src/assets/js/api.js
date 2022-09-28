@@ -377,6 +377,23 @@ const API = {
             }
         })
     },
+    getTradeBalance: (symbol = 'ALL', exchange = null, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getTradeBalance/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol: symbol,
+                exchange: exchange,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
     getBBSList: (bbscode, page = 1, rows = 10, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getBBSList/`,
@@ -471,7 +488,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                lang: window.localStorage.locale,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol
             },
             success: (resp) => {
