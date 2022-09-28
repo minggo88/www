@@ -147,6 +147,18 @@ function real_number_format(n, d){
 	}
 	return sign + r;
 }
+/**
+ * float 형식의 숫자도 정확한 숫자가 되도록 수정하는 함수입니다.
+ * 
+ * real_number(1.1 + 0.1) => 1.2
+ * 1.1 + 0.1 => 1.2000000000000002
+ * 
+ * @param {*} n 숫자나 숫자형 문자
+ * @returns 숫자
+ */
+function real_number(n) {
+    return n ? (n * 1).toFixed(8) * 1 : 0;
+}
 
 function remove_array_by_value(array, value) {
     var what, a = arguments, L = a.length, ax;
