@@ -478,8 +478,6 @@
 }
 
 @media screen and (max-width: 600px){
-	.sub.service main header.contents--header{line-height: 48px;}
-	.sub.service .navigation--back{height: 48px;}
 	.sub.service .btn{margin-top: 30px;}
 }
 
@@ -640,6 +638,7 @@
 	.sub.faq > header{display: none;}
 	/* .sub.faq .contents{margin-top: 0;} */
 	.sub.faq main header.contents--header{
+		height: 60px;
 		line-height: 60px; 
 		padding-left: 0;
 		margin-bottom: 0;
@@ -658,8 +657,8 @@
 }
 
 @media screen and (max-width: 600px){
-	.sub.faq main header.contents--header{line-height: 48px;}
-	.sub.faq .navigation--back{height: 48px;}
+	/* .sub.faq main header.contents--header{line-height: 48px;}
+	.sub.faq .navigation--back{height: 48px;} */
 
 	.sub.faq{overflow-x: hidden;}
 	.sub.faq .accordion{width: 100%;}
@@ -902,10 +901,12 @@
 
 @media screen and (max-width: 800px){
 	.sub.inquiry > header{display: none;}
-	/* .sub.inquiry .contents{margin-top: 0;} */
 	.sub.inquiry main header.contents--header{
 		line-height: 60px; 
 		margin-bottom: 0;
+		display: flex; 
+		align-items: center; 
+		justify-content: space-between;
 	}
 	.sub.inquiry .navigation--back{height: 60px;}
 	.sub.inquiry main{
@@ -914,7 +915,9 @@
 		padding:0 30px!important;
 	}
 	.sub.inquiry main header.contents--header{
-		display: flex; border-bottom: none;
+		display: flex; 
+		border-bottom: none;
+		height: 60px;
 	}
 	.sub.inquiry .side{display: none;}
 	.sub.inquiry .desktop-only{display: none!important;}
@@ -923,12 +926,22 @@
 	.sub.inquiry .board--pagination {display: none;}
 	.sub.inquiry .contents--header > div{display: flex;}
 	.sub.inquiry .contents{position: relative;}
-	.sub.inquiry .contents--header{display: flex; align-items: center; justify-content: space-between;}
-	.sub.inquiry .contents--header .mobile-only .btn{text-indent: 100%; white-space: nowrap; overflow: hidden; width: 25px;}
+	.sub.inquiry .contents--header .mobile-only .btn{
+		text-indent: 100%; 
+		white-space: nowrap;
+		overflow: 
+		hidden; 
+		width: 25px;
+	}
 	.sub.inquiry .contents--header .mobile-only .btn::after{
-		display: block; content:"+"; position: absolute; 
-		font-size: 28px; color:#B81C22;
-		top: 0; right: 15px;
+		display: block; 
+		content:"+"; 
+		position: absolute; 
+		font-size: 28px; 
+		color:#B81C22;
+		top: 0; 
+		right: 15px;
+		line-height: 60px;
 	}
 }
 
