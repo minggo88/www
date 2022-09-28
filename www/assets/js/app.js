@@ -102,9 +102,9 @@ function getCookie( name ){
  * @param String key Parameter Name
  * @param URL url 찾고자하는 url. undefined면 window.location.href
  */
- function getURLParameter(key, url) {
-    url = new URL(url || window.location.href);
-    r = url.searchParams.get(key)
+function getURLParameter(key, url) {
+	url = new URL(url || window.location.href);
+	r = url.searchParams.get(key)
 	return r ? r : '';
 }
 
@@ -178,7 +178,7 @@ function get_str_by_keycode(keycode) {
  * @param {window.event}} evt
  * @example $('#box_login form input[type=password]').on('keydown', input_filter_number)
  */
- function input_filter_number (evt) {
+function input_filter_number (evt) {
 	let keyCode = evt.which?evt.which:event.keyCode,
 		val = String.fromCharCode(keyCode);
 	if(val.match(/[^0-9]/g) && keyCode!=8 && keyCode!=9 && keyCode!=46 && keyCode!=35 && keyCode!=36 && keyCode!=37 && keyCode!=38 && keyCode!=39 && keyCode!=40 && keyCode!=96 && keyCode!=97 && keyCode!=98 && keyCode!=99 && keyCode!=100 && keyCode!=101 && keyCode!=102 && keyCode!=103 && keyCode!=104 && keyCode!=105 && keyCode!=48 && keyCode!=49 && keyCode!=50 && keyCode!=51 && keyCode!=52 && keyCode!=53 && keyCode!=54 && keyCode!=55 && keyCode!=56 && keyCode!=57) {
