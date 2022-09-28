@@ -423,7 +423,7 @@
 				</dl>
 				<div class="board--btn">
 					<a href class="btn btn--gray btn--list" onclick="location.href = 'inquiry.html'" data-i18n>목록</a>
-					<a href id="modify_btn" onclick="location.href = '#inquiry_modify'" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
+					<a href id="modify_btn" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
 					<a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a>
 				</div>
 			</section>
@@ -499,7 +499,7 @@
 				</dl>
 				<div class="board--btn">
 					<a href="#" class="btn btn--gray btn--list" onclick="location.href = 'inquiry.html'" data-i18n>목록</a>
-					<a href="" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
+					<a href id="modify_btn" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
 					<a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a>
 				</div>
 			</section>
@@ -526,13 +526,11 @@
 					$('.inquiry--reply tbody tr td').empty()
 					
 					let no = resp.payload.total - ((page - 1)*pageCount);
-					console.log(pageCount)
-					console.log(no)
+					//	console.log(pageCount)
+					//	console.log(no)
 					resp.payload.data.map((item) => {
 						const tr = $('<tr>')
-						const th = $('<th>')
 						const li = $('<li>')
-						const td = $('<td>')
 						const inquiry = $("#inquiry tbody tr")
 						const inquiryDetail = $("#inquiry_detail .inquiry--body tbody tr")
 						const icon = ''
@@ -540,16 +538,18 @@
 						const rplDate = new Date(parseInt(item.rpldate) * 1000)
 						tr.append(`<td>${no}</td>`)
 						const aLink = tr.append(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
-
+						const modifyBtn = $("#modify_btn")
 
 						let status_class = ''
 						let status_str = ''
-						if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== ""){
+						if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== "0"){
 							status_class = "text-red"
 							status_str = "답변완료"
 						}else{
 							status_class = "text--gray005"
 							status_str = "답변대기중"
+							//	item.rplcontents == "답변이 달리지 않았습니다."
+							//`${item.rpldate}` == "답변이 달리지 않았습니다."
 						}
 
 						
@@ -584,6 +584,12 @@
 							$("#mContents").html(`${item.contents}`);
 							$("#mRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
 							$("#mRplcontents").html(`${item.rplcontents}`);
+
+							$("#pcTitle").html(`${item.subject}`);
+							$("#pcRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+							$("#pcContents").html(`${item.contents}`);
+							$("#pcRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+							$("#pcRplcontents").html(`${item.rplcontents}`);
 						})
 
 						aLink.click(function(){
@@ -596,18 +602,38 @@
 							$("#pcContents").html(`${item.contents}`);
 							$("#pcRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
 							$("#pcRplcontents").html(`${item.rplcontents}`);
+							
+
+							$("#mTitle").html(`${item.subject}`);
+							$("#mauthor").html(`${item.author}`);
+							$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+							$("#mContents").html(`${item.contents}`);
+							$("#mRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+							$("#mRplcontents").html(`${item.rplcontents}`);
 
 							no--;
-
+							
+						
+							modifyBtn.click(function(){
+								$("#inquiry_detail").hide();
+								$("#inquiry_modify").show();
+							})
 							
 						})
-						$("#modify_btn").click(function(){
-							$("#inquiry").hide();
-							$("#inquiry_detail").hide();
-							$("#inquiry_modify").show();
-						})
+
 						
+						
+						//function modify(e){
+						//	alert(1)
+							//	e.preventDefault();
+							//	$("#inquiry").hide();
+							//	$("#inquiry_detail").hide();
+							//	$("#inquiry_modify").show();
+						//}
+						
+						//modifyBtn.addEventListener("click", modify);
 					})
+					
 
 					// $('.board--pagination > ul').empty()
 					pagination.point = 0
