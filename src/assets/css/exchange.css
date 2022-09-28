@@ -46,9 +46,15 @@
 	background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);
 }
 
+/* 태이블 데이터 없을때 배경색 사선 그려지는것 제거 */
+div.dts div.dataTables_scrollBody {
+    background: transparent !important;
+}
+
 
 .details {
 	width: 100%;
+    overflow:hidden;
 }
 
 .details--header {
@@ -75,13 +81,13 @@
     border-bottom: 0.5px solid var(--linegray);
     height: 65px;
     box-sizing: border-box;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .details--body .details--price {
     font-weight: 700;
     font-size: 26px;
-    color: var(--red-up);
+    /* color: var(--red-up); */
 }
 
 .details--price {
@@ -152,36 +158,52 @@
 }
 
 /* 구매하기 */
-#modal-buy .modal--content {
-    margin-top: 36px;
-    padding-left: 39px;
-    padding-right: 21px;
+#modal-buy .modal--content ,
+#modal-buy-direct .modal--content 
+{
+    margin-top: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     position: relative; background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
 }
-#modal-buy .tea--name {
-    padding-left: 4px;
+#modal-buy .tea--name ,
+#modal-buy-direct .tea--name {
+    padding-left: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.02em;
 }
 
 /* 판매하기 */
-#modal-sell .modal--content{
-    margin-top: 36px;
-    padding-left: 39px;
-    padding-right: 21px;
+#modal-sell .modal--content,
+#modal-sell-direct .modal--content{
+    margin-top: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     position: relative;
     background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
 }
+#modal-sell .tea--name,
+#modal-sell-direct .tea--name {
+    padding-left: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
 
 #modal-buy .btn--star--on,
-#modal-sell .btn--star--on {
+#modal-buy-direct .btn--star--on,
+#modal-sell .btn--star--on ,
+#modal-sell-direct .btn--star--on 
+{
     position: absolute;
     left: 19px;
     top: 5px;
 }
 
 #modal-buy dd,
-#modal-sell dd {
+#modal-buy-direct dd,
+#modal-sell dd, 
+#modal-sell-direct dd 
+{
     width: 220px;
 }
 
