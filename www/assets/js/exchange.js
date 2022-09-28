@@ -1097,6 +1097,7 @@ $(function() {
         .myModal('beforeOpen', (_event, btn) => {
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
+            const exchange = btn.data('exchange')
             const price = btn.data('price')*1
             const volume = btn.data('volume')*1
             const name = SELECTED_NAME
@@ -1106,6 +1107,7 @@ $(function() {
             modal.find('.tea--available').text('' + real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
             modal.find('[name=orderid]').val(orderid)
             modal.find('[name=symbol]').val(symbol)
+            modal.find('[name=exchange]').val(exchange)
             modal.find('[name=orderid]').text('#'+orderid)
             modal.find('[name=price]').val(price)
             modal.find('[name=volume]').val(volume)
@@ -1141,13 +1143,14 @@ $(function() {
         .myModal('beforeOpen', (_event, btn) => {
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
+            const exchange = btn.data('exchange')
             const price = btn.data('price')*1
             const volume = btn.data('volume')*1
             const name = SELECTED_NAME
             const modal = $('#modal-sell-direct')
             const cnt_sellable = USER_WALLET[symbol]?.confirmed || 0;
 
-            modal.find('.tea--available').text(real_number_format(cnt_sellable)+'개')
+            modal.find('.tea--available').text(real_number_format(cnt_sellable)+__('개'))
             modal.find('[name=orderid]').val(orderid)
             modal.find('input[name=symbol]').val(symbol)
             modal.find('[name=orderid]').text('#'+orderid)
@@ -1181,6 +1184,7 @@ $(function() {
 
             modal.find('.tea--available').text(real_number_format(cnt_buyable))
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
+            modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
             modal.find('[name=orderid]').text('')
             modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
             modal.find('[name=volume]').val('')
@@ -1220,6 +1224,7 @@ $(function() {
 
             modal.find('.tea--available').text(real_number_format(cnt_sellable))
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
+            modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
             modal.find('[name=orderid]').text('')
             modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
             modal.find('[name=volume]').val('')
