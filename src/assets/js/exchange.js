@@ -306,7 +306,7 @@ $(function() {
             "infoEmpty": "",
             "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
             "search": "검색: ",
-            "zeroRecords": "일치하는 데이터가 없음",
+            "zeroRecords": "데이터가 없음",
             "loadingRecords": "로딩중...",
             "processing": '<img src="/template/vwyx3Z/script/plug_in/loading/loading.gif"> 잠시만 기다려 주세요.',
             "paginate": {
