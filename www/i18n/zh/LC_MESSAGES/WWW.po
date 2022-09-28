@@ -1051,7 +1051,7 @@ msgid "구매하기"
 msgstr "购买"
 
 msgid "다음과 같이 구매하였습니다"
-msgstr "我是这样买的："
+msgstr "购买方式："
 
 msgid "대상"
 msgstr "目标"
