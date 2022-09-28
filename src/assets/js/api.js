@@ -504,14 +504,14 @@ const API = {
      * @param {*} symbol 
      * @param {*} callback 
      */
-    getChartData: (symbol, period = '1d', callback) => {
+    getChartData: (symbol, exchange='KRW', period = '1d', callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getChartData/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
                 token: window.localStorage.token, lang: window.localStorage.locale,
-                symbol: symbol,
+                symbol: symbol, exchange: exchange,
                 period: period,
             },
             success: (resp) => {
