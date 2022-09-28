@@ -956,3 +956,240 @@ msgstr "写一个询问"
 
 msgid "작성하기"
 msgstr "写"
+
+msgid "입금액을 입력해주세요."
+msgstr "请输入存款金额。"
+
+msgid "입금자 이름을 입력해주세요."
+msgstr "请输入存款人的姓名。"
+
+msgid "입금 신청을 완료했습니다."
+msgstr "您已完成存款申请。"
+
+msgid "입금 신청을 완료하지 못했습니다."
+msgstr "无法完成存款请求。"
+
+msgid "마이페이지"
+msgstr "我的页面"
+
+msgid "보유"
+msgstr "拥有"
+
+msgid "관심"
+msgstr "注意力"
+
+msgid "타입"
+msgstr "类型"
+
+msgid "생산연도"
+msgstr "生产年份"
+
+msgid "현재가"
+msgstr "时价"
+
+msgid "전일대비"
+msgstr "日复一日"
+
+msgid "거래대금"
+msgstr "交易金额"
+
+msgid "고가"
+msgstr "高价"
+
+msgid "저가"
+msgstr "低价"
+
+msgid "거래량(24H)"
+msgstr "交易量（24 小时）"
+
+msgid "거래대금(24H)"
+msgstr "交易金额（24h）"
+
+msgid "시간단위"
+msgstr "时间单位"
+
+msgid "1일"
+msgstr "1天"
+
+msgid "팝니다"
+msgstr "卖"
+
+msgid "삽니다"
+msgstr "买"
+
+msgid "정보"
+msgstr "信息"
+
+msgid "구분"
+msgstr "分配"
+
+msgid "등록일"
+msgstr "注册日期"
+
+msgid "가격"
+msgstr "价格"
+
+msgid "거래버튼"
+msgstr "交易按钮"
+
+msgid "구매 등록"
+msgstr "购买登记"
+
+msgid "판매 등록"
+msgstr "销售登记"
+
+msgid "생산"
+msgstr "生产"
+
+msgid "인증"
+msgstr "认证"
+
+msgid "차 소개"
+msgstr "茶叶介绍"
+
+msgid "구매하기"
+msgstr "购买"
+
+msgid "다음과 같이 구매하였습니다"
+msgstr "我是这样买的："
+
+msgid "대상"
+msgstr "目标"
+
+msgid "구매가능금액"
+msgstr "可购买金额"
+
+msgid "판매하기"
+msgstr "出售"
+
+msgid "판매가능수량"
+msgstr "可售数量"
+
+msgid "입체스캔"
+msgstr "3D扫描"
+
+msgid "백서"
+msgstr "白皮书"
+
+msgid "분류"
+msgstr "分类"
+
+msgid "원산지"
+msgstr "起源"
+
+msgid "생산자"
+msgstr "制片人"
+
+msgid "생산년도"
+msgstr "生产年份"
+
+msgid "중량"
+msgstr "重量"
+
+msgid "맛"
+msgstr "品尝"
+
+msgid "향"
+msgstr "香"
+
+msgid "품종"
+msgstr "种类"
+
+msgid "차수령"
+msgstr "茶树时代"
+
+msgid "가격동향"
+msgstr "价格趋势"
+
+msgid "가치성"
+msgstr "价值"
+
+msgid "희소성"
+msgstr "缺乏"
+
+msgid "대중성"
+msgstr "人气"
+
+msgid "마시는 방법"
+msgstr "怎么喝"
+
+msgid "보관방법/유통기한"
+msgstr "储存方法/有效期"
+
+msgid "스토리"
+msgstr "故事"
+
+msgid "티마스터 품평"
+msgstr "茶大师评论"
+
+msgid "생산자 노트"
+msgstr "生产者说明"
+
+msgid "평점"
+msgstr "年级"
+
+msgid "개"
+msgstr "个"
+
+msgid "평균가격"
+msgstr "平均价格"
+
+msgid "다음과 같이 판매등록이 완료되었습니다."
+msgstr "销售登记已完成如下。"
+
+msgid "등록하기"
+msgstr "登记"
+
+msgid "01"
+msgstr "01"
+
+msgid "초기화"
+msgstr "初始化"
+
+msgid "USD"
+msgstr "USD"
+
+msgid "Create Address"
+msgstr "地址生成"
+
+msgid "거래소 상품을 구매하기 위해서는 거래소 지갑에 입금을 하셔야 합니다."
+msgstr "要购买兑换产品，您必须将钱存入兑换钱包。"
+
+msgid "입금정보를 저장 후 입금용 주소로 이채하시면 담당자가 확인 후 입금처리 됩니다."
+msgstr "存款信息保存后，转入存款地址，经负责人确认后处理存款。"
+
+msgid "잔액"
+msgstr "平衡"
+
+msgid "입금액"
+msgstr "存款金额"
+
+msgid "입금자 이름"
+msgstr "存款人姓名"
+
+msgid "입금하기"
+msgstr "订金"
+
+msgid "출금안내"
+msgstr "提款信息"
+
+msgid "kikdda@kikdda.com"
+msgstr "可i看到大@可i看到大.com"
+
+msgid "출금 (비트코인 주소) 주소"
+msgstr "提款（比特币地址）地址"
+
+msgid "출금하실 주소를 입력해주세요."
+msgstr "请输入取款地址。"
+
+msgid "잘못 된 주소입니다."
+msgstr "无效地址。"
+
+msgid "출금 가능한 주소입니다."
+msgstr "这是您可以提款的地址。"
+
+msgid "출금요청"
+msgstr "提款请求"
+
+msgid "보안 비밀번호 입력"
+msgstr "输入您的安全密码"

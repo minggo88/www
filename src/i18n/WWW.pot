@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-15 11:50+0900\n"
+"POT-Creation-Date: 2022-09-28 11:51+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../assets/js/app.js:175 ../assets/js/app.min.js:1 ../assets/js/app.js:232
-
+#: ../assets/js/app.js:264
 
 msgid "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
 msgstr ""
@@ -960,4 +960,241 @@ msgid "문의 작성하기"
 msgstr ""
 
 msgid "작성하기"
+msgstr ""
+
+msgid "입금액을 입력해주세요."
+msgstr ""
+
+msgid "입금자 이름을 입력해주세요."
+msgstr ""
+
+msgid "입금 신청을 완료했습니다."
+msgstr ""
+
+msgid "입금 신청을 완료하지 못했습니다."
+msgstr ""
+
+msgid "마이페이지"
+msgstr ""
+
+msgid "보유"
+msgstr ""
+
+msgid "관심"
+msgstr ""
+
+msgid "타입"
+msgstr ""
+
+msgid "생산연도"
+msgstr ""
+
+msgid "현재가"
+msgstr ""
+
+msgid "전일대비"
+msgstr ""
+
+msgid "거래대금"
+msgstr ""
+
+msgid "고가"
+msgstr ""
+
+msgid "저가"
+msgstr ""
+
+msgid "거래량(24H)"
+msgstr ""
+
+msgid "거래대금(24H)"
+msgstr ""
+
+msgid "시간단위"
+msgstr ""
+
+msgid "1일"
+msgstr ""
+
+msgid "팝니다"
+msgstr ""
+
+msgid "삽니다"
+msgstr ""
+
+msgid "정보"
+msgstr ""
+
+msgid "구분"
+msgstr ""
+
+msgid "등록일"
+msgstr ""
+
+msgid "가격"
+msgstr ""
+
+msgid "거래버튼"
+msgstr ""
+
+msgid "구매 등록"
+msgstr ""
+
+msgid "판매 등록"
+msgstr ""
+
+msgid "생산"
+msgstr ""
+
+msgid "인증"
+msgstr ""
+
+msgid "차 소개"
+msgstr ""
+
+msgid "구매하기"
+msgstr ""
+
+msgid "다음과 같이 구매하였습니다"
+msgstr ""
+
+msgid "대상"
+msgstr ""
+
+msgid "구매가능금액"
+msgstr ""
+
+msgid "판매하기"
+msgstr ""
+
+msgid "판매가능수량"
+msgstr ""
+
+msgid "입체스캔"
+msgstr ""
+
+msgid "백서"
+msgstr ""
+
+msgid "분류"
+msgstr ""
+
+msgid "원산지"
+msgstr ""
+
+msgid "생산자"
+msgstr ""
+
+msgid "생산년도"
+msgstr ""
+
+msgid "중량"
+msgstr ""
+
+msgid "맛"
+msgstr ""
+
+msgid "향"
+msgstr ""
+
+msgid "품종"
+msgstr ""
+
+msgid "차수령"
+msgstr ""
+
+msgid "가격동향"
+msgstr ""
+
+msgid "가치성"
+msgstr ""
+
+msgid "희소성"
+msgstr ""
+
+msgid "대중성"
+msgstr ""
+
+msgid "마시는 방법"
+msgstr ""
+
+msgid "보관방법/유통기한"
+msgstr ""
+
+msgid "스토리"
+msgstr ""
+
+msgid "티마스터 품평"
+msgstr ""
+
+msgid "생산자 노트"
+msgstr ""
+
+msgid "평점"
+msgstr ""
+
+msgid "개"
+msgstr ""
+
+msgid "평균가격"
+msgstr ""
+
+msgid "다음과 같이 판매등록이 완료되었습니다."
+msgstr ""
+
+msgid "등록하기"
+msgstr ""
+
+msgid "01"
+msgstr ""
+
+msgid "초기화"
+msgstr ""
+
+msgid "USD"
+msgstr ""
+
+msgid "Create Address"
+msgstr ""
+
+msgid "거래소 상품을 구매하기 위해서는 거래소 지갑에 입금을 하셔야 합니다."
+msgstr ""
+
+msgid "입금정보를 저장 후 입금용 주소로 이채하시면 담당자가 확인 후 입금처리 됩니다."
+msgstr ""
+
+msgid "잔액"
+msgstr ""
+
+msgid "입금액"
+msgstr ""
+
+msgid "입금자 이름"
+msgstr ""
+
+msgid "입금하기"
+msgstr ""
+
+msgid "출금안내"
+msgstr ""
+
+msgid "kikdda@kikdda.com"
+msgstr ""
+
+msgid "출금 (비트코인 주소) 주소"
+msgstr ""
+
+msgid "출금하실 주소를 입력해주세요."
+msgstr ""
+
+msgid "잘못 된 주소입니다."
+msgstr ""
+
+msgid "출금 가능한 주소입니다."
+msgstr ""
+
+msgid "출금요청"
+msgstr ""
+
+msgid "보안 비밀번호 입력"
 msgstr ""
