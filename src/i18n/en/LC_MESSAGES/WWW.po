@@ -961,3 +961,279 @@ msgstr "Write an Inquiry"
 
 msgid "작성하기"
 msgstr "Write"
+
+msgid "입금액을 입력해주세요."
+msgstr "Please enter the deposit amount."
+
+msgid "입금자 이름을 입력해주세요."
+msgstr "Please enter the name of the depositor."
+
+msgid "입금 신청을 완료했습니다."
+msgstr "You have completed your deposit request."
+
+msgid "입금 신청을 완료하지 못했습니다."
+msgstr "The deposit request could not be completed."
+
+msgid "마이페이지"
+msgstr "My Page"
+
+msgid "보유"
+msgstr "Hold"
+
+msgid "관심"
+msgstr "Attention"
+
+msgid "타입"
+msgstr "Type"
+
+msgid "생산연도"
+msgstr "Date of Prod."
+
+msgid "현재가"
+msgstr "Price"
+
+msgid "전일대비"
+msgstr "24h Change"
+
+msgid "거래대금"
+msgstr "24h Amount"
+
+msgid "고가"
+msgstr "High Price"
+
+msgid "저가"
+msgstr "Low Price"
+
+msgid "거래량(24H)"
+msgstr "24h Volume"
+
+msgid "거래대금(24H)"
+msgstr "24h Amount"
+
+msgid "시간단위"
+msgstr "Unit of Time"
+
+msgid "1일"
+msgstr "1 Day"
+
+msgid "팝니다"
+msgstr "Sell"
+
+msgid "삽니다"
+msgstr "Buy"
+
+msgid "정보"
+msgstr "Information"
+
+msgid "구분"
+msgstr "Division"
+
+msgid "등록일"
+msgstr "Registration Date"
+
+msgid "가격"
+msgstr "Price"
+
+msgid "거래버튼"
+msgstr "Trade Button"
+
+msgid "구매 등록"
+msgstr "Buy"
+
+msgid "판매 등록"
+msgstr "Sell"
+
+msgid "생산"
+msgstr "Produce"
+
+msgid "인증"
+msgstr "Certification"
+
+msgid "차 소개"
+msgstr "Tea Introduction"
+
+msgid "구매하기"
+msgstr "Buy"
+
+msgid "다음과 같이 구매하였습니다"
+msgstr "Purchased as:"
+
+msgid "대상"
+msgstr "Target"
+
+msgid "구매가능금액"
+msgstr "Available for Buy"
+
+msgid "판매하기"
+msgstr "Sell"
+
+msgid "판매가능수량"
+msgstr "Available for Sell"
+
+msgid "입체스캔"
+msgstr "3D Scan"
+
+msgid "백서"
+msgstr "White Paper"
+
+msgid "분류"
+msgstr "Classification"
+
+msgid "원산지"
+msgstr "Origin"
+
+msgid "생산자"
+msgstr "Producer"
+
+msgid "생산년도"
+msgstr "Year of Production"
+
+msgid "중량"
+msgstr "Weight"
+
+msgid "맛"
+msgstr "Taste"
+
+msgid "향"
+msgstr "Incense"
+
+msgid "품종"
+msgstr "Kind"
+
+msgid "차수령"
+msgstr "Tea Tree Age"
+
+msgid "가격동향"
+msgstr "Price Trend"
+
+msgid "가치성"
+msgstr "Value"
+
+msgid "희소성"
+msgstr "Scarcity"
+
+msgid "대중성"
+msgstr "Popularity"
+
+msgid "마시는 방법"
+msgstr "How to Drink"
+
+msgid "보관방법/유통기한"
+msgstr "Storage Method/Expiry Date"
+
+msgid "스토리"
+msgstr "Story"
+
+msgid "티마스터 품평"
+msgstr "Tea Master Review"
+
+msgid "생산자 노트"
+msgstr "Producer's Note"
+
+msgid "평점"
+msgstr "Grade"
+
+msgid "개"
+msgstr "ea."
+
+msgid "평균가격"
+msgstr "Average Price"
+
+msgid "다음과 같이 판매등록이 완료되었습니다."
+msgstr "Sales registration has been completed as follows."
+
+msgid "등록하기"
+msgstr "Registration"
+
+msgid "01"
+msgstr "01"
+
+msgid "초기화"
+msgstr "Initialization"
+
+msgid "USD"
+msgstr "USD"
+
+msgid "Create Address"
+msgstr "Address Generation"
+
+msgid "거래소 상품을 구매하기 위해서는 거래소 지갑에 입금을 하셔야 합니다."
+msgstr "To purchase exchange products, you must deposit money into the exchange wallet."
+
+msgid "입금정보를 저장 후 입금용 주소로 이채하시면 담당자가 확인 후 입금처리 됩니다."
+msgstr "After saving the deposit information, transfer it to the deposit address, and the deposit will be processed after confirmation by the person in charge."
+
+msgid "잔액"
+msgstr "Balance"
+
+msgid "입금액"
+msgstr "Deposit Amount"
+
+msgid "입금자 이름"
+msgstr "Depositor Name"
+
+msgid "입금하기"
+msgstr "Deposit"
+
+msgid "출금안내"
+msgstr "Withdrawal Information"
+
+msgid "kikdda@kikdda.com"
+msgstr "kikdda@kikdda.com"
+
+msgid "출금 (비트코인 주소) 주소"
+msgstr "Withdrawal (Bitcoin Address) Address"
+
+msgid "출금하실 주소를 입력해주세요."
+msgstr "Please enter the address to withdraw money from."
+
+msgid "잘못 된 주소입니다."
+msgstr "Invalid Address."
+
+msgid "출금 가능한 주소입니다."
+msgstr "This is an address where you can withdraw money."
+
+msgid "출금요청"
+msgstr "Withdrawal Request"
+
+msgid "보안 비밀번호 입력"
+msgstr "Enter Your Security Password"
+
+msgid "데이터가 없음"
+msgstr "No data"
+
+msgid "페이지당 _MENU_ 개씩 보기"
+msgstr "View _MENU_ per page"
+
+msgid "현재 _START_ - _END_ / _TOTAL_건"
+msgstr "Current _START_ - _END_ / _TOTAL_"
+
+msgid "_MAX_건의 데이터에서 필터링됨"
+msgstr "Filtered from _MAX_ cases of data"
+
+msgid "검색"
+msgstr "Search"
+
+msgid "로딩중..."
+msgstr "Loading..."
+
+msgid "잠시만 기다려 주세요."
+msgstr "Please wait for a moment."
+
+msgid "이전"
+msgstr "Before"
+
+msgid "판매완료"
+msgstr "Sold Out"
+
+msgid "구매완료"
+msgstr "Purchase Complete"
+
+msgid "거래중"
+msgstr "Trading"
+
+msgid "대기"
+msgstr "Waiting"
+
+msgid "백만"
+msgstr "Million"

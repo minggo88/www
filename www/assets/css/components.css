@@ -162,15 +162,15 @@
     height: 24px;
     background: url('../img/icon/icon-chat-alt.svg') no-repeat 50%;
 }
-.icon-refresh{
-    width: 24px;
-    height: 24px;
-    background: url('../img/icon/icon-Refresh.svg') no-repeat 50%;
-}
 .icon-search {
     width: 14px;
     height: 14px;
     background: url('../img/icon/icon-search.svg') no-repeat 50%;
+}
+.icon-refresh{
+    width: 24px;
+    height: 24px;
+    background: url('../img/icon/icon-Refresh.svg') no-repeat 50%;
 }
 [class^=ico-] {
     width: 16.79px;
@@ -690,6 +690,7 @@ form .form--header h1 {
 .accordion .accordion--item:not(.accordion--open) .accordion--header{
     border-radius: 4px;
 }
+
 .accordion .accordion--item:not(:last-child) {
     margin-bottom: 12px;
 }
@@ -699,6 +700,7 @@ form .form--header h1 {
 }
 .accordion .accordion--item.accordion--open .accordion--header {
     border-bottom: 0.35px solid #BDC4CB;
+	border-radius: 4px 4px 0 0;
 }
 .accordion .accordion--item .accordion--header {
     height: 55.59px;
@@ -815,13 +817,14 @@ form .form--header h1 {
     left: 0;
     background: var(--white);
     border: 1px solid #DFDFDF;
-    border-radius: 6px;
+    border-radius: 5px;
     text-align: center;
     /* padding-top: 9px; */
     box-sizing: border-box;
     z-index: 29;
     max-height: 300px;
     overflow-y: auto;
+	box-sizing: border-box;
 }
 .dropdown+.dropdown--item  span {
     position: relative;
@@ -932,6 +935,12 @@ form .form--header h1 {
     -moz-appearance: textfield;
 }
 
+
+/* .validation--message {
+        padding: 0 0 0 24px;
+        background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat 0 50%;
+        color: var(--warning);
+    } */
 .validation--message {
     width: 100%;
     padding: 14px 10px 14px 40px;
@@ -940,9 +949,14 @@ form .form--header h1 {
     letter-spacing: -0.15px;
     color: var(--white);
     font-weight: 500;
-    position: relative;
+    position: relative; 
     box-sizing: border-box;
     word-break: keep-all;
+}
+
+.validation--message.subtract{
+    background: url('../img/icon/ico-subtract.svg') no-repeat 0 50%;
+	color: #34C759;
 }
 
 .validation--message p {
@@ -2165,9 +2179,14 @@ input[type=file].image-selector::after{
 @media (max-width: 600px) { 
     .validation--message {
         padding: 0 0 0 24px;
-        background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat;
+        background: transparent url('../img/icon/ico-warn-pink.svg') no-repeat 0 50%;
         color: var(--warning);
     }
+	.validation--message.subtract{
+		padding: 0 0 0 24px;
+        background: transparent url('../img/icon/ico-subtract.svg') no-repeat 0 50%;
+        color: #34C759;
+	}
     /* .step--list {
         top: -30px;
         left: 50%;

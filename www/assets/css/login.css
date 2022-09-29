@@ -1,9 +1,6 @@
 main {
     height: calc(100% - 60px);
 }
-/* header { 
-    height: 60px;
-} */
 
 .login main > section{
 	display: block;
@@ -17,14 +14,7 @@ main {
     margin-bottom: 40px;
 }
 
-.create-account .grid--code {
-	margin-top: 75px;
-	margin-bottom: 75px
-}
 
-.create-account div.grid--code {
-	align-self: center;
-}
 
 .tttt {
     margin-bottom: 53 px;
@@ -46,9 +36,6 @@ main {
 	display: none;
 }
 .login .find--password {
-	/* margin-top: 56px;
-	align-self: center !important;
-	justify-content: center !important; */
 	color: var(--basic-gray) !important;
 	letter-spacing: 0.15px;
 }
@@ -62,12 +49,13 @@ main {
 	background-size: 7.42px 14.02px;
 }
 
-.login.forget form{position: relative;}
-.login.forget form .btn{position: absolute; left: 50%; transform: translateX(-50%); bottom: 0;}
 
-.login.forget form .grid--code{
-	margin-top: 75px; 
-	margin-bottom: 88px;
+.create-account .grid--code {
+	margin-top: 75px;
+	margin-bottom: 75px
+}
+
+.create-account div.grid--code {
 	align-self: center;
 }
 
@@ -114,12 +102,11 @@ main {
 .create-account .step--list{top: inherit;}
 .create-account section .step--list{top: 0;}
 
-
-
 @media screen and (max-width: 1300px) {
-	.create-account main{flex-direction: column;}
+	.create-account main{
+		flex-direction: column;
+	}
 
-	
 	.create-account .step--list{
 		width: 340px;
 		position: static;
@@ -150,10 +137,6 @@ main {
 		line-height: 22px;
 		font-size: 14px;
 	}
-
-
-
-
 }
 
 
@@ -163,37 +146,33 @@ main {
 	}
 }
 
-
-
 @media screen and (max-width: 800px) {
+	.create-account > header,
+	.login > header{
+		display: none;
+	}
+
 	.create-account .box-mobile-menu{
 		display: none;
 	}
 	.login main{
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		justify-content: center;
-		
+		padding: 0!important;
 	}
-	
+	.login form{height: auto;}
+
 	.create-account main{
 		align-items: center;
 		justify-content: flex-start;
-		padding: 15px 16px 56px 16px;
+		padding: 15px 16px 56px 16px!important;
 	}
 	
-	.login.forget form .grid--code{
-		margin-top: 48px; 
-		margin-bottom: 64px;
-	}
-	.login.forget form div.flex-self-left{
-		align-self: center;
-	}
 	form .form--header h1 {
         color: var(--basic-black);
     }
 
-	.login form{height: auto;}
 	.create-account .guide .guide--step .guide--desc {
 		font-size: 12px;
 		color: #777777;
@@ -212,7 +191,6 @@ main {
 	}
 	
 	.create-account section .step--list{
-		/* margin-top: 30px; */
 		position: absolute;
 		top: 0px;
 		
@@ -237,25 +215,25 @@ main {
 		font-size: 0px;
 	}
 
+	.sub.login.create-account .step--list{
+		width: initial;
+		position: absolute;
+		top: inherit;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
 	.create-account div.form--controls:nth-child(1){
 		margin-top: 30px!important;
 	}
 	.login main > section > form{padding-top: 30px;}
-
 }
 
 @media screen and (max-width: 600px) {
 	.login main{display: flex;}
 	
 	.email {margin-bottom: 8px;}
-    /* .create-account .grid--code {
-        margin-top: 48px;
-        margin-bottom: 64px
-    } */
 
-	.create-account main{
-		padding: 15px 16px 56px 16px!important;
-	}
     .create-account .tttt {
         align-self: center;
     }
@@ -279,9 +257,84 @@ main {
         background: url('../img/icon/icon-next.svg') no-repeat 50%;
         background-size: 7.42px 14.02px;
     }
-	.form--btns{margin-top: 54px;}
+	/* .form--btns{margin-top: 54px;} */
+	/* .login.forget .validation--message{
+		background: transparent url(../img/icon/ico-warn-pink.svg) no-repeat 2px 5px;
+	} */
+	/* .login.forget form{height: 416px;} */
+}
+
+
+/* forget 비밀번호 찾기 */
+.login.forget form .grid--code{
+	margin-top: 75px; 
+	margin-bottom: 88px;
+	align-self: center;
+}
+@media screen and (max-width: 800px) {
+	.login.forget > header{
+		display: none;
+	}
+
+	.login.forget main{
+		padding: 15px 16px 0px 16px!important;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+	.forget .content_wrap{
+		height: 100vh;
+	}
+	
+	/* .forget main{
+		padding-bottom: 0!important;
+	} */
+	.login.forget form{
+		width: 100%;
+		height: 100vh;
+		position: relative;
+	}
+
+	.login.forget .form--btns{
+		margin-top: 0!important;
+	}
+	.login.forget form .btn{
+		position: absolute; 
+		left: 50%; 
+		transform: translateX(-50%); 
+		bottom: 40px;
+	}
+
+	.forget form .form--header{
+		display: flex;
+		line-height: 60px; 
+		padding-left: 0;
+		margin-bottom: 20px;
+	}
+	
+
+	.forget form .form--header h1{
+		background: none;
+		margin-left: 10px;
+	}
+
+	.forget .navigation--back{height: 60px;}
+
+	.forget form .grid--code{
+		margin-top: 48px; 
+		margin-bottom: 64px;
+	}
+	.forget form div.flex-self-left{
+		align-self: center;
+	}
+
+	.forget form .form--controls input{
+		margin-bottom: 20px;
+	}
+
+}
+
+@media screen and (max-width: 600px) {
 	.login.forget .validation--message{
 		background: transparent url(../img/icon/ico-warn-pink.svg) no-repeat 2px 5px;
 	}
-	.login.forget form{height: 416px;}
 }

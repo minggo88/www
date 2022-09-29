@@ -207,7 +207,7 @@
 					</div>
 					<div class="details--body">
 						<div class="d-flex" styl="flex-direction: column">
-							<span class="details--price">0 원</span>
+							<span class="details--price">0 <span>KRW</span></span>
 							<span class="d-flex text-bold" style="margin-left: 10px; align-items: flex-end"><span data-i18n>전일대비</span> <span class="details--diffPercent text--medium text--bold " style="margin-left: 5px">0% </span></span>
 							<span class="details--diff text--bold d-flex" style="margin-left: 8px; align-items: flex-end">
 								<img src="about:blank" alt="" width="9" height="8.22" style="margin-right: 4px; margin-bottom: 8px">
@@ -372,8 +372,8 @@
 										</tr>
 									</table>
 									<div class="btns">
-										<button type="button" class="btn btn--white" data-toggle="modal" data-target="#scan">입체스캔</button>
-										<button type="button" class="btn btn--white" data-toggle="modal" data-target="#white-paper">백서</button>
+										<button type="button" class="btn btn--white" data-toggle="modal" data-target="#scan" data-i18n>입체스캔</button>
+										<button type="button" class="btn btn--white" data-toggle="modal" data-target="#white-paper" data-i18n>백서</button>
 									</div>
 								</div>
 							</div>
@@ -398,11 +398,11 @@
 					</dl>
 					<dl>
 						<dt data-i18n>수량</dt>
-						<dd><span class="volume">0</span> 개</dd>
+						<dd><span class="volume">0</span> <span data-i18n>개</span></dd>
 					</dl>
 					<dl>
 						<dt data-i18n>총액</dt>
-						<dd><span class="total">0</span> 원</dd>
+						<dd><span class="total">0</span> <span>KRW</span></dd>
 					</dl>
 					<div class="text--center" style="margin-top: 80px">
 						<button type="button" class="btn btn--white" onclick="$('#modal-buy-success').myModal('hide')" data-i18n>확인</button>
@@ -413,7 +413,6 @@
 		<form id="modal-buy" class="modal modal--tiny form-order" tabindex="-1">
 			<input type="hidden" name="symbol" value="">
 			<input type="hidden" name="exchange" value="">
-			<input type="hidden" name="orderid" value="">
 			<div class="modal--dialog">
 				<div class="modal--header">
 					<span data-i18n>구매하기</span>
@@ -425,7 +424,7 @@
 					<div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px" name="orderid"></div>
 					<dl class="tea--" style="margin-bottom: 18px">
 						<dt data-i18n>구매가능금액</dt>
-						<dd class="tea--available" style="display: block;">0 원</dd>
+						<dd class="tea--available" style="display: block;">0 <span>KRW</span></dd>
 					</dl>
 					<dl>
 						<dt data-i18n>가격</dt>
@@ -457,15 +456,65 @@
 							</div>
 						</dd>
 					</dl>
-					<div class="text--center" style="margin-top: 32px"><input type="submit" value="구매하기" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"></div>
+					<div class="text--center" style="margin-top: 32px"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>구매하기</button></div>
 				</div>
 			</div>
 		</form>
+        <form id="modal-buy-direct" class="modal modal--tiny form-order" tabindex="-1">
+            <input type="hidden" name="symbol" value="">
+            <input type="hidden" name="exchange" value="">
+			<input type="hidden" name="orderid" value="">
+            <div class="modal--dialog">
+                <div class="modal--header">
+					<span data-i18n>구매하기</span>
+                    <button type="button" class="btn btn--close"></button>
+                </div>
+                <div class="modal--content">
+                    <i class="btn btn--star--on"></i>
+                    <span class="tea--name size--18"><!-- 상품이름 --></span>
+                    <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px" name="orderid"></div>
+                    <dl class="tea--" style="margin-bottom: 18px">
+                        <dt data-i18n>구매가능금액</dt>
+                        <dd class="tea--available" style="display: block;">0</dd>
+                    </dl>
+                    <dl>
+                        <dt data-i18n>가격</dt>
+                        <dd>
+                            <div class="input">
+                                <input type="number" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value" readonly>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="tea--volume">
+                        <dt data-i18n>수량</dt>
+                        <dd>
+                            <div class="input--spiner">
+                                <input type="number" name="volume" value="0" min="0" step="any">
+                                <div class="d-flex">
+                                    <button type="button" class="spiner-minus"></button>
+                                    <button type="button" class="spiner-plus"></button>
+                                </div>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="tea--price">
+                        <dt data-i18n>총액</dt>
+                        <dd >
+                            <div class="input">
+                                <input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
+								<div type="button" class="btn btn--gray" style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;" data-i18n>원</div>
+                            </div>
+                        </dd>
+                    </dl>
+                    <div class="text--center" style="margin-top: 32px"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>구매하기</button></div>
+
+                </div>
+            </div>
+        </form>
 		
 		<form id="modal-sell" class="modal modal--tiny form-order">
 			<input type="hidden" name="symbol" value="">
 			<input type="hidden" name="exchange" value="">
-			<input type="hidden" name="orderid" value="">
 			<div class="modal--dialog">
 				<div class="modal--header">
 					<span data-i18n>판매하기</span>
@@ -508,11 +557,10 @@
 							</div>
 						</dd>
 					</dl>
-					<div class="text--center" style="margin-top: 32px"><input type="submit" value="판매하기" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"></div>
+					<div class="text--center" style="margin-top: 32px"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>판매하기</button></div>
 				</div>
 			</div>
 		</form>
-		
         <form id="modal-sell-direct" class="modal modal--tiny form-order" tabindex="-1">
             <input type="hidden" name="symbol" value="">
             <input type="hidden" name="exchange" value="">
@@ -534,7 +582,7 @@
                         <dt data-i18n>가격</dt>
                         <dd style="width: 220px">
                             <div class="input">
-                                <input type="number" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value" readonly disabled>
+                                <input type="number" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value" readonly>
                             </div>
                         </dd>
                     </dl>
@@ -559,57 +607,7 @@
                             </div>
                         </dd>
                     </dl>
-                    <div class="text--center" style="margin-top: 32px"><input type="submit" value="판매하기" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px"></div>
-
-                </div>
-            </div>
-        </form>
-        <form id="modal-buy-direct" class="modal modal--tiny form-order" tabindex="-1">
-            <input type="hidden" name="symbol" value="">
-            <input type="hidden" name="exchange" value="">
-            <div class="modal--dialog">
-                <div class="modal--header">
-					<span data-i18n>구매하기</span>
-                    <button type="button" class="btn btn--close"></button>
-                </div>
-                <div class="modal--content">
-                    <i class="btn btn--star--on"></i>
-                    <span class="tea--name size--18"><!-- 상품이름 --></span>
-                    <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px" name="orderid"></div>
-                    <dl class="tea--" style="margin-bottom: 18px">
-                        <dt data-i18n>구매가능금액</dt>
-                        <dd class="tea--available" style="display: block;">0</dd>
-                    </dl>
-                    <dl>
-                        <dt data-i18n>가격</dt>
-                        <dd>
-                            <div class="input">
-                                <input type="number" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value" readonly disabled>
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl class="tea--volume">
-                        <dt data-i18n>수량</dt>
-                        <dd>
-                            <div class="input--spiner">
-                                <input type="number" name="volume" value="0" min="0" step="any">
-                                <div class="d-flex">
-                                    <button type="button" class="spiner-minus"></button>
-                                    <button type="button" class="spiner-plus"></button>
-                                </div>
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl class="tea--price">
-                        <dt data-i18n>총액</dt>
-                        <dd >
-                            <div class="input">
-                                <input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
-								<div type="button" class="btn btn--gray" style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;" data-i18n>원</div>
-                            </div>
-                        </dd>
-                    </dl>
-                    <div class="text--center" style="margin-top: 32px"><input type="submit" value="구매하기" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"></div>
+                    <div class="text--center" style="margin-top: 32px"><button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n>판매하기</button></div>
 
                 </div>
             </div>
@@ -804,11 +802,11 @@
 					</dl>
 					<dl>
 						<dt data-i18n>평균가격</dt>
-						<dd><span name="order_price">0</span> <span data-i18n>원</span></dd>
+						<dd><span name="order_price">0</span> <span>KRW</span></dd>
 					</dl>
 					<dl>
 						<dt data-i18n>총액</dt>
-						<dd><span name="order_amount">0</span> <span data-i18n>원</span></dd>
+						<dd><span name="order_amount">0</span> <span>KRW</span></dd>
 					</dl>
 				</div>
 				<div class="text--center" style="margin-top: 32px"><input type="submit" value="확인" class="btn btn--white flex-self-center" style="height: 40px; line-height: 40px"></div>
@@ -832,11 +830,11 @@
 					</dl>
 					<dl>
 						<dt data-i18n>평균가격</dt>
-						<dd><span name="order_price">0</span> <span data-i18n>원</span></dd>
+						<dd><span name="order_price">0</span> <span>KRW</span></dd>
 					</dl>
 					<dl>
 						<dt data-i18n>총액</dt>
-						<dd><span name="order_amount">0</span> <span data-i18n>원</span></dd>
+						<dd><span name="order_amount">0</span> <span>KRW</span></dd>
 					</dl>
 				</div>
 				<div class="text--center" style="margin-top: 32px"><input type="submit" value="확인" class="btn btn--white flex-self-center" style="height: 40px; line-height: 40px"></div>
