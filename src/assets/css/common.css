@@ -57,6 +57,7 @@ a:focus,
 a:visited {
     color: var(--basic-black);
     text-decoration: none;
+    cursor: pointer;
 }
 
 p {
