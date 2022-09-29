@@ -249,7 +249,7 @@ div.dts div.dataTables_scrollBody {
 
 
 
-	.side--panel .tabs {
+	/* .side--panel .tabs {
         border-bottom: 4px solid var(--lightgray);
         height: 36px;
         box-sizing: border-box;
@@ -274,7 +274,7 @@ div.dts div.dataTables_scrollBody {
     }
     .details {
         display: none;
-    }
+    } */
 }
 
 

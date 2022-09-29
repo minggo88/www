@@ -501,6 +501,12 @@
 	padding-left: 0;
 }
 
+.sub.detail .contents .board--body .board--subject h1{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 .sub.detail .contents .board--body .board--subject h1 > span{
 	vertical-align: bottom; margin-right: 5px;
 }
@@ -510,6 +516,7 @@
     border: 0.35px solid rgba(189, 196, 203, .6);
     min-height: 377px;
     margin-bottom: 23px;
+	font-size: 14px;
 }
 .sub.detail .contents .board--body .board--btn  {
     display: flex;
@@ -551,7 +558,7 @@
 		margin-top: 24px;
     }
 	.sub.detail .contents .board--body .board--subject {
-		height: 54px;
+		/* height: 54px; */
 		line-height: 26px;
 		font-size: 18px;
 		margin-bottom: 16px;
@@ -559,6 +566,7 @@
 
 	.sub.detail .contents .board--body .board--subject h1 {
 		font-size: 18px;
+		margin: 0;
 	}
 	
 	.sub.detail .contents .board--body .board--subject h1 > span{
@@ -575,16 +583,12 @@
 		border: none;
 		border-top: 0.35px solid rgba(189, 196, 203, .6);
 		background: transparent;
+		font-size: 12px;
 	}
 	.sub.detail .contents .board--meta .board--author{margin-right: 0;}
 	.sub.detail .desktop-only{display: none!important;}
 }
 
-@media screen and (max-width: 600px){
-	.sub.detail main header.contents--header{line-height: 48px;}
-	.sub.detail .navigation--back{height: 48px;}
-	.sub.detail .btn{margin-top: 30px;}
-}
 
 /* ###################################################### */
 /* 자주묻는 질문 faq */
