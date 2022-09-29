@@ -68,7 +68,7 @@
   const displayChart = async (target_id, symbol, exchange, period) => {
 
     symbol = symbol || '';
-    exchange = exchange || 'USD';
+    exchange = exchange || 'KRW';
     period = period || '1d';
     // document.body.style.position = 'relative';
 
