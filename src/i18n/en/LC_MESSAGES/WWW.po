@@ -987,7 +987,7 @@ msgid "타입"
 msgstr "Type"
 
 msgid "생산연도"
-msgstr "Date of Prod."
+msgstr "Production"
 
 msgid "현재가"
 msgstr "Price"
