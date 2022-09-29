@@ -172,6 +172,25 @@
     height: 24px;
     background: url('../img/icon/icon-Refresh.svg') no-repeat 50%;
 }
+
+.icon-transaction{
+	width: 24px;
+    height: 24px;
+    background: url('../img/icon/icon-transaction-red.svg') no-repeat 50%;
+	background-size: contain;
+}
+
+.icon-alarm{
+	width: 24px;
+    height: 24px;
+    background: url('../img/icon/icon-alarm.svg') no-repeat 50%;
+}
+
+.icon-setting{
+	width: 24px;
+    height: 24px;
+    background: url('../img/icon/icon-setting.svg') no-repeat 50%;
+}
 [class^=ico-] {
     width: 16.79px;
     height: 14.9px;
