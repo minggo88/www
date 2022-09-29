@@ -837,7 +837,7 @@
 }
 
 
-#inquiry .mobile-only > li{
+#inquiry .notification--list > li:not(.board--empty,.board--search){
 	padding-top: 25px;
 	height: 75px;
 	display: flex;
@@ -846,42 +846,53 @@
 	box-shadow: 0px 4px 4px -4px #e2e2e2;
 }
 
-#inquiry .mobile-only > li > div{
+
+#inquiry .notification--list .board--empty div,
+#inquiry .notification--list .board--search div {
+    height: calc(100vh - 100px);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #F9FAFB;
+}
+
+#inquiry .notification--list > li:not(.board--empty,.board--search) > div{
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 }
 
-#inquiry .mobile-only > li div.number{
+#inquiry .notification--list > li div.number{
 	font-weight: 500;
 	font-size: 14px;
 	color: #333;
 	line-height: 20px;
 }
-#inquiry .mobile-only > li div.number > span{vertical-align: inherit; margin-right:5px;}
+#inquiry .notification--list > li div.number > span{vertical-align: inherit; margin-right:5px;}
 
-#inquiry .mobile-only > li div.date{
+#inquiry .notification--list > li div.date{
 	display: flex;
 	flex-direction: row;
 	
 }
 
-#inquiry .mobile-only > li div.date > p{
+#inquiry .notification--list > li div.date > p{
 	margin: 7px 0 20px;
 }
 
-#inquiry .mobile-only > li p.day > span{
+#inquiry .notification--list > li p.day > span{
 	vertical-align: initial; 
 	margin-left: 5px; 
 	margin-right: 20px;
 }
-#inquiry .mobile-only > li p.text-red{font-weight: 700; font-size: 13px; vertical-align: middle;}
-#inquiry .mobile-only > li > p{margin: 0;}
-#inquiry .mobile-only > li > .notification--content{
+#inquiry .notification--list > li p.text-red{font-weight: 700; font-size: 13px; vertical-align: middle;}
+#inquiry .notification--list > li > p{margin: 0;}
+#inquiry .notification--list > li > .notification--content{
 	align-items: flex-end;
 	margin-top: 0;
 }
-#inquiry .mobile-only > li > .notification--content .btn{
+#inquiry .notification--list > li > .notification--content .btn{
 	display: inline-block; 
 	max-width: 72px; 
 	font-weight: 500; 
