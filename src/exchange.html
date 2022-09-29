@@ -141,60 +141,100 @@
 				</ul>
 			</div>
 		</header>
+		<aside class="mobile-panel">
+			<button type="button" class="navigation--back" onclick="$('.mobile-panel').hide(); return false"></button>
+			<h1 class="size--20" data-i18n>계정 관리</h1>
+			<ul>
+				<li>
+					<a href="member-account.html" data-i18n>정보 수정</a>
+				</li>
+				<li>
+					<a href="my-verification.html" data-i18n>ID 인증 관리</a>
+				</li>
+				<li>
+					<a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+				</li>
+				<li>
+					<a href="change-account-number.html" data-i18n>출금계좌 변경</a>
+				</li>
+				<!-- <li>
+					<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
+				</li> -->
+			</ul>
+			<h1 class="size--20" data-i18n>지갑 관리</h1>
+			<ul>
+				<li>
+					<a href="wallet.html"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
+				</li>
+				<li>
+					<a href="wallet-deposit.html"><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+				</li>
+				<li>
+					<a href="wallet-withdrawal.html"><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+				</li>
+				<li>
+					<a href="wallet-analysis.html"><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
+				</li>
+			</ul>
+		</aside>
         <div class="content_wrap">
 			<main class="d-grid">
 				<div class="contents mobile-only">
-					<div class="contents--header">
-						<button type="button" class="navigation"></button>
-						<h1 data-i18n>거래소</h1>
-					</div>
+					<header class="contents--header">
+						<div>
+							<button type="button" class="navigation"></button>
+							<h1 data-i18n>거래소</h1>
+						</div>
+						<div class="mobile-only">
+							<i class="icon-alarm"></i>
+							<i class="icon-setting"></i>
+						</div>
+					</header>
 				</div>
-				<div class="side--panel">
-					<div style="height: 979px;">
-						<div class="tab-wrapper">
-							<div style="border-bottom: 1px solid var(--linegray)">
-								<ul class="tabs">
-									<li class="tab--active">
-										<button type="button" id="tab_all_item" name="tab_item" data-target="all" data-i18n>전체</button>
-									</li>
-									<li>
-										<button type="button" id="tab_hold_item" name="tab_item" data-target="hold" data-i18n>보유</button>
-									</li>
-									<li>
-										<button type="button" id="tab_wish_item" name="tab_item" data-target="wish" data-i18n>관심</button>
-									</li>
-								</ul>
-							</div>
-							<div class="tab--content">
-								<table id="jqGrid" class="grid-table">
-									<colgroup>
-										<col width="160">
-										<col width="64">
-										<col width="76">
-										<col width="84">
-										<col width="76">
-										<col width="105">
-									</colgroup>
-									<thead>
-										<tr>
-											<th class="name" data-i18n>이름</th>
-											<th class="meta_type" data-i18n>타입</th>
-											<th class="meta_wp_production_date" data-i18n>생산연도</th>
-											<th class="price" data-i18n>현재가</th>
-											<th data-i18n>전일대비</th>
-											<th data-i18n>거래대금</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+				<div class="side--panel" >	<!--     -->
+					<div class="tab-wrapper">
+						<div style="border-bottom: 1px solid var(--linegray)">
+							<ul class="tabs">
+								<li class="tab--active">
+									<button type="button" id="tab_all_item" name="tab_item" data-target="all" data-i18n>전체</button>
+								</li>
+								<li>
+									<button type="button" id="tab_hold_item" name="tab_item" data-target="hold" data-i18n>보유</button>
+								</li>
+								<li>
+									<button type="button" id="tab_wish_item" name="tab_item" data-target="wish" data-i18n>관심</button>
+								</li>
+							</ul>
+						</div>
+						<div class="tab--content">
+							<table id="jqGrid" class="grid-table">
+								<colgroup>
+									<col width="160">
+									<col width="64">
+									<col width="76">
+									<col width="84">
+									<col width="76">
+									<col width="105">
+								</colgroup>
+								<thead>
+									<tr>
+										<th class="name" data-i18n>이름</th>
+										<th class="meta_type" data-i18n>타입</th>
+										<th class="meta_wp_production_date" data-i18n>생산연도</th>
+										<th class="price" data-i18n>현재가</th>
+										<th data-i18n>전일대비</th>
+										<th data-i18n>거래대금</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -206,7 +246,7 @@
 						<small><!-- BING DO RAW PUER TEA CAKE --></small>
 					</div>
 					<div class="details--body">
-						<div class="d-flex" styl="flex-direction: column">
+						<div class="d-flex"> <!-- style="flex-direction: column" -->
 							<span class="details--price">0 <span>KRW</span></span>
 							<span class="d-flex text-bold" style="margin-left: 10px; align-items: flex-end"><span data-i18n>전일대비</span> <span class="details--diffPercent text--medium text--bold " style="margin-left: 5px">0% </span></span>
 							<span class="details--diff text--bold d-flex" style="margin-left: 8px; align-items: flex-end">
@@ -214,20 +254,20 @@
 								<span id="spot-diff" class="text--bold">0</span>
 							</span>
 						</div>
-						<div class="d-grid grid-2-column" style="width: 392px; column-gap: 20px; font-weight: 400;">
-							<div>
+						<div class="d-grid grid-2-column" style="column-gap: 20px; font-weight: 400;" >
+							<div style="height:fit-content; overflow:hidden;">
 								<div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
 									<span data-i18n>고가</span> <span id="highest-price" class="text--red">0</span>
 								</div>
-								<div class="row d-flex" style="justify-content: space-between; height: 22px; ">
+								<div class="row d-flex under" style="justify-content: space-between; height: 22px; margin-bottom: 0;">
 									<span data-i18n>저가</span> <span id="lowest-price" class="text--blue">0</span>
 								</div>
 							</div>
-							<div>
+							<div style="height:fit-content; overflow:hidden;">
 								<div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
 									<span data-i18n>거래량(24H)</span> <div><span id="spot-volume">0</span> <span class="text--blue-gray">KRW</span></div>
 								</div>
-								<div class="row d-flex"  style="justify-content: space-between; height: 22px;">
+								<div class="row d-flex under"  style="justify-content: space-between; height: 22px; margin-bottom: 0;">
 									<span data-i18n>거래대금(24H)</span> <div><span id="spot-volume2">0</span> <span class="text--blue-gray">KRW</span></div>
 								</div>
 							</div>
@@ -264,7 +304,6 @@
 						</div> -->
 					</div>
 					<div id="tvchart"></div>
-					
 					<div style="height: 509px">
 						<div class="tab-wrapper">
 							<div class="" style="border-bottom: 1px solid var(--linegray)">
@@ -867,7 +906,7 @@
 			</div>
 		</div>
     </div>
-    <footer class="desktop-only">
+    <!-- <footer class="desktop-only">
 		<div class="footer_inner">
 			<div class="logo">Teaplat</div>
 			<nav class="fnb">
@@ -898,11 +937,11 @@
 					<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
 				</div>
 			</nav>
-			<!-- <span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
+			<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
 			<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
-			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span> -->
+			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 		</div>
-	</footer>
+	</footer> -->
 	<script src="./assets/js/exchange.js?t={version}" defer></script>
     <script src="./assets/js/app.js?t={version}"></script>
 </body>
