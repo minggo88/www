@@ -133,8 +133,8 @@ jQuery(function () {
                     tr.append(`<td class="${status_class}">${status_str}</td>`);
                     tr.append(`<td>${regDate_ymd}</td>`);
                     
-                    m_btn = item?.rplcontents ? '' : '<a data-idx="'+item.idx+'" class="btn btn--gray btn--rounded btn--modify">'+__('수정하기')+'</a>';
-                    eLink = $('<td>'+m_btn+'</td>').on('click', edit_post);
+                    const m_btn = item?.rplcontents ? '' : '<a data-idx="'+item.idx+'" class="btn btn--gray btn--rounded btn--modify">'+__('수정하기')+'</a>';
+                    const eLink = $('<td>'+m_btn+'</td>').on('click', edit_post);
                     tr.append(eLink);
                     tr.appendTo('.board--list tbody')
 
@@ -148,7 +148,6 @@ jQuery(function () {
                     $div.append($title)
                         .append(`<div class="date"><p class="day" style="padding-right:20px">${regDate_ymdhi}</p><p class="${status_class}">${status_str}</p></div>`)
                     $li.append($div)
-                    
                     const eLink_m = $('<div class="notification--content">'+m_btn+'</div>').on('click', edit_post);
                     $li
                     .append(eLink_m)
