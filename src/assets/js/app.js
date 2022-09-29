@@ -1442,7 +1442,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     /* Controller ----------------------------------------------------------------------------------- */
 
-    const fn_index = function() {
+    const fn_index = function () {
+        
+        $(".icon--help").hover(function(){
+            $(".pop_up").show();
+        },function(){
+            $(".pop_up").hide();
+        });
+        
         API.getBBSList('notice', 1, 5, (resp) => {
             if(resp.success) {
                 $('#notice--list').empty()
