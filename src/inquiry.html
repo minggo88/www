@@ -156,7 +156,7 @@
 						<button type="button" class="navigation--back"></button>
 						<h1 data-i18n>Direct Inquiry</h1>
 					</div>
-					<div class="mobile-only"><a href="#write" name="btn-write" class="btn" data-i18n>문의하기</a></div>
+					<div class="mobile-only"><a name="btn-write" class="btn" data-i18n>문의하기</a></div>
 				</header>
 				<table class="board--list desktop-only">
 					<colgroup>
@@ -192,11 +192,11 @@
 				<nav class="board--pagination desktop-only">
 					<ul>
 						<li class="pagination--prev">
-							<a href="#none" data-i18n>이전 페이지</a>
+							<a data-i18n>이전 페이지</a>
 						</li>
-						<li><a href="">1</a></li>
+						<li><a>1</a></li>
 						<li class="pagination--next">
-							<a href="#none" data-i18n>다음 페이지</a>
+							<a data-i18n>다음 페이지</a>
 						</li>
 					</ul>
 				</nav>
@@ -210,7 +210,7 @@
 							</div>
 						</div>
 						<div class="notification--content">
-							<a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a>
+							<a class="btn btn--gray btn--rounded btn--modify">수정하기</a>
 						</div>
 					</li>
 					<li>
@@ -221,7 +221,7 @@
 								<p class="text-red">답변완료</p>
 							</div>
 						</div>
-						<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+						<p><a class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
 					</li>
 					<li>
 						<div>
@@ -231,7 +231,7 @@
 								<p class="text-red">답변완료</p>
 							</div>
 						</div>
-						<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+						<p><a class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
 					</li>
 					<li>
 						<div>
@@ -241,10 +241,10 @@
 								<p class="text-red">답변완료</p>
 							</div>
 						</div>
-						<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
+						<p><a class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
 					</li> -->
 				</ul>
-				<div class="board--btn desktop-only"><a href="#write" class="btn btn--red btn--write" name="btn-write" data-i18n>문의하기</a></div>
+				<div class="board--btn desktop-only"><a class="btn btn--red btn--write" name="btn-write" data-i18n>문의하기</a></div>
 			</section>
 			<section class="contents" id="inquiry_detail" style="display: none;">
 				<header class="contents--header">
@@ -252,7 +252,7 @@
 						<button type="button" class="navigation--back"></button>
 						<h1 data-i18n>Direct Inquiry</h1>
 					</div>
-					<div class="mobile-only"><a href="#write" class="btn" name="btn-write" data-i18n>문의하기</a></div>
+					<div class="mobile-only"><a class="btn" name="btn-write" data-i18n>문의하기</a></div>
 				</header>
 				<table class="inquiry--body desktop-only">
 					<colgroup>
@@ -317,9 +317,9 @@
 					</dd>
 				</dl>
 				<div class="board--btn">
-					<a href="#" class="btn btn--gray btn--list" name="btn_list" data-i18n>목록</a>
-					<a href="#edit" name="btn-modify" id="btn_modify" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
-					<a href="#write" name="btn-write" class="btn btn--red btn--write" data-i18n>문의하기</a>
+					<a class="btn btn--gray btn--list" name="btn_list" data-i18n>목록</a>
+					<a name="btn-modify" id="btn_modify" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
+					<a name="btn-write" class="btn btn--red btn--write" data-i18n>문의하기</a>
 				</div>
 			</section>
 			<section class="contents" id="inquiry_write" style="display: none;">
@@ -344,7 +344,7 @@
 						<textarea id="contents" name="contents" placeholder="문의내용을 입력하세요" required></textarea>
 					</div>
 					<div class="board--btn desktop-only" style="justify-content: center">
-						<a href="#" class="btn btn--gray btn--list" name="btn_list" data-i18n>목록</a>
+						<a class="btn btn--gray btn--list" name="btn_list" data-i18n>목록</a>
 						<button class="btn btn--red btn--write" data-i18n>작성하기</button>
 					</div>
 				</form>
@@ -355,6 +355,11 @@
     <script src="./assets/js/app.js?t={version}"></script>
 	<script>
 		// let page = window.location.hash.replace('#','')
+
+		// 해시이동 중지
+		$('section a').on('click', function(){
+			return false;
+		});
 
 		let USER_INFO = {}
 		API.getMyInfo((resp) => {
@@ -384,6 +389,18 @@
 			}
 		})
 
+		const show_section = function(page){
+			$('#inquiry_write').hide();
+			$('#inquiry_detail').hide();
+			$('#inquiry').hide();
+
+			page = page=='list' ? '' : page;
+			page = page ? '_'+page : '';
+			$('#inquiry'+page).show();
+		}
+
+		let selected_item = null;
+
 		let pagination = {
 			point: 0,
 		}
@@ -394,7 +411,7 @@
 			$('.board--list').addClass('loading')
 			API.getM2MList(page, (resp) => {
 				$('.board--list').removeClass('loading')
-				console.log(resp)
+				// console.log(resp)
 				if(resp.success && resp?.payload?.data && resp?.payload?.data?.length>0) {
 					$('.board--list tbody').empty()
 					$('.notification--list').empty()
@@ -405,79 +422,93 @@
 					console.log(pageCount)
 					console.log(no)
 					resp.payload.data.map((item) => {
-						const tr = $('<tr>')
-						const li = $('<li>')
-						const inquiry = $("#inquiry tbody tr")
-						const inquiryDetail = $("#inquiry_detail .inquiry--body tbody tr")
-						const icon = ''
-						const regDate = new Date(parseInt(item.regdate) * 1000)
-						const rplDate = new Date(parseInt(item.rpldate) * 1000)
-						tr.append(`<td>${no}</td>`)
 
-						const aLink = $(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
-						tr.append(aLink);
-
-						let status_class = ''
-						let status_str = ''
-						if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== "0"){
-								status_class = "text-red"
-								status_str = "답변완료"
-						}else{
-							status_class = "text--gray005"
-							status_str = "답변대기중"
-						}
-
-						tr.append(`<td class="${status_class}">${status_str}</td>`);
-						tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
-
-						m_aLink = $(`<td><a href="#edit-${item.idx}" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
-						tr.append(m_aLink);
-						
-						tr.appendTo('.board--list tbody')
-
-						li.append(`<div class="notification--header">
-							<div class="number">[ <span>${no}</span>] <span>${item.subject}</span></div>
-							<div class="date">
-								<p class="day" style="padding-right:20px">${regDate.getFullYear()}.${String(regDate.getMonth()+1).padStart(2, '0')}.${String(regDate.getDate()).padStart(2, '0')} ${String(regDate.getMinutes()).padStart(2, '0')}:${String(regDate.getSeconds()).padStart(2, '0')}</p>
-								<p class="${status_class}">${status_str}</p>
-							</div>`);
-						li.append(`<div class="notification--content"><a href="#edit-${item.idx}"class="btn btn--gray btn--rounded btn--modify">수정하기</a></div>`);
-						li.appendTo('.notification--list')
-
-						no--;
-
-						aLink.click(function(){
-							// let no = resp.payload.total - ((page - 1)*pageCount);
-							$("#inquiry").hide();
-							$("#inquiry_detail").show();
-
+						// 상세보기버튼
+						const view_post = function(){
+							console.log(item)
+							selected_item = item;
+							show_section('detail');
 							$("#pcTitle").html(`${item.subject}`);
 							$("#pcRgdate").html(item.regdate?date('Y-m-d H:i', item.regdate):'')
 							$("#pcContents").html(`${item.contents}`);
 							$("#pcRplDate").html(item.rpldate?date('Y-m-d H:i', item.rpldate):'')
 							$("#pcRplcontents").html(`${item.rplcontents}`);
 							
-
 							$("#mTitle").html(`${item.subject}`);
 							$("#mauthor").html(`${item.author}`);
-							$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+							$("#mRgdate").html(item.regdate?date('Y-m-d', item.regdate):'')
 							$("#mContents").html(`${item.contents}`);
 							$("#mRplDate").html(item.rpldate?date('Y-m-d H:i', item.rpldate):'')
 							$("#mRplcontents").html(`${item.rplcontents}`);
 
-							// no--;
-						})
-
-						// 수정버튼
-						m_aLink.on('click', function(){
+							if(item?.rplcontents) {
+								$('[name="btn-modify"]').attr('disabled',true).hide();
+							} else {
+								$('[name="btn-modify"]').attr('disabled',false).show();
+							}
+						}
+						// 수정하기 버튼
+						const edit_post = function(){
 							console.log(item.contents);
 							$('#inquiry_write [name=idx]').val(item.idx)
 							$('#inquiry_write [name=subject]').val(item.subject)
 							$('#inquiry_write [name=contents]').val(item.contents)
-							$('#inquiry_write').show();
-							$('#inquiry').hide();
+							show_section('write');
 							return false;
-						})
+						}
+
+						// PC 화면 용
+
+						const tr = $('<tr>')
+						const inquiry = $("#inquiry tbody tr")
+						const inquiryDetail = $("#inquiry_detail .inquiry--body tbody tr")
+						const icon = ''
+						const regDate = new Date(parseInt(item.regdate) * 1000)
+						const regDate_ymd = date('Y-m-d', item.regdate);
+						const regDate_ymdhi = date('Y-m-d H:i', item.regdate);
+						const rplDate = new Date(parseInt(item.rpldate) * 1000)
+						const rplDate_str = date('Y-m-d H:i', item.rpldate);
+						tr.append(`<td>${no}</td>`)
+
+						const v_btn = '<a data-idx="'+item.idx+'">'+item.subject+'</a>';
+						let aLink = $('<td>'+v_btn+'</td>').on('click', view_post);
+						tr.append(aLink);
+
+						let status_class = ''
+						let status_str = ''
+						if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== "0"){
+								status_class = "text-red"
+								status_str = __("답변완료")
+						}else{
+							status_class = "text--gray005"
+							status_str = __("답변대기중")
+						}
+
+						tr.append(`<td class="${status_class}">${status_str}</td>`);
+						tr.append(`<td>${regDate_ymd}</td>`);
+						
+						m_btn = item?.rplcontents ? '' : '<a data-idx="'+item.idx+'" class="btn btn--gray btn--rounded btn--modify">'+__('수정하기')+'</a>';
+						eLink = $('<td>'+m_btn+'</td>').on('click', edit_post);
+						tr.append(eLink);
+						tr.appendTo('.board--list tbody')
+
+						// 모바일 화면 용
+
+						const $li = $('<li>')
+						const $div = $('<div class="notification--header"></div>');
+						const $title = $(`<div class="number">[ <span>${no}</span>] </div>`)
+						let aLink_m = $('<span>'+v_btn+'</span>').on('click', view_post);
+						$title.append(aLink_m);
+						$div.append($title)
+							.append(`<div class="date"><p class="day" style="padding-right:20px">${regDate_ymdhi}</p><p class="${status_class}">${status_str}</p></div>`)
+						$li.append($div)
+						
+						const eLink_m = $('<div class="notification--content">'+m_btn+'</div>').on('click', edit_post);
+						$li
+						.append(eLink_m)
+						.appendTo('.notification--list')
+
+						no--;
 					})
 						
 					// $('.board--pagination > ul').empty()
@@ -525,16 +556,27 @@
 			$('#inquiry_write [name=idx]').val('')
 			$('#inquiry_write [name=subject]').val('')
 			$('#inquiry_write [name=contents]').val('')
-			$('#inquiry_write').show();
-			$('#inquiry_detail').hide();
-			$('#inquiry').hide();
+			show_section('write');
+		})
+		// 수정하기
+		$('[name="btn-modify"]').on('click', function(e){
+			if(!USER_INFO || !USER_INFO.userno) {
+				e.preventDefault()
+				alert(__('로그인 해주세요.'));
+				return false;
+			} 
+			if(selected_item?.rplcontents) {
+				return false;
+			}
+			$('#inquiry_write [name=idx]').val(selected_item?.idx||'')
+			$('#inquiry_write [name=subject]').val(selected_item?.subject||'')
+			$('#inquiry_write [name=contents]').val(selected_item?.contents||'')
+			show_section('write');
 		})
 
 		// 목록 이동 버튼
 		$('[name=btn_list]').on('click',function(){
-			$('#inquiry_write').hide();
-			$('#inquiry_detail').hide();
-			$('#inquiry').show();
+			show_section('list');
 			return false;
 		})
 
@@ -567,6 +609,13 @@
 			return false
 		})
 
+		// 글쓰기, 글 수정, 글 보기에서 백버튼은 목록으로 이동
+		$('.navigation--back', '#inquiry_detail, #inquiry_write')
+		.off('click')
+		.on('click', function(){
+			show_section('list');
+			return false;
+		})
 
 	</script>
 

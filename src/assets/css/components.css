@@ -234,6 +234,7 @@
     font-weight: 700;
     text-align: center;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 .btn.btn--block {
