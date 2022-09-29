@@ -410,6 +410,32 @@
 				</div>
 			</div>
 		</div>
+		<div id="modal-sell-success" class="modal modal--tiny" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<span data-i18n>판매하기</span>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content modal--result">
+					<div class="size--18 text--center" data-i18n>다음과 같이 판매되었습니다.</div>
+					<dl>
+						<dt data-i18n>대상</dt>
+						<dd class="tea--name"></dd>
+					</dl>
+					<dl>
+						<dt data-i18n>수량</dt>
+						<dd><span class="volume">0</span> <span data-i18n>개</span></dd>
+					</dl>
+					<dl>
+						<dt data-i18n>총액</dt>
+						<dd><span class="total">0</span> <span>KRW</span></dd>
+					</dl>
+					<div class="text--center" style="margin-top: 80px">
+						<button type="button" class="btn btn--white" onclick="$('#modal-sell-success').myModal('hide')" data-i18n>확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<form id="modal-buy" class="modal modal--tiny form-order" tabindex="-1">
 			<input type="hidden" name="symbol" value="">
 			<input type="hidden" name="exchange" value="">
