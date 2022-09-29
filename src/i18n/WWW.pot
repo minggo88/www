@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-28 16:09+0900\n"
+"POT-Creation-Date: 2022-09-29 20:00+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1237,3 +1237,42 @@ msgstr ""
 
 msgid "백만"
 msgstr ""
+
+msgid "분"
+msgstr ""
+
+msgid "시간"
+msgstr ""
+
+msgid "일"
+msgstr ""
+
+msgid "주"
+msgstr ""
+
+msgid "답변완료"
+msgstr ""
+
+msgid "답변대기중"
+msgstr ""
+
+msgid "로그인 해주세요."
+msgstr ""
+
+msgid "등록하지 못했습니다."
+msgstr ""
+
+msgid "다음과 같이 판매되었습니다."
+msgstr ""
+
+msgid "조회중입니다."
+msgstr ""
+
+msgid "등록"
+msgstr ""
+
+msgid "지수"
+msgstr "지수"
+
+msgid "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
+msgstr "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
