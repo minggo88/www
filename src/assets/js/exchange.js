@@ -28,14 +28,17 @@ API.getMyInfo((resp) => {
 })
 
 let USER_WALLET = {}
-API.getTradeBalance('ALL','',(r) => {
-    if (r && r.success) {
-        const payload = r.payload
-        for (row of payload) {
-            USER_WALLET[row.symbol] = row
+const set_user_wallet = function () {
+    API.getTradeBalance('ALL','',(r) => {
+        if (r && r.success) {
+            const payload = r.payload
+            for (row of payload) {
+                USER_WALLET[row.symbol] = row
+            }
         }
-    }
-})
+    })
+}
+set_user_wallet();
 
 let CURRENCY_INFO = [];
 let SELECTED_SYMBOL = '';  //'G4K95O56R2'
@@ -92,16 +95,16 @@ $(function() {
     // const detailsWidth = $('main').width() - sidePanelWidth - 30
 	const detailsWidth = $('.details').width()
     const periodList = [
-        { text: '1분', value: '1m' },
-        { text: '3분', value: '3m' },
-        { text: '3분', value: '3m' },
-        { text: '5분', value: '5m' },
-        { text: '10분', value: '10m' },
-        { text: '15분', value: '15m' },
-        { text: '1시간', value: '1h' },
-        { text: '12시간', value: '12h' },
-        { text: '1일', value: '1d' },
-        { text: '1주', value: '1w' },
+        { text: '1'+__('분'), value: '1m' },
+        { text: '3'+__('분'), value: '3m' },
+        { text: '3'+__('분'), value: '3m' },
+        { text: '5'+__('분'), value: '5m' },
+        { text: '10'+__('분'), value: '10m' },
+        { text: '15'+__('분'), value: '15m' },
+        { text: '1'+__('시간'), value: '1h' },
+        { text: '12'+__('시간'), value: '12h' },
+        { text: '1'+__('일'), value: '1d' },
+        { text: '1'+__('주'), value: '1w' },
     ]
     periodList.map((period) => {
         $('#period').dropdown('add', period )
@@ -665,7 +668,7 @@ $(function() {
                     const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
                     const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'about:blank');
 
-                    $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2).format() + SELECTED_EXCHANGE).removeClass('text-red text-blue').addClass(diff_text)
+                    $('.details--price').html('' + parseFloat(spot.price_close).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
                     $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').siblings('img').attr('src', diff_icon)
@@ -1059,23 +1062,6 @@ $('[name=tab_item]').on('click', function () {
 
 
 $(function() { 
-    $('#modal-sell').submit(e => {
-        e.preventDefault()
-
-        API.sell($('#modal-sell').serializeObject(), (resp) => {
-            if(resp.success) {
-                $('#modal-sell').myModal('hide')
-
-                $('#modal-sell-success .tea--name').text(SELECTED_NAME)
-                $('#modal-sell-success .volume').text($('#modal-sell [name=volume]').val().format())
-                $('#modal-sell-success').myModal('show')
-            } else {
-                alert(resp.error.message)
-            }
-        })
-        return false
-    })
-
     $('.form-order').on('input', _e => {
         $form = $(_e.target).closest('form')
         const price = parseFloat($form.find('[name=price]').val())
@@ -1103,7 +1089,6 @@ $(function() {
             const name = SELECTED_NAME
             const modal = $('#modal-buy-direct')
             const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
-
             modal.find('.tea--available').text('' + real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
             modal.find('[name=orderid]').val(orderid)
             modal.find('[name=symbol]').val(symbol)
@@ -1116,30 +1101,60 @@ $(function() {
         })
         .submit(e => {
             e.preventDefault()
-
             API.buyDirect($('#modal-buy-direct').serializeObject(), (resp) => {
-                if(resp.success) {
+                if (resp.success) {
+                    set_user_wallet();
                     $('#modal-buy-direct').myModal('hide')
-
                     const price = parseFloat($('#modal-buy-direct [name=price]').val())
                     const volume = parseFloat($('#modal-buy-direct [name=volume]').val())
-
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
                     $('#modal-buy-success .total').text(real_number(price * volume))
                     $('#modal-buy-success').myModal('show')
-
                     // 판매목록 갱신
                     sellGrid.ajax.reload(null, false);
                 } else {
                     alert(resp.error.message)
                 }
-
             })
-
             return false
         })
-    $('#modal-sell-direct')
+    $('#modal-buy')
+        .myModal('beforeOpen', _e => {
+            const modal = $('#modal-buy')
+            const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
+
+            modal.find('.tea--available').text(real_number_format(cnt_buyable))
+            modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
+            modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
+            modal.find('[name=orderid]').text('')
+            modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
+            modal.find('[name=volume]').val('')
+            modal.find('[name=total]').val('0')
+            modal.find('.tea--name').text(SELECTED_NAME)
+        })
+        .submit(e => {
+            e.preventDefault()
+            API.buy($('#modal-buy').serializeObject(), (resp) => {
+                if(resp.success) {
+                    set_user_wallet();
+                    $('#modal-buy').myModal('hide')
+                    const price = parseFloat($('#modal-buy [name=price]').val())
+                    const volume = parseFloat($('#modal-buy [name=volume]').val())
+                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
+                    $('#modal-buy-success .volume').text(volume.format())
+                    $('#modal-buy-success .total').text(real_number(price * volume))
+                    $('#modal-buy-success').myModal('show')
+                    // 구매목록 갱신
+                    buyGrid.ajax.reload(null, false);
+                } else {
+                    alert(resp.error.message)
+                }
+            })
+            return false
+        })
+    
+        $('#modal-sell-direct')
         .myModal('beforeOpen', (_event, btn) => {
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
@@ -1161,67 +1176,29 @@ $(function() {
         })
         .submit(e => {
             e.preventDefault()
-
             API.sellDirect($('#modal-sell-direct').serializeObject(), (resp) => {
-                if(resp.success) {
+                if (resp.success) {
+                    const payload = resp.payload;
+                    set_user_wallet();
                     $('#modal-sell-direct').myModal('hide')
-                    $('#alert-sell').myModal('show')
-                    
+                    const price = payload.order_price
+                    const volume = payload.volume
+                    $('#modal-sell-success .tea--name').text(SELECTED_NAME)
+                    $('#modal-sell-success .volume').text(volume.format())
+                    $('#modal-sell-success .total').text(real_number(price * volume))
+                    $('#modal-sell-success').myModal('show')
                     // 구매목록 갱신
                     buyGrid.ajax.reload(null, false);
                 } else {
                     alert(resp.error.message)
                 }
             })
-
             return false
         })
-
-    $('#modal-buy')
-        .myModal('beforeOpen', _e => {
-            const modal = $('#modal-buy')
-            const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
-
-            modal.find('.tea--available').text(real_number_format(cnt_buyable))
-            modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
-            modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
-            modal.find('[name=orderid]').text('')
-            modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
-            modal.find('[name=volume]').val('')
-            modal.find('[name=total]').val('0')
-            modal.find('.tea--name').text(SELECTED_NAME)
-        })
-        .submit(e => {
-            e.preventDefault()
-
-            API.buy($('#modal-buy').serializeObject(), (resp) => {
-                if(resp.success) {
-                    $('#modal-buy').myModal('hide')
-
-                    const price = parseFloat($('#modal-buy [name=price]').val())
-                    const volume = parseFloat($('#modal-buy [name=volume]').val())
-
-                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
-                    $('#modal-buy-success .volume').text(volume.format())
-                    $('#modal-buy-success .total').text(real_number(price * volume))
-                    $('#modal-buy-success').myModal('show')
-
-                    // 구매목록 갱신
-                    buyGrid.ajax.reload(null, false);
-                } else {
-                    alert(resp.error.message)
-                }
-
-            })
-
-            return false
-        })
-    
     $('#modal-sell')
         .myModal('beforeOpen', _e => {
             const modal = $('#modal-sell')
             const cnt_sellable = USER_WALLET[SELECTED_SYMBOL]?.confirmed || 0;
-
             modal.find('.tea--available').text(real_number_format(cnt_sellable))
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
             modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
@@ -1233,29 +1210,42 @@ $(function() {
         })
         .submit(e => {
             e.preventDefault()
-
             API.sell($('#modal-sell').serializeObject(), (resp) => {
                 if(resp.success) {
+                    set_user_wallet();
                     $('#modal-sell').myModal('hide')
                     $('#alert-sell').myModal('show')
-                    
                     const price = parseFloat($('#modal-buy [name=price]').val())
                     const volume = parseFloat($('#modal-buy [name=volume]').val())
-
-                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
-                    $('#modal-buy-success .volume').text(volume.format())
-                    $('#modal-buy-success .total').text(real_number(price * volume))
-                    $('#modal-buy-success').myModal('show')
-
+                    $('#modal-sell-success .tea--name').text(SELECTED_NAME)
+                    $('#modal-sell-success .volume').text(volume.format())
+                    $('#modal-sell-success .total').text(real_number(price * volume))
+                    $('#modal-sell-success').myModal('show')
                     // 판매목록 갱신
                     sellGrid.ajax.reload(null, false);
                 } else {
                     alert(resp.error.message)
                 }
             })
-
             return false
         })
+        // $('#modal-sell').submit(e => {
+        //     e.preventDefault()
+    
+        //     API.sell($('#modal-sell').serializeObject(), (resp) => {
+        //         if(resp.success) {
+        //             $('#modal-sell').myModal('hide')
+    
+        //             $('#modal-sell-success .tea--name').text(SELECTED_NAME)
+        //             $('#modal-sell-success .volume').text($('#modal-sell [name=volume]').val().format())
+        //             $('#modal-sell-success').myModal('show')
+        //         } else {
+        //             alert(resp.error.message)
+        //         }
+        //     })
+        //     return false
+        // })
+    
     
     $('#scan')
         .myModal('beforeClose', _e => {
