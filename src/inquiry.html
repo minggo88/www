@@ -156,7 +156,7 @@
 						<button type="button" class="navigation--back"></button>
 						<h1 data-i18n>Direct Inquiry</h1>
 					</div>
-					<div class="mobile-only"><a href="inquiry_write.html" class="btn" data-i18n>문의하기</a></div>
+					<div class="mobile-only"><a href="#write" name="btn-write" class="btn" data-i18n>문의하기</a></div>
 				</header>
 				<table class="board--list desktop-only">
 					<colgroup>
@@ -181,115 +181,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<!-- <tr>
-							<td>1</td>
-							<td><a href="inquiry_detail.html">문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
+						<tr class="board--search">
+							<td colspan="5" data-i18n>조회중입니다.</td>
 						</tr>
-						<tr>
-							<td>2</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>6</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>7</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>8</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>9</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>11</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr>
-						<tr>
-							<td>12</td>
-							<td><a href="inquiry_detail.html">문의합니다.</a></td>
-							<td class="text-red">답변완료</td>
-							<td>2022-01-25</tdclass=>
-							<td>
-								<a href="" class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-							</td>
-						</tr> -->
-						<tr class="board--empty">
+						<tr class="board--empty" style="display:none">
 							<td colspan="5" data-i18n>문의 내용이 없습니다</td>
 						</tr>
 					</tbody>
@@ -349,7 +244,7 @@
 						<p><a href="#none"class="btn btn--gray btn--rounded btn--modify">수정하기</a></p>
 					</li> -->
 				</ul>
-				<div class="board--btn desktop-only"><a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a></div>
+				<div class="board--btn desktop-only"><a href="#write" class="btn btn--red btn--write" name="btn-write" data-i18n>문의하기</a></div>
 			</section>
 			<section class="contents" id="inquiry_detail" style="display: none;">
 				<header class="contents--header">
@@ -357,7 +252,7 @@
 						<button type="button" class="navigation--back"></button>
 						<h1 data-i18n>Direct Inquiry</h1>
 					</div>
-					<div class="mobile-only"><a href onclick="location.href = 'inquiry_write.html'" class="btn" data-i18n>문의하기</a></div>
+					<div class="mobile-only"><a href="#write" class="btn" name="btn-write" data-i18n>문의하기</a></div>
 				</header>
 				<table class="inquiry--body desktop-only">
 					<colgroup>
@@ -422,92 +317,73 @@
 					</dd>
 				</dl>
 				<div class="board--btn">
-					<a href class="btn btn--gray btn--list" onclick="location.href = 'inquiry.html'" data-i18n>목록</a>
-					<a href id="modify_btn" onclick="location.href = '#inquiry_modify'" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
-					<a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a>
+					<a href="#" class="btn btn--gray btn--list" name="btn_list" data-i18n>목록</a>
+					<a href="#edit" name="btn-modify" id="btn_modify" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
+					<a href="#write" name="btn-write" class="btn btn--red btn--write" data-i18n>문의하기</a>
 				</div>
 			</section>
-			<section class="contents" id="inquiry_modify" style="display: none;">
+			<section class="contents" id="inquiry_write" style="display: none;">
 				<header class="contents--header">
 					<div>
 						<button type="button" class="navigation--back"></button>
-						<h1 data-i18n>Direct Inquiry</h1>
+						<h1 class="desktop-only" data-i18n>Direct Inquiry</h1>
+						<h2 class="mobile-only" data-i18n>문의 작성하기</h2>
 					</div>
-					<div class="mobile-only"><a href onclick="location.href = 'inquiry.html'" class="btn" data-i18n>문의하기</a></div>
+					<div class="board--btn mobile-only">
+						<button class="btn btn--write" data-i18n onclick="location.href = 'inquiry.html'">등록</button>
+					</div>
 				</header>
-				<table class="inquiry--body desktop-only">
-					<colgroup>
-						<col style="width:calc(100% * (80 / 839)); min-width:120px;">
-					</colgroup>
-					<tbody>
-						<tr>
-							<th data-i18n>제목</th>
-							<td id="pcTitle"><!-- 문의 사항입니다. --></td>
-						</tr>
-						<tr>
-							<th data-i18n>날짜</th>
-							<td id="pcRgdate"><!-- 2022-06-29 15:38:43 --></td>
-						</tr>
-						<tr>
-							<th data-i18n>내용</th>
-							<td id="pcContents"><!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 --></td>
-						</tr>
-					</tbody>
-				</table>
-				<dl class="inquiry--body mobile-only">
-					<dt id="mTitle"><!-- 문의 사항입니다. --></dt>
-					<dd class="day">
-						<div class="date">
-							<span data-i18n>날짜</span>
-							<span id="mRgdate"><!-- 2022-06-29 15:38:43 --></span>
-						</div>
-						<div class="writer" id="mauthor">작성자</div>
-					</dd>
-					<dd class="inquiryArea" id="mContents">
-						<!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 -->
-					</dd>
-				</dl>
-				<div class="inquiry--reply desktop-only">
-					<h2><span class="text--lightlight-blue">A</span> <span data-i18n>답변</span></h2>
-					<table class="inquiry--body">
-						<colgroup>
-							<col style="width:calc(100% * (80 / 839)); min-width:120px;">
-						</colgroup>
-						<tbody>
-							<tr>
-								<th data-i18n>답변 일자</th>
-								<td id="pcRplDate"><!-- 2022-06-29 15:38:43 --></td>
-							</tr>
-							<tr>
-								<th data-i18n>답변 내용</th>
-								<td id="pcRplcontents"><!-- 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다. 답변입니다.  --></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<dl class="inquiry--reply mobile-only">
-					<dt><span class="text--lightlight-blue">A</span> <span data-i18n>답변</span></dt>
-					<dd class="day">
-						<div class="date">
-							<span data-i18n>날짜</span>
-							<span id="mRplDate"><!-- 2022-06-29 15:38:43 --></span>
-						</div>
-					</dd>
-					<dd class="inquiryArea" id="mRplcontents">
-						<!-- 문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유문의내용이구먼유 -->
-					</dd>
-				</dl>
-				<div class="board--btn">
-					<a href="#" class="btn btn--gray btn--list" onclick="location.href = 'inquiry.html'" data-i18n>목록</a>
-					<a href="" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
-					<a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a>
-				</div>
+				<form action="" method="post" class="board--write">
+					<input type="hidden" id="idx" name="idx" value="">
+					<div class="form--controls border">
+						<label for="subject" class="form--label desktop-only"></label>
+						<input type="text" id="subject" name="subject" placeholder="제목을 입력하세요" required>
+					</div>
+					<div class="form--controls">
+						<label for="contents" class="form--label desktop-only" data-i18n>내용</label>
+						<textarea id="contents" name="contents" placeholder="문의내용을 입력하세요" required></textarea>
+					</div>
+					<div class="board--btn desktop-only" style="justify-content: center">
+						<a href="#" class="btn btn--gray btn--list" name="btn_list" data-i18n>목록</a>
+						<button class="btn btn--red btn--write" data-i18n>작성하기</button>
+					</div>
+				</form>
 			</section>
 		</main>
 	</div>
 
     <script src="./assets/js/app.js?t={version}"></script>
 	<script>
+		// let page = window.location.hash.replace('#','')
+
+		let USER_INFO = {}
+		API.getMyInfo((resp) => {
+			if(resp.success) {
+				const payload = resp.payload
+
+				USER_INFO = {
+					...USER_INFO,
+					userno: payload.userno,
+					userid: payload.userid,
+					phone: payload.phone,
+					mobile: payload.mobile,
+					bool_email: payload.bool_email,
+					bool_sms: payload.bool_sms,
+					regdate: payload.regdate,
+					bank_name: payload.bank_name,
+					bank_account: payload.bank_account,
+					bank_owner: payload.bank_owner,
+				}
+
+				if(USER_INFO.userno) {
+					// $('.nav--side .btn--login').hide()
+					// $('.profile').show()
+					// $('.wallet').show()
+					// $('.profile .dropdown').text(USER_INFO.userid)
+				}
+			}
+		})
+
 		let pagination = {
 			point: 0,
 		}
@@ -518,121 +394,116 @@
 			$('.board--list').addClass('loading')
 			API.getM2MList(page, (resp) => {
 				$('.board--list').removeClass('loading')
-				if(resp.success) {
+				console.log(resp)
+				if(resp.success && resp?.payload?.data && resp?.payload?.data?.length>0) {
 					$('.board--list tbody').empty()
 					$('.notification--list').empty()
 					
 					$('.inquiry--body tbody tr td').empty()
 					$('.inquiry--reply tbody tr td').empty()
-						let no = resp.payload.total - ((page - 1)*pageCount);
-						console.log(pageCount)
-						console.log(no)
-						resp.payload.data.map((item) => {
-							const tr = $('<tr>')
-							const li = $('<li>')
-							const inquiry = $("#inquiry tbody tr")
-							const inquiryDetail = $("#inquiry_detail .inquiry--body tbody tr")
-							const icon = ''
-							const regDate = new Date(parseInt(item.regdate) * 1000)
-							const rplDate = new Date(parseInt(item.rpldate) * 1000)
-							tr.append(`<td>${no}</td>`)
-							const aLink = tr.append(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
+					let no = resp.payload.total - ((page - 1)*pageCount);
+					console.log(pageCount)
+					console.log(no)
+					resp.payload.data.map((item) => {
+						const tr = $('<tr>')
+						const li = $('<li>')
+						const inquiry = $("#inquiry tbody tr")
+						const inquiryDetail = $("#inquiry_detail .inquiry--body tbody tr")
+						const icon = ''
+						const regDate = new Date(parseInt(item.regdate) * 1000)
+						const rplDate = new Date(parseInt(item.rpldate) * 1000)
+						tr.append(`<td>${no}</td>`)
 
+						const aLink = $(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
+						tr.append(aLink);
 
-							let status_class = ''
-							let status_str = ''
-							if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== "0"){
-									status_class = "text-red"
-									status_str = "답변완료"
-							}else{
-								status_class = "text--gray005"
-								status_str = "답변대기중"
-							}
+						let status_class = ''
+						let status_str = ''
+						if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== "0"){
+								status_class = "text-red"
+								status_str = "답변완료"
+						}else{
+							status_class = "text--gray005"
+							status_str = "답변대기중"
+						}
 
-							tr.append(`<td class="${status_class}">${status_str}</td>`);
+						tr.append(`<td class="${status_class}">${status_str}</td>`);
+						tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
 
-							tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
-							tr.append(`<td><a href="#${item.idx}" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
-							tr.appendTo('.board--list tbody')
+						m_aLink = $(`<td><a href="#edit-${item.idx}" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
+						tr.append(m_aLink);
+						
+						tr.appendTo('.board--list tbody')
 
-							li.append(`<div class="notification--header">
-								<div class="number">[ <span>${no}</span>] <span>${item.subject}</span></div>
-								<div class="date">
-									<p class="day" style="padding-right:20px">${regDate.getFullYear()}.${String(regDate.getMonth()+1).padStart(2, '0')}.${String(regDate.getDate()).padStart(2, '0')} ${String(regDate.getMinutes()).padStart(2, '0')}:${String(regDate.getSeconds()).padStart(2, '0')}</p>
-									<p class="${status_class}">${status_str}</p>
-								</div>`);
-							const m_aLink = li.append(`<div class="notification--content">
-												<a href="#${item.idx}"class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-											</div>`);
-							li.appendTo('.notification--list')
+						li.append(`<div class="notification--header">
+							<div class="number">[ <span>${no}</span>] <span>${item.subject}</span></div>
+							<div class="date">
+								<p class="day" style="padding-right:20px">${regDate.getFullYear()}.${String(regDate.getMonth()+1).padStart(2, '0')}.${String(regDate.getDate()).padStart(2, '0')} ${String(regDate.getMinutes()).padStart(2, '0')}:${String(regDate.getSeconds()).padStart(2, '0')}</p>
+								<p class="${status_class}">${status_str}</p>
+							</div>`);
+						li.append(`<div class="notification--content"><a href="#edit-${item.idx}"class="btn btn--gray btn--rounded btn--modify">수정하기</a></div>`);
+						li.appendTo('.notification--list')
 
-							no--;
+						no--;
 
-								m_aLink.click(function(){
-									$("#inquiry").hide();
-									$("#inquiry_detail").show();
+						aLink.click(function(){
+							// let no = resp.payload.total - ((page - 1)*pageCount);
+							$("#inquiry").hide();
+							$("#inquiry_detail").show();
 
-									$("#mTitle").html(`${item.subject}`);
-									$("#mauthor").html(`${item.author}`);
-									$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
-									$("#mContents").html(`${item.contents}`);
-									$("#mRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
-									$("#mRplcontents").html(`${item.rplcontents}`);
-
-									$("#pcTitle").html(`${item.subject}`);
-									$("#pcRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
-									$("#pcContents").html(`${item.contents}`);
-									$("#pcRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
-									$("#pcRplcontents").html(`${item.rplcontents}`);
-								})
-
-								aLink.click(function(){
-									let no = resp.payload.total - ((page - 1)*pageCount);
-									$("#inquiry").hide();
-									$("#inquiry_detail").show();
-
-									$("#pcTitle").html(`${item.subject}`);
-									$("#pcRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
-									$("#pcContents").html(`${item.contents}`);
-									$("#pcRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
-									$("#pcRplcontents").html(`${item.rplcontents}`);
-									
-
-									$("#mTitle").html(`${item.subject}`);
-									$("#mauthor").html(`${item.author}`);
-									$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
-									$("#mContents").html(`${item.contents}`);
-									$("#mRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
-									$("#mRplcontents").html(`${item.rplcontents}`);
-
-									no--;
+							$("#pcTitle").html(`${item.subject}`);
+							$("#pcRgdate").html(item.regdate?date('Y-m-d H:i', item.regdate):'')
+							$("#pcContents").html(`${item.contents}`);
+							$("#pcRplDate").html(item.rpldate?date('Y-m-d H:i', item.rpldate):'')
+							$("#pcRplcontents").html(`${item.rplcontents}`);
 							
-						
-						})
-						
-						
-					})
-					
-				// $('.board--pagination > ul').empty()
-				pagination.point = 0
-				if(page > 1) {
-					$('<li>').addClass('pagination--prev').append(`<a href="#${page}-${page - 1}">이전 페이지</a>`).appendTo('.board--pagination > ul')
-				}
 
-				totalPage = Math.ceil(resp.total / 10)
-				while(pagination.point < pageCount && currentPage + pagination.point <= totalPage) {
-					const page = currentPage + pagination.point
-					pagination.point++
-					$('<li>').append(`<a href="#${page}-${page}">${page}</a>`).appendTo('.board--pagination > ul')
-				}
-				if(page < totalPage) {
-					$('<li>').addClass('pagination--next').append(`<a href="#${page}-${page + 1}">다음 페이지</a>`).appendTo('.board--pagination > ul')
-				}
-					if(!resp.payload.total) {
-					$('<tr>').addClass('board--empty').append('<td colspan="5">문의 내용이 없습니다</td>').appendTo('.board--list tbody')
-				}
+							$("#mTitle").html(`${item.subject}`);
+							$("#mauthor").html(`${item.author}`);
+							$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+							$("#mContents").html(`${item.contents}`);
+							$("#mRplDate").html(item.rpldate?date('Y-m-d H:i', item.rpldate):'')
+							$("#mRplcontents").html(`${item.rplcontents}`);
+
+							// no--;
+						})
+
+						// 수정버튼
+						m_aLink.on('click', function(){
+							console.log(item.contents);
+							$('#inquiry_write [name=idx]').val(item.idx)
+							$('#inquiry_write [name=subject]').val(item.subject)
+							$('#inquiry_write [name=contents]').val(item.contents)
+							$('#inquiry_write').show();
+							$('#inquiry').hide();
+							return false;
+						})
+					})
+						
+					// $('.board--pagination > ul').empty()
+					pagination.point = 0
+					if(page > 1) {
+						$('<li>').addClass('pagination--prev').append(`<a href="#${page}-${page - 1}">이전 페이지</a>`).appendTo('.board--pagination > ul')
+					}
+
+					totalPage = Math.ceil(resp.total / 10)
+					while(pagination.point < pageCount && currentPage + pagination.point <= totalPage) {
+						const page = currentPage + pagination.point
+						pagination.point++
+						$('<li>').append(`<a href="#${page}-${page}">${page}</a>`).appendTo('.board--pagination > ul')
+					}
+					if(page < totalPage) {
+						$('<li>').addClass('pagination--next').append(`<a href="#${page}-${page + 1}">다음 페이지</a>`).appendTo('.board--pagination > ul')
+					}
+						if(!resp.payload.total) {
+						$('<tr>').addClass('board--empty').append('<td colspan="5">문의 내용이 없습니다</td>').appendTo('.board--list tbody')
+					}
 				} else {
 					// alert(resp.error.message)
+
+					$('.board--search').hide();
+					$('.board--empty').show();
+
 				}
 			})
 		}
@@ -644,9 +515,59 @@
 			return false
 		})
 
-		
+		// 새 문의하기
+		$('[name="btn-write"]').on('click', function(e){
+			if(!USER_INFO || !USER_INFO.userno) {
+				e.preventDefault()
+				alert(__('로그인 해주세요.'));
+				return false;
+			} 
+			$('#inquiry_write [name=idx]').val('')
+			$('#inquiry_write [name=subject]').val('')
+			$('#inquiry_write [name=contents]').val('')
+			$('#inquiry_write').show();
+			$('#inquiry_detail').hide();
+			$('#inquiry').hide();
+		})
 
-		
+		// 목록 이동 버튼
+		$('[name=btn_list]').on('click',function(){
+			$('#inquiry_write').hide();
+			$('#inquiry_detail').hide();
+			$('#inquiry').show();
+			return false;
+		})
+
+		// 글 쓰기/수정
+		$('.board--write').on('submit', (e) => {
+			e.preventDefault()
+			if(!USER_INFO || !USER_INFO.userno) {
+				alert(__('로그인 해주세요.'));
+				return false;
+			} 
+			const subject = $.trim($('#subject').val());
+			if(!subject) {
+				alert(__('제목을 입력하세요'));
+				return false;
+			}
+			const contents = $.trim($('#contents').val());
+			if(!contents) {
+				alert(__('문의내용을 입력하세요'));
+				return false;
+			}
+			API.putM2M(subject, contents, $('#idx').val(), (resp) => {
+				if(resp?.success) {
+					location.href = 'inquiry.html'
+				}
+				else {
+					msg = resp?.error?.message || __('등록하지 못했습니다.')
+					alert(msg)
+				}
+			})
+			return false
+		})
+
+
 	</script>
 
 </body>
