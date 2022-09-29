@@ -521,112 +521,116 @@
 				if(resp.success) {
 					$('.board--list tbody').empty()
 					$('.notification--list').empty()
-
+					
 					$('.inquiry--body tbody tr td').empty()
 					$('.inquiry--reply tbody tr td').empty()
-					
-					let no = resp.payload.total - ((page - 1)*pageCount);
-					console.log(pageCount)
-					console.log(no)
-					resp.payload.data.map((item) => {
-						const tr = $('<tr>')
-						const th = $('<th>')
-						const li = $('<li>')
-						const td = $('<td>')
-						const inquiry = $("#inquiry tbody tr")
-						const inquiryDetail = $("#inquiry_detail .inquiry--body tbody tr")
-						const icon = ''
-						const regDate = new Date(parseInt(item.regdate) * 1000)
-						const rplDate = new Date(parseInt(item.rpldate) * 1000)
-						tr.append(`<td>${no}</td>`)
-						const aLink = tr.append(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
+						let no = resp.payload.total - ((page - 1)*pageCount);
+						console.log(pageCount)
+						console.log(no)
+						resp.payload.data.map((item) => {
+							const tr = $('<tr>')
+							const li = $('<li>')
+							const inquiry = $("#inquiry tbody tr")
+							const inquiryDetail = $("#inquiry_detail .inquiry--body tbody tr")
+							const icon = ''
+							const regDate = new Date(parseInt(item.regdate) * 1000)
+							const rplDate = new Date(parseInt(item.rpldate) * 1000)
+							tr.append(`<td>${no}</td>`)
+							const aLink = tr.append(`<td><a href="#${item.idx}">${item.subject}</a></td>`);
 
 
-						let status_class = ''
-						let status_str = ''
-						if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== ""){
-							status_class = "text-red"
-							status_str = "답변완료"
-						}else{
-							status_class = "text--gray005"
-							status_str = "답변대기중"
-						}
+							let status_class = ''
+							let status_str = ''
+							if( `${item.rplcontents}` !== "" &&  `${item.rpldate}` !== "" && `${item.rpldate}` !== "0"){
+									status_class = "text-red"
+									status_str = "답변완료"
+							}else{
+								status_class = "text--gray005"
+								status_str = "답변대기중"
+							}
 
-						
+							tr.append(`<td class="${status_class}">${status_str}</td>`);
 
-						tr.append(`<td class="${status_class}">${status_str}</td>`);
+							tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
+							tr.append(`<td><a href="#${item.idx}" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
+							tr.appendTo('.board--list tbody')
 
-						
-						tr.append(`<td>${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}</td>`);
-						tr.append(`<td><a href="#${item.idx}" class="btn btn--gray btn--rounded btn--modify">수정하기</a></td>`);
-						tr.appendTo('.board--list tbody')
-						
-						li.append(`<div class="notification--header">
-							<div class="number">[ <span>${no}</span>] <span>${item.subject}</span></div>
-							<div class="date">
-								<p class="day" style="padding-right:20px">${regDate.getFullYear()}.${String(regDate.getMonth()+1).padStart(2, '0')}.${String(regDate.getDate()).padStart(2, '0')} ${String(regDate.getMinutes()).padStart(2, '0')}:${String(regDate.getSeconds()).padStart(2, '0')}</p>
-								<p class="${status_class}">${status_str}</p>
-							</div>`);
-						const m_aLink = li.append(`<div class="notification--content">
-											<a href="#${item.idx}"class="btn btn--gray btn--rounded btn--modify">수정하기</a>
-										</div>`);
-						li.appendTo('.notification--list')
-						
-						no--;
-
-						m_aLink.click(function(){
-							$("#inquiry").hide();
-							$("#inquiry_detail").show();
-
-							$("#mTitle").html(`${item.subject}`);
-							$("#mauthor").html(`${item.author}`);
-							$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
-							$("#mContents").html(`${item.contents}`);
-							$("#mRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
-							$("#mRplcontents").html(`${item.rplcontents}`);
-						})
-
-						aLink.click(function(){
-							let no = resp.payload.total - ((page - 1)*pageCount);
-							$("#inquiry").hide();
-							$("#inquiry_detail").show();
-
-							$("#pcTitle").html(`${item.subject}`);
-							$("#pcRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
-							$("#pcContents").html(`${item.contents}`);
-							$("#pcRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
-							$("#pcRplcontents").html(`${item.rplcontents}`);
+							li.append(`<div class="notification--header">
+								<div class="number">[ <span>${no}</span>] <span>${item.subject}</span></div>
+								<div class="date">
+									<p class="day" style="padding-right:20px">${regDate.getFullYear()}.${String(regDate.getMonth()+1).padStart(2, '0')}.${String(regDate.getDate()).padStart(2, '0')} ${String(regDate.getMinutes()).padStart(2, '0')}:${String(regDate.getSeconds()).padStart(2, '0')}</p>
+									<p class="${status_class}">${status_str}</p>
+								</div>`);
+							const m_aLink = li.append(`<div class="notification--content">
+												<a href="#${item.idx}"class="btn btn--gray btn--rounded btn--modify">수정하기</a>
+											</div>`);
+							li.appendTo('.notification--list')
 
 							no--;
 
+								m_aLink.click(function(){
+									$("#inquiry").hide();
+									$("#inquiry_detail").show();
+
+									$("#mTitle").html(`${item.subject}`);
+									$("#mauthor").html(`${item.author}`);
+									$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+									$("#mContents").html(`${item.contents}`);
+									$("#mRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+									$("#mRplcontents").html(`${item.rplcontents}`);
+
+									$("#pcTitle").html(`${item.subject}`);
+									$("#pcRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+									$("#pcContents").html(`${item.contents}`);
+									$("#pcRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+									$("#pcRplcontents").html(`${item.rplcontents}`);
+								})
+
+								aLink.click(function(){
+									let no = resp.payload.total - ((page - 1)*pageCount);
+									$("#inquiry").hide();
+									$("#inquiry_detail").show();
+
+									$("#pcTitle").html(`${item.subject}`);
+									$("#pcRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+									$("#pcContents").html(`${item.contents}`);
+									$("#pcRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+									$("#pcRplcontents").html(`${item.rplcontents}`);
+									
+
+									$("#mTitle").html(`${item.subject}`);
+									$("#mauthor").html(`${item.author}`);
+									$("#mRgdate").html(`${regDate.getFullYear()}-${String(regDate.getMonth()+1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`)
+									$("#mContents").html(`${item.contents}`);
+									$("#mRplDate").html(`${rplDate.getFullYear()}-${String(rplDate.getMonth()+1).padStart(2, '0')}-${String(rplDate.getDate()).padStart(2, '0')}  ${String(rplDate.getMonth()).padStart(2, '0')} : ${String(rplDate.getSeconds()).padStart(2, '0')}`)
+									$("#mRplcontents").html(`${item.rplcontents}`);
+
+									no--;
 							
-						})
-						$("#modify_btn").click(function(){
-							$("#inquiry").hide();
-							$("#inquiry_detail").hide();
-							$("#inquiry_modify").show();
+						
 						})
 						
+						
 					})
+					
+				// $('.board--pagination > ul').empty()
+				pagination.point = 0
+				if(page > 1) {
+					$('<li>').addClass('pagination--prev').append(`<a href="#${page}-${page - 1}">이전 페이지</a>`).appendTo('.board--pagination > ul')
+				}
 
-					// $('.board--pagination > ul').empty()
-					pagination.point = 0
-					if(page > 1) {
-						$('<li>').addClass('pagination--prev').append(`<a href="#${page}-${page - 1}">이전 페이지</a>`).appendTo('.board--pagination > ul')
-					}
-
-					totalPage = Math.ceil(resp.total / 10)
-					while(pagination.point < pageCount && currentPage + pagination.point <= totalPage) {
-						const page = currentPage + pagination.point
-						pagination.point++
-						$('<li>').append(`<a href="#${page}-${page}">${page}</a>`).appendTo('.board--pagination > ul')
-					}
-					if(page < totalPage) {
-						$('<li>').addClass('pagination--next').append(`<a href="#${page}-${page + 1}">다음 페이지</a>`).appendTo('.board--pagination > ul')
-					}
+				totalPage = Math.ceil(resp.total / 10)
+				while(pagination.point < pageCount && currentPage + pagination.point <= totalPage) {
+					const page = currentPage + pagination.point
+					pagination.point++
+					$('<li>').append(`<a href="#${page}-${page}">${page}</a>`).appendTo('.board--pagination > ul')
+				}
+				if(page < totalPage) {
+					$('<li>').addClass('pagination--next').append(`<a href="#${page}-${page + 1}">다음 페이지</a>`).appendTo('.board--pagination > ul')
+				}
 					if(!resp.payload.total) {
-						$('<tr>').addClass('board--empty').append('<td colspan="5">문의 내용이 없습니다</td>').appendTo('.board--list tbody')
-					}
+					$('<tr>').addClass('board--empty').append('<td colspan="5">문의 내용이 없습니다</td>').appendTo('.board--list tbody')
+				}
 				} else {
 					// alert(resp.error.message)
 				}
