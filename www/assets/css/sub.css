@@ -501,6 +501,12 @@
 	padding-left: 0;
 }
 
+.sub.detail .contents .board--body .board--subject h1{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 .sub.detail .contents .board--body .board--subject h1 > span{
 	vertical-align: bottom; margin-right: 5px;
 }
@@ -510,6 +516,7 @@
     border: 0.35px solid rgba(189, 196, 203, .6);
     min-height: 377px;
     margin-bottom: 23px;
+	font-size: 14px;
 }
 .sub.detail .contents .board--body .board--btn  {
     display: flex;
@@ -551,7 +558,7 @@
 		margin-top: 24px;
     }
 	.sub.detail .contents .board--body .board--subject {
-		height: 54px;
+		/* height: 54px; */
 		line-height: 26px;
 		font-size: 18px;
 		margin-bottom: 16px;
@@ -559,6 +566,7 @@
 
 	.sub.detail .contents .board--body .board--subject h1 {
 		font-size: 18px;
+		margin: 0;
 	}
 	
 	.sub.detail .contents .board--body .board--subject h1 > span{
@@ -575,16 +583,12 @@
 		border: none;
 		border-top: 0.35px solid rgba(189, 196, 203, .6);
 		background: transparent;
+		font-size: 12px;
 	}
 	.sub.detail .contents .board--meta .board--author{margin-right: 0;}
 	.sub.detail .desktop-only{display: none!important;}
 }
 
-@media screen and (max-width: 600px){
-	.sub.detail main header.contents--header{line-height: 48px;}
-	.sub.detail .navigation--back{height: 48px;}
-	.sub.detail .btn{margin-top: 30px;}
-}
 
 /* ###################################################### */
 /* 자주묻는 질문 faq */
@@ -784,7 +788,8 @@
     border-bottom: 0.35px solid #BDC4CB;
 
 }
-#inquiry .board--list tbody tr.board--empty td {
+#inquiry .board--list tbody tr.board--empty td,
+#inquiry .board--list tbody tr.board--search td {
     height: 272px;
     line-height: 272px;
     text-align: center;
@@ -832,7 +837,7 @@
 }
 
 
-#inquiry .mobile-only > li{
+#inquiry .notification--list > li:not(.board--empty,.board--search){
 	padding-top: 25px;
 	height: 75px;
 	display: flex;
@@ -841,42 +846,53 @@
 	box-shadow: 0px 4px 4px -4px #e2e2e2;
 }
 
-#inquiry .mobile-only > li > div{
+
+#inquiry .notification--list .board--empty div,
+#inquiry .notification--list .board--search div {
+    height: calc(100vh - 100px);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #F9FAFB;
+}
+
+#inquiry .notification--list > li:not(.board--empty,.board--search) > div{
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 }
 
-#inquiry .mobile-only > li div.number{
+#inquiry .notification--list > li div.number{
 	font-weight: 500;
 	font-size: 14px;
 	color: #333;
 	line-height: 20px;
 }
-#inquiry .mobile-only > li div.number > span{vertical-align: inherit; margin-right:5px;}
+#inquiry .notification--list > li div.number > span{vertical-align: inherit; margin-right:5px;}
 
-#inquiry .mobile-only > li div.date{
+#inquiry .notification--list > li div.date{
 	display: flex;
 	flex-direction: row;
 	
 }
 
-#inquiry .mobile-only > li div.date > p{
+#inquiry .notification--list > li div.date > p{
 	margin: 7px 0 20px;
 }
 
-#inquiry .mobile-only > li p.day > span{
+#inquiry .notification--list > li p.day > span{
 	vertical-align: initial; 
 	margin-left: 5px; 
 	margin-right: 20px;
 }
-#inquiry .mobile-only > li p.text-red{font-weight: 700; font-size: 13px; vertical-align: middle;}
-#inquiry .mobile-only > li > p{margin: 0;}
-#inquiry .mobile-only > li > .notification--content{
+#inquiry .notification--list > li p.text-red{font-weight: 700; font-size: 13px; vertical-align: middle;}
+#inquiry .notification--list > li > p{margin: 0;}
+#inquiry .notification--list > li > .notification--content{
 	align-items: flex-end;
 	margin-top: 0;
 }
-#inquiry .mobile-only > li > .notification--content .btn{
+#inquiry .notification--list > li > .notification--content .btn{
 	display: inline-block; 
 	max-width: 72px; 
 	font-weight: 500; 
@@ -1185,94 +1201,77 @@
 /* ###################################################### */
 /* 수정완료 */
 /* inquiry 1:1 글쓰기 */
+@media screen and (max-width: 1000px){
+	.sub.write .side{display: none;}
+}
 @media screen and (max-width: 800px){
-	.sub.write > header{display: none;}
-	.sub.write main header.contents--header{
+	#inquiry_write .desktop-only{display: none!important;}
+	#inquiry_write .mobile-only{display: block!important;}
+	#inquiry_write .contents--header{
 		line-height: 60px; 
+		height: 60px;
 		margin-bottom: 0;
 		display: flex;
 		align-items: center; 
-		justify-content: space-between;
+		justify-content: flex-start;
+		border-bottom: none;
 	}
-	.sub.write .contents--header > div{display: flex;}
-	.sub.write main header.contents--header h2{
+	
+	#inquiry_write .contents--header h2{
 		margin-top: 0;
 		margin-bottom: 0;
 		font-size: 16px;
-		color: #333;
 	}
 
-	.sub.write .contents--header .mobile-only .btn{
-		text-indent: 100%; 
-		white-space: nowrap; 
-		overflow: hidden; 
-		width: 25px;
-	}
-	.sub.write .contents--header .mobile-only .btn::after{
-		display: block; 
-		content:"등록"; 
-		position: absolute; 
-		font-size: 16px; 
-		color:#BDC4CB;
-		top: 0; 
-		right: 30px;
-		font-family: Inter;
-		line-height: 60px;
-	}
-	.sub.write .contents--header .mobile-only .btn.active::after{
-		color:var(--red-up);
-	}
-	
-	.sub.write .navigation--back{height: 60px;}
-	.sub.write .contents form{margin-top: 20px;}
-	.sub.write main{
+	#inquiry_write .navigation--back{height: 60px;}
+	#inquiry_write .contents form{margin-top: 20px;}
+	#inquiry_write main{
 		display: flex;
 		justify-content: flex-start;
 		padding:0 30px!important;
 	}
-	.sub.write main header.contents--header{
-		display: flex; border-bottom: none;
-	}
-	.sub.write .side{display: none;}
-	.sub.write .desktop-only{display: none!important;}
-	.sub.write .mobile-only{display: block!important;}
-
-	.sub.write .board--write{
+	
+	#inquiry_write .board--write{
 		height: calc(100vh - 60px);
 	}
-	.sub.write .form--controls.border::after{
+	#inquiry_write .form--controls.border::after{
 		content: "";
 		display: block;
 		width: 100%;
-		height: 1px;
+		height: 2px;
 		background: #F5F5F5;
 		margin-top: 24px;
 	}
 
-	.sub.write .board--write .form--controls input,
-	.sub.write .board--write .form--controls textarea
+	#inquiry_write .board--write .form--controls input,
+	#inquiry_write .board--write .form--controls textarea
 	{
 		width: 100%;
 		border: none;
 		background-color: transparent;
 	}
-	.sub.write .board--btn{
+
+	#inquiry_write .board--write .form--controls textarea{
+		height: calc(100vh - 250px);
+		overflow: auto;
+	}
+	
+	#inquiry_write .board--btn{
 		margin-top: 0;
 		position: absolute;
 		left: 0;
 		bottom: 30px;
+		width: 100%;
 	}
-	.sub.write .board--btn{width: 100%;}
-	.sub.write .board--btn .btn{width: 100%;}
+	
+	#inquiry_write .board--btn .btn--list{
+		width: 100%;
+	}
+	#inquiry_write .board--btn .btn--write{
+		width: 100%;
+	}
 }
 
-@media screen and (max-width: 600px){
-	.sub.write main header.contents--header{line-height: 48px;}
-	.sub.write .navigation--back{height: 48px;}
-	.sub.write .contents--header .mobile-only .btn::after{
-		line-height: 48px;
-	}
-}
 
 
 
@@ -1851,9 +1850,11 @@
     display: none;
     position: fixed;
     width: 100%;
-    height: calc(100% - 72px);
+    /* height: calc(100% - 72px); */
+	height: 100%;;
     background: var(--white);
-    padding: 0 0 0 16px;
+    /* padding: 0 0 0 16px; */
+	padding: 20px 0 0 16px;
     z-index: 51;
 }
 

@@ -1,47 +1,50 @@
 .exchange main{
+	display: grid;
 	padding: 0;
-	/* grid-auto-columns: minmax(100px, auto); */
 	grid-template-columns: 2fr 3fr;
-	/* grid-template-columns: var(--SIDE-WIDTH) auto; */
-	column-gap: 30px;
+	column-gap: 1%;
 }
-@media screen and (min-width: 801px) and (max-width: 1440px){
-	.exchange main{
-		display: grid;
-		grid-template-columns: 1fr;
-		column-gap: 0px;
-	}
-	
-}
-
 
 .exchange .tab-wrapper{
 	width: 100%;
 }
-/* #jqGrid_wrapper{
-	height: 250px;
-	overflow-y: auto;
-} */
+
 .exchange .tab--content{
 	clear:both;
 	width: 100%;
 }
 
+#jqGrid thead th{
+	white-space: nowrap;
+}
+
+
 #jqGrid tbody{
 	height: auto;
-	
+	box-sizing: border-box;
 }
-/* .exchange .tab--content .dataTables_wrapper{
-	
-} */
+
+
+#jqGrid tbody tr td{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+#jqGrid tbody tr td > ul{
+	width: 100%;
+}
+
+#jqGrid tbody tr td > ul >li:first-child{
+	padding-top: 0.5em;
+}
+
 .exchange table.dataTable.no-footer{
 	width: 100%!important;
 }
 .exchange .table.dataTable.no-footer tbody{
 	position: relative; 
 	overflow: auto; 
-	/* max-height: 308px; 
-	height: 308px; */ 
 	width: 100%;
 	background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);
 }
@@ -51,10 +54,16 @@ div.dts div.dataTables_scrollBody {
     background: transparent !important;
 }
 
+.side--panel {
+	width: 100%;
+    overflow:auto;
+	/* min-width: 330px; */
+}
 
 .details {
 	width: 100%;
-    overflow:hidden;
+    overflow:auto;
+	min-width: 430px;
 }
 
 .details--header {
@@ -76,12 +85,21 @@ div.dts div.dataTables_scrollBody {
 
 .details--body {
     display: flex;
-    padding: 12px 0 21px 10px;
+    /* padding: 12px 0 21px 10px; */
+	padding: 12px 0 12px 10px;
     justify-content: space-between;
     border-bottom: 0.5px solid var(--linegray);
-    height: 65px;
+    height: 75px;
     box-sizing: border-box;
     /* margin-bottom: 20px; */
+}
+.details--body > div > *{
+	white-space: nowrap;
+}
+
+.details--body > div.d-flex{
+	align-items: center;
+	flex-direction: row;
 }
 
 .details--body .details--price {
@@ -99,7 +117,6 @@ div.dts div.dataTables_scrollBody {
 }
 
 .details .tabs {
-    /* width: 546px; */
 	width: 100%;
     margin: 0 auto;
 }
@@ -112,6 +129,8 @@ div.dts div.dataTables_scrollBody {
 .details .tabs li.tab--active {
     border-bottom: 4px solid var(--red-up) !important
 }
+
+.details .d-grid.grid-2-column{width: 50%;}
 
 /* .details .tabs li.tab--sell.tab--active {
     border-bottom: 4px solid var(--red-up) !important
@@ -216,17 +235,44 @@ div.dts div.dataTables_scrollBody {
     margin-bottom: 40px;
 }
 
+@media screen  and (max-width: 1440px){
+	
+	.details--body .details--price {
+		font-size: 20px;
+	}
+	.details--body{
+		padding-left: 0;
+		flex-direction: column;
+		height: 125px;
+	}
+	.details .d-grid.grid-2-column{
+		align-self: flex-end;
+		width: 80%;
+	}
+	.details .row.d-flex.under{border-bottom: 0.5px solid var(--linegray)}
+}
 
 @media screen and (max-width: 800px) {
 	.sub.exchange > .container >  header{display: none;}
+	.sub.exchange .contents--header{
+		display: flex;
+		justify-content: space-between;
+	}
+	.sub.exchange .contents--header > div{width: 30%;}
+	.sub.exchange .contents--header > div.mobile-only{
+		display: flex!important;
+		justify-content: flex-end
+	}
+	.sub.exchange .contents--header > div.mobile-only > i:first-child{
+		margin-right: 10px;
+	}
 
 	.sub.exchange .desktop-only{display: none!important;}
 	.sub.exchange .mobile-only{display: block!important;}
 
 	.sub.exchange main{
-		padding:0 10px;
-		/* display: flex;
-		flex-direction: column; */
+		padding:0 16px!important;
+		grid-template-columns: 1fr;
 	}
 	.sub.exchange .contents{
 		height: initial;
@@ -235,9 +281,18 @@ div.dts div.dataTables_scrollBody {
 		margin-bottom: 0;
 		line-height: 48px;
 	}
+
+	.sub.exchange .mobile-only.navigation--back{
+		display: inline-block!important;
+		margin-right: 15px;
+	}
+
 	.sub.exchange .contents--header .navigation{
 		height: 48px;
-		margin-right: 5px;
+		margin-right: 15px;
+	}
+	.exchange .details{
+		display: none;
 	}
 
 
@@ -249,7 +304,7 @@ div.dts div.dataTables_scrollBody {
 
 
 
-	.side--panel .tabs {
+	/* .side--panel .tabs {
         border-bottom: 4px solid var(--lightgray);
         height: 36px;
         box-sizing: border-box;
@@ -274,7 +329,7 @@ div.dts div.dataTables_scrollBody {
     }
     .details {
         display: none;
-    }
+    } */
 }
 
 

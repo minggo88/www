@@ -26,16 +26,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1664361712">
+<link rel="stylesheet" href="./assets/css/common.css?t=1664432732">
 <link rel="stylesheet" href="./assets/css/header.css?t=1664350978">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
-<link rel="stylesheet" href="./assets/css/components.css?t=1664191797">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1664341873">
+<link rel="stylesheet" href="./assets/css/components.css?t=1664449744">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1664449744">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/components.js?t=1664191797"></script>
+<script src="./assets/js/components.js?t=1664440787"></script>
 <script src="./assets/js/api.js?t=1664349972"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
@@ -148,14 +148,16 @@
 					</ul>
 				</nav>
 			</aside>
-			<div class="contents">
+			<div class="contents" id="inquiry_write">
 				<header class="contents--header">
 					<div>
 						<button type="button" class="navigation--back"></button>
 						<h1 class="desktop-only" data-i18n>Direct Inquiry</h1>
 						<h2 class="mobile-only" data-i18n>문의 작성하기</h2>
 					</div>
-					<div class="mobile-only"><a href="inquiry_detail.html" class="btn" data-i18n>등록하기</a></div>
+					<div class="board--btn mobile-only">
+						<button class="btn btn--write" data-i18n onclick="location.href = 'inquiry.html'">등록</button>
+					</div>
 				</header>
 				<form action="" method="post" class="board--write">
 					<input type="hidden" id="idx" name="idx" value="">
@@ -167,22 +169,69 @@
 						<label for="contents" class="form--label desktop-only" data-i18n>내용</label>
 						<textarea id="contents" placeholder="문의내용을 입력하세요" required></textarea>
 					</div>
-					<div class="board--btn" style="justify-content: center">
+					<div class="board--btn desktop-only" style="justify-content: center">
 						<button class="btn btn--red btn--write" data-i18n>작성하기</button>
 					</div>
 				</form>
 				<script>
-					if($('#idx').val()) {
+								
+					let USER_INFO = {}
+					API.getMyInfo((resp) => {
+						if(resp.success) {
+							const payload = resp.payload
+
+							USER_INFO = {
+								...USER_INFO,
+								userno: payload.userno,
+								userid: payload.userid,
+								phone: payload.phone,
+								mobile: payload.mobile,
+								bool_email: payload.bool_email,
+								bool_sms: payload.bool_sms,
+								regdate: payload.regdate,
+								bank_name: payload.bank_name,
+								bank_account: payload.bank_account,
+								bank_owner: payload.bank_owner,
+							}
+
+							if(USER_INFO.userno) {
+								// $('.nav--side .btn--login').hide()
+								// $('.profile').show()
+								// $('.wallet').show()
+								// $('.profile .dropdown').text(USER_INFO.userid)
+							}
+						}
+					})
+
+					const post_idx = getURLParameter('post_idx');
+
+					if(post_idx) {
+
 						//API.getM2M()
 					}
 					$('.board--write').on('submit', (e) => {
 						e.preventDefault()
-						API.putM2M($('#subject').val(), $('#contents').val(), $('#idx').val(), (resp) => {
-							if(resp.success) {
+						if(!USER_INFO || !USER_INFO.userno) {
+							alert(__('로그인 해주세요.'));
+							return false;
+						} 
+						const subject = $.trim($('#subject').val());
+						if(!subject) {
+							alert(__('제목을 입력하세요'));
+							return false;
+						}
+						const contents = $.trim($('#contents').val());
+						if(!contents) {
+							alert(__('문의내용을 입력하세요'));
+							return false;
+						}
+						API.putM2M(subject, contents, $('#idx').val(), (resp) => {
+							if(resp?.success) {
 								location.href = 'inquiry.html'
 							}
 							else {
-								alert(resp.error.message)
+								msg = resp?.error?.message || __('등록하지 못했습니다.')
+								alert(msg)
 							}
 						})
 						return false
@@ -192,7 +241,7 @@
 		</main>
 	</div>
 	
-    <script src="./assets/js/app.js?t=1664333383"></script>
+    <script src="./assets/js/app.js?t=1664448980"></script>
 
 </body>
 </html>

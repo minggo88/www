@@ -27,11 +27,11 @@
 <link href="//fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="//fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1664361712">
+<link rel="stylesheet" href="./assets/css/common.css?t=1664432732">
 <link rel="stylesheet" href="./assets/css/header.css?t=1664350978">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
-<link rel="stylesheet" href="./assets/css/components.css?t=1664191797">
-<link rel="stylesheet" href="./assets/css/front.css?t=1663814069">
+<link rel="stylesheet" href="./assets/css/components.css?t=1664449744">
+<link rel="stylesheet" href="./assets/css/front.css?t=1664448838">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
 <!-- JS -->
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -180,57 +180,20 @@
 	<div class="content_wrap">
 		<main class="d-grid grid-3-column">
 			<section class="section section--index">
-				<!-- 지수 표시 부분 일단 잠시 숨깁니다. -->
-				<!-- <div class="section--header" style="height: 30px; line-height: 1">
-					<h1 style="height: 23px" data-i18n>지수<i class="icon--help"></i></h1>
-					<div class="text--price"><span data-bind="selected_spot_price.price_close">0</span> <span data-bind="selected_spot_price.exchange">USD</span></div>
-				</div>
-				<div class="text--info d-flex" style="justify-content: space-between">
-					<div class="text--date" data-bind="chart_info.last_date">-</div>
-					<div class="text--price">
-						<span class="" data-bind="selected_spot_price.price_updown_color" data-format="add-class"><span data-bind="selected_spot_price.price_updown_symbol"></span> <span data-bind="selected_spot_price.price_updown_amount" data-format="comma">0</span></span>
-						<span class="" data-bind="selected_spot_price.price_updown_color"><span data-bind="selected_spot_price.price_updown_sign">+</span> <span data-bind="selected_spot_price.price_updown_percent">0.00%</span></span>
-					</div>
-				</div>
-				<div class="pop_up">
-					<div class="pop_content">
-						지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다.
-					</div>
-				</div> -->
 				<script>
-					$(function(){
-						$(".icon--help").hover(function(){
-							$(".pop_up").show();
-						},function(){
-							$(".pop_up").hide();
-						});
-					});
 				</script>
-				<style>
-					.three-line-legend {
-						width: 96px;
-						height: 70px;
-						position: absolute;
-						padding: 8px;
-						font-size: 12px;
-						color: '#20262E';
-						background-color: rgba(255, 255, 255, 0.23);
-						text-align: left;
-						z-index: 1000;
-						pointer-events: none;
-					}
-				</style>
+				<div class="three-line-legend" id="achartToolTip" style="display: block; left: 3px; top: 3px;">
+					<div style="font-size: 24px; margin: 4px 0px; color: #20262E">
+						<span data-i18n>지수</span><i class="icon--help" style="width: 16px;height: 18px;background: url('/assets/img/icon/btn_help.svg') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i>
+					</div>
+					<div class="pop_up">
+						<div class="pop_content" data-i18n>지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다.</div>
+					</div>
+					<div style="font-size: 22px; margin: 4px 0px; color: #20262E" name="point">0</div>
+					<div name="dateStr"></div>
+				</div>
+	
 				<div id="indexCanvas" class="canvas" style="width: 100%; height: 22vh; max-height: 200px;    margin-top: 60px;"></div>
-				<!-- <div class="controller d-flex d-justify" style="padding-left: 10px; margin-top: 5px">
-					<div style="flex-basis: calc(100% * (74 / 427))" data-i18n>기간</div>
-					<ul class="tabs" name="chart_term">
-						<li><button type="button" name="btn-term-1h" data-i18n>1H</button></li>
-						<li><button type="button" name="btn-term-12h" data-i18n>12H</button></li>
-						<li><button type="button" name="btn-term-1d" data-i18n>24H</button></li>
-						<li><button type="button" name="btn-term-1w" data-i18n>7D</button></li>
-						<li><button type="button" name="btn-term-1M" data-i18n>1M</button></li>
-					</ul>
-				</div> -->
 			</section>
 			<section class="section">
 				<div class="section--header">
@@ -351,27 +314,7 @@
 		</div>
 	</footer>
 
-    <script src="./assets/js/tradingview-lightweight-arealine-chart.js?t=1663585167"></script>
-    <script src="./assets/js/app.js?t=1664333383"></script>
-	<script>
-		const idx = getURLParameter('idx');
-		API.getBBSView(idx, (resp) => {
-			// $('#notice--list div').empty()
-			resp.payload.data.map((item) => {
-				const noticeList = $('#notice--list')
-				noticeList.append(`<li>${resp.payload.subject}</li>`)
-				// let li = $(`<li>${resp.payload.subject}</li>`)
-				// noticeList.append(li)
-				
-				// if(resp && resp.payload) {
-				// 	$('#notice--list').html(resp.payload.subject);
-				// 	$('#author').html(resp.payload.author);
-				// 	$('#rdate').html(resp.payload.regdate);
-				// 	$('#content').html(resp.payload.contents);
-				// }
-			})
-			
-		})
-	</script>
+    <script src="./assets/js/tradingview-lightweight-arealine-chart.js?t=1664448636"></script>
+    <script src="./assets/js/app.js?t=1664448980"></script>
 </body>
 </html>
