@@ -788,7 +788,8 @@
     border-bottom: 0.35px solid #BDC4CB;
 
 }
-#inquiry .board--list tbody tr.board--empty td {
+#inquiry .board--list tbody tr.board--empty td,
+#inquiry .board--list tbody tr.board--search td {
     height: 272px;
     line-height: 272px;
     text-align: center;

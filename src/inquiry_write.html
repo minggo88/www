@@ -148,7 +148,7 @@
 					</ul>
 				</nav>
 			</aside>
-			<div class="contents">
+			<div class="contents" id="inquiry_write">
 				<header class="contents--header">
 					<div>
 						<button type="button" class="navigation--back"></button>
@@ -174,17 +174,64 @@
 					</div>
 				</form>
 				<script>
-					if($('#idx').val()) {
+								
+					let USER_INFO = {}
+					API.getMyInfo((resp) => {
+						if(resp.success) {
+							const payload = resp.payload
+
+							USER_INFO = {
+								...USER_INFO,
+								userno: payload.userno,
+								userid: payload.userid,
+								phone: payload.phone,
+								mobile: payload.mobile,
+								bool_email: payload.bool_email,
+								bool_sms: payload.bool_sms,
+								regdate: payload.regdate,
+								bank_name: payload.bank_name,
+								bank_account: payload.bank_account,
+								bank_owner: payload.bank_owner,
+							}
+
+							if(USER_INFO.userno) {
+								// $('.nav--side .btn--login').hide()
+								// $('.profile').show()
+								// $('.wallet').show()
+								// $('.profile .dropdown').text(USER_INFO.userid)
+							}
+						}
+					})
+
+					const post_idx = getURLParameter('post_idx');
+
+					if(post_idx) {
+
 						//API.getM2M()
 					}
 					$('.board--write').on('submit', (e) => {
 						e.preventDefault()
-						API.putM2M($('#subject').val(), $('#contents').val(), $('#idx').val(), (resp) => {
-							if(resp.success) {
+						if(!USER_INFO || !USER_INFO.userno) {
+							alert(__('로그인 해주세요.'));
+							return false;
+						} 
+						const subject = $.trim($('#subject').val());
+						if(!subject) {
+							alert(__('제목을 입력하세요'));
+							return false;
+						}
+						const contents = $.trim($('#contents').val());
+						if(!contents) {
+							alert(__('문의내용을 입력하세요'));
+							return false;
+						}
+						API.putM2M(subject, contents, $('#idx').val(), (resp) => {
+							if(resp?.success) {
 								location.href = 'inquiry.html'
 							}
 							else {
-								alert(resp.error.message)
+								msg = resp?.error?.message || __('등록하지 못했습니다.')
+								alert(msg)
 							}
 						})
 						return false
