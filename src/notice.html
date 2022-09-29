@@ -277,7 +277,7 @@
 								tr.append(`<td>${item.regdate.substr(0, 16)}</td>`)
 								tr.appendTo('.board--list tbody')
 								li.append(`<div class="notification--header"><span class="notifictaion--date">${item.regdate.substr(0, 16)}</span><span class="notification--nick">${item.author}</span></div>`)
-								li.append(`<div class="notification--content">${item.subject}${icon}</div>`);
+								li.append(`<div class="notification--content"><a href="notice_detail.html?idx=${item.idx}">${item.subject}${icon}</a></div>`);
 								li.appendTo('.notification--list')
 
 								no--;
