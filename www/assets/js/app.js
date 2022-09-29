@@ -102,9 +102,9 @@ function getCookie( name ){
  * @param String key Parameter Name
  * @param URL url 찾고자하는 url. undefined면 window.location.href
  */
-function getURLParameter(key, url) {
-	url = new URL(url || window.location.href);
-	r = url.searchParams.get(key)
+ function getURLParameter(key, url) {
+    url = new URL(url || window.location.href);
+    r = url.searchParams.get(key)
 	return r ? r : '';
 }
 
@@ -147,6 +147,18 @@ function real_number_format(n, d){
 	}
 	return sign + r;
 }
+/**
+ * float 형식의 숫자도 정확한 숫자가 되도록 수정하는 함수입니다.
+ * 
+ * real_number(1.1 + 0.1) => 1.2
+ * 1.1 + 0.1 => 1.2000000000000002
+ * 
+ * @param {*} n 숫자나 숫자형 문자
+ * @returns 숫자
+ */
+function real_number(n) {
+    return n ? (n * 1).toFixed(8) * 1 : 0;
+}
 
 function remove_array_by_value(array, value) {
     var what, a = arguments, L = a.length, ax;
@@ -178,7 +190,7 @@ function get_str_by_keycode(keycode) {
  * @param {window.event}} evt
  * @example $('#box_login form input[type=password]').on('keydown', input_filter_number)
  */
-function input_filter_number (evt) {
+ function input_filter_number (evt) {
 	let keyCode = evt.which?evt.which:event.keyCode,
 		val = String.fromCharCode(keyCode);
 	if(val.match(/[^0-9]/g) && keyCode!=8 && keyCode!=9 && keyCode!=46 && keyCode!=35 && keyCode!=36 && keyCode!=37 && keyCode!=38 && keyCode!=39 && keyCode!=40 && keyCode!=96 && keyCode!=97 && keyCode!=98 && keyCode!=99 && keyCode!=100 && keyCode!=101 && keyCode!=102 && keyCode!=103 && keyCode!=104 && keyCode!=105 && keyCode!=48 && keyCode!=49 && keyCode!=50 && keyCode!=51 && keyCode!=52 && keyCode!=53 && keyCode!=54 && keyCode!=55 && keyCode!=56 && keyCode!=57) {
@@ -316,7 +328,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
     // let API_WALLET_URL = 'https://api.wallet.smart-talk.io/v1.0';
     SERVICE_DOMAIN = window.location.host.replace('www.','');
-    if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
+    if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1 || window.location.host.indexOf('src.') !== -1) {
         APP_RUNMODE = "loc";
         API_URL = "//api." + (window.location.host) + "/v1.0";
         // SERVICE_DOMAIN = window.location.host.replace('www.','');
@@ -400,7 +412,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         __data__ = {}, // in memory storage (delete on reload, default)
         model_item = false, //get_model_item(),
         session_item = model_item && model_item.session_item || ['token', 'user_info', 'user_wallet', 'visited_notice', 'hide_popup_time', 'user_goods'], // item name using session storage ( delete on close )
-        local_item = model_item && model_item.local_item || ['hide_notice', 'auto_login', 'exchange_rate', 'goods', 'web_config', 'company_info', 'last_login_info', 'currency', 'hide_popup_time', 'model_item'], // item name using local storage ( delete user action or cleaner programes )
+        local_item = model_item && model_item.local_item || ['hide_notice', 'auto_login', 'exchange_rate', 'goods', 'web_config', 'company_info', 'last_login_info', 'currency', 'hide_popup_time', 'model_item', 'site_info'], // item name using local storage ( delete user action or cleaner programes )
         cookie_item = model_item && model_item.cookie_item || ['check_pin'], // item name using local storage ( delete user action or cleaner programes )
         _no = ((Math.random() + ((new Date).getTime() / Math.random())) + '').replace('.', ''),
         key = getCookie('token');
@@ -618,7 +630,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 r = JSON.parse(Decrypt(localStorage.getItem(property), key, 256));
             }
             if (cookie_item.indexOf(property) > -1) {
-                console.log(key);
+                // console.log(key);
                 // r = JSON.parse(Decrypt(getCookie(property), key, 256));
                 r = getCookie(property);
             }
@@ -682,7 +694,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         check_proxy_value();
 
     }
-
 
     if (APP_RUNMODE != 'live') {
         window.Model = Model;
@@ -1271,7 +1282,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         }
                         $('[name=comment-list]').append(html.join(''));
                         // 끝에 있으면  새글볼 수 있게 밑으로 자동으로 내려가기
-                        console.log('view_end:',view_end);
+                        // console.log('view_end:',view_end);
                         if (view_end) {
                             // $('.comment-wrap').scrollTop($('[name=comment-list]').height() * 1 + 100);
                             set_scroll_bottom();
@@ -1346,6 +1357,89 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         }
     }
 
+    /* 서버 값 가져오기 ----------------------------------------------------------------------------------- */
+
+    /**
+     * 회원정보 가져오기
+     */
+    const request_user_info = function () {
+        add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
+            console.log('getMyInfo r:', r);
+            if (r && r.success && !r.error) {
+                let user_info = r.payload;
+                Model.user_info = user_info;
+                force_rander('user_info', user_info);
+                reset_logedin_status();
+            }
+        });
+    }
+    request_user_info();
+
+    window.get_user_info = function () {
+        return clone(Model.user_info);
+    }
+
+    /**
+     * 회원지갑(잔액)정보 가져오기
+     */
+    const get_user_wallet = function() {
+        add_request_item('getBalance', { 'token': getCookie('token') }, function(r) {
+            if (r && r.success && !r.error) {
+                let user_wallet = {};
+                for (i in r.payload) {
+                    let row = r.payload[i];
+                    row.confirmed = row.confirmed * 1;
+                    row.unconfirmed = row.unconfirmed * 1;
+                    user_wallet[row.symbol] = row;
+                }
+                Model.user_wallet = user_wallet;
+            }
+        });
+    }
+    get_user_wallet();
+
+    /**
+     * 화폐정보 가져오기
+     */
+    const get_currency = function() {
+        add_request_item('getCurrency', {}, function(r) {
+            if (r && r.success && !r.error) {
+                let currency = Model.currency;
+                let exchange_rate = Model.exchange_rate;
+                for (i in r.payload) {
+                    let row = r.payload[i];
+                    // 아라튜브에서는 HTC : HTP = 1 : 1000 으로 유지해야 해서 HTC의 가격을 10000으로 고정합니다.
+                    if (row.symbol == 'HTC') {
+                        row.price = 10000;
+                    }
+                    // 화폐정보
+                    if (currency[row.symbol]) {
+                        currency[row.symbol].exchange_price = row.price * 1;
+                        currency[row.symbol].name = row.name;
+                    } else {
+                        currency[row.symbol] = {
+                            'exchange_price': row.price * 1,
+                            'is_blockchain': row.crypto_currency == 'Y' ? true : false,
+                            'is_virtual_currency': true,
+                            'pre_symbol': '',
+                            'sub_symbol': ' ' + row.symbol,
+                            'name': ' ' + row.name,
+                            'symbol_image': ''
+                        }
+                    }
+                    // 환율
+                    if (exchange_rate[row.symbol]) {
+                        exchange_rate[row.symbol] = row.price * 1;
+                    }
+                }
+                Model.currency = currency;
+                Model.exchange_rate = exchange_rate;
+            }
+        });
+    }
+    get_currency();
+
+
     /* Controller ----------------------------------------------------------------------------------- */
 
     const fn_index = function() {
@@ -1387,7 +1481,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 }
                 $('[name=main_notice]').empty().append(html.join(''));
                 // swiper 시작
-                new Swiper('.news .column .swiper', {
+                new Swiper('.news .column .swiper .swiper-wrapper', {
                     slidesPerView: 1,
                     direction: 'vertical',
                     loop: true,
@@ -1396,8 +1490,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     noSwipingClass: 'swiper-slide',
                     preventInteractionOnTransition:true,
                     autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: false,
+						delay: 2500,
+						disableOnInteraction: false,
                     },
                 })
             }
@@ -1421,7 +1515,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 for (i in spot_prices) {
                     const r = spot_prices[i];
                     if (!r || !r.name) { continue;  }
-                    console.log('i:',i)
+                    // console.log('i:',i)
                     // $.get(API_URL+'/getChartData/', { 'symbol': r.symbol }, function (r) { 
                     // add_request_item('getChartData', { 'symbol': r.symbol }, function (r) { 
                     //     console.log(' r.payload:',  r.payload);
@@ -1621,6 +1715,76 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         }
     }
 
+    fn_wallet_deposit = function () {
+        check_login();
+        // request_user_info();
+        force_rander('user_info', Model.user_info);
+        // 사이트 정보
+        force_rander('site_info', Model.site_info);
+        add_request_item('getConfig', {}, function (r) {
+            if (r && r.success) {
+                Model.site_info = r.payload;
+            }
+        });
+        // 지갑 정보
+        force_rander('user_wallet', Model.user_wallet); // 화면에 잔액 표시 후
+        get_user_wallet(); // DB 값으로 다시 잔액 표시
+
+        const clipboard = new ClipboardJS('.btn--copy');
+        clipboard.on('success', function (e) {
+            alert('클립보드에 복사되었습니다.')
+            e.clearSelection()
+        });
+
+        // 입금하기
+        $('[name="btn-save-deposit"]').on('click', function () { 
+            const symbol = $.trim($('[name=symbol]').text());
+            const $deposit_amount = $('[name=deposit_amount]');
+            const deposit_amount = $.trim($deposit_amount.val());
+            if (deposit_amount <= 0) {
+                alert(__('입금액을 입력해주세요.')); $deposit_amount.select(); return false;
+            }
+            const $deposit_name = $('[name=deposit_name]');
+            const deposit_name = $.trim($deposit_name.val());
+            if (!deposit_name) {
+                alert(__('입금자 이름을 입력해주세요.')); $deposit_name.select(); return false;
+            }
+            const address = $.trim($('[name=address]').val());
+            add_request_item('deposit', { 'symbol': symbol, 'deposit_amount': deposit_amount, 'deposit_name': deposit_name, 'address': address }, function (r) {
+                if (r && r.success) {
+                    alert(__('입금 신청을 완료했습니다.'))
+                    $('[name=deposit_amount]').val('0');
+                    $('[name=deposit_name]').val('');
+                } else {
+                    alert(__('입금 신청을 완료하지 못했습니다.'))
+                }
+            })
+        })
+
+    }
+
+    // 페이지 컨트롤러 실행
+    let page_controller = window.location.pathname.replace(/\/(.*).php|.html/, '$1');
+    page_controller = page_controller.replace(/-/g, '_');
+    page_controller = page_controller && page_controller != '/' ? page_controller : 'index';
+    page_controller = page_controller.indexOf('/') === 0 ? substr(page_controller, 1) : page_controller;
+    // function run_fn(fn) {
+    //     // console.log(fn);
+    //     try {
+    //         eval(fn + '()');
+    //     } catch (e) {
+    //         // console.error(e)
+    //     }
+    // }
+    // run_fn('fn_' + page_controller);
+    try {
+        // console.log('fn_' + page_controller + '()');  //fn_/index.html()
+        eval('fn_' + page_controller + '()');
+    } catch (e) {
+        // console.error(e)
+    }
+
+
 
     /* 공통 기능 ----------------------------------------------------------------------------------- */
 
@@ -1652,7 +1816,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     const reset_logedin_status = function () {
         const user_info = Model.user_info;
-        console.log('user_info:', user_info);
+        // console.log('user_info:', user_info);
         if (user_info.userno && user_info.userid) {
             $('[name=box_logedin]').show();
             $('[name=box_unlogedin]').hide();
@@ -1681,110 +1845,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         alert(1);
         $(this).attr('src', default_profile_img);
     });
-
-
-    // php 파일용 컨트롤러 실행
-    let page_controller = window.location.pathname.replace(/\/(.*).php|.html/, '$1');
-    page_controller = page_controller.replace(/-/g, '_');
-    page_controller = page_controller && page_controller != '/' ? page_controller : 'index';
-    page_controller = page_controller.indexOf('/') === 0 ? substr(page_controller, 1) : page_controller;
-    // function run_fn(fn) {
-    //     // console.log(fn);
-    //     try {
-    //         eval(fn + '()');
-    //     } catch (e) {
-    //         // console.error(e)
-    //     }
-    // }
-    // run_fn('fn_' + page_controller);
-    try {
-        // console.log('fn_' + page_controller + '()');  //fn_/index.html()
-        eval('fn_' + page_controller + '()');
-    } catch (e) {
-        // console.error(e)
-    }
-
-    /* 서버 값 가져오기 ----------------------------------------------------------------------------------- */
-
-    /**
-     * 회원정보 가져오기
-     */
-    const request_user_info = function () {
-        add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
-            console.log('getMyInfo r:', r);
-            if (r && r.success && !r.error) {
-                let user_info = r.payload;
-                Model.user_info = user_info;
-                force_rander('user_info', user_info);
-                reset_logedin_status();
-            }
-        });
-    }
-    request_user_info();
-
-    window.get_user_info = function () {
-        return clone(Model.user_info);
-    }
-
-    /**
-     * 회원지갑(잔액)정보 가져오기
-     */
-    const get_user_wallet = function() {
-        add_request_item('getBalance', { 'token': getCookie('token') }, function(r) {
-            if (r && r.success && !r.error) {
-                let user_wallet = {};
-                for (i in r.payload) {
-                    let row = r.payload[i];
-                    row.confirmed = row.confirmed * 1;
-                    row.unconfirmed = row.unconfirmed * 1;
-                    user_wallet[row.symbol] = row;
-                }
-                Model.user_wallet = user_wallet;
-            }
-        });
-    }
-    get_user_wallet();
-
-    /**
-     * 화폐정보 가져오기
-     */
-    const get_currency = function() {
-        add_request_item('getCurrency', {}, function(r) {
-            if (r && r.success && !r.error) {
-                let currency = Model.currency;
-                let exchange_rate = Model.exchange_rate;
-                for (i in r.payload) {
-                    let row = r.payload[i];
-                    // 아라튜브에서는 HTC : HTP = 1 : 1000 으로 유지해야 해서 HTC의 가격을 10000으로 고정합니다.
-                    if (row.symbol == 'HTC') {
-                        row.price = 10000;
-                    }
-                    // 화폐정보
-                    if (currency[row.symbol]) {
-                        currency[row.symbol].exchange_price = row.price * 1;
-                        currency[row.symbol].name = row.name;
-                    } else {
-                        currency[row.symbol] = {
-                            'exchange_price': row.price * 1,
-                            'is_blockchain': row.crypto_currency == 'Y' ? true : false,
-                            'is_virtual_currency': true,
-                            'pre_symbol': '',
-                            'sub_symbol': ' ' + row.symbol,
-                            'name': ' ' + row.name,
-                            'symbol_image': ''
-                        }
-                    }
-                    // 환율
-                    if (exchange_rate[row.symbol]) {
-                        exchange_rate[row.symbol] = row.price * 1;
-                    }
-                }
-                Model.currency = currency;
-                Model.exchange_rate = exchange_rate;
-            }
-        });
-    }
-    get_currency();
 
 
     // headerEvent();

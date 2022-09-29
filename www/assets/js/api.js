@@ -377,6 +377,23 @@ const API = {
             }
         })
     },
+    getTradeBalance: (symbol = 'ALL', exchange = null, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getTradeBalance/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol: symbol,
+                exchange: exchange,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
     getBBSList: (bbscode, page = 1, rows = 10, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getBBSList/`,
@@ -465,13 +482,13 @@ const API = {
         })
     },
     getCurrency: (symbol = null, callback) => {
-        console.log( `${API.BASE_URL}/getCurrency/`)
+        // console.log( `${API.BASE_URL}/getCurrency/`)
         $.ajax({
             url: `${API.BASE_URL}/getCurrency/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
-                lang: window.localStorage.locale,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol
             },
             success: (resp) => {
@@ -487,14 +504,14 @@ const API = {
      * @param {*} symbol 
      * @param {*} callback 
      */
-    getChartData: (symbol, period = '1d', callback) => {
+    getChartData: (symbol, exchange='KRW', period = '1d', callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getChartData/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
                 token: window.localStorage.token, lang: window.localStorage.locale,
-                symbol: symbol,
+                symbol: symbol, exchange: exchange,
                 period: period,
             },
             success: (resp) => {

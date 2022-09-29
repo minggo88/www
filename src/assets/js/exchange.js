@@ -41,7 +41,7 @@ let CURRENCY_INFO = [];
 let SELECTED_SYMBOL = '';  //'G4K95O56R2'
 let SELECTED_NAME = '';  //'끽다거 세작'
 let SELECTED_SYMBOL_PRICE = 0
-let SELECTED_EXCHANGE = getURLParameter('exchange') || 'USD'
+let SELECTED_EXCHANGE = getURLParameter('exchange') || 'KRW'
 let CHART_TIMER
 
 // 모바일 접속 여부
@@ -117,7 +117,7 @@ $(function() {
 
         clearTimeout(CHART_TIMER)
 
-        API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
             $('.details').removeClass('loading')
 
             if(resp.success) {
@@ -128,7 +128,7 @@ $(function() {
         })
 
         CHART_TIMER = setTimeout(() => {
-            API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
                 $('.details').removeClass('loading')
 
                 if(resp.success) {
@@ -139,7 +139,7 @@ $(function() {
             })
         }, 10000)
 
-        API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
             displayChart(resp.payload, period)
         })
     })
@@ -300,18 +300,18 @@ $(function() {
         searching: false,
         ordering: true,
         "language": {
-            "emptyTable": "데이터가 없음.",
-            "lengthMenu": "페이지당 _MENU_ 개씩 보기",
-            "info": "현재 _START_ - _END_ / _TOTAL_건",
+            "emptyTable": __("데이터가 없음"),
+            "lengthMenu": __("페이지당 _MENU_ 개씩 보기"),
+            "info": __("현재 _START_ - _END_ / _TOTAL_건"),
             "infoEmpty": "",
-            "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
-            "search": "검색: ",
-            "zeroRecords": "데이터가 없음",
-            "loadingRecords": "로딩중...",
-            "processing": '<img src="/template/vwyx3Z/script/plug_in/loading/loading.gif"> 잠시만 기다려 주세요.',
+            "infoFiltered": "( "+__("_MAX_건의 데이터에서 필터링됨")+" )",
+            "search": __("검색")+": ",
+            "zeroRecords": __("데이터가 없음"),
+            "loadingRecords": __("로딩중..."),
+            "processing": '<img src="/template/vwyx3Z/script/plug_in/loading/loading.gif"> '+__('잠시만 기다려 주세요.')+'',
             "paginate": {
-                "next": "다음",
-                "previous": "이전"
+                "next": __("다음"),
+                "previous": __("이전")
             }
         },
     } )
@@ -339,7 +339,7 @@ $(function() {
             },
             {
                 data: () => {
-                    return '삽니다'
+                    return __('삽니다')
                 }
             },
             // 등록일
@@ -372,13 +372,13 @@ $(function() {
                 data: 'status', render: (status, _type, _row) => {
                     switch(status) {
                         case 'close':
-                            return '판매완료'
+                            return __('판매완료')
                         case 'buy':
-                            return '구매완료'
+                            return __('구매완료')
                         case 'trading':
-                            return '거래중'
+                            return __('거래중')
                         case 'open':
-                            return '대기'
+                            return __('대기')
                     }
                 }
             },
@@ -388,7 +388,7 @@ $(function() {
                 // const volume = d.volume
                 const volume_remain = d.volume_remain
                 const orderid = d.orderid
-                return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">판매</button>'
+                return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
 
             } },
         ],
@@ -473,7 +473,7 @@ $(function() {
             },
             {
                 data: () => {
-                    return '삽니다'
+                    return __('삽니다')
                 }
             },
             // 등록일
@@ -507,13 +507,13 @@ $(function() {
                 data: 'status', render: (status, _type, _row) => {
                     switch(status) {
                         case 'close':
-                            return '판매완료'
+                            return __('판매완료')
                         case 'buy':
-                            return '구매완료'
+                            return __('구매완료')
                         case 'trading':
-                            return '거래중'
+                            return __('거래중')
                         case 'open':
-                            return '대기'
+                            return __('대기')
                     }
                 }
             },
@@ -523,7 +523,7 @@ $(function() {
                 const exchange = d.exchange
                 const volume_remain = d.volume_remain
                 const orderid = d.orderid
-                return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-target="#modal-buy-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">구매</button>'
+                return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-target="#modal-buy-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
             } },
         ],
         columnDefs: [
@@ -585,25 +585,6 @@ $(function() {
     const itemGrid = $('#jqGrid')
     .on('init.dt', function (_e, _settings) {
         const api = new $.fn.dataTable.Api( '#jqGrid' );
-
-        const REQUEST_SYMBOL = getURLParameter('symbol')
-        const ROWS_COUNT = api.rows().data().length
-
-        if(REQUEST_SYMBOL) {
-            for(let i = 0; i < ROWS_COUNT; i++) {
-                const row = api.row(i).data()
-                const symbol = row.symbol
-
-                if(REQUEST_SYMBOL === symbol) {
-                    api.row(i).select()
-                    break
-                }
-            }
-        } else {
-            api.row(ROWS_COUNT-1).select() // 첫번째 선택
-            // api.row(0).select() // 마지막 선택
-        }
-
         if(isMobile) {
             api.column(1).visible(false)
         }
@@ -623,29 +604,34 @@ $(function() {
             
             console.log('select.dt === data:', data);
 
-            const { name, symbol, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
-            console.log(window.itemGridData);
+            const { name, symbol, exchange, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
+            console.log(data);
             const { weight, story } = data
             const { keep_method } = data
             const { teamaster_note, producer_note }= data
             const { grade } = data
             const { animation } = data
 
+            if (!symbol || !exchange) {
+                return false;
+            }
+
             SELECTED_SYMBOL = symbol
+            SELECTED_EXCHANGE = exchange
             SELECTED_NAME = name
 
             // 로딩 애니메이션 출력
             $('.details').addClass('loading')
-
+            // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE); 
             API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
-                API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
                     $('.details').removeClass('loading')
 
                     if (resp.success) {
                         displayChart(resp.payload)
                         // 갱신은 이렇게 말고 함수로 변경합니다.
                         // CHART_TIMER = setTimeout(() => {
-                        //     API.getChartData(SELECTED_SYMBOL, period, (resp) => {
+                        //     API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
                         //         $('.details').removeClass('loading')
 
                         //         if(resp.success) {
@@ -679,7 +665,7 @@ $(function() {
                     const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
                     const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'about:blank');
 
-                    $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2).format() + '원').removeClass('text-red text-blue').addClass(diff_text)
+                    $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2).format() + SELECTED_EXCHANGE).removeClass('text-red text-blue').addClass(diff_text)
                     $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').siblings('img').attr('src', diff_icon)
@@ -740,7 +726,27 @@ $(function() {
             }
         }
     })
-    // .on('draw.dt', () => {
+    .on('draw.dt', () => {
+    
+        const api = new $.fn.dataTable.Api( '#jqGrid' );
+        const REQUEST_SYMBOL = getURLParameter('symbol')
+        const ROWS_COUNT = api.rows().data().length
+
+        if(REQUEST_SYMBOL) {
+            for(let i = 0; i < ROWS_COUNT; i++) {
+                const row = api.row(i).data()
+                const symbol = row.symbol
+                if(REQUEST_SYMBOL === symbol) {
+                    api.row(i).select()
+                    break
+                }
+            }
+        } else {
+            // api.row(ROWS_COUNT-1).select() // 마지막 선택
+            api.row(0).select() // 첫번째 선택
+        }
+    
+
     //     const api = new $.fn.dataTable.Api( '#jqGrid' )
 
     //     const row = api.row(':eq(0)')
@@ -772,7 +778,7 @@ $(function() {
     //             $('#spot-volume').text(real_number_format(spot.volume))
     //             $('#spot-volume2').text(real_number_format(parseFloat(spot.price_close) * parseFloat(spot.volume)))
 
-    //             $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2) + '원')
+    //             $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2) + SELECTED_EXCHANGE)
 
     //             const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
     //             const diffPercent = (diff * 100).toFixed(2)
@@ -807,7 +813,7 @@ $(function() {
     //     $('#white-paper #producer-note').html(nl2br(producer_note))
     //     $('#white-paper #grade').html(nl2br(grade))
 
-    // })
+    })
 
     .DataTable({
         data: [],
@@ -864,7 +870,7 @@ $(function() {
                 data: (row, _type, _set) => {
                     let price = row.price
                     if (price >= 1000000 && price % 1000000 == 0) {
-                        price = price / 1000000 + '백만'
+                        price = price / 1000000 + __('백만')
                         return price
                     }
                     return price
@@ -914,7 +920,7 @@ $(function() {
     })
 
     const setItemGrid = function (data) {
-        console.log('setItemGrid START');
+        // console.log('setItemGrid START');
         itemGrid.clear().draw();
         if (data) {
             itemGrid.rows.add(data).draw();
@@ -1091,15 +1097,17 @@ $(function() {
         .myModal('beforeOpen', (_event, btn) => {
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
+            const exchange = btn.data('exchange')
             const price = btn.data('price')*1
             const volume = btn.data('volume')*1
             const name = SELECTED_NAME
             const modal = $('#modal-buy-direct')
             const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
 
-            modal.find('.tea--available').text('' + real_number_format(cnt_buyable) + ' 원')
+            modal.find('.tea--available').text('' + real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
             modal.find('[name=orderid]').val(orderid)
             modal.find('[name=symbol]').val(symbol)
+            modal.find('[name=exchange]').val(exchange)
             modal.find('[name=orderid]').text('#'+orderid)
             modal.find('[name=price]').val(price)
             modal.find('[name=volume]').val(volume)
@@ -1135,13 +1143,14 @@ $(function() {
         .myModal('beforeOpen', (_event, btn) => {
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
+            const exchange = btn.data('exchange')
             const price = btn.data('price')*1
             const volume = btn.data('volume')*1
             const name = SELECTED_NAME
             const modal = $('#modal-sell-direct')
             const cnt_sellable = USER_WALLET[symbol]?.confirmed || 0;
 
-            modal.find('.tea--available').text(real_number_format(cnt_sellable)+'개')
+            modal.find('.tea--available').text(real_number_format(cnt_sellable)+__('개'))
             modal.find('[name=orderid]').val(orderid)
             modal.find('input[name=symbol]').val(symbol)
             modal.find('[name=orderid]').text('#'+orderid)
@@ -1175,6 +1184,7 @@ $(function() {
 
             modal.find('.tea--available').text(real_number_format(cnt_buyable))
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
+            modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
             modal.find('[name=orderid]').text('')
             modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
             modal.find('[name=volume]').val('')
@@ -1214,6 +1224,7 @@ $(function() {
 
             modal.find('.tea--available').text(real_number_format(cnt_sellable))
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
+            modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
             modal.find('[name=orderid]').text('')
             modal.find('[name=price]').val(SELECTED_SYMBOL_PRICE)
             modal.find('[name=volume]').val('')

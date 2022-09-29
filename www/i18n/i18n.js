@@ -67,7 +67,7 @@
 
     const get_lang_data = function(callback) {
         let cache_time = Math.ceil(((new Date().getTime()) / 1000) / (60 * 60 * 1));
-        let data_file = '/i18n/' + lang + '/LC_MESSAGES/WWW.json?v=' + cache_time;
+        let data_file = './i18n/' + lang + '/LC_MESSAGES/WWW.json?v=' + cache_time;
         httpRequest = new XMLHttpRequest();
         if (httpRequest) {
             httpRequest.onreadystatechange = function() {

@@ -17,296 +17,323 @@
 <meta property="og:image:width" content="200">
 <meta property="og:image:height" content="100">
 <title>끽다거</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1663240012">
-<link rel="stylesheet" href="./assets/css/header.css?t=1663661193">
+<link rel="stylesheet" href="./assets/css/common.css?t=1664361712">
+<link rel="stylesheet" href="./assets/css/header.css?t=1664350978">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663661193">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663671111">
-<link rel="stylesheet" href="./assets/css/login.css?t=1663583665">
+<link rel="stylesheet" href="./assets/css/components.css?t=1664191797">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1664341873">
+<link rel="stylesheet" href="./assets/css/login.css?t=1664191797">
+<link rel="stylesheet" href="./assets/css/verification.css?t=1664191797">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1664191797">
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
 <script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1663208420"></script>
+<script src="./i18n/i18n.js?t=1664333383"></script>
 
 </head>
 <!-- BODY -->
 <body class="login verification">
-    <header>
-        <h1 class="logo"><a href="/">Teaplat</a></h1>
-        <nav class="nav">
-            <ul>
-                <li>
-                    <a href="exchange.html" data-i18n>거래소</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>공동구매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>경매</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>가이드</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>다도 문화</a>
-                </li>
-                <li>
-                    <a href="" data-i18n>고객센터</a>
-                </li>
-            </ul>
-            <div class="nav--side">
-
-                <div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
-                    <button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-                    <div class="dropdown--item" style="width: 134px">
-                        <ul>
-                            <li><a href="member-account.html" data-i18n>정보 수정</a></li>
-                            <li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-                            <li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-                            <li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-                            <li><a href="transaction.html" data-i18n>거래 내역</a></li>
-                            <li><a href="notification.html" data-i18n>알림</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
-                    <button type="button" class="dropdown" data-i18n>지갑관리</button>
-                    <div class="dropdown--item" style="width: 100px">
-                        <ul>
-                            <li><a href="wallet.html" data-i18n>보유 자산</a></li>
-                            <li><a href="wallet-deposit.html" data-i18n>입금</a></li>
-                            <li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
-                            <li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <button name="box_logedin" style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-                <div name="box_unlogedin" style="display: none">
-                    <a href="login.html" class="btn--login" data-i18n>로그인</a>
-                </div>
-
-                <div class="language dropdown-wrapper">
-                    <button type="button" class="dropdown">한국어</button>
-                    <div class="dropdown--item" style="width: 81px">
-                        <span>한국어</span>
-                        <ul></ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <main class="d-flex flex-center">
-        <form id="verification" action="verification2.html" method="post" class="d-flex flex-row flex-center">
-            <div class="form--header text-red">
-                <h1 data-i18n>Identity Verification</h1>
-            </div>
-            <div class="flex-self-left">
-                <p class="m-0 flex-self-left text--medium text-bold" data-i18n>
-                    계속 진행하여 본인 확인을 완료하십시오.
-                </p>
-                <p class="m-0" style="margin-top: 52px !important; font-weight: 400" data-i18n>
-                    정부에서 발행한 아래 서류 중 한가지를 준비해주세요.
-                </p>
-                <ul class="unstyled text--bold text-black" style="margin-top: 36px !important">
-                    <li class="text-bbold text--medium" style="margin-bottom: 37px" data-i18n>1. ID Card</li>
-                    <li class="text-bbold text--medium" style="margin-bottom: 37px" data-i18n>2. Passport</li>
-                    <li class="text-bbold text--medium" data-i18n>3. Driver’s License</li>
-                </ul>
-            </div>
-
-            <div class="form--btns">
-                <button class="btn btn--block btn--red text-bold" data-i18n>인증 진행</button>
-            </div>
-        </form>
-        <form id="verification2" action="verification3.html" method="post" class="d-flex flex-row flex-center" style="display: none">
-            <div class="form--header text-red">
-                <button type="button" class="navigation--back"></button>
-                <h1 data-i18n>Identity Verification</h1>
-            </div>
-            <div class="flex-self-left" style="width: 100%">
-                <p class="m-0 flex-self-left text--medium text-bold" data-i18n>
-                    계속 진행하여 본인 확인을 완료하십시오.
-                </p>
-                <p class="m-0" style="margin-top: 52px !important; font-weight: 400" data-i18n>
-                    아래 나열된 문서만 승인되고 다른 모든 문서는 거부됩니다.
-                </p>
-                <ul class="choice" style="margin-top: 36px !important">
-                    <li>
-                        <input type="radio" name="type" value="id-card" id="id-card"><label for="id-card" data-i18n>ID Card</label>
-                    </li>
-                    <li>
-                        <input type="radio" name="type" value="passport" id="passport"><label for="passport" data-i18n>Passport</label>
-                    </li>
-                    <li>
-                        <input type="radio" name="type" value="driver-license" id="driver-license"><label for="driver-license" data-i18n>Driver’s License</label>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="form--btns">
-                <button class="btn btn--block btn--red text-bold" data-i18n>인증 진행</button>
-            </div>
-        </form>
-        <form id="verification3" action="verification4.html" method="post" class="d-flex flex-row flex-center" style="display: none">
-            <div class="form--header text-red">
-                <button type="button" class="navigation--back"></button>
-                <h1 data-i18n>Identity Verification</h1>
-            </div>
-            <div class="flex-self-left" style="width: 100%">
-                <p class="m-0 flex-self-left text--medium text-bold" data-i18n>
-                    사진을 업로드 하기전에 아래 기준을 체크해주세요.
-                </p>
-                <p class="m-0" style="margin-top: 52px !important; font-weight: 400" data-i18n>
-                    아래 나열된 문서만 승인되고 다른 모든 문서는 거부됩니다.
-                </p>
-                <ol class="m-0 text-black" style="margin-top: 36px !important">
-                    <li class="text-bbold text--medium" style="margin-bottom: 13px" data-i18n>만료되지 않은 정부 발행 문서입니다.</li>
-                    <li class="text-bbold text--medium" style="margin-bottom: 13px" data-i18n>스캔 또는 사본이 아닌 원본입니다.</li>
-                    <li class="text-bbold text--medium" style="margin-bottom: 13px" data-i18n>반사 또는 흐릿함을 방지하기 위해 카드 홀더 또는 커버를 제거하십시오.</li>
-                    <li class="text-bbold text--medium" style="margin-bottom: 13px" data-i18n>단색 배경에 문서를 배치합니다.</li>
-                    </ol>
-            </div>
-
-            <div class="form--btns">
-                <button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
-            </div>
-        </form>
-        <form id="verification4" action="verification5.html" method="post" class="d-flex flex-row flex-center" style="display: none">
-            <div class="form--header text-red">
-                <h1 data-i18n>Identity Verification</h1>
-            </div>
-            <div class="flex-self-left" style="width: 100%">
-                <p class="m-0 flex-self-left text--medium text-bold" data-i18n>
-                    주민등록증을 업로드합니다.
-                </p>
-                <div class="d-grid column-2" style="margin-top: 48px">
-                    <div>
-                        <label for="front-side" style="font-weight: 400" data-i18n>Front Side</label>
-                        <input type="file" name="" id="front-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px">
-                    </div>
-                    <div>
-                        <label for="back-side" style="font-weight: 400;" data-i18n>Back Side</label>
-                        <input type="file" name="" id="back-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px">
-                    </div>
-                </div>
-                <p class="m-0 text-bold" style="font-size: 14px; margin-top: 43px !important; margin-bottom: 17px !important; letter-spacing: 0" data-i18n>
-                    문서가 아래의 모든 표준을 충족하는지 확인하십시오.
-                </p>
-                <ul class="text-black" style="letter-spacing: 0; list-style-position: inside">
-                    <li data-i18n>읽기 쉽고 선명하며 조명이 밝음</li>
-                    <li data-i18n>반사되지 않음, 흐릿하지 않음</li>
-                    <li data-i18n>흑백 영상 없음, 편집 없음</li>
-                    <li data-i18n>문서는 단색 배경에 배치됩니다.</li>
-                </ul>
-            </div>
-
-            <div class="form--btns">
-                <button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
-            </div>
-        </form>
-        <form id="verification5" action="verification6.html" method="post" class="d-flex flex-row flex-center" style="margin-top: 120px; display: none">
-            <div class="form--header text-red" style="margin-bottom: 37px">
-                <h1 data-i18n>Identity Verification</h1>
-            </div>
-            <div class="flex-self-left" style="width: 100%">
-                <p class="m-0 flex-self-left text--medium text-bold" style="margin-bottom: 48px !important" data-i18n>
-                    출금 계좌 및 주소지를 등록합니다.
-                </p>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="account form--controls">
-                            <label for="" class="form--label desktop-only" data-i18n>은행 및 계좌</label>
-                            <label for="" class="form--label mobile-only" data-i18n>국가 및 화폐 선택</label>
-                            <input type="text" name="" id="" placeholder="국가 및 화폐 선택">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form--controls">
-                            <label for="" class="form--label mobile-only" data-i18n>은행명</label>
-                            <input type="text" name="" id="" placeholder="은행명">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form--controls">
-                            <label for="" class="form--label mobile-only" data-i18n>이름</label>
-                            <input type="text" name="" id="" placeholder="이름">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form--controls"><input type="text" name="" id="" placeholder="계좌번호"></div>
-                    </div>
-                </div>
-                <p class="m-0 text-red mobile-only" style="font-weight: 400; height: 17px; margin-bottom: 20px !important" data-i18n>출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다.</p>
-
-                <p class="m-0 text-red desktop-only" style="font-weight: 400; height: 17px; margin-bottom: 20px !important" data-i18n>출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다.</p>
-                <div class="row" style="margin-bottom: 8px">
-                    <label for="country" class="form--label text-bold" style="margin-bottom: 0" data-i18n>거주지</label>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form--controls">
-                            <input type="text" name="country" id="country" placeholder="국가">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form--controls">
-                            <input type="text" name="city" id="city" placeholder="도시">
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form--controls">
-                            <input type="text" name="address" id="address" placeholder="주소">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form--controls">
-                            <input type="text" name="address2" id="address2" placeholder="상세주소(옵션)">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form--controls">
-                            <input type="text" name="postcode" id="postcode" placeholder="우편번호">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form--btns">
-                <button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
-            </div>
-        </form>
-        <form id="verification6" action="verification7.html" method="post" class="d-flex flex-row flex-center" style="display: none">
-            <div class="form--header text-red">
-                <h1 data-i18n>Identity Verification</h1>
-            </div>
-            <div class="flex-self-left" style="width: 100%">
-                <p class="m-0 flex-self-left text--medium text-bold nowrap" style="margin-bottom: 74px !important" data-i18n>
-                    수고하셨습니다.<br>(주)끽다거 관리자가 제출하신 자료를 검토한 후에 ID 본인 인증 여부를 회신드립니다.<br>최대 2영업일 이내로 결과를 안내받으실 수 있습니다.<br>인증 절차에 참여해 주셔서 감사합니다.
-                </p>
-            </div>
-
-            <div class="form--btns">
-                <button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
-            </div>
-        </form>
-    </main>
+	<header>
+		<div class="header_inner">
+			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
+			<nav class="nav">
+				<ul>
+					<li>
+						<a href="exchange.html" data-i18n>거래소</a>
+					</li>
+					<li>
+						<a href="" data-i18n>공동구매</a>
+					</li>
+					<li>
+						<a href="" data-i18n>경매</a>
+					</li>
+					<li>
+						<a href="wallet.html" data-i18n>입출금</a>
+					</li>
+					<li>
+						<a href="" data-i18n>다도 문화</a>
+					</li>
+					<li>
+						<a href="notice.html" data-i18n>고객센터</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="nav--side">
+				<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
+					<button type="button" class="dropdown" data-i18n>지갑관리</button>
+					<div class="dropdown--item" style="width: 100px">
+						<ul>
+							<li><a href="wallet.html" data-i18n>보유 자산</a></li>
+							<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
+							<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
+							<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
+						</ul>
+					</div>
+				</div>
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
+						<ul>
+							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
+							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
+							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
+							<li><a href="notification.html" data-i18n>알림</a></li>
+						</ul>
+					</div>
+				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" class="btn--login" data-i18n>로그인</a></div>
+				<div class="language dropdown-wrapper">
+					<button type="button" class="dropdown">한국어</button>
+					<div class="dropdown--item" style="width: 81px">
+						<span>한국어</span>
+						<ul></ul>
+					</div>
+				</div>
+			</div>
+			<div class="box-mobile-menu">
+				<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
+			</div>
+			<ul class="gnb box-menu" name="box-menu">
+				<li>
+					<a href="exchange.html" data-i18n>거래소</a>
+				</li>
+				<li>
+					<a href="" data-i18n>공동구매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>경매</a>
+				</li>
+				<li>
+					<a href="wallet.html" data-i18n>입출금</a>
+				</li>
+				<li>
+					<a href="" data-i18n>다도 문화</a>
+				</li>
+				<li>
+					<a href="notice.html" data-i18n>고객센터</a>
+				</li>
+			</ul>
+		</div>
+	</header>
+    <div class="content_wrap">
+		<main class="d-flex flex-center">
+			<header class="contents--header mobile-only">
+				<button type="button" class="navigation--back"></button>
+			</header>
+			<form id="verification" action="verification2.html" method="post" class="d-flex flex-row flex-center">
+				<div class="form--header text-red">
+					<h1 data-i18n>Identity Verification</h1>
+				</div>
+				<div class="flex-self-left">
+					<p class="m-0 flex-self-left text--medium text-bold" data-i18n>
+						계속 진행하여 본인 확인을 완료하십시오.
+					</p>
+					<p class="m-0" style="margin-top: 52px !important; font-weight: 400" data-i18n>
+						정부에서 발행한 아래 서류 중 한가지를 준비해주세요.
+					</p>
+					<ul class="unstyled text--bold text-black" style="margin-top: 36px !important">
+						<li class="text-bbold text--medium" style="margin-bottom: 37px" data-i18n>1. ID Card</li>
+						<li class="text-bbold text--medium" style="margin-bottom: 37px" data-i18n>2. Passport</li>
+						<li class="text-bbold text--medium" data-i18n>3. Driver’s License</li>
+					</ul>
+				</div>
+				<div class="form--btns">
+					<button class="btn btn--block btn--red text-bold" data-i18n>인증 진행</button>
+				</div>
+			</form>
+			<form id="verification2" action="verification3.html" method="post" class="d-flex flex-row flex-center" style="display: none">
+				<div class="form--header text-red">
+					<h1 data-i18n>Identity Verification</h1>
+				</div>
+				<div class="flex-self-left" style="width: 100%">
+					<p class="m-0 flex-self-left text--medium text-bold" data-i18n>
+						계속 진행하여 본인 확인을 완료하십시오.
+					</p>
+					<p class="m-0" style="margin-top: 52px !important; font-weight: 400" data-i18n>
+						아래 나열된 문서만 승인되고 다른 모든 문서는 거부됩니다.
+					</p>
+					<ul class="choice" style="margin-top: 36px !important">
+						<li>
+							<input type="radio" name="type" value="id-card" id="id-card"><label for="id-card" data-i18n>ID Card</label>
+						</li>
+						<li>
+							<input type="radio" name="type" value="passport" id="passport"><label for="passport" data-i18n>Passport</label>
+						</li>
+						<li>
+							<input type="radio" name="type" value="driver-license" id="driver-license"><label for="driver-license" data-i18n>Driver’s License</label>
+						</li>
+					</ul>
+				</div>
+				<div class="form--btns">
+					<button class="btn btn--block btn--red text-bold" data-i18n>인증 진행</button>
+				</div>
+			</form>
+			<form id="verification3" action="verification4.html" method="post" class="d-flex flex-row flex-center" style="display: none">
+				<div class="form--header text-red">
+					<!-- <button type="button" class="navigation--back"></button> -->
+					<h1 data-i18n>Identity Verification</h1>
+				</div>
+				<div class="flex-self-left" style="width: 100%">
+					<p class="m-0 flex-self-left text--medium text-bold" data-i18n>
+						사진을 업로드 하기전에 아래 기준을 체크해주세요.
+					</p>
+					<p class="m-0" style="margin-top: 52px !important; font-weight: 400" data-i18n>
+						아래 나열된 문서만 승인되고 다른 모든 문서는 거부됩니다.
+					</p>
+					<ol class="m-0 text-black" style="margin-top: 36px !important">
+						<li class="text-bbold text--medium" style="margin-bottom: 13px" data-i18n>만료되지 않은 정부 발행 문서입니다.</li>
+						<li class="text-bbold text--medium" style="margin-bottom: 13px" data-i18n>스캔 또는 사본이 아닌 원본입니다.</li>
+						<li class="text-bbold text--medium" style="margin-bottom: 13px" data-i18n>반사 또는 흐릿함을 방지하기 위해 카드 홀더 또는 커버를 제거하십시오.</li>
+						<li class="text-bbold text--medium" style="margin-bottom: 13px" data-i18n>단색 배경에 문서를 배치합니다.</li>
+						</ol>
+				</div>
+				<div class="form--btns">
+					<button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
+				</div>
+			</form>
+			<form id="verification4" action="verification5.html" method="post" class="d-flex flex-row flex-center" style="display: none">
+				<div class="form--header text-red">
+					<!-- <button type="button" class="navigation--back"></button> -->
+					<h1 data-i18n>Identity Verification</h1>
+				</div>
+				<div class="flex-self-left" style="width: 100%">
+					<p class="m-0 flex-self-left text--medium text-bold" data-i18n>
+						주민등록증을 업로드합니다.
+					</p>
+					<div class="d-grid column-2" style="margin-top: 48px">
+						<div>
+							<label for="front-side" style="font-weight: 400" data-i18n>Front Side</label>
+							<input type="file" name="" id="front-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px">
+						</div>
+						<div>
+							<label for="back-side" style="font-weight: 400;" data-i18n>Back Side</label>
+							<input type="file" name="" id="back-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px">
+						</div>
+					</div>
+					<p class="m-0 text-bold" style="font-size: 14px; margin-top: 43px !important; margin-bottom: 17px !important; letter-spacing: 0" data-i18n>
+						문서가 아래의 모든 표준을 충족하는지 확인하십시오.
+					</p>
+					<ul class="text-black" style="letter-spacing: 0; list-style-position: inside">
+						<li data-i18n>읽기 쉽고 선명하며 조명이 밝음</li>
+						<li data-i18n>반사되지 않음, 흐릿하지 않음</li>
+						<li data-i18n>흑백 영상 없음, 편집 없음</li>
+						<li data-i18n>문서는 단색 배경에 배치됩니다.</li>
+					</ul>
+				</div>
+				<div class="form--btns">
+					<button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
+				</div>
+			</form>
+			<form id="verification5" action="verification6.html" method="post" class="d-flex flex-row flex-center" style="display: none">
+					<div class="form--header text-red" style="margin-bottom: 37px">
+					<!-- <button type="button" class="navigation--back"></button> -->
+					<h1 data-i18n>Identity Verification</h1>
+				</div>
+				<div class="flex-self-left" style="width: 100%">
+					<p class="m-0 flex-self-left text--medium text-bold" style="margin-bottom: 48px !important" data-i18n>
+						출금 계좌 및 주소지를 등록합니다.
+					</p>
+					<div class="row">
+						<div class="col-6">
+							<div class="account form--controls">
+								<label for="" class="form--label desktop-only" data-i18n>은행 및 계좌</label>
+								<label for="" class="form--label mobile-only" data-i18n>국가 및 화폐 선택</label>
+								<input type="text" name="" id="" placeholder="국가 및 화폐 선택">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-6">
+							<div class="form--controls">
+								<label for="" class="form--label mobile-only" data-i18n>은행명</label>
+								<input type="text" name="" id="" placeholder="은행명">
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="form--controls">
+								<label for="" class="form--label mobile-only" data-i18n>이름</label>
+								<input type="text" name="" id="" placeholder="이름">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="form--controls"><input type="text" name="" id="" placeholder="계좌번호"></div>
+						</div>
+					</div>
+					<p class="m-0 text-red mobile-only" style="font-weight: 400; height: 17px; margin-bottom: 20px !important" data-i18n>출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다.</p>
+					<p class="m-0 text-red desktop-only" style="font-weight: 400; height: 17px; margin-bottom: 20px !important" data-i18n>출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다.</p>
+					<div class="row" style="margin-bottom: 8px">
+						<label for="country" class="form--label text-bold" style="margin-bottom: 0" data-i18n>거주지</label>
+					</div>
+					<div class="row">
+						<div class="col-6">
+							<div class="form--controls">
+								<input type="text" name="country" id="country" placeholder="국가">
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="form--controls">
+								<input type="text" name="city" id="city" placeholder="도시">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="form--controls">
+								<input type="text" name="address" id="address" placeholder="주소">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-6">
+							<div class="form--controls">
+								<input type="text" name="address2" id="address2" placeholder="상세주소(옵션)">
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="form--controls">
+								<input type="text" name="postcode" id="postcode" placeholder="우편번호">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form--btns">
+					<button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
+				</div>
+			</form>
+			<form id="verification6" action="verification7.html" method="post" class="d-flex flex-row flex-center" style="display: none">
+				<div class="form--header text-red">
+					<h1 data-i18n>Identity Verification</h1>
+				</div>
+				<div class="flex-self-left" style="width: 100%">
+					<p class="m-0 flex-self-left text--medium text-bold nowrap" style="margin-bottom: 74px !important" data-i18n>
+						수고하셨습니다.<br>(주)끽다거 관리자가 제출하신 자료를 검토한 후에 ID 본인 인증 여부를 회신드립니다.<br>최대 2영업일 이내로 결과를 안내받으실 수 있습니다.<br>인증 절차에 참여해 주셔서 감사합니다.
+					</p>
+				</div>
+				<div class="form--btns">
+					<button class="btn btn--block btn--red text-bold" data-i18n>다음</button>
+				</div>
+			</form>
+		</main>
+	</div>
     <script>
         $('#verification').submit((e) => {
             e.preventDefault()
@@ -345,7 +372,7 @@
         })
     </script>
 
-    <script src="./assets/js/app.js?t=1663583665"></script>
+    <script src="./assets/js/app.js?t=1664333383"></script>
 
 </body>
 </html>
