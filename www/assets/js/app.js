@@ -705,11 +705,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     // Model.user_wallet = {};
     Model.check_SMS_for_bank = false; // 은행정보 수정시 sms 인증 확인하기여부
     Model.currency = {
-        'KRW': { 'pre_symbol': '', 'sub_symbol': __('원'), 'exchange_price': 0.00076, 'is_blockchain': false, 'is_virtual_currency': false, 'symbol_image': '', 'name': '대한민국 원' },
-        'USD': { 'pre_symbol': '$ ', 'sub_symbol': '', 'exchange_price': 1, 'is_blockchain': false, 'is_virtual_currency': false, 'symbol_image': '', 'name': 'USD' }
+        'KRW': { 'pre_symbol': '', 'sub_symbol': __('원'), 'exchange_price': 1, 'is_blockchain': false, 'is_virtual_currency': false, 'symbol_image': '', 'name': '대한민국 원' },
+        'USD': { 'pre_symbol': '$ ', 'sub_symbol': '', 'exchange_price': 1400, 'is_blockchain': false, 'is_virtual_currency': false, 'symbol_image': '', 'name': 'USD' }
     }
     Model.exchange_rate = { // 환율
-        'base_currency': 'USD',
+        'base_currency': 'KRW',
         'base_symbol': '$',
         'KRW': Model.currency.KRW.exchange_price,
         'USD': Model.currency.USD.exchange_price
@@ -817,7 +817,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     // 가격 변환
     const dprice = function(p, c) {
-        let exchange_currency = c || Model.user_info && Model.user_info.exchange_currency || 'USD',
+        let exchange_currency = c || Model.user_info && Model.user_info.exchange_currency || Model.exchange_rate.base_currency ,
             pre_symbol = Model.currency[exchange_currency].pre_symbol,
             sub_symbol = Model.currency[exchange_currency].sub_symbol,
             exchange_price = Model.currency[exchange_currency].exchange_price;
@@ -1442,7 +1442,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     /* Controller ----------------------------------------------------------------------------------- */
 
-    const fn_index = function() {
+    const fn_index = function () {
+        
+        $(".icon--help").hover(function(){
+            $(".pop_up").show();
+        },function(){
+            $(".pop_up").hide();
+        });
+        
         API.getBBSList('notice', 1, 5, (resp) => {
             if(resp.success) {
                 $('#notice--list').empty()
@@ -1497,7 +1504,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             }
         });
         // 지수 차트 생성
-        window.displayChart('indexCanvas', 'GCA18KTDKK', 'USD', '1h'); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
+        window.displayChart('indexCanvas', 'GCA18KTDKK', Model.exchange_rate.base_currency, '1h'); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
 
         // 인기 종목 표시 ( + 차트)
         const $PriceTableTarget = $('[name=price_table]');
@@ -1524,7 +1531,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     
                     r.price_open *= 1;
                     r.price_close *= 1;
-                    r.exchange = 'USD';
+                    r.exchange = Model.exchange_rate.base_currency;
                     r.price_updown_sign = r.price_close > r.price_open ? '+' : ( r.price_close < r.price_open ? '-' : '');
                     r.price_updown_symbol = r.price_updown_sign=='+' ? '▲' : ( r.price_updown_sign=='-' ? '▼' : '');
                     r.price_updown_color = r.price_updown_sign=='+' ? 'text-red' : ( r.price_updown_sign=='-' ? 'text-blue' : '');

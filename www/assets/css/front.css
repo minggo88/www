@@ -316,14 +316,27 @@
 	vertical-align: top;
 }
 
+.front main .section:first-child .three-line-legend {
+    width: 10rem;
+    /* height: 70px; */
+    position: absolute;
+    padding: 8px;
+    font-size: 12px;
+    color: '#20262E';
+    background-color: rgba(255, 255, 255, 0.23);
+    text-align: left;
+    z-index: 1000;
+}
 .front main .section:first-child .pop_up{
 	display: none;
 	position: absolute;
-	left: 45px;
-	top: 30px;
+	left: 5rem;
+	top: 0rem;
 	padding: 12px 15px 11px 17px;
 	max-width: 200px;
 	background-color: #FFF176;
+    width: 300px;
+    border-radius: 0.7rem;
 }
 
 

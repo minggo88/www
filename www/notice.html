@@ -26,11 +26,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748" />
-<link rel="stylesheet" href="./assets/css/common.css?t=1664361712" />
+<link rel="stylesheet" href="./assets/css/common.css?t=1664432732" />
 <link rel="stylesheet" href="./assets/css/header.css?t=1664350978">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
-<link rel="stylesheet" href="./assets/css/components.css?t=1664191797" />
-<link rel="stylesheet" href="./assets/css/sub.css?t=1664341873" />
+<link rel="stylesheet" href="./assets/css/components.css?t=1664449744" />
+<link rel="stylesheet" href="./assets/css/sub.css?t=1664449744" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css?t=1661823297" />
 <!-- JS -->
@@ -38,7 +38,7 @@
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/common.js?t=1663583938"></script>
 <script src="./assets/js/api.js?t=1664349972"></script>
-<script src="./assets/js/components.js?t=1664191797"></script>
+<script src="./assets/js/components.js?t=1664440787"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
 <script src="./assets/js/lib/security.min.js?t=1661838502"></script>
@@ -277,7 +277,7 @@
 								tr.append(`<td>${item.regdate.substr(0, 16)}</td>`)
 								tr.appendTo('.board--list tbody')
 								li.append(`<div class="notification--header"><span class="notifictaion--date">${item.regdate.substr(0, 16)}</span><span class="notification--nick">${item.author}</span></div>`)
-								li.append(`<div class="notification--content">${item.subject}${icon}</div>`);
+								li.append(`<div class="notification--content"><a href="notice_detail.html?idx=${item.idx}">${item.subject}${icon}</a></div>`);
 								li.appendTo('.notification--list')
 
 								no--;
@@ -362,7 +362,7 @@
 			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 		</div>
 	</footer> -->
-    <script src="./assets/js/app.js?t=1664333383"></script>
+    <script src="./assets/js/app.js?t=1664448980"></script>
 
 </body>
 </html>

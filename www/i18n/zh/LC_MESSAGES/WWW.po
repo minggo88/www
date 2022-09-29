@@ -1232,3 +1232,39 @@ msgstr "等待"
 
 msgid "백만"
 msgstr "百万"
+
+msgid "분"
+msgstr "分钟"
+
+msgid "시간"
+msgstr "小时"
+
+msgid "일"
+msgstr "工作"
+
+msgid "주"
+msgstr "主要的"
+
+msgid "답변완료"
+msgstr "回答完成"
+
+msgid "답변대기중"
+msgstr "等待回复"
+
+msgid "로그인 해주세요."
+msgstr "请登录。"
+
+msgid "등록하지 못했습니다."
+msgstr "注册失败。"
+
+msgid "它被卖为："
+msgstr "It was sold as:"
+
+msgid "조회중입니다."
+msgstr "正在查看。"
+
+msgid "등록"
+msgstr "登记"
+
+msgid "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
+msgstr "该指数是指Teaplat的交易指数，是一个表示交易是否活跃的数字。"
