@@ -5,14 +5,14 @@
 	/* grid-template-columns: var(--SIDE-WIDTH) auto; */
 	column-gap: 30px;
 }
-@media screen and (min-width: 801px) and (max-width: 1440px){
+/* @media screen and (min-width: 801px) and (max-width: 1440px){
 	.exchange main{
 		display: grid;
 		grid-template-columns: 1fr;
 		column-gap: 0px;
 	}
 	
-}
+} */
 
 
 .exchange .tab-wrapper{
