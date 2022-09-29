@@ -1237,3 +1237,39 @@ msgstr "Waiting"
 
 msgid "백만"
 msgstr "Million"
+
+msgid "분"
+msgstr "Minute"
+
+msgid "시간"
+msgstr "Hour"
+
+msgid "일"
+msgstr "Work"
+
+msgid "주"
+msgstr "Main"
+
+msgid "답변완료"
+msgstr "Answer Complete"
+
+msgid "답변대기중"
+msgstr "Waiting for Reply"
+
+msgid "로그인 해주세요."
+msgstr "Please log in."
+
+msgid "등록하지 못했습니다."
+msgstr "Registration failed."
+
+msgid "다음과 같이 판매되었습니다."
+msgstr "It was sold as:"
+
+msgid "조회중입니다."
+msgstr "It is being viewed."
+
+msgid "등록"
+msgstr "Registration"
+
+msgid "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
+msgstr "The index refers to the trading index of Teaplat, and is a number that indicates whether or not trading is active."
