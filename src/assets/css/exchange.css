@@ -281,6 +281,12 @@ div.dts div.dataTables_scrollBody {
 		margin-bottom: 0;
 		line-height: 48px;
 	}
+
+	.sub.exchange .mobile-only.navigation--back{
+		display: inline-block!important;
+		margin-right: 15px;
+	}
+
 	.sub.exchange .contents--header .navigation{
 		height: 48px;
 		margin-right: 15px;

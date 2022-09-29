@@ -48,12 +48,24 @@ let SELECTED_EXCHANGE = getURLParameter('exchange') || 'KRW'
 let CHART_TIMER
 
 // 모바일 접속 여부
-let isMobile = (window.matchMedia('(max-width: 600px)').matches)
+let isMobile = (window.matchMedia('(max-width: 800px)').matches)
 
 $(function() {
     $(window).on('resize', () => {
-        isMobile = (window.matchMedia('(max-width: 600px)').matches)
+        isMobile = (window.matchMedia('(max-width: 800px)').matches)
+		if($(window).width()>=800) {
+			$(".side--panel").show();
+			$(".details").show();
+		} else {
+			$(".side--panel").show();
+			$(".details").hide();
+		}
     })
+
+	$("[name=btn_view_list]").on('click',function(){
+		$(".side--panel").show();
+		$(".details").hide();
+	})
 
     const genVolumeData = (data) => {
         let previous_close = 0
@@ -603,6 +615,16 @@ $(function() {
     })// 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
         if ( type === 'row' ) {
+
+			
+			if(isMobile) {
+				$(".side--panel").hide();
+				$(".details").show();
+			} else {
+				$(".side--panel").show();
+				$(".details").show();
+			}
+
             const data = row.data()
             
             console.log('select.dt === data:', data);
@@ -747,6 +769,10 @@ $(function() {
         } else {
             // api.row(ROWS_COUNT-1).select() // 마지막 선택
             api.row(0).select() // 첫번째 선택
+			if(isMobile) {
+				$(".side--panel").show();
+				$(".details").hide();
+			}
         }
     
 
