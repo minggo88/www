@@ -1274,3 +1274,6 @@ msgstr "茶"
 
 msgid "Teaware"
 msgstr "茶具"
+
+msgid "다음과 같이 주문이 등록되었습니다."
+msgstr "订单已登记如下。"

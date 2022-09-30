@@ -24,6 +24,7 @@ msgstr ""
 
 
 
+
 msgid "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
 msgstr ""
 
@@ -1285,4 +1286,7 @@ msgid "Tea"
 msgstr ""
 
 msgid "Teaware"
+msgstr ""
+
+msgid "다음과 같이 주문이 등록되었습니다."
 msgstr ""
