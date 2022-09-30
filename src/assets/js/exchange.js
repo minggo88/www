@@ -172,7 +172,11 @@ $(function() {
             }
         })
 
-        const container = document.getElementById('tvchart')
+        // 차트 대상 아이디
+        const target_id = 'tvchart';
+
+        // 차트 생성
+        const container = document.getElementById(target_id)
         $(container).empty();
         const chart = LightweightCharts.createChart(container, {
             width: detailsWidth,
@@ -181,6 +185,16 @@ $(function() {
                 mode: LightweightCharts.CrosshairMode.Normal,
             },
         })
+        
+        // ---------------------------------------------------
+        // 반응형처리
+        $(window).resize(function() {
+            chart.applyOptions({
+            width: $('#'+target_id).outerWidth(),
+            height: $('#'+target_id).outerHeight()
+            });
+        });
+  
         // ---------------------------------------------------
         // 가격봉 차트 생성
         var candleSeries = chart.addCandlestickSeries()
@@ -570,12 +584,14 @@ $(function() {
                 className: 'dt-body-right text-right',
                 type: 'any-number',
                 orderable: false,
+                responsivePriority: 1
             },
             {
                 targets: 4,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
                 orderable: false,
+                responsivePriority: 1
             },
             {
                 targets: 5,
@@ -591,6 +607,7 @@ $(function() {
                 targets: -1,
                 className: 'dt-body-center',
                 orderable: false,
+                responsivePriority: 1
             }
         ],
         order: [[0, 'desc']],
@@ -601,16 +618,16 @@ $(function() {
     .on('init.dt', function (_e, _settings) {
         const api = new $.fn.dataTable.Api( '#jqGrid' );
         if(isMobile) {
-            api.column(1).visible(false)
+            // api.column(1).visible(false)
         }
     })
     .on('responsive-resize', function () {
         const api = new $.fn.dataTable.Api( '#jqGrid' );
 
         if(isMobile) {
-            api.column(1).visible(false)
+            // api.column(1).visible(false)
         } else {
-            api.column(1).visible(true)
+            // api.column(1).visible(true)
         }
     })// 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
@@ -775,73 +792,6 @@ $(function() {
 			}
         }
     
-
-    //     const api = new $.fn.dataTable.Api( '#jqGrid' )
-
-    //     const row = api.row(':eq(0)')
-    //     const data = row.data()
-
-    //     console.log('draw.dt === data:', data);
-
-    //     const { name, symbol } = data
-
-    //     SELECTED_SYMBOL = symbol
-    //     SELECTED_NAME = name
-
-    //     // row.select() // ?? getChartData 를 두번 부르게 하는 원인... 선택시 차트 그리기때문에 여기서는 제외함.
-
-    //     const type = data.meta_type
-    //     const division = data.meta_division
-    //     const { producer, production_date, origin, icon_url } = data
-    //     const { scent, taste, weight } = data
-    //     const { story, keep_method }= data
-    //     const { teamaster_note, producer_note } = data
-    //     const { grade, certificate } = data
-
-    //     API.getSpotPrice(symbol, SELECTED_EXCHANGE, (resp) => {
-    //         if(resp.success) {
-    //             const spot = resp.payload[0]
-    //             if (!undefined) return;
-    //             $('#highest-price').text(real_number_format(spot.price_high))
-    //             $('#lowest-price').text(real_number_format(spot.price_low))
-    //             $('#spot-volume').text(real_number_format(spot.volume))
-    //             $('#spot-volume2').text(real_number_format(parseFloat(spot.price_close) * parseFloat(spot.volume)))
-
-    //             $('.details--price').text('' + parseFloat(spot.price_close).toFixed(2) + SELECTED_EXCHANGE)
-
-    //             const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
-    //             const diffPercent = (diff * 100).toFixed(2)
-    //             $('.details--price').next('span').find('>span').text( (diff >= 0 ? '+' : '') + diffPercent + '%')
-    //             $('#spot-diff').text(diff.format())
-    //         } else {
-    //             alert(resp.error.message)
-    //         }
-    //     })
-
-    //     $('.details--header .tea--name').text(name)
-    //     $('#tab-info .division').text(division)
-    //     $('#tab-info .type').text(type)
-    //     $('#tab-info .producer').text(producer)
-    //     $('#tab-info .certificate').text(certificate)
-    //     $('#tab-info img').attr('src', icon_url)
-    //     // 입체스캔
-    //     $('#scan .modal--body img').attr('src', data.animation)
-    //     // 원산지
-    //     $('#white-paper [name=origin]').val(origin)
-    //     $('#white-paper [name=producer]').val(producer)
-    //     //생산
-    //     $('#white-paper [name=production_date]').val(production_date)
-    //     // 맛
-    //     $('#white-paper #taste').html(nl2br(taste))
-    //     // 향
-    //     $('#white-paper #scent').val(scent)
-    //     $('#white-paper #weight').val(weight)
-    //     $('#white-paper #keep-method').html(nl2br(keep_method))
-    //     $('#white-paper #story').html(nl2br(story))
-    //     $('#white-paper #teamaster-note').html(nl2br(teamaster_note))
-    //     $('#white-paper #producer-note').html(nl2br(producer_note))
-    //     $('#white-paper #grade').html(nl2br(grade))
-
     })
 
     .DataTable({
@@ -858,7 +808,7 @@ $(function() {
 
                     // 버튼
                     if (isMobile) {
-                        return `<button type="button" class="btn ${classOn}"></button>${data}<br><span class="text--gray005">${row.meta_type}</span>`
+                        // return `<button type="button" class="btn ${classOn}"></button>${data}<br><span class="text--gray005">${row.meta_type}</span>`
                     }
                     return `<button type="button" class="btn ${classOn}"></button>${data}`
                 }
@@ -869,7 +819,7 @@ $(function() {
             { data: 'meta_wp_production_date' },
             // 현재가
             {
-                data: 'price', render: (data, _type, row) => {
+                data: 'price', responsivePriority: 1, render: (data, _type, row) => {
                     const diff = row.price_close - row.price_open
             
                     if (typeof (Intl) !== 'undefined') {
@@ -917,6 +867,7 @@ $(function() {
                 className: 'dt-body-left',
                 type: 'title-string',
                 "orderable": false,
+                responsivePriority: 1
             },
             {
                 targets: 'meta_type',
@@ -933,11 +884,13 @@ $(function() {
                 targets: 'price',
                 className: 'dt-body-right',
                 "orderable": false,
+                responsivePriority: 1
             },
             {
                 targets: [-1, -2],
                 className: 'dt-body-right',
                 "orderable": false,
+                responsivePriority: 1
             },
         ],
         responsive: true,
