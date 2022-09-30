@@ -632,7 +632,7 @@ $(function() {
     })
     // 그리드를 비선택하면
     .on('deselect.dt', function (_e, row, type, indexes) {
-    }
+    })
     // 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
         if ( type === 'row' ) {
@@ -942,7 +942,7 @@ $(function() {
         getTradeItems($(this).attr('data-target'));
     })
     // 전체 탭 클릭
-    $('#tab_all_item').trigger('click');
+    $('#tab_all_item').parent().removeClass('tab--active').end().trigger('click');
 
 })
 
@@ -1040,7 +1040,7 @@ $(function() {
             return false
         })
     
-        $('#modal-sell-direct')
+    $('#modal-sell-direct')
         .myModal('beforeOpen', (_event, btn) => {
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
@@ -1097,12 +1097,22 @@ $(function() {
         .submit(e => {
             e.preventDefault()
             API.sell($('#modal-sell').serializeObject(), (resp) => {
-                if(resp.success) {
+                if (resp.success) {
+                    
+                    // payload = {
+                    //     order_price: 주문가격
+                    //     remain_volume: 거래후 남은 수량
+                    //     orderid : 주문번호(DB저장된값)
+                    //     price: 거래된 평균가격
+                    //     volume: 거래된 수량
+                    //     amount: 거래된 금액
+                    // }
+
                     set_user_wallet();
                     $('#modal-sell').myModal('hide')
-                    $('#alert-sell').myModal('show')
-                    const price = parseFloat($('#modal-buy [name=price]').val())
-                    const volume = parseFloat($('#modal-buy [name=volume]').val())
+                    // $('#alert-sell').myModal('show')
+                    const price = parseFloat($('#modal-sell [name=price]').val())
+                    const volume = parseFloat($('#modal-sell [name=volume]').val())
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
                     $('#modal-sell-success .total').text(real_number(price * volume))

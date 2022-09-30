@@ -226,7 +226,8 @@ div.dts div.dataTables_scrollBody {
     width: 220px;
 }
 
-#modal-buy-success .modal--content {
+#modal-buy-success .modal--content,
+#modal-sell-success .modal--content{
     padding: 73px 20px 0;
     background: url('../img/logo.svg') no-repeat calc(100% - 20px) 17px;
 }
