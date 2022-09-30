@@ -1134,6 +1134,10 @@
 	display: flex;
 }
 
+.address .contents--header h2{
+	font-size: 2em;
+}
+
 .address .content_wrap .contents{
 	width: initial
 }
@@ -1175,10 +1179,16 @@
 
 
 @media screen and (max-width: 800px) {	
+	.address main{
+		padding-bottom: 0!important;
+		width: 100%;
+		box-sizing: border-box;
+	}
 	.address.deposit .contents--header{
 		height: 60px;
 		align-self: flex-start;
 		margin-bottom: 20px;
+		padding-left: 0;
 	}
 	.address main .contents--header h1{
 		margin: 0;
@@ -1198,6 +1208,7 @@
 		justify-content: flex-start;
 		height: 100%;
 		align-self: center;
+		width: 100%;
 	}
 	.address .form--btns{
 		position: absolute;
