@@ -629,7 +629,11 @@ $(function() {
         } else {
             // api.column(1).visible(true)
         }
-    })// 그리드를 선택하면
+    })
+    // 그리드를 비선택하면
+    .on('deselect.dt', function (_e, row, type, indexes) {
+    }
+    // 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
         if ( type === 'row' ) {
 
@@ -931,111 +935,14 @@ $(function() {
             }
         });
     }
+
     // 종목 구분 탭 클릭시 종목목록 조회
     $('[name=tab_item]').on('click', function () { 
-        const type = $(this).attr('data-target');
-        getTradeItems(type);
+        if ($(this).parent().hasClass('tab--active')) { return false; } // active 에서 중지
+        getTradeItems($(this).attr('data-target'));
     })
     // 전체 탭 클릭
     $('#tab_all_item').trigger('click');
-
-
-    // API.getCurrency('', (resp) => {
-    //     if(resp.success) {
-    //         const requestQueue =[]
-    //         const requestQueue2 =[]
-
-    //         const data = []
-
-    //         const spotList = []
-    //         const goodsList = []
-
-    //         CURRENCY_INFO = resp.payload;
-    //         setItemGrid(CURRENCY_INFO);
-
-    //         // console.log('----------getCurrency resp.payload:', resp.payload);
-    //         // resp.payload.map((item) => {
-    //         //     const symbol = item.symbol
-
-    //         //     requestQueue.push({ method: 'getSpotPrice', params: { token: window.localStorage.token, symbol: symbol, exchange: SELECTED_EXCHANGE } })
-    //         //     if(item.idx) requestQueue2.push({ method: 'getAuction/auction_goods_info.php', params: { token: window.localStorage.token, goods_idx: item.idx } })
-    //         // })
-
-    //         // const request = new Promise(async (resolve, _reject) => {
-    //         //     await API.requestSync(JSON.stringify(requestQueue), async (res) => {
-    //         //         res.map((payload) => {
-    //         //             if (!payload || !payload.payload || payload.payload.length<1) return;
-    //         //             spotList[payload.payload[0].symbol] = payload
-    //         //         })
-
-    //         //     })
-
-    //         //     resolve(spotList)
-    //         // })
-
-    //         // request.then((spotList) => {
-    //         // })
-
-    //         // const request2 = new Promise(async (resolve, _reject) => {
-    //         //     console.log('requestQueue2:',requestQueue2)
-    //         //     await API.requestSync(JSON.stringify(requestQueue2), async (res) => {
-    //         //         res.map((payload, index) => {
-    //         //             if (!payload || !payload.payload || payload.payload.length<1) return;
-                            
-    //         //             const symbol = payload.payload.idx
-
-    //         //             goodsList[symbol] = payload.payload
-
-    //         //             const item = resp.payload[index]
-
-    //         //             const spot = spotList[symbol]?.payload[0]
-    //         //             const goods = goodsList[symbol]
-
-    //         //             data.push({
-    //         //                 no: 1,
-    //         //                 name: item.name,
-    //         //                 symbol : symbol,
-    //         //                 category: '삽니다',
-    //         //                 meta_type: goods.meta_type ? goods.meta_type : '',
-    //         //                 meta_wp_production_date: goods.meta_wp_production_date ? goods.meta_wp_production_date : '',
-    //         //                 price: item.price,
-    //         //                 price_open: spot?.price_open,
-    //         //                 price_close: spot?.price_close,
-    //         //                 icon_url: item.icon_url,
-    //         //                 origin: goods?.meta_wp_origin,
-    //         //                 producer: goods?.meta_wp_producer,
-    //         //                 production_date: goods.meta_wp_production_date,
-    //         //                 scent: goods.meta_wp_scent,
-    //         //                 taste: goods.meta_wp_taste ? goods.meta_wp_taste : '',
-    //         //                 weight: goods.meta_wp_weight,
-    //         //                 keep_method: goods.meta_wp_keep_method ? goods.meta_wp_keep_method  : '',
-    //         //                 story: goods.meta_wp_story ? goods.meta_wp_story : '',
-    //         //                 teamaster_note: goods.meta_wp_teamaster_note ? goods.meta_wp_teamaster_note : '',
-    //         //                 producer_note: goods.meta_wp_producer_note ? goods.meta_wp_producer_note : '',
-    //         //                 grade: goods.meta_wp_grade ? goods.meta_wp_grade : '',
-    //         //                 certificate: goods.meta_certification_mark_name,
-    //         //                 animation: goods.animation,
-    //         //             })
-    //         //         })
-
-    //         //         resolve(data)
-    //         //     })
-    //         // })
-
-    //         // request2.then((data) => {
-    //         //     SELECTED_SYMBOL = data[0].symbol
-    //         //     console.log('-----------', data); 
-    //         //     setItemGrid(data);
-    //         // })
-
-    //     } else {
-
-    //     }
-    // })
-})
-
-$('[name=tab_item]').on('click', function () { 
-    const target = $(this).attr('data-target');
 
 })
 
