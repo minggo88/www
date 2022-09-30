@@ -354,7 +354,7 @@ $(function() {
         deferRender: true,
         scroller: true,
         ajax: {
-            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=trading`,
+            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`,
             type: 'POST',
             dataSrc: 'payload',
         },
@@ -450,17 +450,20 @@ $(function() {
                 className: 'dt-body-right text-right',
                 type: 'any-number',
                 orderable: false,
+                responsivePriority: 1
             },
             {
                 targets: 4,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
                 orderable: false,
+                responsivePriority: 1
             },
             {
                 targets: 5,
                 className: 'dt-body-right text-right',
                 orderable: false,
+                responsivePriority: 1
             },
             {
                 targets: 6,
@@ -471,6 +474,7 @@ $(function() {
                 targets: -1,
                 className: 'dt-body-center',
                 orderable: false,
+                responsivePriority: 1
             }
         ],
         order: [[0, 'desc']],
@@ -484,7 +488,7 @@ $(function() {
         deferRender: true,
         scroller: true,
         ajax: {
-            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=trading`,
+            url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`,
             type: 'POST',
             dataSrc: 'payload',
         },
@@ -577,6 +581,7 @@ $(function() {
                 className: 'dt-body-center',
                 type: 'any-number',
                 orderable: false,
+                responsivePriority: 1
 
             },
             {
@@ -597,6 +602,7 @@ $(function() {
                 targets: 5,
                 className: 'dt-body-right text-right',
                 orderable: false,
+                responsivePriority: 1
             },
             {
                 targets: 6,
@@ -723,10 +729,10 @@ $(function() {
 
             $('.details .tabs').on('beforeShow', (_event, _index, target) => {
                 if(target === '#tab-sell') {
-                    sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=trading`)
+                    sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
                     sellGrid.clear().load()
                 } else if ( target === '#tab-buy') {
-                    buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=trading`)
+                    buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
                     buyGrid.clear().load()
                 }
             })
@@ -797,7 +803,6 @@ $(function() {
         }
     
     })
-
     .DataTable({
         data: [],
         scrollY: 820,
@@ -993,12 +998,14 @@ $(function() {
                     $('#modal-buy-direct').myModal('hide')
                     const price = parseFloat($('#modal-buy-direct [name=price]').val())
                     const volume = parseFloat($('#modal-buy-direct [name=volume]').val())
+                    const exchange = parseFloat($('#modal-buy-direct [name=exchange]').val())
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
                     $('#modal-buy-success .total').text(real_number(price * volume))
+                    $('#modal-buy-success .exchange').text(exchange)
                     $('#modal-buy-success').myModal('show')
                     // 판매목록 갱신
-                    sellGrid.ajax.reload(null, false);
+                    $('#sellGrid').DataTable().ajax.reload(null, false);
                 } else {
                     alert(resp.error.message)
                 }
@@ -1027,12 +1034,14 @@ $(function() {
                     $('#modal-buy').myModal('hide')
                     const price = parseFloat($('#modal-buy [name=price]').val())
                     const volume = parseFloat($('#modal-buy [name=volume]').val())
+                    const exchange = parseFloat($('#modal-buy [name=exchange]').val())
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
                     $('#modal-buy-success .total').text(real_number(price * volume))
+                    $('#modal-buy-success .exchange').text(exchange)
                     $('#modal-buy-success').myModal('show')
                     // 구매목록 갱신
-                    buyGrid.ajax.reload(null, false);
+                    $('#buyGrid').DataTable().ajax.reload(null, false);
                 } else {
                     alert(resp.error.message)
                 }
@@ -1069,12 +1078,14 @@ $(function() {
                     $('#modal-sell-direct').myModal('hide')
                     const price = payload.order_price
                     const volume = payload.volume
+                    const exchange = parseFloat($('#modal-sell-direct [name=exchange]').val())
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
                     $('#modal-sell-success .total').text(real_number(price * volume))
+                    $('#modal-sell-success .exchange').text(exchange)
                     $('#modal-sell-success').myModal('show')
                     // 구매목록 갱신
-                    buyGrid.ajax.reload(null, false);
+                    $('#buyGrid').DataTable().ajax.reload(null, false);
                 } else {
                     alert(resp.error.message)
                 }
@@ -1113,12 +1124,14 @@ $(function() {
                     // $('#alert-sell').myModal('show')
                     const price = parseFloat($('#modal-sell [name=price]').val())
                     const volume = parseFloat($('#modal-sell [name=volume]').val())
+                    const exchange = parseFloat($('#modal-sell [name=exchange]').val())
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
                     $('#modal-sell-success .total').text(real_number(price * volume))
+                    $('#modal-sell-success .exchange').text(exchange)
                     $('#modal-sell-success').myModal('show')
                     // 판매목록 갱신
-                    sellGrid.ajax.reload(null, false);
+                    $('#sellGrid').DataTable().ajax.reload(null, false);
                 } else {
                     alert(resp.error.message)
                 }
