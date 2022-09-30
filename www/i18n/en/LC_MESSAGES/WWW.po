@@ -1279,3 +1279,6 @@ msgstr "Tea"
 
 msgid "Teaware"
 msgstr "Teaware"
+
+msgid "다음과 같이 주문이 등록되었습니다."
+msgstr "The order has been registered as follows."
