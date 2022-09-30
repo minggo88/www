@@ -1268,3 +1268,9 @@ msgstr "登记"
 
 msgid "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
 msgstr "该指数是指Teaplat的交易指数，是一个表示交易是否活跃的数字。"
+
+msgid "Tea"
+msgstr "茶"
+
+msgid "Teaware"
+msgstr "茶具"
