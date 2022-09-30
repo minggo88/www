@@ -58,6 +58,7 @@
 
 .wallet--grid {
     margin-top: 40px;
+	margin-bottom: 40px;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 20px;
     row-gap: 10px;
@@ -76,13 +77,23 @@
     background-color: var(--white);
     background-repeat: no-repeat;
     background-position: 12px center;
+	overflow: scroll;
 }
 
 .wallet--grid .grid .item_icon{
+	min-width: 32px;
 	width: 45px;
 	height: 45px;
-	background-size: cover;
 	margin-right: 10px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	box-sizing: border-box;
+}
+
+@media screen and (max-width: 600px) {
+	.wallet--grid .grid .item_icon{
+		background-size: contain;
+	}
 }
 
 .wallet--grid .grid .item_name{
@@ -310,6 +321,17 @@
 	margin-top: 20px;
 	padding:20px 34px 20px 20px;
 	background-color: #FAFAFA;
+	max-height: 480px;
+	overflow-y: auto;
+}
+@media screen and (max-width:600px){
+	.deposit .boxed{
+		height: 190px;
+	}
+	
+	.deposit .guide{
+		height: 480px;
+	}
 }
 
 .deposit .guide ul{
@@ -499,7 +521,13 @@
 /* deposit-guide */
 /* 입금 안내 */
 .deposit-guide .boxed{
-	height: 190px;
+	max-height: 220px;
+	overflow-y: auto;
+}
+@media screen and (max-width:600px){
+	.deposit-guide .boxed{
+		height: 190px;
+	}
 }
 
 
@@ -518,7 +546,10 @@
 }
 
 .deposit-withdrawal .input--group input{text-align: right;}
-
+.withdrawal-guide .boxed{
+	max-height: 220px;
+	overflow-y: auto;
+}
 
 @media (max-width: 800px) {
 	.deposit-withdrawal .content_wrap .contents{
