@@ -77,11 +77,11 @@
     background-color: var(--white);
     background-repeat: no-repeat;
     background-position: 12px center;
-	overflow: scroll;
+	/* overflow: scroll; */
+	overflow-x: auto;
 }
 
 .wallet--grid .grid .item_icon{
-	min-width: 32px;
 	width: 45px;
 	height: 45px;
 	margin-right: 10px;
@@ -141,6 +141,18 @@
     color: var(--blue-gray);
     letter-spacing: -0.15px;
 
+}
+
+@media screen and (min-width: 801px) and (max-width: 1000px) {
+	.wallet--grid .wallet--price{
+		font-size:15px;
+	}
+	.wallet--grid .wallet--market-price{
+		font-size:12px;
+	}
+	.wallet--grid .grid .grid--inner-right{
+		flex-basis: 245px;
+	}
 }
 
 .wallet--grid .wallet--btn {
