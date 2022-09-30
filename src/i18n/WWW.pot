@@ -20,6 +20,10 @@ msgstr ""
 #: ../assets/js/app.js:175 ../assets/js/app.min.js:1 ../assets/js/app.js:232
 #: ../assets/js/app.js:264
 
+
+
+
+
 msgid "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
 msgstr ""
 
@@ -1276,3 +1280,9 @@ msgstr "지수"
 
 msgid "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
 msgstr "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
+
+msgid "Tea"
+msgstr ""
+
+msgid "Teaware"
+msgstr ""
