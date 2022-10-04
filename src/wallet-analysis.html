@@ -47,7 +47,7 @@
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="./assets/js/transaction.js?t={version}" defer></script>
+<!-- <script type="text/javascript" src="./assets/js/transaction.js?t={version}" defer></script> -->
 
 </head>
 <!-- BODY -->
@@ -152,38 +152,38 @@
 					<button type="button" class="navigation--back"></button>
 					<h1 data-i18n class="desktop-only">Profit and Loss Analysis</h1>
 				</header>
-				<h1 class="size--20 mobile-only"><i class="icon-user-fill icon-transaction"></i> <span data-i18n>거래 내역</span></h1>
+				<h1 class="size--20 mobile-only"><i class="icon-user-fill icon-transaction"></i> <span data-i18n>종합분석</span></h1>
 				<div class="d-flex mobile-only period" style="margin-bottom: 16px">
 					<div class="dropdown-wrapper">
 						<button type="button" class="dropdown" data-i18n>기간</button>
 						<div class="dropdown--item">
 							<ul>
 								<li>
-									<button type="button" data-i18n>1주일</button>
+									<button type="button" name="btn-reset-1w" data-i18n>1주일</button>
 								</li>
 								<li>
-									<button type="button" data-i18n>1개월</button>
+									<button type="button" name="btn-reset-1m" data-i18n>1개월</button>
 								</li>
 								<li>
-									<button type="button" data-i18n>6개월</button>
+									<button type="button" name="btn-reset-6m" data-i18n>6개월</button>
 								</li>
 								<li>
-									<button type="button" data-i18n>1년</button>
+									<button type="button" name="btn-reset-1y" data-i18n>1년</button>
 								</li>
 							</ul>
 						</div>
 					</div>
 					<div style="display: flex; justify-content: space-between;">
 						<input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px">
-						<button type="submit" class="btn btn--red" data-i18n>조회하기</button>
-						<button type="reset" class="btn btn--gray" data-i18n>초기화</button>
+						<button type="submit" class="btn btn--red" name="btn-search" data-i18n>조회하기</button>
+						<button type="reset" class="btn btn--gray" name="btn-reset" data-i18n>초기화</button>
 					</div>
 				</div>
 				<div class="d-flex desktop-only" style="margin-bottom: 49px">
 					<div class="flex-center flex-self-center text--medium text-bold" style="width: 68px; text-align: center; margin-right: 7px" data-i18n>기간</div>
 					<input type="text" name="range" id="range" readonly class="daterange" style="margin-right: 10px">
-					<button type="submit" class="btn btn--red" style="margin-right:10px" data-i18n>조회하기</button>
-					<button type="reset" class="btn btn--gray" style="width: 72px;" data-i18n>초기화</button>
+					<button type="submit" class="btn btn--red" style="margin-right:10px" name="btn-search" data-i18n>조회하기</button>
+					<button type="reset" class="btn btn--gray" style="width: 72px;" name="btn-reset" data-i18n>초기화</button>
 				</div>
 				<div class="col-lg-12">
 					<div class="ibox float-e-margins">
@@ -192,43 +192,43 @@
 								<div class="pl-3">
 									<div class="middle_div big mb-10">
 										<div class="total_div npn">
-											<span class="entry">총 투자수익률 : </span>
-											<span class="data" name="total.investment_income_percent">0</span><span class="data">%</span>
+											<span class="entry" data-i18n>총 투자수익률 : </span>
+											<span class="data" data-bind="MyProfit.total.investment_income_percent">0</span><span class="data">%</span>
 										</div>
 										<div class="left_div">
 											<div class="data_div">
-												<div class="header_div">총 투자금액(KRW)</div>
-												<div class="inner_div"><span name="total.investment_amount">-61,589</span>원</div>
+												<div class="header_div" data-i18n>총 투자금액(KRW)</div>
+												<div class="inner_div"><span data-bind="MyProfit.total.investment_amount">0</span> <span data-i18n>원</span></div>
 											</div>
 											<div class="data_div">
-												<div class="header_div">총 투자손익(KRW)</div>
-												<div class="inner_div npn"><span name="total.investment_income">0</span>원</div>
+												<div class="header_div" data-i18n>총 투자손익(KRW)</div>
+												<div class="inner_div npn"><span data-bind="MyProfit.total.investment_income">0</span> <span data-i18n>원</span></div>
 											</div>
 											<div class="data_div">
-												<div class="header_div">기초평가금액</div>
-												<div class="inner_div"><span name="total.basic_evaluation_amount">-61,589</span>원</div>
+												<div class="header_div" data-i18n>기초평가금액</div>
+												<div class="inner_div"><span data-bind="MyProfit.total.basic_evaluation_amount">0</span> <span data-i18n>원</span></div>
 											</div>
 											<div class="data_div">
-												<div class="header_div">기말평가금액</div>
-												<div class="inner_div"><span name="total.final_evaluation_amount">-61,589</span>원</div>
+												<div class="header_div" data-i18n>기말평가금액</div>
+												<div class="inner_div"><span data-bind="MyProfit.total.final_evaluation_amount">0</span> <span data-i18n>원</span></div>
 											</div>
 										</div>
 										<div class="right_div">
 											<div class="data_div">
-												<div class="header_div">출금가능원화</div>
-												<div class="inner_div"><span name="total.available_withdraw_amount">837,580</span>원</div>
+												<div class="header_div" data-i18n>출금가능원화</div>
+												<div class="inner_div"><span data-bind="MyProfit.total.available_withdraw_amount">0</span> <span data-i18n>원</span></div>
 											</div>
 											<div class="data_div">
-												<div class="header_div">주문가능원화</div>
-												<div class="inner_div"><span name="total.available_order_amount">837,580</span>원</div>
+												<div class="header_div" data-i18n>주문가능원화</div>
+												<div class="inner_div"><span data-bind="MyProfit.total.available_order_amount">0</span> <span data-i18n>원</span></div>
 											</div>
 											<div class="data_div">
-												<div class="header_div">입금평가금액</div>
-												<div class="inner_div"><span name="total.deposit_evaluation_amount">0</span>원</div>
+												<div class="header_div" data-i18n>입금평가금액</div>
+												<div class="inner_div"><span data-bind="MyProfit.total.deposit_evaluation_amount">0</span> <span data-i18n>원</span></div>
 											</div>
 											<div class="data_div">
-												<div class="header_div">출금평가금액</div>
-												<div class="inner_div"><span name="total.withdraw_evaluation_amount">0</span>원</div>
+												<div class="header_div" data-i18n>출금평가금액</div>
+												<div class="inner_div"><span data-bind="MyProfit.total.withdraw_evaluation_amount">0</span> <span data-i18n>원</span></div>
 											</div>
 										</div>
 									</div>
@@ -245,21 +245,21 @@
 											</colgroup>
 											<thead>
 												<tr>
-												<th class="text-center">자산구분</th>
-												<th class="text-center">코드</th>
-												<th class="text-center">기초잔고</th>
-												<th class="text-center">기말잔고</th>
-												<th class="text-center">기간 중 입금</th>
-												<th class="text-center">기간 중 출금</th>
-												<th class="text-center">바로가기</th>
+												<th class="text-center" data-i18n>자산구분</th>
+												<th class="text-center" data-i18n>코드</th>
+												<th class="text-center" data-i18n>기초잔고</th>
+												<th class="text-center" data-i18n>기말잔고</th>
+												<th class="text-center" data-i18n>기간 중 입금</th>
+												<th class="text-center" data-i18n>기간 중 출금</th>
+												<th class="text-center" data-i18n>바로가기</th>
 												</tr>
 											</thead>
 											<tbody name="table_profit">
 												<tr name="empty" style="display:none">
-													<td colspan="7" class="text-center">조회내용이 없습니다.</td>
+													<td colspan="7" class="text-center" data-i18n>조회내용이 없습니다.</td>
 												</tr>
-												<tr name="loading" style="display: none;">
-													<td colspan="7" class="text-center"><img src="/template/vwyx3Z/images/loading-buffering.gif" style="width:21px;margin-right:1rem">조회중입니다.</td>
+												<tr name="search" style="">
+													<td colspan="7" class="text-center" data-i18n>조회중입니다.</td>
 												</tr>
 												<tr name="tpl" style="display:none">
 													<td class="pcenter text-left mergeTd symbol light">
@@ -272,116 +272,23 @@
 													</td>
 													<td class="pcenter text-right numberDiv">
 														<div class="number_div">{coin.basic_balance}</div>
-														<div class="symbol_div">≈{coin.basic_evaluation_amount}KRW</div>
+														<div class="symbol_div">≈{coin.basic_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-right numberDiv">
 														<div class="number_div">{coin.final_balance}</div>
-														<div class="symbol_div">≈{coin.final_evaluation_amount}KRW</div>
+														<div class="symbol_div">≈{coin.final_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">{coin.deposit_evaluation_amount}원</div>
+														<div class="number_div">{coin.deposit_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">{coin.withdraw_evaluation_amount}원</div>
+														<div class="number_div">{coin.withdraw_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-center mergeTd light">
 														<div class="btnArea">
-															<a href="#" class="btn btn-primary btn-xs {hide_trade_btn}">거래</a>
-															<a href="#" class="btn btn-primary btn-xs {hide_deposit_btn}">입금</a>
-															<a href="#" class="btn btn-danger btn-xs {hide_withdrawal_btn}">출금</a>
-														</div>
-													</td>
-												</tr>
-												<tr name="data">
-													<td class="pcenter text-left mergeTd symbol light">
-														<!-- <span class="icon-24 icon-24-baro mr-5" style="margin-bottom: -5px;"></span> -->
-														<img src="https://kmcse.s3.ap-northeast-2.amazonaws.com/202206/a3084d748856987586af4d86f914fb730321b7cb0ee790064b58b76786d3072a.png" style="height:24px;width:24px;">
-														바로여기
-													</td>
-													<td class="pcenter text-center mergeTd">
-														BARO
-													</td>
-													<td class="pcenter text-right numberDiv">
-														<div class="number_div">1</div>
-														<div class="symbol_div">≈91KRW</div>
-													</td>
-													<td class="pcenter text-right numberDiv">
-														<div class="number_div">1</div>
-														<div class="symbol_div">≈91KRW</div>
-													</td>
-													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">0원</div>
-													</td>
-													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">0원</div>
-													</td>
-													<td class="pcenter text-center mergeTd light">
-														<div class="btnArea">
-															<a href="#" class="btn btn-primary btn-xs {hide_trade_btn}">거래</a>
-															<a href="#" class="btn btn-primary btn-xs hide">입금</a>
-															<a href="#" class="btn btn-danger btn-xs hide">출금</a>
-														</div>
-													</td>
-												</tr>
-												<tr name="data">
-													<td class="pcenter text-left mergeTd symbol light">
-														<!-- <span class="icon-24 icon-24-krw mr-5" style="margin-bottom: -5px;"></span> -->
-														<img src="https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png" style="height:24px;width:24px;">
-														기업페이
-													</td>
-													<td class="pcenter text-center mergeTd">
-														KRW
-													</td>
-													<td class="pcenter text-right numberDiv">
-														<div class="number_div">-61,330</div>
-														<div class="symbol_div">≈-61,330KRW</div>
-													</td>
-													<td class="pcenter text-right numberDiv">
-														<div class="number_div">837,580</div>
-														<div class="symbol_div">≈-61,330KRW</div>
-													</td>
-													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">0원</div>
-													</td>
-													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">0원</div>
-													</td>
-													<td class="pcenter text-center mergeTd light">
-														<div class="btnArea">
-															<a href="#" class="btn btn-primary btn-xs hide">거래</a>
-															<a href="#" class="btn btn-primary btn-xs {hide_deposit_btn}">입금</a>
-															<a href="#" class="btn btn-danger btn-xs {hide_withdrawal_btn}">출금</a>
-														</div>
-													</td>
-												</tr>
-												<tr name="data">
-													<td class="pcenter text-left mergeTd symbol light"><!-- style="overflow:hidden;padding-left: 1rem;padding-right: 1rem;white-space: inherit;" -->
-														<!-- <span class="icon-24 icon-24-ptr mr-5" style="margin-bottom: -5px;"></span> -->
-														<img src="https://kmcse.s3.ap-northeast-2.amazonaws.com/202206/be2725a446fd9aba5a2a46a2d68dee4d9d52a5c4b6d5afeed896436b9a8b1a7a.png" style="height:24px;width:24px;">
-														퓨트로
-													</td>
-													<td class="pcenter text-center mergeTd">
-														PTR
-													</td>
-													<td class="pcenter text-right numberDiv">
-														<div class="number_div">-1</div>
-														<div class="symbol_div">≈-350KRW</div>
-													</td>
-													<td class="pcenter text-right numberDiv">
-														<div class="number_div">-1</div>
-														<div class="symbol_div">≈-350KRW</div>
-													</td>
-													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">0원</div>
-													</td>
-													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">0원</div>
-													</td>
-													<td class="pcenter text-center mergeTd light">
-														<div class="btnArea">
-															<a href="#" class="btn btn-primary btn-xs ">거래</a>
-															<a href="#" class="btn btn-primary btn-xs hide">입금</a>
-															<a href="#" class="btn btn-danger btn-xs hide">출금</a>
+															<a href="#" class="btn btn-primary btn-xs {hide_trade_btn}" data-i18n>거래</a>
+															<a href="#" class="btn btn-primary btn-xs {hide_deposit_btn}" data-i18n>입금</a>
+															<a href="#" class="btn btn-danger btn-xs {hide_withdrawal_btn}" data-i18n>출금</a>
 														</div>
 													</td>
 												</tr>
@@ -412,82 +319,12 @@
 					</div>
 				</div>
 				<script>
-					$('input[name="range"]').daterangepicker({
-						maxDate: moment(),
-						autoUpdateInput: true,
-						autoApply: true,
-						locale: {
-							format: 'YYYY-MM-DD',
-							"daysOfWeek": [
-								"일",
-								"월",
-								"화",
-								"수",
-								"목",
-								"금",
-								"토"
-							],
-							"monthNames": [
-								"1월",
-								"2월",
-								"3월",
-								"4월",
-								"5월",
-								"6월",
-								"7월",
-								"8월",
-								"9월",
-								"10월",
-								"11월",
-								"12월"
-							],
-						}
-					});
-					$('input[name="range"]').on('apply.daterangepicker', function(ev, picker) {
-						$(this).val(picker.startDate.format('YYYY-MM-DD') + '      ~      ' + picker.endDate.format('YYYY-MM-DD'));
-					});
-				</script>
-				<script>
-					let page = 1
-					let symbol = 'ETH'
+					// let page = 1
+					// let symbol = 'ETH'
 				</script>
 			</div>
 		</main>
 	</div>
-    <!-- <footer class="desktop-only">
-		<div class="logo">Teaplat</div>
-		<nav class="fnb">
-			<ul>
-				<li>
-					<a href="" data-i18n>회사소개</a>
-				</li>
-				<li>
-					<a href="" data-i18n>이용약관</a>
-				</li>
-				<li>
-					<a href="" data-i18n>개인정보보호정책</a>
-				</li>
-				<li>
-					<a href="faq.html" data-i18n>자주묻는질문</a>
-				</li>
-			</ul>
-			<div class="copyright">
-				<address>
-					<span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
-					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
-					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
-					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
-					<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
-					<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
-					<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
-				</address>
-				<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
-			</div>
-		</nav>
-		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
-		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
-		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
-	</footer> -->
 
     <script src="./assets/js/app.js?t={version}"></script>
 
