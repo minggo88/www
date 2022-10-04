@@ -156,8 +156,16 @@
 		padding-top: 0;
 	}
 	.viusalArea .typography {padding-top: 180px;}
-	.viusalArea .typography h1 {font-size: 24px; line-height: 60px;}
-	.front .viusalArea .typography p {margin: 20px; font-size: 16px; font-weight: 300; line-height: 23px;}
+	.viusalArea .typography h1 {
+		font-size: 18px; 
+		line-height: 25px;
+	}
+	.front .viusalArea .typography p {
+		margin: 20px; 
+		font-size: 12px; 
+		font-weight: 300; 
+		line-height: 23px;
+	}
 	.front .getting-started {margin-top: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; column-gap: 36px;}
 	.front .getting-started > *{display: block;}
 	.front .getting-started .btn-- {margin-bottom: 20px;}
@@ -564,4 +572,6 @@
 
 @media (max-width: 600px) {
 	header, .front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none!important;}
+
+
 }

@@ -1676,12 +1676,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     }
     window.logout = fn_logout;
 
-    fn_member_account = function () {
+    const fn_member_account = function () {
         request_user_info();
         force_rander('user_info', Model.user_info);
     }
 
-    fn_repw = function () {
+    const fn_repw = function () {
         check_logout(__('로그아웃 해주세요.'));
 
         $('[name=btn_repw]').on('click', function () {
@@ -1722,7 +1722,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         }
     }
 
-    fn_wallet_deposit = function () {
+    const fn_wallet_deposit = function () {
         check_login();
         // request_user_info();
         force_rander('user_info', Model.user_info);
@@ -1768,6 +1768,122 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             })
         })
 
+    }
+
+    const fn_wallet_analysis = function () {
+        check_login();
+        // request_user_info();
+        force_rander('user_info', Model.user_info);
+
+        $('input[name="range"]').daterangepicker({
+            format: 'YYYY-MM-DD',
+            maxDate: (new Date()),
+            autoUpdateInput: true,
+            autoApply: true,
+            locale: {
+                format: 'YYYY-MM-DD',
+                "daysOfWeek": [
+                    __("일"),
+                    __("월"),
+                    __("화"),
+                    __("수"),
+                    __("목"),
+                    __("금"),
+                    __("토")
+                ],
+                "monthNames": [
+                    __("1월"),
+                    __("2월"),
+                    __("3월"),
+                    __("4월"),
+                    __("5월"),
+                    __("6월"),
+                    __("7월"),
+                    __("8월"),
+                    __("9월"),
+                    __("10월"),
+                    __("11월"),
+                    __("12월")
+                ],
+            }
+        });
+        // 검색기간
+        let sdate = date('Y-m-d');
+        let edate = date('Y-m-d');
+        $('input[name="range"]').on('apply.daterangepicker', function(ev, picker) {
+            sdate = picker.startDate.format('YYYY-MM-DD');
+            edate = picker.endDate.format('YYYY-MM-DD');
+            console.log('sdate:', sdate, ',edate:', edate);
+        });
+        $('[name="btn-search"]').on('click', function() {
+            getMyProfit();
+        });
+        $('[name="btn-reset"]').on('click', function() {
+            sdate = date('Y-m-d');
+            edate = date('Y-m-d');
+            $('input[name="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[name="range"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-1w"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*7);
+            edate = date('Y-m-d');
+            $('input[name="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[name="range"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-1m"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*30);
+            edate = date('Y-m-d');
+            $('input[name="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[name="range"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-6m"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*30*6);
+            edate = date('Y-m-d');
+            $('input[name="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[name="range"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-1y"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*365);
+            edate = date('Y-m-d');
+            $('input[name="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[name="range"]').data('daterangepicker').setEndDate(edate);
+        });
+        // 잔액 조회
+        const getMyProfit = () => {
+            add_request_item('getMyProfit', { 'sdate': sdate, 'edate': edate }, function (r) { 
+                console.log(r, r?.success)
+                if (r?.success) {
+                    Model.MyProfit = r.payload;
+                    const $target = $('[name="table_profit"]');
+                    const tpl = $('<div></div>').append($target.find('[name=tpl]').clone().attr('name', '').removeClass('hide').css('display','')).html();
+                    let html = [];
+                    const detail = r.payload.detail;
+                    for (i in detail) {
+                        const row = detail[i];
+                        html.push(tpl
+                            .replace(/\{coin.icon_url\}/g, row.icon_url||'about:blank')
+                            .replace(/\{coin.name\}/g, row.name||'')
+                            .replace(/\{coin.SYMBOL\}/g, row.symbol||'')
+                            .replace(/\{coin.basic_balance\}/g, real_number_format(row.basic_balance))
+                            .replace(/\{coin.basic_evaluation_amount\}/g, real_number_format(row.basic_evaluation_amount))
+                            .replace(/\{coin.final_balance\}/g, real_number_format(row.final_balance))
+                            .replace(/\{coin.final_evaluation_amount\}/g, real_number_format(row.final_evaluation_amount))
+                            .replace(/\{coin.deposit_evaluation_amount\}/g, real_number_format(row.deposit_evaluation_amount))
+                            .replace(/\{coin.withdraw_evaluation_amount\}/g, real_number_format(row.withdraw_evaluation_amount))
+                            .replace(/\{hide_trade_btn\}/g, row.tradable=='Y' ? '' :'hide')
+                            .replace(/\{hide_deposit_btn\}/g, row.symbol==row.exchange ? '' :'hide')
+                            .replace(/\{hide_withdrawal_btn\}/g, row.symbol==row.exchange ? '' :'hide')
+                        )
+                    }
+                    $target.children().not('[name=tpl],[name=search],[name=empty]').remove();
+                    $target.append(html.join(''));
+                    $target.children('[name=search]').hide();
+                }
+
+            })
+        }
+        getMyProfit();
+        
     }
 
     // 페이지 컨트롤러 실행

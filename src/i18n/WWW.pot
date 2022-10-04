@@ -25,6 +25,7 @@ msgstr ""
 
 
 
+
 msgid "100MB를 넘는 영상은 유투브 등에 업로드하시고 소스 코드를 복사해서 붙여주세요."
 msgstr ""
 
@@ -1289,4 +1290,61 @@ msgid "Teaware"
 msgstr ""
 
 msgid "다음과 같이 주문이 등록되었습니다."
+msgstr ""
+
+msgid "준비중입니다."
+msgstr ""
+
+msgid "총 투자수익률"
+msgstr ""
+
+msgid "총 투자금액(KRW)"
+msgstr ""
+
+msgid "총 투자손익(KRW)"
+msgstr ""
+
+msgid "기초평가금액"
+msgstr ""
+
+msgid "기말평가금액"
+msgstr ""
+
+msgid "출금가능원화"
+msgstr ""
+
+msgid "주문가능원화"
+msgstr ""
+
+msgid "입금평가금액"
+msgstr ""
+
+msgid "출금평가금액"
+msgstr ""
+
+msgid "자산구분"
+msgstr ""
+
+msgid "코드"
+msgstr ""
+
+msgid "기초잔고"
+msgstr ""
+
+msgid "기말잔고"
+msgstr ""
+
+msgid "기간 중 입금"
+msgstr ""
+
+msgid "기간 중 출금"
+msgstr ""
+
+msgid "바로가기"
+msgstr ""
+
+msgid "조회내용이 없습니다."
+msgstr ""
+
+msgid "거래"
 msgstr ""

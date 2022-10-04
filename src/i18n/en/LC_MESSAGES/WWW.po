@@ -1282,3 +1282,60 @@ msgstr "Teaware"
 
 msgid "다음과 같이 주문이 등록되었습니다."
 msgstr "The order has been registered as follows."
+
+msgid "준비중입니다."
+msgstr "Coming Soon."
+
+msgid "총 투자수익률"
+msgstr "Total Return on Investment"
+
+msgid "총 투자금액(KRW)"
+msgstr "Total Investment (KRW)"
+
+msgid "총 투자손익(KRW)"
+msgstr "Total Investment Income (KRW)"
+
+msgid "기초평가금액"
+msgstr "Basic Evaluation Amount"
+
+msgid "기말평가금액"
+msgstr "Final Evaluation Amount"
+
+msgid "출금가능원화"
+msgstr "Withdrawable"
+
+msgid "주문가능원화"
+msgstr "Orderable"
+
+msgid "입금평가금액"
+msgstr "Deposit evaluation amount"
+
+msgid "출금평가금액"
+msgstr "Withdrawal evaluation amount"
+
+msgid "자산구분"
+msgstr "Asset Classification"
+
+msgid "코드"
+msgstr "Code"
+
+msgid "기초잔고"
+msgstr "Basic Balance"
+
+msgid "기말잔고"
+msgstr "End Balance"
+
+msgid "기간 중 입금"
+msgstr "Deposit during Period"
+
+msgid "기간 중 출금"
+msgstr "Withdrawal during Period"
+
+msgid "바로가기"
+msgstr "Shortcuts"
+
+msgid "조회내용이 없습니다."
+msgstr "There is no search content."
+
+msgid "거래"
+msgstr "Deal"
