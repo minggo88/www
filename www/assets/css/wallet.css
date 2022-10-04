@@ -58,6 +58,7 @@
 
 .wallet--grid {
     margin-top: 40px;
+	margin-bottom: 40px;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 20px;
     row-gap: 10px;
@@ -76,13 +77,23 @@
     background-color: var(--white);
     background-repeat: no-repeat;
     background-position: 12px center;
+	/* overflow: scroll; */
+	overflow-x: auto;
 }
 
 .wallet--grid .grid .item_icon{
 	width: 45px;
 	height: 45px;
-	background-size: cover;
 	margin-right: 10px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	box-sizing: border-box;
+}
+
+@media screen and (max-width: 600px) {
+	.wallet--grid .grid .item_icon{
+		background-size: contain;
+	}
 }
 
 .wallet--grid .grid .item_name{
@@ -130,6 +141,18 @@
     color: var(--blue-gray);
     letter-spacing: -0.15px;
 
+}
+
+@media screen and (min-width: 801px) and (max-width: 1000px) {
+	.wallet--grid .wallet--price{
+		font-size:15px;
+	}
+	.wallet--grid .wallet--market-price{
+		font-size:12px;
+	}
+	.wallet--grid .grid .grid--inner-right{
+		flex-basis: 245px;
+	}
 }
 
 .wallet--grid .wallet--btn {
@@ -310,6 +333,17 @@
 	margin-top: 20px;
 	padding:20px 34px 20px 20px;
 	background-color: #FAFAFA;
+	max-height: 480px;
+	overflow-y: auto;
+}
+@media screen and (max-width:600px){
+	.deposit .boxed{
+		height: 190px;
+	}
+	
+	.deposit .guide{
+		height: 480px;
+	}
 }
 
 .deposit .guide ul{
@@ -499,7 +533,13 @@
 /* deposit-guide */
 /* 입금 안내 */
 .deposit-guide .boxed{
-	height: 190px;
+	max-height: 220px;
+	overflow-y: auto;
+}
+@media screen and (max-width:600px){
+	.deposit-guide .boxed{
+		height: 190px;
+	}
 }
 
 
@@ -518,7 +558,10 @@
 }
 
 .deposit-withdrawal .input--group input{text-align: right;}
-
+.withdrawal-guide .boxed{
+	max-height: 220px;
+	overflow-y: auto;
+}
 
 @media (max-width: 800px) {
 	.deposit-withdrawal .content_wrap .contents{
@@ -634,7 +677,7 @@
 }
 
 .wallet-analysis .middle_div.big .total_div span.data{
-	padding-left: 20px;
+	padding-left: .3rem;
 }
 
 .wallet-analysis .middle_div.big .left_div,
@@ -1091,6 +1134,10 @@
 	display: flex;
 }
 
+.address .contents--header h2{
+	font-size: 2em;
+}
+
 .address .content_wrap .contents{
 	width: initial
 }
@@ -1132,10 +1179,16 @@
 
 
 @media screen and (max-width: 800px) {	
+	.address main{
+		padding-bottom: 0!important;
+		width: 100%;
+		box-sizing: border-box;
+	}
 	.address.deposit .contents--header{
 		height: 60px;
 		align-self: flex-start;
 		margin-bottom: 20px;
+		padding-left: 0;
 	}
 	.address main .contents--header h1{
 		margin: 0;
@@ -1155,6 +1208,7 @@
 		justify-content: flex-start;
 		height: 100%;
 		align-self: center;
+		width: 100%;
 	}
 	.address .form--btns{
 		position: absolute;
