@@ -81,7 +81,7 @@
 	overflow-x: auto;
 }
 
-.wallet--grid .grid .item_icon{
+.wallet--grid .grid .item_img{
 	width: 45px;
 	height: 45px;
 	margin-right: 10px;
@@ -91,7 +91,7 @@
 }
 
 @media screen and (max-width: 600px) {
-	.wallet--grid .grid .item_icon{
+	.wallet--grid .grid .item_img{
 		background-size: contain;
 	}
 }
