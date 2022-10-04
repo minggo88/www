@@ -133,7 +133,7 @@ function setURLParameter(key, val, url) {
 function real_number_format(n, d) {
     if (!d && Number(n) === n && n % 1 !== 0) d = 8; // float 숫자의 무의미한 소숫점을 제거하기위해 d 값 미설정시 8자리로 사용합니다.
 	if(typeof n==typeof undefined || n=='' || is_null(n) || is_nan(n) ){n='0';}
-	var sign = n<0 ? '-':'';
+	var sign = n<0 ? '-':''; 
 	if(d) { n = number_format(n, d); }
 	n = n+'';
 	n = n.replace(/[^0-9.]/g,'');
@@ -1505,7 +1505,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             }
         });
         // 지수 차트 생성
-        window.displayChart('indexCanvas', 'GCA18KTDKK', Model.exchange_rate.base_currency, '1h'); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
+        window.displayChart('indexCanvas', 'GCA18KTDKK', Model.exchange_rate.base_currency, '1h'); // window.displayChart('chartdomid', 'GCA18KTDKK', 'KRW', '1h');
 
         // 인기 종목 표시 ( + 차트)
         const $PriceTableTarget = $('[name=price_table]');
@@ -1585,7 +1585,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             //     chart_info.last_time = time();
             //     chart_info.last_date = date('Y.m.d H:i A');
             //     Model.chart_info = chart_info;
-            //     window.displayChart('indexCanvas', chart_info.symbol, chart_info.exchange, chart_info.term); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
+            //     window.displayChart('indexCanvas', chart_info.symbol, chart_info.exchange, chart_info.term); // window.displayChart('chartdomid', 'GCA18KTDKK', 'KRW', '1h');
             //     // 차트 기간 버튼 on/off
             //     $('[name="chart_term"]').find('[name="btn-term-' + chart_info.term + '"]').closest('li').addClass('on').siblings('li').removeClass('on');
             // }
@@ -1597,7 +1597,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             chart_info = clone(Model.chart_info);
             chart_info.term = term;
             Model.chart_info = chart_info;
-            window.displayChart('indexCanvas', chart_info.symbol, chart_info.exchange, chart_info.term); // window.displayChart('chartdomid', 'GCA18KTDKK', 'USD', '1h');
+            window.displayChart('indexCanvas', chart_info.symbol, chart_info.exchange, chart_info.term); // window.displayChart('chartdomid', 'GCA18KTDKK', 'KRW', '1h');
             $(this).closest('li').addClass('on').siblings('li').removeClass('on');
         })
     
