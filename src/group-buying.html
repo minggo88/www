@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
 <!-- META -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 <meta name="title" content="끽다거">
 <meta name="description" content="">
 <meta property="og:type" content="website">
@@ -22,32 +22,61 @@
 <link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
 <link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
 <link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t={version}">
-<link rel="stylesheet" href="./assets/css/common.css?t={version}">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./assets/css/colorset.css?t={version}" />
+<link rel="stylesheet" href="./assets/css/common.css?t={version}" />
 <link rel="stylesheet" href="./assets/css/header.css?t={version}">
 <link rel="stylesheet" href="./assets/css/footer.css?t={version}">
-<link rel="stylesheet" href="./assets/css/components.css?t={version}">
-<link rel="stylesheet" href="./assets/css/sub.css?t={version}">
-<link rel="stylesheet" href="./assets/css/login.css?t={version}">
+<link rel="stylesheet" href="./assets/css/components.css?t={version}" />
+<link rel="stylesheet" href="./assets/css/sub.css?t={version}" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css?t={version}" />
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}"></script>
-<script src="./assets/js/login.js?t={version}" defer></script>
 
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
 <script src="./i18n/i18n.js?t={version}"></script>
+<style>
+	main{
+		padding: 0!important;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+	.content_wrap .contents{
+		max-width: none;
+	}
 
+	.layout_content{
+		padding: 33px 19px 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.layout_content p{
+		font-size: 22px;
+		line-height: 32px;
+		margin: 0;
+		margin-bottom: 40px;
+		text-align:center
+	}
+
+	.layout_content div{
+		width: 230px;
+	}
+
+</style>
 </head>
 <!-- BODY -->
-<body class="sub login">
+<body class="sub group-bying">
 	<header>
 		<div class="header_inner">
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
@@ -56,7 +85,7 @@
 					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
-					<li>
+					<li class="active">
 						<a href="group-buying.html" data-i18n>공동구매</a>
 					</li>
 					<li>
@@ -122,34 +151,20 @@
 			</ul>
 		</div>
 	</header>
-    <main class="d-flex flex-center" id="box_login">
-        <form id="login" name="login" action="login.html" method="post" class="d-flex flex-row flex-center">
-            <div class="form--header">
-                <h1 data-i18n>Login</h1>
-            </div>
-            <div class="form--controls" style="margin-bottom: 10px">
-                <label for="email" class="form--label" data-i18n>Email</label>
-                <input type="text" name="email" id="email" required placeholder="이메일을 입력해주세요." autocomplete="off" />
-            </div>
-            <div class="form--controls" style="margin-bottom: 10px">
-                <label for="password" class="form--label" data-i18n>Password</label>
-                <input type="password" name="password" id="password" required  placeholder="비밀번호를 입력해주세요."/>
-            </div>
-            <div class="validation--message mobile-only-block" style="display: none">
-                <p data-i18n>비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다.</p>
-            </div>
-            <div class="find--password flex-right" style="margin-bottom: 11px">
-                <a href="forget.html" class="text-bold " data-i18n>비밀번호 찾기</a>
-            </div>
-            <div class="validation--message desktop-only" style="display: none">
-                <p></p>
-            </div>
-            <div class="form--btns">
-                <button class="btn btn--block btn--red text-bbold" data-i18n>로그인</button>
-                <a href="create-account.html" class="btn btn--block btn--gray text-bbold" data-i18n>이메일로 회원가입</a>
-            </div>
-        </form>
-    </main>
+	<div class="content_wrap">
+		<main class="d-flex d-justify">
+			<div class="contents">
+				<div class="item-getting-ready">
+					<div class="layout_content">
+						<p>공동구매 기능은 준비중입니다</p>
+						<div>
+							<img src="../src/assets/img/undercon.png" alt="준비중입니다." />
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
 
     <script src="./assets/js/app.js?t={version}"></script>
 

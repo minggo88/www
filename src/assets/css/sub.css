@@ -8,7 +8,8 @@
 	max-width: 1440px;
 	width: 100%;
 	margin: 0 auto;
-	height: calc(100% - 60px);
+	/* height: calc(100% - 60px); */
+	height: 100%;
 	
 }
 
@@ -1350,7 +1351,7 @@
 		margin-top: 0px;
 		position: absolute;
 		left: 0;
-		bottom: 30px;
+		bottom: 90px;
 	}
 	.sub.withdrawal .mobile-only{display: block!important;}
 }
