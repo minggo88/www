@@ -1277,3 +1277,60 @@ msgstr "茶具"
 
 msgid "다음과 같이 주문이 등록되었습니다."
 msgstr "订单已登记如下。"
+
+msgid "준비중입니다."
+msgstr "快来了。"
+
+msgid "총 투자수익률"
+msgstr "总投资回报"
+
+msgid "총 투자금액(KRW)"
+msgstr "总投资（韩元）"
+
+msgid "총 투자손익(KRW)"
+msgstr "总投资收益（韩元）"
+
+msgid "기초평가금액"
+msgstr "基本评估金额"
+
+msgid "기말평가금액"
+msgstr "最终评估金额"
+
+msgid "출금가능원화"
+msgstr "可提款"
+
+msgid "주문가능원화"
+msgstr "可订购"
+
+msgid "입금평가금액"
+msgstr "存款评估金额"
+
+msgid "출금평가금액"
+msgstr "提款评估金额"
+
+msgid "자산구분"
+msgstr "资产分类"
+
+msgid "코드"
+msgstr "代码"
+
+msgid "기초잔고"
+msgstr "基本余额"
+
+msgid "기말잔고"
+msgstr "结束余额"
+
+msgid "기간 중 입금"
+msgstr "期间存款"
+
+msgid "기간 중 출금"
+msgstr "期间提款"
+
+msgid "바로가기"
+msgstr "捷径"
+
+msgid "조회내용이 없습니다."
+msgstr "没有搜索内容。"
+
+msgid "거래"
+msgstr "交易"

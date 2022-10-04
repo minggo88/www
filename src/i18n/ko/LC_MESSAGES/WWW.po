@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-15 11:06+0900\n"
-"PO-Revision-Date: 2022-09-29 20:00+0900\n"
+"PO-Revision-Date: 2022-10-04 12:02+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ko\n"
@@ -1281,3 +1281,60 @@ msgstr "Teaware"
 
 msgid "다음과 같이 주문이 등록되었습니다."
 msgstr "다음과 같이 주문이 등록되었습니다."
+
+msgid "준비중입니다."
+msgstr "준비중입니다."
+
+msgid "총 투자수익률"
+msgstr "총 투자수익률"
+
+msgid "총 투자금액(KRW)"
+msgstr "총 투자금액(KRW)"
+
+msgid "총 투자손익(KRW)"
+msgstr "총 투자손익(KRW)"
+
+msgid "기초평가금액"
+msgstr "기초평가금액"
+
+msgid "기말평가금액"
+msgstr "기말평가금액"
+
+msgid "출금가능원화"
+msgstr "출금가능원화"
+
+msgid "주문가능원화"
+msgstr "주문가능원화"
+
+msgid "입금평가금액"
+msgstr "입금평가금액"
+
+msgid "출금평가금액"
+msgstr "출금평가금액"
+
+msgid "자산구분"
+msgstr "자산구분"
+
+msgid "코드"
+msgstr "코드"
+
+msgid "기초잔고"
+msgstr "기초잔고"
+
+msgid "기말잔고"
+msgstr "기말잔고"
+
+msgid "기간 중 입금"
+msgstr "기간 중 입금"
+
+msgid "기간 중 출금"
+msgstr "기간 중 출금"
+
+msgid "바로가기"
+msgstr "바로가기"
+
+msgid "조회내용이 없습니다."
+msgstr "조회내용이 없습니다."
+
+msgid "거래"
+msgstr "거래"

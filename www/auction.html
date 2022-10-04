@@ -2,8 +2,19 @@
 <html lang="ko">
 <head>
 <!-- META -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta name="title" content="끽다거">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="끽다거">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
 <title>끽다거</title>
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 <link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
@@ -11,28 +22,61 @@
 <link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
 <link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
 <link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1664432732">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748" />
+<link rel="stylesheet" href="./assets/css/common.css?t=1664432732" />
 <link rel="stylesheet" href="./assets/css/header.css?t=1664350978">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
-<link rel="stylesheet" href="./assets/css/components.css?t=1664449744">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1664852116">
-<link rel="stylesheet" href="./assets/css/login.css?t=1664191797">
+<link rel="stylesheet" href="./assets/css/components.css?t=1664449744" />
+<link rel="stylesheet" href="./assets/css/sub.css?t=1664852116" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css?t=1661823297" />
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/common.js?t=1663583938"></script>
+<script src="./assets/js/api.js?t=1664349972"></script>
+<script src="./assets/js/components.js?t=1664440787"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
 <script src="./assets/js/lib/security.min.js?t=1661838502"></script>
 <script src="./i18n/i18n.js?t=1664333383"></script>
+<style>
+	main{
+		padding: 0!important;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+	.content_wrap .contents{
+		max-width: none;
+	}
 
+	.layout_content{
+		padding: 33px 19px 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.layout_content p{
+		font-size: 22px;
+		line-height: 32px;
+		margin: 0;
+		margin-bottom: 40px;
+		text-align:center
+	}
+
+	.layout_content div{
+		width: 230px;
+	}
+
+</style>
 </head>
 <!-- BODY -->
-<body class="sub login create-account">
+<body class="sub group-bying">
 	<header>
 		<div class="header_inner">
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
@@ -44,7 +88,7 @@
 					<li>
 						<a href="group-buying.html" data-i18n>공동구매</a>
 					</li>
-					<li>
+					<li class="active">
 						<a href="auction.html" data-i18n>경매</a>
 					</li>
 					<li>
@@ -107,41 +151,20 @@
 			</ul>
 		</div>
 	</header>
-    <main class="d-flex flex-center">
-        <form action="create-account-complete.html" method="post" class="d-flex flex-row flex-center" style="position: relative">
-            <div class="form--header text-red" style="margin-bottom: 24px">
-                <button type="button" class="navigation--back"></button>
-				<h1 data-i18n>Create Your Account</h1>
-            </div>
-            <p class="m-0 flex-self-left text-bbold" style="font-size: 18px; margin-bottom: 7px !important" data-i18n>
-                보안 비밀번호 설정
-            </p>
-            <p class="m-0 flex-self-left text--medium text-bold" data-i18n>
-                한번 더 입력해 주세요.
-            </p>
-            <div class="d-grid grid--code">
-                <input type="number" name="" min="0" max="9" value="7">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-                <input type="number" name="" min="0" max="9" value="">
-            </div>
-            <div class="form--btns" style="margin-top: 0">
-                <button class="btn btn--block btn--red" data-i18n>확인</button>
-            </div>
-        </form>
-		<nav class="step--list">
-			<div class="step--header" data-i18n>ID 생성</div>
-			<ol>
-				<li class="step--active" data-i18n>계정 등록</li>
-				<li class="step--active" data-i18n>이메일 인증</li>
-				<li class="step--active" data-i18n>핸드폰 번호 인증</li>
-				<li class="step--active" data-i18n>핸드폰 본인 인증</li>
-				<li class="step--active" data-i18n>보안 비밀번호 설정</li>
-			</ol>
-		</nav>
-    </main>
+	<div class="content_wrap">
+		<main class="d-flex d-justify">
+			<div class="contents">
+				<div class="item-getting-ready">
+					<div class="layout_content">
+						<p>경매 기능은 준비중입니다</p>
+						<div>
+							<img src="../src/assets/img/undercon.png" alt="준비중입니다." />
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
 
     <script src="./assets/js/app.js?t=1664852082"></script>
 
