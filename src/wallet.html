@@ -319,6 +319,8 @@
 					// set default exchange currency symbol
 					const exchange = 'KRW';
 
+					const withdrawable_symbols = ['KRW']; // , 'USD', 'ETH'
+
 					API.getBalance('ALL', '', (resp) => {
 						$('.wallet--grid').removeClass('loading')
 
@@ -375,6 +377,10 @@
 										break
 								}
 
+								const deposit_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
+								const withdraw_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
+								const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
+
 								const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
 								grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
 								grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
@@ -386,8 +392,9 @@
 										${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+' '+exchange+'</div>' : ''}
 									</div>
 									<div class="wallet--btn">
-										<a href="wallet-deposit.html?symbol=${item.symbol}" class="btn btn--red btn--rounded">입금</a>
-										<a href="wallet-withdrawal.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded">출금</a>
+										<a href="wallet-deposit.html?symbol=${item.symbol}" class="btn btn--red btn--rounded" ${deposit_hide_style}>입금</a>
+										<a href="wallet-withdrawal.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${withdraw_hide_style}>출금</a>
+										<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
 									</div>
 								</div>`)
 								$('.wallet--grid').append(grid)
