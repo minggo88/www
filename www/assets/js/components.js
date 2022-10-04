@@ -125,6 +125,7 @@ $(function() {
     }
 
     $('.navigation--back').click(() => {
+        if (window.location.href.indexOf('exchange.html')) return false; // 거래소에서는 비활성화
         window.history.back()
     })
     $('.navigation').click(() => {
