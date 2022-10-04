@@ -85,7 +85,8 @@
 	width: 45px;
 	height: 45px;
 	margin-right: 10px;
-	background-size: contain;
+	background-size: cover;
+	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	box-sizing: border-box;
 }
