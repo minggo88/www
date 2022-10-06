@@ -1760,7 +1760,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
         const clipboard = new ClipboardJS('.btn--copy');
         clipboard.on('success', function (e) {
-            alert('클립보드에 복사되었습니다.')
+            alert(__('클립보드에 복사되었습니다.'))
             e.clearSelection()
         });
 
