@@ -85,7 +85,7 @@
 	width: 45px;
 	height: 45px;
 	margin-right: 10px;
-	background-size: cover;
+	background-size: contain;
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	box-sizing: border-box;
@@ -260,6 +260,9 @@
 
 /* deposit */
 /* 입금 */
+
+.deposit .contents a {vertical-align: unset;} /*    vertical-align: middle 인데 P 태그의 글자와 P > a 가 줄이 안맞아서 unset 으로 변경함.*/
+
 .deposit .contents .d-grid{
     grid-template-columns: repeat(2, 1fr);
     column-gap: 20px;
