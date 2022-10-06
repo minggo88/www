@@ -181,16 +181,17 @@ $(function() {
     }
 
     // Language Selector
-    API.getLanguageList((resp) => {
-        if(resp.success) {
-            resp.payload.map((lang) => {
-                $('.nav--side .language').dropdown('add', { value: lang.code, text: lang.name })
-            })
+    // 우선 한국어만
+    $('.nav--side .language').dropdown('add', { value: 'ko', text: '한국어' })
+    // API.getLanguageList((resp) => {
+    //     if(resp.success) {
+    //         resp.payload.map((lang) => {
+    //             $('.nav--side .language').dropdown('add', { value: lang.code, text: lang.name })
+    //         })
 
-            $('.nav--side .language').dropdown('select', window.localStorage.locale)
-
-        }
-    })
+    //         $('.nav--side .language').dropdown('select', window.localStorage.locale)
+    //     }
+    // })
 
     // Tab
     $('.tabs').on('click', 'li', (e) => {
