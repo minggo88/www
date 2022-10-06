@@ -33,52 +33,51 @@
 <link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
 <link rel="stylesheet" href="./assets/css/components.css?t=1664449744">
 <link rel="stylesheet" href="./assets/css/sub.css?t=1664852116">
-<link rel="stylesheet" href="./assets/css/wallet.css?t=1664871154">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1665029461">
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/common.js?t=1663583938"></script>
 <script src="./assets/js/api.js?t=1664349972"></script>
-<script src="./assets/js/components.js?t=1664874007"></script>
-<script src="./assets/js/wallet-withdrawal.js?t=1661823297" defer></script>
+<script src="./assets/js/components.js?t=1664963705"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 <script>
-    let USER_INFO = {}
+    // let USER_INFO = {}
 
-    API.getMyInfo((resp) => {
-        if(resp.success) {
-            const payload = resp.payload
+    // API.getMyInfo((resp) => {
+    //     if(resp.success) {
+    //         const payload = resp.payload
 
-            USER_INFO = {
-                ...USER_INFO,
-                userno: payload.userno,
-                userid: payload.userid,
-                phone: payload.phone,
-                mobile: payload.mobile,
-                bool_email: payload.bool_email,
-                bool_sms: payload.bool_sms,
-                regdate: payload.regdate,
-                bank_name: payload.bank_name,
-                bank_account: payload.bank_account,
-                bank_owner: payload.bank_owner,
-            }
+    //         USER_INFO = {
+    //             ...USER_INFO,
+    //             userno: payload.userno,
+    //             userid: payload.userid,
+    //             phone: payload.phone,
+    //             mobile: payload.mobile,
+    //             bool_email: payload.bool_email,
+    //             bool_sms: payload.bool_sms,
+    //             regdate: payload.regdate,
+    //             bank_name: payload.bank_name,
+    //             bank_account: payload.bank_account,
+    //             bank_owner: payload.bank_owner,
+    //         }
 
-            if(USER_INFO.userno) {
-                $('.nav--side .btn--login').hide()
-                $('.profile').show()
-                $('.wallet').show()
-                $('.profile .dropdown').text(USER_INFO.userid)
-            }
+    //         if(USER_INFO.userno) {
+    //             $('.nav--side .btn--login').hide()
+    //             $('.profile').show()
+    //             $('.wallet').show()
+    //             $('.profile .dropdown').text(USER_INFO.userid)
+    //         }
 
-            if(!USER_INFO.userno) {
-        // location.href = 'login.html'
-        return
-    }
-        }
-    })
+    //         if(!USER_INFO.userno) {
+    //     // location.href = 'login.html'
+    //     return
+    // }
+    //     }
+    // })
 </script>
 <script>
-    const symbol = 'BCH'
+    // const symbol = 'KRW'
 </script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
@@ -227,60 +226,43 @@
 					<h2><i class="icon-circle-fill"></i> 출금</h2>
 					<button type="button" class="deposit--guide-btn" onclick="location.href = 'wallet-withdrawal-guide.html'" data-i18n>출금 안내 </button>
 				</div>
-				<div class="mobile-only">
-					<div id="currecny" class="dropdown-wrapper">
-						<button type="button" class="dropdown" data-i18n>비트코인 캐시</button>
-						<div class="dropdown--item">
-							<ul>
-								<li>
-									<button type="button" data-i18n>비트코인캐시</button>
-								</li>
-							</ul>
-						</div>
+				<!-- <div class="dropdown-wrapper" style="display:block">
+					<button type="button" class="dropdown" name="symbol" data-i18n>KRW</button>
+					<div class="dropdown--item">
+						<ul>
+							<li>
+								<button type="button" data-i18n>KRW</button>
+							</li>
+						</ul>
 					</div>
-				</div>
-				<script>
-					API.getCurrency(null, (resp) => {
-						if(resp.success) {
-							resp.payload.filter((currency) => {
-								return currency.crypto_currency === 'Y'
-							}).map((currency) => {
-								$('#currency').dropdown('add', { text: currency.title, value: currency.symbol })
-								API.getBalance(currency.symbol, (resp) => {
-									console.log(resp)
-								})
-							})
-						}
-					})
-				</script>
+				</div> -->
 				<div class="d-grid deposit">
 					<section class="grid" style="height: 584px">
 						<h1 data-i18n>출금안내</h1>
 						<div style="padding-left: 9px">
 							<ul style=" margin-bottom: 20px">
-								<li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
-								<li data-i18n>고객님의 (비트코인캐시) 거래가 네트워크에 의해 처리되도록하기 위해 (비트코인캐시) 거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 거래소 수수료와 트랜젝션 수수료가 차감된 금액 입니다.</li>
-								<li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
-								<li data-i18n>모든 인출은 관리자가 확인한 후에 실행됩니다.</li>
+								<li data-i18n>본 거래소 고객님의 지갑에서 외부 지갑으로 송금이 가능 합니다.</li>
+								<li data-i18n>거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 출금 수수료가 차감된 금액 입니다.</li>
+								<li data-i18n>모든 출금은 관리자가 확인한 후에 실행됩니다.</li>
 							</ul>
 						</div>
 						<h1 data-i18n>요금안내</h1> 
 						<div style="width:224px; margin-top: 14px; padding-left: 8px;box-sizing: border-box">
 							<dl>
 								<dt class="size--14" id="fee_out" style="height: 32px; line-height: 32px" data-i18n>출금수수료</dt>
-								<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
+								<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.fee_out_str">0 KRW</span></dd>
 							</dl>
 							<dl>
 								<dt class="size--14" id="fee_in" style="height: 32px; line-height: 32px" data-i18n>내부출금수수료</dt>
-								<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0 BCH</dd>
+								<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.fee_out_intra_str">0 KRW</span></dd>
 							</dl>
 							<dl>
 								<dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최소출금액</dt>
-								<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
+								<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.out_min_volume_str">0 KRW</span></dd>
 							</dl>
 							<dl>
 								<dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최대출금액</dt>
-								<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.00000000 BCH</dd>
+								<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.out_max_volume_str">0 KRW</span></dd>
 							</dl>
 						</div>
 						<div style="padding-left: 9px">
@@ -295,69 +277,75 @@
 					<section class="grid" style="height: auto !important">
 						<div class="form--controls" style="margin-bottom: 10px">
 							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 가능금액</label>
-							<div class="input bg--lightgray b--dfdfdf" style="height: 40px">
+							<div class="input bg--lightgray b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group bg--lightgray">
-									<input type="text" id="address" value="1,234,567" disabled readonly class="bg--none b--none text-right text-black">
-									<span class="input--group--text">BTC</span>
+									<input type="text" id="tradable" name="tradable" value="0" disabled readonly class="bg--none b--none text-right text-black" data-bind="user_wallet.KRW.tradable" data-format="comma">
+									<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 								</div>
 							</div>
 						</div>
 						<div class="form--controls border" style="margin-bottom: 10px">
 							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>1일 출금 가능금액</label>
-							<div class="input bg--lightgray b--dfdfdf" style="height: 40px">
+							<div class="input bg--lightgray b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group">
-									<input type="text" id="eth" value="1,234,567" disabled class="bg--none b-none text-right text-black">
-									<span class="input--group--text">BTC</span>
+									<input type="text" id="tradable_today" value="" disabled class="bg--none b-none text-right text-black" data-bind="user_wallet.KRW.tradable_today" data-format="comma">
+									<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 								</div>
 							</div>
 						</div>
 						<div class="form--controls input--box" style="margin-bottom: 10px">
 							<label for="price" class="form--label" style="margin-bottom: 7px" data-i18n>출금하실 금액</label>
-							<div class="input b--dfdfdf" style="height: 40px">
+							<div class="input b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group">
-									<input type="text" id="text" value="1,234,567" inputmode="numeric" class="bg--none b-none text-right text-black">
-									<span class="input--group--text">BTC</span>
+									<input type="text" id="amount" name="amount"  value="0" inputmode="numeric" class="bg--none b-none text-right text-black">
+									<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 								</div>
 							</div>
 						</div>
 						<div class="form--controls" style="margin-bottom: 10px">
 							<label for="fee" class="form--label" style="margin-bottom: 7px" data-i18n>출금 수수료</label>
-							<div class="input bg--lightgray b--dfdfdf" style="height: 40px">
+							<div class="input bg--lightgray b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group">
-									<input type="text" id="fee" value="" readonly class="bg--none b-none">
-									<span class="input--group--text">BTC</span>
+									<input type="text" id="fee" name="fee" value="0" readonly class="bg--none b-none">
+									<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 								</div>
 							</div>
 						</div>
 						<div class="form--controls" style="margin-bottom: 10px">
 							<label for="" class="form--label" style="margin-bottom: 7px" data-i18n>실 출금액</label>
-							<div class="input bg--lightgray b--dfdfdf" style="height: 40px">
+							<div class="input bg--lightgray b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group">
-									<input type="text" id="realOut" value="" readonly class="bg--none b-none">
-									<span class="input--group--text">BTC</span>
+									<input type="text" id="realOut" name="real_out" value="0" readonly class="bg--none b-none">
+									<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 								</div>
 							</div>
 						</div>
 						<div class="form--controls desktop-only" style="margin-bottom: 10px">
 							<label for="pin" class="form--label" style="margin-bottom: 7px" data-i18n>보안비밀번호</label>
 							<div class="input--group">
-								<input type="password" id="pin" value="" class="text--blue-gray" placeholder="보안비밀번호 입력">
+								<input type="password" id="pin" name="pin" value="" class="text--blue-gray" placeholder="보안비밀번호 입력">
 							</div>
-							<p class="text--blue-gray" data-i18n>보안비밀번호는 계정관리 &gt; 보안비밀번호 변경에서 바꾸실수 있습니다.</p>
+							<p class="text--blue-gray" data-i18n>보안비밀번호는 마이페이지 &gt; <a href="change-pin-number.html">보안비밀번호 변경</a>에서 바꾸실수 있습니다.</p>
+						</div>
+						<div class="form--controls input--box">
+							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 주소</label>
+							
+							<div class="input b--dfdfdf" style="height: 40px;display:block;padding: 0;">
+								<div class="input--group">
+									<input type="text" id="address" name="address" readonly data-bind="user_wallet.KRW.address" style="text-align:center">
+									<button type="button" class="btn btn--copy btn--blue-gray"data-clipboard-target="[name=address]"  data-i18n>복사</button>
+								</div>
+							</div>
 						</div>
 						<div class="form--controls desktop-only">
-							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 (비트코인캐시) 주소</label>
-							<div class="input--group">
-								<input type="text" id="address" readonly>
-								<button type="button" class="btn btn--validate btn--blue-gray" data-i18n>검사</button>
+							<div class="d-flex flex-center" style="margin-top: 15px">
+								<a href="#" class="btn btn--red" data-i18n name="btn-withdraw">출금신청</a>
 							</div>
 						</div>
 					</section>
 				</div>
 				<div class="mobile-only btnArea">
-					
-						<a href="#" class="btn btn--red btn--write" data-i18n="">다음</a>
-					
+					<a href="#" class="btn btn--red" data-i18n name="btn-withdraw">출금신청</a>
 				</div>
 			</div>
 		</main>
@@ -397,7 +385,7 @@
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
 
-    <script src="./assets/js/app.js?t=1664874344"></script>
+    <script src="./assets/js/app.js?t=1664968047"></script>
 
 </body>
 </html>
