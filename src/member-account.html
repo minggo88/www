@@ -207,7 +207,7 @@
 				<header class="contents--header">
 					<button type="button" class="navigation--back"></button>
 					<h1 data-i18n>Member Account</h1>
-					<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
+					<!-- <a href="withdrawal.html" data-i18n>회원 탈퇴</a> -->
 				</header>
 				<form id="member-account" action="change-security-password2.html" class="boxed boxed--transparent d-flex" method="post" >
 					<div>
@@ -215,11 +215,11 @@
 						<div class="default" >
 							<div class="email form--controls">
 								<label for="email" data-i18n>이메일</label>
-								<input type="email" name="email" id="email" disabled>
+								<input type="email" name="email" id="email" autocomplete="off" disabled data-bind="form.email">
 							</div>
 							<div class="phone form--controls">
 								<label for="mobile" data-i18n>핸드폰 번호</label>
-								<input type="tel" name="mobile" id="mobile" disabled>
+								<input type="tel" name="mobile" id="mobile" autocomplete="off" disabled data-bind="form.mobile">
 							</div>
 							<div class="region">
 								<h1 class="m-0 size--16" data-i18n>거주지</h1>
@@ -227,25 +227,25 @@
 									<div class="row">
 										<div class="col-6">
 											<label for="country" class="form--label mobile-only" data-i18n>국가</label>
-											<input type="text" name="country" id="country" placeholder="국가" style="width: 100%" disabled>
+											<input type="text" name="country" id="country" placeholder="국가" style="width: 100%" autocomplete="off" disabled data-bind="form.country.name">
 										</div>
 										<div class="col-6">
 											<label for="country" class="form--label mobile-only" data-i18n>도시</label>
-											<input type="text" name="city" id="city" placeholder="도시" style="width: 100%" disabled>
+											<input type="text" name="city" id="city" placeholder="도시" style="width: 100%" autocomplete="off" data-bind="form.city">
 										</div>
 									</div>
 								</div>
 								<div class="form--controls address">
 									<label for="address" class="form--label mobile-only" data-i18n>주소</label>
-									<input type="text" name="address" id="address" placeholder="주소" style="width: 100%">
+									<input type="text" name="address_a" id="address_a" placeholder="주소" style="width: 100%" autocomplete="off" data-bind="form.address_a">
 								</div>
 								<div class="form--controls addressDesc">
 									<div class="row">
 										<div class="col-6">
-											<input type="text" name="address2" id="address2" placeholder="상세주소(옵션)">
+											<input type="text" name="address_b" id="address_b" placeholder="상세주소(옵션)" autocomplete="off" data-bind="form.address_b">
 										</div>
 										<div class="col-6">
-											<input type="text" name="postcode" id="postcode" placeholder="우편번호">
+											<input type="text" name="zipcode" id="zipcode" placeholder="우편번호" autocomplete="off" data-bind="form.zipcode">
 										</div>
 									</div>
 								</div> 
@@ -253,7 +253,7 @@
 						</div>
 						<a href="" class="text--red mobile-only" data-i18n>로그인 비밀번호 변경</a>
 						<div class="text--center">
-							<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>계정 수정</button>
+							<button class="btn btn--red" style="width: 340px; margin-top: 40px" name="btn-save-info" data-i18n>계정 수정</button>
 						</div>
 						<div class="text--center desktop-only"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password" style="width: 340px; margin-top: 30px" data-toggle="modal" data-target="#change-password" data-i18n>로그인 비밀번호 변경</a></div>
 					</div>
