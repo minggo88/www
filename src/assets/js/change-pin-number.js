@@ -2,7 +2,7 @@ $(function () {
     
     $('#change-security-password').submit((e) => {
         e.preventDefault()
-
+        console.log("a"+Model.user_info.userno)
         let check = true
         let pin = ''
         $('#change-security-password .grid--code input[type=number]').each((_index, elem) => {
@@ -72,6 +72,7 @@ $(function () {
 
         if(pin === pin2) {
             API.putMyInfo({
+                userno:Model.user_info.userno,
                 pin: pin
             }, (resp) => {
                 if(resp.success) {
