@@ -558,6 +558,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                                 $(this).addClass(vn);
                                 return; // 클래스 추가후 끝.
                                 break;
+                            case 'background-image':
+                                $(this).css('background-image', 'url('+vn+')');
+                                return; // 클래스 추가후 끝.
+                                break;
                             default:
                                 vt = vn;
                         }
@@ -1746,18 +1750,63 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     
                 $('#country').dropdown('add', { value: country.code.toLowerCase(), text: `<i class="flag ${country.code.toLowerCase()}"></i> ${country.name}` })
             })
-    
-            $('#country')
-                .dropdown('select', firstItem)
-                .dropdown('add_search')
-    
+            $('#country').dropdown('select', firstItem).dropdown('add_search')
             // 국가 선택
             select_country(Model.user_info.mobile_country_code);
-            
         })
-    
+    }
 
+    /**
+     * ID 인증 관리
+     */
+    const fn_my_verification = function () { 
+        check_login();
+
+        if(user_info.image_identify_url) $('.preview[for="file_identify_url"]').css('background-image', 'url(' + user_info.image_identify_url + ')');
+        if(user_info.image_mix_url) $('.preview[for="file_mix_url"]').css('background-image', 'url(' + user_info.image_mix_url + ')');
         
+
+        // permission 값 의미 : 1: 가입여부, 2: 로그인여부, 3: 핸드폰 인증여부, 4: 신분증 인증 여부, 5:은행 인증 여부
+        const permission_level = Model.user_info.permission.match(/1/g).length; // '11000' => 2 , 
+        if (Model.user_info.permission.substr(3, 1) == '1') {// 신분증 인증 완료
+            $('[name=status_success]').show();
+        } else {
+            if (Model.user_info.image_identify_url) { // 신분증 인증 대기중
+                $('[name=status_waiting]').show();
+            } else { // 신분증 인증 입력 필요
+                $('[name=status_default]').show();
+            }
+        }
+
+        $('input[type="file"]').on('change', function () { 
+            const name = $(this).attr('title');
+            const target = $(this).attr('data-target');
+            const image_url = upload_file($(this), name);
+            $(target).val(image_url);
+            $(target).siblings('[name="preview"]').css('background-image', 'url(' + image_url + ')').show();
+            $('#bool_confirm_idimage').val('0');
+        })
+
+        $('.box-image-selector .preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
+
+        $('[name="btn_save"]').on('click', function () { 
+            if (!$('#verification4 #file_identify_url').val()) {
+                alert(__('신분증 사진을 선택해주세요.'))
+            }
+            if (!$('#verification4 #file_mix_url').val()) {
+                alert(__('신분증 및 회원 사진을 선택해주세요.'))
+            }
+            add_request_item('putMyInfo', unserialize($('#verification4').serialize()), function (r) { 
+                console.log(r);
+                if (r?.success) {
+                    alert(__('저장했습니다.'));
+                    $('[name=status_waiting]').show().siblings().hide();
+                } 
+            })
+            return false;
+        })
+        
+
     }
 
     const fn_repw = function () {
