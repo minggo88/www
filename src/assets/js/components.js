@@ -282,7 +282,7 @@ $(function() {
     })
 
 	////////////////////////////////////////////////////////
-
+	// 드롭다운 메뉴의 바깥을 클릭할 경우
     $(document).on('click', '.dropdown', (e) => {
         e.stopPropagation()
 
@@ -299,13 +299,13 @@ $(function() {
         const value = self.data('value')
 
         const wrapper = $(e.target).closest('.dropdown-wrapper')
-		/* const Background = $('tab_bar').closest('.dropdown-wrapper') */
+		// const Background = $('tab_bar').closest('.dropdown-wrapper')
 
         wrapper.dropdown('select', value)
         wrapper.data('selected', value)
         wrapper.find('.dropdown--selected').removeClass('dropdown--selected')
         wrapper.find('.dropdown').removeClass('dropdown--open')
-		/* Background.removeClass('active') */
+		// Background.removeClass('active')
 
         $(e.target).closest('li').addClass('dropdown--selected')
         $(e.target).closest('.dropdown--item').find('>span').text(text)
