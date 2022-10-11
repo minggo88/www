@@ -131,7 +131,7 @@
 				<nav class="side--snb">
 					<ul>
 						<li>
-							<a href="wallet.html" data-i18n>보유 자산</a>
+							<a href="wallet.html" data-i18n>My Wallet</a>
 						</li>
 						<li class="snb--active">
 							<a href="wallet-deposit.html" data-i18n>입금</a>
@@ -154,16 +154,16 @@
 					<h2><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></h2>
 					<button type="button" class="deposit--guide-btn" onclick="location.href = 'wallet-deposit-guide.html'" data-i18n>입금 안내 </button>
 				</div>
-				<div class="dropdown-wrapper" style="display:block">
-					<button type="button" class="dropdown" name="symbol" data-i18n>USD</button>
+				<!-- <div class="dropdown-wrapper" style="display:block">
+					<button type="button" class="dropdown" name="symbol" data-i18n>KRW</button>
 					<div class="dropdown--item">
 						<ul>
 							<li>
-								<button type="button" data-i18n>USD</button>
+								<button type="button" data-i18n>KRW</button>
 							</li>
 						</ul>
 					</div>
-				</div>
+				</div> -->
 				<div id="qrcode2" class="mobile-only" style="display:none !important">
 					<div class="size--14 text--center" style="margin-top: 36px; font-weight: 500; font-family: Inter;margin-bottom: 7px" data-i18n>QR Code</div>
 				</div>
@@ -191,15 +191,15 @@
 						<div class="eth form--controls" style="margin-bottom: 18px">
 							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>잔액</label>
 							<div class="input--group">
-								<input type="text" disabled class="text-right text-black" value="0" data-bind="user_wallet.USD.confirmed" data-format="comma">
-								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>USD</div>
+								<input type="text" disabled class="text-right text-black" value="0" data-bind="user_wallet.KRW.confirmed" data-format="comma">
+								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 							</div>
 						</div>
 						<div class="eth form--controls" style="margin-bottom: 18px">
 							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>입금액</label>
 							<div class="input--group">
 								<input type="text" name="deposit_amount" class="text-right text-black" value="0">
-								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>USD</div>
+								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 							</div>
 						</div>
 						<div class="eth form--controls" style="margin-bottom: 18px">

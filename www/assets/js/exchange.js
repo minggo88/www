@@ -795,11 +795,12 @@ $(function() {
             }
         } else {
             // api.row(ROWS_COUNT-1).select() // 마지막 선택
-            api.row(0).select() // 첫번째 선택
 			if(isMobile) {
-				$(".side--panel").show();
+                $(".side--panel").show();
 				$(".details").hide();
-			}
+            } else {
+                api.row(0).select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
+            }
         }
     
     })
