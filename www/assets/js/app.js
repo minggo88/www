@@ -220,16 +220,16 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 // app
 
 ;
-(jQuery(function($) {
+(jQuery(function ($) {
 
     const SERVICE_NAME = 'kkikda';
 
     /* 언어 */
-    $('.box_language').on('click', '.box_current', function() {
+    $('.box_language').on('click', '.box_current', function () {
         $('.box_option').toggle();
         $(this).find('.arrow.up,.arrow.down').toggle();
     });
-    $('.box_language').on('click', '.box_option', function() {
+    $('.box_language').on('click', '.box_option', function () {
         let lang = $(this).attr('data-lang');
         if (lang != window.lang) {
             $('.box_option').toggle();
@@ -239,18 +239,18 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             // $box_current.find('.txt-lang').text(lang_str);
             // let $img = $box_current.find('img')
             // $img.attr('src', $img.attr('src').replace('_'+window.lang+'.png', '_'+lang+'.png'));
-            _c(lang, function() { window.location.reload(); });
+            _c(lang, function () { window.location.reload(); });
         }
     });
 
     /* window resize */
-    $(window).resize(function() {
+    $(window).resize(function () {
         // headerEvent();
         // imgCheck();
     });
 
     /* for file upload */
-    $(document).on('change', 'input.file-upload', function() {
+    $(document).on('change', 'input.file-upload', function () {
         var fileSelect = $(this).closest('.file-select');
         var file = $(this)[0].files[0];
         var totalSize = $(this)[0].files[0].size;
@@ -282,12 +282,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
      * @param {jQueryObject} $input_file  <input type="file"> 의 jQuery 객체
      * @returns 파일 URL
      */
-    const upload_file = function($input_file, $item_name) {
+    const upload_file = function ($input_file, $item_name) {
         $item_name = $item_name ? $item_name : '';
         let image_tmp_url = '';
         // 이미지 업로드 후 s3 이미지url 설정
         if ($.trim($input_file.val()) != '') {
-            $form = $('<form><input type="hidden" name="token" value="'+getCookie('token')+'"></form>');
+            $form = $('<form><input type="hidden" name="token" value="' + getCookie('token') + '"></form>');
             $form.attr('enctype', 'multipart/form-data');
             $input_file.attr('name', 'file_data').after($input_file.clone(true));
             $form.append($input_file);
@@ -300,7 +300,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 'contentType': false,
                 'data': formData,
                 'type': 'POST',
-                'success': function(r) {
+                'success': function (r) {
                     if (r && r.success && r.payload) {
                         let file = r.payload[0];
                         if (file.url) {
@@ -313,7 +313,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         alert(__('{item_name} 파일을 저장하지 못했습니다.').replace('{item_name}', $item_name) + ' ' + msg)
                     }
                 },
-                'fail': function() {
+                'fail': function () {
                     alert(__('{item_name} 파일을 업로드하지 못했습니다.').replace('{item_name}', $item_name));
                 }
             });
@@ -328,7 +328,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     let TOKEN_DOMAIN = window.location.host; //"";
     let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
     // let API_WALLET_URL = 'https://api.wallet.smart-talk.io/v1.0';
-    SERVICE_DOMAIN = window.location.host.replace('www.','');
+    SERVICE_DOMAIN = window.location.host.replace('www.', '');
     if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1 || window.location.host.indexOf('src.') !== -1) {
         APP_RUNMODE = "loc";
         API_URL = "//api." + (window.location.host) + "/v1.0";
@@ -352,15 +352,15 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     // jQuery plugins ----------------------------------------------------------------------------
     // get Numeric Value
-    $.fn.numericVal = function() {
+    $.fn.numericVal = function () {
         return $(this).val().replace(/[^0-9.]/g, '') * 1;
     };
     // 마우스 휠 횡스크롤
     // https://www.it-swarm-ko.tech/ko/html/div%ec%97%90%ec%84%9c-%eb%a7%88%ec%9a%b0%ec%8a%a4-%ed%9c%a0%eb%a1%9c-%ea%b0%80%eb%a1%9c-%ec%8a%a4%ed%81%ac%eb%a1%a4/1067923375/
     // https://jsfiddle.net/q3pf2hge
-    $.fn.hScroll = function(amount) {
+    $.fn.hScroll = function (amount) {
         amount = amount || 120;
-        $(this).bind("DOMMouseScroll mousewheel", function(event) {
+        $(this).bind("DOMMouseScroll mousewheel", function (event) {
             var oEvent = event.originalEvent,
                 direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta,
                 position = $(this).scrollLeft();
@@ -372,25 +372,25 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     // set language ----------------------------------------------------------------------------
     let APP_LANG = window.lang || 'ko';
-    const change_language = function(lang) {
+    const change_language = function (lang) {
         if (lang && lang !== APP_LANG) {
             tpl = {}; // let으로 정의한 tpl도 사용가능함.
             APP_LANG = lang;
             $('html').attr('lang', APP_LANG);
             // 서버에 언어 저장. 쿠키 값을 사용하지만 서버에서도 필요할까하여 저장함. 이메일을 보내거나 할때 ... 사용하면 좋아서.
             if (Model.user_info.userid) {
-                add_request_item('putMyInfo/putLanguage.php', { 'display_language': lang }, function(r) {});
+                add_request_item('putMyInfo/putLanguage.php', { 'display_language': lang }, function (r) { });
             }
-            _c(lang, function() {
+            _c(lang, function () {
                 reload();
             });
         }
     }
     // 언어 변경 버튼 처리
-    $('.box_language').on('click', function() {
+    $('.box_language').on('click', function () {
         $('.box_language .flags').toggle();
     })
-    $('.box_language [name=btn_language]').on('click', function() {
+    $('.box_language [name=btn_language]').on('click', function () {
         let lang = $(this).attr('data-lang');
         change_language(lang);
     });
@@ -423,21 +423,21 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         setCookie('token', _no, 0, TOKEN_DOMAIN);
         key = APP_NAME + APP_VERSION + _no;
     }
-    const set_model_location = function(itemname, location) {
+    const set_model_location = function (itemname, location) {
         if (location === 'session') {
             local_item = remove_array_by_value(local_item, itemname);
-            if (typeof(session_item[itemname]) == typeof(undefined)) {
+            if (typeof (session_item[itemname]) == typeof (undefined)) {
                 session_item.push(itemname);
             }
         }
         if (location === 'local') {
             session_item = remove_array_by_value(session_item, itemname);
-            if (typeof(local_item[itemname]) == typeof(undefined)) {
+            if (typeof (local_item[itemname]) == typeof (undefined)) {
                 local_item.push(itemname);
             }
         }
     }
-    const clone = function(obj) {
+    const clone = function (obj) {
         return JSON.parse(JSON.stringify(obj))
     }
 
@@ -446,7 +446,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
      * @param String name 콜백이름(중복방지용)
      * @param Function listener 콜백함수
      */
-    const addChangeListener = function(property, name, listener) {
+    const addChangeListener = function (property, name, listener) {
         const key = name; // md5, sha1으로 변경하기.
         // 단일 콜백.
         // __listener__[property] = listener;
@@ -458,7 +458,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             __listener__[property][key] = listener;
         }
     }
-    const rander = function(property, value, oldValue, force) {
+    const rander = function (property, value, oldValue, force) {
         for (i in value) {
             // console.error('property:', property);
             // console.error('value:', value);
@@ -477,7 +477,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     // console.error('i:', i);
                     // console.error('value:', value);
                     // console.error('selector:', '[data-bind="' + property + '.' + i + '"]');
-                    $('[data-bind="' + property + '.' + i + '"]').each(function() {
+                    $('[data-bind="' + property + '.' + i + '"]').each(function () {
                         var tagname = this.tagName,
                             tagname = tagname.toUpperCase(),
                             format = $(this).attr('data-format');
@@ -485,47 +485,47 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         switch (format) {
                             case 'table':
                                 const data = vn;
-                                const $target = $(this), $empty =$target.find('[name=empty]'), $search =$target.find('[name=search]');
+                                const $target = $(this), $empty = $target.find('[name=empty]'), $search = $target.find('[name=search]');
                                 $search.hide().addClass('hide');
                                 $empty.hide().addClass('hide');
                                 // console.log('target:', $target);
                                 // console.log('$tpl:', $tpl);
-                                if(!data || data.length < 1) {
+                                if (!data || data.length < 1) {
                                     $empty.show().removeClass('hide');
                                     $target.children().not('[name=tpl],[name=search],[name=empty]').remove();
                                 } else {
-                                    let html = [], $tpl = $('<div></div>').append($target.find('[name=tpl]').clone().attr('name','').removeClass('hide')); // div로 감싸사 tpl 첫 DOM도 data-bind를 쓸수 있도록 합니다. 그리고 $tpl.html()을 하면 div는 제외하고 tpl만 추출됩니다.
-                                    for( let i in data) {
+                                    let html = [], $tpl = $('<div></div>').append($target.find('[name=tpl]').clone().attr('name', '').removeClass('hide')); // div로 감싸사 tpl 첫 DOM도 data-bind를 쓸수 있도록 합니다. 그리고 $tpl.html()을 하면 div는 제외하고 tpl만 추출됩니다.
+                                    for (let i in data) {
                                         let _row = data[i], _tpl = $tpl.clone();
-                                        for(let k in _row) {
-                                            let $row = _tpl.find('[data-bind="row.'+k+'"]'), vn = _row[k], format = $row.attr('data-format'), decimals = $row.attr('data-decimals');
-                                            switch(format) {
-                                                case 'attr': $row.attr('data-'+k, vn); break;
-                                                case 'comma': $row.text(real_number_format(vn,decimals)); break;
+                                        for (let k in _row) {
+                                            let $row = _tpl.find('[data-bind="row.' + k + '"]'), vn = _row[k], format = $row.attr('data-format'), decimals = $row.attr('data-decimals');
+                                            switch (format) {
+                                                case 'attr': $row.attr('data-' + k, vn); break;
+                                                case 'comma': $row.text(real_number_format(vn, decimals)); break;
                                                 case 'date':
-                                                    $row.each(function(){
-                                                        let date_format = $(this).attr('data-date_format')||'';
+                                                    $row.each(function () {
+                                                        let date_format = $(this).attr('data-date_format') || '';
                                                         $(this).text(date_format ? date(date_format, vn) : vn);
                                                     })
-                                                break;
-                                                case 'add-class':$row.addClass(vn);break;
-                                                case 'number': $row.text((vn+'').replace(/[^0-9.-]/g,'')); break;
+                                                    break;
+                                                case 'add-class': $row.addClass(vn); break;
+                                                case 'number': $row.text((vn + '').replace(/[^0-9.-]/g, '')); break;
                                                 // case 'html': $row.html(vn); break;
                                                 default:
-                                                    $row.each(function(){
+                                                    $row.each(function () {
                                                         const TAGNAME = this.tagName ? this.tagName.toUpperCase() : '';
                                                         switch (TAGNAME) {
-                                                            case 'A' :
-                                                                $row.attr('href',vn); break;
-                                                            default :
-                                                                if(format=='html') {
+                                                            case 'A':
+                                                                $row.attr('href', vn); break;
+                                                            default:
+                                                                if (format == 'html') {
                                                                     $row.html(vn);
-                                                                } else{
+                                                                } else {
                                                                     $row.text(vn);
                                                                 }
                                                         }
                                                     });
-                                                break;
+                                                    break;
                                             }
                                         }
                                         html[i] = _tpl.html();
@@ -542,7 +542,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                                 break;
                             case 'add-class':
                                 $(this).addClass(vn);
-                                return ; // 클래스 추가후 끝.
+                                return; // 클래스 추가후 끝.
                                 break;
                             default:
                                 vt = vn;
@@ -552,28 +552,28 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         switch (tagname) {
                             case 'INPUT':
                                 let type = ($(this).attr('type') + '').toUpperCase();
-                                switch(type) {
+                                switch (type) {
                                     case 'CHECKBOX':
                                         // $(this).prop('checked', vn==$(this).val()); // 안바뀌는 경우 있어서 click으로 변경.
-                                        let same_value = vn==$(this).val(); // 값이 같은가?
+                                        let same_value = vn == $(this).val(); // 값이 같은가?
                                         // 값이 같은데 체크 안되있으면 클릭해서 체크함.
                                         // 값이 다른데 체크 되있으면 클릭해서 언체크함.
                                         // console.log('same_value:', same_value);
                                         // console.log('checked:', $(this).is(':checked'));
-                                        if(same_value && !$(this).is(':checked') || !same_value && $(this).is(':checked')) {
+                                        if (same_value && !$(this).is(':checked') || !same_value && $(this).is(':checked')) {
                                             $(this).trigger('click');
                                         }
                                         break;
                                     case 'RADIO': // 라디오, 채크박스는 값이 같으면 checked 속성을 넣습니다.
                                         // $(this).prop('checked', vt==$(this).val()); // 안바뀌는 경우 있어서 click으로 변경.
-                                        if(vt==$(this).val()) { $(this).trigger('click');}
+                                        if (vt == $(this).val()) { $(this).trigger('click'); }
                                         break;
                                     case 'NUMBER': // <input type="hidden" 에 숫자 값은 콤마 없이 넣고 hidden이 아니면 콤마를 추가합니다.
                                     case 'HIDDEN': // <input type="hidden" 에 숫자 값은 콤마 없이 넣고 hidden이 아니면 콤마를 추가합니다.
                                         $(this).val(vt);
                                         break;
                                     default:
-                                        vt = (vt && vt.toNumber() == vt && (typeof(vt)).toLowerCase() == 'number' && !(vt + '').match(/[^0-9.]/)) ? real_number_format(vt) : vt;
+                                        vt = (vt && vt.toNumber() == vt && (typeof (vt)).toLowerCase() == 'number' && !(vt + '').match(/[^0-9.]/)) ? real_number_format(vt) : vt;
                                         $(this).val(vt);
                                 }
                                 break;
@@ -587,7 +587,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                                 break;
                             default:
                                 if ('userid' != i) { // userid는 콤마 미입력
-                                    vt = (vt && vt.toNumber() == vt && (typeof(vt)).toLowerCase() == 'number' && !(vt + '').match(/[^0-9.]/)) ? real_number_format(vt) : vt;
+                                    vt = (vt && vt.toNumber() == vt && (typeof (vt)).toLowerCase() == 'number' && !(vt + '').match(/[^0-9.]/)) ? real_number_format(vt) : vt;
                                 }
                                 // console.log('vt:', vt, '$(this):', $(this));
                                 $(this).html(vt);
@@ -597,13 +597,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
                     // display-bind
                     // <div data-display="market.use_userpw=Y"></div>
-                    $('[data-display^="'+property+'.'+i+'"]').each(function() { //
+                    $('[data-display^="' + property + '.' + i + '"]').each(function () { //
                         let data = $(this).attr('data-display');
                         data = data.split('=');
-                        if(vn == data[1]) {
-                            $(this).removeClass('hide').attr('style','');
+                        if (vn == data[1]) {
+                            $(this).removeClass('hide').attr('style', '');
                         } else {
-                            $(this).addClass('hide').attr('style','');
+                            $(this).addClass('hide').attr('style', '');
                         }
                     });
                 }
@@ -613,7 +613,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     if (APP_RUNMODE != 'live') {
         window.rander = rander;
     }
-    const force_rander = function(name, value) {
+    const force_rander = function (name, value) {
         // console.log('==force_rander== ', name);
         rander(name, value, value, true);
     }
@@ -621,7 +621,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         window.force_rander = force_rander;
     }
 
-    const _get_Model_value = function(target, property) {
+    const _get_Model_value = function (target, property) {
         let r = target[property] ? JSON.parse(Decrypt(target[property], key, 256)) : '';
         try {
             if (session_item.indexOf(property) > -1 && sessionStorage.getItem(property)) {
@@ -641,10 +641,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         return r;
     }
     const handler = {
-        get: function(target, property) {
+        get: function (target, property) {
             return _get_Model_value(target, property);
         },
-        set: function(target, property, value) {
+        set: function (target, property, value) {
             // get oldValue
             let oldValue = _get_Model_value(target, property);
             try {
@@ -681,7 +681,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
         // Proxy 객체 정의가 안되면 무식하게 무한루핑으로 값이 바뀌는 것을 찾아야 한다.
         let OLD_Model = clone(Model);
-        const check_proxy_value = function() {
+        const check_proxy_value = function () {
             for (i in Model) {
                 let __n = Model[i],
                     __o = OLD_Model[i];
@@ -690,7 +690,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 }
             }
             OLD_Model = clone(Model);
-            setTimeout(function() { check_proxy_value(); }, 100);
+            setTimeout(function () { check_proxy_value(); }, 100);
         };
         check_proxy_value();
 
@@ -753,7 +753,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         callbacks = [],
         timeoutkeys = [],
         request_warkable = true;
-    const request_api = function() {
+    const request_api = function () {
         // console.log('----------request_api --------------------');
         // console.log('request_warkable:',request_warkable);
         // console.log('items:',items);
@@ -767,7 +767,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             callbacks = [];
             let form = { 'item': _items };
             form.token = getCookie('token');
-            $.post(API_URL + '/request/?', form, function(r) {
+            $.post(API_URL + '/request/?', form, function (r) {
                 request_warkable = true;
                 const cnt = r.payload.length;
                 for (let i = 0; i < cnt; i++) {
@@ -786,13 +786,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     };
     request_api();
 
-    const add_request_item = function(method_name, params, callback, repeat_time, old_path_name, duplicate) {
+    const add_request_item = function (method_name, params, callback, repeat_time, old_path_name, duplicate) {
         var curr_path_name = path_name,
             old_path_name = old_path_name ? old_path_name : curr_path_name;
         if (repeat_time > 0 && old_path_name !== curr_path_name) { // 이전에 얘약걸어 둔 작업이 페이지가 다르면 종료합니다.(path_name으로 확인해 전체 경로를 비교합니다.)
             return false;
         }
-        params.lang = APP_LANG; 
+        params.lang = APP_LANG;
         if (Model.token) { params.token = Model.token; }
         const item = { "method": method_name, "params": params };
         if (!duplicate) {
@@ -807,7 +807,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         let indexno = items.length - 1;
         callbacks[indexno] = callback;
         if (repeat_time > 0 && old_path_name === curr_path_name) {
-            let newtimeoutkey = setTimeout(function() {
+            let newtimeoutkey = setTimeout(function () {
                 add_request_item(method_name, params, callback, repeat_time, curr_path_name);
             }, repeat_time);
             timeoutkeys[indexno] = newtimeoutkey;
@@ -817,8 +817,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     /* Utils ----------------------------------------------------------------------------------- */
 
     // 가격 변환
-    const dprice = function(p, c) {
-        let exchange_currency = c || Model.user_info && Model.user_info.exchange_currency || Model.exchange_rate.base_currency ,
+    const dprice = function (p, c) {
+        let exchange_currency = c || Model.user_info && Model.user_info.exchange_currency || Model.exchange_rate.base_currency,
             pre_symbol = Model.currency[exchange_currency].pre_symbol,
             sub_symbol = Model.currency[exchange_currency].sub_symbol,
             exchange_price = Model.currency[exchange_currency].exchange_price;
@@ -834,21 +834,21 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
      * @param {Number} p_cnt_pages 페이지에 표시할 페이지수. 기본 10
      * @returns
      */
-    const genPagingStube = function(p_total, p_page, p_cnt_rows, p_cnt_pages) {
-        p_total = p_total ? p_total*1 : 0;
-        p_page = p_page ? p_page*1 : 1;
-        p_cnt_rows = p_cnt_rows ? p_cnt_rows*1 : 10;
-        p_cnt_pages = p_cnt_pages ? p_cnt_pages*1 : 10;
-        max_pages = p_total ? Math.ceil(p_total / p_cnt_rows ) : 1;
+    const genPagingStube = function (p_total, p_page, p_cnt_rows, p_cnt_pages) {
+        p_total = p_total ? p_total * 1 : 0;
+        p_page = p_page ? p_page * 1 : 1;
+        p_cnt_rows = p_cnt_rows ? p_cnt_rows * 1 : 10;
+        p_cnt_pages = p_cnt_pages ? p_cnt_pages * 1 : 10;
+        max_pages = p_total ? Math.ceil(p_total / p_cnt_rows) : 1;
         r = ''; //'<div class="paging">';
         // 이전페이지로
         if (p_total > 0 && p_page > 1) {
-            r += '<span><a href="'+setUrlParamValue('page', p_page - 1, window.location.search)+'"><img src="/@resource/images/icon/ico_arr_prev.png" alt=""></a></span>';
+            r += '<span><a href="' + setUrlParamValue('page', p_page - 1, window.location.search) + '"><img src="/@resource/images/icon/ico_arr_prev.png" alt=""></a></span>';
         } else {
             r += '<span><img src="/@resource/images/icon/ico_arr_prev.png" alt="" class="inactive"></span>';
         }
         // 중간 페이지 번호영역
-        batch = Math.ceil(p_page / p_cnt_pages );
+        batch = Math.ceil(p_page / p_cnt_pages);
         end = batch * p_cnt_pages;
         if (end == p_page) {
             //end = end + p_cnt_pages - 1;
@@ -858,17 +858,17 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             end = max_pages;
         }
         start = end - p_cnt_pages + 1;
-        start = (start<1) ? 1 : start;
-        for(i = start; i <= end; i ++) {
+        start = (start < 1) ? 1 : start;
+        for (i = start; i <= end; i++) {
             if (i == p_page) {
-                r += '<span class="num active"><a href="'+setUrlParamValue('page', i, window.location.search)+'">'+i+'</a></span>';
+                r += '<span class="num active"><a href="' + setUrlParamValue('page', i, window.location.search) + '">' + i + '</a></span>';
             } else {
-                r += '<span class="num"><a href="'+setUrlParamValue('page', i, window.location.search)+'">'+i+'</a></span>';
+                r += '<span class="num"><a href="' + setUrlParamValue('page', i, window.location.search) + '">' + i + '</a></span>';
             }
         }
         // 다음페이지로
         if (p_total > 0 && p_page < max_pages) {
-            r += '<span><a href="'+setUrlParamValue('page', p_page + 1, window.location.search)+'"><img src="/@resource/images/icon/ico_arr_next.png" alt=""></a></span>';
+            r += '<span><a href="' + setUrlParamValue('page', p_page + 1, window.location.search) + '"><img src="/@resource/images/icon/ico_arr_next.png" alt=""></a></span>';
         } else {
             r += '<span><img src="/@resource/images/icon/ico_arr_next.png" alt="" class="inactive"></span>';
         }
@@ -889,7 +889,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $(target_m).text(sprintf("%02d", min));
         $(target_s).text(sprintf("%02d", sec));
         if (delta_time >= 0) {
-            setTimeout(function() { display_remain_time(end_time, target_m, target_s); }, 500);
+            setTimeout(function () { display_remain_time(end_time, target_m, target_s); }, 500);
         }
     }
 
@@ -953,10 +953,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             var reader = new FileReader();
             var img = document.getElementById("photo");
 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $('#photo').attr('src', e.target.result);
 
-                img.onload = function() {
+                img.onload = function () {
                     imgW = this.naturalWidth;
                     imgH = this.naturalHeight;
                     // console.log(imgW, imgH)
@@ -981,14 +981,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             var reader = new FileReader();
             if (!img) { return; }
 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 src = e.target.result;
                 if (tagName == 'IMG') {
                     $img.attr('src', src);
                 } else {
                     $img.css('background', 'url(' + src + ') no-repeat 50% 50%/cover #e1e1e1');
                 }
-                img.onload = function() {
+                img.onload = function () {
                     imgW = this.naturalWidth;
                     imgH = this.naturalHeight;
                     if (imgW > imgH) { // 이미지 가로 사이즈가 세로 사이즈보다 클 경우 실행
@@ -1020,11 +1020,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             var iframe = $iframe ? $iframe.get(0) : null;
             if (!iframe) { return; }
 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $iframe.attr('src', e.target.result);
 
                 //$img.attr('src', src);
-                iframe.onload = function() {
+                iframe.onload = function () {
                     iframeW = this.naturalWidth;
                     iframeH = this.naturalHeight;
                     // console.log(this, iframeW, iframeH)
@@ -1045,23 +1045,23 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         var file = event.target.files[0];
         var fileReader = new FileReader();
 
-        fileReader.onload = function() {
+        fileReader.onload = function () {
             var blob = new Blob([fileReader.result], { type: file.type });
             //console.log(blob);
             var url = URL.createObjectURL(blob);
             var video = document.createElement('video');
-            var timeupdate = function() {
+            var timeupdate = function () {
                 if (snapImage()) {
                     video.removeEventListener('timeupdate', timeupdate);
                     video.pause();
                 }
             };
-            video.addEventListener('loadeddata', function() {
+            video.addEventListener('loadeddata', function () {
                 if (snapImage()) {
                     video.removeEventListener('timeupdate', timeupdate);
                 }
             });
-            var snapImage = function() {
+            var snapImage = function () {
                 var canvas = document.createElement('canvas');
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
@@ -1076,7 +1076,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     URL.revokeObjectURL(url);
                 }
                 if (callback && typeof callback == typeof
-                    function() {}) {
+                    function () { }) {
                     callback();
                 }
                 return success;
@@ -1094,7 +1094,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     }
 
     //url 가져오기
-    const get_video_url = function(html) {
+    const get_video_url = function (html) {
         html = $.trim(html);
         let src = '',
             res = ''; //https://www.youtube.com/watch?v=RGuMWr79G00
@@ -1126,7 +1126,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     }
 
     //youtube 이미지 가져오기
-    const get_video_img = function(videourl) {
+    const get_video_img = function (videourl) {
         let r = [];
         // youtube
         if (videourl.indexOf('youtube') > -1) {
@@ -1161,10 +1161,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             </oembed>
             */
             $.get({
-                'url':'https://www.youtube.com/oembed?format=xml&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D'+id,
-                'async':false,
-                'success':function(res){
-                    r.push($('thumbnail_url',r).text()); // 
+                'url': 'https://www.youtube.com/oembed?format=xml&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D' + id,
+                'async': false,
+                'success': function (res) {
+                    r.push($('thumbnail_url', r).text()); // 
                 }
             })
             // r.push('https://img.youtube.com/vi/' + id + '/maxresdefault.jpg'); // 1280x1080
@@ -1176,7 +1176,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         return r;
     }
 
-    const check_userinfo = function() {
+    const check_userinfo = function () {
         if (!Model.user_info || !Model.user_info.userno) {
             alert(__('로그인 해주세요'));
             closeModal();
@@ -1193,7 +1193,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     /**
      * https 가 아닌 http로 페이지를 열어야 할때 사용합니다.
      */
-    const use_http = function() {
+    const use_http = function () {
         // if(window.location.href.indexOf('https://')>-1) {
         // 	window.location.replace( window.location.href.replace('https://', 'http://') );
         // }
@@ -1205,51 +1205,51 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     // const tpl_video_item = '<li><a href="/views.php?video_idx={video_idx}"><div class="img" style="background-image:url({video_img});background-size:cover" alt="{title}"></div></a><div class="explan"><span class="picture"><img src="{user_profile_img}" alt="{nickname}"></span><p class="txt"><a href="/views.php?video_idx={video_idx}">{title}</a></p><div class="pay_date"><p class="pay"><a href="user-main.php?userno={video_userno}"><span class="name">{nickname}</span></a><span class="ico_pay"></span><span>{view_cnt}</span></p><p class="date">{reg_date}</p></div></div></li>';
     const tpl_video_item = '<li><a href="/views.php?video_idx={video_idx}"><div class="img" style="background-image:url({video_img});background-size:cover" alt="{title}"></div></a><div class="explan"><a href="user-main.php?userno={video_userno}"><span class="picture" style="background-image:url({user_profile_img})"></span></a><p class="txt"><a href="/views.php?video_idx={video_idx}">{title}</a></p><div class="pay_date"><p class="pay"><a href="user-main.php?userno={video_userno}"><span class="name">{nickname}</span></a><span class="ico_pay"></span><span>{view_cnt}</span></p><p class="date">{reg_date}</p></div></div></li>';
 
-    const gen_video_htmnl = function(r) {
-            if (r && r.payload) {
-                let html = [];
-                let data = r.payload.data || [];
-                if (data.length < 1) {
-                    scroll_end = true;
-                }
-                for (i = 0; i < data.length; i++) {
-                    let row = data[i];
-                    // console.log(row);
-                    html[i] = tpl_video_item
-                        .replace(/\{video_img\}/g, row.file_name || 'about:blank')
-                        .replace(/\{user_profile_img\}/g, row.profile_img || '/@resource/images/common/basic_profile.png')
-                        .replace(/\{nickname\}/g, row.nickname || '')
-                        .replace(/\{title\}/g, row.title || '')
-                        .replace(/\{reg_date\}/g, row.reg_date.substr(1, 10) || '')
-                        .replace(/\{video_idx\}/g, row.idx || '')
-                        .replace(/\{video_userno\}/g, row.userno || '')
-                        .replace(/\{view_cnt\}/g, real_number_format(row.view_cnt) || '')
-                        // .replace(/\{level_class\}/g, row.level_class||'lv-red')
-                        // .replace(/\{level_name\}/g, row.level_name||__('Red'))
-                    ;
-                }
-                $('.play-list ul.item-grid').append(html.join(''));
+    const gen_video_htmnl = function (r) {
+        if (r && r.payload) {
+            let html = [];
+            let data = r.payload.data || [];
+            if (data.length < 1) {
+                scroll_end = true;
             }
-            scroll_searching = false;
+            for (i = 0; i < data.length; i++) {
+                let row = data[i];
+                // console.log(row);
+                html[i] = tpl_video_item
+                    .replace(/\{video_img\}/g, row.file_name || 'about:blank')
+                    .replace(/\{user_profile_img\}/g, row.profile_img || '/@resource/images/common/basic_profile.png')
+                    .replace(/\{nickname\}/g, row.nickname || '')
+                    .replace(/\{title\}/g, row.title || '')
+                    .replace(/\{reg_date\}/g, row.reg_date.substr(1, 10) || '')
+                    .replace(/\{video_idx\}/g, row.idx || '')
+                    .replace(/\{video_userno\}/g, row.userno || '')
+                    .replace(/\{view_cnt\}/g, real_number_format(row.view_cnt) || '')
+                    // .replace(/\{level_class\}/g, row.level_class||'lv-red')
+                    // .replace(/\{level_name\}/g, row.level_name||__('Red'))
+                    ;
+            }
+            $('.play-list ul.item-grid').append(html.join(''));
         }
-        // 페이징 처리
+        scroll_searching = false;
+    }
+    // 페이징 처리
 
 
-    const add_event_click_left_menu_tab = function() {
-        $('#left_menu .inTabs li').on('click', function() {
+    const add_event_click_left_menu_tab = function () {
+        $('#left_menu .inTabs li').on('click', function () {
             let t = $(this).attr('data-target');
             $(this).addClass('active').siblings().removeClass('active');
             $(t).show().siblings('.tab_con').hide();
         });
     }
 
-    const check_login = function(msg) {
+    const check_login = function (msg) {
         if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
             if (msg) alert(msg);
             window.location.href = LOGIN_PAGE;
         }
     }
-    const check_logout = function(msg) {
+    const check_logout = function (msg) {
         if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
             if (msg) alert(msg);
             window.location.href = "/";
@@ -1261,48 +1261,48 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
      * 채팅 페이지 컨트롤러에 있던 함수를 전체 페이지에서 사용할수 있게 위치변경함.
      * @param {number} t
      */
-    const get_new_message = function(t) {
-            let last_msg_idx = $('[name=msg_box]:last').attr('data-idx');
-            add_request_item('getChatMessage', { 'token': getCookie('token'), 'last_msg_idx': last_msg_idx, 'target_idx': window.chat_target_idx }, function(r) {
-                if (r && r.success && r.payload && !r.error) {
-                    let messages = r.payload;
-                    let html = [],
-                        i = 0,
-                        view_end = false;
-                    if (messages.length > 0) {
-                        for (i in messages) {
-                            let msg = messages[i];
-                            if ($('li[name=msg_box][data-idx=' + msg.idx + ']').length > 0) { continue; }
-                            html[i] = get_html(msg);
-                            i++;
-                        }
-                        // 채팅창이 밑 끝에서 -20px 정도까지 내려가 있으면 끝에 있다고 생각하기
-                        // console.error($('.comment-wrap').scrollTop(), $('.comment-wrap').innerHeight(), $('.comment-wrap')[0].scrollHeight);
-                        if ($('.comment-wrap').scrollTop() + $('.comment-wrap').innerHeight() > $('.comment-wrap')[0].scrollHeight - 20) {
-                            view_end = true;
-                        }
-                        $('[name=comment-list]').append(html.join(''));
-                        // 끝에 있으면  새글볼 수 있게 밑으로 자동으로 내려가기
-                        // console.log('view_end:',view_end);
-                        if (view_end) {
-                            // $('.comment-wrap').scrollTop($('[name=comment-list]').height() * 1 + 100);
-                            set_scroll_bottom();
-                        }
+    const get_new_message = function (t) {
+        let last_msg_idx = $('[name=msg_box]:last').attr('data-idx');
+        add_request_item('getChatMessage', { 'token': getCookie('token'), 'last_msg_idx': last_msg_idx, 'target_idx': window.chat_target_idx }, function (r) {
+            if (r && r.success && r.payload && !r.error) {
+                let messages = r.payload;
+                let html = [],
+                    i = 0,
+                    view_end = false;
+                if (messages.length > 0) {
+                    for (i in messages) {
+                        let msg = messages[i];
+                        if ($('li[name=msg_box][data-idx=' + msg.idx + ']').length > 0) { continue; }
+                        html[i] = get_html(msg);
+                        i++;
+                    }
+                    // 채팅창이 밑 끝에서 -20px 정도까지 내려가 있으면 끝에 있다고 생각하기
+                    // console.error($('.comment-wrap').scrollTop(), $('.comment-wrap').innerHeight(), $('.comment-wrap')[0].scrollHeight);
+                    if ($('.comment-wrap').scrollTop() + $('.comment-wrap').innerHeight() > $('.comment-wrap')[0].scrollHeight - 20) {
+                        view_end = true;
+                    }
+                    $('[name=comment-list]').append(html.join(''));
+                    // 끝에 있으면  새글볼 수 있게 밑으로 자동으로 내려가기
+                    // console.log('view_end:',view_end);
+                    if (view_end) {
+                        // $('.comment-wrap').scrollTop($('[name=comment-list]').height() * 1 + 100);
+                        set_scroll_bottom();
                     }
                 }
-            });
-            if (t > 0) {
-                setTimeout(function() { get_new_message(t); }, t);
             }
+        });
+        if (t > 0) {
+            setTimeout(function () { get_new_message(t); }, t);
         }
-        // 채팅 내용 가져오기
+    }
+    // 채팅 내용 가져오기
     const tpl_suport = '<div class="realtime_spon" name="msg_box" data-idx="{idx}">\
     {html_delete_icon}\
     <p class="pay_meney">{amount_str}<img src="/@resource/images/icon/ico_smart_pay.png" alt=""></p><p class="txt"><a href="/user-main.php?userno={userno}">{nickname}</a> 님이 {amount_str} PAY를 조공하였습니다</p></div>';
     const tpl_chat = '<dl name="msg_box" data-idx="{idx}">\
     {html_delete_icon}\
     <dt><a href="/user-main.php?userno={userno}"><img src="{profile_img}" alt="{nickname}"></a></dt><dd><p class="name"><a href="/user-main.php?userno={userno}">{nickname}</a> <img src="/@resource/images/icon/ico_fan1.png" alt=""></p><p class="txt">{comment}</p></dd></dl>';
-    const get_html = function(msg) {
+    const get_html = function (msg) {
         // console.log(msg, msg.amount, get_coin_icon_class(msg.amount));
         let tpl = msg.amount > 0 ? tpl_suport : tpl_chat;
         return tpl
@@ -1319,11 +1319,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             .replace(/\{hide_spon\}/g, msg.amount > 0 ? '' : 'hide')
             .replace(/\{html_delete_icon\}/g, msg.userno == Model.user_info.userno ? '<a href="#" class="chat_close"><img src="/@resource/images/icon/ico_close2.png" alt="" data-idx="' + msg.idx + '" class="btn btn-delete-msg"></a>' : '');
     }
-    const get_old_message = function() {
+    const get_old_message = function () {
         if (scroll_searching || scroll_end) { return false; } // 작업중이거나 끝까지 로딩 했으면 중단.
         scroll_searching = true;
         let prev_msg_idx = $('[name=msg_box]:first').attr('data-idx');
-        add_request_item('getChatMessage', { 'token': getCookie('token'), 'prev_msg_idx': prev_msg_idx, 'target_idx': window.chat_target_idx }, function(r) {
+        add_request_item('getChatMessage', { 'token': getCookie('token'), 'prev_msg_idx': prev_msg_idx, 'target_idx': window.chat_target_idx }, function (r) {
             scroll_searching = false;
             if (!r.payload || !r.payload.length) {
                 scroll_end = true;
@@ -1344,12 +1344,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             }
         });
     }
-    const set_scroll_bottom = function() {
+    const set_scroll_bottom = function () {
         $('.comment-wrap:visible').scrollTop($('[name=comment-list]:visible').height());
     }
     // 모바일에서는 채팅위치 변경 - 우측 채팅영역이 숨겨지면 동영상 밑으로 이동
-    const set_position_chatbox = function() {
-        if($('.right_menu').is(':visible')) {
+    const set_position_chatbox = function () {
+        if ($('.right_menu').is(':visible')) {
             $('.mobile_cheat_box').hide();
             set_scroll_bottom();
         } else {
@@ -1383,8 +1383,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     /**
      * 회원지갑(잔액)정보 가져오기
      */
-    const get_user_wallet = function() {
-        add_request_item('getBalance', { 'token': getCookie('token') }, function(r) {
+    const get_user_wallet = function () {
+        add_request_item('getBalance', { 'token': getCookie('token') }, function (r) {
             if (r && r.success && !r.error) {
                 let user_wallet = {};
                 for (i in r.payload) {
@@ -1402,8 +1402,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     /**
      * 화폐정보 가져오기
      */
-    const get_currency = function() {
-        add_request_item('getCurrency', {}, function(r) {
+    const get_currency = function (symbol) {
+        symbol = symbol ? symbol : ''
+        add_request_item('getCurrency', {'symbol':symbol}, function (r) {
             if (r && r.success && !r.error) {
                 let currency = Model.currency;
                 let exchange_rate = Model.exchange_rate;
@@ -1438,21 +1439,21 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             }
         });
     }
-    get_currency();
+    get_currency('USD,KRW');
 
 
     /* Controller ----------------------------------------------------------------------------------- */
 
     const fn_index = function () {
         
-        $(".icon--help").hover(function(){
+        $(".icon--help").hover(function () {
             $(".pop_up").show();
-        },function(){
+        }, function () {
             $(".pop_up").hide();
         });
         
         API.getBBSList('notice', 1, 5, (resp) => {
-            if(resp.success) {
+            if (resp.success) {
                 $('#notice--list').empty()
                 resp.payload.data.map((item) => {
                     const li = $('<li>')
@@ -1468,11 +1469,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 Model.trade_goods_summary = r.payload;
             }
         });
-        add_request_item('getMainNoticeList', {'bbscode':'notice','by_category':'N'}, function (r) {
+        add_request_item('getMainNoticeList', { 'bbscode': 'notice', 'by_category': 'N' }, function (r) {
             if (r && r.success && r.payload) {
                 let html = [];
                 const $target = $('[name=main_notice]');
-                const tpl = $('<div></div>').append($target.find('[name=tpl]').clone().attr('name','').css('display','').removeClass('hide')).html();
+                const tpl = $('<div></div>').append($target.find('[name=tpl]').clone().attr('name', '').css('display', '').removeClass('hide')).html();
                 notice_list = r.payload;
                 for (i in notice_list) {
                     let r = notice_list[i];
@@ -1496,10 +1497,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     allowTouchMove: true,
                     noSwiping: true,
                     noSwipingClass: 'swiper-slide',
-                    preventInteractionOnTransition:true,
+                    preventInteractionOnTransition: true,
                     autoplay: {
-						delay: 2500,
-						disableOnInteraction: false,
+                        delay: 2500,
+                        disableOnInteraction: false,
                     },
                 })
             }
@@ -1519,10 +1520,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     
                 // 가격표 표시
                 let html = [];
-                const tpl = $('<div></div>').append($PriceTableTarget.find('[name=tpl]').clone().attr('name','').css('display','').removeClass('hide')).html();
+                const tpl = $('<div></div>').append($PriceTableTarget.find('[name=tpl]').clone().attr('name', '').css('display', '').removeClass('hide')).html();
                 for (i in spot_prices) {
                     const r = spot_prices[i];
-                    if (!r || !r.name) { continue;  }
+                    if (!r || !r.name) { continue; }
                     // console.log('i:',i)
                     // $.get(API_URL+'/getChartData/', { 'symbol': r.symbol }, function (r) { 
                     // add_request_item('getChartData', { 'symbol': r.symbol }, function (r) { 
@@ -1533,11 +1534,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     r.price_open *= 1;
                     r.price_close *= 1;
                     r.exchange = Model.exchange_rate.base_currency;
-                    r.price_updown_sign = r.price_close > r.price_open ? '+' : ( r.price_close < r.price_open ? '-' : '');
-                    r.price_updown_symbol = r.price_updown_sign=='+' ? '▲' : ( r.price_updown_sign=='-' ? '▼' : '');
-                    r.price_updown_color = r.price_updown_sign=='+' ? 'text-red' : ( r.price_updown_sign=='-' ? 'text-blue' : '');
-                    r.price_updown_amount = r.price_close - r.price_open ;
-                    r.price_updown_rate = (r.price_close - r.price_open)/r.price_open ;
+                    r.price_updown_sign = r.price_close > r.price_open ? '+' : (r.price_close < r.price_open ? '-' : '');
+                    r.price_updown_symbol = r.price_updown_sign == '+' ? '▲' : (r.price_updown_sign == '-' ? '▼' : '');
+                    r.price_updown_color = r.price_updown_sign == '+' ? 'text-red' : (r.price_updown_sign == '-' ? 'text-blue' : '');
+                    r.price_updown_amount = r.price_close - r.price_open;
+                    r.price_updown_rate = (r.price_close - r.price_open) / r.price_open;
                     r.price_updown_percent = ((r.price_close - r.price_open) / r.price_open * 100).toFixed(2) + '%';
                     
                     spot_prices[i] = r;  /// 계산값 재사용하기
@@ -1549,7 +1550,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         .replace(/\{stock_updown_color\}/g, r.price_updown_color)
                         .replace('{stock_price}', real_number_format(r.price_close))
                         .replace('{stock_exchange}', r.exchange)
-                        .replace('{stock_updown_percent}', r.price_updown_percent )
+                        .replace('{stock_updown_percent}', r.price_updown_percent)
                     )
                 }
                 
@@ -1572,7 +1573,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             last_date: date('Y.m.d H:i A')
         }
         // 종목 클릭시 차트 보여주기 .. 미사용
-        $('[name=price_table]').on('click', 'li', function () { 
+        $('[name=price_table]').on('click', 'li', function () {
             // const no = $(this).siblings().length - $(this).index(); // index는 안보이는것까지 포함되서 순위가 나와서 전체 친구들 수에서 index 값을 빼서 정확한 순서를 정합니다.
             // let p = Model.spot_prices[no];
             // if (p) {
@@ -1591,7 +1592,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             // }
         })
         // 차트 기간 변경
-        $('[name="chart_term"] button').on('click', function () { 
+        $('[name="chart_term"] button').on('click', function () {
             const name = $(this).attr('name');
             const term = name.replace('btn-term-', '');
             chart_info = clone(Model.chart_info);
@@ -1609,7 +1610,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         window.keypress_support = false;
 
         // 폼 초기화
-        $('#box_login form').each(function() { if ($(this).reset) { $(this).reset(); } });
+        $('#box_login form').each(function () { if ($(this).reset) { $(this).reset(); } });
         
         // 아이디 포커스
         $('#box_login [name=email]').get(0).focus();
@@ -1622,12 +1623,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             const $email = $('#email'), email = trim($email.val())
             const $password = $('#password'), password = trim($password.val())
 
-            if(!email) {
+            if (!email) {
                 $email.focus()
                 return false
             }
 
-            if(!password) {
+            if (!password) {
                 $password.focus()
                 return false
             }
@@ -1656,7 +1657,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     }
     const fn_logout = function () {
-        $.post(API_URL + '/logout/', { 'token': getCookie('token') }, function(r) {
+        $.post(API_URL + '/logout/', { 'token': getCookie('token') }, function (r) {
             // console.log(r);
             // if(r && r.success && !r.error) {
             Model.user_info = {};
@@ -1695,8 +1696,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 return false;
             }
             let pin_number2 = $('[name=pin2]').val();
-            if (pin_number!=pin_number2) {
-                show_notice(__('비밀번호가 다릅니다.')+' '+__('올바른 비밀번호를 다시 입력해주세요.'));
+            if (pin_number != pin_number2) {
+                show_notice(__('비밀번호가 다릅니다.') + ' ' + __('올바른 비밀번호를 다시 입력해주세요.'));
                 $('[name=pin2]').trigger('select');
                 return false;
             }
@@ -1705,9 +1706,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 't': getURLParameter('t'),
                 'pin': pin_number
             };
-            add_request_item('resetPW', data, function(r) {
+            add_request_item('resetPW', data, function (r) {
                 if (r && r.success) {
-                    if($('#form_repw').length>0) $('#form_repw').get(0).reset();
+                    if ($('#form_repw').length > 0) $('#form_repw').get(0).reset();
                     alert(__('Changed your password.') + ' ' + __('Please log in again.'));
                     setTimeout(function () { window.location.href = 'login.html'; }, 2000);
                 } else {
@@ -1723,8 +1724,111 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         }
     }
 
+    const fn_wallet_withdrawal = function () {
+        check_login();
+        // access level 4 
+        force_rander('user_info', Model.user_info);
+        // 사이트 정보
+        force_rander('site_info', Model.site_info);
+        add_request_item('getConfig', {}, function (r) {
+            if (r && r.success) {
+                Model.site_info = r.payload;
+            }
+        });
+        // currency 정보 갱신
+        let withdraw_symbol = 'KRW';// 필요시 dropdown 값 사용
+        if (Model?.withdraw_currency?.symbol != withdraw_symbol) {
+            add_request_item('getCurrency', {'symbol':withdraw_symbol}, function (r) {
+                // out_max_volume_1day
+                console.log('getCurrency r:', r);
+                if (r && r.success) {
+                    c = r.payload[0];
+                    c.fee_out_str = c.fee_out_ratio > 0 ? number_format(c.fee_out_ratio * 100, 2) + ' %' : (c.fee_out > 0 ? real_number_format(c.fee_out) + ' ' + c.symbol : __('수수료 없음'));
+                    c.fee_out_intra_str = __('수수료 없음'); //'0 '+c.symbol
+                    c.out_min_volume_str = real_number_format(c.out_min_volume) + ' ' + c.symbol;
+                    c.out_max_volume_str = c.out_max_volume > 0 ? real_number_format(c.out_max_volume) + ' ' + c.symbol : __('제한 없음');
+                    Model.withdraw_currency = c;
+                }
+            });
+        } else {
+            force_rander('withdraw_currency', Model.withdraw_currency)
+        }
+
+        // 지갑 정보
+        force_rander('user_wallet', Model.user_wallet); // 화면에 잔액 표시 후
+        get_user_wallet(); // DB 값으로 다시 잔액 표시
+
+        const clipboard = new ClipboardJS('.btn--copy');
+        clipboard.on('success', function (e) {
+            alert(__('클립보드에 복사되었습니다.'))
+            e.clearSelection()
+        });
+
+        // 출금신청
+        $('[name="btn-withdraw"]').on('click', function () { 
+            // 출금액
+            const amount = $('[name=amount]').val();
+            const to_address = $('[name="address"]').val();
+            const pin = $('[name="pin"]').val();
+            const symbol = Model.withdraw_currency.symbol;
+            add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) { 
+                if (r?.success) {
+                    alert(__('출금신청을 완료했습니다.'));
+                } else {
+                    const msg = r?.error?.message || '';
+                    alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
+                }
+            })
+        })
+
+        // 출금수수료 계산
+        $('[name="amount"]').on('keyup', function (e) { 
+            const fee_out = Model.withdraw_currency.fee_out;
+            const fee_out_ratio = Model.withdraw_currency.fee_out_ratio;
+            const amount = $(this).val();
+            const fee = fee_out_ratio > 0 ? amount * fee_out_ratio : (fee_out > 0 ? fee_out : 0);
+            const real_receive_amount = amount-fee>0 ? amount-fee : 0;
+            console.log(amount, fee, real_receive_amount)
+            $('[name=fee]').val( real_number_format(fee) )
+            $('[name=real_out]').val( real_number_format(real_receive_amount) )
+        })
+
+    };
+
+    const fn_wallet_withdrawal_guide = function () {
+        // check_login();
+        // access level 4 
+        force_rander('user_info', Model.user_info);
+        // 사이트 정보
+        force_rander('site_info', Model.site_info);
+        add_request_item('getConfig', {}, function (r) {
+            if (r && r.success) {
+                Model.site_info = r.payload;
+            }
+        });
+        // currency 정보 갱신
+        let withdraw_symbol = 'KRW';// 필요시 dropdown 값 사용
+        if (Model?.withdraw_currency?.symbol != withdraw_symbol) {
+            add_request_item('getCurrency', {'symbol':withdraw_symbol}, function (r) {
+                // out_max_volume_1day
+                console.log('getCurrency r:', r);
+                if (r && r.success) {
+                    c = r.payload[0];
+                    c.fee_out_str = c.fee_out_ratio > 0 ? number_format(c.fee_out_ratio * 100, 2) + ' %' : (c.fee_out > 0 ? real_number_format(c.fee_out) + ' ' + c.symbol : __('수수료 없음'));
+                    c.fee_out_intra_str = __('수수료 없음'); //'0 '+c.symbol
+                    c.out_min_volume_str = real_number_format(c.out_min_volume) + ' ' + c.symbol;
+                    c.out_max_volume_str = c.out_max_volume > 0 ? real_number_format(c.out_max_volume) + ' ' + c.symbol : __('제한 없음');
+                    Model.withdraw_currency = c;
+                }
+            });
+        } else {
+            force_rander('withdraw_currency', Model.withdraw_currency)
+        }
+    };
+
     const fn_wallet_deposit = function () {
         check_login();
+        // access level 3
         // request_user_info();
         force_rander('user_info', Model.user_info);
         // 사이트 정보
