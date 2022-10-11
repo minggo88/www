@@ -1464,7 +1464,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                             'pre_symbol': '',
                             'sub_symbol': ' ' + row.symbol,
                             'name': ' ' + row.name,
-                            'symbol_image': ''
+                            'symbol_image': row.icon_url
                         }
                     }
                     // 환율
@@ -1642,6 +1642,342 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     
     }
 
+    const fn_transaction = function() {
+        check_login();
+
+        $('input[name="range"]').daterangepicker({
+            format: 'YYYY-MM-DD',
+            maxDate: (new Date()),
+            autoUpdateInput: true,
+            autoApply: true,
+            locale: {
+                format: 'YYYY-MM-DD',
+                "daysOfWeek": [
+                    __("일"),
+                    __("월"),
+                    __("화"),
+                    __("수"),
+                    __("목"),
+                    __("금"),
+                    __("토")
+                ],
+                "monthNames": [
+                    __("1월"),
+                    __("2월"),
+                    __("3월"),
+                    __("4월"),
+                    __("5월"),
+                    __("6월"),
+                    __("7월"),
+                    __("8월"),
+                    __("9월"),
+                    __("10월"),
+                    __("11월"),
+                    __("12월")
+                ],
+            }
+        });
+
+        // 검색기간
+        let sdate = date('Y-m-d');
+        let edate = date('Y-m-d');
+
+        $('[name="btn-reset-1w"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*7);
+            edate = date('Y-m-d');
+            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
+            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-1m"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*30);
+            edate = date('Y-m-d');
+            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
+            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-6m"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*30*6);
+            edate = date('Y-m-d');
+            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
+            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-1y"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*365);
+            edate = date('Y-m-d');
+            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
+            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+        });
+
+        $('[name="symbol"]').empty();
+        const opt = $('[name="symbol"]')
+        for(i of Object.values(Model.user_wallet)) {
+
+            if (i.symbol.length >= 10) {
+                opt.append(`<option value="${i.symbol}">${i.name}</option>`)
+            }
+        }
+
+        $('[name="btn-search"]').on('click', function() {
+            check_login();
+
+            if (!sdate) {
+                alert('조회 기간을 선택하세요.');
+            }
+
+            if (!edate) {
+                alert('조회 기간을 선택하세요.');
+            }
+
+            if (!$('[name="symbol"]').val()) {
+                alert('상품을 선택하세요');
+            }
+
+            let last_idx = 0
+            let page = 1
+            let totalPage = 1
+            const rows = 10
+
+            // console.log("fasdf");
+            // console.log(Model.user_wallet[$('[name="symbol"]').val()].icon_url);
+            // console.log(Model.user_wallet['GDXLQMB2KA'].icon_url);
+
+            getTransactionList(page, rows)
+        });
+
+        $('[name="btn-search2"]').on('click', function() {
+            check_login();
+
+            if (!sdate) {
+                alert('조회 기간을 선택하세요.');
+            }
+
+            if (!edate) {
+                alert('조회 기간을 선택하세요.');
+            }
+
+            if (!$('[name="symbol"]').val()) {
+                alert('상품을 선택하세요');
+            }
+
+            let last_idx = 0
+            let page = 1
+            let totalPage = 1
+            const rows = 10
+
+            getTransactionList(page, rows)
+        });
+
+        let selected_category = '';
+        const getTransactionList = (page, rows) => {
+            const category = selected_category;
+            add_request_item('getMyTradingList', {'token':getCookie('token'), 'symbol':$('[name="symbol"]').val(), 'exchange':'krw', 'start_date':sdate, 'end_date':edate, 'category':category, 'page':page, 'rows':rows }, function(r) {
+                $('.board--list tbody').empty();
+
+                r.payload.map((item) => {
+                    const tr = $('<tr>')
+                    tr.append(`<td class="text--left" style="font-size: 12px"><i class="ico-${item.trading_type_str}"></i>${item.trading_type_str}</td>`)
+                    tr.append(`<td class="text&#45;&#45;left"  style="font-size: 12px"><span class="product&#45;&#45;image"><img src="${Model.user_wallet[$('[name="symbol"]').val()].icon_url}" alt=""></span>${Model.user_wallet[$('[name="symbol"]').val()].name}</td>`)
+                    tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.price)}</td>`)
+                    tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.volume)}</td>`)
+                    tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.amount)}</td>`)
+                    tr.append(`<td class="" style="font-size: 10px">${item.sell_userid}</td>`)
+                    tr.append(`<td class="" style="font-size: 10px">${item.buy_userid}</td>`)
+                    tr.append(`<td class="" style="font-size: 12px">${date('Y-m-d H:i', item.time_traded).substr(2,11)}</td>`)
+                    tr.appendTo('.board--list tbody')
+
+                    const div = $('<div class="accordion&#45;&#45;item">')
+                    div.append('<header class="accordion--header">\n' +
+                        '\t\t\t\t\t\t\t\t<a href>\n' +
+                        '\t\t\t\t\t\t\t\t\t<div class="product">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t<span class="product--image">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t<img src="'+Model.user_wallet[$('[name="symbol"]').val()].icon_url+'" alt="01">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t<div class="items">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t<div class="name">'+Model.user_wallet[$('[name="symbol"]').val()].name+'</div>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t<div class="item">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t\t<span><i class="ico-제품등록"></i> 제품 등록</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t\t<span>'+date('Y-m-d H:i', item.time_traded).substr(2,11)+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                        '\t\t\t\t\t\t\t\t\t</div>\n' +
+                        '\t\t\t\t\t\t\t\t\t<div class="price">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t'+real_number_format(item.amount)+'\n' +
+                        '\t\t\t\t\t\t\t\t\t</div>\n' +
+                        '\t\t\t\t\t\t\t\t</a>\n' +
+                        '\t\t\t\t\t\t\t</header>')
+                    div.append('<div class="accordion--contents">\n' +
+                        '\t\t\t\t\t\t\t\t<ul>\n' +
+                        '\t\t\t\t\t\t\t\t\t<li>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t단가<span>'+real_number_format(item.price)+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t</li>\n' +
+                        '\t\t\t\t\t\t\t\t\t<li>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t수량<span>'+real_number_format(item.volume)+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t</li>\n' +
+                        '\t\t\t\t\t\t\t\t\t<li>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t보냄<span>'+item.sell_userid+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t</li>\n' +
+                        '\t\t\t\t\t\t\t\t\t<li>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t받음<span>'+item.buy_userid+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t</li>\n' +
+                        '\t\t\t\t\t\t\t\t</ul>\n' +
+                        '\t\t\t\t\t\t\t</div>')
+                    div.appendTo('.m-transaction--list')
+
+                })
+
+                totalPage = Math.ceil(r.payload.length / rows)
+
+                $('.board--pagination').find('>ul').empty().end().show()
+                if (totalPage > 1) {
+                    let prev = (page <= 1) ? 1 : page -1
+                    $('<li>')
+                        .addClass('pagination--prev')
+                        .append(`<a href="#page-${prev}">이전 페이지</a>`)
+                        .appendTo('.board--pagination > ul')
+
+                    for (let i=1; i<=totalPage; i++) {
+                        $('<li>').append(`<a href="#page-${i}">${i}</a>`).appendTo('.board--pagination > ul')
+                    }
+
+                    let next = (page >= totalPage) ? totalPage : page+1
+                    $('<li>')
+                        .addClass('pagination--next')
+                        .append(`<a href="#page-${next}">다음 페이지</a>`)
+                        .appendTo('.board--pagination > ul')
+                }
+
+            })
+        }
+
+        $('.board--pagination').on('click', 'a', (e) => {
+            e.preventDefault()
+            const page = $(e.target)
+                .attr('href')
+                .replaceAll(/#page-/g, '')
+            getTransactionList(page, 10)
+            return false
+        })
+
+        $('[name="select_category"]').on('click', 'a', (e) => {
+            e.preventDefault()
+
+            // console.log($(e.target).text());
+            $('[name="category_label"]').text($(e.target).text());
+            selected_category = $(e.target).data('category')
+            getTransactionList(1, 10)
+            return false
+        })
+
+        $('[name="select_category"]').on('click', 'a', (e) => {
+            e.preventDefault()
+
+            $('[name="category_label"]').text($(e.target).text());
+            selected_category = $(e.target).data('category')
+            getTransactionList(1, 10)
+            return false
+        })
+
+        $('.dropdown--item').on('click', 'button', (e) => {
+            e.preventDefault()
+
+            $('[name="m_category_label"]').text($(e.target).text());
+            selected_category = $(e.target).data('category')
+            getTransactionList(1, 10)
+
+        })
+
+    }
+
+
+    const fn_notification = function() {
+        check_login();
+
+        let last_idx = 0
+        let page = 1
+        let totalPage = 1
+        const rows = 10
+
+        const fetchList = function(page) {
+
+            add_request_item('getMyMessageList', { 'token': getCookie('token'), last_idx:0, page:page, rows:rows  }, function(r){
+                $('.board--list tbody').empty();
+                r.payload.list.map((item) => {
+                    const tr = $('<tr>')
+                    tr.append(`<td>${item.reg_date.substr(0, 16)}</td>`)
+                    tr.append(`<td>${item.message}</td>`)
+                    tr.append(`<td>${item.sender_name}</td>`)
+                    tr.appendTo('.board--list tbody')
+
+                    const li = $('<li>')
+                    li.append(`<div class="notification&#45;&#45;header"><span class="notifictaion&#45;&#45;date">${item.reg_date.substr(0, 16)}</span><span class="notification--nick">${item.message}</span>`)
+                    li.append(`<span class="notification&#45;&#45;nick">${item.sender_name}</span></div>`);
+                    li.appendTo('.notification--list')
+
+
+                    last_idx = item.idx
+                })
+                totalPage = Math.ceil(r.payload.totel_count / rows)
+
+                $('.board--pagination').find('>ul').empty().end().show()
+                if (totalPage > 1) {
+                    let prev = (page <= 1) ? 1 : page -1
+                    $('<li>')
+                        .addClass('pagination--prev')
+                        .append(`<a href="#page-${prev}">이전 페이지</a>`)
+                        .appendTo('.board--pagination > ul')
+
+                    for (let i=1; i<=totalPage; i++) {
+                        $('<li>').append(`<a href="#page-${i}">${i}</a>`).appendTo('.board--pagination > ul')
+                    }
+
+                    let next = (page >= totalPage) ? totalPage : page+1
+                    $('<li>')
+                        .addClass('pagination--next')
+                        .append(`<a href="#page-${next}">다음 페이지</a>`)
+                        .appendTo('.board--pagination > ul')
+                }
+
+                if (!r.payload.totel_count) {
+                    $('<tr>')
+                        .addClass('board--empty')
+                        .append('<td colspan="3">알림이 없습니다</td>')
+                        .appendTo('.board--list tbody')
+                }
+            })
+        }
+
+        fetchList(page);
+
+        $('.board--pagination').on('click', 'a', (e) => {
+            e.preventDefault()
+            const page = $(e.target)
+                .attr('href')
+                .replaceAll(/#page-/g, '')
+            fetchList(page)
+            return false
+        })
+        // add_request_item('getMyMessageList', { 'token': getCookie('token') }, function(r){
+        //     console.log(r);
+        //     // $('.board--list tbody').empty();
+        //     // r.payload.list.map((item) => {
+        //     //
+        //     //     const tr = $('<tr>')
+        //     //     tr.append(`<td>${item.reg_date}</td>`)
+        //     //     tr.append(`<td>${item.message}</td>`)
+        //     //     tr.append(`<td>${item.sender_name}</td>`)
+        //     //     tr.appendTo('.board--list tbody')
+        //     // })
+        //
+        // })
+
+    }
 
     const fn_login = function () {
         check_logout();
