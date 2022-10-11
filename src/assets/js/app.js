@@ -130,6 +130,20 @@ function setURLParameter(key, val, url) {
 	return url.href;
 }
 
+/**
+ * jQuery.serialize() 결과를 Ojbect 로 변환합니다.
+ * @param {String} serializedData jQuery.serialize() 결과
+ * @returns 
+ */
+function unserialize(serializedData) {
+    let urlParams = new URLSearchParams(serializedData); // get interface / iterator
+    let unserializedData = {}; // prepare result object
+    for (let [key, value] of urlParams) { // get pair > extract it to key/value
+        unserializedData[key] = value;
+    }
+    return unserializedData;
+}
+
 function real_number_format(n, d) {
     if (!d && Number(n) === n && n % 1 !== 0) d = 8; // float 숫자의 무의미한 소숫점을 제거하기위해 d 값 미설정시 8자리로 사용합니다.
 	if(typeof n==typeof undefined || n=='' || is_null(n) || is_nan(n) ){n='0';}
@@ -620,6 +634,23 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     if (APP_RUNMODE != 'live') {
         window.force_rander = force_rander;
     }
+    // inpuut에 입력값 bind 데이터에 반영하기... 작업중
+    // $('[data-bind]').on('click keyup', function () { 
+    //     let target = $(this).attr('data-bind');
+    //         target = target.split('.');
+    //         let parent = target[0];
+    //         parent = clone(Model[parent]);
+    //         parent = null;
+    //         for (i in target) {
+    //             const key = target[i];
+    //             if (i == 0) {
+    //                 parent = clone(Model[key]);
+    //             } else {
+    //             }
+    //             if(i == target.length-1){
+    //             }
+    //         }
+    // })
 
     const _get_Model_value = function (target, property) {
         let r = target[property] ? JSON.parse(Decrypt(target[property], key, 256)) : '';
@@ -791,6 +822,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             old_path_name = old_path_name ? old_path_name : curr_path_name;
         if (repeat_time > 0 && old_path_name !== curr_path_name) { // 이전에 얘약걸어 둔 작업이 페이지가 다르면 종료합니다.(path_name으로 확인해 전체 경로를 비교합니다.)
             return false;
+        }
+        if (typeof params == typeof '') {
+            params = unserialize(params);
         }
         params.lang = APP_LANG;
         if (Model.token) { params.token = Model.token; }
@@ -1680,7 +1714,22 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     const fn_member_account = function () {
         request_user_info();
-        force_rander('user_info', Model.user_info);
+        Model.form = clone(Model.user_info);
+        // force_rander('user_info', Model.user_info);
+
+        $('#member-account').on('submit', function () {
+            add_request_item('putMyInfo', $(this).serialize(), function (r) {
+                if (r?.success) {
+                    alert(__('저장했습니다.'));
+                } else {
+                    alert(__('저장하지 못했습니다.') + r?.error?.message||'')
+                }
+            })
+            return false;
+        });
+
+
+        
     }
 
     const fn_repw = function () {
