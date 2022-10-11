@@ -1713,11 +1713,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     window.logout = fn_logout;
 
     const fn_member_account = function () {
+        check_login();
         request_user_info();
         Model.form = clone(Model.user_info);
         // force_rander('user_info', Model.user_info);
 
         $('#member-account').on('submit', function () {
+            $('#country').dropdown('selected')
+
             add_request_item('putMyInfo', $(this).serialize(), function (r) {
                 if (r?.success) {
                     alert(__('저장했습니다.'));
@@ -1728,6 +1731,31 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             return false;
         });
 
+        // 국가 선택 
+        function select_country(code) {
+            $('#country').find('button[value=' + (code.toLowerCase()) + ']').trigger('click');
+        }
+
+        API.getCountry((resp) => {
+            // console.log('getCountry resp:', resp)
+            let firstItem = ''
+            resp.payload.map((country) => {
+                if(!firstItem) {
+                    firstItem = country.code.toLowerCase()
+                }
+    
+                $('#country').dropdown('add', { value: country.code.toLowerCase(), text: `<i class="flag ${country.code.toLowerCase()}"></i> ${country.name}` })
+            })
+    
+            $('#country')
+                .dropdown('select', firstItem)
+                .dropdown('add_search')
+    
+            // 국가 선택
+            select_country(Model.user_info.mobile_country_code);
+            
+        })
+    
 
         
     }
