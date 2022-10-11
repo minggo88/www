@@ -36,7 +36,12 @@ $(function() {
                 const action = arguments[0]
 
 
-                switch(action) {
+                switch (action) {
+                    // 작업중... 선택이 않됨.
+                    // case 'value':
+                    //     console.log(arguments, arguments[1], this.find('button[value=' + (arguments[1]) + ']'), 'button[value=' + (arguments[1]) + ']', $(this).get(0))
+                    //     this.find('button[value=' + (arguments[1]) + ']').trigger('click');
+                    //     break
                     case 'select':
                         this.find('.dropdown').html(list[arguments[1]]).end().find('.dropdown--item>span').html(list[arguments[1]])
                         this.data('selected', arguments[1])
@@ -125,7 +130,7 @@ $(function() {
     }
 
     $('.navigation--back').click(() => {
-        if (window.location.href.indexOf('exchange.html')) return false; // 거래소에서는 비활성화
+        if (window.location.href.indexOf('exchange.html')>=0) return false; // 거래소에서는 비활성화
         window.history.back()
     })
     $('.navigation').click(() => {
@@ -181,16 +186,17 @@ $(function() {
     }
 
     // Language Selector
-    API.getLanguageList((resp) => {
-        if(resp.success) {
-            resp.payload.map((lang) => {
-                $('.nav--side .language').dropdown('add', { value: lang.code, text: lang.name })
-            })
+    // 우선 한국어만
+    $('.nav--side .language').dropdown('add', { value: 'ko', text: '한국어' })
+    // API.getLanguageList((resp) => {
+    //     if(resp.success) {
+    //         resp.payload.map((lang) => {
+    //             $('.nav--side .language').dropdown('add', { value: lang.code, text: lang.name })
+    //         })
 
-            $('.nav--side .language').dropdown('select', window.localStorage.locale)
-
-        }
-    })
+    //         $('.nav--side .language').dropdown('select', window.localStorage.locale)
+    //     }
+    // })
 
     // Tab
     $('.tabs').on('click', 'li', (e) => {
@@ -283,7 +289,7 @@ $(function() {
     })
 
 	////////////////////////////////////////////////////////
-
+	// 드롭다운 메뉴의 바깥을 클릭할 경우
     $(document).on('click', '.dropdown', (e) => {
         e.stopPropagation()
 
@@ -300,13 +306,13 @@ $(function() {
         const value = self.data('value')
 
         const wrapper = $(e.target).closest('.dropdown-wrapper')
-		/* const Background = $('tab_bar').closest('.dropdown-wrapper') */
+		// const Background = $('tab_bar').closest('.dropdown-wrapper')
 
         wrapper.dropdown('select', value)
         wrapper.data('selected', value)
         wrapper.find('.dropdown--selected').removeClass('dropdown--selected')
         wrapper.find('.dropdown').removeClass('dropdown--open')
-		/* Background.removeClass('active') */
+		// Background.removeClass('active')
 
         $(e.target).closest('li').addClass('dropdown--selected')
         $(e.target).closest('.dropdown--item').find('>span').text(text)
