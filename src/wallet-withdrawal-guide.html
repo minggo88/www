@@ -132,7 +132,7 @@
 				<nav class="side--snb">
 					<ul>
 						<li>
-							<a href="wallet.html" data-i18n>보유 자산</a>
+							<a href="wallet.html" data-i18n>My Wallet</a>
 						</li>
 						<li class="snb--active">
 							<a href="wallet-deposit.html" data-i18n>입금</a>
@@ -156,33 +156,32 @@
 				<div class="boxed boxed--transparent deposit--guid">
 					<h1 class="desktop-only" data-i18n>출금 안내</h1> 
 					<ul style="margin-bottom: 67px">
-						<li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
-						<li data-i18n>고객님의 (비트코인캐시) 거래가 네트워크에 의해 처리되도록하기 위해 (비트코인캐시) 거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 거래소 수수료와 트랜젝션 수수료가 차감된 금액 입니다.</li>
-						<li data-i18n>(비트코인캐시) 는 본 거래소 고객님의 지갑에서 외부 고객의 지갑으로 송금이 가능 합니다.</li>
-						<li data-i18n>모든 인출은 관리자가 확인한 후에 실행됩니다.</li>
+						<li data-i18n>본 거래소 고객님의 지갑에서 외부 지갑으로 송금이 가능 합니다.</li>
+						<li data-i18n>거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 출금 수수료가 차감된 금액 입니다.</li>
+						<li data-i18n>모든 출금은 관리자가 확인한 후에 실행됩니다.</li>
 					</ul>
 				</div>
-				<script>
+				<!-- <script>
 					new QRCode("qrcode", "http://jindo.dev.naver.com/collie");
-				</script>
+				</script> -->
 				<div class="guide">
 					<h1 data-i18n>요금안내</h1> 
 					<div style="margin-top: 14px; box-sizing: border-box">
 						<dl>
 							<dt class="size--14" id="fee_out" style="height: 32px; line-height: 32px" data-i18n>출금수수료</dt>
-							<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
+							<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.fee_out_str">0 KRW</span></dd>
 						</dl>
 						<dl>
 							<dt class="size--14" id="fee_in" style="height: 32px; line-height: 32px" data-i18n>내부출금수수료</dt>
-							<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0 BCH</dd>
+							<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.fee_out_intra_str">0 KRW</span></dd>
 						</dl>
 						<dl>
 							<dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최소출금액</dt>
-							<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.01000000 BCH</dd>
+							<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.out_min_volume_str">0 KRW</span></dd>
 						</dl>
 						<dl>
 							<dt class="size--14" style="height: 32px; line-height: 32px" data-i18n>최대출금액</dt>
-							<dd class="size--14 text-red" style="height: 32px; line-height: 32px">0.00000000 BCH</dd>
+							<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.out_max_volume_str">0 KRW</span></dd>
 						</dl>
 					</div>
 					<div class="background">
@@ -231,16 +230,6 @@
 		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
-    <script>
-        const clipboard = new ClipboardJS('.btn--copy');
-
-        clipboard.on('success', function (e) {
-            alert('클립보드에 복사되었습니다.')
-
-            e.clearSelection()
-        });
-
-    </script>
 
     <script src="./assets/js/app.js?t={version}"></script>
 

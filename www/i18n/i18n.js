@@ -7,7 +7,8 @@
         }
         return false;
     }
-    const support_lang = ['en', 'zh', 'ko'],
+    // const support_lang = ['en', 'zh', 'ko'],
+    const support_lang = ['ko'], // 우선 한국어만 지원
         default_lang = 'ko';
     var lang_data = window.localStorage['lang_data_'+lang] ? JSON.parse(Decrypt(window.localStorage['lang_data_'+lang], i18n_key, 256)) : {},
         lang = navigator.language || navigator.userLanguage,
