@@ -172,19 +172,19 @@
 					<button type="button" class="navigation--back"></button>
 					<h1 data-i18n>Change bank account number</h1>
 				</header>
-				<form id="change-account-number" action="" method="post">
+				<form id="change-account-number" action="" method="post" enctype="multipart/form-data" >
 					<div class="boxed boxed--transparent d-flex flex-row flex-self-center flex-center">
 						<h2 class="m-0 text--medium text-bold text--center" data-i18n>출금 계좌 정보를 수정합니다.</h2>
 						<div class="inside">
 						<p class="m-0 text-bold desktop-only" style="font-size: 13px" data-i18n>은행 및 계좌</p>
-						<div class="row">
-							<div class="col-6">
-								<div class="form--controls">
-									<label class="form--label mobile-only" data-i18n>국가 및 화폐 선택</label>
-									<input type="text" name="" placeholder="국가 및 화폐 선택">
-								</div>
-							</div>
-						</div>
+<!--						<div class="row">-->
+<!--							<div class="col-6">-->
+<!--								<div class="form&#45;&#45;controls">-->
+<!--									<label class="form&#45;&#45;label mobile-only" data-i18n>국가 및 화폐 선택</label>-->
+<!--									<input type="text" name="" placeholder="국가 및 화폐 선택">-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
 						<div class="bankAndName row">
 							<div class="col-6">
 								<div class="form--controls">
@@ -207,13 +207,21 @@
 									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form--controls">
+										<label for="bank_account" class="form--label mobile-only" data-i18n>통장사본</label>
+										<input type="file" id="image_bank_url" name="file-upload" placeholder="통장사본">
+									</div>
+								</div>
+							</div>
 							<p class="m-0 text-red" data-i18n>
 								출금계좌는 제출한 ID와 동일한 명의의 통장만 등록됩니다.
 							</p>
 						</div>
 					</div>
 					<div class="text--center btnArea">
-						<button class="btn btn--red" style="width: 340px; margin-top: 40px"data-i18n>수정하기</button>
+						<button type="button" class="btn btn--red" style="width: 340px; margin-top: 40px"data-i18n>수정하기</button>
 					</div>
 				</form>
 				<script>

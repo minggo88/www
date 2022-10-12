@@ -1642,6 +1642,46 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     
     }
 
+    const fn_change_account_number = function() {
+        check_login();
+        
+        let file_name = ""
+
+        $('input[name="file-upload"]').change(function() {
+            file_name = upload_file($(this),'');
+        })
+
+        $('.btn--red').on('click', function() {
+            // force_rander('bank_name', bank_name);
+            if (!$('input[name="bank_name"]').val()) {
+                alert('은행명을 입력하세요.');
+                return false;
+            }
+            if (!$('input[name="bank_owner"]').val()) {
+                alert('이름을 입력하세요.');
+                return false;
+            }
+            if (!$('input[name="bank_account"]').val()) {
+                alert('계좌번호를 입력하세요.');
+                return false;
+            }
+            if (!file_name) {
+                alert('통장사본을 선택하세요.');
+                return false;
+            }
+
+            add_request_item('putMyInfo', {'userno': Model.user_info.userno, 'bank_name':$('input[name="bank_name"]').val(), 'bank_owner':$('input[name="bank_owner"]').val(), 'bank_account':$('input[name="bank_account"]').val(), 'image_bank_url': file_name }, function(r) {
+                if (r?.success) {
+                    alert(__('저장했습니다.'));
+                    window.location.reload();
+                } else {
+                    alert(__('저장하지 못했습니다.') + r?.error?.message||'')
+                }
+            })
+
+        })
+    }
+
     const fn_transaction = function() {
         check_login();
 
