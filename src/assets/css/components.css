@@ -1993,7 +1993,14 @@ input[type=file].image-selector::after{
     position: absolute;top:0;height:100%;opacity:10;
 }
 .box-image-selector input[type=file].image-selector ~ .preview {
-    position: absolute;width: 100%;height: 100%;z-index: 10;display: none;background: url(about:blank) no-repeat 50% 50%/contain transparent;top:0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: none;
+    background: url(about:blank) no-repeat 50% 50%/cover transparent;
+    left:0;
+    top:5px;
 }
 
 .row {
