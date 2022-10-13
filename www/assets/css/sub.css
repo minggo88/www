@@ -2010,6 +2010,10 @@
     .sub form {
         height: auto;
     }
+	.sub.exchange form{
+		height: 100%;
+	}
+	
     .forget main {
 		align-items: center;
     }
