@@ -2383,6 +2383,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         }
     }
 
+    const fn_wallet = function () {
+        check_login();
+    };
+
     const fn_wallet_withdrawal = function () {
         check_login();
         // access level 4 
@@ -2648,6 +2652,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         }
         getMyProfit();
         
+    }
+
+    const fn_inquiry = function () {
+        check_login();
+    }
+
+    const fn_change_pin_number = function () {
+        check_login();
     }
 
     // 페이지 컨트롤러 실행
