@@ -130,6 +130,20 @@ function setURLParameter(key, val, url) {
 	return url.href;
 }
 
+/**
+ * jQuery.serialize() 결과를 Ojbect 로 변환합니다.
+ * @param {String} serializedData jQuery.serialize() 결과
+ * @returns 
+ */
+function unserialize(serializedData) {
+    let urlParams = new URLSearchParams(serializedData); // get interface / iterator
+    let unserializedData = {}; // prepare result object
+    for (let [key, value] of urlParams) { // get pair > extract it to key/value
+        unserializedData[key] = value;
+    }
+    return unserializedData;
+}
+
 function real_number_format(n, d) {
     if (!d && Number(n) === n && n % 1 !== 0) d = 8; // float 숫자의 무의미한 소숫점을 제거하기위해 d 값 미설정시 8자리로 사용합니다.
 	if(typeof n==typeof undefined || n=='' || is_null(n) || is_nan(n) ){n='0';}
@@ -544,6 +558,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                                 $(this).addClass(vn);
                                 return; // 클래스 추가후 끝.
                                 break;
+                            case 'background-image':
+                                $(this).css('background-image', 'url('+vn+')');
+                                return; // 클래스 추가후 끝.
+                                break;
                             default:
                                 vt = vn;
                         }
@@ -620,6 +638,23 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     if (APP_RUNMODE != 'live') {
         window.force_rander = force_rander;
     }
+    // inpuut에 입력값 bind 데이터에 반영하기... 작업중
+    // $('[data-bind]').on('click keyup', function () { 
+    //     let target = $(this).attr('data-bind');
+    //         target = target.split('.');
+    //         let parent = target[0];
+    //         parent = clone(Model[parent]);
+    //         parent = null;
+    //         for (i in target) {
+    //             const key = target[i];
+    //             if (i == 0) {
+    //                 parent = clone(Model[key]);
+    //             } else {
+    //             }
+    //             if(i == target.length-1){
+    //             }
+    //         }
+    // })
 
     const _get_Model_value = function (target, property) {
         let r = target[property] ? JSON.parse(Decrypt(target[property], key, 256)) : '';
@@ -791,6 +826,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             old_path_name = old_path_name ? old_path_name : curr_path_name;
         if (repeat_time > 0 && old_path_name !== curr_path_name) { // 이전에 얘약걸어 둔 작업이 페이지가 다르면 종료합니다.(path_name으로 확인해 전체 경로를 비교합니다.)
             return false;
+        }
+        if (typeof params == typeof '') {
+            params = unserialize(params);
         }
         params.lang = APP_LANG;
         if (Model.token) { params.token = Model.token; }
@@ -1426,7 +1464,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                             'pre_symbol': '',
                             'sub_symbol': ' ' + row.symbol,
                             'name': ' ' + row.name,
-                            'symbol_image': ''
+                            'symbol_image': row.icon_url
                         }
                     }
                     // 환율
@@ -1604,6 +1642,405 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     
     }
 
+    const fn_change_account_number = function() {
+        check_login();
+
+        if(Model.user_info.image_bank_url) $('.preview[for="file_identify_url"]').css('background-image', 'url(' + Model.user_info.image_bank_url + ')');
+
+        // permission 값 의미 : 1: 가입여부, 2: 로그인여부, 3: 핸드폰 인증여부, 4: 신분증 인증 여부, 5:은행 인증 여부
+        const permission_level = Model.user_info.permission.match(/1/g).length; // '11000' => 2 ,
+        if (Model.user_info.permission.substr(4, 1) == '1') {// 신분증 인증 완료
+            $('[name=status_success]').show();
+        } else {
+            if (Model.user_info.image_bank_url) { // 신분증 인증 대기중
+                $('[name=status_waiting]').show();
+            } else { // 신분증 인증 입력 필요
+                $('[name=status_default]').show();
+            }
+        }
+        let image_url = "";
+        $('input[type="file"]').on('change', function () {
+            const name = $(this).attr('title');
+            const target = $(this).attr('data-target');
+            image_url = upload_file($(this), name);
+            $(target).val(image_url);
+            $(target).siblings('[name="preview"]').css('background-image', 'url(' + image_url + ')').show();
+            $('#bool_confirm_bank').val('0');
+        })
+
+        $('.box-image-selector .preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
+
+        $('[name="btn_save"]').on('click', function () {
+            if (!$('input[name="bank_name"]').val()) {
+                alert(__('은행명을 입력하세요.'))
+                return false
+            }
+
+            if (!$('input[name="bank_owner"]').val()) {
+                alert(__('이름을 입력하세요.'))
+                return false
+            }
+
+            if (!$('input[name="bank_account"]').val()) {
+                alert(__('계좌번호를을 입력하세요.'))
+                return false
+            }
+
+            if (!$('#change-account-number #file_bank_url').val()) {
+                alert(__('통장사본을 선택해주세요.'))
+                return false
+            }
+
+            add_request_item('putMyInfo', unserialize($('#change-account-number').serialize()), function(r) {
+                if (r?.success) {
+                    alert(__('저장했습니다.'));
+                    $('[name=status_waiting]').show().siblings().hide();
+                } else {
+                    alert(__('저장하지 못했습니다.') + r?.error?.message||'')
+                }
+            })
+
+            return false;
+        })
+
+    }
+
+    const fn_transaction = function() {
+        check_login();
+
+        $('input[name="range"]').daterangepicker({
+            format: 'YYYY-MM-DD',
+            maxDate: (new Date()),
+            autoUpdateInput: true,
+            autoApply: true,
+            locale: {
+                format: 'YYYY-MM-DD',
+                "daysOfWeek": [
+                    __("일"),
+                    __("월"),
+                    __("화"),
+                    __("수"),
+                    __("목"),
+                    __("금"),
+                    __("토")
+                ],
+                "monthNames": [
+                    __("1월"),
+                    __("2월"),
+                    __("3월"),
+                    __("4월"),
+                    __("5월"),
+                    __("6월"),
+                    __("7월"),
+                    __("8월"),
+                    __("9월"),
+                    __("10월"),
+                    __("11월"),
+                    __("12월")
+                ],
+            }
+        });
+
+        // 검색기간
+        let sdate = date('Y-m-d');
+        let edate = date('Y-m-d');
+
+        $('[name="btn-reset-1w"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*7);
+            edate = date('Y-m-d');
+            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
+            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-1m"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*30);
+            edate = date('Y-m-d');
+            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
+            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-6m"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*30*6);
+            edate = date('Y-m-d');
+            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
+            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+        });
+        $('[name="btn-reset-1y"]').on('click', function() {
+            sdate = date('Y-m-d', time()-60*60*24*365);
+            edate = date('Y-m-d');
+            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
+            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
+            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+        });
+
+        $('[name="symbol"]').empty();
+        const opt = $('[name="symbol"]')
+        for(i of Object.values(Model.user_wallet)) {
+
+            if (i.symbol.length >= 10) {
+                opt.append(`<option value="${i.symbol}">${i.name}</option>`)
+            }
+        }
+
+        $('[name="btn-search"]').on('click', function() {
+            check_login();
+
+            if (!sdate) {
+                alert('조회 기간을 선택하세요.');
+            }
+
+            if (!edate) {
+                alert('조회 기간을 선택하세요.');
+            }
+
+            if (!$('[name="symbol"]').val()) {
+                alert('상품을 선택하세요');
+            }
+
+            let last_idx = 0
+            let page = 1
+            let totalPage = 1
+            const rows = 10
+
+            // console.log("fasdf");
+            // console.log(Model.user_wallet[$('[name="symbol"]').val()].icon_url);
+            // console.log(Model.user_wallet['GDXLQMB2KA'].icon_url);
+
+            getTransactionList(page, rows)
+        });
+
+        $('[name="btn-search2"]').on('click', function() {
+            check_login();
+
+            if (!sdate) {
+                alert('조회 기간을 선택하세요.');
+            }
+
+            if (!edate) {
+                alert('조회 기간을 선택하세요.');
+            }
+
+            if (!$('[name="symbol"]').val()) {
+                alert('상품을 선택하세요');
+            }
+
+            let last_idx = 0
+            let page = 1
+            let totalPage = 1
+            const rows = 10
+
+            getTransactionList(page, rows)
+        });
+
+        let selected_category = '';
+        const getTransactionList = (page, rows) => {
+            const category = selected_category;
+            add_request_item('getMyTradingList', {'token':getCookie('token'), 'symbol':$('[name="symbol"]').val(), 'exchange':'krw', 'start_date':sdate, 'end_date':edate, 'category':category, 'page':page, 'rows':rows }, function(r) {
+                $('.board--list tbody').empty();
+
+                r.payload.map((item) => {
+                    const tr = $('<tr>')
+                    tr.append(`<td class="text--left" style="font-size: 12px"><i class="ico-${item.trading_type_str}"></i>${item.trading_type_str}</td>`)
+                    tr.append(`<td class="text&#45;&#45;left"  style="font-size: 12px"><span class="product&#45;&#45;image"><img src="${Model.user_wallet[$('[name="symbol"]').val()].icon_url}" alt=""></span>${Model.user_wallet[$('[name="symbol"]').val()].name}</td>`)
+                    tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.price)}</td>`)
+                    tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.volume)}</td>`)
+                    tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.amount)}</td>`)
+                    tr.append(`<td class="" style="font-size: 10px">${item.sell_userid}</td>`)
+                    tr.append(`<td class="" style="font-size: 10px">${item.buy_userid}</td>`)
+                    tr.append(`<td class="" style="font-size: 12px">${date('Y-m-d H:i', item.time_traded).substr(2,11)}</td>`)
+                    tr.appendTo('.board--list tbody')
+
+                    const div = $('<div class="accordion&#45;&#45;item">')
+                    div.append('<header class="accordion--header">\n' +
+                        '\t\t\t\t\t\t\t\t<a href>\n' +
+                        '\t\t\t\t\t\t\t\t\t<div class="product">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t<span class="product--image">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t<img src="'+Model.user_wallet[$('[name="symbol"]').val()].icon_url+'" alt="01">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t<div class="items">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t<div class="name">'+Model.user_wallet[$('[name="symbol"]').val()].name+'</div>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t<div class="item">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t\t<span><i class="ico-제품등록"></i> 제품 등록</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t\t<span>'+date('Y-m-d H:i', item.time_traded).substr(2,11)+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                        '\t\t\t\t\t\t\t\t\t</div>\n' +
+                        '\t\t\t\t\t\t\t\t\t<div class="price">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t'+real_number_format(item.amount)+'\n' +
+                        '\t\t\t\t\t\t\t\t\t</div>\n' +
+                        '\t\t\t\t\t\t\t\t</a>\n' +
+                        '\t\t\t\t\t\t\t</header>')
+                    div.append('<div class="accordion--contents">\n' +
+                        '\t\t\t\t\t\t\t\t<ul>\n' +
+                        '\t\t\t\t\t\t\t\t\t<li>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t단가<span>'+real_number_format(item.price)+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t</li>\n' +
+                        '\t\t\t\t\t\t\t\t\t<li>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t수량<span>'+real_number_format(item.volume)+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t</li>\n' +
+                        '\t\t\t\t\t\t\t\t\t<li>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t보냄<span>'+item.sell_userid+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t</li>\n' +
+                        '\t\t\t\t\t\t\t\t\t<li>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t받음<span>'+item.buy_userid+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t</li>\n' +
+                        '\t\t\t\t\t\t\t\t</ul>\n' +
+                        '\t\t\t\t\t\t\t</div>')
+                    div.appendTo('.m-transaction--list')
+
+                })
+
+                totalPage = Math.ceil(r.payload.length / rows)
+
+                $('.board--pagination').find('>ul').empty().end().show()
+                if (totalPage > 1) {
+                    let prev = (page <= 1) ? 1 : page -1
+                    $('<li>')
+                        .addClass('pagination--prev')
+                        .append(`<a href="#page-${prev}">이전 페이지</a>`)
+                        .appendTo('.board--pagination > ul')
+
+                    for (let i=1; i<=totalPage; i++) {
+                        $('<li>').append(`<a href="#page-${i}">${i}</a>`).appendTo('.board--pagination > ul')
+                    }
+
+                    let next = (page >= totalPage) ? totalPage : page+1
+                    $('<li>')
+                        .addClass('pagination--next')
+                        .append(`<a href="#page-${next}">다음 페이지</a>`)
+                        .appendTo('.board--pagination > ul')
+                }
+
+            })
+        }
+
+        $('.board--pagination').on('click', 'a', (e) => {
+            e.preventDefault()
+            const page = $(e.target)
+                .attr('href')
+                .replaceAll(/#page-/g, '')
+            getTransactionList(page, 10)
+            return false
+        })
+
+        $('[name="select_category"]').on('click', 'a', (e) => {
+            e.preventDefault()
+
+            // console.log($(e.target).text());
+            $('[name="category_label"]').text($(e.target).text());
+            selected_category = $(e.target).data('category')
+            getTransactionList(1, 10)
+            return false
+        })
+
+        $('[name="select_category"]').on('click', 'a', (e) => {
+            e.preventDefault()
+
+            $('[name="category_label"]').text($(e.target).text());
+            selected_category = $(e.target).data('category')
+            getTransactionList(1, 10)
+            return false
+        })
+
+        $('.dropdown--item').on('click', 'button', (e) => {
+            e.preventDefault()
+
+            $('[name="m_category_label"]').text($(e.target).text());
+            selected_category = $(e.target).data('category')
+            getTransactionList(1, 10)
+
+        })
+
+    }
+
+
+    const fn_notification = function() {
+        check_login();
+
+        let last_idx = 0
+        let page = 1
+        let totalPage = 1
+        const rows = 10
+
+        const fetchList = function(page) {
+
+            add_request_item('getMyMessageList', { 'token': getCookie('token'), last_idx:0, page:page, rows:rows  }, function(r){
+                $('.board--list tbody').empty();
+                r.payload.list.map((item) => {
+                    const tr = $('<tr>')
+                    tr.append(`<td>${item.reg_date.substr(0, 16)}</td>`)
+                    tr.append(`<td>${item.message}</td>`)
+                    tr.append(`<td>${item.sender_name}</td>`)
+                    tr.appendTo('.board--list tbody')
+
+                    const li = $('<li>')
+                    li.append(`<div class="notification&#45;&#45;header"><span class="notifictaion&#45;&#45;date">${item.reg_date.substr(0, 16)}</span><span class="notification--nick">${item.message}</span>`)
+                    li.append(`<span class="notification&#45;&#45;nick">${item.sender_name}</span></div>`);
+                    li.appendTo('.notification--list')
+
+
+                    last_idx = item.idx
+                })
+                totalPage = Math.ceil(r.payload.totel_count / rows)
+
+                $('.board--pagination').find('>ul').empty().end().show()
+                if (totalPage > 1) {
+                    let prev = (page <= 1) ? 1 : page -1
+                    $('<li>')
+                        .addClass('pagination--prev')
+                        .append(`<a href="#page-${prev}">이전 페이지</a>`)
+                        .appendTo('.board--pagination > ul')
+
+                    for (let i=1; i<=totalPage; i++) {
+                        $('<li>').append(`<a href="#page-${i}">${i}</a>`).appendTo('.board--pagination > ul')
+                    }
+
+                    let next = (page >= totalPage) ? totalPage : page+1
+                    $('<li>')
+                        .addClass('pagination--next')
+                        .append(`<a href="#page-${next}">다음 페이지</a>`)
+                        .appendTo('.board--pagination > ul')
+                }
+
+                if (!r.payload.totel_count) {
+                    $('<tr>')
+                        .addClass('board--empty')
+                        .append('<td colspan="3">알림이 없습니다</td>')
+                        .appendTo('.board--list tbody')
+                }
+            })
+        }
+
+        fetchList(page);
+
+        $('.board--pagination').on('click', 'a', (e) => {
+            e.preventDefault()
+            const page = $(e.target)
+                .attr('href')
+                .replaceAll(/#page-/g, '')
+            fetchList(page)
+            return false
+        })
+        // add_request_item('getMyMessageList', { 'token': getCookie('token') }, function(r){
+        //     console.log(r);
+        //     // $('.board--list tbody').empty();
+        //     // r.payload.list.map((item) => {
+        //     //
+        //     //     const tr = $('<tr>')
+        //     //     tr.append(`<td>${item.reg_date}</td>`)
+        //     //     tr.append(`<td>${item.message}</td>`)
+        //     //     tr.append(`<td>${item.sender_name}</td>`)
+        //     //     tr.appendTo('.board--list tbody')
+        //     // })
+        //
+        // })
+
+    }
 
     const fn_login = function () {
         check_logout();
@@ -1679,8 +2116,230 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     window.logout = fn_logout;
 
     const fn_member_account = function () {
+        check_login();
         request_user_info();
-        force_rander('user_info', Model.user_info);
+        Model.form = clone(Model.user_info);
+        // force_rander('user_info', Model.user_info);
+
+        $('#member-account').on('submit', function () {
+            $('#country').dropdown('selected')
+
+            add_request_item('putMyInfo', $(this).serialize(), function (r) {
+                if (r?.success) {
+                    alert(__('저장했습니다.'));
+                } else {
+                    alert(__('저장하지 못했습니다.') + r?.error?.message||'')
+                }
+            })
+            return false;
+        });
+
+        // 국가 선택 
+        function select_country(code) {
+            if (code) {
+                $('#country').find('button[value=' + (code.toLowerCase()) + ']').trigger('click');
+            }
+        }
+
+        API.getCountry((resp) => {
+            // console.log('getCountry resp:', resp)
+            let firstItem = ''
+            resp.payload.map((country) => {
+                if(!firstItem) {
+                    firstItem = country.code.toLowerCase()
+                }
+    
+                $('#country').dropdown('add', { value: country.code.toLowerCase(), text: `<i class="flag ${country.code.toLowerCase()}"></i> ${country.name}` })
+            })
+            $('#country').dropdown('select', firstItem).dropdown('add_search')
+            // 국가 선택
+            select_country(Model.user_info.mobile_country_code);
+        })
+    }
+
+    const fn_verification = function () {
+
+        $('[name=step_1]').on('click', function () {
+            $('#verification').hide()
+            $('#verification2').show()
+        })
+
+        $('[name=step_2]').on('click', function () {
+            $('#verification2').hide()
+            $('#verification3').show()
+        })
+
+        $('[name=step_3]').on('click', function () {
+            $('#verification3').hide()
+            $('#verification4').show()
+        })
+
+        $('input[type="file"]').on('change', function () {
+            const name = $(this).attr('title');
+            const target = $(this).attr('data-target');
+            const image_url = upload_file($(this), name);
+
+            $(target).val(image_url);
+            $(target).siblings('[name="preview"]').css('background-image', 'url(' + image_url + ')').show();
+
+        })
+
+        $('[name=step_4]').on('click', function () {
+            if (!$('#verification4 #file_identify_url').val()) {
+                alert(__('신분증 사진을 선택해주세요.'))
+                return false;
+            }
+            if (!$('#verification4 #file_mix_url').val()) {
+                alert(__('신분증 및 회원 사진을 선택해주세요.'))
+                return false;
+            }
+            add_request_item('putMyInfo', unserialize($('#verification4').serialize()), function (r) {
+                if (r?.success) {
+                    alert(__('저장했습니다.'));
+                    $('#verification4').hide()
+                    $('#verification5').show()
+                }
+            })
+            return false;
+        })
+
+        // 국가 선택
+        function select_country(code) {
+            if (code) {
+                $('#country').find('button[value=' + (code.toLowerCase()) + ']').trigger('click');
+            }
+        }
+        API.getCountry((resp) => {
+            // console.log('getCountry resp:', resp)
+            let firstItem = ''
+            resp.payload.map((country) => {
+                console.log(country);
+                if(!firstItem) {
+                    firstItem = country.code.toLowerCase()
+                }
+
+                $('#country').dropdown('add', { value: country.code.toLowerCase(), text: `<i class="flag ${country.code.toLowerCase()}"></i> ${country.name}` })
+            })
+            $('#country').dropdown('select', firstItem).dropdown('add_search')
+            // 국가 선택
+            select_country(Model.user_info.mobile_country_code);
+        })
+
+
+        $('[name=step_5]').on('click', function () {
+
+            if (!$('#verification5 #bank_name').val()) {
+                alert(__('은행명을 입력해주세요.'))
+                return false;
+            }
+
+            if (!$('#verification5 #bank_owner').val()) {
+                alert(__('이름을 입력해주세요.'))
+                return false;
+            }
+
+            if (!$('#verification5 #bank_account').val()) {
+                alert(__('계좌번호를 입력해주세요.'))
+                return false;
+            }
+
+            if (!$('#verification5 #file_bank_url').val()) {
+                alert(__('통장 사진을 선택해주세요.'))
+                return false;
+            }
+
+            if (!$('#verification5 #city').val()) {
+                alert(__('도시를 입력해주세요'))
+                return false;
+            }
+
+            if (!$('#verification5 #address_a').val()) {
+                alert(__('주소를 입력해주세요'))
+                return false;
+            }
+
+            if (!$('#verification5 #address_b').val()) {
+                alert(__('상세주소를 입력해주세요'))
+                return false;
+            }
+
+            if (!$('#verification5 #zipcode').val()) {
+                alert(__('우편번호를 입력해주세요'))
+                return false;
+            }
+
+            $('#mobile_country_code').val($('#btn_country i').attr("class").replaceAll(/flag /g,'').toUpperCase());
+
+
+            add_request_item('putMyInfo', unserialize($('#verification5').serialize()), function (r) {
+                if (r?.success) {
+                    alert(__('저장했습니다.'));
+                    $('#verification5').hide()
+                    $('#verification6').show()
+                }
+            })
+            return false;
+        })
+
+        $('[name=step_6]').on('click', function () {
+            window.location.href = '/'
+        })
+    }
+
+
+
+    /**
+     * ID 인증 관리
+     */
+    const fn_my_verification = function () { 
+        check_login();
+
+        if(Model.user_info.image_identify_url) $('.preview[for="file_identify_url"]').css('background-image', 'url(' + Model.user_info.image_identify_url + ')');
+        if(Model.user_info.image_mix_url) $('.preview[for="file_mix_url"]').css('background-image', 'url(' + Model.user_info.image_mix_url + ')');
+        
+
+        // permission 값 의미 : 1: 가입여부, 2: 로그인여부, 3: 핸드폰 인증여부, 4: 신분증 인증 여부, 5:은행 인증 여부
+        const permission_level = Model.user_info.permission.match(/1/g).length; // '11000' => 2 , 
+        if (Model.user_info.permission.substr(3, 1) == '1') {// 신분증 인증 완료
+            $('[name=status_success]').show();
+        } else {
+            if (Model.user_info.image_identify_url) { // 신분증 인증 대기중
+                $('[name=status_waiting]').show();
+            } else { // 신분증 인증 입력 필요
+                $('[name=status_default]').show();
+            }
+        }
+
+        $('input[type="file"]').on('change', function () { 
+            const name = $(this).attr('title');
+            const target = $(this).attr('data-target');
+            const image_url = upload_file($(this), name);
+
+            $(target).val(image_url);
+            $(target).siblings('[name="preview"]').css('background-image', 'url(' + image_url + ')').show();
+            $('#bool_confirm_idimage').val('0');
+        })
+
+        $('.box-image-selector .preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
+
+        $('[name="btn_save"]').on('click', function () { 
+            if (!$('#verification4 #file_identify_url').val()) {
+                alert(__('신분증 사진을 선택해주세요.'))
+            }
+            if (!$('#verification4 #file_mix_url').val()) {
+                alert(__('신분증 및 회원 사진을 선택해주세요.'))
+            }
+            add_request_item('putMyInfo', unserialize($('#verification4').serialize()), function (r) { 
+                console.log(r);
+                if (r?.success) {
+                    alert(__('저장했습니다.'));
+                    $('[name=status_waiting]').show().siblings().hide();
+                } 
+            })
+            return false;
+        })
+        
+
     }
 
     const fn_repw = function () {
