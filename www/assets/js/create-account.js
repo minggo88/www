@@ -255,7 +255,7 @@ $(function () {
             $('#create-account-phone-auth').addClass('loading')
             $('#create-account-phone-auth input[type=submit]').prop('disabled', true)
 
-            API.checkMobileConfirmCode(phone, (resp) => {
+            API.checkMobileConfirmCode(phone, code, (resp) => {
                 $('#create-account-phone-auth').removeClass('loading')
 
                 if (resp.success) {
