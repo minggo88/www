@@ -629,6 +629,7 @@ form .form--header h1 {
 .input input::-webkit-outer-spin-button,
 .input input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+	appearance: none;
     margin: 0;
 }
 .input--group {
@@ -654,6 +655,7 @@ form .form--header h1 {
 .input--spiner input::-webkit-outer-spin-button,
 .input--spiner input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+	appearance: none;
     margin: 0;
 }
 .input--spiner .spiner-plus,
@@ -949,11 +951,13 @@ form .form--header h1 {
 .grid--code > input::-webkit-outer-spin-button,
 .grid--code > input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+	appearance: none;
     margin: 0;
 }
 
 .grid--code > input[type=number] {
     -moz-appearance: textfield;
+	appearance: textfield;
 }
 
 
