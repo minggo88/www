@@ -2662,6 +2662,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         check_login();
     }
 
+    const fn_create_account = function () {
+        check_logout('로그 아웃 후 이용가능 합니다.');
+    }
+
     // 페이지 컨트롤러 실행
     let page_controller = window.location.pathname.replace(/\/(.*).php|.html/, '$1');
     page_controller = page_controller.replace(/-/g, '_');
