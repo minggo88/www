@@ -63,7 +63,8 @@ div.dts div.dataTables_scrollBody {
 .details {
 	width: 100%;
     overflow:auto;
-	min-width: 430px;
+	/* min-width: 430px; */
+	min-width: 300px;
 }
 
 .details--header {
