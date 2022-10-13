@@ -21,6 +21,45 @@ form {
     margin-top: 70px;
 }
 
+#verification4 .d-grid.column-2{
+	position: relative;
+}
+
+#verification4 .d-grid.column-2 .preview{
+	display: none;
+	position: absolute;
+	width: 161px;
+	height: 110px;
+	left: 0;
+	top: 22px;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	z-index: 10;
+}
+
+#verification4 .d-grid.column-2 .preview.back{
+	right:0;
+	left:initial;
+}
+
+#verification5 .bank_account{
+	position: relative;
+}
+
+#verification5 .bank_account .preview{
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 110px;
+	left: 0;
+	top: 5px;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	z-index: 10;
+}
+
 @media screen and (max-width: 800px) {
 	.verification > header{
 		display: none;
