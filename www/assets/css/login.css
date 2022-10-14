@@ -116,7 +116,7 @@ main {
 	color: var(--red-up);
 }
 
-.login .mobile-only-block{display: none;}
+/* .login .mobile-only-block{display: none;} */
 
 @media screen and (max-width: 1300px) {
 	.create-account main{
@@ -273,7 +273,7 @@ main {
         background: url('../img/icon/icon-next.svg') no-repeat 50%;
         background-size: 7.42px 14.02px;
     }
-	.login .mobile-only-block{display: block;}
+	/* .login .mobile-only-block{display: block;} */
 	
 	/* .form--btns{margin-top: 54px;} */
 	/* .login.forget .validation--message{
