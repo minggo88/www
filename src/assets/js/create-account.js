@@ -288,7 +288,7 @@ $(function () {
         // $('#create-account-pin-number').hide()
 		// $('#create-account-pin-number-confirm').hide()
 		$('#create-account-pin-number').parent("section").hide()
-		$('#create-account-pin-number-confirm').parent("section").hide()
+		$('#create-account-pin-number-confirm').parent("section").show()
 
         return false
     })
@@ -298,15 +298,15 @@ $(function () {
 
         let check = true
 
-        $('#create-account-pin-number .grid--code input[type=number]').each((elem) => {
+        $('#create-account-pin-number .grid--code input[type=number]').each((_index, elem) => {
             pin += $(elem).val()
         })
 
-        $('#create-account-pin-number-confirm .grid--code input[type=number]').each((elem) => {
+        $('#create-account-pin-number-confirm .grid--code input[type=number]').each((_index, elem) => {
             if(!$(elem).val()) {
                 check = false
                 $(elem).focus()
-                return
+                return false;
             }
 
             pinConfirm += $(elem).val()
@@ -341,6 +341,7 @@ $(function () {
                     // $('#create-account-pin-number-confirm').hide()
 					$('#create-account-pin-number').parent("section").hide()
                     $('#create-account-pin-number-confirm').parent("section").hide()
+                    $('#create-account-complete').parent("section").show()
                 } else {
                     alert(resp.error.message)
                 }
