@@ -416,6 +416,7 @@
         color: #191F28;
         font-size: 14px;
         font-weight: 400;
+		word-break: keep-all;
     }
 	.sub.deposit .contents .contents--header{
 		margin-bottom: 0;
