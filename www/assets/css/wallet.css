@@ -81,6 +81,12 @@
 	overflow-x: auto;
 }
 
+.wallet--grid .grid .grid--inner-left{
+	display: flex;
+	align-items: center;
+	width: 40%;
+}
+
 .wallet--grid .grid .item_img{
 	width: 45px;
 	height: 45px;
@@ -129,8 +135,11 @@
 
 .wallet--grid .grid .grid--inner-right {
     display: flex;
-    flex-basis: 245px;
-    column-gap: 10px;
+    /* flex-basis: 245px; */
+   /*  column-gap: 10px; */
+	width: 60%;
+	column-gap: 15px;
+	align-items: center;
 }
 
 .wallet--grid .wallet--price {
@@ -151,8 +160,11 @@
 	.wallet--grid .wallet--market-price{
 		font-size:12px;
 	}
-	.wallet--grid .grid .grid--inner-right{
+	/* .wallet--grid .grid .grid--inner-right{
 		flex-basis: 245px;
+	} */
+	.wallet--grid .grid .item_name{
+		font-size: 12px;
 	}
 }
 
@@ -239,10 +251,18 @@
     .wallet--grid {
         display: flex;
         flex-direction: column;
-    }
+		margin-top: 30px;
+    }	
+
+	.wallet--grid .grid .grid--inner-right{
+		flex-basis: auto;
+		width: 75%;
+	}
     .wallet--grid .grid {
         border: 0 none;
         padding: 0;
+		padding-bottom: 10px;
+		box-shadow: 0px 4px 4px -4px #e2e2e2;
     }
     .wallet--grid .grid .wallet--btn {
         width: 64px;
@@ -250,12 +270,23 @@
         display: flex;
         flex-direction: column;
         row-gap: 6px;
+		justify-content: center;
     }
     .wallet--grid .wallet--btn .btn {
         width: 100%;
         height: 32px;
         line-height: 32px;
     }
+
+	.wallet--grid .wallet--price{
+		font-size:15px;
+		margin-bottom: 5px;
+	}
+}
+@media screen and (max-width: 600px) {
+	.wallet--grid .grid .grid--inner-left{
+		width: 25%;
+	}
 }
 
 /* deposit */
@@ -416,6 +447,7 @@
         color: #191F28;
         font-size: 14px;
         font-weight: 400;
+		word-break: keep-all;
     }
 	.sub.deposit .contents .contents--header{
 		margin-bottom: 0;
@@ -873,6 +905,14 @@
 	padding-right: 1rem;
 	white-space: nowrap;
 }
+.historyTb tbody tr td.mergeTd.cord {
+	text-align: left;
+	vertical-align: middle;
+	overflow:hidden;
+	padding:0 0.5rem;
+	white-space: nowrap;
+}
+
 
 .historyTb tbody tr td.title_td {
 	font-size: 14px;
@@ -882,6 +922,11 @@
 	font-size: 14px;
 	text-align: right;
 	padding-right: 2rem;
+}
+
+.historyTb tbody tr td .number_div.text-center{
+	text-align: center;
+	padding-right: 0;
 }
 
 .historyTb tbody tr td .number_div.number_plus { color: #e43335; }
