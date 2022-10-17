@@ -1,6 +1,7 @@
 $(function () {
     const email = $('#email')
     const password = $('#password')
+    const password_confirm = $('#password_confirm')
     let sended_email = ''; // 발송 성공한 이메일 - 재발송시 사용
     let sended_phoneCountry = '';
     let sended_phone = '';
@@ -103,6 +104,16 @@ $(function () {
             return false
         }
 
+        if (!$('#terms_of_service').is(':checked')) {
+            alert('이용약관 동의에 체크 해주세요.');
+            return false;
+        }
+
+        if (!$('#privacy').is(':checked')) {
+            alert('개인정보 수집 및 이용 동의에 체크 해주세요.');
+            return false;
+        }
+
         $('#create-account-info').addClass('loading')
         $('#create-account-info input[type=submit]').prop('disabled', true)
 
@@ -114,7 +125,9 @@ $(function () {
 				//	$('#create-account-info').hide()
 				$('#create-account-info').parent("section").hide()
 				//	$('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
-				$('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
+
+                // $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
+                $('#create-account-password-confirm').parent("section").show()
             } else {
                 $('#create-account-info input[type=submit]').prop('disabled', false)
 
@@ -139,6 +152,27 @@ $(function () {
                 alert(resp.error.message)
             }
         })
+        return false;
+    });
+
+    $('#create-account-password-confirm').on('submit', (e) => {
+        e.preventDefault()
+
+        if (!password_confirm.val()) {
+            password.focus()
+            return false;
+        }
+
+        if (password.val() != password_confirm.val()) {
+            alert('비밀번호가 다릅니다.');
+            return false;
+        }
+
+        $('#create-account-password-confirm input[type=submit]').prop('disabled', false)
+
+        $('#create-account-password-confirm').parent("section").hide()
+        $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
+
         return false;
     });
 
