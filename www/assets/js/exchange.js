@@ -956,9 +956,9 @@ $(function() {
 $(function() { 
     $('.form-order').on('input', _e => {
         $form = $(_e.target).closest('form')
-        const price = parseFloat($form.find('[name=price]').val())
+        const price = parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/, ''))
         const volume = parseFloat($form.find('[name=volume]').val())
-        $form.find('[name=total]').val('' + real_number(price * volume) + '')
+        $form.find('[name=total]').val('' + real_number_format(price * volume) + '')
     })
     // $('#modal-buy [name=price], #modal-buy [name=volume]').on('input', _e => {
     //     const price = parseFloat($('#modal-buy [name=price]').val())
@@ -986,24 +986,27 @@ $(function() {
             modal.find('[name=symbol]').val(symbol)
             modal.find('[name=exchange]').val(exchange)
             modal.find('[name=orderid]').text('#'+orderid)
-            modal.find('[name=price]').val(price)
+            modal.find('[name=price]').val(real_number_format(price))
             modal.find('[name=volume]').val(volume)
-            modal.find('[name=total]').val('' + real_number(price * volume) + '')
+            modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
         })
         .submit(e => {
             e.preventDefault()
-            API.buyDirect($('#modal-buy-direct').serializeObject(), (resp) => {
+            let data = $('#modal-buy-direct').serializeObject()
+            data.price = data.price.replace(/[^0-9.\-\+]/, '')
+            data.total = data.price.replace(/[^0-9.\-\+]/, '')
+            API.buyDirect(data, (resp) => {
                 if (resp.success) {
                     set_user_wallet();
                     $('#modal-buy-direct').myModal('hide')
-                    const price = parseFloat($('#modal-buy-direct [name=price]').val())
+                    const price = parseFloat($('#modal-buy-direct [name=price]').val().replace(/[^0-9.\-\+]/, ''))
                     const volume = parseFloat($('#modal-buy-direct [name=volume]').val())
                     const exchange = parseFloat($('#modal-buy-direct [name=exchange]').val())
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
-                    $('#modal-buy-success .total').text(real_number(price * volume))
-                    $('#modal-buy-success .exchange').text(exchange)
+                    $('#modal-buy-success .total').text(real_number_format(price * volume))
+                    // $('#modal-buy-success .exchange').text(exchange)
                     $('#modal-buy-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
@@ -1065,14 +1068,17 @@ $(function() {
             modal.find('[name=orderid]').val(orderid)
             modal.find('input[name=symbol]').val(symbol)
             modal.find('[name=orderid]').text('#'+orderid)
-            modal.find('[name=price]').val(price)
+            modal.find('[name=price]').val(real_number_format(price))
             modal.find('[name=volume]').val(volume)
-            modal.find('[name=total]').val('' + real_number(price * volume) + '')
+            modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
         })
         .submit(e => {
             e.preventDefault()
-            API.sellDirect($('#modal-sell-direct').serializeObject(), (resp) => {
+            let data = $('#modal-sell-direct').serializeObject()
+            data.price = data.price.replace(/[^0-9.\-\+]/, '')
+            data.total = data.price.replace(/[^0-9.\-\+]/, '')
+            API.sellDirect(data, (resp) => {
                 if (resp.success) {
                     const payload = resp.payload;
                     set_user_wallet();
@@ -1082,8 +1088,8 @@ $(function() {
                     const exchange = parseFloat($('#modal-sell-direct [name=exchange]').val())
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
-                    $('#modal-sell-success .total').text(real_number(price * volume))
-                    $('#modal-sell-success .exchange').text(exchange)
+                    $('#modal-sell-success .total').text(real_number_format(price * volume))
+                    // $('#modal-sell-success .exchange').text(exchange)
                     $('#modal-sell-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
