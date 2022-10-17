@@ -874,6 +874,14 @@
 	padding-right: 1rem;
 	white-space: nowrap;
 }
+.historyTb tbody tr td.mergeTd.cord {
+	text-align: left;
+	vertical-align: middle;
+	overflow:hidden;
+	padding:0 0.5rem;
+	white-space: nowrap;
+}
+
 
 .historyTb tbody tr td.title_td {
 	font-size: 14px;
@@ -883,6 +891,11 @@
 	font-size: 14px;
 	text-align: right;
 	padding-right: 2rem;
+}
+
+.historyTb tbody tr td .number_div.text-center{
+	text-align: center;
+	padding-right: 0;
 }
 
 .historyTb tbody tr td .number_div.number_plus { color: #e43335; }
