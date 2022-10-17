@@ -359,8 +359,12 @@
 								const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
 
 								const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-								grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
-								grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
+								grid.append(`<div class="grid--inner-left">
+									<div class='item_img' style="background-image: url(${item.icon_url});"></div>
+									<div class='item_name desktop-only'>${item.name}</div>
+								</div>`)
+								// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
+								// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
 								grid.append(`
 								<div class="grid--inner-right">
 									<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
