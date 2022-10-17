@@ -78,7 +78,8 @@ form {
 .inside {
     margin-top: 40px;
     width: 312.06px;
-    height: 178px;
+    /* height: 178px; */
+	height: 100%;
 }
 
 .sub.member-account .contents--header{
