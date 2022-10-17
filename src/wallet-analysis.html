@@ -259,7 +259,7 @@
 												<tr name="empty" style="display:none">
 													<td colspan="7" class="text-center" data-i18n>조회내용이 없습니다.</td>
 												</tr>
-												<tr name="search" style="">
+												<tr name="search">
 													<td colspan="7" class="text-center" data-i18n>조회중입니다.</td>
 												</tr>
 												<tr name="tpl" style="display:none">
@@ -268,7 +268,7 @@
 														<img src="{coin.icon_url}" style="height:24px;width:24px;">
 														{coin.name}
 													</td>
-													<td class="pcenter text-center mergeTd">
+													<td class="pcenter text-center mergeTd cord">
 														{coin.SYMBOL}
 													</td>
 													<td class="pcenter text-right numberDiv">
@@ -280,10 +280,10 @@
 														<div class="symbol_div">≈{coin.final_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">{coin.deposit_evaluation_amount} KRW</div>
+														<div class="number_div text-center">{coin.deposit_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">{coin.withdraw_evaluation_amount} KRW</div>
+														<div class="number_div text-center">{coin.withdraw_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-center mergeTd light">
 														<div class="btnArea">
