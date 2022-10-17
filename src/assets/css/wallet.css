@@ -605,6 +605,7 @@
 	}
 	.deposit-withdrawal .form--controls{
 		align-items: center;
+		flex-direction: column;
 	}
 	.deposit-withdrawal .grid .border{
 		padding-bottom: 29px;
@@ -622,10 +623,10 @@
 		background-color: #f5f5f5;
 	}
 
-	.deposit-withdrawal .grid .bg--lightgray,
+	/* .deposit-withdrawal .grid .bg--lightgray,
 	.deposit-withdrawal .grid input[type=text]:disabled{
 		background: transparent;
-	}
+	} */
 
 	.deposit-withdrawal .grid .input--group .input--group--text,
 	.deposit-withdrawal .contents .d-grid .grid input[type=text]{
@@ -638,7 +639,9 @@
 		margin-bottom: 25px!important;
 		flex-direction: column;
 	}
-	.deposit-withdrawal .contents .d-grid .grid .input--box .input{
+
+	.deposit-withdrawal .contents .d-grid .grid .input--box .input,
+	.deposit-withdrawal .contents .d-grid .grid .form--controls .input{
 		margin-top: 11px;
 		border: 1px solid #E5E8EB!important;
 		border-radius: 5px;
