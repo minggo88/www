@@ -2155,6 +2155,66 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             // 국가 선택
             select_country(Model.user_info.mobile_country_code);
         })
+
+        $('#change_password_btn').on('click', function (e) {
+            e.preventDefault()
+            let password = $('[name=password]');
+            let new_password = $('[name=new_password]');
+            let new_password2 = $('[name=new_password2]');
+
+            if(!password.val()) {
+                password.focus()
+                return false
+            }
+
+            if(!new_password.val()) {
+                new_password.focus()
+                return false
+            }
+
+            if(!new_password2.val()) {
+                new_password2.focus()
+                return false
+            }
+
+            if (/^.{8,}$/.test(new_password.val()) === false) {
+                alert('비밀번호는 8 자리 이상 입력 해주세요.');
+                return false;
+            }
+
+            if (/^(?=.*[a-z]).*$/.test(new_password.val()) === false) {
+                alert('비밀번호는 영문자 포함해서 입력 해주세요.');
+                return false;
+            }
+
+            if (/^(?=.*[0-9]).*$/.test(new_password.val()) === false) {
+                alert('비밀번호는 숫자 포함해서 입력 해주세요.');
+                return false;
+            }
+
+            if (/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(new_password.val()) === false) {
+                alert('비밀번호는 특수문자 포함해서 입력 해주세요.');
+                return false;
+            }
+
+
+            if (new_password.val() != new_password2.val()) {
+                alert('비밀번호가 다릅니다.');
+                return false;
+            }
+
+            add_request_item('changePW', $('#change-password').serializeObject(), function (r) {
+                if (r && r.success) {
+                    alert("변경 되었습니다.");
+                    $('#change-password').hide();
+                } else {
+                    alert(r.error.message)
+                }
+            });
+
+            return false;
+        })
+
     }
 
     const fn_verification = function () {
@@ -2348,14 +2408,36 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $('[name=btn_repw]').on('click', function () {
             $('[name=box_notice]').html('').parent().hide();
 
-            let pin_number = $('[name=pin]').val();
-            if (!pin_number) {
+            let password = $('[name=password]').val();
+            if (!password) {
                 show_notice(__('비밀번호를 입력해주세요.'));
-                $('[name=pin]').trigger('select');
+                $('[name=password]').trigger('select');
                 return false;
             }
-            let pin_number2 = $('[name=pin2]').val();
-            if (pin_number != pin_number2) {
+
+            if (/^.{8,}$/.test(password) === false) {
+                show_notice(__('비밀번호는 8 자리 이상 입력 해주세요.'));
+                return false;
+            }
+
+            if (/^(?=.*[a-z]).*$/.test(password) === false) {
+                show_notice(__('비밀번호는 영문자 포함해서 입력 해주세요.'));
+                return false;
+            }
+
+            if (/^(?=.*[0-9]).*$/.test(password) === false) {
+                show_notice(__('비밀번호는 숫자 포함해서 입력 해주세요.'));
+                return false;
+            }
+
+            if (/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(password) === false) {
+                show_notice(__('비밀번호는 특수문자 포함해서 입력 해주세요.'));
+                return false;
+            }
+
+
+            let password2 = $('[name=password2]').val();
+            if (password != password2) {
                 show_notice(__('비밀번호가 다릅니다.') + ' ' + __('올바른 비밀번호를 다시 입력해주세요.'));
                 $('[name=pin2]').trigger('select');
                 return false;
@@ -2363,7 +2445,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
             const data = {
                 't': getURLParameter('t'),
-                'pin': pin_number
+                'password': password
             };
             add_request_item('resetPW', data, function (r) {
                 if (r && r.success) {
