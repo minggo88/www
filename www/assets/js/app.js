@@ -1778,28 +1778,35 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
         });
 
-        $('[name="symbol"]').empty();
-        const opt = $('[name="symbol"]')
+        let first_dropdown_value = '';
         for(i of Object.values(Model.user_wallet)) {
-
+            if(!first_dropdown_value) { first_dropdown_value = i.symbol;}
             if (i.symbol.length >= 10) {
-                opt.append(`<option value="${i.symbol}">${i.name}</option>`)
+                // $('#symbol').dropdown('add', { value: i.symbol, text: i.name })
+                $('[name="symbol"]').dropdown('add', { value: i.symbol, text: i.name })
             }
         }
+        $('[name="symbol"]').dropdown('select', first_dropdown_value)
+
 
         $('[name="btn-search"]').on('click', function() {
             check_login();
 
+            const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
+
+            if (!selected_symbol) {
+                alert('상품을 선택하세요.ㄴ');
+                return false;
+            }
+
             if (!sdate) {
                 alert('조회 기간을 선택하세요.');
+                return false;
             }
 
             if (!edate) {
                 alert('조회 기간을 선택하세요.');
-            }
-
-            if (!$('[name="symbol"]').val()) {
-                alert('상품을 선택하세요');
+                return false;
             }
 
             let last_idx = 0
@@ -1807,26 +1814,27 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             let totalPage = 1
             const rows = 10
 
-            // console.log("fasdf");
-            // console.log(Model.user_wallet[$('[name="symbol"]').val()].icon_url);
-            // console.log(Model.user_wallet['GDXLQMB2KA'].icon_url);
-
             getTransactionList(page, rows)
         });
 
         $('[name="btn-search2"]').on('click', function() {
             check_login();
 
+            const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
+
+            if (!selected_symbol) {
+                alert('상품을 선택하세요.ㄴ');
+                return false;
+            }
+
             if (!sdate) {
                 alert('조회 기간을 선택하세요.');
+                return false;
             }
 
             if (!edate) {
                 alert('조회 기간을 선택하세요.');
-            }
-
-            if (!$('[name="symbol"]').val()) {
-                alert('상품을 선택하세요');
+                return false;
             }
 
             let last_idx = 0
@@ -1839,14 +1847,16 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
         let selected_category = '';
         const getTransactionList = (page, rows) => {
+            const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
             const category = selected_category;
-            add_request_item('getMyTradingList', {'token':getCookie('token'), 'symbol':$('[name="symbol"]').val(), 'exchange':'krw', 'start_date':sdate, 'end_date':edate, 'category':category, 'page':page, 'rows':rows }, function(r) {
+            add_request_item('getMyTradingList', {'token':getCookie('token'), 'symbol':selected_symbol, 'exchange':'krw', 'start_date':sdate, 'end_date':edate, 'category':category, 'page':page, 'rows':rows }, function(r) {
                 $('.board--list tbody').empty();
+                $('.m-transaction--list').empty();
 
                 r.payload.map((item) => {
                     const tr = $('<tr>')
                     tr.append(`<td class="text--left" style="font-size: 12px"><i class="ico-${item.trading_type_str}"></i>${item.trading_type_str}</td>`)
-                    tr.append(`<td class="text&#45;&#45;left"  style="font-size: 12px"><span class="product&#45;&#45;image"><img src="${Model.user_wallet[$('[name="symbol"]').val()].icon_url}" alt=""></span>${Model.user_wallet[$('[name="symbol"]').val()].name}</td>`)
+                    tr.append(`<td class="text&#45;&#45;left"  style="font-size: 12px"><span class="product&#45;&#45;image"><img src="${Model.user_wallet[selected_symbol].icon_url}" alt=""></span>${Model.user_wallet[selected_symbol].name}</td>`)
                     tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.price)}</td>`)
                     tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.volume)}</td>`)
                     tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.amount)}</td>`)
@@ -1860,10 +1870,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         '\t\t\t\t\t\t\t\t<a href>\n' +
                         '\t\t\t\t\t\t\t\t\t<div class="product">\n' +
                         '\t\t\t\t\t\t\t\t\t\t<span class="product--image">\n' +
-                        '\t\t\t\t\t\t\t\t\t\t\t<img src="'+Model.user_wallet[$('[name="symbol"]').val()].icon_url+'" alt="01">\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t<img src="'+Model.user_wallet[selected_symbol].icon_url+'" alt="01">\n' +
                         '\t\t\t\t\t\t\t\t\t\t</span>\n' +
                         '\t\t\t\t\t\t\t\t\t\t<div class="items">\n' +
-                        '\t\t\t\t\t\t\t\t\t\t\t<div class="name">'+Model.user_wallet[$('[name="symbol"]').val()].name+'</div>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t<div class="name">'+Model.user_wallet[selected_symbol].name+'</div>\n' +
                         '\t\t\t\t\t\t\t\t\t\t\t<div class="item">\n' +
                         '\t\t\t\t\t\t\t\t\t\t\t\t<span><i class="ico-제품등록"></i> 제품 등록</span>\n' +
                         '\t\t\t\t\t\t\t\t\t\t\t\t<span>'+date('Y-m-d H:i', item.time_traded).substr(2,11)+'</span>\n' +
@@ -1947,7 +1957,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             return false
         })
 
-        $('.dropdown--item').on('click', 'button', (e) => {
+        $('[name="m_dropdown"]').on('click', 'button', (e) => {
             e.preventDefault()
 
             $('[name="m_category_label"]').text($(e.target).text());
@@ -2512,7 +2522,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         // 출금신청
         $('[name="btn-withdraw"]').on('click', function () { 
             // 출금액
-            const amount = $('[name=amount]').val();
+            const amount = $('[name=amount]').val().replace(/[^0-9.\-\+]/, '');
             const to_address = $('[name="address"]').val();
             const pin = $('[name="pin"]').val();
             const symbol = Model.withdraw_currency.symbol;
@@ -2530,7 +2540,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $('[name="amount"]').on('keyup', function (e) { 
             const fee_out = Model.withdraw_currency.fee_out;
             const fee_out_ratio = Model.withdraw_currency.fee_out_ratio;
-            const amount = $(this).val();
+            const amount = $(this).val().replace(/[^0-9.\-\+]/, '');
             const fee = fee_out_ratio > 0 ? amount * fee_out_ratio : (fee_out > 0 ? fee_out : 0);
             const real_receive_amount = amount-fee>0 ? amount-fee : 0;
             console.log(amount, fee, real_receive_amount)
@@ -2595,9 +2605,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
         // 입금하기
         $('[name="btn-save-deposit"]').on('click', function () { 
-            const symbol = $.trim($('[name=symbol]').text());
+            const symbol = "KRW";
             const $deposit_amount = $('[name=deposit_amount]');
-            const deposit_amount = $.trim($deposit_amount.val());
+            const deposit_amount = $.trim($deposit_amount.val()).replace(/[^0-9.\-\+]/, '');
             if (deposit_amount <= 0) {
                 alert(__('입금액을 입력해주세요.')); $deposit_amount.select(); return false;
             }
@@ -2848,8 +2858,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     $(document).on("keyup", ".onlynum", function(ev) { $(this).val($(this).val().replace(/[^0-9.,]/g, "")); }).on('keydown', ".onlynum", input_filter_number);
     $(document).on("keyup change", ".realnumber", function(ev) { $(this).val(real_number_format($(this).val())); }).on('keydown', ".onlynum", input_filter_number);
     $(document).on("keyup", ".onlyeng", function(ev) { $(this).val($(this).val().replace(/[^\!-z]/g, "")); });
-
-
+    $(document).on("blur", ".blurrealnumber", function(ev) {$(this).val(real_number_format($(this).val())); })
 
 }))
 
