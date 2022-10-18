@@ -218,21 +218,9 @@
 				<div class="d-flex mobile-only period" style="margin-bottom: 16px">
 					<div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
 						<div name="symbol" class="dropdown-wrapper m-symbol-select">
-							<button type="button" class="dropdown">Goon #5562</button>
+							<button type="button" class="dropdown"></button>
 							<div class="dropdown--item"><input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
 								<ul class="mt-0">
-									<li>
-										<button type="button" value="GBULF3LZMU">Goon #5562</button>
-									</li>
-									<li>
-										<button type="button" value="GC9ZZVCIIS">test003</button>
-									</li>
-									<li>
-										<button type="button" value="GCA18KTDKK">test-mike</button>
-									</li>
-									<li>
-										<button type="button" value="GDHSX7J4UP">8892 후기홍인</button>
-									</li>
 								</ul>
 							</div>
 						</div>
@@ -263,21 +251,10 @@
 				</div>
 				<div class="d-flex desktop-only" style="margin-bottom: 49px">
 					<div name="symbol" class="dropdown-wrapper symbol-select">
-						<button type="button" class="dropdown">Goon #5562</button>
-						<div class="dropdown--item"><input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
+						<button type="button" class="dropdown" id="dropdown_selected"></button>
+						<div class="dropdown--item">
+							<input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
 							<ul class="mt-0">
-								<li>
-									<button type="button" value="GBULF3LZMU">Goon #5562</button>
-								</li>
-								<li>
-									<button type="button" value="GC9ZZVCIIS">test003</button>
-								</li>
-								<li>
-									<button type="button" value="GCA18KTDKK">test-mike</button>
-								</li>
-								<li>
-									<button type="button" value="GDHSX7J4UP">8892 후기홍인</button>
-								</li>
 							</ul>
 						</div>
 					</div>
@@ -297,7 +274,7 @@
 						<div class="tab_header">
 							<div class="select dropdown--wrapper">
 								<button type="button" class="dropdown" name="m_category_label" data-i18n="">전체</button>
-								<div class="dropdown--item">
+								<div class="dropdown--item" name="m_dropdown">
 									<div class="title">
 										내역선택
 										<button type="button" class="navigation--close" onclick="$('.tab_bar .dropdown').removeClass('dropdown--open'); return false"></button>
@@ -365,7 +342,7 @@
 								<th style="position: relative; line-height: 1">
 									<div class="category dropdown-wrapper">
 										<button type="button" class="dropdown" name="category_label" data-i18n>전체</button>
-										<div class="dropdown--item" name="select_category">
+										<div class="dropdown--item" name="select_category" >
 <!--											<span data-i18n>전체</span>-->
 											<ul>
 												<li><a href="" data-i18n data-category="" >전체</a></li>
@@ -568,7 +545,7 @@
 						</tbody>
 					</table>
 					<div class="m-transaction--list mobile-only accordion">
-						<div class="date">22-06-24</div>
+<!--						<div class="date">22-06-24</div>-->
 <!--						<div class="accordion&#45;&#45;item">-->
 <!--							<header class="accordion&#45;&#45;header">-->
 <!--								<a href>-->
@@ -939,7 +916,7 @@
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
 
-    <script src="./assets/js/app.js?t=1665998129"></script>
+    <script src="./assets/js/app.js?t=1666069596"></script>
 
 </body>
 </html>
