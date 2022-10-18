@@ -605,6 +605,7 @@
 	}
 	.deposit-withdrawal .form--controls{
 		align-items: center;
+		flex-direction: column;
 	}
 	.deposit-withdrawal .grid .border{
 		padding-bottom: 29px;
@@ -622,10 +623,10 @@
 		background-color: #f5f5f5;
 	}
 
-	.deposit-withdrawal .grid .bg--lightgray,
+	/* .deposit-withdrawal .grid .bg--lightgray,
 	.deposit-withdrawal .grid input[type=text]:disabled{
 		background: transparent;
-	}
+	} */
 
 	.deposit-withdrawal .grid .input--group .input--group--text,
 	.deposit-withdrawal .contents .d-grid .grid input[type=text]{
@@ -638,7 +639,9 @@
 		margin-bottom: 25px!important;
 		flex-direction: column;
 	}
-	.deposit-withdrawal .contents .d-grid .grid .input--box .input{
+
+	.deposit-withdrawal .contents .d-grid .grid .input--box .input,
+	.deposit-withdrawal .contents .d-grid .grid .form--controls .input{
 		margin-top: 11px;
 		border: 1px solid #E5E8EB!important;
 		border-radius: 5px;
@@ -1146,6 +1149,50 @@
 		flex-direction: column;
 	}
 	
+}
+
+@media screen and (max-width: 450px) { 
+	.wallet-analysis .daterange{font-size: 12px;}
+
+	.wallet-analysis .middle_div.big .total_div span.entry,
+	.wallet-analysis .middle_div.big .total_div span.data{
+		font-size: 16px;
+	}
+	.wallet-analysis .middle_div.big .total_div span{
+		font-size: 20px;
+	}
+	
+	
+	.wallet-analysis .middle_div.big .left_div,
+	.wallet-analysis .middle_div.big .right_div{
+		height: auto;
+	}
+	.wallet-analysis .middle_div.big .data_div .header_div, 
+	.wallet-analysis .middle_div.big .data_div .inner_div{
+		width: 100%;
+		float: left;
+		/* 여기서부터 다시보기 */
+	}
+
+	.wallet-analysis .middle_div.big .data_div .inner_div{
+		text-align: left;
+		font-weight: 350;
+		margin: 2px 0 5px;
+	}
+}
+
+@media screen and (max-width:380px) { 
+	.wallet-analysis .period .dropdown-wrapper + div{
+		flex-wrap: wrap;
+	}
+	.sub.wallet-analysis .period .daterange{
+		width: 100%;
+		margin-bottom: 10px;
+		margin-right: 0!important;
+	}
+	.sub.wallet-analysis .period .btn{
+		width: 48%;
+	}
 }
 
 /* Mobile */
