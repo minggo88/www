@@ -353,6 +353,8 @@ $(function() {
 
         let val = Math.max(Number(input.val()) + 1, 1)
 
+        if (input.val() >= input.attr('max')) { val = input.attr('max') }
+
         input.val(val).trigger('input')
     })
 
