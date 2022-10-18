@@ -36,9 +36,12 @@
 }
 
 .wallet-summary .grid .dropdown-wrapper {
-    width: 100px;
+    /* width: 100px;
     flex-basis: 100px;
-    max-width: 100px;
+    max-width: 100px; */
+	width: 60px;
+    flex-basis: 60px;
+    max-width: 60px;
     height: 100%;
 }
 
@@ -189,12 +192,12 @@
 }
 
 @media screen and (max-width:1200px) {
-	.sub.wallet .side{
+	/* .sub.wallet .side{
 		display: none;
-	}
-	.sub.wallet .contents{
+	} */
+	/* .sub.wallet .contents{
 		max-width: initial;
-	}
+	} */
 }
 
 @media screen and (min-width:801px) and (max-width: 1200px){
@@ -301,7 +304,8 @@
 }
 
 .deposit .contents .d-grid .grid {
-    height: 470px;
+    /* height: 470px; */
+	height: auto;
     padding: 22px;
     border: 1px solid var(--blue-mid-gray);
     border-radius: 2px;
@@ -371,6 +375,14 @@
 	max-height: 480px;
 	overflow-y: auto;
 }
+
+@media screen and (max-width:800px){
+	.deposit .btn-area{
+		width: 100%;
+		position: absolute;
+		bottom:0px;
+	}
+}
 @media screen and (max-width:600px){
 	.deposit .boxed{
 		height: 190px;
@@ -378,6 +390,9 @@
 	
 	.deposit .guide{
 		height: 480px;
+	}
+	.deposit .btn-area .btn{
+		width: 100%!important;
 	}
 }
 
@@ -419,12 +434,12 @@
 
 
 @media screen and (max-width:1200px) {
-	.sub.deposit .side{
+	/* .sub.deposit .side{
 		display: none;
-	}
-	.sub.deposit .contents{
+	} */
+	/* .sub.deposit .contents{
 		max-width: initial;
-	}
+	} */
 }
 
 @media screen and (min-width:801px) and (max-width: 1200px){
@@ -568,13 +583,32 @@
 
 /* deposit-guide */
 /* 입금 안내 */
-.deposit-guide .boxed{
-	max-height: 220px;
-	overflow-y: auto;
+.deposit-guide.deposit .guide{
+	overflow-y: initial;
+	max-height: initial;
+}
+@media screen and (max-width:800px){
+	.sub.deposit-guide main{
+		height: initial;
+		padding-bottom: 20px!important;
+	}
+	.deposit-guide .boxed.boxed--transparent{
+		border-bottom: 1px solid var(--blue-mid-gray);
+		height: auto;
+	}
+	.deposit-guide .boxed ul{
+		margin-bottom: 0px!important;
+	}
+	.deposit-guide .deposit .guide{
+		overflow-y: initial;
+	}
 }
 @media screen and (max-width:600px){
 	.deposit-guide .boxed{
 		height: 190px;
+	}
+	.deposit-guide.deposit .guide{
+		height: auto;
 	}
 }
 
@@ -594,15 +628,31 @@
 }
 
 .deposit-withdrawal .input--group input{text-align: right;}
-.withdrawal-guide .boxed{
-	max-height: 220px;
-	overflow-y: auto;
+
+.deposit-withdrawal .form--controls .d-flex .btn{
+	width: 196px;
 }
 
-@media (max-width: 800px) {
-	.deposit-withdrawal .content_wrap .contents{
-		height: 100vh;
+.deposit-withdrawal .form--controls .input--group + p.text--blue-gray{
+	white-space: nowrap;
+	margin: 0;
+	margin-top: 3px;
+}
+
+.deposit-withdrawal .form--controls .form--label{
+	font-weight: 700;
+}
+
+@media screen and (min-width:801px) and (max-width:1200px){
+	.deposit-withdrawal .contents .d-grid{
+		grid-template-columns: 2.5fr 3fr;
 	}
+}
+
+@media screen and (max-width: 800px) {
+	/* .deposit-withdrawal .content_wrap .contents{
+		height: 100vh;
+	} */
 	.deposit-withdrawal .form--controls{
 		align-items: center;
 		flex-direction: column;
@@ -659,10 +709,24 @@
 		height: auto;
 		position: absolute;
 		left: 0;
-		bottom: 56px;
+		bottom: 0px;
 		width: 100%;
 	}
-	.deposit-withdrawal .d-grid .btnArea .btn.btn--write {
+
+	.deposit-withdrawal .d-grid .btnArea .btn{
+		position: relative;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 196px;
+	}
+
+	.deposit.deposit-withdrawal .form--controls .form--label{
+		font-weight: 700;
+	}
+
+}
+@media screen and (max-width: 600px) {
+	.deposit-withdrawal .d-grid .btnArea .btn{
 		width: 100%;
 	}
 }
@@ -812,9 +876,11 @@
 .historyTb .table > tfoot > tr > td {
 	border-top: 1px solid #d3d5d6;
 	line-height: 1.42857;
-	padding: 5px 0px;
+	/* padding: 5px 0px; */
+	padding: 0.5rem 1rem;
 	box-sizing: border-box;
 	vertical-align: middle;
+	white-space: nowrap;
 }
 
 .historyTb table tfoot th.sum {
@@ -863,6 +929,7 @@
 
 .historyTb .table > thead > tr > th{
 	border-bottom: 0;
+	/* word-break: keep-all; */
 }
 
 .historyTb tbody > tr > td {
@@ -907,13 +974,25 @@
 	padding-left: 1rem;
 	padding-right: 1rem;
 	white-space: nowrap;
+	min-width: 140px;
 }
 .historyTb tbody tr td.mergeTd.cord {
-	text-align: left;
+	/* text-align: left; */
+	text-align: center;
 	vertical-align: middle;
 	overflow:hidden;
-	padding:0 0.5rem;
+	/* padding:0 0.5rem; */
+	/* padding:0.5rem; */
 	white-space: nowrap;
+}
+
+.historyTb tbody tr td.numberDiv{
+	text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    /* padding:0 0.5rem; */
+	padding:0.5rem;
+    white-space: nowrap;
 }
 
 
@@ -924,7 +1003,7 @@
 .historyTb tbody tr td .number_div {
 	font-size: 14px;
 	text-align: right;
-	padding-right: 2rem;
+	/* padding-right: 2rem; */
 }
 
 .historyTb tbody tr td .number_div.text-center{
@@ -939,7 +1018,7 @@
 	font-size: 12px;
 	text-align: right;
 	color: #596581;
-	padding-right: 2rem;
+	/* padding-right: 2rem; */
 }
 
 .historyTb thead tr th:first-child,
@@ -1042,7 +1121,7 @@
 	
 	.sub.wallet.wallet-analysis main{
 		height: initial;
-		padding-bottom: 30px!important;
+		padding-bottom: 20px!important;
 	}
 
 	.sub.wallet.wallet-analysis h1.size--20{
@@ -1140,11 +1219,20 @@
 	.historyTb tbody tr td .symbol_div{
 		padding-right: 0.5rem;
 	}
-	.historyTb tbody tr td.mergeTd.symbol{
+	
+	.historyTb .table > thead > tr > th,
+	.historyTb .table > tbody > tr > th,
+	.historyTb .table > tfoot > tr > th,
+	.historyTb .table > thead > tr > td,
+	.historyTb .table > tbody > tr > td,
+	.historyTb .table > tfoot > tr > td {
 		padding-left: 0.5rem;
 		padding-right: 0.5rem;
 	}
 
+	.historyTb tbody tr td.mergeTd.symbol{
+		min-width: 125px;
+	}
 	.historyTb tbody tr td.mergeTd .btnArea{
 		flex-direction: column;
 	}
@@ -1350,11 +1438,14 @@
 	background-color: #fafafa;
 }
 
+.withdrawal-guide .boxed{
+	height: auto;
+}
 
 @media screen and (max-width: 800px) {
 	.withdrawal-guide .guide{
 		background-color: transparent;
-		margin-top: 0;
+		margin-top: 20px;
 		padding: 0;
 	}
 
@@ -1362,6 +1453,17 @@
 		font-size: 16px;
 		font-weight: 500;
 		color:#333333;
+	}
 
+	.withdrawal-guide .boxed.boxed--transparent{
+		border-bottom: 0.35px solid var(--blue-mid-gray);
+	}
+	.withdrawal-guide .boxed > ul{
+		margin-bottom: 10px!important;
+	}
+}
+@media screen and (max-width: 600px) {
+	.withdrawal-guide .size--14{
+		font-size: 13px;
 	}
 }

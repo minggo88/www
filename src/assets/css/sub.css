@@ -26,7 +26,7 @@
 @media screen and (max-width: 800px){
 	.content_wrap .contents{
 		/* height: calc(100vh - 60px); */
-		height: 100vh;
+		height: 100%;
 	}
 }
 
@@ -49,6 +49,15 @@
 @media screen and (max-width: 1440px){
 	.sub .side{
 		max-width:220px;
+	}
+}
+
+@media screen and (max-width: 1200px){
+	.sub .side{
+		display: none;
+	}
+	.sub .contents{
+		max-width: initial;
 	}
 }
 
@@ -85,15 +94,20 @@
 	}
 }
 
-/* .deposit main {
-    padding: 72px 40px 0 40px;
-} */
 
+@media screen and (max-width: 800px){
+	.sub main {
+		padding:0 30px!important;
+		display: block;
+		align-items: flex-start;
+	}
+}
 
-/* .sub.notice main {
-	padding:60px 0;
-} */
-
+@media screen and (max-width: 600px){
+	.sub main {
+		padding:0 15px 20px!important
+	}
+}
 
 @media screen and (max-width: 990px) {
 	.sub.notice main {
@@ -233,7 +247,7 @@
 /* ###################################################### */
 /* notice service 고객센터 */
 /* 수정 완료 */
-.sub.service .contents{max-width: 910px; width: 100%;}
+/* .sub.service .contents{max-width: 910px; width: 100%;} */
 .sub.service .board--list { 
     width: 100%;
     border: 0 none;
@@ -490,7 +504,7 @@
 /* ###################################################### */
 /* notice detail 고객센터 상세 */
 /* 수정 완료 */
-.sub.detail .contents{max-width: 910px; width: 100%;}
+/* .sub.detail .contents{max-width: 910px; width: 100%;} */
 /* .sub.detail .contents .board--body {
     padding: 0 0 0 29px;
 } */
@@ -588,19 +602,31 @@
 	}
 	.sub.detail .contents .board--meta .board--author{margin-right: 0;}
 	.sub.detail .desktop-only{display: none!important;}
+	.sub.detail .contents .board--body .board--contents{
+		padding: 20px 0;
+	}
+}
+
+@media screen and (max-width: 600px){
+	.sub.detail main {
+		padding: 0 20px!important;
+	}
+	.sub.detail .contents .board--meta dl{
+		column-gap: 10px
+	}
 }
 
 
 /* ###################################################### */
 /* 자주묻는 질문 faq */
 /* 수정 완료 */
-.sub.faq main {
+/* .sub.faq main {
 	padding: 60px 140px 60px 40px;
-}
-.sub.faq .contents{
+} */
+/* .sub.faq .contents{
 	width: 100%;
 	max-width: 910px;
-}
+} */
 
 .sub.faq .accordion--contents {
     padding-left: 81px;
@@ -629,6 +655,10 @@
 
 .sub.faq .accordion--open .accordion--contents::before {
     height: auto;
+}
+
+.sub.faq .accordion .accordion--item .accordion--header a{
+    width: calc(100% - 15px);
 }
 
 @media screen and (min-width:801px) and (max-width: 1440px){
@@ -669,6 +699,17 @@
 	.sub.faq .accordion{width: 100%;}
 	.sub.faq header.accordion--header{padding-left: 0;}
 	.sub.faq .text-red + span{font-size: 16px;}
+
+	.sub.faq .accordion .accordion--item .accordion--header::after{
+		right: 10px;
+		width: 28px;
+	}
+}
+@media screen and (max-width: 300px) {
+	.sub.faq .accordion .accordion--item .accordion--header::after{
+		right: 5px;
+		width: 28px;
+	}
 }
 
 
@@ -705,10 +746,10 @@
 /* 수정완료 */
 /* inquiry 1:1 문의 */
 
-.sub.inquiry .contents{
+/* .sub.inquiry .contents{
 	width: 100%;
 	max-width: 910px;
-}
+} */
 
 #inquiry .board--list { 
     width: 100%;
@@ -1373,7 +1414,7 @@
 
 @media screen and (max-width: 800px){
 	.sub.verifiy > header{display: none;}
-	.sub.verifiy .contents{margin-top: 0; height: 100vh;}
+	/* .sub.verifiy .contents{margin-top: 0; height: 100vh;} */
 	.sub.verifiy .navigation--back{height: 60px;}
 	.sub.verifiy main{
 		display: flex;
@@ -1479,9 +1520,9 @@
 	}
 
 	.sub.changePin .side{display: none;}
-	.sub.changePin .contents{
+	/* .sub.changePin .contents{
 		height: 100vh;
-	}
+	} */
 
 	.sub.changePin form{
 		height: calc(100vh - 120px)!important;
@@ -1566,7 +1607,7 @@
 	}
 
 	.sub.changeAccount .side{display: none;}
-	.sub.changeAccount .contents,
+	/* .sub.changeAccount .contents, */
 	.sub.changeAccount form{
 		height: 100vh;
 	}
@@ -2009,11 +2050,11 @@
     .forget .nav {
         display: none;
     }
-    .sub main {
+    /* .sub main {
         display: block;
         padding: 0 16px 56px 16px !important; 
         align-items: flex-start;
-    }
+    } */
 	.sub.notice.inquiry > header{display: none;}
 
     .sub form {
@@ -2050,6 +2091,4 @@
     .notification > header {
         display: none;
     }
-
-
 }
