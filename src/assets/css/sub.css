@@ -102,11 +102,19 @@
 		align-items: flex-start;
 		height: 100vh
 	}
+
+	.sub.m-bottom main{
+		padding:0 30px 95px!important;
+	}
 }
 
 @media screen and (max-width: 600px){
 	.sub main {
 		padding:0 20px 20px!important
+	}
+
+	.sub.m-bottom main{
+		padding:0 20px 95px!important;
 	}
 }
 
