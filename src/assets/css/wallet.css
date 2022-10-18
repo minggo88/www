@@ -1151,6 +1151,50 @@
 	
 }
 
+@media screen and (max-width: 450px) { 
+	.wallet-analysis .daterange{font-size: 12px;}
+
+	.wallet-analysis .middle_div.big .total_div span.entry,
+	.wallet-analysis .middle_div.big .total_div span.data{
+		font-size: 16px;
+	}
+	.wallet-analysis .middle_div.big .total_div span{
+		font-size: 20px;
+	}
+	
+	
+	.wallet-analysis .middle_div.big .left_div,
+	.wallet-analysis .middle_div.big .right_div{
+		height: auto;
+	}
+	.wallet-analysis .middle_div.big .data_div .header_div, 
+	.wallet-analysis .middle_div.big .data_div .inner_div{
+		width: 100%;
+		float: left;
+		/* 여기서부터 다시보기 */
+	}
+
+	.wallet-analysis .middle_div.big .data_div .inner_div{
+		text-align: left;
+		font-weight: 350;
+		margin: 2px 0 5px;
+	}
+}
+
+@media screen and (max-width:380px) { 
+	.wallet-analysis .period .dropdown-wrapper + div{
+		flex-wrap: wrap;
+	}
+	.sub.wallet-analysis .period .daterange{
+		width: 100%;
+		margin-bottom: 10px;
+		margin-right: 0!important;
+	}
+	.sub.wallet-analysis .period .btn{
+		width: 48%;
+	}
+}
+
 /* Mobile */
 @media (max-width: 800px) {
 	.wallet > header,
