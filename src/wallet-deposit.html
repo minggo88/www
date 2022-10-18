@@ -180,7 +180,7 @@
 							<li data-i18n>토,일 및 공휴일 입출금건 → 평일 영업일에 진행</li>
 						</ul>
 					</section>
-					<section class="grid" style="height: unset !important">
+					<section class="grid" ><!-- style="height: auto !important" unset -->
 						<div class="address form--controls" style="margin-bottom: 18px">
 							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>Address</label>
 							<div class="input--group">
@@ -208,8 +208,8 @@
 								<input type="text" name="deposit_name" class="text-left text-black" value="" data-bind="user_info.name">
 							</div>
 						</div>
-						<div class="">
-							<div class="d-flex flex-center" style="margin-top: 15px"><button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 196px; align-self: center" data-i18n>입금하기</button></div>
+						<div class="d-flex flex-center btn-area">
+							<button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 196px; align-self: center" data-i18n>입금하기</button>
 						</div>
 						<div class="form--controls desktop-only" style="display:none">
 							<!-- QR Code는 블록체인용입니다. -->
