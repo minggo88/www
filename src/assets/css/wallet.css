@@ -644,9 +644,9 @@
 }
 
 @media screen and (min-width:801px) and (max-width:1200px){
-	.deposit-withdrawal .contents .d-grid{
+	/* .deposit-withdrawal .contents .d-grid{
 		grid-template-columns: 2.5fr 3fr;
-	}
+	} */
 }
 
 @media screen and (max-width: 800px) {
