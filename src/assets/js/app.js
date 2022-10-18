@@ -2522,7 +2522,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         // 출금신청
         $('[name="btn-withdraw"]').on('click', function () { 
             // 출금액
-            const amount = $('[name=amount]').val();
+            const amount = $('[name=amount]').val().replace(/[^0-9.\-\+]/, '');
             const to_address = $('[name="address"]').val();
             const pin = $('[name="pin"]').val();
             const symbol = Model.withdraw_currency.symbol;
@@ -2540,7 +2540,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $('[name="amount"]').on('keyup', function (e) { 
             const fee_out = Model.withdraw_currency.fee_out;
             const fee_out_ratio = Model.withdraw_currency.fee_out_ratio;
-            const amount = $(this).val();
+            const amount = $(this).val().replace(/[^0-9.\-\+]/, '');
             const fee = fee_out_ratio > 0 ? amount * fee_out_ratio : (fee_out > 0 ? fee_out : 0);
             const real_receive_amount = amount-fee>0 ? amount-fee : 0;
             console.log(amount, fee, real_receive_amount)
@@ -2605,9 +2605,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
         // 입금하기
         $('[name="btn-save-deposit"]').on('click', function () { 
-            const symbol = $.trim($('[name=symbol]').text());
+            const symbol = "KRW";
             const $deposit_amount = $('[name=deposit_amount]');
-            const deposit_amount = $.trim($deposit_amount.val());
+            const deposit_amount = $.trim($deposit_amount.val()).replace(/[^0-9.\-\+]/, '');
             if (deposit_amount <= 0) {
                 alert(__('입금액을 입력해주세요.')); $deposit_amount.select(); return false;
             }
@@ -2858,8 +2858,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     $(document).on("keyup", ".onlynum", function(ev) { $(this).val($(this).val().replace(/[^0-9.,]/g, "")); }).on('keydown', ".onlynum", input_filter_number);
     $(document).on("keyup change", ".realnumber", function(ev) { $(this).val(real_number_format($(this).val())); }).on('keydown', ".onlynum", input_filter_number);
     $(document).on("keyup", ".onlyeng", function(ev) { $(this).val($(this).val().replace(/[^\!-z]/g, "")); });
-
-
+    $(document).on("blur", ".blurrealnumber", function(ev) {$(this).val(real_number_format($(this).val())); })
 
 }))
 
