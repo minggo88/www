@@ -2522,7 +2522,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         // 출금신청
         $('[name="btn-withdraw"]').on('click', function () { 
             // 출금액
-            const amount = $('[name=amount]').val().replace(/[^0-9.\-\+]/, '');
+            const amount = $('[name=amount]').val().replace(/[^0-9.]/g, "");
             const to_address = $('[name="address"]').val();
             const pin = $('[name="pin"]').val();
             const symbol = Model.withdraw_currency.symbol;
@@ -2540,7 +2540,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $('[name="amount"]').on('keyup', function (e) { 
             const fee_out = Model.withdraw_currency.fee_out;
             const fee_out_ratio = Model.withdraw_currency.fee_out_ratio;
-            const amount = $(this).val().replace(/[^0-9.\-\+]/, '');
+            const amount = $(this).val().replace(/[^0-9.]/g, "");
             const fee = fee_out_ratio > 0 ? amount * fee_out_ratio : (fee_out > 0 ? fee_out : 0);
             const real_receive_amount = amount-fee>0 ? amount-fee : 0;
             console.log(amount, fee, real_receive_amount)
@@ -2607,7 +2607,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $('[name="btn-save-deposit"]').on('click', function () { 
             const symbol = "KRW";
             const $deposit_amount = $('[name=deposit_amount]');
-            const deposit_amount = $.trim($deposit_amount.val()).replace(/[^0-9.\-\+]/, '');
+            const deposit_amount = $.trim($deposit_amount.val()).replace(/[^0-9.]/g, "");
             if (deposit_amount <= 0) {
                 alert(__('입금액을 입력해주세요.')); $deposit_amount.select(); return false;
             }
