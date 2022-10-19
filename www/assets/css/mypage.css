@@ -102,10 +102,10 @@ form {
 	width: 100%;
 } */
 
-.sub.member-account .contents{
+/* .sub.member-account .contents{
 	max-width:910px;
 	width: 100%;
-}
+} */
 
 .sub.member-account .contents form .default .form--controls{
 	flex-direction: column;
@@ -116,9 +116,9 @@ form {
 
 @media screen and (min-width:801px) and (max-width: 1440px){
 	/* .content_wrap{width: 95%; margin: 0 auto;} */
-	.sub.member-account main{
+	/* .sub.member-account main{
 		display: flex;
-	}
+	} */
 }
 
 @media screen and (max-width: 800px) {	
@@ -129,29 +129,47 @@ form {
 		margin-bottom: 24px;
 	}
 	.sub.member-account .boxed--transparent{border: transparent!important;}
-	.sub.member-account .contents form.boxed{display: block;}
+	.sub.member-account .contents form.boxed{
+		display: block;
+		height: calc(100% - 48px);
+	}
+	.sub.member-account .contents form.boxed > div{
+		height: 100%;
+		position: relative;
+	}
 	.sub.member-account .contents form .default .form--controls{
 		flex-direction: row;
 		justify-content: space-between
 	}
-	.sub.member-account .contents{margin-top: 0;}
+	/* .sub.member-account .contents{margin-top: 0;} */
 	.sub.member-account main header.contents--header{
 		line-height: 60px;
 		padding-left: 0;
 	}
 	.sub.member-account .navigation--back{height: 60px;}
-	.sub.member-account main{
+	/* .sub.member-account main{
 		display: flex;
 		justify-content: flex-start;
 		padding:0 30px;
-	}
+	} */
 
 	.sub.member-account .contents--header a{
 		top: calc(100vh - 135px); 
 		right: 0px;
 	}
-	.sub.member-account .side{display: none;}
+	/* .sub.member-account .side{display: none;} */
 	.sub.member-account .mobile-only{display: block!important;}
+
+	.sub.member-account .btn-area{
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+	}
+
+	.sub.member-account .btn-area .btn{
+		margin-top: 0!important;
+	}
 	
 	.row > * {
 		flex:auto;
@@ -283,4 +301,10 @@ form {
 
 	.default .addressDesc{display: none;}
 	.desktop-only{display: none;}
+}
+
+@media screen and (max-width: 400px) {	
+	.sub.member-account .btn-area .btn{
+		width: 100%!important;
+	}
 }

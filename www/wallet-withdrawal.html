@@ -32,14 +32,14 @@
 <link rel="stylesheet" href="./assets/css/header.css?t=1665716756">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1665716756">
 <link rel="stylesheet" href="./assets/css/components.css?t=1665716756">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1665987059">
-<link rel="stylesheet" href="./assets/css/wallet.css?t=1666052571">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1666141137">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1666083763">
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/common.js?t=1665019566"></script>
 <script src="./assets/js/api.js?t=1665971478"></script>
-<script src="./assets/js/components.js?t=1665974019"></script>
+<script src="./assets/js/components.js?t=1666081829"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 <script>
     // let USER_INFO = {}
@@ -217,7 +217,7 @@
 					</ul>
 				</nav>
 			</aside>
-			<div class="contents">
+			<section class="contents">
 				<header class="contents--header">
 					<button type="button" class="navigation--back"></button>
 					<h1 data-i18n>출금</h1>
@@ -237,7 +237,7 @@
 					</div>
 				</div> -->
 				<div class="d-grid deposit">
-					<section class="grid" style="height: 584px">
+					<section class="grid" style="height: auto !important">
 						<h1 data-i18n>출금안내</h1>
 						<div style="padding-left: 9px">
 							<ul style=" margin-bottom: 20px">
@@ -247,7 +247,7 @@
 							</ul>
 						</div>
 						<h1 data-i18n>요금안내</h1> 
-						<div style="width:330px; margin-top: 14px; padding-left: 8px;box-sizing: border-box">
+						<div style="width:100%; margin-top: 14px; padding-left: 8px;box-sizing: border-box">
 							<dl>
 								<dt class="size--14" id="fee_out" style="height: 32px; line-height: 32px" data-i18n>출금수수료</dt>
 								<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.fee_out_str">0 KRW</span></dd>
@@ -347,7 +347,7 @@
 				<div class="mobile-only btnArea">
 					<a href="#" class="btn btn--red" data-i18n name="btn-withdraw">출금신청</a>
 				</div>
-			</div>
+			</section>
 		</main>
 	</div>
     <!-- <footer class="desktop-only">
@@ -385,7 +385,7 @@
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
 
-    <script src="./assets/js/app.js?t=1666077161"></script>
+    <script src="./assets/js/app.js?t=1666083617"></script>
 
 </body>
 </html>
