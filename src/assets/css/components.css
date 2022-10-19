@@ -2241,6 +2241,7 @@ input[type=file].image-selector::after{
     .step--list ol li {
         width: 10px;
         height: 10px;
+		margin-right: 10px;
         font-size: 0;
         text-indent: -9999px;
         background: var(--mid-gray);

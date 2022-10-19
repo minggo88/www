@@ -53,6 +53,11 @@ input[type=text] {
 .region .form--controls label {
     display: none;
 }
+.region .form--controls #country{
+	height: 40px;
+	line-height: 40px;
+	box-sizing: border-box;
+}
 
 .region .form--controls{
 	margin-top: 8px;
@@ -60,6 +65,12 @@ input[type=text] {
 
 .region .form--controls input{
 	border: 0.35px solid #dfdfdf;
+}
+
+.region .dropdown+.dropdown--item input[name=search]{
+	/* height: 40px; */
+	height: 100%;
+	/* line-height: 40px; */
 }
 
 .region .row {
@@ -242,6 +253,10 @@ form {
 		width: 50%!important;
 	}
 
+	.region .row .col-6 .dropdown+.dropdown--item input[name=search]{
+		width: 100%;
+	}
+
 	.region .form--controls label{
 		display: inline-block;
 		height: 35px;
@@ -255,10 +270,12 @@ form {
 	.region .form--controls #country{
 		width: 50%!important;
 		box-sizing: border-box;
-	}
-	.region .form--controls #country .dropdown{
 		height: 35px;
 		line-height: 35px;
+	}
+	.region .form--controls #country .dropdown{
+		height: 100%;
+		/* line-height: 35px; */
 	}
 
 	.region .form--controls input{
@@ -272,6 +289,12 @@ form {
 		padding-right: 10px;
 		width: 50%!important;
 	}
+
+	.region .dropdown+.dropdown--item input[name=search]{
+		height: 35px;
+		line-height: 35px;
+	}
+
 	.sub.member-account .text--red.mobile-only{
 		text-align: center;
 	}
@@ -294,6 +317,7 @@ form {
 
 	.default .email.form--controls label+input, .default .phone.form--controls label+input{
 		width: 100%;
+		text-align: left;
 	}
 
 	.email{
