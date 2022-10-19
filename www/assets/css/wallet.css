@@ -36,9 +36,6 @@
 }
 
 .wallet-summary .grid .dropdown-wrapper {
-    /* width: 100px;
-    flex-basis: 100px;
-    max-width: 100px; */
 	width: 60px;
     flex-basis: 60px;
     max-width: 60px;
@@ -191,14 +188,6 @@
     color: var(--white) !important;
 }
 
-@media screen and (max-width:1200px) {
-	/* .sub.wallet .side{
-		display: none;
-	} */
-	/* .sub.wallet .contents{
-		max-width: initial;
-	} */
-}
 
 @media screen and (min-width:801px) and (max-width: 1200px){
 	.sub.notice.wallet main{
@@ -432,22 +421,6 @@
 	right: 16px;
 }
 
-
-@media screen and (max-width:1200px) {
-	/* .sub.deposit .side{
-		display: none;
-	} */
-	/* .sub.deposit .contents{
-		max-width: initial;
-	} */
-}
-
-@media screen and (min-width:801px) and (max-width: 1200px){
-	.sub.notice.deposit main{
-		padding-left: 0;
-		padding-right: 0;
-	}
-}
 @media screen and (max-width: 800px) {
 	.sub.deposit .mobile-only{display: block!important;}
 	.sub.deposit .desktop-only{display: none!important;}
@@ -464,6 +437,7 @@
         font-weight: 400;
 		word-break: keep-all;
     }
+
 	.sub.deposit .contents .contents--header{
 		margin-bottom: 0;
 	}
@@ -643,16 +617,8 @@
 	font-weight: 700;
 }
 
-@media screen and (min-width:801px) and (max-width:1200px){
-	/* .deposit-withdrawal .contents .d-grid{
-		grid-template-columns: 2.5fr 3fr;
-	} */
-}
 
 @media screen and (max-width: 800px) {
-	/* .deposit-withdrawal .content_wrap .contents{
-		height: 100vh;
-	} */
 	.deposit-withdrawal .form--controls{
 		align-items: center;
 		flex-direction: column;
@@ -672,11 +638,6 @@
 		height: 8px;
 		background-color: #f5f5f5;
 	}
-
-	/* .deposit-withdrawal .grid .bg--lightgray,
-	.deposit-withdrawal .grid input[type=text]:disabled{
-		background: transparent;
-	} */
 
 	.deposit-withdrawal .grid .input--group .input--group--text,
 	.deposit-withdrawal .contents .d-grid .grid input[type=text]{
@@ -1290,25 +1251,7 @@
 	.wallet-analysis > header {
         display: none;
     }
-	.wallet .contents .contents--header,
-	.deposit .contents .contents--header{
-		line-height: 48px; 
-		padding-left: 0;
-		margin-bottom: 0;
-	}
-
-	.wallet .contents--header .navigation--back,
-	.deposit .contents--header .navigation--back{
-		height: 48px;
-	}
-
-	.wallet .contents--header,
-	.deposit .contents--header{
-		display: flex; 
-		border-bottom: none;
-	}
 }
-
 
 /* deposit-withdrawal-address */
 /* 출금 (비트코인) 주소 */
@@ -1316,6 +1259,9 @@
 	padding: 0;
 	flex-direction: column;
 	display: flex;
+}
+.address .contents--header{
+	width: 340px;
 }
 
 .address .contents--header h2{
@@ -1363,26 +1309,22 @@
 
 
 @media screen and (max-width: 800px) {	
-	.address main{
-		padding-bottom: 0!important;
-		width: 100%;
-		box-sizing: border-box;
-	}
 	.address.deposit .contents--header{
-		height: 60px;
+		height: 48px;
 		align-self: flex-start;
 		margin-bottom: 20px;
 		padding-left: 0;
+		display: flex;
 	}
 	.address main .contents--header h1{
 		margin: 0;
-		line-height: 60px;
+		line-height: 48px;
 		color: var(--red-up);
 		font-size: 16px;
 	}
 	.address main .contents--header .navigation--back{
-		height: 60px;
-		line-height:60px;
+		height: 48px;
+		line-height:48px;
 		margin-right: 30px;
 	}
 
@@ -1393,24 +1335,12 @@
 		height: 100%;
 		align-self: center;
 		width: 100%;
+		position: relative;
 	}
 	.address .form--btns{
 		position: absolute;
 		left: 0;
-		bottom: 40px;
-	}
-}
-
-@media screen and (max-width: 600px) {
-	.address.deposit .contents--header{
-		height: 48px;
-	}
-	.address main .contents--header h1{
-		line-height: 48px;
-	}
-	.address main .contents--header .navigation--back{
-		height: 48px;
-		line-height: 48px;
+		bottom: 0;
 	}
 }
 
