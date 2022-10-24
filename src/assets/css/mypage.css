@@ -134,10 +134,11 @@ form {
 	.sub.member-account .mobile-only{display: block!important;}
 
 	.sub.member-account .btn-area{
-		position: absolute;
+		position: relative;
 		left: 0;
 		bottom: 0;
 		width: 100%;
+		margin-top: 20px;
 	}
 
 	.sub.member-account .btn-area .btn{

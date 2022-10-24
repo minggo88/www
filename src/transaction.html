@@ -160,7 +160,7 @@
                 <a href="withdrawal.html" data-i18n>회원 탈퇴</a>
             </li> -->
         </ul>
-        <h1 class="size--20" data-i18n>지갑 관리</h1>
+        <h1 class="size--20" style="margin-top: 30px;" data-i18n>지갑 관리</h1>
         <ul>
             <li>
                 <a href="wallet.html"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
@@ -175,6 +175,17 @@
                 <a href="wallet-analysis.html"><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
             </li>
         </ul>
+		<div class="nav--side mobile">
+			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+			<div name="box_unlogedin" style="display: none"><a href="login.html" class="btn--login" data-i18n>로그인</a></div>
+			<div class="language dropdown-wrapper">
+				<button type="button" class="dropdown">한국어</button>
+				<div class="dropdown--item" style="width: 81px">
+					<span>한국어</span>
+					<ul></ul>
+				</div>
+			</div>
+		</div>
     </aside>
 	<div class="content_wrap">
 		<main class="d-flex d-justify">

@@ -100,7 +100,7 @@
 		padding:0 30px 30px!important;
 		display: block;
 		align-items: flex-start;
-		height: 100vh;
+		/* height: 100vh; */ /* 가로값때문에 지워줌 */
 		display: flex; 
 	}
 
@@ -689,7 +689,7 @@
 		padding-left: 0;
 		margin-bottom: 0;
 	} */
-	.sub.faq .navigation--back{height: 60px;}
+	/* .sub.faq .navigation--back{height: 60px;} */
 	/* .sub.faq main{
 		display: flex;
 		justify-content: flex-start;
@@ -1324,10 +1324,10 @@
 	}
 
 	.sub.verifiy .btn-area{
-		position: absolute;
+		position: relative;
 		left: 0;
 		bottom: 0;
-		margin-top: 0;
+		margin-top: 40px;
 	}
 
 
@@ -1371,6 +1371,10 @@
 .sub.changePin h2{
 	word-break: keep-all;
 }
+.sub.changePin .boxed{
+	height: 333px;
+	padding: 36px 0 56px;
+}
 
 @media screen and (max-width: 800px){
 	.sub.changePin > header{display: none;}
@@ -1387,8 +1391,11 @@
 		height: calc(100vh - 140px)!important;
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		align-items: flex-start;
 	}
+	/* .sub.changePin .boxed{
+		height: auto!important;
+	} */
 
 	.sub.changePin .btnArea{
 		margin-top: 0px;
@@ -1407,6 +1414,20 @@
 	}
 
 }
+@media screen and (orientation:landscape){
+	.sub.changePin .boxed{
+		padding: 36px 0 56px;
+	}
+}
+
+@media screen and (orientation: portrait), (max-width:800px) {
+	/* 가로모드일때의 css 적용 */
+	.sub.changePin .boxed{
+		padding: 0;
+		height: auto;
+	}
+}
+
 
 @media screen and (max-width: 400px){
 	.sub.changePin .btnArea .btn{
@@ -1489,10 +1510,11 @@
 		margin-bottom: 8px;
 	}
 	.sub.changeAccount .btnArea{
-		position: absolute;
+		position: relative;
 		left: 0;
 		bottom: 0;
 		width: 100%;
+		margin-top: 20px;
 	}
 	.sub.changeAccount .btnArea .btn{
 		margin-top: 0!important;
@@ -1741,7 +1763,8 @@
 }
 
 .navigation,
-.navigation--back {
+.navigation--back,
+.navi--back {
     display: none;
 }
 
@@ -1838,7 +1861,15 @@
 		display: block;
 		width: 24px;
 		height: 24px;
-		background: transparent url('../img/icon/icon-back.svg') no-repeat 50%;
+		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
+		border: 0 none;
+	}
+
+	.navi--back {
+		display: block;
+		width: 24px;
+		height: 24px;
+		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
 		border: 0 none;
 	}
 
@@ -1846,7 +1877,7 @@
 		display: block;
 		width: 24px;
 		height: 24px;
-		background: transparent url('../img/icon/icon-close.svg') no-repeat 50%;
+		background: transparent url('../img/icon/icon-close.svg') no-repeat 0 50%;
 		border: 0 none;
 	}
 
