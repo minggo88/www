@@ -368,7 +368,7 @@
 @media screen and (max-width:800px){
 	.deposit .btn-area{
 		width: 100%;
-		position: absolute;
+		position: relative;
 		bottom:0px;
 	}
 }
@@ -668,7 +668,7 @@
 
 	.deposit-withdrawal .d-grid .btnArea{
 		height: auto;
-		position: absolute;
+		position: relative;
 		left: 0;
 		bottom: 0px;
 		width: 100%;
@@ -689,6 +689,7 @@
 @media screen and (max-width: 600px) {
 	.deposit-withdrawal .d-grid .btnArea .btn{
 		width: 100%;
+		margin-bottom: 20px;
 	}
 }
 

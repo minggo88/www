@@ -176,6 +176,10 @@ div.dts div.dataTables_scrollBody {
 	margin-right: 10px;
 }
 
+#tab-info > div{
+	flex-grow: 1;
+}
+
 /* 구매하기 */
 #modal-buy .modal--content ,
 #modal-buy-direct .modal--content 
@@ -259,7 +263,7 @@ div.dts div.dataTables_scrollBody {
 		display: flex;
 		justify-content: space-between;
 	}
-	.sub.exchange .contents--header > div{width: 30%;}
+	.sub.exchange .contents--header > div{width: 50%;}
 	.sub.exchange .contents--header > div.mobile-only{
 		display: flex!important;
 		justify-content: flex-end
