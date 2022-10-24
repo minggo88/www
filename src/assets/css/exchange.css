@@ -176,6 +176,10 @@ div.dts div.dataTables_scrollBody {
 	margin-right: 10px;
 }
 
+#tab-info > div{
+	flex-grow: 1;
+}
+
 /* 구매하기 */
 #modal-buy .modal--content ,
 #modal-buy-direct .modal--content 
