@@ -136,47 +136,14 @@ main {
 	word-break: break-all;
 }
 
-/* .login .mobile-only-block{display: none;} */
+.create-account #create-account-info .form--controls > label{
+	margin-bottom: 8px;
+}
 
 @media screen and (min-width: 1071px) and (max-width: 1300px) {
-	/* .create-account main{
-		flex-direction: column;
-	} */
-
-	/* .create-account .step--list{
-		width: 340px;
-		position: static;
-		top: 465px;
-		left: 0;
-		align-self: center;
-		transform: inherit;
-	} */
-	
 	.create-account .step--list{
 		left: 0;
 	}
-
-	/* .create-account .step--list .step--header {
-		display: block;
-    }
-	.create-account .step--list ol{
-		flex-direction: column;
-		row-gap: 15px;
-	}
-	.create-account .step--list ol li{
-		text-indent: inherit;
-		border-radius: initial;
-		background-color: transparent;
-		font-size: 16px;
-		width: auto;
-		height: auto;
-	}
-	.create-account .step--list ol li::before{
-		width: 22px;
-		height: 22px;
-		line-height: 22px;
-		font-size: 14px;
-	} */
 }
 
 @media screen and (max-width: 1070px) {
@@ -223,13 +190,10 @@ main {
 }
 
 
-/* @media screen and (min-width: 801px) and (max-width: 1300px) {
-	.create-account section form{
-		height: 530px;
-	}
-} */
-
 @media screen and (max-width: 800px) {
+	.create-account main{
+		height: 100vh;
+	}
 	.create-account > header,
 	.login > header{
 		display: none;
@@ -269,6 +233,9 @@ main {
 		margin-top: 30px!important;
 	}
 	.login main > section > form{padding-top: 30px;}
+	.sub.login.create-account .step--list{
+		top: 0px;
+	}
 }
 
 @media screen and (max-width: 600px) {

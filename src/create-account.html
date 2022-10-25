@@ -115,7 +115,7 @@
 		</div>
 	</header>
 	<main class="d-flex flex-center">
-		<section>
+		<section style="display: none">
 			<form id="create-account-country" action="create-account.html" method="post" class="flex-row flex-center">
 				<div class="form--header text-red">
 					<h1 data-i18n>Create Your Account</h1>
@@ -156,7 +156,7 @@
 				</div>
 			</form>
 		</section>
-		<section style="display: none">
+		<section>
 			<form id="create-account-info" method="post" class="d-flex flex-row flex-center">
 				<div class="form--header text-red">
 					<h1 class="desktop-only" data-i18n>Create Your Account</h1>
@@ -168,12 +168,20 @@
 				</p>
 				<div class="form--controls" style="margin-top: 46px;">
 					<label for="email" class="form--label" data-i18n>Email</label>
-					<input type="email" name="email" id="email" style="border-color: #DFDFDF">
+					<input type="email" name="email" id="email" style="border-color: #DFDFDF" placeholder="이메일을 입력해주세요">
 					<input type="hidden" name="checkJoin" id="checkJoin" value="">
 				</div>
-				<div class="form--controls" style="margin-top: 10px;">
+				<div class="form--controls" style="margin-top: 15px;">
+					<label for="name" class="form--label" data-i18n>이름</label>
+					<input type="text" name="name" id="name" style="border-color: #DFDFDF" placeholder="이름을 입력해주세요">
+				</div>
+				<div class="form--controls" style="margin-top: 15px;">
 					<label for="password" class="form--label" data-i18n>Password</label>
-					<input type="password" name="password" id="password" style="border-color: #DFDFDF">
+					<input type="password" name="password" id="password" style="border-color: #DFDFDF" placeholder="특수문자 포함 8자리 이상 입력해주세요">
+				</div>
+				<div class="form--controls" style="margin-top: 15px;">
+					<label for="password_check" class="form--label" data-i18n>비밀번호 확인</label>
+					<input type="password" name="password_check" id="password_check" style="border-color: #DFDFDF" placeholder="비밀번호를 다시 한번 입력해주세요">
 				</div>
 				<div class="form--controls" style="margin-top: 46px;">
 					<div class="checkbox">
