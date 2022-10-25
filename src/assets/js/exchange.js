@@ -412,12 +412,12 @@ $(function() {
                 }
             },
             { data: (d) => {
-                const price = d.price
-                const exchange = d.exchange
-                // const volume = d.volume
-                const volume_remain = d.volume_remain
-                const orderid = d.orderid
-                return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
+				const price = d.price
+				const exchange = d.exchange
+				// const volume = d.volume
+				const volume_remain = d.volume_remain
+				const orderid = d.orderid
+				return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
 
             } },
         ],
@@ -1043,7 +1043,7 @@ $(function() {
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
                     $('#modal-buy-success .total').text(real_number(price * volume))
-                    $('#modal-buy-success .exchange').text(exchange)
+                    //$('#modal-buy-success .exchange').text(exchange)
                     $('#modal-buy-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
@@ -1137,7 +1137,7 @@ $(function() {
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
                     $('#modal-sell-success .total').text(real_number(price * volume))
-                    $('#modal-sell-success .exchange').text(exchange)
+                    //$('#modal-sell-success .exchange').text(exchange)
                     $('#modal-sell-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
