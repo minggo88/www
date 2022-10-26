@@ -2133,6 +2133,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
         $('#member-account').on('submit', function () {
             $('#country').dropdown('selected')
+            $('#mobile_country_code').val($('#country').dropdown('selected').toUpperCase())
 
             add_request_item('putMyInfo', $(this).serialize(), function (r) {
                 if (r?.success) {
