@@ -2365,8 +2365,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     const fn_my_verification = function () { 
         check_login();
 
-        if(Model.user_info.image_identify_url) $('.preview[for="file_identify_url"]').css('background-image', 'url(' + Model.user_info.image_identify_url + ')');
-        if(Model.user_info.image_mix_url) $('.preview[for="file_mix_url"]').css('background-image', 'url(' + Model.user_info.image_mix_url + ')');
+        if(Model.user_info.image_identify_url) $('.preview[for="file_identify_url"]').css({'background-image':'url(' + Model.user_info.image_identify_url + ')', 'display':'block'});
+        if(Model.user_info.image_mix_url) $('.preview[for="file_mix_url"]').css({'background-image':'url(' + Model.user_info.image_mix_url + ')', 'display':'block'});
         
 
         // permission 값 의미 : 1: 가입여부, 2: 로그인여부, 3: 핸드폰 인증여부, 4: 신분증 인증 여부, 5:은행 인증 여부
