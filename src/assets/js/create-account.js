@@ -131,6 +131,15 @@ $(function () {
             return false;
         }
 		
+		if (!password_confirm.val()) {
+            password.focus()
+            return false;
+        }
+
+        if (password.val() != password_confirm.val()) {
+            alert('비밀번호가 다릅니다.');
+            return false;
+        }
 
         if (!$('#terms_of_service').is(':checked')) {
             alert('이용약관 동의에 체크 해주세요.');
@@ -183,7 +192,7 @@ $(function () {
         return false;
     });
 
-    $('#create-account-password-confirm').on('submit', (e) => {
+    /* $('#create-account-password-confirm').on('submit', (e) => {
         e.preventDefault()
 
         if (!password_confirm.val()) {
@@ -202,7 +211,7 @@ $(function () {
         $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
 
         return false;
-    });
+    }); */
 
     $('#create-account-mail-auth').on('submit', (e) => {
         e.preventDefault()
