@@ -1644,8 +1644,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     const fn_change_account_number = function() {
         check_login();
+        Model.form = clone(Model.user_info);
 
-        if(Model.user_info.image_bank_url) $('.preview[for="file_identify_url"]').css('background-image', 'url(' + Model.user_info.image_bank_url + ')');
+        if(Model.user_info.image_bank_url) $('.preview[for="file_bank_url"]').css({'background-image':'url(' + Model.user_info.image_bank_url + ')', 'display':'block'});
 
         // permission 값 의미 : 1: 가입여부, 2: 로그인여부, 3: 핸드폰 인증여부, 4: 신분증 인증 여부, 5:은행 인증 여부
         const permission_level = Model.user_info.permission.match(/1/g).length; // '11000' => 2 ,
@@ -1686,10 +1687,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 return false
             }
 
-            if (!$('#change-account-number #file_bank_url').val()) {
-                alert(__('통장사본을 선택해주세요.'))
-                return false
-            }
+            // if (!$('#change-account-number #file_bank_url').val()) {
+            //     alert(__('통장사본을 선택해주세요.'))
+            //     return false
+            // }
 
             add_request_item('putMyInfo', unserialize($('#change-account-number').serialize()), function(r) {
                 if (r?.success) {
