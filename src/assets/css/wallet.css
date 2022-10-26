@@ -598,8 +598,14 @@
 	font-size: 1px;
 }
 
+.deposit-withdrawal .contents .d-grid .grid .form--controls .input{
+	border: 1px solid #E5E8EB!important;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
 .deposit-withdrawal .input--group{
-	height: 39px;
+	height: 40px;
 }
 
 .deposit-withdrawal .input--group input{text-align: right;}
@@ -618,6 +624,9 @@
 	font-weight: 700;
 }
 
+.deposit-withdrawal .contents .d-grid .grid .form--controls.input--box .input--group input{
+	border:none
+}
 
 @media screen and (max-width: 800px) {
 	.deposit-withdrawal .form--controls{
@@ -654,7 +663,6 @@
 
 	.deposit-withdrawal .contents .d-grid .grid .input--box .input,
 	.deposit-withdrawal .contents .d-grid .grid .form--controls .input{
-		margin-top: 11px;
 		border: 1px solid #E5E8EB!important;
 		border-radius: 5px;
 	}
