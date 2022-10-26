@@ -1528,7 +1528,10 @@
 	.sub.changeAccount input[type=file].image-selector{
 		height: 200px;
 	}
-
+	
+	.sub.changeAccount .form--controls .preview{
+		height: 200px;
+	}
 }
 
 @media screen and (max-width: 380px){
@@ -1791,9 +1794,13 @@
     width: 100%;
 	height: 100%;;
     background: var(--white);
-	padding: 20px 0 0 16px;
+	padding: 40px 0 0 16px;
     z-index: 1001;
 	box-sizing: border-box;
+}
+
+.mobile-panel .navigation--close + h1.size--20{
+	margin-top: 0;
 }
 
 .mobile-panel ul {
@@ -1823,7 +1830,7 @@
 }
 
 @media (max-width: 800px) { 
-    .sub .boxed--transparent {
+	.sub .boxed--transparent {
         border: 0 none;
     }
 
@@ -1885,6 +1892,9 @@
 		height: 24px;
 		background: transparent url('../img/icon/icon-close.svg') no-repeat 0 50%;
 		border: 0 none;
+		position: absolute;
+		right: 10px;
+		top: 15px;
 	}
 
     .notification > header {

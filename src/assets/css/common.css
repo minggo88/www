@@ -304,6 +304,7 @@ dl dd {
         position: fixed;
         bottom: 0;
         background: var(--white);
+		box-shadow: -4px -20px 30px rgb(0 0 0 / 8%);
     }
     .mobile-bottom li {
         height: 72px;

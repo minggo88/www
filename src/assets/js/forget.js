@@ -24,7 +24,8 @@ $(function () {
 				
                 $('[name=box-form]').hide();
                 $('[name=box-success]').show();
-				alert('이메일이 발송되었습니다.')
+				alert('이메일이 발송되었습니다.');
+				window.location.replace('login.html')
             } else {
                 $('.validation--message').find('p').text(resp.error.message).end().show()
 
