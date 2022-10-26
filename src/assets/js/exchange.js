@@ -847,7 +847,7 @@ $(function() {
                         return diff >= 0 ? '<span class="text-red text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>'
                     }
         
-                    return '<span class="text-red text-bold">' + row.price_close.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
+                    return '<span class="text-red text-bold">' + real_number_format(row.price_close) + '</span>'
                 }
             },
             // 전일대비
@@ -862,7 +862,7 @@ $(function() {
                         }).format(diff) + '%</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>'
                     }
     
-                    return '<span class="text-red text-bold">' + diff.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
+                    return '<span class="text-red text-bold">' + real_number_format(diff) + '</span>'
                 }
             },
             // 거래대금
