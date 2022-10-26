@@ -96,12 +96,12 @@ jQuery(function () {
                     // 수정하기 버튼
                     const edit_post = function(){
                         console.log(item.contents);
-                        // $('#inquiry_write [name=idx]').val(item.idx)
-                        // $('#inquiry_write [name=subject]').val(item.subject)
-                        // $('#inquiry_write [name=contents]').val(item.contents)
-                        $('#inquiry_write [name=idx]').val()
+                        $('#inquiry_write [name=idx]').val(item.idx)
+                        $('#inquiry_write [name=subject]').val(item.subject)
+                        $('#inquiry_write [name=contents]').val(item.contents)
+                        /* $('#inquiry_write [name=idx]').val()
                         $('#inquiry_write [name=subject]').val()
-                        $('#inquiry_write [name=contents]').val()
+                        $('#inquiry_write [name=contents]').val() */
                         show_section('write');
                         return false;
                     }
