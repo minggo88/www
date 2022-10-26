@@ -1981,7 +1981,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
             add_request_item('getMyMessageList', { 'token': getCookie('token'), last_idx:0, page:page, rows:rows  }, function(r){
                 $('.board--list tbody').empty();
-                r.payload.list.map((item) => {
+                r?.payload?.list?.map((item) => {
                     const tr = $('<tr>')
                     tr.append(`<td>${item.reg_date.substr(0, 16)}</td>`)
                     tr.append(`<td>${item.message}</td>`)
@@ -2526,14 +2526,15 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             const to_address = $('[name="address"]').val();
             const pin = $('[name="pin"]').val();
             const symbol = Model.withdraw_currency.symbol;
-            add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) { 
-                if (r?.success) {
-                    alert(__('출금신청을 완료했습니다.'));
-                } else {
-                    const msg = r?.error?.message || '';
-                    alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
-                }
-            })
+            console.log(to_address)
+            // add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
+            //     if (r?.success) {
+            //         alert(__('출금신청을 완료했습니다.'));
+            //     } else {
+            //         const msg = r?.error?.message || '';
+            //         alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
+            //     }
+            // })
         })
 
         // 출금수수료 계산
