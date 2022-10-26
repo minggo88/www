@@ -976,18 +976,6 @@
 		align-items: center; 
 		justify-content: space-between;
 	}
-	/* .sub.inquiry .navigation--back{height: 60px;} */
-	/* .sub.inquiry main{
-		display: flex;
-		justify-content: flex-start;
-		padding:0 30px!important;
-	} */
-	/* .sub.inquiry main header.contents--header{
-		display: flex; 
-		border-bottom: none;
-		height: 60px;
-	} */
-	/* .sub.inquiry .side{display: none;} */
 	.sub.inquiry .desktop-only{display: none!important;}
 	.sub.inquiry .mobile-only{display: block!important;}
 
@@ -1016,13 +1004,6 @@
 
 /* ###################################################### */
 /* 수정중 */
-/* inquiry detail   */
-/* .sub.inquiry_detail .contents{
-	width: 100%;
-	max-width: 910px;
-} */
-
-
 @media screen and (max-width: 990px) {
 	#inquiry_detail div.inquiry--reply{
 		padding: 0;
@@ -1037,31 +1018,21 @@
 	.sub.inquiry main{
 		height: auto;
 	}
-
-	#inquiry_detail dl.inquiry--body, #inquiry_detail dl.inquiry--reply{
-		height: 85vh;
-	}
 }
 
 @media screen and (max-width: 800px){
-	.sub.inquiry main{
-		height: 100vh;
-	}
-
 	#inquiry_detail dl.inquiry--body,
 	#inquiry_detail dl.inquiry--reply{
 		box-shadow: none;
-		/* height: 40vh; */
-		height: 43vh;
+		height: 320px;
 		width: 100%;
-		padding: 25px 0 45px;
-		/* margin:5px 0 10px; */
+		padding-bottom: 35px;
+		padding-left: 0;
 		box-sizing: border-box;
 		overflow: hidden;
 		font-family: "Noto Sans KR";
 		position: relative;
-		/* margin: 0; */
-		margin-top: 20px;
+		margin-top: 10px;
 	}
 	#inquiry_detail dl.inquiry--body{
 		margin-bottom: 10px;
@@ -1071,7 +1042,7 @@
 		display: block;
 		content: "";
 		width: 100%;
-		height: 8px;
+		height: 5px;
 		position: absolute;
 		left: 0;
 		bottom: 0;
@@ -1092,7 +1063,6 @@
 
 	#inquiry_detail dl.inquiry--body .day,
 	#inquiry_detail dl.inquiry--reply .day{
-		/* padding: 24px 0 40px; */
 		margin:5px 0 10px;
 		display: flex;
 		flex-direction: row;
@@ -1116,12 +1086,12 @@
 	#inquiry_detail dl.inquiry--reply .inquiryArea{
 		display: block;
 		color: #4E5968;
-		font-weight: 500;
+		font-weight: 400;
 		font-size: 14px;
 		text-align: left;
 		line-height:22.4px;
 		width: 100%;
-		height: 75%;
+		height: 80%;
 		overflow-y: auto;
 	}
 
@@ -1131,6 +1101,13 @@
 
 	#inquiry_detail .desktop-only{display: none!important;}
 	#inquiry_detail .mobile-only{display: block!important;}
+	#inquiry_detail .board--btn {
+		position: relative;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		margin-top: 10px;
+	}
 
 }
 
@@ -1138,7 +1115,6 @@
 
 
 .inquiry--body {
-    /* width: calc(100% * (839 / 900)); */
 	width: 87%;
     box-shadow: 0 0 0 1px #BDC4CB;
     border-radius: 4px;
