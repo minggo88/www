@@ -46,6 +46,7 @@ let SELECTED_NAME = '';  //'끽다거 세작'
 let SELECTED_SYMBOL_PRICE = 0
 let SELECTED_EXCHANGE = getURLParameter('exchange') || 'KRW'
 let CHART_TIMER
+let SELECTED_GOODS_GRADE = '';
 
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -378,6 +379,11 @@ $(function() {
                     return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
                 }
             },
+            {
+                data: 'goods_grade', render: (goods_grade) => {
+                    return goods_grade;
+                }
+            },
             // 가격
             {
                 data: 'price', render: (price) => {
@@ -514,6 +520,11 @@ $(function() {
                 data: 'time_order', render: (timestamp) => {
                     const date = new Date(timestamp * 1000)
                     return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
+                }
+            },
+            {
+                data: 'goods_grade', render: (goods_grade) => {
+                    return goods_grade;
                 }
             },
             // 가격
@@ -824,19 +835,19 @@ $(function() {
                 }
             },
             // 타입
-            { data: 'meta_type' },
+            { data: 'display_grade' },
             // 생산년도
             { data: 'meta_wp_production_date' },
             // 현재가
             {
                 data: 'price', responsivePriority: 1, render: (data, _type, row) => {
                     const diff = row.price_close - row.price_open
-            
+
                     if (typeof (Intl) !== 'undefined') {
-                        return diff >= 0 ? '<span class="text-red text-bold">' + new Intl.NumberFormat('ko-KR').format(data) + '</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(data) + '</span>'
+                        return diff >= 0 ? '<span class="text-red text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>'
                     }
         
-                    return '<span class="text-red text-bold">' + data.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
+                    return '<span class="text-red text-bold">' + row.price_close.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '</span>'
                 }
             },
             // 전일대비
@@ -1030,6 +1041,7 @@ $(function() {
             modal.find('[name=volume]').val('')
             modal.find('[name=total]').val('0')
             modal.find('.tea--name').text(SELECTED_NAME)
+            modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
         })
         .submit(e => {
             e.preventDefault()
@@ -1040,10 +1052,12 @@ $(function() {
                     const price = parseFloat($('#modal-buy [name=price]').val())
                     const volume = parseFloat($('#modal-buy [name=volume]').val())
                     const exchange = parseFloat($('#modal-buy [name=exchange]').val())
+                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
                     $('#modal-buy-success .total').text(real_number(price * volume))
                     $('#modal-buy-success .exchange').text(exchange)
+                    $('#modal-buy-success .goods_grade').text(goods_grade)
                     $('#modal-buy-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
@@ -1088,10 +1102,12 @@ $(function() {
                     const price = payload.order_price
                     const volume = payload.volume
                     const exchange = parseFloat($('#modal-sell-direct [name=exchange]').val())
+                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
                     $('#modal-sell-success .total').text(real_number_format(price * volume))
                     // $('#modal-sell-success .exchange').text(exchange)
+                    $('#modal-sell-success .goods_grade').text(goods_grade)
                     $('#modal-sell-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
@@ -1113,6 +1129,7 @@ $(function() {
             modal.find('[name=volume]').val('')
             modal.find('[name=total]').val('0')
             modal.find('.tea--name').text(SELECTED_NAME)
+            modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
         })
         .submit(e => {
             e.preventDefault()
@@ -1134,10 +1151,12 @@ $(function() {
                     const price = parseFloat($('#modal-sell [name=price]').val())
                     const volume = parseFloat($('#modal-sell [name=volume]').val())
                     const exchange = parseFloat($('#modal-sell [name=exchange]').val())
+                    const goods_grade = ($('#modal-sell [name=goods_grade]')).val()
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
                     $('#modal-sell-success .total').text(real_number(price * volume))
                     $('#modal-sell-success .exchange').text(exchange)
+                    $('#modal-sell-success .goods_grade').text(goods_grade)
                     $('#modal-sell-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
