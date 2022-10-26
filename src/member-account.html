@@ -229,9 +229,17 @@
 								<label for="email" data-i18n>이메일</label>
 								<input type="email" name="email" id="email" autocomplete="off" disabled data-bind="form.email">
 							</div>
+							<div class="name form--controls">
+								<label for="name" data-i18n>이름</label>
+								<input type="text" name="name" id="name" autocomplete="off" disabled data-bind="form.name">
+							</div>
+							<div class="nickname form--controls">
+								<label for="nickname" data-i18n>닉네임</label>
+								<input type="text" name="nickname" id="nickname" autocomplete="off" data-bind="form.nickname">
+							</div>
 							<div class="phone form--controls">
-								<label for="mobile" data-i18n>핸드폰 번호</label>
-								<input type="tel" name="mobile" id="mobile" autocomplete="off" disabled data-bind="form.mobile">
+								<label for="phone" data-i18n>핸드폰 번호</label>
+								<input type="tel" name="phone" id="phone" autocomplete="off" disabled data-bind="form.phone">
 							</div>
 							<div class="region">
 								<h1 class="m-0 size--16" data-i18n>거주지</h1>
@@ -241,7 +249,7 @@
 											<label for="country" class="form--label mobile-only" data-i18n>국가</label>
 											<!-- <input type="text" name="country" id="country" placeholder="국가" style="width: 100%" autocomplete="off" disabled data-bind="form.country.name"> -->
 											
-											<div id="country" class="dropdown-wrapper" style="border: 1px solid #dfdfdf;background: #F1F1F1; width: 100%">
+											<div id="country" class="dropdown-wrapper" style="border: 1px solid #dfdfdf;width: 100%">
 												<button type="button" class="dropdown"></button>
 												<div class="dropdown--item">
 													<ul class="mt-0">
@@ -274,9 +282,9 @@
 						</div>
 						<a href="" class="text--red mobile-only" data-i18n>로그인 비밀번호 변경</a>
 						<div class="text--center btn-area">
-							<button class="btn btn--red" style="width: 340px; margin-top: 40px" name="btn-save-info" data-i18n>계정 수정</button>
+							<button class="btn btn--red" style="width: 340px;" name="btn-save-info" data-i18n>계정 수정</button>
 						</div>
-						<div class="text--center desktop-only"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password" style="width: 340px; margin-top: 30px" data-toggle="modal" data-target="#change-password" data-i18n>로그인 비밀번호 변경</a></div>
+						<div class="text--center desktop-only change_info"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password"  data-toggle="modal" data-target="#change-password" data-i18n>로그인 비밀번호 변경</a></div>
 					</div>
 				</form>
 				<form method="post" id="change-password" class="modal modal--tiny">

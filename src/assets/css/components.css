@@ -543,6 +543,18 @@ form .form--header h1 {
     font-size: 16px;
     color: var(--basic-gray);
     box-sizing: border-box;
+	background: #fff;
+}
+
+.form--controls input[type=text]::placeholder,
+.form--controls input[type=password]::placeholder,
+.form--controls input[type=number]::placeholder,
+.form--controls input[type=email]::placeholder,
+.form--controls input[type=url]::placeholder,
+.form--controls input[type=tel]::placeholder {
+	font-size: 0.8rem;
+	color: var(--mid-gray);
+	font-weight: 300;
 }
 
 .form--controls .checkbox input[type=checkbox] {
