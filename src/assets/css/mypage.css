@@ -133,7 +133,7 @@ form {
 	width: 340px;
 }
 
-.sub.member-account .dropdown::after{
+.sub.member-account #country .dropdown::after{
 	right: 5px;
 }
 

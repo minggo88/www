@@ -21,9 +21,10 @@ $(function () {
             if (resp.success) {
                 
                 sended_email = $('#email').val();
+				
                 $('[name=box-form]').hide();
                 $('[name=box-success]').show();
-
+				alert('이메일이 발송되었습니다.')
             } else {
                 $('.validation--message').find('p').text(resp.error.message).end().show()
 

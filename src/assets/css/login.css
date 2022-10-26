@@ -285,12 +285,18 @@ main {
 	margin-bottom: 88px;
 	align-self: center;
 }
+
+.login.forget #forget .form--controls.email .form--label{
+	margin-bottom: 8px;
+}
+
 @media screen and (max-width: 800px) {
 	.login.forget > header{
 		display: none;
 	}
 
 	.login.forget main{
+		height: 100vh;
 		padding: 15px 16px 0px 16px!important;
 		box-sizing: border-box;
 		overflow: hidden;
