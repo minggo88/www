@@ -33,9 +33,11 @@
 <link rel="stylesheet" href="./assets/css/components.css?t={version}">
 <link rel="stylesheet" href="./assets/css/sub.css?t={version}">
 <link rel="stylesheet" href="./assets/css/wallet.css?t={version}">
+
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}"></script>
 <script src="./assets/js/qrcode.min.js?t={version}"></script>
@@ -121,6 +123,53 @@
 			</ul>
 		</div>
 	</header>
+	<aside class="mobile-panel">
+		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
+		<h1 class="size--20" data-i18n>계정 관리</h1>
+		<ul>
+			<li>
+				<a href="member-account.html" data-i18n>정보 수정</a>
+			</li>
+			<li>
+				<a href="my-verification.html" data-i18n>ID 인증 관리</a>
+			</li>
+			<li>
+				<a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+			</li>
+			<li>
+				<a href="change-account-number.html" data-i18n>출금계좌 변경</a>
+			</li>
+			<!-- <li>
+				<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
+			</li> -->
+		</ul>
+		<h1 class="size--20" style="margin-top: 30px;" data-i18n>지갑 관리</h1>
+		<ul>
+			<li>
+				<a href="wallet.html"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
+			</li>
+			<li>
+				<a href="wallet-deposit.html"><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+			</li>
+			<li>
+				<a href="wallet-withdrawal.html"><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+			</li>
+			<li>
+				<a href="wallet-analysis.html"><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
+			</li>
+		</ul>
+		<div class="nav--side mobile">
+			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+			<div name="box_unlogedin" style="display: none"><a href="login.html" class="btn--login" data-i18n>로그인</a></div>
+			<div class="language dropdown-wrapper">
+				<button type="button" class="dropdown">한국어</button>
+				<div class="dropdown--item" style="width: 81px">
+					<span>한국어</span>
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</aside>
     <div class="content_wrap">
 		<main class="d-flex d-justify">
 			<aside class="side">
@@ -380,6 +429,25 @@
 			</div>
 		</main>
 	</div>
+	<nav class="mobile-bottom mobile-only">
+		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+			<li class="exchange">
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<li class="area" >
+				<a href="" data-i18n>티드로우</a>
+			</li>
+			<li class="auction" style="flex: 1 1 auto">
+				<a href="" data-i18n>경매</a>
+			</li>
+			<li class="transaction" style="flex: 1 1 auto">
+				<a href="transaction.html" data-i18n>거래내역</a>
+			</li>
+			<li class="more">
+				<a href="" data-i18n>더보기</a>
+			</li>
+		</ul>
+	</nav>
     <!-- <footer class="desktop-only">
 		<div class="logo">Teaplat</div>
 		<nav class="fnb">
