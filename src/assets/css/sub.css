@@ -1382,18 +1382,17 @@
 }
 
 @media screen and (max-width: 800px){
+	.sub.changePin main{
+		padding-bottom: 92px!important;
+	}
 	.sub.changePin > header{display: none;}
 
 	.sub.changePin form{
-		height: calc(100vh - 140px)!important;
+		height: 400px!important;
 		display: flex;
 		justify-content: center;
 		align-items: flex-start;
 	}
-	/* .sub.changePin .boxed{
-		height: auto!important;
-	} */
-
 	.sub.changePin .btnArea{
 		margin-top: 0px;
 		position: absolute;
@@ -1410,14 +1409,6 @@
 		margin-bottom: 28px;
 	}
 
-}
-
-@media screen and (orientation: portrait), (max-width:800px) {
-	/* 가로모드일때의 css 적용 */
-	.sub.changePin .boxed{
-		padding: 0;
-		height: auto;
-	}
 }
 
 
@@ -1807,7 +1798,7 @@
     width: 100%;
 	height: 100%;;
     background: var(--white);
-	padding: 40px 0 0 16px;
+	padding: 15px 16px 15px 16px;
     z-index: 1001;
 	box-sizing: border-box;
 }
@@ -1828,11 +1819,20 @@
 .mobile-panel ul li {
     margin: 0;
     padding: 0;
-    height: 25px;
-	line-height: 25px;
-    font-size: 16px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
     font-weight: 400;
     color: var(--gray002);
+}
+
+.mobile-panel ul li [class^=icon-] {
+	width: 22px;
+	height: 22px;
+}
+
+.mobile-panel ul li span{
+	margin-left: 5px;
 }
 
 
@@ -1904,7 +1904,7 @@
 		display: block;
 		width: 24px;
 		height: 24px;
-		background: transparent url('../img/icon/icon-close.svg') no-repeat 0 50%;
+		background: transparent url('../img/icon/icon-close-black.svg') no-repeat 0 50%;
 		border: 0 none;
 		position: absolute;
 		right: 10px;
