@@ -1384,14 +1384,6 @@
 @media screen and (max-width: 800px){
 	.sub.changePin > header{display: none;}
 
-	.sub.changePin main header.contents--header + h2 .icon-shield{
-		width: 14px;
-		height: 17px;
-		background: url(../img/icon/icon-shield.svg) no-repeat 50%;
-		background-size: cover;
-		margin-right: 5px;
-	}
-
 	.sub.changePin form{
 		height: calc(100vh - 140px)!important;
 		display: flex;
@@ -1453,7 +1445,7 @@
 /* change-account-number 출금계좌 변경 */
 .sub.changeAccount .boxed{
 	/* max-height: 333px; */
-	max-height: 405px;
+	max-height: 544px;
 	padding: 36px 0 56px;
 	height: 100%;
 	justify-content: center;
@@ -1467,11 +1459,15 @@
 .sub.changeAccount .form--controls{
 	position: relative;
 }
+
+.sub.changeAccount input[type=file].image-selector{
+	height: 234px;
+}
 .sub.changeAccount .form--controls .preview{
 	display: none;
 	width:100%;
 	position: absolute;
-	height: 110px;
+	height: 234px;
 	left: 0;
 	top: 5px;
 	background-position: center center;
@@ -1480,6 +1476,10 @@
 }
 
 @media screen and (max-width: 800px){
+	.sub.changeAccount main{
+		padding-bottom: 92px!important;
+		height: 100%;
+	}
 	.sub.changeAccount > header{display: none;}
 
 	.sub.changeAccount form{
@@ -1519,6 +1519,7 @@
 		bottom: 0;
 		width: 100%;
 		margin-top: 20px;
+		padding-bottom: 92px;
 	}
 	.sub.changeAccount .btnArea .btn{
 		margin-top: 0!important;
@@ -1529,8 +1530,20 @@
 		height: 200px;
 	}
 	
+	.sub.changeAccount input[type=file].image-selector{
+		height: 320px;
+	}
 	.sub.changeAccount .form--controls .preview{
-		height: 200px;
+		height: 320px;
+	}
+}
+
+@media screen and (max-width: 600px){
+	.sub.changeAccount input[type=file].image-selector{
+		height: 250px;
+	}
+	.sub.changeAccount .form--controls .preview{
+		height: 250px;
 	}
 }
 
@@ -1801,6 +1814,7 @@
 
 .mobile-panel .navigation--close + h1.size--20{
 	margin-top: 0;
+	margin-bottom: 7px;
 }
 
 .mobile-panel ul {
