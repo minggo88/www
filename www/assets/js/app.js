@@ -1407,6 +1407,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             if (r && r.success && !r.error) {
                 let user_info = r.payload;
                 Model.user_info = user_info;
+                user_info.bank_full = user_info.bank_name +' / '+ user_info.bank_account +' / '+ user_info.bank_owner;
                 force_rander('user_info', user_info);
                 reset_logedin_status();
             }
@@ -1644,8 +1645,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     const fn_change_account_number = function() {
         check_login();
+        Model.form = clone(Model.user_info);
 
-        if(Model.user_info.image_bank_url) $('.preview[for="file_identify_url"]').css('background-image', 'url(' + Model.user_info.image_bank_url + ')');
+        if(Model.user_info.image_bank_url) $('.preview[for="file_bank_url"]').css({'background-image':'url(' + Model.user_info.image_bank_url + ')', 'display':'block'});
 
         // permission 값 의미 : 1: 가입여부, 2: 로그인여부, 3: 핸드폰 인증여부, 4: 신분증 인증 여부, 5:은행 인증 여부
         const permission_level = Model.user_info.permission.match(/1/g).length; // '11000' => 2 ,
@@ -1668,7 +1670,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             $('#bool_confirm_bank').val('0');
         })
 
-        $('.box-image-selector .preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
+        $('.preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
 
         $('[name="btn_save"]').on('click', function () {
             if (!$('input[name="bank_name"]').val()) {
@@ -1686,10 +1688,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 return false
             }
 
-            if (!$('#change-account-number #file_bank_url').val()) {
-                alert(__('통장사본을 선택해주세요.'))
-                return false
-            }
+            // if (!$('#change-account-number #file_bank_url').val()) {
+            //     alert(__('통장사본을 선택해주세요.'))
+            //     return false
+            // }
 
             add_request_item('putMyInfo', unserialize($('#change-account-number').serialize()), function(r) {
                 if (r?.success) {
@@ -1795,7 +1797,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
 
             if (!selected_symbol) {
-                alert('상품을 선택하세요.ㄴ');
+                alert('상품을 선택하세요.');
                 return false;
             }
 
@@ -1823,7 +1825,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
 
             if (!selected_symbol) {
-                alert('상품을 선택하세요.ㄴ');
+                alert('상품을 선택하세요.');
                 return false;
             }
 
@@ -1981,7 +1983,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
             add_request_item('getMyMessageList', { 'token': getCookie('token'), last_idx:0, page:page, rows:rows  }, function(r){
                 $('.board--list tbody').empty();
-                r.payload.list.map((item) => {
+                r?.payload?.list?.map((item) => {
                     const tr = $('<tr>')
                     tr.append(`<td>${item.reg_date.substr(0, 16)}</td>`)
                     tr.append(`<td>${item.message}</td>`)
@@ -2133,6 +2135,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
         $('#member-account').on('submit', function () {
             $('#country').dropdown('selected')
+            $('#mobile_country_code').val($('#country').dropdown('selected').toUpperCase())
 
             add_request_item('putMyInfo', $(this).serialize(), function (r) {
                 if (r?.success) {
@@ -2283,7 +2286,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             // console.log('getCountry resp:', resp)
             let firstItem = ''
             resp.payload.map((country) => {
-                console.log(country);
+                // console.log(country);
                 if(!firstItem) {
                     firstItem = country.code.toLowerCase()
                 }
@@ -2364,8 +2367,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     const fn_my_verification = function () { 
         check_login();
 
-        if(Model.user_info.image_identify_url) $('.preview[for="file_identify_url"]').css('background-image', 'url(' + Model.user_info.image_identify_url + ')');
-        if(Model.user_info.image_mix_url) $('.preview[for="file_mix_url"]').css('background-image', 'url(' + Model.user_info.image_mix_url + ')');
+        if(Model.user_info.image_identify_url) $('.preview[for="file_identify_url"]').css({'background-image':'url(' + Model.user_info.image_identify_url + ')', 'display':'block'});
+        if(Model.user_info.image_mix_url) $('.preview[for="file_mix_url"]').css({'background-image':'url(' + Model.user_info.image_mix_url + ')', 'display':'block'});
         
 
         // permission 값 의미 : 1: 가입여부, 2: 로그인여부, 3: 핸드폰 인증여부, 4: 신분증 인증 여부, 5:은행 인증 여부
@@ -2393,17 +2396,18 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $('.box-image-selector .preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
 
         $('[name="btn_save"]').on('click', function () { 
-            if (!$('#verification4 #file_identify_url').val()) {
-                alert(__('신분증 사진을 선택해주세요.'))
+            if (!$('#verification4 #file_identify_url').val() && !$('#verification4 #image_identify_url').val()) {
+                alert(__('신분증 사진을 선택해주세요.')); return false;
             }
-            if (!$('#verification4 #file_mix_url').val()) {
-                alert(__('신분증 및 회원 사진을 선택해주세요.'))
+            if (!$('#verification4 #file_mix_url').val() && !$('#verification4 #image_mix_url').val()) {
+                alert(__('신분증 및 회원 사진을 선택해주세요.')); return false;
             }
             add_request_item('putMyInfo', unserialize($('#verification4').serialize()), function (r) { 
                 console.log(r);
                 if (r?.success) {
                     alert(__('저장했습니다.'));
                     $('[name=status_waiting]').show().siblings().hide();
+                    request_user_info();
                 } 
             })
             return false;
@@ -2495,7 +2499,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         if (Model?.withdraw_currency?.symbol != withdraw_symbol) {
             add_request_item('getCurrency', {'symbol':withdraw_symbol}, function (r) {
                 // out_max_volume_1day
-                console.log('getCurrency r:', r);
+                // console.log('getCurrency r:', r);
                 if (r && r.success) {
                     c = r.payload[0];
                     c.fee_out_str = c.fee_out_ratio > 0 ? number_format(c.fee_out_ratio * 100, 2) + ' %' : (c.fee_out > 0 ? real_number_format(c.fee_out) + ' ' + c.symbol : __('수수료 없음'));
@@ -2526,7 +2530,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             const to_address = $('[name="address"]').val();
             const pin = $('[name="pin"]').val();
             const symbol = Model.withdraw_currency.symbol;
-            add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) { 
+            // console.log(to_address)
+            add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
                 if (r?.success) {
                     alert(__('출금신청을 완료했습니다.'));
                 } else {

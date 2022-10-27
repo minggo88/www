@@ -1,6 +1,7 @@
 $(function () {
     const email = $('#email')
     const password = $('#password')
+	const name = $('#name')
     const password_confirm = $('#password_confirm')
     let sended_email = ''; // 발송 성공한 이메일 - 재발송시 사용
     let sended_phoneCountry = '';
@@ -98,6 +99,11 @@ $(function () {
             return false
         }
 
+		// 이름이 빈칸일 경우
+		if(!name.val()) {
+			name.focus()
+			return false
+		}
 
         if(!password.val()) {
             password.focus()
@@ -124,6 +130,16 @@ $(function () {
             alert('비밀번호는 특수문자 포함해서 입력 해주세요.');
             return false;
         }
+		
+		if (!password_confirm.val()) {
+            password.focus()
+            return false;
+        }
+
+        if (password.val() != password_confirm.val()) {
+            alert('비밀번호가 다릅니다.');
+            return false;
+        }
 
         if (!$('#terms_of_service').is(':checked')) {
             alert('이용약관 동의에 체크 해주세요.');
@@ -145,10 +161,10 @@ $(function () {
                 sended_email = email.val();
 				//	$('#create-account-info').hide()
 				$('#create-account-info').parent("section").hide()
-				//	$('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
+				$('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
 
-                // $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
-                $('#create-account-password-confirm').parent("section").show()
+                $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
+                //$('#create-account-password-confirm').parent("section").show()
             } else {
                 $('#create-account-info input[type=submit]').prop('disabled', false)
 
@@ -176,7 +192,7 @@ $(function () {
         return false;
     });
 
-    $('#create-account-password-confirm').on('submit', (e) => {
+    /* $('#create-account-password-confirm').on('submit', (e) => {
         e.preventDefault()
 
         if (!password_confirm.val()) {
@@ -195,7 +211,7 @@ $(function () {
         $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
 
         return false;
-    });
+    }); */
 
     $('#create-account-mail-auth').on('submit', (e) => {
         e.preventDefault()
