@@ -46,7 +46,7 @@ let SELECTED_NAME = '';  //'끽다거 세작'
 let SELECTED_SYMBOL_PRICE = 0
 let SELECTED_EXCHANGE = getURLParameter('exchange') || 'KRW'
 let CHART_TIMER
-let SELECTED_GOODS_GRADE = '';
+let SELECTED_GOODS_GRADE = 'A';
 
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
