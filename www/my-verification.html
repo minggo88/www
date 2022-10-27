@@ -28,13 +28,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1665019566">
-<link rel="stylesheet" href="./assets/css/common.css?t=1665716756">
-<link rel="stylesheet" href="./assets/css/header.css?t=1666595872">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1665716756">
-<link rel="stylesheet" href="./assets/css/components.css?t=1666169217">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1666594406">
-<link rel="stylesheet" href="./assets/css/mypage.css?t=1666594406">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
+<link rel="stylesheet" href="./assets/css/common.css?t=1666845393">
+<link rel="stylesheet" href="./assets/css/header.css?t=1666844538">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
+<link rel="stylesheet" href="./assets/css/components.css?t=1666844538">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1666844538">
+<link rel="stylesheet" href="./assets/css/mypage.css?t=1666844538">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <style>
     .product--image {
@@ -55,16 +55,16 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1665019566"></script>
-<script src="./assets/js/api.js?t=1665971478"></script>
-<script src="./assets/js/components.js?t=1666081829"></script>
+<script src="./assets/js/common.js?t=1663583938"></script>
+<script src="./assets/js/api.js?t=1664349972"></script>
+<script src="./assets/js/components.js?t=1666316263"></script>
 <script>
     let USER_INFO = {}
 </script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1665019566"></script>
-<script src="./assets/js/lib/security.min.js?t=1665019566"></script>
-<script src="./i18n/i18n.js?t=1665716756"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
+<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
+<script src="./i18n/i18n.js?t=1665030514"></script>
 
 </head>
 <!-- BODY -->
@@ -145,7 +145,7 @@
 	</header>
     <div class="content_wrap">
 		<aside class="mobile-panel">
-			<button type="button" class="navi--back" onclick="$('.mobile-panel').hide(); return false"></button>
+			<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
 			<h1 class="size--20" data-i18n>계정 관리</h1>
 			<ul>
 				<li>
@@ -261,7 +261,7 @@
 						
 						<div class="text--center">
 							<h2 class="m-0 mb-24 text-red" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_success" data-i18n>ID 인증 완료!</h2>
-							<!-- <h2 class="m-0 mb-24" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_waiting" data-i18n>ID 인증 대기중</h2> -->
+							<h2 class="m-0 mb-24" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_waiting" data-i18n>ID 인증 대기중</h2>
 							<h2 class="m-0 mb-24" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_default" data-i18n>ID 인증 필요</h2>
 						</div>
 						<p class="m-0 flex-self-left text--medium text-bold" data-i18n>
@@ -280,8 +280,8 @@
 								<label for="back-side" style="font-weight: 400;" data-i18n>신분증 및 회원 사진</label>
 								<div class="box-image-selector">
 									<input type="file" name="file_mix_url" id="file_mix_url" data-target="#image_mix_url" title="신분증 및 회원 사진" id="back-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px">
-									<input type="hidden" name="image_mix_url" id="image_mix_url">
-									<div name="preview" class="preview" for="file_mix_url" data-bind="user_info.image_mix_url"></div>
+									<input type="hidden" name="image_mix_url" id="image_mix_url" data-bind="user_info.image_mix_url">
+									<div name="preview" class="preview" for="file_mix_url"></div>
 								</div>
 							</div>
 						</div>
@@ -320,26 +320,26 @@
 				</form>
 			</div>
 		</main>
-		<nav class="mobile-bottom mobile-only">
-			<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
-				<li class="exchange">
-					<a href="exchange.html" data-i18n>거래소</a>
-				</li>
-				<li class="area" >
-					<a href="" data-i18n>티드로우</a>
-				</li>
-				<li class="auction" style="flex: 1 1 auto">
-					<a href="" data-i18n>경매</a>
-				</li>
-				<li class="transaction" style="flex: 1 1 auto">
-					<a href="transaction.html" data-i18n>거래내역</a>
-				</li>
-				<li class="more">
-					<a href="" data-i18n>더보기</a>
-				</li>
-			</ul>
-		</nav>
 	</div>
+	<nav class="mobile-bottom mobile-only">
+		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+			<li class="exchange">
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<li class="area" >
+				<a href="" data-i18n>티드로우</a>
+			</li>
+			<li class="auction" style="flex: 1 1 auto">
+				<a href="" data-i18n>경매</a>
+			</li>
+			<li class="transaction" style="flex: 1 1 auto">
+				<a href="transaction.html" data-i18n>거래내역</a>
+			</li>
+			<li class="more">
+				<a href="" data-i18n>더보기</a>
+			</li>
+		</ul>
+	</nav>
     <!-- <footer class="desktop-only">
 		<div class="logo">Teaplat</div>
 		<nav class="fnb">
@@ -375,7 +375,7 @@
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
 
-    <script src="./assets/js/app.js?t=1666083617"></script>
+    <script src="./assets/js/app.js?t=1666844538"></script>
 
 </body>
 </html>

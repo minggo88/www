@@ -27,30 +27,30 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" >
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;350;400;500;700;900&display=swap">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1665019566">
-<link rel="stylesheet" href="./assets/css/common.css?t=1665716756" />
-<link rel="stylesheet" href="./assets/css/header.css?t=1666595872">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1665716756">
-<link rel="stylesheet" href="./assets/css/components.css?t=1666169217">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1666594406">
-<link rel="stylesheet" href="./assets/css/exchange.css?t=1666594406">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
+<link rel="stylesheet" href="./assets/css/common.css?t=1666845393" />
+<link rel="stylesheet" href="./assets/css/header.css?t=1666844538">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
+<link rel="stylesheet" href="./assets/css/components.css?t=1666844538">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1666844538">
+<link rel="stylesheet" href="./assets/css/exchange.css?t=1666844538">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css"/>
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1665019566"></script>
-<script src="./assets/js/api.js?t=1665971478"></script>
-<script src="./assets/js/components.js?t=1666081829" defer></script>
+<script src="./assets/js/common.js?t=1663583938"></script>
+<script src="./assets/js/api.js?t=1664349972"></script>
+<script src="./assets/js/components.js?t=1666316263" defer></script>
 <script src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1665019566"></script>
-<script src="./assets/js/lib/security.min.js?t=1665019566"></script>
-<script src="./i18n/i18n.js?t=1665716756"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
+<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
+<script src="./i18n/i18n.js?t=1665030514"></script>
 
 </head>
 <!-- BODY -->
@@ -130,9 +130,8 @@
 				</ul>
 			</div>
 		</header>
-
 		<aside class="mobile-panel">
-			<button type="button" class="navigation--back" onclick="$('.mobile-panel').hide(); return false"></button>
+			<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
 			<h1 class="size--20" data-i18n>계정 관리</h1>
 			<ul>
 				<li>
@@ -220,7 +219,7 @@
 								<thead>
 									<tr>
 										<th class="name" data-i18n>이름</th>
-										<th class="meta_type" data-i18n>타입</th>
+										<th class="meta_type" data-i18n>등급</th>
 										<th class="meta_wp_production_date" data-i18n>생산연도</th>
 										<th class="price" data-i18n>현재가</th>
 										<th data-i18n>전일대비</th>
@@ -341,6 +340,7 @@
 											<th data-i18n>번호</th>
 											<th data-i18n class="category">구분</th>
 											<th data-i18n>등록일</th>
+											<th data-i18n>등급</th>
 											<th data-i18n>가격</th>
 											<th data-i18n>수량</th>
 											<th data-i18n>총액</th>
@@ -362,6 +362,7 @@
 											<th data-i18n>번호</th>
 											<th data-i18n class="category">구분</th>
 											<th data-i18n>등록일</th>
+											<th data-i18n>등급</th>
 											<th data-i18n>가격</th>
 											<th data-i18n>수량</th>
 											<th data-i18n>총액</th>
@@ -423,6 +424,25 @@
 				</div>
 			</main>
 		</div>
+		<div class="mobile-bottom mobile-only">
+			<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+				<li class="exchange">
+					<a href="exchange.html" data-i18n>거래소</a>
+				</li>
+				<li class="area" >
+					<a href="" data-i18n>티드로우</a>
+				</li>
+				<li class="auction">
+					<a href="" data-i18n>경매</a>
+				</li>
+				<li class="transaction text--red">
+					<a href="transaction.html" class="text--red" data-i18n>거래내역</a>
+				</li>
+				<li class="more">
+					<a href="" data-i18n>더보기</a>
+				</li>
+			</ul>
+		</div>
 		
 		
 		<div id="modal-buy-success" class="modal modal--tiny" tabindex="-1">
@@ -440,6 +460,10 @@
 					<dl>
 						<dt data-i18n>수량</dt>
 						<dd><span class="volume">0</span> <span data-i18n>개</span></dd>
+					</dl>
+					<dl>
+						<dt data-i18n>등급</dt>
+						<dd><span class="goods_grade"></span></dd>
 					</dl>
 					<dl>
 						<dt data-i18n>총액</dt>
@@ -466,6 +490,10 @@
 					<dl>
 						<dt data-i18n>수량</dt>
 						<dd><span class="volume">0</span> <span data-i18n>개</span></dd>
+					</dl>
+					<dl>
+						<dt data-i18n>등급</dt>
+						<dd><span class="goods_grade"></span></dd>
 					</dl>
 					<dl>
 						<dt data-i18n>총액</dt>
@@ -502,7 +530,7 @@
 							</div>
 						</dd>
 					</dl>
-					<dl class="tea--volume">
+					<dl>
 						<dt data-i18n>수량</dt>
 						<dd>
 							<div class="input--spiner">
@@ -511,6 +539,18 @@
 									<button type="button" class="spiner-minus"></button>
 									<button type="button" class="spiner-plus"></button>
 								</div>
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt data-i18n>등급</dt>
+						<dd style="width: 220px">
+							<div class="input">
+								<select name="goods_grade">
+									<option value="S">S</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+								</select>
 							</div>
 						</dd>
 					</dl>
@@ -603,7 +643,7 @@
 							</div>
 						</dd>
 					</dl>
-					<dl style="margin-bottom: 40px">
+					<dl style="margin-bottom: 10px">
 						<dt data-i18n>수량</dt>
 						<dd style="width: 220px">
 							<div class="input--spiner">
@@ -612,6 +652,18 @@
 									<button type="button" class="spiner-minus"></button>
 									<button type="button" class="spiner-plus"></button>
 								</div>
+							</div>
+						</dd>
+					</dl>
+					<dl style="margin-bottom: 10px">
+						<dt data-i18n>등급</dt>
+						<dd style="width: 220px">
+							<div class="input">
+								<select name="goods_grade">
+									<option value="S">S</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+								</select>
 							</div>
 						</dd>
 					</dl>
@@ -944,8 +996,8 @@
 			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 		</div>
 	</footer> -->
-	<script src="./assets/js/exchange.js?t=1666576772" defer></script>
-    <script src="./assets/js/app.js?t=1666083617"></script>
+	<script src="./assets/js/exchange.js?t=1666844592" defer></script>
+    <script src="./assets/js/app.js?t=1666844538"></script>
 	<script>
 
 	</script>

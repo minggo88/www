@@ -976,18 +976,6 @@
 		align-items: center; 
 		justify-content: space-between;
 	}
-	/* .sub.inquiry .navigation--back{height: 60px;} */
-	/* .sub.inquiry main{
-		display: flex;
-		justify-content: flex-start;
-		padding:0 30px!important;
-	} */
-	/* .sub.inquiry main header.contents--header{
-		display: flex; 
-		border-bottom: none;
-		height: 60px;
-	} */
-	/* .sub.inquiry .side{display: none;} */
 	.sub.inquiry .desktop-only{display: none!important;}
 	.sub.inquiry .mobile-only{display: block!important;}
 
@@ -1016,11 +1004,6 @@
 
 /* ###################################################### */
 /* 수정중 */
-/* inquiry detail   */
-/* .sub.inquiry_detail .contents{
-	width: 100%;
-	max-width: 910px;
-} */
 @media screen and (max-width: 990px) {
 	#inquiry_detail div.inquiry--reply{
 		padding: 0;
@@ -1029,21 +1012,27 @@
 	#inquiry_detail table.inquiry--body{
 		width: 100%;
 	}
+}
 
+@media screen and (max-width:768px) and  (orientation: Landscape){
+	.sub.inquiry main{
+		height: auto;
+	}
 }
 
 @media screen and (max-width: 800px){
 	#inquiry_detail dl.inquiry--body,
 	#inquiry_detail dl.inquiry--reply{
 		box-shadow: none;
-		height: 40vh;
+		height: 320px;
 		width: 100%;
-		padding: 25px 0 45px;
+		padding-bottom: 35px;
+		padding-left: 0;
 		box-sizing: border-box;
 		overflow: hidden;
 		font-family: "Noto Sans KR";
 		position: relative;
-		margin: 0;
+		margin-top: 10px;
 	}
 	#inquiry_detail dl.inquiry--body{
 		margin-bottom: 10px;
@@ -1053,7 +1042,7 @@
 		display: block;
 		content: "";
 		width: 100%;
-		height: 8px;
+		height: 5px;
 		position: absolute;
 		left: 0;
 		bottom: 0;
@@ -1074,7 +1063,7 @@
 
 	#inquiry_detail dl.inquiry--body .day,
 	#inquiry_detail dl.inquiry--reply .day{
-		padding: 24px 0 40px;
+		margin:5px 0 10px;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -1097,10 +1086,13 @@
 	#inquiry_detail dl.inquiry--reply .inquiryArea{
 		display: block;
 		color: #4E5968;
-		font-weight: 500;
+		font-weight: 400;
 		font-size: 14px;
 		text-align: left;
 		line-height:22.4px;
+		width: 100%;
+		height: 80%;
+		overflow-y: auto;
 	}
 
 	#inquiry_detail .btn.btn--list{display: none;}
@@ -1109,6 +1101,13 @@
 
 	#inquiry_detail .desktop-only{display: none!important;}
 	#inquiry_detail .mobile-only{display: block!important;}
+	#inquiry_detail .board--btn {
+		position: relative;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		margin-top: 10px;
+	}
 
 }
 
@@ -1116,7 +1115,6 @@
 
 
 .inquiry--body {
-    /* width: calc(100% * (839 / 900)); */
 	width: 87%;
     box-shadow: 0 0 0 1px #BDC4CB;
     border-radius: 4px;
@@ -1206,7 +1204,8 @@
 	#inquiry_write .contents form{margin-top: 20px;}
 	
 	#inquiry_write .board--write{
-		height: calc(100vh - 60px);
+		/* height: calc(100vh - 60px); */
+		height: calc(100% - 48px); /* 임시 */
 	}
 	#inquiry_write .form--controls.border::after{
 		content: "";
@@ -1226,15 +1225,15 @@
 	}
 
 	#inquiry_write .board--write .form--controls textarea{
-		height: calc(100vh - 250px);
+		height: calc(100vh - 216px);
 		overflow: auto;
 	}
 	
 	#inquiry_write .board--btn{
 		margin-top: 0;
-		position: absolute;
+		position: relative;
 		left: 0;
-		bottom: 30px;
+		bottom: 0;
 		width: 100%;
 	}
 	
@@ -1290,6 +1289,9 @@
 /* ###################################################### */
 /* 수정완료 */
 /* identity verfication ID 인증관리 */
+.sub.verifiy p.m-0.text-bold{
+	word-break: keep-all;
+}
 
 @media screen and (max-width: 800px){
 	.sub.verifiy > header{display: none;}
@@ -1346,6 +1348,9 @@
 
 @media screen and (max-width: 600px){
 	.sub.verifiy .boxed{height: 400px;}
+	.sub.verifiy .d-grid.column-2{
+		margin-top: 30px!important;
+	}
 }
 
 /* ###################################################### */
@@ -1379,14 +1384,6 @@
 @media screen and (max-width: 800px){
 	.sub.changePin > header{display: none;}
 
-	.sub.changePin main header.contents--header + h2 .icon-shield{
-		width: 14px;
-		height: 17px;
-		background: url(../img/icon/icon-shield.svg) no-repeat 50%;
-		background-size: cover;
-		margin-right: 5px;
-	}
-
 	.sub.changePin form{
 		height: calc(100vh - 140px)!important;
 		display: flex;
@@ -1414,11 +1411,6 @@
 	}
 
 }
-@media screen and (orientation:landscape){
-	.sub.changePin .boxed{
-		padding: 36px 0 56px;
-	}
-}
 
 @media screen and (orientation: portrait), (max-width:800px) {
 	/* 가로모드일때의 css 적용 */
@@ -1442,6 +1434,10 @@
 	.grid--code > *{
 		font-size: 18px;
 	}
+	
+	.sub.changePin .boxed{
+		padding: 36px 0 56px;
+	}
 }
 
 /* ###################################################### */
@@ -1449,7 +1445,7 @@
 /* change-account-number 출금계좌 변경 */
 .sub.changeAccount .boxed{
 	/* max-height: 333px; */
-	max-height: 405px;
+	max-height: 544px;
 	padding: 36px 0 56px;
 	height: 100%;
 	justify-content: center;
@@ -1463,11 +1459,15 @@
 .sub.changeAccount .form--controls{
 	position: relative;
 }
+
+.sub.changeAccount input[type=file].image-selector{
+	height: 234px;
+}
 .sub.changeAccount .form--controls .preview{
 	display: none;
 	width:100%;
 	position: absolute;
-	height: 110px;
+	height: 234px;
 	left: 0;
 	top: 5px;
 	background-position: center center;
@@ -1476,6 +1476,10 @@
 }
 
 @media screen and (max-width: 800px){
+	.sub.changeAccount main{
+		padding-bottom: 92px!important;
+		height: 100%;
+	}
 	.sub.changeAccount > header{display: none;}
 
 	.sub.changeAccount form{
@@ -1515,6 +1519,7 @@
 		bottom: 0;
 		width: 100%;
 		margin-top: 20px;
+		padding-bottom: 92px;
 	}
 	.sub.changeAccount .btnArea .btn{
 		margin-top: 0!important;
@@ -1524,7 +1529,22 @@
 	.sub.changeAccount input[type=file].image-selector{
 		height: 200px;
 	}
+	
+	.sub.changeAccount input[type=file].image-selector{
+		height: 320px;
+	}
+	.sub.changeAccount .form--controls .preview{
+		height: 320px;
+	}
+}
 
+@media screen and (max-width: 600px){
+	.sub.changeAccount input[type=file].image-selector{
+		height: 250px;
+	}
+	.sub.changeAccount .form--controls .preview{
+		height: 250px;
+	}
 }
 
 @media screen and (max-width: 380px){
@@ -1787,8 +1807,14 @@
     width: 100%;
 	height: 100%;;
     background: var(--white);
-	padding: 20px 0 0 16px;
-    z-index: 51;
+	padding: 40px 0 0 16px;
+    z-index: 1001;
+	box-sizing: border-box;
+}
+
+.mobile-panel .navigation--close + h1.size--20{
+	margin-top: 0;
+	margin-bottom: 7px;
 }
 
 .mobile-panel ul {
@@ -1797,12 +1823,13 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    row-gap: 24px;
+    row-gap: 10px;
 }
 .mobile-panel ul li {
     margin: 0;
     padding: 0;
-    height: 24px;
+    height: 25px;
+	line-height: 25px;
     font-size: 16px;
     font-weight: 400;
     color: var(--gray002);
@@ -1817,7 +1844,7 @@
 }
 
 @media (max-width: 800px) { 
-    .sub .boxed--transparent {
+	.sub .boxed--transparent {
         border: 0 none;
     }
 
@@ -1879,6 +1906,9 @@
 		height: 24px;
 		background: transparent url('../img/icon/icon-close.svg') no-repeat 0 50%;
 		border: 0 none;
+		position: absolute;
+		right: 10px;
+		top: 15px;
 	}
 
     .notification > header {
