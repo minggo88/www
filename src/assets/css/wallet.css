@@ -196,6 +196,13 @@
 	}
 }
 @media screen and (max-width: 800px) {
+	.sub.wallet main{
+		height: initial;
+		padding-bottom:72px!important;
+	}
+	.sub.wallet .content_wrap .contents{
+		height: initial;
+	}
 	.sub.wallet .mobile-only{display: block!important;}
 	.sub.wallet .desktop-only{display: none!important;}
 	.wallet-summary {
@@ -244,6 +251,7 @@
         display: flex;
         flex-direction: column;
 		margin-top: 30px;
+		margin-bottom: 0px;
     }	
 
 	.wallet--grid .grid .grid--inner-right{
@@ -283,7 +291,6 @@
 
 /* deposit */
 /* 입금 */
-
 .deposit .contents a {vertical-align: unset;} /*    vertical-align: middle 인데 P 태그의 글자와 P > a 가 줄이 안맞아서 unset 으로 변경함.*/
 
 .deposit .contents .d-grid{
@@ -326,8 +333,9 @@
     padding: 0 11px;
     font-family: Inter;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: -0.15px;
+	text-overflow: ellipsis;
 }
 
 .deposit .contents .d-grid .grid input[type=password] {
@@ -368,8 +376,9 @@
 @media screen and (max-width:800px){
 	.deposit .btn-area{
 		width: 100%;
-		position: absolute;
+		position: relative;
 		bottom:0px;
+		margin-top: 100px;
 	}
 }
 @media screen and (max-width:600px){
@@ -422,6 +431,13 @@
 }
 
 @media screen and (max-width: 800px) {
+	.sub.deposit main{
+		padding-bottom: 92px!important;
+	}
+	.sub.deposit .content_wrap .contents{
+		height: initial;
+	}
+	
 	.sub.deposit .mobile-only{display: block!important;}
 	.sub.deposit .desktop-only{display: none!important;}
 	
@@ -460,9 +476,6 @@
         padding: 0;
         border: 0 none;
     }
-    .deposit .contents .d-grid .grid:nth-child(2) {
-        margin-top: 24px;
-    }
     .deposit .input--group {
         border: 0 none !important;
         background: transparent;
@@ -470,11 +483,7 @@
     .deposit .contents .d-grid .grid .input {
         border: 0 none !important;
     }
-    .deposit .contents .d-grid .grid input[type=text], .deposit .contents .d-grid .grid input[type=password] {
-        color: #4E5968 !important;
-        font-size: 16px;
-        text-align: right;
-    }
+
     .deposit .contents .d-grid .grid .input::after {
         display: none;
     }
@@ -515,13 +524,11 @@
     .deposit .deposit > .grid:nth-of-type(1) {
         display: none;
     }
-    .deposit .contents .d-grid .grid {
-        padding: 0;
-        border: 0 none;
-    }
-    .deposit .contents .d-grid .grid:nth-child(2) {
-        margin-top: 24px;
-    }
+	.deposit .contents .d-grid .grid {
+		padding: 0;
+		border: 0 none;
+	}
+
     .deposit .input--group {
         border: 0 none !important;
         background: transparent;
@@ -532,7 +539,6 @@
     .deposit .contents .d-grid .grid input[type=text], .deposit .contents .d-grid .grid input[type=password] {
         color: #4E5968 !important;
         font-size: 16px;
-        text-align: right;
     }
     .deposit .contents .d-grid .grid .input::after {
         display: none;
@@ -554,6 +560,21 @@
 		width: 100%;
 	}
 }
+@media screen and (max-width:600px){
+	.sub.deposit main{
+		padding-bottom: 92px!important;
+	}
+}
+
+@media screen and (max-width:480px){
+	.deposit .contents .d-grid .grid input[type=text], 
+	.deposit .contents .d-grid .grid input[type=password] {
+		font-size: 13px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+    }
+}
+
 
 /* deposit-guide */
 /* 입금 안내 */
@@ -588,7 +609,8 @@
 
 
 /* deposit-withdrawal */
-/* 출금 안내 */
+/* 출금 */
+
 .deposit-withdrawal .grid ul{
 	list-style-type: disc;
 	padding-left: 10px;
@@ -597,8 +619,14 @@
 	font-size: 1px;
 }
 
+.deposit-withdrawal .contents .d-grid .grid .form--controls .input{
+	border: 1px solid #E5E8EB!important;
+	/* border-radius: 5px; */
+	overflow: hidden;
+}
+
 .deposit-withdrawal .input--group{
-	height: 39px;
+	height: 40px;
 }
 
 .deposit-withdrawal .input--group input{text-align: right;}
@@ -608,7 +636,7 @@
 }
 
 .deposit-withdrawal .form--controls .input--group + p.text--blue-gray{
-	white-space: nowrap;
+	/* white-space: nowrap; */
 	margin: 0;
 	margin-top: 3px;
 }
@@ -617,8 +645,18 @@
 	font-weight: 700;
 }
 
+.deposit-withdrawal .contents .d-grid .grid .form--controls.input--box .input--group input{
+	border:none
+}
 
 @media screen and (max-width: 800px) {
+	.deposit-withdrawal main{
+		padding-bottom: 92px!important;
+	}
+	.deposit-withdrawal .content_wrap .contents{
+		height: initial;
+	}
+
 	.deposit-withdrawal .form--controls{
 		align-items: center;
 		flex-direction: column;
@@ -653,7 +691,6 @@
 
 	.deposit-withdrawal .contents .d-grid .grid .input--box .input,
 	.deposit-withdrawal .contents .d-grid .grid .form--controls .input{
-		margin-top: 11px;
 		border: 1px solid #E5E8EB!important;
 		border-radius: 5px;
 	}
@@ -668,7 +705,7 @@
 
 	.deposit-withdrawal .d-grid .btnArea{
 		height: auto;
-		position: absolute;
+		position: relative;
 		left: 0;
 		bottom: 0px;
 		width: 100%;
@@ -1082,7 +1119,7 @@
 	
 	.sub.wallet.wallet-analysis main{
 		height: initial;
-		padding-bottom: 20px!important;
+		padding-bottom: 90px!important;
 	}
 
 	.sub.wallet.wallet-analysis h1.size--20{
