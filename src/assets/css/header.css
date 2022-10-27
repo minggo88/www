@@ -193,6 +193,32 @@ header .logo a {
 	top: 10px;
 }
 
+.nav--side.mobile{
+	width: 80px;
+	right: 0px;
+	left: 20px;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin-top: 30px;
+	row-gap: 10px;
+	column-gap: initial;
+}
+
+.nav--side.mobile .btn--login,
+.nav--side.mobile .btn--logout,
+.nav--side.mobile .language .dropdown{
+	width: 80px;
+}
+
+.nav--side.mobile .language .dropdown+.dropdown--item{
+	left: 0;
+}
+
+.nav--side.mobile .btn--login,
+.nav--side.mobile .btn--logout{
+	height: 25px;
+	line-height: 25px;
+}
 /* ####################################### */
 
 .box-menu {
@@ -237,7 +263,7 @@ header .logo a {
 	.box-mobile-menu {
         display: block;
         position: absolute;
-        z-index: 50;
+        z-index: 1002;
         text-align: center;
         width: 60px;
 		height: 60px;
@@ -276,6 +302,7 @@ header .logo a {
         height: 100vh;
         padding-top: 85px;
 		padding-left: 0;
+		z-index: 1001;
     }
 
     .gnb > * {
@@ -289,6 +316,7 @@ header .logo a {
     }
 }
 
+
 @media screen and (max-width: 800px){
 	.sub header{padding-left: 11px; height: 60px;}
 	.sub header .logo, .sub header .nav{display: none!important;}
@@ -299,7 +327,16 @@ header .logo a {
 		text-indent: -9999px;
 		width: 24px;
 		height: 24px;
-		background: transparent url('../img/icon/icon-back.svg') no-repeat 50%;
+		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
+		border: 0 none;
+	}
+
+	.sub header .navi--back {
+		display: block;
+		text-indent: -9999px;
+		width: 24px;
+		height: 24px;
+		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
 		border: 0 none;
 	}
 	
@@ -307,13 +344,14 @@ header .logo a {
     .sub .contents .contents--header .navigation {
         width: 24px;
         height: 24px;
-        background: url('../img/menu.svg') no-repeat 50%;
+        background: url('../img/menu.svg') no-repeat 0 50%;
         border: 0 none;
         float:left;
     }
 	
 	.sub .contents .contents--header .navigation--back,
-	.sub .contents .contents--header .navigation {
+	.sub .contents .contents--header .navigation,
+	.sub .contents .contents--header .navi--back {
 		line-height: 48px;
 		height: 48px;
 		margin: 0 20px 0 0;

@@ -1,6 +1,6 @@
 form.boxed{
 	width: 100%;
-	height: 470px;
+	height: 582px;
 	justify-content: center;
 	padding: 0;
 }
@@ -12,17 +12,19 @@ form.boxed{
     margin-bottom: 8px;
 }
 input[type=text] {
-    background: #F1F1F1;
+   /*  background: #F1F1F1; */
     height: 37px;
     line-height: 37px;
-    font-size: 12px !important;
+    /* font-size: 12px !important; */
 	border: 0.35px solid #dfdfdf;
 }
 
 
 .default {
 	align-self: center; 
-	padding: 39px 0 60px
+	padding: 40px 0 40px;
+	height: auto;
+	position: relative;
 }
 
 .default .form--controls {
@@ -40,14 +42,17 @@ input[type=text] {
 .default .form--controls label+input {
     width: auto;
 	border: 1px solid #dfdfdf;
+	/* margin-bottom: 10px; */
 }
 
-.default .email.form--controls label+input{
-	margin-bottom: 36px;
+.default .email.form--controls label+input,
+.default .name.form--controls label+input,
+.default .nickname.form--controls label+input{
+	margin-bottom: 15px;
 }
 
 .region {
-    margin-top: 36px;
+    margin-top: 25px;
 }
 
 .region .form--controls label {
@@ -68,13 +73,17 @@ input[type=text] {
 }
 
 .region .dropdown+.dropdown--item input[name=search]{
-	/* height: 40px; */
-	height: 100%;
-	/* line-height: 40px; */
+	height: 40px;
+	/* height: 100%; */
+	line-height: 40px;
 }
 
 .region .row {
 	margin-bottom: 0;
+}
+
+.region input[type=text] {
+	font-size: 12px!important;
 }
 
 form {
@@ -109,6 +118,24 @@ form {
 
 .size--16{font-size: 18px;}
 
+.sub.member-account .btn-area{
+	position: relative;
+	margin-top: 40px;
+}
+
+.sub.member-account .change_info{
+	position: relative;
+	margin-top: 30px;
+	padding-bottom: 30px;
+}
+
+.sub.member-account .change_info .btn{
+	width: 340px;
+}
+
+.sub.member-account #country .dropdown::after{
+	right: 5px;
+}
 
 @media screen and (max-width: 800px) {	
 	.sub.member-account > header{display: none;}
@@ -131,13 +158,16 @@ form {
 		right: 0px;
 	}
 
-	.sub.member-account .mobile-only{display: block!important;}
+	.sub.member-account .mobile-only{
+		display: block!important;
+	}
 
 	.sub.member-account .btn-area{
-		position: absolute;
+		position: relative;
 		left: 0;
 		bottom: 0;
 		width: 100%;
+		margin-top: 40px;
 	}
 
 	.sub.member-account .btn-area .btn{
@@ -148,13 +178,21 @@ form {
 		flex:auto;
 		margin-right: 0;
 	}
+
 	[name=email],
-    [name=phone] {
+    [name=phone],
+	[name=name],
+	[name=nickname] {
         text-align: right;
     }
-    .email {
+
+
+	
+
+    /* .email {
         margin-bottom: 20px;
-    }
+    } */
+
     .form--controls input[type=text],
     .form--controls input[type=password],
     .form--controls input[type=number],
@@ -171,8 +209,9 @@ form {
     .form--controls input[type=email][disabled],
     .form--controls input[type=url][disabled],
     .form--controls input[type=tel][disabled] {
-        border: 0 none !important;
-        height: 16px;
+		border: 0 none !important;
+		/* height: 16px; */
+		background-color:rgba(239, 239, 239, 0.3);
     }
 
     .inside {
@@ -209,17 +248,32 @@ form {
 		font-family: "Noto Sans KR";
 	}
 
-	.default .email.form--controls label+input, .default .phone.form--controls label+input{
+	
+	.default .email.form--controls,
+	.default .name.form--controls,
+	.default .nickname.form--controls{
+		margin-bottom: 15px;
+	}
+
+	.default .form--controls label{
+		width: 40%;
+	}
+
+	.default .email.form--controls label+input, 
+	.default .name.form--controls label+input,
+	.default .nickname.form--controls label+input,
+	.default .phone.form--controls label+input{
 		display: inline-block;
 		height: 35px;
 		line-height: 35px;
 		font-size: 16px;
 		margin-bottom: 0;
 		padding-left: 0;
-		width: 100%;
+		padding-right: 10px;
+		flex:1 1 auto;
 	}
 	.default .address.form--controls{
-		margin-top: 25px;
+		margin-top: 15px;
 	}
 
     .region::before {
@@ -237,7 +291,7 @@ form {
 
     .region .row {
         flex-direction: column;
-        row-gap: 25px;
+        row-gap: 15px;
     }
     .region .row .col-6 {
         display: flex;
@@ -250,11 +304,12 @@ form {
 	.region .row .col-6 input{
 		height: 35px;
 		line-height: 35px;
-		width: 50%!important;
+		width:auto!important;
+		flex: 1 1 auto;
 	}
 
 	.region .row .col-6 .dropdown+.dropdown--item input[name=search]{
-		width: 100%;
+		width: 100%!important;
 	}
 
 	.region .form--controls label{
@@ -264,11 +319,12 @@ form {
 		font-size: 16px;
 		font-weight: 500;
 		margin-bottom: 0;
-		width: 50%;
+		width: 40%;
 	}
 
 	.region .form--controls #country{
-		width: 50%!important;
+		width:auto!important;
+		flex: 1 1 auto;
 		box-sizing: border-box;
 		height: 35px;
 		line-height: 35px;
@@ -287,19 +343,26 @@ form {
 		margin-bottom: 0;
 		padding-left: 10px;
 		padding-right: 10px;
-		width: 50%!important;
+		width:auto!important;
+		flex: 1 1 auto;
 	}
 
 	.region .dropdown+.dropdown--item input[name=search]{
 		height: 35px;
 		line-height: 35px;
 	}
+	
+	.region .form--controls{
+		margin-top: 15px;
+	}
+
+	
 
 	.sub.member-account .text--red.mobile-only{
 		text-align: center;
 	}
 
-	.default .addressDesc{display: none;}
+	/* .default .addressDesc{display: none;} */
 	.desktop-only{display: none;}
 }
 
