@@ -281,15 +281,15 @@
 								</div>
 							</div>
 						</div>
-						<div class="form--controls border" style="margin-bottom: 10px">
-							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>1일 출금 가능금액</label>
-							<div class="input bg--lightgray b--dfdfdf" style="height: 40px;display:block;padding: 0;">
-								<div class="input--group">
-									<input type="text" id="tradable_today" value="" disabled class="bg--none b-none text-right text-black" data-bind="user_wallet.KRW.tradable_today" data-format="comma">
-									<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
-								</div>
-							</div>
-						</div>
+<!--						<div class="form&#45;&#45;controls border" style="margin-bottom: 10px">-->
+<!--							<label for="eth" class="form&#45;&#45;label" style="margin-bottom: 7px" data-i18n>1일 출금 가능금액</label>-->
+<!--							<div class="input bg&#45;&#45;lightgray b&#45;&#45;dfdfdf" style="height: 40px;display:block;padding: 0;">-->
+<!--								<div class="input&#45;&#45;group">-->
+<!--									<input type="text" id="tradable_today" value="" disabled class="bg&#45;&#45;none b-none text-right text-black" data-bind="user_wallet.KRW.tradable_today" data-format="comma">-->
+<!--									<div type="button" class="btn btn&#45;&#45;gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
 						<div class="form--controls input--box" style="margin-bottom: 10px">
 							<label for="price" class="form--label" style="margin-bottom: 7px" data-i18n>출금하실 금액</label>
 							<div class="input b--dfdfdf" style="height: 40px;display:block;padding: 0;">
@@ -329,7 +329,7 @@
 							
 							<div class="input b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group">
-									<input type="text" id="address" name="address" readonly data-bind="user_wallet.KRW.address" style="text-align:left">
+									<input type="text" id="address" name="address" readonly data-bind="user_info.bank_full" style="text-align:left">
 									<button type="button" class="btn btn--copy btn--blue-gray"data-clipboard-target="[name=address]"  data-i18n>복사</button>
 								</div>
 							</div>
