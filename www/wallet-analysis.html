@@ -25,29 +25,29 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1664432732">
-<link rel="stylesheet" href="./assets/css/header.css?t=1664350978">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
-<link rel="stylesheet" href="./assets/css/components.css?t=1665623327">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1665621101">
-<link rel="stylesheet" href="./assets/css/wallet.css?t=1665029461">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1665019566">
+<link rel="stylesheet" href="./assets/css/common.css?t=1665716756">
+<link rel="stylesheet" href="./assets/css/header.css?t=1666159872">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1665716756">
+<link rel="stylesheet" href="./assets/css/components.css?t=1666169217">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1666159872">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1666159872">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/components.js?t=1665517547"></script>
-<script src="./assets/js/api.js?t=1664349972"></script>
-<script src="./assets/js/qrcode.min.js?t=1661823297"></script>
+<script src="./assets/js/components.js?t=1666081829"></script>
+<script src="./assets/js/api.js?t=1665971478"></script>
+<script src="./assets/js/qrcode.min.js?t=1665019566"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
-<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1665030514"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1665019566"></script>
+<script src="./assets/js/lib/security.min.js?t=1665019566"></script>
+<script src="./i18n/i18n.js?t=1665716756"></script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<!-- <script type="text/javascript" src="./assets/js/transaction.js?t=1661823297" defer></script> -->
+<!-- <script type="text/javascript" src="./assets/js/transaction.js?t=1665019566" defer></script> -->
 
 </head>
 <!-- BODY -->
@@ -150,9 +150,13 @@
 			<div class="contents">
 				<header class="contents--header">
 					<button type="button" class="navigation--back"></button>
-					<h1 data-i18n class="desktop-only">Profit and Loss Analysis</h1>
+					<h1 data-i18n>Profit and Loss Analysis</h1>
 				</header>
-				<h1 class="size--20 mobile-only"><i class="icon-user-fill icon-transaction"></i> <span data-i18n>Profit and Loss Analysis</span></h1>
+				<div class="wallet-analysis--header mobile-only">
+					<h2>
+						<i class="icon-user-fill icon-transaction"></i> <span data-i18n>Profit and Loss Analysis</span>
+					</h2>
+				</div>
 				<div class="d-flex mobile-only period" style="margin-bottom: 16px">
 					<div class="dropdown-wrapper">
 						<button type="button" class="dropdown" data-i18n>기간</button>
@@ -259,7 +263,7 @@
 												<tr name="empty" style="display:none">
 													<td colspan="7" class="text-center" data-i18n>조회내용이 없습니다.</td>
 												</tr>
-												<tr name="search" style="">
+												<tr name="search">
 													<td colspan="7" class="text-center" data-i18n>조회중입니다.</td>
 												</tr>
 												<tr name="tpl" style="display:none">
@@ -268,7 +272,7 @@
 														<img src="{coin.icon_url}" style="height:24px;width:24px;">
 														{coin.name}
 													</td>
-													<td class="pcenter text-center mergeTd">
+													<td class="pcenter text-center mergeTd cord">
 														{coin.SYMBOL}
 													</td>
 													<td class="pcenter text-right numberDiv">
@@ -280,10 +284,10 @@
 														<div class="symbol_div">≈{coin.final_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">{coin.deposit_evaluation_amount} KRW</div>
+														<div class="number_div text-center">{coin.deposit_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-right mergeTd light">
-														<div class="number_div">{coin.withdraw_evaluation_amount} KRW</div>
+														<div class="number_div text-center">{coin.withdraw_evaluation_amount} KRW</div>
 													</td>
 													<td class="pcenter text-center mergeTd light">
 														<div class="btnArea">
@@ -327,7 +331,7 @@
 		</main>
 	</div>
 
-    <script src="./assets/js/app.js?t=1665714209"></script>
+    <script src="./assets/js/app.js?t=1666083617"></script>
 
 </body>
 </html>

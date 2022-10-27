@@ -26,23 +26,23 @@
 <link rel="preconnect" href="https://code.jquery.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1664432732">
-<link rel="stylesheet" href="./assets/css/header.css?t=1664350978">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
-<link rel="stylesheet" href="./assets/css/components.css?t=1665623327">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1665621101">
-<link rel="stylesheet" href="./assets/css/wallet.css?t=1665029461">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1665019566">
+<link rel="stylesheet" href="./assets/css/common.css?t=1665716756">
+<link rel="stylesheet" href="./assets/css/header.css?t=1666159872">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1665716756">
+<link rel="stylesheet" href="./assets/css/components.css?t=1666169217">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1666159872">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1666159872">
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/api.js?t=1664349972"></script>
-<script src="./assets/js/components.js?t=1665517547"></script>
-<script src="./assets/js/qrcode.min.js?t=1661823297"></script>
+<script src="./assets/js/api.js?t=1665971478"></script>
+<script src="./assets/js/components.js?t=1666081829"></script>
+<script src="./assets/js/qrcode.min.js?t=1665019566"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
-<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1665030514"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1665019566"></script>
+<script src="./assets/js/lib/security.min.js?t=1665019566"></script>
+<script src="./i18n/i18n.js?t=1665716756"></script>
 
 </head>
 <!-- BODY -->
@@ -147,7 +147,7 @@
 					<button type="button" class="navigation--back"></button>
 					<h1 data-i18n>My Wallet</h1>
 				</header>
-				<h2 class="m-0 mobile-only" style="margin-bottom: 32px !important"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></h2>
+				<h2 class="mobile-only" style="margin-bottom: 32px !important"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></h2>
 				<section class="d-grid wallet-summary">
 					<div class="grid">
 						<label data-i18n>총 보유 자산</label>
@@ -185,131 +185,89 @@
 				</section>
 				<div class="d-grid wallet--grid loading">
 					<!-- <div class="grid" style="border-left-color: #000000;">
-						<div class="item_icon" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
-						<div class="item_name desktop-only">Goon #5562</div>
+						<div class="grid--inner-left">
+							<div class="item_img" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
+							<div class="item_name desktop-only">Goon #5562</div>
+						</div>
 						<div class="grid--inner-right">
-							<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">Goon #5562</div>
-								<div class="wallet--price">1,000 GBULF3LZMU</div>
+							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">Goon #5562</div>
+								<div class="wallet--price">1,000 개</div>
 								<div class="wallet--market-price">≈ 100,000 KRW</div>
 							</div>
 							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=GBULF3LZMU" class="btn btn--red btn--rounded">입금</a>
-								<a href="wallet-withdrawal.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded">출금</a>
+								<a href="wallet-deposit.html?symbol=GBULF3LZMU" class="btn btn--red btn--rounded" style="display:none">입금</a>
+								<a href="wallet-withdrawal.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded" style="display:none">출금</a>
+								<a href="exchange.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded">거래</a>
 							</div>
 						</div>
 					</div>
-					<div class="grid" style="border-left-color: #6b6f78;">
-						<div class="item_icon" style="background-image: url(https://kmcse.s3.ap-northeast-2.amazonaws.com/202208/11c8405505e6448d8dcfd2147329ddc8ed9bda87feda41abf0997ad998bfbe60.jpg);"></div>
-						<div class="item_name desktop-only">마이크</div>
-						<div class="grid--inner-right">
-							<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">마이크</div>
-								<div class="wallet--price">989.3465 GC9ZZVCIIS</div>
-								<div class="wallet--market-price">≈ 261,187,476 KRW</div>
-							</div>
-							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=GC9ZZVCIIS" class="btn btn--red btn--rounded">입금</a>
-								<a href="wallet-withdrawal.html?symbol=GC9ZZVCIIS" class="btn btn--withdrawal btn--rounded">출금</a>
-							</div>
+					<div class="grid" style="border-left-color: #000000;">
+						<div class="grid--inner-left">
+							<div class="item_img" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
+							<div class="item_name desktop-only">Goon #5562</div>
 						</div>
-					</div> -->
-					<!-- <div class="grid" style="border-left-color: #000000;background-image: url(https://kmcse.s3.ap-northeast-2.amazonaws.com/202208/1ae25c61f8b0f0fcd0634d40a2562798d15b6c9f5e0cab8b7e4e3911e1259036.png);"><div>test-mike</div>
 						<div class="grid--inner-right">
-							<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">test-mike</div>
-								<div class="wallet--price">1,000 GCA18KTDKK</div>
+							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">Goon #5562</div>
+								<div class="wallet--price">1,000 개</div>
 								<div class="wallet--market-price">≈ 100,000 KRW</div>
 							</div>
 							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=GCA18KTDKK" class="btn btn--red btn--rounded">입금</a>
-								<a href="wallet-withdrawal.html?symbol=GCA18KTDKK" class="btn btn--withdrawal btn--rounded">출금</a>
-							</div>
-						</div>
-					</div>
-					<div class="grid" style="border-left-color: #000000;background-image: url(https://s3.ap-northeast-2.amazonaws.com/testcdn.cexstock.com/tmp/202209/3ada5c975ea3ed62364b870ec756d3e982a0d3a7e4935ecd576d1a9421b603d6.jpg);"><div>8892 후기홍인</div>
-						<div class="grid--inner-right">
-							<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">8892 후기홍인</div>
-								<div class="wallet--price">0 GDHSX7J4UP</div>
-								<div class="wallet--market-price">≈ 0 KRW</div>
-							</div>
-							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=GDHSX7J4UP" class="btn btn--red btn--rounded">입금</a>
-								<a href="wallet-withdrawal.html?symbol=GDHSX7J4UP" class="btn btn--withdrawal btn--rounded">출금</a>
-							</div>
-						</div>
-					</div>
-					<div class="grid" style="border-left-color: #000000;background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"><div>대한민국, 원</div>
-						<div class="grid--inner-right">
-							<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">대한민국, 원</div>
-								<div class="wallet--price">268,985.6 KRW</div>
-								
-							</div>
-							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=KRW" class="btn btn--red btn--rounded">입금</a>
-								<a href="wallet-withdrawal.html?symbol=KRW" class="btn btn--withdrawal btn--rounded">출금</a>
-							</div>
-						</div>
-					</div> -->
-					<!-- <div class="grid" style="border-left-color: #000000;">
-						<div class="item_icon" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
-						<div class="item_name desktop-only">US Dollar</div>
-						<div class="grid--inner-right">
-							<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">US Dollar</div>
-								<div class="wallet--price">199,949.32 KRW</div>
-								<div class="wallet--market-price">≈ 199,949.32 KRW</div>
-							</div>
-							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=KRW" class="btn btn--red btn--rounded">입금</a>
-								<a href="wallet-withdrawal.html?symbol=KRW" class="btn btn--withdrawal btn--rounded">출금</a>
+								<a href="wallet-deposit.html?symbol=GBULF3LZMU" class="btn btn--red btn--rounded" style="display:none">입금</a>
+								<a href="wallet-withdrawal.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded" style="display:none">출금</a>
+								<a href="exchange.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded">거래</a>
 							</div>
 						</div>
 					</div>
 					<div class="grid" style="border-left-color: #000000;">
-						<div class="item_icon" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
-						<div class="item_name desktop-only">US Dollar</div>
+						<div class="grid--inner-left">
+							<div class="item_img" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
+							<div class="item_name desktop-only">대한민국, 원</div>
+						</div>
 						<div class="grid--inner-right">
-							<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">US Dollar</div>
-								<div class="wallet--price">199,949.32 KRW</div>
-								<div class="wallet--market-price">≈ 199,949.32 KRW</div>
+							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">대한민국, 원</div>
+								<div class="wallet--price">1,846,972.6 KRW</div>
 							</div>
 							<div class="wallet--btn">
 								<a href="wallet-deposit.html?symbol=KRW" class="btn btn--red btn--rounded">입금</a>
 								<a href="wallet-withdrawal.html?symbol=KRW" class="btn btn--withdrawal btn--rounded">출금</a>
+								<a href="exchange.html?symbol=KRW" class="btn btn--withdrawal btn--rounded" style="display:none">거래</a>
 							</div>
 						</div>
 					</div>
 					<div class="grid" style="border-left-color: #000000;">
-						<div class="item_icon" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
-						<div class="item_name desktop-only">US Dollar</div>
+						<div class="grid--inner-left">
+							<div class="item_img" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
+							<div class="item_name desktop-only">대한민국, 원</div>
+						</div>
 						<div class="grid--inner-right">
-							<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">US Dollar</div>
-								<div class="wallet--price">199,949.32 KRW</div>
-								<div class="wallet--market-price">≈ 199,949.32 KRW</div>
+							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">대한민국, 원</div>
+								<div class="wallet--price">1,846,972.6 KRW</div>
 							</div>
 							<div class="wallet--btn">
 								<a href="wallet-deposit.html?symbol=KRW" class="btn btn--red btn--rounded">입금</a>
 								<a href="wallet-withdrawal.html?symbol=KRW" class="btn btn--withdrawal btn--rounded">출금</a>
+								<a href="exchange.html?symbol=KRW" class="btn btn--withdrawal btn--rounded" style="display:none">거래</a>
 							</div>
 						</div>
 					</div>
 					<div class="grid" style="border-left-color: #000000;">
-						<div class="item_icon" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
-						<div class="item_name desktop-only">US Dollar</div>
+						<div class="grid--inner-left">
+							<div class="item_img" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
+							<div class="item_name desktop-only">대한민국, 원</div>
+						</div>
 						<div class="grid--inner-right">
-							<div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">US Dollar</div>
-								<div class="wallet--price">199,949.32 KRW</div>
-								<div class="wallet--market-price">≈ 199,949.32 KRW</div>
+							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">대한민국, 원</div>
+								<div class="wallet--price">1,846,972.6 KRW</div>
 							</div>
 							<div class="wallet--btn">
 								<a href="wallet-deposit.html?symbol=KRW" class="btn btn--red btn--rounded">입금</a>
 								<a href="wallet-withdrawal.html?symbol=KRW" class="btn btn--withdrawal btn--rounded">출금</a>
+								<a href="exchange.html?symbol=KRW" class="btn btn--withdrawal btn--rounded" style="display:none">거래</a>
 							</div>
 						</div>
 					</div> -->
@@ -359,8 +317,12 @@
 								const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
 
 								const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-								grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
-								grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
+								grid.append(`<div class="grid--inner-left">
+									<div class='item_img' style="background-image: url(${item.icon_url});"></div>
+									<div class='item_name desktop-only'>${item.name}</div>
+								</div>`)
+								// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
+								// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
 								grid.append(`
 								<div class="grid--inner-right">
 									<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
@@ -453,7 +415,7 @@
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
 
-    <script src="./assets/js/app.js?t=1665714209"></script>
+    <script src="./assets/js/app.js?t=1666083617"></script>
 
 </body>
 </html>

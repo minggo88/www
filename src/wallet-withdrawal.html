@@ -217,7 +217,7 @@
 					</ul>
 				</nav>
 			</aside>
-			<div class="contents">
+			<section class="contents">
 				<header class="contents--header">
 					<button type="button" class="navigation--back"></button>
 					<h1 data-i18n>출금</h1>
@@ -237,7 +237,7 @@
 					</div>
 				</div> -->
 				<div class="d-grid deposit">
-					<section class="grid" style="height: 584px">
+					<section class="grid" style="height: auto !important">
 						<h1 data-i18n>출금안내</h1>
 						<div style="padding-left: 9px">
 							<ul style=" margin-bottom: 20px">
@@ -247,7 +247,7 @@
 							</ul>
 						</div>
 						<h1 data-i18n>요금안내</h1> 
-						<div style="width:330px; margin-top: 14px; padding-left: 8px;box-sizing: border-box">
+						<div style="width:100%; margin-top: 14px; padding-left: 8px;box-sizing: border-box">
 							<dl>
 								<dt class="size--14" id="fee_out" style="height: 32px; line-height: 32px" data-i18n>출금수수료</dt>
 								<dd class="size--14 text-red" style="height: 32px; line-height: 32px"><span data-bind="withdraw_currency.fee_out_str">0 KRW</span></dd>
@@ -297,7 +297,7 @@
 							<label for="price" class="form--label" style="margin-bottom: 7px" data-i18n>출금하실 금액</label>
 							<div class="input b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group">
-									<input type="text" id="amount" name="amount"  value="0" inputmode="numeric" class="bg--none b-none text-right text-black">
+									<input type="text" id="amount" name="amount"  value="0" inputmode="numeric" class="bg--none b-none text-right text-black blurrealnumber onlynum">
 									<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 								</div>
 							</div>
@@ -347,7 +347,7 @@
 				<div class="mobile-only btnArea">
 					<a href="#" class="btn btn--red" data-i18n name="btn-withdraw">출금신청</a>
 				</div>
-			</div>
+			</section>
 		</main>
 	</div>
     <!-- <footer class="desktop-only">
