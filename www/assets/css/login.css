@@ -8,6 +8,8 @@ main {
 	margin: 0;
 	align-items: center;
 	justify-content: center;
+	max-width: 340px;
+	width: 100%;
 }
 
 .email {
@@ -49,6 +51,17 @@ main {
 	background-size: 7.42px 14.02px;
 }
 
+
+.sub.create-account main{
+	padding:0
+}
+
+.create-account section form{
+	height: auto;
+	/* max-width: 340px;
+	width: 100%; */
+	width: auto;
+}
 
 .create-account .grid--code {
 	margin-top: 75px;
@@ -116,23 +129,34 @@ main {
 	color: var(--red-up);
 }
 
+.create-account .guide--step .size--16{
+	width: 100%;
+}
+.create-account form .form--header + p{
+	word-break: break-all;
+}
+
 /* .login .mobile-only-block{display: none;} */
 
-@media screen and (max-width: 1300px) {
-	.create-account main{
+@media screen and (min-width: 1071px) and (max-width: 1300px) {
+	/* .create-account main{
 		flex-direction: column;
-	}
+	} */
 
-	.create-account .step--list{
+	/* .create-account .step--list{
 		width: 340px;
 		position: static;
 		top: 465px;
 		left: 0;
 		align-self: center;
 		transform: inherit;
-	}
+	} */
 	
-	.create-account .step--list .step--header {
+	.create-account .step--list{
+		left: 0;
+	}
+
+	/* .create-account .step--list .step--header {
 		display: block;
     }
 	.create-account .step--list ol{
@@ -152,52 +176,10 @@ main {
 		height: 22px;
 		line-height: 22px;
 		font-size: 14px;
-	}
+	} */
 }
 
-
-@media screen and (min-width: 801px) and (max-width: 1300px) {
-	.create-account section form{
-		height: 530px;
-	}
-}
-
-@media screen and (max-width: 800px) {
-	.create-account > header,
-	.login > header{
-		display: none;
-	}
-
-	.create-account .box-mobile-menu{
-		display: none;
-	}
-	.login main{
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0!important;
-	}
-	.login form{height: auto;}
-
-	.create-account main{
-		align-items: center;
-		justify-content: flex-start;
-		padding: 15px 16px 56px 16px!important;
-	}
-	
-	form .form--header h1 {
-        color: var(--basic-black);
-    }
-
-	.create-account .guide .guide--step .guide--desc {
-		font-size: 12px;
-		color: #777777;
-	}
-
-	.create-account .grid--code {
-		align-self: center;
-	}
-
+@media screen and (max-width: 1070px) {
 	.create-account .rounded{
 		width: 20px;
 		height: 20px;
@@ -234,9 +216,53 @@ main {
 	.sub.login.create-account .step--list{
 		width: initial;
 		position: absolute;
-		top: inherit;
+		top: -50px;
 		left: 50%;
 		transform: translateX(-50%);
+	}
+}
+
+
+/* @media screen and (min-width: 801px) and (max-width: 1300px) {
+	.create-account section form{
+		height: 530px;
+	}
+} */
+
+@media screen and (max-width: 800px) {
+	.create-account > header,
+	.login > header{
+		display: none;
+	}
+
+	.create-account .box-mobile-menu{
+		display: none;
+	}
+	.login main{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		/* padding: 0!important; */
+	}
+	.login form{height: auto;}
+
+	.create-account main{
+		align-items: center;
+		justify-content: center;
+		padding: 15px 16px 56px 16px!important;
+	}
+	
+	form .form--header h1 {
+        color: var(--basic-black);
+    }
+
+	.create-account .guide .guide--step .guide--desc {
+		font-size: 12px;
+		color: #777777;
+	}
+
+	.create-account .grid--code {
+		align-self: center;
 	}
 
 	.create-account div.form--controls:nth-child(1){
@@ -273,11 +299,15 @@ main {
         background: url('../img/icon/icon-next.svg') no-repeat 50%;
         background-size: 7.42px 14.02px;
     }
-	/* .form--btns{margin-top: 54px;} */
-	/* .login.forget .validation--message{
-		background: transparent url(../img/icon/ico-warn-pink.svg) no-repeat 2px 5px;
-	} */
-	/* .login.forget form{height: 416px;} */
+	.create-account form .form--header h1{
+		font-size: 20px;
+	}
+	.create-account form .form--header + p.size--18{
+		font-size: 16px;
+	}
+	.create-account form .form--header + p.size--18 + p.size--16{
+		font-weight: normal;
+	}
 }
 
 
@@ -353,4 +383,10 @@ main {
 	.login.forget .validation--message{
 		background: transparent url(../img/icon/ico-warn-pink.svg) no-repeat 2px 5px;
 	}
+
+	.create-account form .form--header + p{
+		word-break: keep-all;
+		font-size: 14px;
+	}
 }
+

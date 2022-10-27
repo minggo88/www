@@ -102,6 +102,31 @@
 } */
 
 
+.sub.transaction .symbol-select{
+	border: 0.35px solid #DFDFDF;
+	border-radius: 3px;
+	width: 20%;
+}
+
+
+.sub.transaction .symbol-select .dropdown+.dropdown--item{
+	min-width: initial;
+}
+
+.sub.transaction .symbol-select .dropdown+.dropdown--item input[name=search]{
+	height: 40px;
+	line-height: 40px;
+	width: 100%;
+}
+
+.sub.transaction .symbol-select .dropdown::after{
+	right: 5px;
+}
+
+.sub.transaction .desktop-only .btn.btn--red{
+	width: 110px;
+}
+
 
 /* ############################ */
 @media screen and (min-width:801px) and (max-width: 1440px){
@@ -110,33 +135,18 @@
 	}
 }
 
-@media screen and (max-width: 1200px){
-	.sub.transaction .side{display: none;}
-	.sub.transaction main{
-		padding-top: 30px;
-	}
+/* @media screen and (max-width: 1070px){
 	.sub.transaction .content_wrap .contents {
 		max-width: initial;
 	}
-}
+} */
 
 
 
 @media screen and (max-width: 800px){
 	.sub.transaction > header{display: none;}
 
-	.sub.transaction main{
-		display: flex;
-		justify-content: flex-start;
-		padding:0 30px;
-	}
-
-	.sub.transaction main header.contents--header{
-		display: flex; 
-		border-bottom: none; 
-		margin-bottom: 0;
-		line-height: 60px; 
-		padding-left: 0;
+	.sub.transaction .contents .contents--header{
 		justify-content: space-between;
 		align-items: center;
 	}
@@ -153,34 +163,11 @@
 	.sub.transaction .contents--header > div .icon-setting{
 		background: url('../img/icon/icon-setting.svg') no-repeat 50%;
 	}
-	.sub.transaction main header.contents--header{
-		line-height: 60px; 
-		padding-left: 0;
-		margin-bottom: 0;
-		border-bottom: none;
-		display: flex;
+
+	.sub.transaction .contents .contents--header h1{
+		color: var(--red-up);
 	}
 
-	.sub.transaction main header.contents--header h1{
-		color: #333;
-		padding-left: 31px;
-	}
-
-	.sub.transaction .navigation{
-		display: block;
-		width: 24px;
-		height: 24px;
-		background: url(../img/menu.svg) no-repeat 50%;
-		border: 0 none;
-		float: left;
-		
-	}
-
-	.sub.transaction .contents h1.size--20.mobile-only{
-		margin:24px 0 31px;
-		height: 20px;
-		line-height: 20px;
-	}
 	.sub.transaction .contents .icon-transaction{
 		background: url('../img/icon/icon-transaction-red.svg') no-repeat 50%;
 		background-size: contain;
@@ -194,6 +181,17 @@
 	.sub.transaction .desktop-only{display: none!important;}
 	.sub.transaction .mobile-only{display: block!important;}
 
+	.sub.transaction .period > div:nth-of-type(1) .dropdown-wrapper:nth-child(1){
+		width: 140px;
+		padding-left: 0px;
+	}
+
+	.sub.transaction .period > div:nth-of-type(1) .dropdown-wrapper:nth-child(1) .dropdown+.dropdown--item input[name=search]{
+		height: 40px;
+		line-height: 40px;
+		width: 100%;
+	}
+
 	.sub.transaction .period{
 		padding-bottom:28px;
 		border-bottom: 8px solid #f5f5f5;
@@ -204,7 +202,7 @@
 
 	.sub.transaction .period .dropdown{
 		padding: 0;
-		padding-left: 10px;
+		/* padding-left: 10px; */
 		justify-content: space-between;
 	}
 	.sub.transaction .period .dropdown:after,
@@ -234,10 +232,6 @@
 
 	/* ########################################################################### */
 	/* tab head */
-	/* .sub.transaction .board--body .tab_bar{
-		position: relative;
-	} */
-
 	.sub.transaction .board--body .tab_bar .background{
 		display: none;
 		position: fixed;
@@ -352,6 +346,7 @@
 		font-weight: 400;
 	}
 
+	
 	/* ############################################################################# */
 	.m-transaction--list{
 		width: 100%;
@@ -389,29 +384,11 @@
 	.m-transaction--list.accordion .accordion--item .accordion--header {
 		height: 102px;
 		background: var(--white);
-		/* font-weight: 700;
-		font-size: 18px;
-		position: relative;
-		display: flex;
-		line-height: 1;
-		align-items: center; */
 	}
 	.m-transaction--list.accordion .accordion--item .accordion--header::after {
-		/* width: 35px;
-		height: 37px;
-		content: "";
-		display: block;
-		background: url('../img/btn-rolldown.svg') no-repeat;
-		position: absolute; */
 		right: 0px;
-		/* top: 50%;
-		transform: translateY(-50%); */
 	}
 	.m-transaction--list.accordion .accordion--item .accordion--header a {
-		/* display: flex;
-		align-items: center;
-		flex: 1 1 auto;
-		height: 100%; */
 		width: 80%;
 		padding: 0 48px 0 0;
 		justify-content: space-between;
@@ -478,27 +455,4 @@
 		display: inline;
 		float: right;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-@media screen and (max-width: 600px){
-	.sub.transaction main header.contents--header{line-height: 48px;}
-	.sub.transaction .navigation--back{height: 48px;}
 }

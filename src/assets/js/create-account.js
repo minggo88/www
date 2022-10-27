@@ -104,6 +104,27 @@ $(function () {
             return false
         }
 
+
+        if (/^.{8,}$/.test(password.val()) === false) {
+            alert('비밀번호는 8 자리 이상 입력 해주세요.');
+            return false;
+        }
+
+        if (/^(?=.*[a-z]).*$/.test(password.val()) === false) {
+            alert('비밀번호는 영문자 포함해서 입력 해주세요.');
+            return false;
+        }
+
+        if (/^(?=.*[0-9]).*$/.test(password.val()) === false) {
+            alert('비밀번호는 숫자 포함해서 입력 해주세요.');
+            return false;
+        }
+
+        if (/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(password.val()) === false) {
+            alert('비밀번호는 특수문자 포함해서 입력 해주세요.');
+            return false;
+        }
+
         if (!$('#terms_of_service').is(':checked')) {
             alert('이용약관 동의에 체크 해주세요.');
             return false;
