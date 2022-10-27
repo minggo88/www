@@ -192,6 +192,15 @@
     height: 24px;
     background: url('../img/icon/icon-setting.svg') no-repeat 50%;
 }
+
+.icon-shield{
+	width: 24px;
+	height: 24px;
+	background: url(../img/icon/icon-shield.svg) no-repeat 50%;
+	/* background-size: cover; */
+	/* margin-right: 5px; */
+}
+
 [class^=ico-] {
     width: 16.79px;
     height: 14.9px;

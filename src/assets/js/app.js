@@ -1797,7 +1797,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
 
             if (!selected_symbol) {
-                alert('상품을 선택하세요.ㄴ');
+                alert('상품을 선택하세요.');
                 return false;
             }
 
@@ -1825,7 +1825,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
 
             if (!selected_symbol) {
-                alert('상품을 선택하세요.ㄴ');
+                alert('상품을 선택하세요.');
                 return false;
             }
 
