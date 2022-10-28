@@ -240,6 +240,21 @@ div.dts div.dataTables_scrollBody {
     margin-bottom: 40px;
 }
 
+.input_select{
+    width: 100%;
+    box-sizing: border-box;
+    height: 35px;
+}
+
+.input_select select{
+	border: 0.5px solid var(--linegray);
+	width: 100%;
+	height: 100%;
+	padding: 0 10px;
+	font-weight: 500;
+    font-size: 18px;
+}
+
 @media screen  and (max-width: 1440px){
 	
 	.details--body .details--price {

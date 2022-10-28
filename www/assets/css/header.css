@@ -200,7 +200,7 @@ header .logo a {
 	flex-direction: column;
 	justify-content: flex-start;
 	margin-top: 30px;
-	row-gap: 10%;
+	row-gap: 10px;
 	column-gap: initial;
 }
 
@@ -212,6 +212,12 @@ header .logo a {
 
 .nav--side.mobile .language .dropdown+.dropdown--item{
 	left: 0;
+}
+
+.nav--side.mobile .btn--login,
+.nav--side.mobile .btn--logout{
+	height: 25px;
+	line-height: 25px;
 }
 /* ####################################### */
 
@@ -257,7 +263,7 @@ header .logo a {
 	.box-mobile-menu {
         display: block;
         position: absolute;
-        z-index: 50;
+        z-index: 1002;
         text-align: center;
         width: 60px;
 		height: 60px;
@@ -296,6 +302,7 @@ header .logo a {
         height: 100vh;
         padding-top: 85px;
 		padding-left: 0;
+		z-index: 1001;
     }
 
     .gnb > * {
