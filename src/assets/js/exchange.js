@@ -1,4 +1,3 @@
-
 let USER_INFO = {}
 API.getMyInfo((resp) => {
     if(resp.success) {
@@ -835,9 +834,10 @@ $(function() {
                 }
             },
             // 타입
+            // { data: 'meta_type', render: (data, _type, row) => { return data ? data : '' } },
             { data: 'display_grade' },
             // 생산년도
-            { data: 'meta_wp_production_date' },
+            { data: 'meta_wp_production_date', render: (data, _type, row) => { return data ? data : '' } },
             // 현재가
             {
                 data: 'price', responsivePriority: 1, render: (data, _type, row) => {
@@ -853,15 +853,17 @@ $(function() {
             // 전일대비
             {
                 data: (row, _type, _set) => {
-                    const diff = row.price_close > 0 && row.price_close > 0 ? (row.price_close - row.price_open) / row.price_open * 100 : 0;
-
+                    console.log('전일대비 row.price:', row.price);  
+                    console.log('전일대비 row.price_open:', row.price_open);  
+                    row.price = row.price*1
+                    row.price_open = row.price_open*1
+                    const diff = row.price > 0 && row.price > 0 ? (row.price - row.price_open) / row.price_open * 100 : 0;
                     if (typeof (Intl) !== 'undefined') {
                         return diff >= 0 ? '<span class="text-red text-bold">+' + new Intl.NumberFormat('ko-KR', {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                         }).format(diff) + '%</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>'
                     }
-    
                     return '<span class="text-red text-bold">' + real_number_format(diff) + '</span>'
                 }
             },

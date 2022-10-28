@@ -340,6 +340,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     const APP_LOAD_TIME = new Date().getTime();
     let APP_RUNMODE = 'live';
     let TOKEN_DOMAIN = window.location.host; //"";
+    // let API_URL = "https://api.kkikda.com/v1.0"; // for live
     let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
     // let API_WALLET_URL = 'https://api.wallet.smart-talk.io/v1.0';
     SERVICE_DOMAIN = window.location.host.replace('www.', '');
@@ -1407,6 +1408,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             if (r && r.success && !r.error) {
                 let user_info = r.payload;
                 Model.user_info = user_info;
+                user_info.bank_full = user_info.bank_name +' / '+ user_info.bank_account +' / '+ user_info.bank_owner;
                 force_rander('user_info', user_info);
                 reset_logedin_status();
             }
@@ -1669,7 +1671,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             $('#bool_confirm_bank').val('0');
         })
 
-        $('.box-image-selector .preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
+        $('.preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
 
         $('[name="btn_save"]').on('click', function () {
             if (!$('input[name="bank_name"]').val()) {
@@ -2285,7 +2287,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             // console.log('getCountry resp:', resp)
             let firstItem = ''
             resp.payload.map((country) => {
-                console.log(country);
+                // console.log(country);
                 if(!firstItem) {
                     firstItem = country.code.toLowerCase()
                 }
@@ -2395,17 +2397,18 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $('.box-image-selector .preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
 
         $('[name="btn_save"]').on('click', function () { 
-            if (!$('#verification4 #file_identify_url').val()) {
-                alert(__('신분증 사진을 선택해주세요.'))
+            if (!$('#verification4 #file_identify_url').val() && !$('#verification4 #image_identify_url').val()) {
+                alert(__('신분증 사진을 선택해주세요.')); return false;
             }
-            if (!$('#verification4 #file_mix_url').val()) {
-                alert(__('신분증 및 회원 사진을 선택해주세요.'))
+            if (!$('#verification4 #file_mix_url').val() && !$('#verification4 #image_mix_url').val()) {
+                alert(__('신분증 및 회원 사진을 선택해주세요.')); return false;
             }
             add_request_item('putMyInfo', unserialize($('#verification4').serialize()), function (r) { 
                 console.log(r);
                 if (r?.success) {
                     alert(__('저장했습니다.'));
                     $('[name=status_waiting]').show().siblings().hide();
+                    request_user_info();
                 } 
             })
             return false;
@@ -2497,7 +2500,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         if (Model?.withdraw_currency?.symbol != withdraw_symbol) {
             add_request_item('getCurrency', {'symbol':withdraw_symbol}, function (r) {
                 // out_max_volume_1day
-                console.log('getCurrency r:', r);
+                // console.log('getCurrency r:', r);
                 if (r && r.success) {
                     c = r.payload[0];
                     c.fee_out_str = c.fee_out_ratio > 0 ? number_format(c.fee_out_ratio * 100, 2) + ' %' : (c.fee_out > 0 ? real_number_format(c.fee_out) + ' ' + c.symbol : __('수수료 없음'));
@@ -2528,15 +2531,15 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             const to_address = $('[name="address"]').val();
             const pin = $('[name="pin"]').val();
             const symbol = Model.withdraw_currency.symbol;
-            console.log(to_address)
-            // add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
-            //     if (r?.success) {
-            //         alert(__('출금신청을 완료했습니다.'));
-            //     } else {
-            //         const msg = r?.error?.message || '';
-            //         alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
-            //     }
-            // })
+            // console.log(to_address)
+            add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
+                if (r?.success) {
+                    alert(__('출금신청을 완료했습니다.'));
+                } else {
+                    const msg = r?.error?.message || '';
+                    alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
+                }
+            })
         })
 
         // 출금수수료 계산
