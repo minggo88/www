@@ -145,10 +145,10 @@ function unserialize(serializedData) {
 }
 
 function real_number_format(n, d) {
-    if (!d && Number(n) === n && n % 1 !== 0) d = 6; // float 숫자의 무의미한 소숫점을 제거하기위해 d 값 미설정시 8자리로 사용합니다.
+    if (!d && Number(n) === n && n % 1 !== 0) d = 0; // float 숫자의 무의미한 소숫점을 제거하기위해 d 값 미설정시 8자리로 사용합니다.
 	if(typeof n==typeof undefined || n=='' || is_null(n) || is_nan(n) ){n='0';}
 	var sign = n<0 ? '-':''; 
-	if(d) { n = number_format(n, d); }
+	n = number_format(n, d);
 	n = n+'';
 	n = n.replace(/[^0-9.]/g,'');
 	var r = n.split('.');
