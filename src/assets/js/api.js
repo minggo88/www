@@ -1,8 +1,8 @@
 const API = {
     
     BASE_URL: function() {
-        // let API_URL = "https://api.kkikda.com/v1.0"; // for live
-        let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
+        // let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
+        let API_URL = "https://api.assettea.com/v1.0"; // for live
         if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
             API_URL = "//api." + (window.location.host) + "/v1.0";
         }

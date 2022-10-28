@@ -340,9 +340,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     const APP_LOAD_TIME = new Date().getTime();
     let APP_RUNMODE = 'live';
     let TOKEN_DOMAIN = window.location.host; //"";
-    // let API_URL = "https://api.kkikda.com/v1.0"; // for live
-    let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
+    // let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
     // let API_WALLET_URL = 'https://api.wallet.smart-talk.io/v1.0';
+    let API_URL = "https://api.assettea.com/v1.0"; // for live
     SERVICE_DOMAIN = window.location.host.replace('www.', '');
     if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1 || window.location.host.indexOf('src.') !== -1) {
         APP_RUNMODE = "loc";
