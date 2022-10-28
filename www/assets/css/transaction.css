@@ -456,3 +456,19 @@
 		float: right;
 	}
 }
+
+@media screen and (max-width: 380px){
+	.sub.transaction .range_btn {
+		flex-direction: column;
+	}
+
+	.sub.transaction .period .daterange{
+		margin-bottom: 10px;
+		margin-right: 0!important;
+		width: 100%;
+	}
+
+	.sub.transaction .period .btn{
+		width: 100%;
+	}
+}

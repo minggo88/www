@@ -735,27 +735,28 @@
 .wallet-analysis .content_wrap{
 	height: initial;
 }
-.wallet-analysis .col-lg-12{
+
+/* .wallet-analysis .col-lg-12{
 	position: relative;
 	min-height: 1px;
-}
+} */
 
 .wallet-analysis .ibox{
-	clear:both;
+	/* clear:both; */
 	margin-bottom: 0;
 	margin-top: 0;
 	/* padding:0 50px; */
 	box-sizing: border-box;
 }
 
-.wallet-analysis .row:before{
+/* .wallet-analysis .row:before{
 	display: table;
 	content:'';
-}
+} */
 
-.wallet-analysis .row:after{
+/* .wallet-analysis .row:after{
 	clear: both;
-}
+} */
 
 .wallet-analysis .middle_div.big{
 	height: 225px;
@@ -764,7 +765,7 @@
 }
 
 .wallet-analysis .middle_div.big .total_div{
-	clear: both;
+	/* clear: both; */
     width: 100%;
     border: 1px solid #cdcdcd;
     padding: 15px;
@@ -783,7 +784,7 @@
 
 .wallet-analysis .middle_div.big .left_div,
 .wallet-analysis .middle_div.big .right_div{
-	float: right;
+	float: left;
     width: 49.5%;
     height: 137px;
     border: 1px solid #cdcdcd;
