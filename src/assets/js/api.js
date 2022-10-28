@@ -10,9 +10,9 @@ const API = {
             API_URL = "//api." + (window.location.host) + "/v1.0";
         }
         if (window.location.host.indexOf('127.0.0.1') !== -1) {
-            API_URL = "https://api.dev.kkikda.com/v1.0"
+            API_URL = "https://api.dev.assettea.com/v1.0"
         }
-        return API_URL; // 'https://api.dev.kkikda.com/v1.0'
+        return API_URL; // 'https://api.dev.assettea.com/v1.0'
     }(),
 
     /**
