@@ -48,7 +48,7 @@
 
 @media screen and (max-width: 1440px){
 	.sub .side{
-		max-width:220px;
+		min-width: 220px;
 	}
 }
 
@@ -345,125 +345,16 @@
     font-size: 14px;
 }
 
-/* .sub.service .board--pagination {
-	margin-top: 20px;
-}
-
-.sub.service .board--pagination ul {
-    display: flex;
-	align-items: center;
-	justify-content: center;
-    margin: 0;
-    padding: 0;
-    column-gap: 6px;
-}
-
-.sub.service .board--pagination li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-    text-align: center;
-    background: var(--mid-gray);
-    border-radius: 50%;
-    font-weight: 500;
-    font-size: 14px;
-}
-
-.sub.service .board--pagination li a {
-    display: block;
-}
-
-.sub.service .board--pagination li.pagination--prev,
-.sub.service .board--pagination li.pagination--next {
-    text-indent: -9999px;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-.sub.service .board--pagination li.pagination--prev {
-    background-image: url('../img/icon/icon-prev.svg');
-}
-.sub.service .board--pagination li.pagination--next {
-    background-image: url('../img/icon/icon-next.svg');
-}
-
-.sub.service .board--btn {
-    margin-top: 40px;
-    display: flex;
-    justify-content: flex-end;
-    column-gap: 10px;
-}
-
-.sub.service .board--write {
-    width: 100%;
-    height: auto;
-}
-.sub.service .board--write input[type=text],
-.sub.service .board--write input[type=password] {
-    width: calc(100% * (535 / 900));
-    height: 46px;
-    border: 0.35px solid #BDC4CB;
-    color: var(--blue-gray2);
-    box-sizing: border-box;
-    font-family: Inter;
-    font-size: 14px;
-    letter-spacing: -0.15px;
-    padding: 0 16px;
-}
-
-.sub.service .board--write textarea {
-    width: 100%;
-    height: 313px;
-    border: 0.35px solid #BDC4CB;
-    padding: 20px 16px;
-    color: var(--blue-gray2);
-    box-sizing: border-box;
-    font-family: Inter;
-    font-size: 14px;
-    letter-spacing: -0.15px;
-    resize: none;
-}
-
-.sub.service .board--write .form--controls {
-    margin-bottom: 20px;
-}
-
-.sub.service .board--write .form--controls .form--label {
-    font-family: Inter;
-    font-weight: 500;
-    font-size: 14px;
-    letter-spacing: -0.15px;
-    margin-bottom: 5px;
-} */
-
-/* @media screen and (min-width:801px) and (max-width: 1440px){
-	.sub.service main{
-		display: flex;
-		padding-left: 0;
-		padding-right: 0;
-	}
-} */
-
 @media screen and (max-width: 800px){
 	.sub.service > header{display: none;}
-	/* .sub.service .contents{margin-top: 0;} */
-	/* .sub.service main header.contents--header{
-		line-height: 60px; 
-		padding-left: 0;
-		margin-bottom: 0;
-	} */
-	/* .sub.service .navigation--back{height: 60px;} */
-	/* .sub.service main{
-		display: flex;
-		justify-content: flex-start;
-		padding:0 30px!important;
-	} */
+	.sub.service main{
+		padding-bottom: 72px!important;
+	}
+
 	.sub.service .contents .contents--header{
 		display: flex; 
 	}
-	/* .sub.service .side{display: none;} */
+	
 	.sub.service p.text--medium:nth-of-type(2){font-size: 14px; font-weight: 400;}
 	.sub.service .boxed{
 		height: fit-content;
@@ -682,30 +573,17 @@
 
 @media screen and (max-width: 800px) {
 	.sub.faq > header{display: none;}
-	/* .sub.faq .contents{margin-top: 0;} */
-	/* .sub.faq main header.contents--header{
-		height: 60px;
-		line-height: 60px; 
-		padding-left: 0;
-		margin-bottom: 0;
-	} */
-	/* .sub.faq .navigation--back{height: 60px;} */
-	/* .sub.faq main{
-		display: flex;
-		justify-content: flex-start;
-		padding:0 30px!important;
-	} */
+	.sub.faq main{
+		padding-bottom: 72px!important;
+	}
 	.sub.faq .contents .contents--header{
 		display: flex;
 	}
-	/* .sub.faq .side{display: none;} */
 	.sub.faq .desktop-only{display: none!important;}
+	.sub.faq .mobile-only{display: block!important;}
 }
 
 @media screen and (max-width: 600px){
-	/* .sub.faq main header.contents--header{line-height: 48px;}
-	.sub.faq .navigation--back{height: 48px;} */
-
 	.sub.faq{overflow-x: hidden;}
 	.sub.faq .accordion{width: 100%;}
 	.sub.faq header.accordion--header{padding-left: 0;}
@@ -756,12 +634,6 @@
 /* ###################################################### */
 /* 수정완료 */
 /* inquiry 1:1 문의 */
-
-/* .sub.inquiry .contents{
-	width: 100%;
-	max-width: 910px;
-} */
-
 #inquiry .board--list { 
     width: 100%;
     border: 0 none;
@@ -896,7 +768,7 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	box-shadow: 0px 4px 4px -4px #e2e2e2;
+	box-shadow: 0px 5px 4px -6px #e2e2e2;
 }
 
 
@@ -971,6 +843,9 @@
 
 @media screen and (max-width: 800px){
 	.sub.inquiry > header{display: none;}
+	.sub.inquiry main{
+		padding-bottom: 72px!important;
+	}
 	.sub.inquiry main header.contents--header{
 		display: flex; 
 		align-items: center; 
@@ -1107,6 +982,7 @@
 		bottom: 0;
 		width: 100%;
 		margin-top: 10px;
+		margin-bottom:20px;
 	}
 
 }
@@ -1235,6 +1111,7 @@
 		left: 0;
 		bottom: 0;
 		width: 100%;
+		margin-bottom:20px
 	}
 	
 	#inquiry_write .board--btn .btn--list{
@@ -1613,6 +1490,10 @@
 
 .sub.notification .board--list tbody td:last-of-type{
 	border-left: none;
+}
+
+.sub.notification .board--list tbody .board--empty td{
+	border-left: 0.35px solid #BDC4CB;
 }
 
 @media screen and (max-width: 1100px){
