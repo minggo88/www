@@ -123,16 +123,20 @@
 	right: 5px;
 }
 
+.sub.transaction .daterange{
+	width: 30%;
+}
+
 .sub.transaction .desktop-only .btn.btn--red{
-	width: 110px;
+	width: 120px;
 }
 
 
 /* ############################ */
-@media screen and (min-width:801px) and (max-width: 1440px){
-	.sub.transaction .daterange{
+@media screen and (min-width:801px) and (max-width: 1200px){
+	/* .sub.transaction .daterange{
 		width: 30%;
-	}
+	} */
 }
 
 /* @media screen and (max-width: 1070px){
