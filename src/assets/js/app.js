@@ -145,10 +145,10 @@ function unserialize(serializedData) {
 }
 
 function real_number_format(n, d) {
-    if (!d && Number(n) === n && n % 1 !== 0) d = 6; // float 숫자의 무의미한 소숫점을 제거하기위해 d 값 미설정시 8자리로 사용합니다.
+    if (!d && Number(n) === n && n % 1 !== 0) d = 0; // float 숫자의 무의미한 소숫점을 제거하기위해 d 값 미설정시 8자리로 사용합니다.
 	if(typeof n==typeof undefined || n=='' || is_null(n) || is_nan(n) ){n='0';}
 	var sign = n<0 ? '-':''; 
-	if(d) { n = number_format(n, d); }
+	n = number_format(n, d);
 	n = n+'';
 	n = n.replace(/[^0-9.]/g,'');
 	var r = n.split('.');
@@ -340,9 +340,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     const APP_LOAD_TIME = new Date().getTime();
     let APP_RUNMODE = 'live';
     let TOKEN_DOMAIN = window.location.host; //"";
-    // let API_URL = "https://api.kkikda.com/v1.0"; // for live
-    let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
+    // let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
     // let API_WALLET_URL = 'https://api.wallet.smart-talk.io/v1.0';
+    let API_URL = "https://api.assettea.com/v1.0"; // for live
     SERVICE_DOMAIN = window.location.host.replace('www.', '');
     if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1 || window.location.host.indexOf('src.') !== -1) {
         APP_RUNMODE = "loc";
