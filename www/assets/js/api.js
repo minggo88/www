@@ -1,7 +1,8 @@
 const API = {
     
     BASE_URL: function() {
-        let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
+        // let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
+        let API_URL = "https://api.assettea.com/v1.0"; // for live
         if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
             API_URL = "//api." + (window.location.host) + "/v1.0";
         }
@@ -9,9 +10,9 @@ const API = {
             API_URL = "//api." + (window.location.host) + "/v1.0";
         }
         if (window.location.host.indexOf('127.0.0.1') !== -1) {
-            API_URL = "https://api.dev.kkikda.com/v1.0"
+            API_URL = "https://api.dev.assettea.com/v1.0"
         }
-        return API_URL; // 'https://api.dev.kkikda.com/v1.0'
+        return API_URL; // 'https://api.dev.assettea.com/v1.0'
     }(),
 
     /**

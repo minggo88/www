@@ -181,6 +181,13 @@
 	background-size: contain;
 }
 
+.icon-transaction-black{
+	width: 24px;
+    height: 24px;
+    background: url('../img/icon/icon-transaction.svg') no-repeat 50%;
+	background-size: contain;
+}
+
 .icon-alarm{
 	width: 24px;
     height: 24px;
@@ -199,6 +206,18 @@
 	background: url(../img/icon/icon-shield.svg) no-repeat 50%;
 	/* background-size: cover; */
 	/* margin-right: 5px; */
+}
+
+.icon-faq{
+	width: 24px;
+	height: 24px;
+	background: url(../img/icon/icon-faq.svg) no-repeat 50%;
+}
+
+.icon-inquiry{
+	width: 24px;
+	height: 24px;
+	background: url(../img/icon/icon-inquiry.svg) no-repeat 50%;
 }
 
 [class^=ico-] {
@@ -332,6 +351,7 @@
     background: transparent url('../img/icon/btn-close.svg') no-repeat center center;
     border-radius: 5px;
 }
+
 .btns {
     display: flex;
     column-gap: 10px;
