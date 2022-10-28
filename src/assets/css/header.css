@@ -30,7 +30,8 @@ header .logo {
 	text-indent: -9999px;
 	z-index: 2;
 	position: absolute;
-	left: 30px;
+	/* left: 30px; */
+	left: 0;
 }
 header .logo a {
     width: 100%;
@@ -96,7 +97,7 @@ header .logo a {
 	column-gap:10%;
 	font-size: 14px;
 	position: absolute;
-	right: 30px;
+	right: 0px;
 }
 .nav--side > *{
 	white-space: nowrap;
@@ -236,9 +237,15 @@ header .logo a {
 
 
 @media screen and (max-width: 1440px) {
-	.header_inner{width: 100%;}
 	.nav > ul li a {font-size: 14px}
 	.nav--side [class*=btn--]{font-size: 14px;}
+}
+
+@media screen and (min-width: 801px) and (max-width: 1440px){
+	.header_inner{
+		width: 95%;
+		margin: 0 auto;
+	}
 }
 
 @media screen and (max-width: 1280px) {
@@ -257,7 +264,7 @@ header .logo a {
 
 @media screen and (max-width: 1100px){
 	header .logo{
-		left: 70px;
+		left: 65px;
 	}
 	header .nav{display: none;}
 
@@ -268,8 +275,8 @@ header .logo a {
         text-align: center;
         width: 60px;
 		height: 60px;
-        left: 0px;
-        top: 0
+        left: 5px;
+        top: 0px;
     }
 
 	.btn.hamburger {
