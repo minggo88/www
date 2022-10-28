@@ -14,7 +14,8 @@
 }
 
 .content_wrap .contents{
-	max-width: 910px;
+	/* max-width: 910px; */
+	max-width:1080px;
 	width: 100%;
 	position: relative;
 }
@@ -48,11 +49,11 @@
 
 @media screen and (max-width: 1440px){
 	.sub .side{
-		min-width: 220px;
+		max-width: 200px;
 	}
 }
 
-@media screen and (max-width: 1070px){
+@media screen and (max-width: 800px){
 	.sub .side{
 		display: none;
 	}
@@ -69,9 +70,11 @@
 
 
 .sub main {
-	padding: 60px 140px 60px 40px;
+	/* padding: 60px 140px 60px 40px; */
+	padding: 60px 0;
 	grid-template-columns: calc(100% * (238 / 1440)) auto;
-    column-gap: 107px;
+    /* column-gap: 107px; */
+	column-gap: 5%;
 	box-sizing: border-box;
 }
 /* .sub main {
@@ -829,9 +832,9 @@
 }
 
 
-@media screen and (max-width: 1200px){
+/* @media screen and (max-width: 1200px){
 	#inquiry .board--list{font-size: 12px;}
-}
+} */
 @media screen and (max-width: 1000px){
 	.sub.inquiry .side{display: none;}
 	#inquiry .board--list tbody tr td .btn--modify {
@@ -1426,11 +1429,6 @@
 /* ###################################################### */
 /* 수정확인 */
 /* notification 알림 */
-.sub.notification .board--body{
-	max-width: 900px;
-	width: 100%;
-}
-
 .sub.notification .board--list{
 	table-layout: fixed;
 	border-spacing: 0;
@@ -1472,6 +1470,10 @@
 .sub.notification .board--list tbody td{
 	background-color: transparent;
 	height: auto;
+}
+
+.sub.notification .board--list tbody .board--empty td{
+	height: 46px;
 }
 
 .sub.notification .board--list tbody tr:not(:first-child) td{
@@ -1524,6 +1526,18 @@
 	.sub.notification .notification--list .notification--content{
 		width: 85%;
 		padding-bottom: 24px;
+	}
+
+	.sub.notification .notification--list .board--empty div{
+		background-color: #F9FAFB;
+		font-weight: 500;
+		font-size: 14px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: calc(100vh - 48px - 72px - 20px);
+		margin-bottom: 72px;
 	}
 }
 
