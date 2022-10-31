@@ -714,6 +714,17 @@
 	.deposit.deposit-withdrawal .form--controls .form--label{
 		font-weight: 700;
 	}
+	.deposit-withdrawal .input--group{
+		width: 100%;
+	}
+
+	.deposit-withdrawal .input--group input{
+		border-radius: 5px;
+	}
+	.deposit-withdrawal .form--controls .input--group + p.text--blue-gray{
+		margin-top: 0;
+		align-self:flex-end;
+	}
 
 }
 @media screen and (max-width: 600px) {
