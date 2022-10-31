@@ -346,7 +346,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     SERVICE_DOMAIN = window.location.host.replace('www.', '');
     if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1 || window.location.host.indexOf('src.') !== -1) {
         APP_RUNMODE = "loc";
-        API_URL = "//api.loc.kkikda.com/v1.0"
+        API_URL = "http://api.loc.kkikda.com/v1.0"
         // SERVICE_DOMAIN = window.location.host.replace('www.','');
         // API_WALLET_URL = 'http://loc.wallet.smart-talk.io/api/v1.0';
     }
@@ -361,6 +361,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         API_URL = "//api.dev.kkikda.com/v1.0"
         // SERVICE_DOMAIN = window.location.host.replace('www.','');
         // API_WALLET_URL = 'http://stage.wallet.smart-talk.io/api/v1.0';
+    }
+	if (window.location.host.indexOf('127.0.0.1') !== -1) {
+        APP_RUNMODE = "loc";
+        API_URL = "//api.dev.kkikda.com/v1.0";
+        // SERVICE_DOMAIN = window.location.host.replace('www.','');
+        // API_WALLET_URL = 'http://loc.wallet.smart-talk.io/api/v1.0';
     }
     const LOGIN_PAGE = '/login.html';
 
@@ -1698,6 +1704,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 if (r?.success) {
                     alert(__('저장했습니다.'));
                     $('[name=status_waiting]').show().siblings().hide();
+					$('[name=btn_save]').hide();
                 } else {
                     alert(__('저장하지 못했습니다.') + r?.error?.message||'')
                 }
@@ -2758,6 +2765,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     const fn_change_pin_number = function () {
         check_login();
+
+		
     }
 
     const fn_create_account = function () {

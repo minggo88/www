@@ -7,9 +7,9 @@
 <meta name="title" content="끽다거">
 <meta name="description" content="">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://assettea.com">
+<meta property="og:url" content="https://kkikda.com">
 <meta property="og:title" content="끽다거">
-<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="끽다거">
 <meta property="og:locale" content="ko_KR">
@@ -25,13 +25,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1666845393">
-<link rel="stylesheet" href="./assets/css/header.css?t=1666945531">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
-<link rel="stylesheet" href="./assets/css/components.css?t=1666942636">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1666945531">
-<link rel="stylesheet" href="./assets/css/transaction.css?t=1666945531">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1665019566">
+<link rel="stylesheet" href="./assets/css/common.css?t=1666940690">
+<link rel="stylesheet" href="./assets/css/header.css?t=1666943053">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1665716756">
+<link rel="stylesheet" href="./assets/css/components.css?t=1666940690">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1667199197">
+<link rel="stylesheet" href="./assets/css/transaction.css?t=1667199197">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
@@ -53,15 +53,15 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1663583938"></script>
-<script src="./assets/js/api.js?t=1666945487"></script>
-<script src="./assets/js/components.js?t=1666316263"></script>
+<script src="./assets/js/common.js?t=1665019566"></script>
+<script src="./assets/js/api.js?t=1667199197"></script>
+<script src="./assets/js/components.js?t=1666081829"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
-<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1665030514"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1665019566"></script>
+<script src="./assets/js/lib/security.min.js?t=1665019566"></script>
+<script src="./i18n/i18n.js?t=1665716756"></script>
 
 </head>
 <!-- BODY -->
@@ -275,20 +275,24 @@
 						<button type="button" name="btn-search2" class="btn btn--red" data-i18n>조회하기</button>
 					</div>
 				</div>
-				<div class="d-flex desktop-only" style="margin-bottom: 49px">
-					<div name="symbol" class="dropdown-wrapper symbol-select">
-						<button type="button" class="dropdown" id="dropdown_selected"></button>
-						<div class="dropdown--item">
-							<input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
-							<ul class="mt-0">
-							</ul>
+				<div class="d-flex desktop-only pc_period" style="margin-bottom: 49px">
+					<div class="top_area">
+						<div name="symbol" class="dropdown-wrapper symbol-select">
+							<button type="button" class="dropdown" id="dropdown_selected"></button>
+							<div class="dropdown--item">
+								<input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
+								<ul class="mt-0">
+								</ul>
+							</div>
+						</div>
+						<div class="period_btnArea">
+							<div class="period_text" data-i18n>기간</div>
+							<button type="button" name="btn-reset-1w" class="period_btn btn btn--blue-gray" data-i18n>1주일</button>
+							<button type="button" name="btn-reset-1m" class="period_btn btn btn--blue-gray" data-i18n>1개월</button>
+							<button type="button" name="btn-reset-6m" class="period_btn btn btn--blue-gray" data-i18n>6개월</button>
+							<button type="button" name="btn-reset-1y" class="period_btn btn btn--blue-gray" data-i18n>1년</button>
 						</div>
 					</div>
-					<div class="flex-center flex-self-center text--medium text-bold" style="width: 68px; text-align: center; margin:0 15px 0 10px; text-align: right;" data-i18n>기간</div>
-					<button type="button" name="btn-reset-1w" class="btn btn--blue-gray" style="width: 70px; margin-right: 10px" data-i18n>1주일</button>
-					<button type="button" name="btn-reset-1m" class="btn btn--blue-gray" style="width: 70px; margin-right: 10px" data-i18n>1개월</button>
-					<button type="button" name="btn-reset-6m" class="btn btn--blue-gray" style="width: 70px; margin-right: 10px" data-i18n>6개월</button>
-					<button type="button" name="btn-reset-1y" class="btn btn--blue-gray" style="width: 70px; margin-right: 10px" data-i18n>1년</button>
 					<input type="text" name="range" id="range" readonly class="daterange" style="margin-right: 10px">
 					<button type="button" name="btn-search" class="btn btn--red" data-i18n>조회하기</button>
 				</div>
@@ -908,7 +912,7 @@
         </ul>
     </div>
 
-    <script src="./assets/js/app.js?t=1666945522"></script>
+    <script src="./assets/js/app.js?t=1667199197"></script>
 
 </body>
 </html>

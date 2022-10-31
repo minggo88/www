@@ -1004,6 +1004,7 @@ $(function() {
             modal.find('[name=volume]').prop('max',volume)
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
+            modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
         })
         .submit(e => {
             e.preventDefault()
@@ -1017,10 +1018,12 @@ $(function() {
                     const price = parseFloat($('#modal-buy-direct [name=price]').val().replace(/[^0-9.\-\+]/, ''))
                     const volume = parseFloat($('#modal-buy-direct [name=volume]').val())
                     const exchange = parseFloat($('#modal-buy-direct [name=exchange]').val())
+                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
                     $('#modal-buy-success .total').text(real_number_format(price * volume))
                     // $('#modal-buy-success .exchange').text(exchange)
+                    $('#modal-buy-success .goods_grade').text(goods_grade)
                     $('#modal-buy-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
@@ -1090,6 +1093,7 @@ $(function() {
             modal.find('[name=volume]').prop('max',volume)
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
+            modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
         })
         .submit(e => {
             e.preventDefault()
