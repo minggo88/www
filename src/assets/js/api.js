@@ -4,7 +4,7 @@ const API = {
         // let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
         let API_URL = "https://api.assettea.com/v1.0"; // for live
         if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
-            API_URL = "https://api.loc.kkikda.com/v1.0"
+            API_URL = "http://api.loc.kkikda.com/v1.0"
         }
         if (window.location.host.indexOf('dev.') !== -1) {
             API_URL = "https://api.dev.kkikda.com/v1.0"
