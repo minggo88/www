@@ -276,7 +276,7 @@ div.dts div.dataTables_scrollBody {
 	.sub.exchange > .container >  header{display: none;}
 	.sub.exchange .contents--header{
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-start;
 	}
 	.sub.exchange .contents--header > div{width: 50%;}
 	.sub.exchange .contents--header > div.mobile-only{

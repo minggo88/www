@@ -170,7 +170,7 @@
 	.sub.transaction > header{display: none;}
 
 	.sub.transaction .contents .contents--header{
-		justify-content: space-between;
+		justify-content: flex-start;
 		align-items: center;
 	}
 

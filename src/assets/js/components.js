@@ -130,8 +130,9 @@ $(function() {
     }
 
     $('.navigation--back').click(() => {
-        if (window.location.href.indexOf('exchange.html')>=0) return false; // 거래소에서는 비활성화
-        window.history.back()
+        //if (window.location.href.indexOf('exchange.html')>=0) 거래소에서는 비활성화
+        window.history.back();
+		return false; // 
     })
     $('.navigation').click(() => {
         $('.mobile-panel').show()
