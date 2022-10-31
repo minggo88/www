@@ -211,9 +211,16 @@ main {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		/* padding: 0!important; */
+		padding-bottom: 92px!important;
 	}
-	.login form{height: auto;}
+
+	.login form{
+		height: auto;
+	}
+
+	.login_page form{
+		height: 450px!important;
+	}
 
 	.create-account main{
 		align-items: center;
