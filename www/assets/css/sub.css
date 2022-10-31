@@ -1260,6 +1260,9 @@
 	height: 333px;
 	padding: 36px 0 56px;
 }
+.sub.changePin input[type=number] {
+    -webkit-text-security: disc;
+}
 
 @media screen and (max-width: 800px){
 	.sub.changePin main{
