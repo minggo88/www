@@ -696,15 +696,15 @@
 		color: #000!important;
 	}
 
-	.deposit-withdrawal .d-grid .btnArea{
-		height: auto;
+	.deposit-withdrawal .btnArea{
 		position: relative;
 		left: 0;
 		bottom: 0px;
 		width: 100%;
+		margin-top: 100px;
 	}
 
-	.deposit-withdrawal .d-grid .btnArea .btn{
+	.deposit-withdrawal .btnArea .btn{
 		position: relative;
 		left: 50%;
 		transform: translateX(-50%);
@@ -717,7 +717,7 @@
 
 }
 @media screen and (max-width: 600px) {
-	.deposit-withdrawal .d-grid .btnArea .btn{
+	.deposit-withdrawal .btnArea .btn{
 		width: 100%;
 	}
 }
