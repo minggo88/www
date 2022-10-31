@@ -141,6 +141,10 @@ main {
 	margin-bottom: 8px;
 }
 
+.create-account input[inputmode="numeric"] {
+    -webkit-text-security: disc;
+}
+
 @media screen and (min-width: 1071px) and (max-width: 1300px) {
 	.create-account .step--list{
 		left: 0;
