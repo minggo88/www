@@ -96,10 +96,21 @@
     text-overflow: ellipsis;
 }
 
-/* .sub.transaction .transaction--list td:last-of-type{
-	border-left: none;
-	background-color: #fdd;
-} */
+.sub.transaction .pc_period{
+	flex-wrap: wrap;
+}
+.sub.transaction .top_area{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	height: 40px;
+	margin-bottom: 10px;
+}
+
+.sub.transaction .period_btnArea{
+	display: flex;
+}
 
 
 .sub.transaction .symbol-select{
@@ -123,27 +134,35 @@
 	right: 5px;
 }
 
+
+
+.sub.transaction .period_text{
+	width: 68px; 
+	text-align: center; 
+	margin:0 10px;
+	font-size: 16px;
+	font-weight: 500;
+	align-items: center;
+    justify-content: center;
+	align-self: center;
+}
+
+.sub.transaction .period_btn{
+	width: 60px;
+	height: 40px;
+	line-height: 40px;
+}
+.sub.transaction .period_btn:not(:last-child){
+	margin-right: 10px;
+}
+
 .sub.transaction .daterange{
-	width: 30%;
+	width: 68%;
 }
 
 .sub.transaction .desktop-only .btn.btn--red{
-	width: 120px;
+	width: calc(32% - 10px);
 }
-
-
-/* ############################ */
-@media screen and (min-width:801px) and (max-width: 1200px){
-	/* .sub.transaction .daterange{
-		width: 30%;
-	} */
-}
-
-/* @media screen and (max-width: 1070px){
-	.sub.transaction .content_wrap .contents {
-		max-width: initial;
-	}
-} */
 
 
 
@@ -220,8 +239,6 @@
 		background-size: contain;
 		mask-image: none;
 		-webkit-mask-image: none;
-		/* background-repeat: no-repeat; */
-		/* -webkit-mask-image: url(../img/btn-rolldown.svg); */
 	}
 	
 	.sub.transaction .period .daterange{

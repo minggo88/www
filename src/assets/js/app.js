@@ -1704,6 +1704,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 if (r?.success) {
                     alert(__('저장했습니다.'));
                     $('[name=status_waiting]').show().siblings().hide();
+					$('[name=btn_save]').hide();
                 } else {
                     alert(__('저장하지 못했습니다.') + r?.error?.message||'')
                 }
