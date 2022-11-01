@@ -63,7 +63,7 @@ div.dts div.dataTables_scrollBody {
 .details {
 	width: 100%;
     overflow:auto;
-	min-width: 430px;
+	min-width: 320px;
 }
 
 .details--header {
@@ -179,6 +179,9 @@ div.dts div.dataTables_scrollBody {
 #tab-info > div{
 	flex-grow: 1;
 }
+.tab-container{
+	height: 509px;
+}
 
 /* 구매하기 */
 #modal-buy .modal--content ,
@@ -276,7 +279,7 @@ div.dts div.dataTables_scrollBody {
 	.sub.exchange > .container >  header{display: none;}
 	.sub.exchange .contents--header{
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-start;
 	}
 	.sub.exchange .contents--header > div{width: 50%;}
 	.sub.exchange .contents--header > div.mobile-only{
@@ -313,6 +316,9 @@ div.dts div.dataTables_scrollBody {
 	}
 	.exchange .details{
 		display: none;
+	}
+	.tab-container{
+		padding-bottom: 52px;
 	}
 
 

@@ -1672,6 +1672,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             const name = $(this).attr('title');
             const target = $(this).attr('data-target');
             image_url = upload_file($(this), name);
+
             $(target).val(image_url);
             $(target).siblings('[name="preview"]').css('background-image', 'url(' + image_url + ')').show();
             $('#bool_confirm_bank').val('0');
@@ -1691,20 +1692,24 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             }
 
             if (!$('input[name="bank_account"]').val()) {
-                alert(__('계좌번호를을 입력하세요.'))
+                alert(__('계좌번호을 입력하세요.'))
                 return false
             }
 
-            // if (!$('#change-account-number #file_bank_url').val()) {
-            //     alert(__('통장사본을 선택해주세요.'))
-            //     return false
-            // }
+            if (!$('#change-account-number #file_bank_url').val() && !Model.user_info.image_bank_url ) {
+                alert(__('출금 계좌 사진을 선택해주세요.')); return false;
+            }
+
+            if (Model.user_info.image_bank_url) {
+                $('#change-account-number #image_bank_url').val(Model.user_info.image_bank_url)
+            }
 
             add_request_item('putMyInfo', unserialize($('#change-account-number').serialize()), function(r) {
                 if (r?.success) {
                     alert(__('저장했습니다.'));
                     $('[name=status_waiting]').show().siblings().hide();
 					$('[name=btn_save]').hide();
+                    request_user_info();
                 } else {
                     alert(__('저장하지 못했습니다.') + r?.error?.message||'')
                 }
