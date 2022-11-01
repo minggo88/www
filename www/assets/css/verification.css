@@ -92,8 +92,8 @@ form {
 	.verification form{
 		display: flex;
 		align-items: center;
-		/* justify-content: flex-start; */
-		justify-content: center;
+		justify-content: flex-start;
+		/* justify-content: center; */
 		height: 100%;
 		align-self: center;
 		max-width: 340px;

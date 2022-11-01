@@ -392,7 +392,7 @@ $(function() {
             // 수량
             {
                 data: 'volume_remain', render: (volume_remain) => {
-                    return number_format(volume_remain, 4);
+                    return number_format(volume_remain, 0);
                 }
             },
             // 거래금액
@@ -536,7 +536,7 @@ $(function() {
             // 수량
             {
                 data: 'volume_remain', render: (volume_remain) => {
-                    return number_format(volume_remain, 4);
+                    return number_format(volume_remain, 0);
                 }
             },
             // 거래금액
