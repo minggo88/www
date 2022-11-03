@@ -363,8 +363,14 @@ $(function () {
 
         return false
     })
+
+	$('[name="go-back-btn"]').on('click', function () { 
+		$('#create-account-pin-number-confirm').parent("section").hide()
+		$('#create-account-pin-number').parent("section").show()
+	})
+
     $('#create-account-pin-number-confirm').on('submit', () => {
-        let pin = ''
+		let pin = ''
         let pinConfirm = ''
 
         let check = true
