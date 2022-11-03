@@ -1013,8 +1013,8 @@ $(function() {
         .submit(e => {
             e.preventDefault()
             let data = $('#modal-buy-direct').serializeObject()
-            data.price = data.price.replace(/[^0-9.\-\+]/, '')
-            data.total = data.price.replace(/[^0-9.\-\+]/, '')
+            data.price = data.price.replace(/[^\d]+/g, '');
+            data.total = data.total.replace(/[^\d]+/g, '');
             API.buyDirect(data, (resp) => {
                 if (resp.success) {
                     set_user_wallet();
@@ -1022,7 +1022,7 @@ $(function() {
                     const price = parseFloat($('#modal-buy-direct [name=price]').val().replace(/[^0-9.\-\+]/, ''))
                     const volume = parseFloat($('#modal-buy-direct [name=volume]').val())
                     const exchange = parseFloat($('#modal-buy-direct [name=exchange]').val())
-                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
+                    const goods_grade = ($('#modal-buy-direct [name=goods_grade]')).val()
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
                     $('#modal-buy-success .total').text(real_number_format(price * volume))
@@ -1102,8 +1102,8 @@ $(function() {
         .submit(e => {
             e.preventDefault()
             let data = $('#modal-sell-direct').serializeObject()
-            data.price = data.price.replace(/[^0-9.\-\+]/, '')
-            data.total = data.price.replace(/[^0-9.\-\+]/, '')
+            data.price = data.price.replace(/[^\d]+/g, '');
+            data.total = data.total.replace(/[^\d]+/g, '');
             API.sellDirect(data, (resp) => {
                 if (resp.success) {
                     const payload = resp.payload;
@@ -1112,7 +1112,7 @@ $(function() {
                     const price = payload.order_price
                     const volume = payload.volume
                     const exchange = parseFloat($('#modal-sell-direct [name=exchange]').val())
-                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
+                    const goods_grade = ($('#modal-sell-direct [name=goods_grade]')).val()
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
                     $('#modal-sell-success .total').text(real_number_format(price * volume))
