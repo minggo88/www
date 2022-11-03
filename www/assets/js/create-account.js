@@ -1,5 +1,7 @@
 $(function () {
-    const email = $('#email')
+	$('.number').autotab({ tabOnSelect: true },'filter', 'number');
+
+	const email = $('#email')
     const password = $('#password')
 	const name = $('#name')
     const password_confirm = $('#password_confirm')
@@ -363,8 +365,14 @@ $(function () {
 
         return false
     })
+
+	$('[name="go-back-btn"]').on('click', function () { 
+		$('#create-account-pin-number-confirm').parent("section").hide()
+		$('#create-account-pin-number').parent("section").show()
+	})
+
     $('#create-account-pin-number-confirm').on('submit', () => {
-        let pin = ''
+		let pin = ''
         let pinConfirm = ''
 
         let check = true

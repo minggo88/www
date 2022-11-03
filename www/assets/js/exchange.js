@@ -62,10 +62,39 @@ $(function() {
 		}
     })
 
+    $(document).on('click', ".btn--star, .btn--star--on", function() {
+        $.ajax({
+            url:`${API.BASE_URL}/putSubscribe/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+                target_type: 'trade',
+                target_idx: SELECTED_SYMBOL,
+                subscribe_type: 'like',
+            },
+            success: (r) => {
+                if (r && r.success && r.payload) {
+                    if (r.payload.added == "Y") {
+                        $(this).addClass("btn--star--on").removeClass("btn--star")
+                        $('[name=btn_view_stat]').addClass("btn--star--on").removeClass("btn--star")
+                    } else {
+                        $(this).addClass("btn--star").removeClass("btn--star--on")
+                        $('[name=btn_view_stat]').addClass("btn--star").removeClass("btn--star--on")
+                    }
+                }
+            }
+        })
+    })
+
 	$("[name=btn_view_list]").on('click',function(){
 		$(".side--panel").show();
 		$(".details").hide();
 	})
+
+    $("[name=bbb]").on('click', function() {
+        alert('fasdf');
+    })
 
     const genVolumeData = (data) => {
         let previous_close = 0
@@ -786,6 +815,16 @@ $(function() {
             } else {
                 $('button[data-target="#scan"]').attr('disabled', true)
             }
+
+            if (data.like == "Y") {
+                console.log("a")
+                $("[name='btn_view_stat']").addClass("btn--star--on").removeClass("btn--star")
+
+            } else if (data.like == "N") {
+                console.log("b")
+                $("[name='btn_view_stat']").addClass("btn--star").removeClass("btn--star--on")
+
+            }
         }
     })
     .on('draw.dt', () => {
@@ -824,8 +863,7 @@ $(function() {
             {
                 data: 'name',
                 render: (data, _type, row) => {
-                    const classOn = row.Checked ? 'btn--star--on' : 'btn--star'
-
+                    const classOn = row.like == 'Y' ? 'btn--star--on' : 'btn--star'
                     // 버튼
                     if (isMobile) {
                         // return `<button type="button" class="btn ${classOn}"></button>${data}<br><span class="text--gray005">${row.meta_type}</span>`
@@ -1013,8 +1051,8 @@ $(function() {
         .submit(e => {
             e.preventDefault()
             let data = $('#modal-buy-direct').serializeObject()
-            data.price = data.price.replace(/[^0-9.\-\+]/, '')
-            data.total = data.price.replace(/[^0-9.\-\+]/, '')
+            data.price = data.price.replace(/[^\d]+/g, '');
+            data.total = data.total.replace(/[^\d]+/g, '');
             API.buyDirect(data, (resp) => {
                 if (resp.success) {
                     set_user_wallet();
@@ -1022,7 +1060,7 @@ $(function() {
                     const price = parseFloat($('#modal-buy-direct [name=price]').val().replace(/[^0-9.\-\+]/, ''))
                     const volume = parseFloat($('#modal-buy-direct [name=volume]').val())
                     const exchange = parseFloat($('#modal-buy-direct [name=exchange]').val())
-                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
+                    const goods_grade = ($('#modal-buy-direct [name=goods_grade]')).val()
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
                     $('#modal-buy-success .total').text(real_number_format(price * volume))
@@ -1102,8 +1140,8 @@ $(function() {
         .submit(e => {
             e.preventDefault()
             let data = $('#modal-sell-direct').serializeObject()
-            data.price = data.price.replace(/[^0-9.\-\+]/, '')
-            data.total = data.price.replace(/[^0-9.\-\+]/, '')
+            data.price = data.price.replace(/[^\d]+/g, '');
+            data.total = data.total.replace(/[^\d]+/g, '');
             API.sellDirect(data, (resp) => {
                 if (resp.success) {
                     const payload = resp.payload;
@@ -1112,7 +1150,7 @@ $(function() {
                     const price = payload.order_price
                     const volume = payload.volume
                     const exchange = parseFloat($('#modal-sell-direct [name=exchange]').val())
-                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
+                    const goods_grade = ($('#modal-sell-direct [name=goods_grade]')).val()
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
                     $('#modal-sell-success .total').text(real_number_format(price * volume))
