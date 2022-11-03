@@ -871,10 +871,14 @@ $(function() {
             {
                 data: (row, _type, _set) => {
                     let price = row.price
-                    if (price >= 1000000 && price % 1000000 == 0) {
-                        price = price / 1000000 + __('백만')
-                        return price
+                    if (price >= 100000000 && price < 1000000000000 ) {
+                        price = price / 100000000 + __('억')
+                    } else if (price >= 10000 && price < 100000000) {
+                        price = price / 10000 + __('만')
+                    } else {
+                        price = price + __('원')
                     }
+
                     return price
                 }
             },
