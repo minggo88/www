@@ -1,5 +1,7 @@
 $(function () {
-    const email = $('#email')
+	$('.number').autotab({ tabOnSelect: true },'filter', 'number');
+
+	const email = $('#email')
     const password = $('#password')
 	const name = $('#name')
     const password_confirm = $('#password_confirm')
