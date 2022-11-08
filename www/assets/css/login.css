@@ -11,6 +11,13 @@ main {
 	max-width: 340px;
 	width: 100%;
 	min-height: 700px;
+	margin-top: 10px;
+}
+
+@media screen and (min-width: 800px){
+	.login main > section{
+		margin-top: 150px;
+	}
 }
 
 .email {
@@ -143,6 +150,13 @@ main {
 
 .create-account input[inputmode="numeric"] {
     -webkit-text-security: disc;
+}
+
+.create-account #create-account-pin-number-confirm .form--btns{
+	display: flex;
+	flex-direction: row;
+	column-gap: 15px;
+	row-gap: 15px;
 }
 
 @media screen and (min-width: 1071px) and (max-width: 1300px) {
@@ -280,13 +294,17 @@ main {
         background-size: 7.42px 14.02px;
     }
 	.create-account form .form--header h1{
-		font-size: 20px;
+		font-size: 18px;
 	}
 	.create-account form .form--header + p.size--18{
 		font-size: 16px;
 	}
 	.create-account form .form--header + p.size--18 + p.size--16{
 		font-weight: normal;
+	}
+
+	.create-account #create-account-pin-number-confirm .form--btns{
+		flex-direction: column;
 	}
 }
 
