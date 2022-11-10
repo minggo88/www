@@ -45,8 +45,8 @@
   const genVolumeData = (data) => {
     let previous_close = 0;
     const rdata = data.map((row) => {
-      const price_decrease_color = 'rgba(255,82,82, 0.8)'; // 종가 상승시 거래량 색
-      const price_increase_color = 'rgba(0, 150, 136, 0.8)'; // 종가 하락시 거래량 색
+      const price_decrease_color = 'rgba(82,82,255, 0.8)'; // 종가 상승시 거래량 색 파랑
+      const price_increase_color = 'rgba(255,82,82, 0.8)'; // 종가 하락시 거래량 색 빨강
       const price_color = previous_close <= row.close ? price_increase_color : price_decrease_color;
       previous_close = row.close;
       return {
