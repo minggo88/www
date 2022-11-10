@@ -513,7 +513,7 @@ const API = {
             data: {
                 token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol, exchange: exchange,
-                period: period,
+                period: period, goods_grade: 'A'
             },
             success: (resp) => {
                 callback(resp)
