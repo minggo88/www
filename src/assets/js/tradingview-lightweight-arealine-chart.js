@@ -8,30 +8,34 @@
  */
 ; (function ($) {
 
-  const getData = async (symbol, exchange, period) => {
+  const getData = async (symbol, exchange, period, cnt) => {
+    datatype = symbol ? 'stock' : 'total_volume'; // 종목코드가 있으면 종목의 차트데이터를 가져오고 종목 코드 없으면 전체 거래량을 가져옵니다.
 
     // http://api.loc.kkikda.com/v1.0/getChartData/?symbol=GCA18KTDKK
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period, false); // false for synchronous request
+    if (datatype==='total_volume') {
+      xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartDataTotalVolume/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period + '&cnt=' + cnt, false); // false for synchronous request
+    } else {
+      xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period + '&cnt=' + cnt, false); // false for synchronous request
+    }
     xmlHttp.send(null);
     let json = xmlHttp.responseText;
     if (json.indexOf('{') === 0) {
       json = JSON.parse(json);
       if (json && json.success) {
         resp = json.payload;
-        // const res = await fetch('data.csv');
-        // const resp = await res.text();
         const cdata = resp.split('\n').filter((row) => {
           if (row.indexOf('date') > -1) { return; } // 첫번째 줄 데이터 컬럼명 일때 제외
           return row;
         }).map((row) => {
-          // const [time1, time2, open, high, low, close, volume] = row.split(',');
-          const [date, open, high, low, close, volume, symbol] = row.split('\t');
+          if (datatype === 'total_volume') {
+            [date, volume] = row.split('\t');
+          } else {
+            [date, open, high, low, close, volume, symbol] = row.split('\t');
+          }
           return {
-            // 'time': new Date(`${time1}, ${time2}`).getTime() / 1000,
             'time': new Date(`${date}`).getTime() / 1000,
-            // 'close': close * 1,
-            'value': volume * 1,
+            'value': volume * 1
           };
         });
         return cdata;
@@ -46,11 +50,12 @@
    * @param {*} exchange 교환화폐. 
    * @param {*} period 봉차트 기간. 1m, 3m, 5m, 10m, 15m, 30m, 1h, 12h, 1d, 1w, 1M
    */
-  const displayChart = async (target_id, symbol, exchange, period) => {
+  const displayChart = async (target_id, symbol, exchange, period, cnt) => {
 
     symbol = symbol || '';
     exchange = exchange || 'KRW';
     period = period || '1d';
+    cnt = cnt || '1000';
     // document.body.style.position = 'relative';
 
     // var container = document.createElement('div');
@@ -108,7 +113,7 @@
     // ---------------------------------------------------
     // 데이터 추가 
 
-    var data = await getData(symbol, exchange, period); // 날짜,시간,시,고,저,종,거래량
+    var data = await getData(symbol, exchange, period, cnt); // 날짜,시간,시,고,저,종,거래량
     series.setData(data);
 
     // ---------------------------------------------------
@@ -118,14 +123,14 @@
       return new Date(Date.UTC(businessDay.year, businessDay.month - 1, businessDay.day, 0, 0, 0)).toLocaleDateString();
     }
     
-    var toolTipMargin = 10;
-    var priceScaleWidth = 50;
-    var toolTip = document.createElement('div');
-    toolTip.className = 'three-line-legend';
-    container.appendChild(toolTip);
-    toolTip.style.display = 'block';
-    toolTip.style.left = 3 + 'px';
-    toolTip.style.top = 3 + 'px';
+    // var toolTipMargin = 10;
+    // var priceScaleWidth = 50;
+    // var toolTip = document.createElement('div');
+    // toolTip.className = 'three-line-legend';
+    // container.appendChild(toolTip);
+    // toolTip.style.display = 'block';
+    // toolTip.style.left = 3 + 'px';
+    // toolTip.style.top = 3 + 'px';
     
     function setLastBarText() {
       const t = new Date(data[data.length - 1].time * 1000);
@@ -140,7 +145,7 @@
     
     setLastBarText(); 
     
-    chart.subscribeCrosshairMove(function(param) {
+    chart.subscribeCrosshairMove(function (param) {
       if ( param === undefined || param.time === undefined || param.point.x < 0 || param.point.x > width || param.point.y < 0 || param.point.y > height ) {
         setLastBarText();   
       } else {
