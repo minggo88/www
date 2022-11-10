@@ -710,12 +710,13 @@ $(function() {
             SELECTED_SYMBOL = symbol
             SELECTED_EXCHANGE = exchange
             SELECTED_NAME = name
+            SELECTED_GRADE = data.goods_grade
 
             // 로딩 애니메이션 출력
             $('.details').addClass('loading')
             // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE); 
-            API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
-                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
+            API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
+                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
                     $('.details').removeClass('loading')
 
                     if (resp.success) {
