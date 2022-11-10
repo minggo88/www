@@ -226,7 +226,10 @@ $(function() {
   
         // ---------------------------------------------------
         // 가격봉 차트 생성
-        var candleSeries = chart.addCandlestickSeries()
+        var candleSeries = chart.addCandlestickSeries({
+            'upColor': '#f00', 'borderUpColor': '#f00', 'wickUpColor': '#f00', // https://tradingview.github.io/lightweight-charts/docs/api/interfaces/CandlestickStyleOptions
+            'downColor':'#00f', 'borderDownColor': '#00f', 'wickDownColor': '#00f',
+        })
         $(container).data('candleSeries', candleSeries);
     
         // 거래량 차트 생성
