@@ -139,6 +139,9 @@ header .logo a {
 	background: transparent;
 }
 
+.nav--side .language{
+	display: none;
+}
 
 .nav--side .language .dropdown {
     border: 0 none;

@@ -28,6 +28,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="https://unpkg.com/libphonenumber-js@1.10.11/bundle/libphonenumber-min.js"></script>
+<script src="./assets/js/jquery.autotab.js?t={version}"></script>
 <script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}" defer></script>
 <script src="./assets/js/components.js?t={version}" defer></script>
@@ -36,6 +37,7 @@
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
 <script src="./i18n/i18n.js?t={version}"></script>
+
 
 </head>
 <!-- BODY -->
@@ -296,12 +298,12 @@
 					입력한 휴대폰 번호로 인증번호가 발송되었습니다.
 				</p>
 				<div class="d-grid grid--code">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
 				</div>
 				<div class="flex-self-left">
 					<span class="text-bold" data-i18n>문자가 오지 않으셨나요?</span>
@@ -335,12 +337,12 @@
 					보안 비밀 번호 6자리를 입력해 주세요.
 				</p>
 				<div class="d-grid grid--code" style="margin-top: 52px; margin-bottom: 162px">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
 				</div>
 				<div class="form--btns mt-0">
 					<button class="btn btn--block btn--red" data-i18n>확인</button>
@@ -357,7 +359,7 @@
 				</ol>
 			</nav>
 		</section>
-		<section style="display: none">
+		<section style="display: none;">
 			<form id="create-account-pin-number-confirm" method="post" class="d-flex flex-row flex-center">
 				<div class="mb-24 form--header text-red" >
 					<h1 data-i18n class="desktop-only">Create Your Account</h1>
@@ -370,14 +372,15 @@
 					한번 더 입력해 주세요.
 				</p>
 				<div class="d-grid grid--code" style="margin-top: 52px; margin-bottom: 162px">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
 				</div>
 				<div class="form--btns mt-0">
+					<button type="button" class="btn btn--block" name="go-back-btn" data-i18n>이전으로 가기</button>
 					<button class="btn btn--block btn--red" data-i18n>확인</button>
 				</div>
 			</form>
