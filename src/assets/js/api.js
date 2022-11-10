@@ -505,7 +505,7 @@ const API = {
      * @param {*} symbol 
      * @param {*} callback 
      */
-    getChartData: (symbol, exchange='KRW', period = '1d', callback) => {
+    getChartData: (symbol, exchange='KRW', period = '1d', goods_grade, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getChartData/`,
             type: 'POST',
@@ -513,7 +513,7 @@ const API = {
             data: {
                 token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol, exchange: exchange,
-                period: period, goods_grade: 'A'
+                period: period, goods_grade: goods_grade
             },
             success: (resp) => {
                 callback(resp)
@@ -623,7 +623,7 @@ const API = {
             }
         })
     },
-    getSpotPrice: (symbol, exchange, callback) => {
+    getSpotPrice: (symbol, exchange, goods_grade, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getSpotPrice/`,
             type: 'POST',
@@ -632,6 +632,7 @@ const API = {
                 symbol: symbol,
                 exchange: exchange,
                 lang: window.localStorage.locale,
+                goods_grade: goods_grade
             },
             success: (resp) => {
                 callback(resp)
