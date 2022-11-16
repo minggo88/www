@@ -78,9 +78,11 @@ $(function() {
                     if (r.payload.added == "Y") {
                         $(this).addClass("btn--star--on").removeClass("btn--star")
                         $('[name=btn_view_stat]').addClass("btn--star--on").removeClass("btn--star")
+                        $('[data-star-idx="'+SELECTED_SYMBOL+'"]').addClass("btn--star--on").removeClass("btn--star")
                     } else {
                         $(this).addClass("btn--star").removeClass("btn--star--on")
                         $('[name=btn_view_stat]').addClass("btn--star").removeClass("btn--star--on")
+                        $('[data-star-idx="'+SELECTED_SYMBOL+'"]').addClass("btn--star").removeClass("btn--star--on")
                     }
                 }
             }
@@ -821,13 +823,9 @@ $(function() {
             }
 
             if (data.like == "Y") {
-                console.log("a")
                 $("[name='btn_view_stat']").addClass("btn--star--on").removeClass("btn--star")
-
             } else if (data.like == "N") {
-                console.log("b")
                 $("[name='btn_view_stat']").addClass("btn--star").removeClass("btn--star--on")
-
             }
         }
     })
@@ -872,7 +870,7 @@ $(function() {
                     if (isMobile) {
                         // return `<button type="button" class="btn ${classOn}"></button>${data}<br><span class="text--gray005">${row.meta_type}</span>`
                     }
-                    return `<button type="button" class="btn ${classOn}"></button>${data}`
+                    return `<button type="button" class="btn ${classOn}" data-star-idx="${row.idx}"></button>${data}`
                 }
             },
             // 타입
