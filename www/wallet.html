@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="./assets/css/common.css?t=1667796157">
 <link rel="stylesheet" href="./assets/css/header.css?t=1667796157">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1667796157">
-<link rel="stylesheet" href="./assets/css/components.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/components.css?t=1668561789">
 <link rel="stylesheet" href="./assets/css/sub.css?t=1667796157">
 <link rel="stylesheet" href="./assets/css/wallet.css?t=1667796157">
 
@@ -361,33 +361,34 @@
 
 								console.log(item);
 
-								item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
-								item.eval_locked = item.locked * item.price;		// 코인의 잠긴 평가금액
-								item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
-								item.eval_trading = item.trading * item.price;		// 코인의 전체 매도중금액
+								if (item.confirmed > 0 || item.symbol=='KRW') {
+									item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
+									item.eval_locked = item.locked * item.price;		// 코인의 잠긴 평가금액
+									item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
+									item.eval_trading = item.trading * item.price;		// 코인의 전체 매도중금액
 
-								total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
-								total_available_evaluated_balance += item.eval_tadable; 	// 총 사용 가능 자산
-								total_locked_evaluated_balance += item.eval_locked + item.eval_trading; 	// 총 동결 평가 자산
+									total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
+									total_available_evaluated_balance += item.eval_tadable; 	// 총 사용 가능 자산
+									total_locked_evaluated_balance += item.eval_locked + item.eval_trading; 	// 총 동결 평가 자산
 
-								// 잔액
-								item.confirmed_str = real_number_format(item.confirmed);
-								item.eval_valuation_str = real_number_format(item.eval_valuation);
+									// 잔액
+									item.confirmed_str = real_number_format(item.confirmed);
+									item.eval_valuation_str = real_number_format(item.eval_valuation);
 
-								const symbol_str = in_array(item.symbol,['KRW','USD']) ? item.symbol : __('개') ;
+									const symbol_str = in_array(item.symbol,['KRW','USD']) ? item.symbol : __('개') ;
 
-								const deposit_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
-								const withdraw_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
-								const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
+									const deposit_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
+									const withdraw_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
+									const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
 
-								const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-								grid.append(`<div class="grid--inner-left">
+									const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
+									grid.append(`<div class="grid--inner-left">
 									<div class='item_img' style="background-image: url(${item.icon_url});"></div>
 									<div class='item_name desktop-only'>${item.name}</div>
 								</div>`)
-								// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
-								// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
-								grid.append(`
+									// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
+									// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
+									grid.append(`
 								<div class="grid--inner-right">
 									<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 										<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">${item.name}</div>
@@ -400,8 +401,10 @@
 										<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
 									</div>
 								</div>`)
-								$('.wallet--grid').append(grid)
-								// $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
+									$('.wallet--grid').append(grid)
+									// $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
+								}
+
 							})
 
 							$('#totalBalance').text(real_number_format(total_evaluated_balance))
