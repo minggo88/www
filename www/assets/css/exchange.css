@@ -172,6 +172,13 @@ div.dts div.dataTables_scrollBody {
     margin-top: 24px;
 }
 
+#jqGrid tbody tr td .btn.btn--star--on{
+	margin-bottom: 2px;
+}
+#jqGrid tbody tr td .btn.btn--star{
+	margin-bottom: 2px;
+}
+
 .exchange .btn.btn--star{
 	margin-right: 10px;
 }

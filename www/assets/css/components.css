@@ -315,16 +315,16 @@
     color: var(--basic-black) !important;
 }
 .btn.btn--star {
-    width: 18px;
-    height: 16.45px;
+    width: 16px;
+    height: 15px;
     background: transparent url('../img/icon/star.svg') no-repeat center center;
     border: 0 none;
     border-radius: 0.5px;
     vertical-align: middle;
 }
 .btn--star--on {
-    width: 18px;
-    height: 16.45px;
+    width: 16px;
+    height: 15px;
     background: #FFC42D;
     -webkit-mask-image: url('../img/icon/star.svg');
     mask-image: url('../img/icon/star.svg');
@@ -332,6 +332,7 @@
     border: 0 none;
     border-radius: 0.5px;
     vertical-align: middle;
+	margin-right: 10px;
 }
 .btn.btn--write {
     width: 195px;
