@@ -57,23 +57,27 @@ div.dts div.dataTables_scrollBody {
 .side--panel {
 	width: 100%;
     overflow:auto;
-	/* min-width: 330px; */
 }
 
+/* details */
 .details {
 	width: 100%;
     overflow:auto;
 	min-width: 320px;
 }
 
+/* details header */
 .details--header {
     font-weight: 700;
     font-size: 14px;
     height: 46px;
     line-height: 46px;
     letter-spacing: -0.02em;
-    border-bottom: 1px solid var(--linegray);
+    border-bottom: 0.5px solid #bbb;
     box-sizing: border-box;
+
+	display: flex;
+	justify-content: space-between;
 }
 
 .details--header small {
@@ -83,16 +87,56 @@ div.dts div.dataTables_scrollBody {
     color: var(--blue-gray);
 }
 
+.exchange .btn.btn--star{
+	margin-right: 10px;
+}
+
+/* details header taab 부분 */
+.details--header .tab_area ul{
+	display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+	padding: 0;
+	column-gap: 15px;
+	align-items: center;
+	height: 46px;
+}
+
+.details--header .tab_area ul li{
+	padding: 0;
+	list-style: none;
+	box-sizing: border-box;
+}
+
+.details--header .tab_area ul li button{
+	font-family: 'Noto Sans KR';
+	width: 100%;
+    background: transparent;
+    border: 0 none;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    height: 100%;
+    line-height: 20px;
+	color: inherit;
+}
+
+.details--header .tab_area ul li.active button{
+	color: #B81C22;
+}
+
+.details .d-grid.grid-column{width: 25%;}
+
+/* .chart_area */
 .details--body {
     display: flex;
-    /* padding: 12px 0 21px 10px; */
 	padding: 12px 0 12px 10px;
     justify-content: space-between;
-    border-bottom: 0.5px solid var(--linegray);
+    border-bottom: 1px solid #333;
     height: 75px;
     box-sizing: border-box;
-    /* margin-bottom: 20px; */
 }
+
 .details--body > div > *{
 	white-space: nowrap;
 }
@@ -105,61 +149,38 @@ div.dts div.dataTables_scrollBody {
 .details--body .details--price {
     font-weight: 700;
     font-size: 26px;
-    /* color: var(--red-up); */
 }
 
 .details--price {
     display: flex;
     align-self: center;
 }
-.details--diff {
-    font-size: 16px
-}
 
-.details .tabs {
-	width: 100%;
-    margin: 0 auto;
-}
-.details .tabs li {
-    background: var(--white);
-    color: var(--basic-black);
-    border-bottom: 0 none !important;
-}
 
-.details .tabs li.tab--active {
-    border-bottom: 4px solid var(--red-up) !important
-}
 
-.details .d-grid.grid-2-column{width: 50%;}
-
-/* .details .tabs li.tab--sell.tab--active {
-    border-bottom: 4px solid var(--red-up) !important
+/* .detail_area */
+.detail_area{
+	padding: 25px 60px 15px;
+	margin-bottom: 10px;
+	height: 428px;
+	box-sizing: border-box;
+	overflow-y: scroll;
 }
-.details .tabs li.tab--buy.tab--active {
-    border-bottom: 4px solid var(--blue-dn) !important
-}
-.details .tabs li.tab--info.tab--active {
-    border-bottom: 4px solid var(--basic-black) !important
-} */
 
 #tab-info {
-    padding-top: 10px;
     display: flex;
-    column-gap: 11px;
+    column-gap: 70px;
 }
 
-#tab-info img {
-    width: 278px;
-    height: 267px;
+#tab-info .img {
+	margin: 0;
+	width: 296px;
+    height: 284px;
 }
 
-#tab-info .table {
-    margin-top: 21px;
-}
 #tab-info .table th {
-    width: calc(100% * (53 / 536));
-    text-align: left;
-    padding-right: 17px;
+    width: calc(100% * (88 / 536));
+    text-align: right;
 }
 
 #tab-info .table th,
@@ -168,27 +189,97 @@ div.dts div.dataTables_scrollBody {
     vertical-align: top;
 }
 
+#tab-info .table td{
+	padding-left: 35px;
+}
+
 #tab-info .btns {
     margin-top: 24px;
+	justify-content: center;
 }
 
-#jqGrid tbody tr td .btn.btn--star--on{
-	margin-bottom: 2px;
-}
-#jqGrid tbody tr td .btn.btn--star{
-	margin-bottom: 2px;
-}
-
-.exchange .btn.btn--star{
-	margin-right: 10px;
+#tab-info .btns .btn{
+	width: 120px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
 }
 
 #tab-info > div{
 	flex-grow: 1;
 }
+
+
+/* #### tab-container ###*/
 .tab-container{
 	height: 509px;
 }
+
+.tab-content > div{
+	display: flex;
+}
+.tab-content > div > div{
+	width: 50%;
+}
+
+.details .tabs {
+	width: 100%;
+    margin: 0 auto;
+	justify-content: center;
+	column-gap: 60px;
+}
+.details .tabs li {
+	flex-grow: initial;
+    flex-basis: initial;
+    background: var(--white);
+    color: var(--basic-black);
+    border-bottom: 0 none !important;
+}
+
+.details .tabs li.tab--active {
+    color: #B81C22 !important;
+}
+
+/* .tab-content */ 
+/* table table_grade_B */
+
+
+
+
+
+
+
+/* .modal_area */
+.modal_area{
+	border-left: 2px solid #333;
+}
+
+.modal_area .tabs{
+	height: 45px;
+	line-height: 45px;
+	box-sizing: border-box;
+	border-bottom: 1px solid #333;
+}
+
+.modal_area .tabs li{
+	height: 100%;
+}
+
+.modal_area .tabs li.tab--active.B-sell-item{
+	color: #1C80B8!important;
+}
+
+.modal_area .tabs li button{
+	height: 100%;
+	line-height: 45px;
+	box-sizing: border-box;
+	vertical-align: initial;
+}
+
+
+
+
+
 
 /* 구매하기 */
 #modal-buy .modal--content ,
@@ -265,7 +356,28 @@ div.dts div.dataTables_scrollBody {
     font-size: 18px;
 }
 
-@media screen  and (max-width: 1440px){
+
+#white-paper .modal--dialog{
+	max-width: 1000px;
+	width: 100%;
+}
+
+#white-paper .modal--body dl dt{
+	width: 135px;
+	font-size: 18px;
+}
+#white-paper .modal--body dl dd{
+	max-width: 270px;
+	width: 100%;
+	font-size: 16px;
+}
+#white-paper .modal--body dl .input,
+#white-paper .modal--body dl .textarea{
+	font-size: 16px;
+}
+
+
+/* @media screen  and (max-width: 1440px){
 	
 	.details--body .details--price {
 		font-size: 20px;
@@ -281,7 +393,7 @@ div.dts div.dataTables_scrollBody {
 	}
 	.details .row.d-flex.under{border-bottom: 0.5px solid var(--linegray)}
 }
-
+ */
 @media screen and (max-width: 800px) {
 	.sub.exchange > .container >  header{display: none;}
 	.sub.exchange .contents--header{
