@@ -163,7 +163,7 @@ $(function() {
 
         clearTimeout(CHART_TIMER)
 
-        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
             $('.details').removeClass('loading')
 
             if(resp.success) {
@@ -174,7 +174,7 @@ $(function() {
         })
 
         CHART_TIMER = setTimeout(() => {
-            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
+            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
                 $('.details').removeClass('loading')
 
                 if(resp.success) {
@@ -185,7 +185,7 @@ $(function() {
             })
         }, 10000)
 
-        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
             displayChart(resp.payload, period)
         })
     })
