@@ -100,8 +100,8 @@ $(function() {
         let previous_close = 0
 
         const rdata = data.map((row) => {
-            const price_decrease_color = 'rgba(255,82,82, 0.8)'; // 종가 상승시 거래량 색
-            const price_increase_color = 'rgba(0, 150, 136, 0.8)'; // 종가 하락시 거래량 색
+            const price_decrease_color = 'rgba(255,82,82, 0.6)'; // 종가 상승시 거래량 색
+            const price_increase_color = 'rgba(82, 82, 255, 0.6)'; // 종가 하락시 거래량 색
             const price_color = previous_close <= row.close ? price_increase_color : price_decrease_color;
             previous_close = row.close;
 
@@ -226,7 +226,10 @@ $(function() {
   
         // ---------------------------------------------------
         // 가격봉 차트 생성
-        var candleSeries = chart.addCandlestickSeries()
+        var candleSeries = chart.addCandlestickSeries({
+            'upColor': '#f00', 'borderUpColor': '#f00', 'wickUpColor': '#f00', // https://tradingview.github.io/lightweight-charts/docs/api/interfaces/CandlestickStyleOptions
+            'downColor':'#00f', 'borderDownColor': '#00f', 'wickDownColor': '#00f',
+        })
         $(container).data('candleSeries', candleSeries);
     
         // 거래량 차트 생성
@@ -710,12 +713,13 @@ $(function() {
             SELECTED_SYMBOL = symbol
             SELECTED_EXCHANGE = exchange
             SELECTED_NAME = name
+            SELECTED_GRADE = data.goods_grade
 
             // 로딩 애니메이션 출력
             $('.details').addClass('loading')
             // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE); 
-            API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
-                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
+            API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
+                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
                     $('.details').removeClass('loading')
 
                     if (resp.success) {
