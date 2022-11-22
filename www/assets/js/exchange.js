@@ -140,7 +140,7 @@ $(function() {
     const periodList = [
         { text: '1'+__('분'), value: '1m' },
         { text: '3'+__('분'), value: '3m' },
-        { text: '3'+__('분'), value: '3m' },
+        // { text: '3'+__('분'), value: '3m' },
         { text: '5'+__('분'), value: '5m' },
         { text: '10'+__('분'), value: '10m' },
         { text: '15'+__('분'), value: '15m' },
