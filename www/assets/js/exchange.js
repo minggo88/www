@@ -757,7 +757,7 @@ $(function() {
                     $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
 
                     SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
-
+                    console.log('data:', data);
                     const diff = (spot.price_close - spot.price_open).toFixed(2)
                     const diffRate = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(4)
                     const diffPercent = Math.abs(diffRate * 100).toFixed(2)
