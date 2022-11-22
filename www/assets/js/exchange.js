@@ -758,8 +758,9 @@ $(function() {
 
                     SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
 
-                    const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(4)
-                    const diffPercent = Math.abs(diff * 100).toFixed(2)
+                    const diff = (spot.price_close - spot.price_open).toFixed(2)
+                    const diffRate = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(4)
+                    const diffPercent = Math.abs(diffRate * 100).toFixed(2)
                     const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
                     const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
                     const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==');
