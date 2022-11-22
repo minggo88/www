@@ -758,7 +758,7 @@ $(function() {
 
                     SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
 
-                    const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
+                    const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(4)
                     const diffPercent = Math.abs(diff * 100).toFixed(2)
                     const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
                     const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
