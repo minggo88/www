@@ -887,7 +887,7 @@ $(function() {
                     const diff = row.price_close - row.price_open
 
                     if (typeof (Intl) !== 'undefined') {
-                        return diff >= 0 ? '<span class="text-red text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>'
+                        return diff > 0 ? ('<span class="text-red text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>') : diff < 0 ? ('<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>') : '<span class="text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>'
                     }
         
                     return '<span class="text-red text-bold">' + real_number_format(row.price_close) + '</span>'
@@ -902,10 +902,10 @@ $(function() {
                     row.price_open = row.price_open*1
                     const diff = row.price > 0 && row.price > 0 ? (row.price - row.price_open) / row.price_open * 100 : 0;
                     if (typeof (Intl) !== 'undefined') {
-                        return diff >= 0 ? '<span class="text-red text-bold">+' + new Intl.NumberFormat('ko-KR', {
+                        return diff > 0 ? ('<span class="text-red text-bold">+' + new Intl.NumberFormat('ko-KR', {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
-                        }).format(diff) + '%</span>' : '<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>'
+                        }).format(diff) + '%</span>') : diff < 0 ? ('<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>') : '<span class="text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>'
                     }
                     return '<span class="text-red text-bold">' + real_number_format(diff) + '</span>'
                 }
