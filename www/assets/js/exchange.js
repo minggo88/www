@@ -397,7 +397,8 @@ $(function() {
                 data: (_d, _type, _row, meta) => {
                     const api = new $.fn.dataTable.Api( '#buyGrid' )
                     const pageInfo = api.page.info()
-                    return pageInfo.length - meta.row + 1
+                    // return pageInfo.length - meta.row + 1
+                    return meta.row + 1
                 }
             },
             {
@@ -533,14 +534,15 @@ $(function() {
         },
         columns : [
             {
-                data: (_d, _type, _row, meta) => {
+                data: (_d, _type, _row, meta,) => {
                     const api = new $.fn.dataTable.Api( '#sellGrid' )
                     const pageInfo = api.page.info()
 
                     if(!meta) {
                         return
                     }
-                    return pageInfo.length - meta.row + 1
+                    // return pageInfo.length - meta.row + 1
+                    return meta.row+1
                 }
             },
             {
