@@ -638,8 +638,8 @@ form .form--header h1 {
     align-items: flex-start;
     text-align: left;
     resize: none;
-
 }
+#white-paper .textarea { overflow: auto; }
 
 .input.input--small {
     height: auto;
