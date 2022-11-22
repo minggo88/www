@@ -747,7 +747,8 @@ $(function() {
                 })
 
                 if(resp.success && resp.payload[0]) {
-                    const spot = resp.payload[0]
+                    const spot = resp.payload[0];
+                    spot.price_low = spot.price_low > data.price_open ? data.price_open : spot.price_low;
 
                     // 최고가
                     $('#highest-price').text(real_number_format(spot.price_high))
