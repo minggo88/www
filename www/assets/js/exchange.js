@@ -757,15 +757,15 @@ $(function() {
                     $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
 
                     SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
-                    console.log('data:', data);
-                    const diff = (spot.price_close - spot.price_open).toFixed(2)
-                    const diffRate = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(4)
+                    // console.log('data:', data);
+                    const diff = (data.price - data.price_open).toFixed(2)
+                    const diffRate = ((data.price - data.price_open) / data.price_open).toFixed(4)
                     const diffPercent = Math.abs(diffRate * 100).toFixed(2)
                     const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
                     const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
                     const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==');
 
-                    $('.details--price').html('' + parseFloat(spot.price_close).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
+                    $('.details--price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
                     $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').siblings('img').attr('src', diff_icon)
