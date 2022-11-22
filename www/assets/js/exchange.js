@@ -758,7 +758,7 @@ $(function() {
 
                     SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
 
-                    const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(2)
+                    const diff = ((spot.price_close - spot.price_open) / spot.price_open).toFixed(4)
                     const diffPercent = Math.abs(diff * 100).toFixed(2)
                     const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
                     const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
@@ -1053,11 +1053,13 @@ $(function() {
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
         })
         .submit(e => {
+            $('#modal-buy-direct').find('button[type=submit]').attr('disabled', true);
             e.preventDefault()
             let data = $('#modal-buy-direct').serializeObject()
             data.price = data.price.replace(/[^\d]+/g, '');
             data.total = data.total.replace(/[^\d]+/g, '');
             API.buyDirect(data, (resp) => {
+                $('#modal-buy-direct').find('button[type=submit]').attr('disabled', false);
                 if (resp.success) {
                     set_user_wallet();
                     $('#modal-buy-direct').myModal('hide')
@@ -1095,8 +1097,10 @@ $(function() {
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
         })
         .submit(e => {
+            $('#modal-buy').find('button[type=submit]').attr('disabled', true);
             e.preventDefault()
             API.buy($('#modal-buy').serializeObject(), (resp) => {
+                $('#modal-buy').find('button[type=submit]').attr('disabled', false);
                 if(resp.success) {
                     set_user_wallet();
                     $('#modal-buy').myModal('hide')
@@ -1142,11 +1146,13 @@ $(function() {
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
         })
         .submit(e => {
+            $('#modal-sell-direct').find('button[type=submit]').attr('disabled', true);
             e.preventDefault()
             let data = $('#modal-sell-direct').serializeObject()
             data.price = data.price.replace(/[^\d]+/g, '');
             data.total = data.total.replace(/[^\d]+/g, '');
             API.sellDirect(data, (resp) => {
+                $('#modal-sell-direct').find('button[type=submit]').attr('disabled', false);
                 if (resp.success) {
                     const payload = resp.payload;
                     set_user_wallet();
@@ -1184,8 +1190,10 @@ $(function() {
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
         })
         .submit(e => {
+            $('#modal-sell').find('button[type=submit]').attr('disabled', true);
             e.preventDefault()
             API.sell($('#modal-sell').serializeObject(), (resp) => {
+                $('#modal-sell').find('button[type=submit]').attr('disabled', false);
                 if (resp.success) {
                     
                     // payload = {
