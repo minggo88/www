@@ -762,7 +762,7 @@ $(function() {
                     const diffPercent = Math.abs(diff * 100).toFixed(2)
                     const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
                     const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
-                    const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'about:blank');
+                    const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==');
 
                     $('.details--price').html('' + parseFloat(spot.price_close).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
                     $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
@@ -1246,6 +1246,6 @@ $(function() {
     
     $('#scan')
         .myModal('beforeClose', _e => {
-            $('#scan .modal--body').find('img,iframe').attr('src', 'about:blank')
+            $('#scan .modal--body').find('img,iframe').attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==')
         })
 })
