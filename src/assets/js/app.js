@@ -370,7 +370,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     }
     const LOGIN_PAGE = '/login.html';
 
-
     // jQuery plugins ----------------------------------------------------------------------------
     // get Numeric Value
     $.fn.numericVal = function () {
@@ -390,6 +389,18 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             event.preventDefault();
         })
     };
+
+    // check login before go ----------------------------------------------------------------------------
+
+    $(document).on('click', 'a[data-login]', function (e) { 
+        console.log(Model.user_info);
+        if (!Model.user_info || !Model.user_info.userid || !Model.user_info.userno) {
+            e.preventDefault();
+            ret_url = $(this).attr('href');
+            window.location.href = 'login.html?ret_url=' + base64_decode(ret_url);
+            return false;
+        }
+    })
 
     // set language ----------------------------------------------------------------------------
     let APP_LANG = window.lang || 'ko';
