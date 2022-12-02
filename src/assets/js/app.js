@@ -2077,7 +2077,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         // 아이디 포커스
         $('#box_login [name=email]').get(0).focus();
 
-        // 로그인
+		
+		
+		// 로그인
         $('#box_login form[name=login]').on('submit', function (e) {
             
             e.preventDefault()
@@ -2113,11 +2115,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     $('.validation--message').find('>p').text(msg).end().show()
                 }
             })
-            return false;
-
         });
-
+		$('#email').disableAutoFill();
+		$('#password').disableAutoFill(); 
     }
+	
+	
     const fn_logout = function () {
         $.post(API_URL + '/logout/', { 'token': getCookie('token') }, function (r) {
             // console.log(r);
