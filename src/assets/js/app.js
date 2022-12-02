@@ -393,7 +393,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     // check login before go ----------------------------------------------------------------------------
 
     $(document).on('click', 'a[data-login]', function (e) { 
-        console.log(Model.user_info);
         if (!Model.user_info || !Model.user_info.userid || !Model.user_info.userno) {
             e.preventDefault();
             ret_url = $(this).attr('href');
@@ -1419,7 +1418,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     /**
      * 회원정보 가져오기
      */
-    const request_user_info = function () {
+    const request_user_info = function (callback) {
         add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
             console.log('getMyInfo r:', r);
             if (r && r.success && !r.error) {
@@ -1428,6 +1427,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 user_info.bank_full = user_info.bank_name +' / '+ user_info.bank_account +' / '+ user_info.bank_owner;
                 force_rander('user_info', user_info);
                 reset_logedin_status();
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
             }
         });
     }
@@ -2114,11 +2116,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     let user_info = { 'userid': email };
                     Model.user_info = user_info;
                     get_user_wallet();
-                    request_user_info();
-                    let ret_url = getURLParameter('ret_url')
-                    ret_url = ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
-                    ret_url = setURLParameter('t', time(), ret_url);
-                    window.location.href = ret_url;
+                    request_user_info(function () { 
+                        let ret_url = getURLParameter('ret_url')
+                        ret_url = ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
+                        ret_url = setURLParameter('t', time(), ret_url);
+                        window.location.href = ret_url;
+                    });
                 } else {
                     let msg = r.error && r.error.message ? r.error.message : __('로그인 정보가 올바른지 확인해주세요.');
                     $('.validation--message').find('>p').text(msg).end().show()
