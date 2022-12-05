@@ -96,8 +96,13 @@
 	margin: 20px 0 15px;
 }
 
+
+.front .viusalArea .statistics .statistics--tea em{
+	padding: 0 35px;
+}
+
 .front .statistics > section{
-    width: 120px;
+    width: 160px;
     height: 60px;
     position: relative;
 }
@@ -105,7 +110,9 @@
 .front .statistics--tea em::after{
 	content: '';
 	position: relative;
-	left: 110%; top: -30px;
+	/* left: 110%; */ 
+	left: 140%;
+	top: -30px;
     display: block;
 	width: 1px;
 	height: 40px;
@@ -159,6 +166,7 @@
 	.viusalArea .typography h1 {
 		font-size: 18px; 
 		line-height: 25px;
+		padding:0 20px;
 	}
 	.front .viusalArea .typography p {
 		margin: 20px; 
@@ -171,6 +179,18 @@
 	.front .getting-started .btn-- {margin-bottom: 20px;}
 }
 
+@media (max-width: 375px) {
+	.front .viusalArea .statistics{
+		flex-direction: column;
+		margin-top: 50px;
+	}
+	.front .statistics > section.statistics--tea{
+		margin-bottom: 30px;
+	}
+	.front .statistics--tea em::after{
+		display: none;
+	}
+}
 
 .front .news {
 	height: 82px;
