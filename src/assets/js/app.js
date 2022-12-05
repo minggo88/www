@@ -1443,7 +1443,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
      * 회원지갑(잔액)정보 가져오기
      */
     const get_user_wallet = function () {
-        add_request_item('getBalance', { 'token': getCookie('token') }, function (r) {
+        // add_request_item('getBalance', { 'token': getCookie('token') }, function (r) {
+        $.post(API_URL + '/getBalance/', { 'token': getCookie('token') }, function (r) {
             if (r && r.success && !r.error) {
                 let user_wallet = {};
                 for (i in r.payload) {
