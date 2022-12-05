@@ -270,11 +270,11 @@ div.dts div.dataTables_scrollBody {
 	.details--body .details--price {
 		font-size: 20px;
 	}
-	.details--body{
+	/* .details--body{
 		padding-left: 0;
 		flex-direction: column;
 		height: 125px;
-	}
+	} */
 	.details .d-grid.grid-2-column{
 		align-self: flex-end;
 		width: 80%;
