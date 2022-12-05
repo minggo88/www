@@ -279,7 +279,7 @@ div.dts div.dataTables_scrollBody {
 		align-self: flex-end;
 		width: 80%;
 	}
-	.details .row.d-flex.under{border-bottom: 0.5px solid var(--linegray)}
+	/* .details .row.d-flex.under{border-bottom: 0.5px solid var(--linegray)} */
 }
 
 @media screen and (max-width: 800px) {
