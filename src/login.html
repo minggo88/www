@@ -111,17 +111,17 @@
 		</ul>
 	</header>
     <main class="d-flex flex-center" id="box_login">
-        <form id="login" name="login" action="login.html" method="post" class="d-flex flex-row flex-center">
+        <form id="login" name="login" action="login.html" method="post" class="d-flex flex-row flex-center" autocomplete="nope">
             <div class="form--header">
-                <h1 data-i18n>Login</h1>
+                <h1 data-i18n>로그인</h1>
             </div>
             <div class="form--controls" style="margin-bottom: 10px">
                 <label for="email" class="form--label" data-i18n>Email</label>
-                <input type="text" name="email" id="email" required placeholder="이메일을 입력해주세요." autocomplete="off" />
+                <input type="text" name="email" id="email" required placeholder="이메일을 입력해주세요." autocomplete="nope" />
             </div>
             <div class="form--controls" style="margin-bottom: 10px">
                 <label for="password" class="form--label" data-i18n>Password</label>
-                <input type="password" name="password" id="password" required  placeholder="비밀번호를 입력해주세요."/>
+                <input type="password" name="password" id="password" required  placeholder="비밀번호를 입력해주세요." autocomplete="nope"/>
             </div>
             <div class="validation--message mobile-only-block" style="display: none">
                 <p data-i18n>비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다.</p>
