@@ -399,10 +399,12 @@ $(function () {
 
         if(check) {
             $('#create-account-pin-number-confirm').addClass('loading')
-            
+
             API.join({
                 'social_id': email.val(),
                 'social_name': '', // 아이디/비번 방식으로 email 방식 제거
+                'name': $('[name="name"]').val(),
+                'mobile':$('[name="phone"]').val(),
                 'email': email.val(),
                 'userpw': password.val(),
                 'mobile_calling_code': sended_phoneCountry,
