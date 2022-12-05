@@ -265,20 +265,17 @@ div.dts div.dataTables_scrollBody {
     font-size: 18px;
 }
 
-@media screen  and (max-width: 1440px){
-	
+@media screen  and (max-width: 1070px){
 	.details--body .details--price {
 		font-size: 20px;
 	}
-	/* .details--body{
+	
+	.details--body{
 		padding-left: 0;
 		flex-direction: column;
 		height: 125px;
-	} */
-	.details .d-grid.grid-2-column{
-		align-self: flex-end;
-		width: 80%;
 	}
+
 	/* .details .row.d-flex.under{border-bottom: 0.5px solid var(--linegray)} */
 }
 
