@@ -266,6 +266,7 @@ div.dts div.dataTables_scrollBody {
 }
 
 @media screen  and (max-width: 1070px){
+	.details--body{padding: 7px 0 7px 0}
 	.details--body .details--price {
 		font-size: 20px;
 	}
