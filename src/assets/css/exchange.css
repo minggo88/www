@@ -116,6 +116,12 @@ div.dts div.dataTables_scrollBody {
     font-size: 16px
 }
 
+#legend_s_grade, #legend_a_grade, #legend_b_grade{line-height: 2rem;}
+#legend_s_grade:before{background: #ea4274;content: "";width: 10px;height: 3px;display: inline-block;margin: 3px 0.5rem;}
+#legend_a_grade:before{background: #58be82;content: "";width: 10px;height: 3px;display: inline-block;margin: 3px 0.5rem;}
+#legend_b_grade:before{background: #4c4c4c;content: "";width: 10px;height: 3px;display: inline-block;margin: 3px 0.5rem;}
+
+
 .details .tabs {
 	width: 100%;
     margin: 0 auto;
