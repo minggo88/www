@@ -523,19 +523,21 @@ $(function() {
                     const api = new $.fn.dataTable.Api( '#buyGrid' )
                     const pageInfo = api.page.info()
                     // return pageInfo.length - meta.row + 1
-                    return meta.row + 1
+                    // return meta.row + 1
+                    return _d.orderid;
                 }
             },
-            {
-                data: () => {
-                    return __('삽니다')
-                }
-            },
+            // {
+            //     data: () => {
+            //         return __('삽니다')
+            //     }
+            // },
             // 등록일
             {
                 data: 'time_order', render: (timestamp) => {
-                    const date = new Date(timestamp * 1000)
-                    return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
+                    return date('m-d H:i', timestamp * 1000);
+                    // const date = new Date(timestamp * 1000)
+                    // return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
                 }
             },
             {
@@ -561,21 +563,21 @@ $(function() {
                     return real_number_format(amount);
                 }
             },
-            // 상태
-            {
-                data: 'status', render: (status, _type, _row) => {
-                    switch(status) {
-                        case 'close':
-                            return __('판매완료')
-                        case 'buy':
-                            return __('구매완료')
-                        case 'trading':
-                            return __('거래중')
-                        case 'open':
-                            return __('대기')
-                    }
-                }
-            },
+            // // 상태
+            // {
+            //     data: 'status', render: (status, _type, _row) => {
+            //         switch(status) {
+            //             case 'close':
+            //                 return __('판매완료')
+            //             case 'buy':
+            //                 return __('구매완료')
+            //             case 'trading':
+            //                 return __('거래중')
+            //             case 'open':
+            //                 return __('대기')
+            //         }
+            //     }
+            // },
             { data: (d) => {
 				const price = d.price
 				const exchange = d.exchange
@@ -666,20 +668,22 @@ $(function() {
                     if(!meta) {
                         return
                     }
-                    // return pageInfo.length - meta.row + 1
-                    return meta.row+1
+                    // return pageInfo.length - meta.row + 1 // 역순(점점작게)
+                    // return meta.row+1 // 정순(점점크게)
+                    return _d.orderid;
                 }
             },
-            {
-                data: () => {
-                    return __('팝니다')
-                }
-            },
+            // {
+            //     data: () => {
+            //         return __('팝니다')
+            //     }
+            // },
             // 등록일
             {
                 data: 'time_order', render: (timestamp) => {
-                    const date = new Date(timestamp * 1000)
-                    return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
+                    return date('m-d H:i', timestamp * 1000);
+                    // const date = new Date(timestamp * 1000)
+                    // return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
                 }
             },
             {
@@ -706,21 +710,21 @@ $(function() {
                     return real_number_format(volume);
                 }
             },
-            // 상태
-            {
-                data: 'status', render: (status, _type, _row) => {
-                    switch(status) {
-                        case 'close':
-                            return __('판매완료')
-                        case 'buy':
-                            return __('구매완료')
-                        case 'trading':
-                            return __('거래중')
-                        case 'open':
-                            return __('대기')
-                    }
-                }
-            },
+            // // 상태
+            // {
+            //     data: 'status', render: (status, _type, _row) => {
+            //         switch(status) {
+            //             case 'close':
+            //                 return __('판매완료')
+            //             case 'buy':
+            //                 return __('구매완료')
+            //             case 'trading':
+            //                 return __('거래중')
+            //             case 'open':
+            //                 return __('대기')
+            //         }
+            //     }
+            // },
             {
                 data: (d) => {
                 const price = d.price
@@ -848,6 +852,8 @@ $(function() {
             // 로딩 애니메이션 출력
             $('.details').addClass('loading')
             // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE);
+
+            genChartLine();
 
             API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
                 if (resp.success && resp.payload) {
