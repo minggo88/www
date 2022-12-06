@@ -308,7 +308,12 @@
 								if ( new Date().getTime() - 60 * 60 * 24 *1000 <= regDate.getTime() ) {
 									icon = '<i class="icon--new"></i>'
 								}
-								tr.append(`<td>${no}</td>`)
+								if (item.division == "a") {
+									tr.append(`<td>공지</td>`)
+								} else {
+									tr.append(`<td>${no}</td>`)
+								}
+
 								tr.append(`<td><a href="notice_detail.html?idx=${item.idx}">${item.subject}</a>${icon}</td>`)
 								tr.append(`<td>${item.regdate.substr(0, 16)}</td>`)
 								tr.appendTo('.board--list tbody')
