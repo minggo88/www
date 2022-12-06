@@ -584,7 +584,8 @@ $(function() {
 				// const volume = d.volume
 				const volume_remain = d.volume_remain
 				const orderid = d.orderid
-				return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
+				const goods_grade = d.goods_grade
+				return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
 
             } },
         ],
@@ -731,7 +732,8 @@ $(function() {
                 const exchange = d.exchange
                 const volume_remain = d.volume_remain
                 const orderid = d.orderid
-                return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-target="#modal-buy-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
+                const goods_grade = d.goods_grade
+                return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
             } },
         ],
         columnDefs: [
@@ -829,10 +831,10 @@ $(function() {
 
             const data = row.data()
             
-            console.log('select.dt === data:', data);
+            // console.log('select.dt === data:', data);
 
             const { name, symbol, exchange, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
-            console.log(data);
+            // console.log(data);
             const { weight, story } = data
             const { keep_method } = data
             const { teamaster_note, producer_note }= data
@@ -847,7 +849,7 @@ $(function() {
             SELECTED_EXCHANGE = exchange
             SELECTED_NAME = name
             SELECTED_GRADE = data.goods_grade
-            console.log('SELECTED_GRADE:', SELECTED_GRADE);
+            // console.log('SELECTED_GRADE:', SELECTED_GRADE);
 
             // 로딩 애니메이션 출력
             $('.details').addClass('loading')
@@ -1195,6 +1197,7 @@ $(function() {
             const exchange = btn.data('exchange')
             const price = btn.data('price')*1
             const volume = btn.data('volume')*1
+            const goods_grade = btn.data('goods_grade')
             const name = SELECTED_NAME
             const modal = $('#modal-buy-direct')
             const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
@@ -1208,7 +1211,7 @@ $(function() {
             modal.find('[name=volume]').prop('max',volume)
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
-            modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
+            modal.find('[name=goods_grade]').val(goods_grade)
         })
         .submit(e => {
             $('#modal-buy-direct').find('button[type=submit]').attr('disabled', true);
@@ -1288,6 +1291,7 @@ $(function() {
             const exchange = btn.data('exchange')
             const price = btn.data('price')*1
             const volume = btn.data('volume')*1
+            const goods_grade = btn.data('goods_grade')
             const name = SELECTED_NAME
             const modal = $('#modal-sell-direct')
             const cnt_sellable = USER_WALLET[symbol]?.confirmed || 0;
@@ -1301,7 +1305,7 @@ $(function() {
             modal.find('[name=volume]').prop('max',volume)
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
-            modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
+            modal.find('[name=goods_grade]').val(goods_grade)
         })
         .submit(e => {
             $('#modal-sell-direct').find('button[type=submit]').attr('disabled', true);
