@@ -1167,8 +1167,8 @@ $(function() {
 $(function() { 
     $('.form-order').on('input', _e => {
         $form = $(_e.target).closest('form')
-        const price = parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/, ''))
-        const volume = parseFloat($form.find('[name=volume]').val())
+        const price = parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''))
+        const volume = parseFloat($form.find('[name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
         $form.find('[name=total]').val('' + real_number_format(price * volume) + '')
     })
     // $('#modal-buy [name=price], #modal-buy [name=volume]').on('input', _e => {
