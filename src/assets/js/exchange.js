@@ -754,8 +754,12 @@ $(function() {
                     $('#highest-price').text(real_number_format(spot.price_high))
                     // 최저가
                     $('#lowest-price').text(real_number_format(spot.price_low))
-                    $('#spot-volume').text(spot.volume.format())
-                    $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
+                    
+					//거래량
+					$('#spot-volume').text(spot.volume.format())
+
+					//거래대금
+					$('#spot-volume2').text(asianUintNumber((parseFloat(spot.price_close) * parseFloat(spot.volume))))
 
                     SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
                     // console.log('data:', data);
@@ -897,8 +901,8 @@ $(function() {
             // 전일대비
             {
                 data: (row, _type, _set) => {
-                    console.log('전일대비 row.price:', row.price);  
-                    console.log('전일대비 row.price_open:', row.price_open);  
+                    // console.log('전일대비 row.price:', row.price);  
+                    // console.log('전일대비 row.price_open:', row.price_open);  
                     row.price = row.price*1
                     row.price_open = row.price_open*1
                     const diff = row.price > 0 && row.price > 0 ? (row.price - row.price_open) / row.price_open * 100 : 0;
