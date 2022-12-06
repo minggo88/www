@@ -25,15 +25,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
-<link rel="stylesheet" href="./assets/css/common.css?t=1667796157">
-<link rel="stylesheet" href="./assets/css/header.css?t=1667796157">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1667796157">
-<link rel="stylesheet" href="./assets/css/components.css?t=1670201967">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1667796157">
-<link rel="stylesheet" href="./assets/css/transaction.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
+<link rel="stylesheet" href="./assets/css/common.css?t=1666845393">
+<link rel="stylesheet" href="./assets/css/header.css?t=1668050247">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
+<link rel="stylesheet" href="./assets/css/components.css?t=1670315205">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1667450534">
+<link rel="stylesheet" href="./assets/css/transaction.css?t=1670315205">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> -->
 <style>
     .product--image {
         width: 32px;
@@ -53,15 +53,15 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1667735148"></script>
-<script src="./assets/js/api.js?t=1668055903"></script>
-<script src="./assets/js/components.js?t=1667796157"></script>
+<script src="./assets/js/common.js?t=1670315205"></script>
+<script src="./assets/js/api.js?t=1668057319"></script>
+<script src="./assets/js/components.js?t=1668050247"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
 
-<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
-<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
-<script src="./i18n/i18n.js?t=1667796157"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
+<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
+<script src="./i18n/i18n.js?t=1665030514"></script>
 
 </head>
 <!-- BODY -->
@@ -233,7 +233,8 @@
 					<div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
 						<div name="symbol" class="dropdown-wrapper m-symbol-select">
 							<button type="button" class="dropdown"></button>
-							<div class="dropdown--item"><input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
+							<div class="dropdown--item">
+								<input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
 								<ul class="mt-0">
 								</ul>
 							</div>
@@ -259,7 +260,14 @@
 						</div>
 					</div>
 					<div style="display: flex; justify-content: space-between;" class="range_btn">
-						<input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px">
+						<div class="mdatepicker">
+							<label for="mstart" class="blind">Start date:</label>
+							<input type="date" id="mstart" name="mstart" required pattern="\d{4}-\d{2}-\d{2}" />
+							<span>~</span>
+							<label for="mend" class="blind">End date:</label>
+							<input type="date" id="mend" name="mend" required pattern="\d{4}-\d{2}-\d{2}" />
+						</div>
+						<!-- <input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px"> -->
 						<button type="button" name="btn-search2" class="btn btn--red" data-i18n>조회하기</button>
 					</div>
 				</div>
@@ -281,7 +289,13 @@
 							<button type="button" name="btn-reset-1y" class="period_btn btn btn--blue-gray" data-i18n>1년</button>
 						</div>
 					</div>
-					<input type="text" name="range" id="range" readonly class="daterange" style="margin-right: 10px">
+					<div class="datepicker" style="margin-right: 10px">
+						<label for="start" class="blind">Start date:</label>
+						<input type="date" id="start" name="start" required pattern="\d{4}-\d{2}-\d{2}" />
+						<span>~</span>
+						<label for="end" class="blind">End date:</label>
+						<input type="date" id="end" name="end" required pattern="\d{4}-\d{2}-\d{2}" />
+					</div>
 					<button type="button" name="btn-search" class="btn btn--red" data-i18n>조회하기</button>
 				</div>
 
@@ -339,14 +353,15 @@
 
 					<table class="transaction--list board--list desktop-only">
 						<colgroup class="desktop-only">
-							<col style="width:14%;"><!--전체-->
-							<col style="width:25%;"><!--제품-->
-							<col style="width:11%;"><!--단가-->
-							<col style="width:11%;"><!--수량-->
-							<col style="width:11%;"><!--총액-->
-							<col style="width:21%"><!--보냄-->
-							<col style="width:21%"><!--받음-->
-							<col style="width:11%"><!--날짜-->
+							<col /><!--전체-->
+							<col /><!--제품-->
+							<col /><!--단가-->
+							<col /><!--수량-->
+							<col /><!--총액-->
+							<col /><!--보냄-->
+							<col /><!--받음-->
+							<col /><!--날짜-->
+							<col />
 							<!-- <col style="width: calc(100% * (220 / 919))">
 							<col style="width: calc(100% * (80 / 919))">
 							<col style="width: calc(100% * (70 / 919))">
@@ -359,27 +374,28 @@
 							<tr>
 								<th style="position: relative; line-height: 1">
 									<div class="category dropdown-wrapper">
-										<button type="button" class="dropdown" name="category_label" data-i18n>전체</button>
-										<div class="dropdown--item" name="select_category" >
+										<button type="button" class="dropdown" name="category_label" data-i18n>체결시간</button>
+										<!-- <div class="dropdown--item" name="select_category" > -->
 <!--											<span data-i18n>전체</span>-->
-											<ul>
+											<!-- <ul>
 												<li><a href="" data-i18n data-category="" >전체</a></li>
 												<li><a href="" data-i18n data-category="sell">판매</a></li>
-												<li><a href="" data-i18n data-category="buy">구매</a></li>
+												<li><a href="" data-i18n data-category="buy">구매</a></li> -->
 <!--												<li><a href="" data-i18n>공동 구매</a></li>-->
 <!--												<li><a href="" data-i18n>경매</a></li>-->
 <!--												<li><a href="" data-i18n>제품 등록</a></li>-->
-											</ul>
-										</div>
+											<!-- </ul> -->
+										<!-- </div> -->
 									</div>
 								</th>
-								<th data-i18n>제품</th>
-								<th data-i18n>단가</th>
-								<th data-i18n>수량</th>
-								<th data-i18n>총액</th>
-								<th data-i18n>보냄</th>
-								<th data-i18n>받음</th>
-								<th data-i18n>날짜</th>
+								<th data-i18n>상품명</th>
+								<th data-i18n>생산년도</th>
+								<th data-i18n>거래종류<br>(매수,매도)</th>
+								<th data-i18n>거래수량</th>
+								<th data-i18n>거래단가</th>
+								<th data-i18n>거래금액</th>
+								<th data-i18n>수수료</th>
+								<th data-i18n>정산금액</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -898,7 +914,7 @@
         </ul>
     </div>
 
-    <script src="./assets/js/app.js?t=1670219981"></script>
+    <script src="./assets/js/app.js?t=1670207289"></script>
 
 </body>
 </html>
