@@ -161,35 +161,160 @@ $(function() {
         period = text.replaceAll('시간', 'h')
         period = text.replaceAll('분', 'm')
 
-        clearTimeout(CHART_TIMER)
+        // clearTimeout(CHART_TIMER)
 
-        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-            $('.details').removeClass('loading')
+        genChartLine();
 
-            if(resp.success) {
-                displayChart(resp.payload)
-            } else {
-                alert(resp.error.message)
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+            if (resp.success && resp.payload) {
+                displayChartLine('S', resp.payload);
+            }
+        })
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+            if (resp.success && resp.payload) {
+                displayChartLine('A', resp.payload);
+            }
+        })
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+            if (resp.success && resp.payload) {
+                displayChartLine('B', resp.payload);
             }
         })
 
-        CHART_TIMER = setTimeout(() => {
-            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-                $('.details').removeClass('loading')
+        // API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
+        //     $('.details').removeClass('loading')
 
-                if(resp.success) {
-                    updateChart(resp.payload)
-                } else {
-                    alert(resp.error.message)
-                }
-            })
-        }, 10000)
+        //     if(resp.success) {
+        //         displayChart(resp.payload)
+        //     } else {
+        //         alert(resp.error.message)
+        //     }
+        // })
 
-        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-            displayChart(resp.payload, period)
-        })
+        // CHART_TIMER = setTimeout(() => {
+        //     API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
+        //         $('.details').removeClass('loading')
+
+        //         if(resp.success) {
+        //             updateChart(resp.payload)
+        //         } else {
+        //             alert(resp.error.message)
+        //         }
+        //     })
+        // }, 10000)
+
+        // API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
+        //     displayChart(resp.payload, period)
+        // })
     })
-    const period = $('#period').dropdown('selected')
+    const period = $('#period').dropdown('selected');
+
+
+    const covertLineChartRowData = (row) => {
+        const [date, open, high, low, close, volume] = row.split('\t');
+        return {
+            'time': new Date(`${date}`).getTime() / 1000,
+            'value': close * 1
+        }
+    }
+    const getLineChartData = (data) => {
+        return data.split('\n').slice(1).map((row, index) => {
+            return covertLineChartRowData(row);
+        })
+    }
+
+    let chart = null;
+    const genChartLine = () => {
+        // 범례 숨기기
+        $('#legend_s_grade').hide();
+        $('#legend_a_grade').hide();
+        $('#legend_b_grade').hide();
+        
+        // 차트 대상 아이디
+        const target_id = 'tvchart';
+        // ---------------------------------------------------
+        // 차트 생성
+        const container = document.getElementById(target_id)
+        $(container).empty();
+        chart = LightweightCharts.createChart(container, {
+            width: detailsWidth,
+            height: height,
+            crosshair: {
+                mode: LightweightCharts.CrosshairMode.Normal,
+            },
+        })
+        // ---------------------------------------------------
+        // 반응형처리
+        $(window).resize(function() {
+            chart.applyOptions({
+            width: $('#'+target_id).outerWidth(),
+            height: $('#'+target_id).outerHeight()
+            });
+        });
+    }
+    genChartLine();
+
+
+    /**
+     * 라인 차트를 그립니다.
+     * 처음 화면에 라이 차트를 만들어 그려 넣습니다.
+     */
+    const displayChartLine = async (grade, data) => {
+        
+        // ---------------------------------------------------
+        // 라인 차트 생성
+        switch (grade) {
+            case 'S':
+                if (data) {
+                    window.lineSeries_S = chart.addLineSeries({
+                        color: '#ea4274',
+                        lineWidth: 2,
+                    });
+                    window.lineSeries_S.setData(getLineChartData(data));
+                    $('#legend_s_grade').show();
+                }
+                break;
+            case 'A':
+                if (data) {
+                    window.lineSeries_A = chart.addLineSeries({
+                        color: '#58be82',
+                        lineWidth: 1,
+                    });
+                    window.lineSeries_A.setData(getLineChartData(data));
+                    $('#legend_a_grade').show();
+                }
+                break;
+            case 'B':
+                if (data) {
+                    window.lineSeries_B = chart.addLineSeries({
+                        color: '#4c4c4c',
+                        lineWidth: 1,
+                    });
+                    window.lineSeries_B.setData(getLineChartData(data));
+                    $('#legend_b_grade').show();
+                }
+                break;
+        }
+
+        // ---------------------------------------------------
+        // 차트 스케일 맞춤
+        chart.timeScale().fitContent();
+
+        $('.details').removeClass('loading')
+    }
+
+    /**
+     * 라인 차트를 갱신합니다. 
+     * @param {*} grade 등급
+     * @param {*} data 차트데이터. API에서 받은값 그대로 전달 하면 됩니다.
+     */
+    const updateChartLine = (grade, data) => {
+        series_name = 'lineSeries_' + (grade).toUpperCase();
+        const last_data = covertLineChartRowData(data.split('\n').pop());
+        if(last_data) window[series_name].update(last_data)
+    }
+
+
     const displayChart = async (data) => {
         const cdata = data.split('\n').slice(1).map((row, index) => {
             const [date, open, high, low, close, volume] = row.split('\t');
@@ -718,33 +843,54 @@ $(function() {
             SELECTED_EXCHANGE = exchange
             SELECTED_NAME = name
             SELECTED_GRADE = data.goods_grade
+            console.log('SELECTED_GRADE:', SELECTED_GRADE);
 
             // 로딩 애니메이션 출력
             $('.details').addClass('loading')
-            // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE); 
+            // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE);
+
+            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+                if (resp.success && resp.payload) {
+                    displayChartLine('S', resp.payload);
+                }
+            })
+            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+                if (resp.success && resp.payload) {
+                    displayChartLine('A', resp.payload);
+                }
+            })
+            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+                if (resp.success && resp.payload) {
+                    displayChartLine('B', resp.payload);
+                }
+            })
+            
+
             API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
-                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-                    $('.details').removeClass('loading')
 
-                    if (resp.success) {
-                        displayChart(resp.payload)
-                        // 갱신은 이렇게 말고 함수로 변경합니다.
-                        // CHART_TIMER = setTimeout(() => {
-                        //     API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
-                        //         $('.details').removeClass('loading')
 
-                        //         if(resp.success) {
-                        //             updateChart(resp.payload)
-                        //         } else {
-                        //             alert(resp.error.message)
-                        //         }
-                        //     })
-                        // }, 10000)
-                    } else {
-                        alert(resp.error.message)
-                    }
+                // API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
+                //     $('.details').removeClass('loading')
 
-                })
+                //     if (resp.success) {
+                //         // displayChart(resp.payload)
+                //         // 갱신은 이렇게 말고 함수로 변경합니다.
+                //         // CHART_TIMER = setTimeout(() => {
+                //         //     API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
+                //         //         $('.details').removeClass('loading')
+
+                //         //         if(resp.success) {
+                //         //             updateChart(resp.payload)
+                //         //         } else {
+                //         //             alert(resp.error.message)
+                //         //         }
+                //         //     })
+                //         // }, 10000)
+                //     } else {
+                //         alert(resp.error.message)
+                //     }
+
+                // })
 
                 if(resp.success && resp.payload[0]) {
                     const spot = resp.payload[0];
@@ -897,8 +1043,8 @@ $(function() {
             // 전일대비
             {
                 data: (row, _type, _set) => {
-                    console.log('전일대비 row.price:', row.price);  
-                    console.log('전일대비 row.price_open:', row.price_open);  
+                    // console.log('전일대비 row.price:', row.price);  
+                    // console.log('전일대비 row.price_open:', row.price_open);  
                     row.price = row.price*1
                     row.price_open = row.price_open*1
                     const diff = row.price > 0 && row.price > 0 ? (row.price - row.price_open) / row.price_open * 100 : 0;
