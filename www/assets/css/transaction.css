@@ -116,7 +116,7 @@
 .sub.transaction .symbol-select{
 	border: 0.35px solid #DFDFDF;
 	border-radius: 3px;
-	width: 20%;
+	width: 31%;
 }
 
 
@@ -156,10 +156,33 @@
 	margin-right: 10px;
 }
 
-.sub.transaction .daterange{
+.sub.transaction .datepicker{
 	width: 68%;
 }
 
+.sub.transaction .daterange::before{
+	display: none;
+}
+
+/* .sub.transaction .datepicker .blind{
+	position: absolute; left: 0; top: 0; 
+	width: 0; height: 0; font-size: 0; line-height: 0; 
+	text-indent: -9999px; overflow: hidden; visibility: hidden;
+} */
+.sub.transaction .datepicker span{
+	font-size: 16px;
+	text-align: center;
+	width: 6%;
+	display: inline-block;
+	font-weight: 500;
+}
+.sub.transaction .datepicker input[type="date"]{
+	border: 0.35px solid #DFDFDF;
+    border-radius: 3px;
+	height: 40px;
+	width: 46%;
+	padding: 0 10px;
+} 
 .sub.transaction .desktop-only .btn.btn--red{
 	width: calc(32% - 10px);
 }
@@ -205,7 +228,8 @@
 	.sub.transaction .mobile-only{display: block!important;}
 
 	.sub.transaction .period > div:nth-of-type(1) .dropdown-wrapper:nth-child(1){
-		width: 140px;
+		/* width: 140px; */
+		width: calc(30% - 4px);
 		padding-left: 0px;
 	}
 
@@ -241,14 +265,46 @@
 		-webkit-mask-image: none;
 	}
 	
-	.sub.transaction .period .daterange{
+	.sub.transaction .period .mdatepicker{
 		height: 44px;
 		width: 64%;
 	}
+	.sub.transaction .period .mdatepicker span{
+		font-size: 16px;
+		text-align: center;
+		width: 5%;
+		display: inline-block;
+		font-weight: 500;
+	}
+
+	.sub.transaction .period .mdatepicker input[type="date"]{
+		border: 0.35px solid #DFDFDF;
+		border-radius: 3px;
+		height: 44px;
+		width: 46%;
+		padding: 0 10px;
+	} 
 
 	.sub.transaction .period .btn{
 		width: 34%;
 		border-radius: 5px;
+	}
+	
+	@media screen and (max-width: 500px){
+		.sub.transaction .range_btn{
+			flex-direction: column;
+		}
+		.sub.transaction .period .mdatepicker{
+			width: 100%;
+		}
+		.sub.transaction .period .btn{
+			margin-top: 10px;
+			width: 100%;
+			border-radius: 5px;
+		}
+		.sub.transaction .period > div:nth-of-type(1) .dropdown-wrapper:nth-child(1){
+			width: calc(47% - 5px);
+		}
 	}
 
 	/* ########################################################################### */

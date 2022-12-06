@@ -161,35 +161,160 @@ $(function() {
         period = text.replaceAll('시간', 'h')
         period = text.replaceAll('분', 'm')
 
-        clearTimeout(CHART_TIMER)
+        // clearTimeout(CHART_TIMER)
 
-        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-            $('.details').removeClass('loading')
+        genChartLine();
 
-            if(resp.success) {
-                displayChart(resp.payload)
-            } else {
-                alert(resp.error.message)
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+            if (resp.success && resp.payload) {
+                displayChartLine('S', resp.payload);
+            }
+        })
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+            if (resp.success && resp.payload) {
+                displayChartLine('A', resp.payload);
+            }
+        })
+        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+            if (resp.success && resp.payload) {
+                displayChartLine('B', resp.payload);
             }
         })
 
-        CHART_TIMER = setTimeout(() => {
-            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-                $('.details').removeClass('loading')
+        // API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
+        //     $('.details').removeClass('loading')
 
-                if(resp.success) {
-                    updateChart(resp.payload)
-                } else {
-                    alert(resp.error.message)
-                }
-            })
-        }, 10000)
+        //     if(resp.success) {
+        //         displayChart(resp.payload)
+        //     } else {
+        //         alert(resp.error.message)
+        //     }
+        // })
 
-        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-            displayChart(resp.payload, period)
-        })
+        // CHART_TIMER = setTimeout(() => {
+        //     API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
+        //         $('.details').removeClass('loading')
+
+        //         if(resp.success) {
+        //             updateChart(resp.payload)
+        //         } else {
+        //             alert(resp.error.message)
+        //         }
+        //     })
+        // }, 10000)
+
+        // API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
+        //     displayChart(resp.payload, period)
+        // })
     })
-    const period = $('#period').dropdown('selected')
+    const period = $('#period').dropdown('selected');
+
+
+    const covertLineChartRowData = (row) => {
+        const [date, open, high, low, close, volume] = row.split('\t');
+        return {
+            'time': new Date(`${date}`).getTime() / 1000,
+            'value': close * 1
+        }
+    }
+    const getLineChartData = (data) => {
+        return data.split('\n').slice(1).map((row, index) => {
+            return covertLineChartRowData(row);
+        })
+    }
+
+    let chart = null;
+    const genChartLine = () => {
+        // 범례 숨기기
+        $('#legend_s_grade').hide();
+        $('#legend_a_grade').hide();
+        $('#legend_b_grade').hide();
+        
+        // 차트 대상 아이디
+        const target_id = 'tvchart';
+        // ---------------------------------------------------
+        // 차트 생성
+        const container = document.getElementById(target_id)
+        $(container).empty();
+        chart = LightweightCharts.createChart(container, {
+            width: detailsWidth,
+            height: height,
+            crosshair: {
+                mode: LightweightCharts.CrosshairMode.Normal,
+            },
+        })
+        // ---------------------------------------------------
+        // 반응형처리
+        $(window).resize(function() {
+            chart.applyOptions({
+            width: $('#'+target_id).outerWidth(),
+            height: $('#'+target_id).outerHeight()
+            });
+        });
+    }
+    genChartLine();
+
+
+    /**
+     * 라인 차트를 그립니다.
+     * 처음 화면에 라이 차트를 만들어 그려 넣습니다.
+     */
+    const displayChartLine = async (grade, data) => {
+        
+        // ---------------------------------------------------
+        // 라인 차트 생성
+        switch (grade) {
+            case 'S':
+                if (data) {
+                    window.lineSeries_S = chart.addLineSeries({
+                        color: '#ea4274',
+                        lineWidth: 2,
+                    });
+                    window.lineSeries_S.setData(getLineChartData(data));
+                    $('#legend_s_grade').show();
+                }
+                break;
+            case 'A':
+                if (data) {
+                    window.lineSeries_A = chart.addLineSeries({
+                        color: '#58be82',
+                        lineWidth: 1,
+                    });
+                    window.lineSeries_A.setData(getLineChartData(data));
+                    $('#legend_a_grade').show();
+                }
+                break;
+            case 'B':
+                if (data) {
+                    window.lineSeries_B = chart.addLineSeries({
+                        color: '#4c4c4c',
+                        lineWidth: 1,
+                    });
+                    window.lineSeries_B.setData(getLineChartData(data));
+                    $('#legend_b_grade').show();
+                }
+                break;
+        }
+
+        // ---------------------------------------------------
+        // 차트 스케일 맞춤
+        chart.timeScale().fitContent();
+
+        $('.details').removeClass('loading')
+    }
+
+    /**
+     * 라인 차트를 갱신합니다. 
+     * @param {*} grade 등급
+     * @param {*} data 차트데이터. API에서 받은값 그대로 전달 하면 됩니다.
+     */
+    const updateChartLine = (grade, data) => {
+        series_name = 'lineSeries_' + (grade).toUpperCase();
+        const last_data = covertLineChartRowData(data.split('\n').pop());
+        if(last_data) window[series_name].update(last_data)
+    }
+
+
     const displayChart = async (data) => {
         const cdata = data.split('\n').slice(1).map((row, index) => {
             const [date, open, high, low, close, volume] = row.split('\t');
@@ -398,19 +523,21 @@ $(function() {
                     const api = new $.fn.dataTable.Api( '#buyGrid' )
                     const pageInfo = api.page.info()
                     // return pageInfo.length - meta.row + 1
-                    return meta.row + 1
+                    // return meta.row + 1
+                    return _d.orderid;
                 }
             },
-            {
-                data: () => {
-                    return __('삽니다')
-                }
-            },
+            // {
+            //     data: () => {
+            //         return __('삽니다')
+            //     }
+            // },
             // 등록일
             {
                 data: 'time_order', render: (timestamp) => {
-                    const date = new Date(timestamp * 1000)
-                    return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
+                    return date('m-d H:i', timestamp * 1000);
+                    // const date = new Date(timestamp * 1000)
+                    // return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
                 }
             },
             {
@@ -436,28 +563,29 @@ $(function() {
                     return real_number_format(amount);
                 }
             },
-            // 상태
-            {
-                data: 'status', render: (status, _type, _row) => {
-                    switch(status) {
-                        case 'close':
-                            return __('판매완료')
-                        case 'buy':
-                            return __('구매완료')
-                        case 'trading':
-                            return __('거래중')
-                        case 'open':
-                            return __('대기')
-                    }
-                }
-            },
+            // // 상태
+            // {
+            //     data: 'status', render: (status, _type, _row) => {
+            //         switch(status) {
+            //             case 'close':
+            //                 return __('판매완료')
+            //             case 'buy':
+            //                 return __('구매완료')
+            //             case 'trading':
+            //                 return __('거래중')
+            //             case 'open':
+            //                 return __('대기')
+            //         }
+            //     }
+            // },
             { data: (d) => {
 				const price = d.price
 				const exchange = d.exchange
 				// const volume = d.volume
 				const volume_remain = d.volume_remain
 				const orderid = d.orderid
-				return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
+				const goods_grade = d.goods_grade
+				return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
 
             } },
         ],
@@ -541,20 +669,22 @@ $(function() {
                     if(!meta) {
                         return
                     }
-                    // return pageInfo.length - meta.row + 1
-                    return meta.row+1
+                    // return pageInfo.length - meta.row + 1 // 역순(점점작게)
+                    // return meta.row+1 // 정순(점점크게)
+                    return _d.orderid;
                 }
             },
-            {
-                data: () => {
-                    return __('팝니다')
-                }
-            },
+            // {
+            //     data: () => {
+            //         return __('팝니다')
+            //     }
+            // },
             // 등록일
             {
                 data: 'time_order', render: (timestamp) => {
-                    const date = new Date(timestamp * 1000)
-                    return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
+                    return date('m-d H:i', timestamp * 1000);
+                    // const date = new Date(timestamp * 1000)
+                    // return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
                 }
             },
             {
@@ -581,28 +711,29 @@ $(function() {
                     return real_number_format(volume);
                 }
             },
-            // 상태
-            {
-                data: 'status', render: (status, _type, _row) => {
-                    switch(status) {
-                        case 'close':
-                            return __('판매완료')
-                        case 'buy':
-                            return __('구매완료')
-                        case 'trading':
-                            return __('거래중')
-                        case 'open':
-                            return __('대기')
-                    }
-                }
-            },
+            // // 상태
+            // {
+            //     data: 'status', render: (status, _type, _row) => {
+            //         switch(status) {
+            //             case 'close':
+            //                 return __('판매완료')
+            //             case 'buy':
+            //                 return __('구매완료')
+            //             case 'trading':
+            //                 return __('거래중')
+            //             case 'open':
+            //                 return __('대기')
+            //         }
+            //     }
+            // },
             {
                 data: (d) => {
                 const price = d.price
                 const exchange = d.exchange
                 const volume_remain = d.volume_remain
                 const orderid = d.orderid
-                return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-target="#modal-buy-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
+                const goods_grade = d.goods_grade
+                return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
             } },
         ],
         columnDefs: [
@@ -700,10 +831,10 @@ $(function() {
 
             const data = row.data()
             
-            console.log('select.dt === data:', data);
+            // console.log('select.dt === data:', data);
 
             const { name, symbol, exchange, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
-            console.log(data);
+            // console.log(data);
             const { weight, story } = data
             const { keep_method } = data
             const { teamaster_note, producer_note }= data
@@ -718,33 +849,56 @@ $(function() {
             SELECTED_EXCHANGE = exchange
             SELECTED_NAME = name
             SELECTED_GRADE = data.goods_grade
+            // console.log('SELECTED_GRADE:', SELECTED_GRADE);
 
             // 로딩 애니메이션 출력
             $('.details').addClass('loading')
-            // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE); 
+            // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE);
+
+            genChartLine();
+
+            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+                if (resp.success && resp.payload) {
+                    displayChartLine('S', resp.payload);
+                }
+            })
+            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+                if (resp.success && resp.payload) {
+                    displayChartLine('A', resp.payload);
+                }
+            })
+            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+                if (resp.success && resp.payload) {
+                    displayChartLine('B', resp.payload);
+                }
+            })
+            
+
             API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
-                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-                    $('.details').removeClass('loading')
 
-                    if (resp.success) {
-                        displayChart(resp.payload)
-                        // 갱신은 이렇게 말고 함수로 변경합니다.
-                        // CHART_TIMER = setTimeout(() => {
-                        //     API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
-                        //         $('.details').removeClass('loading')
 
-                        //         if(resp.success) {
-                        //             updateChart(resp.payload)
-                        //         } else {
-                        //             alert(resp.error.message)
-                        //         }
-                        //     })
-                        // }, 10000)
-                    } else {
-                        alert(resp.error.message)
-                    }
+                // API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
+                //     $('.details').removeClass('loading')
 
-                })
+                //     if (resp.success) {
+                //         // displayChart(resp.payload)
+                //         // 갱신은 이렇게 말고 함수로 변경합니다.
+                //         // CHART_TIMER = setTimeout(() => {
+                //         //     API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
+                //         //         $('.details').removeClass('loading')
+
+                //         //         if(resp.success) {
+                //         //             updateChart(resp.payload)
+                //         //         } else {
+                //         //             alert(resp.error.message)
+                //         //         }
+                //         //     })
+                //         // }, 10000)
+                //     } else {
+                //         alert(resp.error.message)
+                //     }
+
+                // })
 
                 if(resp.success && resp.payload[0]) {
                     const spot = resp.payload[0];
@@ -754,8 +908,12 @@ $(function() {
                     $('#highest-price').text(real_number_format(spot.price_high))
                     // 최저가
                     $('#lowest-price').text(real_number_format(spot.price_low))
-                    $('#spot-volume').text(spot.volume.format())
-                    $('#spot-volume2').text((parseFloat(spot.price_close) * parseFloat(spot.volume)).format())
+                    
+					//거래량
+					$('#spot-volume').text(spot.volume.format())
+
+					//거래대금
+					$('#spot-volume2').text(asianUintNumber((parseFloat(spot.price_close) * parseFloat(spot.volume))))
 
                     SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
                     // console.log('data:', data);
@@ -897,8 +1055,8 @@ $(function() {
             // 전일대비
             {
                 data: (row, _type, _set) => {
-                    console.log('전일대비 row.price:', row.price);  
-                    console.log('전일대비 row.price_open:', row.price_open);  
+                    // console.log('전일대비 row.price:', row.price);  
+                    // console.log('전일대비 row.price_open:', row.price_open);  
                     row.price = row.price*1
                     row.price_open = row.price_open*1
                     const diff = row.price > 0 && row.price > 0 ? (row.price - row.price_open) / row.price_open * 100 : 0;
@@ -1017,8 +1175,8 @@ $(function() {
 $(function() { 
     $('.form-order').on('input', _e => {
         $form = $(_e.target).closest('form')
-        const price = parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/, ''))
-        const volume = parseFloat($form.find('[name=volume]').val())
+        const price = parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''))
+        const volume = parseFloat($form.find('[name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
         $form.find('[name=total]').val('' + real_number_format(price * volume) + '')
     })
     // $('#modal-buy [name=price], #modal-buy [name=volume]').on('input', _e => {
@@ -1039,6 +1197,7 @@ $(function() {
             const exchange = btn.data('exchange')
             const price = btn.data('price')*1
             const volume = btn.data('volume')*1
+            const goods_grade = btn.data('goods_grade')
             const name = SELECTED_NAME
             const modal = $('#modal-buy-direct')
             const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
@@ -1052,7 +1211,7 @@ $(function() {
             modal.find('[name=volume]').prop('max',volume)
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
-            modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
+            modal.find('[name=goods_grade]').val(goods_grade)
         })
         .submit(e => {
             $('#modal-buy-direct').find('button[type=submit]').attr('disabled', true);
@@ -1132,6 +1291,7 @@ $(function() {
             const exchange = btn.data('exchange')
             const price = btn.data('price')*1
             const volume = btn.data('volume')*1
+            const goods_grade = btn.data('goods_grade')
             const name = SELECTED_NAME
             const modal = $('#modal-sell-direct')
             const cnt_sellable = USER_WALLET[symbol]?.confirmed || 0;
@@ -1145,7 +1305,7 @@ $(function() {
             modal.find('[name=volume]').prop('max',volume)
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
-            modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
+            modal.find('[name=goods_grade]').val(goods_grade)
         })
         .submit(e => {
             $('#modal-sell-direct').find('button[type=submit]').attr('disabled', true);
