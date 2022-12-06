@@ -1,3 +1,16 @@
+.blind{
+	position: absolute; 
+	left: 0; 
+	top: 0; 
+	width: 0; 
+	height: 0; 
+	font-size: 0; 
+	line-height: 0; 
+	text-indent: -9999px; 
+	overflow: hidden; 
+	visibility: hidden;
+}
+
 /* List */
 .list {
     padding: 0;
