@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="build">
-      <change beforePath="$PROJECT_DIR$/src/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/js/create-account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/js/create-account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/member-account.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/member-account.html" afterDir="false" />
+    <list default="true" id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="회원 가입시 이름, 핸드폰번호 기입">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/change-pin-number.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/change-pin-number.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/notice.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/notice.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +67,7 @@
       <workItem from="1669356527271" duration="1796000" />
       <workItem from="1669358521727" duration="1127000" />
       <workItem from="1669711439862" duration="1700000" />
-      <workItem from="1670201735834" duration="7395000" />
+      <workItem from="1670201735834" duration="12274000" />
     </task>
     <task id="LOCAL-00001" summary="build">
       <created>1667886141115</created>
@@ -174,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669102678981</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="회원 가입시 이름, 핸드폰번호 기입">
+      <created>1670220348964</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1670220348964</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,6 +207,7 @@
     <MESSAGE value="index 공지사항 url 연결" />
     <MESSAGE value="팝니다, 삽니다 번호 수정" />
     <MESSAGE value="build" />
-    <option name="LAST_COMMIT_MESSAGE" value="build" />
+    <MESSAGE value="회원 가입시 이름, 핸드폰번호 기입" />
+    <option name="LAST_COMMIT_MESSAGE" value="회원 가입시 이름, 핸드폰번호 기입" />
   </component>
 </project>

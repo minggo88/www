@@ -1,8 +1,9 @@
 $(function () {
-    
+    $('.number').autotab({ tabOnSelect: true },'filter', 'number');
+	
     $('#change-security-password').submit((e) => {
         e.preventDefault()
-        console.log("a"+Model.user_info.userno)
+        console.log("a"+ Model.user_info.userno)
         let check = true
         let pin = ''
         $('#change-security-password .grid--code input[type=number]').each((_index, elem) => {
