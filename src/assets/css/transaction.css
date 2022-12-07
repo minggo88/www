@@ -61,6 +61,17 @@
 	white-space: nowrap;
 	box-sizing: border-box;
 }
+.sub.transaction .transaction--list td .btn--cancal {
+	width: auto;
+	padding: 0 0.3rem;
+	height: auto;
+	line-height: 1.4rem;
+	font-size: .7rem;
+	margin-left: 0.5rem;
+	background: var(--red-up);
+	color: #fff;
+}
+
 
 .sub.transaction .transaction--list th:first-of-type{
 	/* 첫번째 th */
