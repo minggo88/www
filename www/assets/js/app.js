@@ -757,9 +757,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     }
 
-    if (APP_RUNMODE != 'live') {
+    // if (APP_RUNMODE != 'live') {
         window.Model = Model;
-    }
+    // }
     // Model.addChangeListener = addChangeListener;
 
     // 기본 데이터 셋팅
