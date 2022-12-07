@@ -1737,80 +1737,84 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     const fn_transaction = function() {
         check_login();
 
-        $('input[name="range"]').daterangepicker({
-            format: 'YYYY-MM-DD',
-            maxDate: (new Date()),
-            autoUpdateInput: true,
-            autoApply: true,
-            locale: {
-                format: 'YYYY-MM-DD',
-                "daysOfWeek": [
-                    __("일"),
-                    __("월"),
-                    __("화"),
-                    __("수"),
-                    __("목"),
-                    __("금"),
-                    __("토")
-                ],
-                "monthNames": [
-                    __("1월"),
-                    __("2월"),
-                    __("3월"),
-                    __("4월"),
-                    __("5월"),
-                    __("6월"),
-                    __("7월"),
-                    __("8월"),
-                    __("9월"),
-                    __("10월"),
-                    __("11월"),
-                    __("12월")
-                ],
-            }
-        });
+        // $('input[name="range"]').daterangepicker({
+        //     format: 'YYYY-MM-DD',
+        //     maxDate: (new Date()),
+        //     autoUpdateInput: true,
+        //     autoApply: true,
+        //     locale: {
+        //         format: 'YYYY-MM-DD',
+        //         "daysOfWeek": [
+        //             __("일"),
+        //             __("월"),
+        //             __("화"),
+        //             __("수"),
+        //             __("목"),
+        //             __("금"),
+        //             __("토")
+        //         ],
+        //         "monthNames": [
+        //             __("1월"),
+        //             __("2월"),
+        //             __("3월"),
+        //             __("4월"),
+        //             __("5월"),
+        //             __("6월"),
+        //             __("7월"),
+        //             __("8월"),
+        //             __("9월"),
+        //             __("10월"),
+        //             __("11월"),
+        //             __("12월")
+        //         ],
+        //     }
+        // });
 
         // 검색기간
         let sdate = date('Y-m-d');
         let edate = date('Y-m-d');
+        $('[name="start"]').val(sdate);
+        $('[name="end"]').val(edate);
 
         $('[name="btn-reset-1w"]').on('click', function() {
             sdate = date('Y-m-d', time()-60*60*24*7);
             edate = date('Y-m-d');
-            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
-            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
-            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
-            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+            $('[name="start"]').val(sdate);
+            $('[name="end"]').val(edate);
+            $('[name="mstart"]').val(sdate);
+            $('[name="mend"]').val(edate);
         });
         $('[name="btn-reset-1m"]').on('click', function() {
             sdate = date('Y-m-d', time()-60*60*24*30);
             edate = date('Y-m-d');
-            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
-            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
-            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
-            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+            $('[name="start"]').val(sdate);
+            $('[name="end"]').val(edate);
+            $('[name="mstart"]').val(sdate);
+            $('[name="mend"]').val(edate);
         });
         $('[name="btn-reset-6m"]').on('click', function() {
             sdate = date('Y-m-d', time()-60*60*24*30*6);
             edate = date('Y-m-d');
-            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
-            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
-            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
-            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+            $('[name="start"]').val(sdate);
+            $('[name="end"]').val(edate);
+            $('[name="mstart"]').val(sdate);
+            $('[name="mend"]').val(edate);
         });
         $('[name="btn-reset-1y"]').on('click', function() {
             sdate = date('Y-m-d', time()-60*60*24*365);
             edate = date('Y-m-d');
-            $('input[id="range"]').data('daterangepicker').setStartDate(sdate);
-            $('input[id="range"]').data('daterangepicker').setEndDate(edate);
-            $('input[id="range2"]').data('daterangepicker').setStartDate(sdate);
-            $('input[id="range2"]').data('daterangepicker').setEndDate(edate);
+            $('[name="start"]').val(sdate);
+            $('[name="end"]').val(edate);
+            $('[name="mstart"]').val(sdate);
+            $('[name="mend"]').val(edate);
         });
 
         let first_dropdown_value = '';
         for(i of Object.values(Model.user_wallet)) {
-            if(!first_dropdown_value) { first_dropdown_value = i.symbol;}
             if (i.symbol.length >= 10) {
+                if(!first_dropdown_value) {
+                    first_dropdown_value = i.symbol;
+                }
                 // $('#symbol').dropdown('add', { value: i.symbol, text: i.name })
                 $('[name="symbol"]').dropdown('add', { value: i.symbol, text: i.name })
             }
@@ -1874,6 +1878,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             getTransactionList(page, rows)
         });
 
+        let last_page = 1;
+        let last_rows = 10;
+
         let selected_category = '';
         const getTransactionList = (page, rows) => {
             const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
@@ -1881,17 +1888,27 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             add_request_item('getMyTradingList', {'token':getCookie('token'), 'symbol':selected_symbol, 'exchange':'krw', 'start_date':sdate, 'end_date':edate, 'category':category, 'page':page, 'rows':rows }, function(r) {
                 $('.board--list tbody').empty();
                 $('.m-transaction--list').empty();
+                last_page = page;
+                last_rows = rows;
 
                 r.payload.map((item) => {
                     const tr = $('<tr>')
-                    tr.append(`<td class="text--left" style="font-size: 12px"><i class="ico-${item.trading_type_str}"></i>${item.trading_type_str}</td>`)
+                    tr.append(`<td class="text--left" style="font-size: 12px">${date('Y-m-d H:i', item.time_traded).substr(2,11)}</td>`)
                     tr.append(`<td class="text&#45;&#45;left"  style="font-size: 12px"><span class="product&#45;&#45;image"><img src="${Model.user_wallet[selected_symbol].icon_url}" alt=""></span>${Model.user_wallet[selected_symbol].name}</td>`)
-                    tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.price)}</td>`)
+                    tr.append(`<td class="text--right" style="font-size: 12px">${item.production_date}</td>`)
+                    // tr.append(`<td class="text--right" style="font-size: 12px"><i class="ico-${item.trading_type_str}"></i>${item.trading_type_str} <button type="button" class="btn btn--cancal" name="order_cancal" data-symbol="${item.symbol}" data-order_id="${item.orderid}" data-goods_grade="${item.goods_grade}" >취소</button> </td>`)
+                    let t = `<td class="text--right" style="font-size: 12px"><i class="ico-${item.trading_type_str}"></i>${item.trading_type_str}`;
+
+                    if(item.status == 'O' || item.status == 'T' && item.volume_remain > 0 ) {
+                        t+= `<button type="button" class="btn btn--cancal" name="order_cancal" data-symbol="${item.symbol}" data-order_id="${item.orderid}" data-goods_grade="${item.goods_grade}"  >취소</button>`;
+                    }
+                    t+=`</td>`;
+                    tr.append(t);
                     tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.volume)}</td>`)
-                    tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.amount)}</td>`)
-                    tr.append(`<td class="" style="font-size: 10px">${item.sell_userid}</td>`)
-                    tr.append(`<td class="" style="font-size: 10px">${item.buy_userid}</td>`)
-                    tr.append(`<td class="" style="font-size: 12px">${date('Y-m-d H:i', item.time_traded).substr(2,11)}</td>`)
+                    tr.append(`<td class="" style="font-size: 10px">${real_number_format(item.price)}</td>`)
+                    tr.append(`<td class="" style="font-size: 10px">${real_number_format(item.amount)}</td>`)
+                    tr.append(`<td class="" style="font-size: 12px">${real_number_format(item.fee)}</td>`)
+                    tr.append(`<td class="" style="font-size: 12px">${real_number_format(item.settl_price)}</td>`)
                     tr.appendTo('.board--list tbody')
 
                     const div = $('<div class="accordion&#45;&#45;item">')
@@ -1904,7 +1921,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         '\t\t\t\t\t\t\t\t\t\t<div class="items">\n' +
                         '\t\t\t\t\t\t\t\t\t\t\t<div class="name">'+Model.user_wallet[selected_symbol].name+'</div>\n' +
                         '\t\t\t\t\t\t\t\t\t\t\t<div class="item">\n' +
-                        '\t\t\t\t\t\t\t\t\t\t\t\t<span><i class="ico-제품등록"></i> 제품 등록</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t\t\t<span><i class=ico-'+item.trading_type_str+'></i> 제품 등록</span>\n' +
                         '\t\t\t\t\t\t\t\t\t\t\t\t<span>'+date('Y-m-d H:i', item.time_traded).substr(2,11)+'</span>\n' +
                         '\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
                         '\t\t\t\t\t\t\t\t\t\t</div>\n' +
@@ -1923,10 +1940,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         '\t\t\t\t\t\t\t\t\t\t수량<span>'+real_number_format(item.volume)+'</span>\n' +
                         '\t\t\t\t\t\t\t\t\t</li>\n' +
                         '\t\t\t\t\t\t\t\t\t<li>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t보냄<span>'+item.sell_userid+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t수수료<span>'+real_number_format(item.fee)+'</span>\n' +
                         '\t\t\t\t\t\t\t\t\t</li>\n' +
                         '\t\t\t\t\t\t\t\t\t<li>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t받음<span>'+item.buy_userid+'</span>\n' +
+                        '\t\t\t\t\t\t\t\t\t\t정산금액<span>'+real_number_format(item.settl_price)+'</span>\n' +
                         '\t\t\t\t\t\t\t\t\t</li>\n' +
                         '\t\t\t\t\t\t\t\t</ul>\n' +
                         '\t\t\t\t\t\t\t</div>')
@@ -1957,6 +1974,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
             })
         }
+        const reloadTransactionlist = () => {
+            getTreansactionList(last_page, last_rows);
+        }
+
 
         $('.board--pagination').on('click', 'a', (e) => {
             e.preventDefault()
@@ -1995,6 +2016,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
         })
 
+        $(document).on('click', ".btn--cancal", function() {
+            // alert($(this).data('order_id'));
+            add_request_item('cancel', {'symbol':$(this).data('symbol'), 'orderid':$(this).data('order_id'),  'goods_grade':$(this).data('goods_grade') }, function(r) {
+                console.log(r)
+                if(r && r.success) { reloadTransactionlist(); }
+            });
+        })
     }
 
 
