@@ -392,14 +392,23 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     // check login before go ----------------------------------------------------------------------------
 
-    $(document).on('click', 'a[data-login]', function (e) { 
-        if (!Model.user_info || !Model.user_info.userid || !Model.user_info.userno) {
-            e.preventDefault();
-            ret_url = $(this).attr('href');
-            window.location.href = 'login.html?ret_url=' + base64_encode(ret_url);
-            return false;
-        }
-    })
+    $(document)
+        .on('click', 'a[data-login]', function (e) {
+            if (!Model.user_info || !Model.user_info.userid || !Model.user_info.userno) {
+                e.preventDefault();
+                ret_url = $(this).attr('href');
+                window.location.href = 'login.html?ret_url=' + base64_encode(ret_url);
+                return false;
+            }
+        })
+        .on('click', 'a[data-logout]', function (e) {
+            if (Model.user_info && (Model.user_info.userid || Model.user_info.userno)) {
+                e.preventDefault();
+                window.location.href = '/';
+                return false;
+            }
+        })
+        ;
 
     // set language ----------------------------------------------------------------------------
     let APP_LANG = window.lang || 'ko';
@@ -748,9 +757,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
     }
 
-    if (APP_RUNMODE != 'live') {
+    // if (APP_RUNMODE != 'live') {
         window.Model = Model;
-    }
+    // }
     // Model.addChangeListener = addChangeListener;
 
     // 기본 데이터 셋팅
@@ -2121,7 +2130,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     get_user_wallet();
                     request_user_info(function () { 
                         let ret_url = getURLParameter('ret_url')
-                        ret_url = ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
+                        ret_url = '/'; //ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
                         ret_url = setURLParameter('t', time(), ret_url);
                         window.location.href = ret_url;
                     });
