@@ -991,8 +991,8 @@ $(function() {
                 $(".side--panel").show();
 				$(".details").hide();
             } else {
-                row_no = window.selected_row ? window.selected_row : 0;
-                api.row().select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
+                row_no = window.selected_row ? window.selected_row : null;
+                api.row(row_no).select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
             }
         }
     
@@ -1173,6 +1173,11 @@ $(function() {
 
     $('#modal-buy-direct')
         .myModal('beforeOpen', (_event, btn) => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
             const exchange = btn.data('exchange')
@@ -1227,6 +1232,11 @@ $(function() {
         })
     $('#modal-buy')
         .myModal('beforeOpen', _e => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const modal = $('#modal-buy')
             const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
 
@@ -1270,6 +1280,11 @@ $(function() {
     
     $('#modal-sell-direct')
         .myModal('beforeOpen', (_event, btn) => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
             const exchange = btn.data('exchange')
@@ -1323,6 +1338,11 @@ $(function() {
         })
     $('#modal-sell')
         .myModal('beforeOpen', _e => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const modal = $('#modal-sell')
             const cnt_sellable = USER_WALLET[SELECTED_SYMBOL]?.confirmed || 0;
             modal.find('.tea--available').text(real_number_format(cnt_sellable))
