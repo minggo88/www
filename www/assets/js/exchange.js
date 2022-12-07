@@ -818,6 +818,7 @@ $(function() {
     })
     // 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
+        Model.selected_row = indexes;
         if ( type === 'row' ) {
 
 			
@@ -875,30 +876,6 @@ $(function() {
             
 
             API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
-
-
-                // API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-                //     $('.details').removeClass('loading')
-
-                //     if (resp.success) {
-                //         // displayChart(resp.payload)
-                //         // 갱신은 이렇게 말고 함수로 변경합니다.
-                //         // CHART_TIMER = setTimeout(() => {
-                //         //     API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
-                //         //         $('.details').removeClass('loading')
-
-                //         //         if(resp.success) {
-                //         //             updateChart(resp.payload)
-                //         //         } else {
-                //         //             alert(resp.error.message)
-                //         //         }
-                //         //     })
-                //         // }, 10000)
-                //     } else {
-                //         alert(resp.error.message)
-                //     }
-
-                // })
 
                 if(resp.success && resp.payload[0]) {
                     const spot = resp.payload[0];
@@ -1012,7 +989,7 @@ $(function() {
                 $(".side--panel").show();
 				$(".details").hide();
             } else {
-                api.row(0).select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
+                api.row(Model.selected_row).select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
             }
         }
     
@@ -1160,6 +1137,7 @@ $(function() {
             }
         });
     }
+    window.getTradeItems = getTradeItems;
 
     // 종목 구분 탭 클릭시 종목목록 조회
     $('[name=tab_item]').on('click', function () { 
@@ -1236,6 +1214,8 @@ $(function() {
                     $('#modal-buy-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
+                    // 상품목록 갱신
+                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
                 } else {
                     alert(resp.error.message)
                 }
