@@ -869,6 +869,8 @@ $(function() {
 
             genChartLine();
 
+            let period = $('#period').dropdown('selected');
+
             API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
                 if (resp.success && resp.payload) {
                     displayChartLine('S', resp.payload);
@@ -1270,7 +1272,8 @@ $(function() {
                     $('#modal-buy-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
-                    console.log('------');
+                    // 상품목록 갱신
+                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
                 } else {
                     alert(resp.error.message)
                 }
@@ -1330,6 +1333,8 @@ $(function() {
                     $('#modal-sell-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
+                    // 상품목록 갱신
+                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
                 } else {
                     alert(resp.error.message)
                 }
@@ -1386,7 +1391,8 @@ $(function() {
                     $('#modal-sell-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
-                    console.log('------');
+                    // 상품목록 갱신
+                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
                 } else {
                     alert(resp.error.message)
                 }
