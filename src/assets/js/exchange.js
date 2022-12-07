@@ -797,6 +797,17 @@ $(function() {
 
     })
 
+    $('.details .tabs').on('beforeShow', (_event, _index, target) => {
+        console.log('====== .details .tabs beforeShow');
+        if(target === '#tab-sell') {
+            sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
+            sellGrid.clear().load()
+        } else if ( target === '#tab-buy') {
+            buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
+            buyGrid.clear().load()
+        }
+    })
+
     const itemGrid = $('#jqGrid')
     .on('init.dt', function (_e, _settings) {
         const api = new $.fn.dataTable.Api( '#jqGrid' );
@@ -818,10 +829,10 @@ $(function() {
     })
     // 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
+        console.log('select.dt');
         window.selected_row = indexes;
         if ( type === 'row' ) {
 
-			
 			if(isMobile) {
 				$(".side--panel").hide();
 				$(".details").show();
@@ -908,16 +919,6 @@ $(function() {
                 } else {
                     const msg = resp.error && resp.error.message ? resp.error.message : '';
                     if(msg) alert(msg)
-                }
-            })
-
-            $('.details .tabs').on('beforeShow', (_event, _index, target) => {
-                if(target === '#tab-sell') {
-                    sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
-                    sellGrid.clear().load()
-                } else if ( target === '#tab-buy') {
-                    buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
-                    buyGrid.clear().load()
                 }
             })
 
@@ -1258,6 +1259,7 @@ $(function() {
                     $('#modal-buy-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
+                    console.log('------');
                 } else {
                     alert(resp.error.message)
                 }
@@ -1363,6 +1365,7 @@ $(function() {
                     $('#modal-sell-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
+                    console.log('------');
                 } else {
                     alert(resp.error.message)
                 }
