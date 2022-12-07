@@ -55,7 +55,7 @@
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/common.js?t=1670315205"></script>
 <script src="./assets/js/api.js?t=1668057319"></script>
-<script src="./assets/js/components.js?t=1668050247"></script>
+<script src="./assets/js/components.js?t=1670380128"></script>
 <script>
     let USER_INFO = {}
 </script>
@@ -78,7 +78,7 @@
 					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
 					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 					<li>
-						<a href="wallet.html" data-i18n>입출금</a>
+						<a href="wallet.html" data-login data-i18n>입출금</a>
 					</li>
 					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 					<li>
@@ -91,17 +91,17 @@
 					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
 					<div class="dropdown--item" style="width: 134px;left: -32px;">
 						<ul>
-							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
-							<li><a href="my-verification.html" data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
-							<li><a href="notification.html" data-i18n>알림</a></li>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<li><a href="transaction.html" data-login data-i18n>거래 내역</a></li>
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
 						</ul>
 					</div>
 				</div>
 				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-				<div name="box_unlogedin" style="display: none"><a href="login.html" class="btn--login" data-i18n>로그인</a></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
@@ -121,7 +121,7 @@
 			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
 			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 			<li>
-				<a href="wallet.html" data-i18n>입출금</a>
+				<a href="wallet.html" data-login data-i18n>입출금</a>
 			</li>
 			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 			<li>
@@ -136,22 +136,22 @@
 				<nav class="side--snb">
 					<ul>
 						<li>
-							<a href="member-account.html" data-i18n>정보 수정</a>
+							<a href="member-account.html" data-login data-i18n>정보 수정</a>
 						</li>
 						<li class="snb--active">
-							<a href="my-verification.html" data-i18n>ID 인증 관리</a>
+							<a href="my-verification.html" data-login data-i18n>ID 인증 관리</a>
 						</li>
 						<li>
-							<a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+							<a href="change-pin-number.html" data-login data-i18n>보안비밀번호 변경</a>
 						</li>
 						<li>
-							<a href="change-account-number.html" data-i18n>출금계좌 변경</a>
+							<a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a>
 						</li>
 						<li>
-							<a href="transaction.html" data-i18n>거래 내역</a>
+							<a href="transaction.html" data-login data-i18n>거래 내역</a>
 						</li>
 						<li>
-							<a href="notification.html" data-i18n>알림</a>
+							<a href="notification.html" data-login data-i18n>알림</a>
 						</li>
 						<!-- <li>
 							<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
@@ -236,7 +236,7 @@
 		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 	</footer> -->
 
-    <script src="./assets/js/app.js?t=1670207289"></script>
+    <script src="./assets/js/app.js?t=1670395641"></script>
 
 </body>
 </html>

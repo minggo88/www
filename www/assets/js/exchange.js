@@ -797,6 +797,17 @@ $(function() {
 
     })
 
+    $('.details .tabs').on('beforeShow', (_event, _index, target) => {
+        console.log('====== .details .tabs beforeShow');
+        if(target === '#tab-sell') {
+            sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
+            sellGrid.clear().load()
+        } else if ( target === '#tab-buy') {
+            buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
+            buyGrid.clear().load()
+        }
+    })
+
     const itemGrid = $('#jqGrid')
     .on('init.dt', function (_e, _settings) {
         const api = new $.fn.dataTable.Api( '#jqGrid' );
@@ -818,9 +829,10 @@ $(function() {
     })
     // 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
+        console.log('select.dt');
+        window.selected_row = indexes;
         if ( type === 'row' ) {
 
-			
 			if(isMobile) {
 				$(".side--panel").hide();
 				$(".details").show();
@@ -857,6 +869,8 @@ $(function() {
 
             genChartLine();
 
+            let period = $('#period').dropdown('selected');
+
             API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
                 if (resp.success && resp.payload) {
                     displayChartLine('S', resp.payload);
@@ -875,30 +889,6 @@ $(function() {
             
 
             API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
-
-
-                // API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
-                //     $('.details').removeClass('loading')
-
-                //     if (resp.success) {
-                //         // displayChart(resp.payload)
-                //         // 갱신은 이렇게 말고 함수로 변경합니다.
-                //         // CHART_TIMER = setTimeout(() => {
-                //         //     API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, (resp) => {
-                //         //         $('.details').removeClass('loading')
-
-                //         //         if(resp.success) {
-                //         //             updateChart(resp.payload)
-                //         //         } else {
-                //         //             alert(resp.error.message)
-                //         //         }
-                //         //     })
-                //         // }, 10000)
-                //     } else {
-                //         alert(resp.error.message)
-                //     }
-
-                // })
 
                 if(resp.success && resp.payload[0]) {
                     const spot = resp.payload[0];
@@ -934,17 +924,8 @@ $(function() {
                 }
             })
 
-            $('.details .tabs').on('beforeShow', (_event, _index, target) => {
-                if(target === '#tab-sell') {
-                    sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
-                    sellGrid.clear().load()
-                } else if ( target === '#tab-buy') {
-                    buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
-                    buyGrid.clear().load()
-                }
-            })
-
-            $('.tab--sell').click()
+            // $('.tab--sell').click()
+            $('.details .tabs li.tab--active').click()
 
             $('.tea--name').text(name) // .details--header 
             $('#tab-info .certificate').text(data.meta_certification_mark_name)
@@ -1012,7 +993,8 @@ $(function() {
                 $(".side--panel").show();
 				$(".details").hide();
             } else {
-                api.row(0).select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
+                row_no = window.selected_row ? window.selected_row : null;
+                api.row(row_no).select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
             }
         }
     
@@ -1160,6 +1142,7 @@ $(function() {
             }
         });
     }
+    window.getTradeItems = getTradeItems;
 
     // 종목 구분 탭 클릭시 종목목록 조회
     $('[name=tab_item]').on('click', function () { 
@@ -1192,6 +1175,11 @@ $(function() {
 
     $('#modal-buy-direct')
         .myModal('beforeOpen', (_event, btn) => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
             const exchange = btn.data('exchange')
@@ -1236,6 +1224,8 @@ $(function() {
                     $('#modal-buy-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
+                    // 상품목록 갱신
+                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
                 } else {
                     alert(resp.error.message)
                 }
@@ -1244,6 +1234,11 @@ $(function() {
         })
     $('#modal-buy')
         .myModal('beforeOpen', _e => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const modal = $('#modal-buy')
             const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
 
@@ -1277,6 +1272,8 @@ $(function() {
                     $('#modal-buy-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
+                    // 상품목록 갱신
+                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
                 } else {
                     alert(resp.error.message)
                 }
@@ -1286,6 +1283,11 @@ $(function() {
     
     $('#modal-sell-direct')
         .myModal('beforeOpen', (_event, btn) => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
             const exchange = btn.data('exchange')
@@ -1331,6 +1333,8 @@ $(function() {
                     $('#modal-sell-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
+                    // 상품목록 갱신
+                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
                 } else {
                     alert(resp.error.message)
                 }
@@ -1339,6 +1343,11 @@ $(function() {
         })
     $('#modal-sell')
         .myModal('beforeOpen', _e => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const modal = $('#modal-sell')
             const cnt_sellable = USER_WALLET[SELECTED_SYMBOL]?.confirmed || 0;
             modal.find('.tea--available').text(real_number_format(cnt_sellable))
@@ -1382,6 +1391,8 @@ $(function() {
                     $('#modal-sell-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
+                    // 상품목록 갱신
+                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
                 } else {
                     alert(resp.error.message)
                 }

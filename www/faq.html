@@ -36,7 +36,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/api.js?t=1668057319"></script>
-<script src="./assets/js/components.js?t=1668050247" defer></script>
+<script src="./assets/js/components.js?t=1670380128" defer></script>
 <script src="./assets/js/common.js?t=1670315205"></script>
 <script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
 <script src="./assets/js/lib/security.min.js?t=1661838502"></script>
@@ -56,7 +56,7 @@
 					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
 					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 					<li>
-						<a href="wallet.html" data-i18n>입출금</a>
+						<a href="wallet.html" data-login data-i18n>입출금</a>
 					</li>
 					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 					<li class="active">
@@ -69,17 +69,17 @@
 					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
 					<div class="dropdown--item" style="width: 134px;left: -32px;">
 						<ul>
-							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
-							<li><a href="my-verification.html" data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
-							<li><a href="notification.html" data-i18n>알림</a></li>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<li><a href="transaction.html" data-login data-i18n>거래 내역</a></li>
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
 						</ul>
 					</div>
 				</div>
 				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-				<div name="box_unlogedin" style="display: none"><a href="login.html" class="btn--login" data-i18n>로그인</a></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
@@ -99,7 +99,7 @@
 			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
 			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 			<li>
-				<a href="wallet.html" data-i18n>입출금</a>
+				<a href="wallet.html" data-login data-i18n>입출금</a>
 			</li>
 			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 			<li>
@@ -112,34 +112,34 @@
 		<h1 class="size--20" data-i18n>마이페이지</h1>
 		<ul>
 			<li>
-				<a href="member-account.html" data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
+				<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
 			</li>
 			<li>
-				<a href="my-verification.html" data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
+				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
 			</li>
 			<li>
-				<a href="change-pin-number.html" data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
+				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
 			</li>
 			<li>
-				<a href="change-account-number.html" data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
+				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
 			</li>
 			<li>
-				<a href="notification.html" data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
+				<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
 			</li>
 		</ul>
 		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>입출금</h1>
 		<ul>
 			<li>
-				<a href="wallet.html"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
+				<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
 			</li>
 			<li>
-				<a href="wallet-deposit.html"><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+				<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
 			</li>
 			<li>
-				<a href="wallet-withdrawal.html"><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+				<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
 			</li>
 			<li>
-				<a href="wallet-analysis.html"><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
+				<a href="wallet-analysis.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
 			</li>
 		</ul>
 		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
@@ -151,12 +151,12 @@
 				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n>자주하는 질문</span></a>
 			</li>
 			<li>
-				<a href="inquiry.html"><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
+				<a href="inquiry.html" data-login><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
 			</li>
 		</ul>
 		<div class="nav--side mobile">
 			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-			<div name="box_unlogedin" style="display: none"><a href="login.html" class="btn--login" data-i18n>로그인</a></div>
+			<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
 			<div class="language dropdown-wrapper">
 				<button type="button" class="dropdown">한국어</button>
 				<div class="dropdown--item" style="width: 81px">
@@ -179,7 +179,7 @@
 							<a href="faq.html" data-i18n>자주하는 질문</a>
 						</li>
 						<li>
-							<a href="inquiry.html" data-i18n>1:1 문의</a>
+							<a href="inquiry.html" data-login data-i18n>1:1 문의</a>
 						</li>
 					</ul>
 				</nav>
@@ -274,7 +274,7 @@
 			</li>
 			<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> -->
 			<li class="transaction" style="flex: 1 1 auto">
-				<a href="transaction.html" data-i18n>거래내역</a>
+				<a href="transaction.html" data-login data-i18n>거래내역</a>
 			</li>
 			<li class="more">
 				<a href="" data-i18n>더보기</a>
@@ -282,7 +282,7 @@
 		</ul>
 	</nav>
 		
-    <script src="./assets/js/app.js?t=1670207289"></script>
+    <script src="./assets/js/app.js?t=1670395641"></script>
 
 </body>
 </html>

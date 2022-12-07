@@ -141,6 +141,7 @@ $(function() {
 
     $.fn.myModal = function(action) {
         const modal = $(this)
+        window.myModal_stop_event = false; // 이벤트 중단이 필요할때 true로 변경.
 
         if(!modal.hasClass('modal')) {
             return
@@ -149,24 +150,24 @@ $(function() {
         switch(action) {
             case 'show':
                 modal.trigger('beforeOpen', [ LAST_MODAL_ANCHOR ])
-
-                modalStack = modalStack.filter(e => e !== modal)
-                modalStack.push(modal)
-
-                modal.addClass('modal--open')
-
-                modal.trigger('open')
-
+                if (window.myModal_stop_event) {
+                    window.myModal_stop_event = false;
+                } else {
+                    modalStack = modalStack.filter(e => e !== modal)
+                    modalStack.push(modal)
+                    modal.addClass('modal--open')
+                    modal.trigger('open')
+                }
                 break
             case 'hide':
                 modal.trigger('beforeClose')
-
-                modalStack.remove(modal)
-
-                modal.removeClass('modal--open')
-
-                modal.trigger('close')
-
+                if (window.myModal_stop_event) {
+                    stop_event = false;
+                } else {
+                    modalStack.remove(modal)
+                    modal.removeClass('modal--open')
+                    modal.trigger('close')
+                }
                 break
             case 'toggle':
                 if(modal.hasClass('modal--open')) {
@@ -180,6 +181,9 @@ $(function() {
                 break
             case 'beforeClose':
                 modal.on('beforeClose', arguments[1])
+                break
+            case 'stopEvent':
+                window.myModal_stop_event = true;
                 break
         }
 
