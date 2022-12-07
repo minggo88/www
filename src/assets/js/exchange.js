@@ -519,13 +519,14 @@ $(function() {
         },
         columns : [
             {
-                data: (_d, _type, _row, meta) => {
-                    const api = new $.fn.dataTable.Api( '#buyGrid' )
-                    const pageInfo = api.page.info()
-                    // return pageInfo.length - meta.row + 1
-                    // return meta.row + 1
-                    return _d.orderid;
-                }
+                data: 'orderid'
+                // (_d, _type, _row, meta) => {
+                //     const api = new $.fn.dataTable.Api( '#buyGrid' )
+                //     const pageInfo = api.page.info()
+                //     // return pageInfo.length - meta.row + 1
+                //     // return meta.row + 1
+                //     return _d.orderid;
+                // }
             },
             // {
             //     data: () => {
@@ -535,7 +536,7 @@ $(function() {
             // 등록일
             {
                 data: 'time_order', render: (timestamp) => {
-                    return date('m-d H:i', timestamp * 1000);
+                    return date('Y-m-d H:i', timestamp);
                     // const date = new Date(timestamp * 1000)
                     // return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
                 }
@@ -592,52 +593,52 @@ $(function() {
         columnDefs: [
             {
                 searchable: false,
-                orderable: false,
+                orderable: true,
                 targets: 0,
             },
-            {
-                targets: '_all',
-                orderable: false,
-                className: 'dt-head-center',
-            },
+            // {
+            //     targets: '_all',
+            //     orderable: false,
+            //     className: 'dt-head-center',
+            // },
             {
                 targets: 1,
                 className: 'dt-body-center',
                 type: 'title-string',
-                orderable: false,
+                orderable: true,
             },
             {
                 targets: 2,
                 className: 'dt-body-center',
                 type: 'any-number',
-                orderable: false,
+                orderable: true,
 
             },
             {
                 targets: 3,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: false,
+                orderable: true,
                 responsivePriority: 1
             },
             {
                 targets: 4,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: false,
+                orderable: true,
                 responsivePriority: 1
             },
             {
                 targets: 5,
                 className: 'dt-body-right text-right',
-                orderable: false,
+                orderable: true,
                 responsivePriority: 1
             },
-            {
-                targets: 6,
-                className: 'dt-body-center',
-                orderable: false,
-            },
+            // {
+            //     targets: 6,
+            //     className: 'dt-body-center',
+            //     orderable: false,
+            // },
             {
                 targets: -1,
                 className: 'dt-body-center',
@@ -645,7 +646,7 @@ $(function() {
                 responsivePriority: 1
             }
         ],
-        order: [[0, 'desc']],
+        "order": [ [3, 'desc'] ] // 가격 고가부터
     })
 
     const sellGrid = $('#sellGrid').DataTable({
@@ -662,17 +663,17 @@ $(function() {
         },
         columns : [
             {
-                data: (_d, _type, _row, meta,) => {
-                    const api = new $.fn.dataTable.Api( '#sellGrid' )
-                    const pageInfo = api.page.info()
-
-                    if(!meta) {
-                        return
-                    }
-                    // return pageInfo.length - meta.row + 1 // 역순(점점작게)
-                    // return meta.row+1 // 정순(점점크게)
-                    return _d.orderid;
-                }
+                data: 'orderid'
+                //  (_d, _type, _row, meta,) => {
+                //     return _d.orderid;
+                //     const api = new $.fn.dataTable.Api( '#sellGrid' )
+                //     const pageInfo = api.page.info()
+                //     if(!meta) {
+                //         return
+                //     }
+                //     // return pageInfo.length - meta.row + 1 // 역순(점점작게)
+                //     // return meta.row+1 // 정순(점점크게)
+                // }
             },
             // {
             //     data: () => {
@@ -682,7 +683,7 @@ $(function() {
             // 등록일
             {
                 data: 'time_order', render: (timestamp) => {
-                    return date('m-d H:i', timestamp * 1000);
+                    return date('Y-m-d H:i', timestamp);
                     // const date = new Date(timestamp * 1000)
                     // return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
                 }
@@ -739,25 +740,25 @@ $(function() {
         columnDefs: [
             {
                 searchable: false,
-                orderable: false,
+                orderable: true,
                 targets: 0,
             },
-            {
-                targets: '_all',
-                className: 'dt-head-center',
-                orderable: false,
-            },
+            // {
+            //     targets: '_all',
+            //     className: 'dt-head-center',
+            //     orderable: true,
+            // },
             {
                 targets: 1,
                 className: 'dt-body-center',
                 type: 'title-string',
-                orderable: false,
+                orderable: true,
             },
             {
                 targets: 2,
                 className: 'dt-body-center',
                 type: 'any-number',
-                orderable: false,
+                orderable: true,
                 responsivePriority: 1
 
             },
@@ -765,27 +766,27 @@ $(function() {
                 targets: 3,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: false,
+                orderable: true,
                 responsivePriority: 1
             },
             {
                 targets: 4,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: false,
+                orderable: true,
                 responsivePriority: 1
             },
             {
                 targets: 5,
                 className: 'dt-body-right text-right',
-                orderable: false,
+                orderable: true,
                 responsivePriority: 1
             },
-            {
-                targets: 6,
-                className: 'dt-body-center',
-                orderable: false,
-            },
+            // {
+            //     targets: 6,
+            //     className: 'dt-body-center',
+            //     orderable: false,
+            // },
             {
                 targets: -1,
                 className: 'dt-body-center',
@@ -793,7 +794,7 @@ $(function() {
                 responsivePriority: 1
             }
         ],
-        order: [[0, 'desc']],
+        order: [[3, 'asc']], // 가격 저가부터
 
     })
 
