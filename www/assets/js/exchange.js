@@ -797,6 +797,17 @@ $(function() {
 
     })
 
+    $('.details .tabs').on('beforeShow', (_event, _index, target) => {
+        console.log('====== .details .tabs beforeShow');
+        if(target === '#tab-sell') {
+            sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
+            sellGrid.clear().load()
+        } else if ( target === '#tab-buy') {
+            buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
+            buyGrid.clear().load()
+        }
+    })
+
     const itemGrid = $('#jqGrid')
     .on('init.dt', function (_e, _settings) {
         const api = new $.fn.dataTable.Api( '#jqGrid' );
@@ -818,10 +829,10 @@ $(function() {
     })
     // 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
+        console.log('select.dt');
         window.selected_row = indexes;
         if ( type === 'row' ) {
 
-			
 			if(isMobile) {
 				$(".side--panel").hide();
 				$(".details").show();
@@ -911,17 +922,8 @@ $(function() {
                 }
             })
 
-            $('.details .tabs').on('beforeShow', (_event, _index, target) => {
-                if(target === '#tab-sell') {
-                    sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
-                    sellGrid.clear().load()
-                } else if ( target === '#tab-buy') {
-                    buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
-                    buyGrid.clear().load()
-                }
-            })
-
-            $('.tab--sell').click()
+            // $('.tab--sell').click()
+            $('.details .tabs li.tab--active').click()
 
             $('.tea--name').text(name) // .details--header 
             $('#tab-info .certificate').text(data.meta_certification_mark_name)
@@ -989,8 +991,8 @@ $(function() {
                 $(".side--panel").show();
 				$(".details").hide();
             } else {
-                row_no = window.selected_row ? window.selected_row : 0;
-                api.row().select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
+                row_no = window.selected_row ? window.selected_row : null;
+                api.row(row_no).select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
             }
         }
     
@@ -1171,6 +1173,11 @@ $(function() {
 
     $('#modal-buy-direct')
         .myModal('beforeOpen', (_event, btn) => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
             const exchange = btn.data('exchange')
@@ -1225,6 +1232,11 @@ $(function() {
         })
     $('#modal-buy')
         .myModal('beforeOpen', _e => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const modal = $('#modal-buy')
             const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
 
@@ -1258,6 +1270,7 @@ $(function() {
                     $('#modal-buy-success').myModal('show')
                     // 구매목록 갱신
                     $('#buyGrid').DataTable().ajax.reload(null, false);
+                    console.log('------');
                 } else {
                     alert(resp.error.message)
                 }
@@ -1267,6 +1280,11 @@ $(function() {
     
     $('#modal-sell-direct')
         .myModal('beforeOpen', (_event, btn) => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
             const exchange = btn.data('exchange')
@@ -1320,6 +1338,11 @@ $(function() {
         })
     $('#modal-sell')
         .myModal('beforeOpen', _e => {
+            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+                $('#modal-buy').myModal('stopEvent');
+                alert('로그인 해주세요');
+                return false;
+            }
             const modal = $('#modal-sell')
             const cnt_sellable = USER_WALLET[SELECTED_SYMBOL]?.confirmed || 0;
             modal.find('.tea--available').text(real_number_format(cnt_sellable))
@@ -1363,6 +1386,7 @@ $(function() {
                     $('#modal-sell-success').myModal('show')
                     // 판매목록 갱신
                     $('#sellGrid').DataTable().ajax.reload(null, false);
+                    console.log('------');
                 } else {
                     alert(resp.error.message)
                 }
