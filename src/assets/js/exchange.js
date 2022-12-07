@@ -922,7 +922,8 @@ $(function() {
                 }
             })
 
-            $('.tab--sell').click()
+            // $('.tab--sell').click()
+            $('.details .tabs li.tab--active').click()
 
             $('.tea--name').text(name) // .details--header 
             $('#tab-info .certificate').text(data.meta_certification_mark_name)
