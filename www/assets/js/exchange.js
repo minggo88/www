@@ -818,7 +818,7 @@ $(function() {
     })
     // 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
-        Model.selected_row = indexes;
+        window.selected_row = indexes;
         if ( type === 'row' ) {
 
 			
@@ -989,7 +989,8 @@ $(function() {
                 $(".side--panel").show();
 				$(".details").hide();
             } else {
-                api.row(Model.selected_row).select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
+                row_no = window.selected_row ? window.selected_row : 0;
+                api.row().select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
             }
         }
     
