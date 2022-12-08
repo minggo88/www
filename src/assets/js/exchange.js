@@ -1250,7 +1250,7 @@ $(function() {
             const modal = $('#modal-buy')
             const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE,'')]?.confirmed || 0;
 
-            modal.find('.tea--available').text(real_number_format(cnt_buyable))
+            modal.find('.tea--available').text(real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
             modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
             modal.find('[name=orderid]').text('')
