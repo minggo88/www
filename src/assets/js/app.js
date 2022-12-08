@@ -1894,8 +1894,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         } else if (status == "D") {
                             status_str = "취소"
                         }
-                        if(row.status == 'O' || row.status == 'T' && row.volume_remain > 0 ) {
-                            status_str = status_str +`<br/><button type="button" class="btn btn--cancal" name="order_cancal" data-symbol="${row.symbol}" data-order_id="${row.orderid}" data-goods_grade="${row.goods_grade}"  >취소</button>`;
+                    if (row.status == 'O' || row.status == 'T' && row.volume_remain > 0) {
+                            // status_str + 버튼
+                            status_str = `<button type="button" class="btn btn--cancal" name="order_cancal" data-symbol="${row.symbol}" data-order_id="${row.orderid}" data-goods_grade="${row.goods_grade}"  >취소</button>`;
                         }
                         return status_str;
                     }
