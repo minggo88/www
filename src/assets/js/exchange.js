@@ -35,11 +35,9 @@ const set_user_wallet = function () {
     API.getTradeBalance('ALL','',(r) => {
         if (r && r.success) {
             const payload = r.payload
-            console.log('payload:', payload);
             for (row of payload) {
                 USER_WALLET[gen_user_wallet_key(row.symbol, row.goods_grade)] = row
             }
-            console.log('USER_WALLET:', USER_WALLET);
         }
     })
 }
@@ -805,7 +803,7 @@ $(function() {
     })
 
     $('.details .tabs').on('beforeShow', (_event, _index, target) => {
-        console.log('====== .details .tabs beforeShow');
+        // console.log('====== .details .tabs beforeShow');
         if(target === '#tab-sell') {
             sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
             sellGrid.clear().load()
@@ -836,7 +834,7 @@ $(function() {
     })
     // 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
-        console.log('select.dt');
+        // console.log('select.dt');
         window.selected_row = indexes;
         if ( type === 'row' ) {
 
