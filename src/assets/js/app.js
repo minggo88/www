@@ -2940,7 +2940,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         html.push(tpl
                             .replace(/\{coin.icon_url\}/g, row.icon_url||'about:blank')
                             .replace(/\{coin.name\}/g, row.name||'')
-                            .replace(/\{coin.SYMBOL\}/g, row.symbol||'')
+                            .replace(/\{coin.production_date\}/g, row.production_date||'')
                             .replace(/\{coin.basic_balance\}/g, real_number_format(row.basic_balance))
                             .replace(/\{coin.basic_evaluation_amount\}/g, real_number_format(row.basic_evaluation_amount))
                             .replace(/\{coin.final_balance\}/g, real_number_format(row.final_balance))
