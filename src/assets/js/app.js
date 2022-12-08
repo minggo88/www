@@ -1448,6 +1448,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         return clone(Model.user_info);
     }
 
+    const gen_user_wallet_key = (symbol, goods_grade) => {
+        goods_grade = goods_grade ? '/' + goods_grade : '';
+        return symbol + goods_grade;
+    }
+    
     /**
      * 회원지갑(잔액)정보 가져오기
      */
@@ -1456,12 +1461,15 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $.post(API_URL + '/getBalance/', { 'token': getCookie('token') }, function (r) {
             if (r && r.success && !r.error) {
                 let user_wallet = {};
+                // console.log(r.payload);
                 for (i in r.payload) {
                     let row = r.payload[i];
                     row.confirmed = row.confirmed * 1;
                     row.unconfirmed = row.unconfirmed * 1;
-                    user_wallet[row.symbol] = row;
+                    let key = gen_user_wallet_key(row.symbol, row.goods_grade);
+                    user_wallet[key] = row;
                 }
+                // console.log(user_wallet);
                 Model.user_wallet = user_wallet;
             }
         });
@@ -1899,7 +1907,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 $('.m-transaction--list').empty();
                 last_page = page;
                 last_rows = rows;
-
                 r.payload.map((item) => {
                     const tr = $('<tr>')
                     tr.append(`<td class="text--left" style="font-size: 12px">${date('Y-m-d H:i', item.time_traded).substr(2,11)}</td>`)
