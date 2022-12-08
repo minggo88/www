@@ -1809,7 +1809,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 
         let selected_symbol = $('[name=symbol]:visible').dropdown('selected');
-        let category = '';
+        let selected_category = '';
         let wallet = Model.user_wallet[selected_symbol];
         let wallet_icon_url = wallet?.icon_url;
         let wallet_name = wallet?.name;
@@ -1845,7 +1845,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     d.status = 'all';
                     d.start_date = $('[name="start"]').val();
                     d.end_date = $('[name="end"]').val();
-                    d.category = ''
+                    d.trading_type = selected_category
                 },
 
             },
@@ -1866,7 +1866,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 }
             },
             columns : [
-                {data: 'time_traded', render: (time_traded) => {return date('Y-m-d H:i', time_traded).substr(2,11) ;}},  // 체결시간
+                {data: 'time_traded', render: (time_traded) => {return date('Y-m-d H:i', time_traded) ;}},  // 체결시간
                 {
                     data: 'currency_name' //, render: (data, type, row) => {return `<span class="product&#45;&#45;image"><img src="${wallet_icon_url}" alt=""></span>${data}`}
                     , orderable: false,
@@ -1898,16 +1898,16 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                 {data: 'settl_price', render: (settl_price) => {return real_number_format(settl_price);}},  // 정산금액
             ],
             columnDefs: [
-                {searchable: false,orderable: true,targets: 0,},  // 체결시간
+                {searchable: false,orderable: true,targets: 0, "responsivePriority": 1,},  // 체결시간
                 {targets: 1,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 상품명
                 {targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 생산년도
-                {targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true,},   // 거래종류
-                {targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true,},   // 거래종류
-                {targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true,},   // 거래수량
-                {targets: 6,className: 'dt-body-center',type: 'title-string',orderable: true,},   // 거래단가
-                {targets: 7,className: 'dt-body-center',type: 'title-string',orderable: true,},   // 거래금액
-                {targets: 8,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 수수료
-                {targets: 9,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 정산금액
+                {targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1},   // 거래종류
+                {targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
+                {targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
+                {targets: 6,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
+                {targets: 7,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
+                {targets: 8,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
+                {targets: 9,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
             ],
             "order": [ [0, 'desc'] ]
         })
@@ -1930,41 +1930,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             transactionGrid.ajax.reload(null, !!'reset page');
         });
 
-
-        $('.board--pagination').on('click', 'a', (e) => {
-            e.preventDefault()
-            const page = $(e.target)
-                .attr('href')
-                .replaceAll(/#page-/g, '')
-            getTransactionList(page, 10)
-            return false
-        })
-
-        $('[name="select_category"]').on('click', 'a', (e) => {
-            e.preventDefault()
-
-            // console.log($(e.target).text());
-            $('[name="category_label"]').text($(e.target).text());
-            selected_category = $(e.target).data('category')
-            getTransactionList(1, 10)
-            return false
-        })
-
-        $('[name="select_category"]').on('click', 'a', (e) => {
-            e.preventDefault()
-
-            $('[name="category_label"]').text($(e.target).text());
-            selected_category = $(e.target).data('category')
-            getTransactionList(1, 10)
-            return false
-        })
-
         $('[name="m_dropdown"]').on('click', 'button', (e) => {
             e.preventDefault()
-
-            $('[name="m_category_label"]').text($(e.target).text());
-            selected_category = $(e.target).data('category')
-            getTransactionList(1, 10)
+            let selected_text = $(e.target).text();
+            if (selected_text) {
+                $('[name="m_category_label"]').text(selected_text);
+                selected_category = $(e.target).data('category')
+                transactionGrid.ajax.reload(null, !!'reset page');
+            }
 
         })
 
