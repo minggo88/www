@@ -26,14 +26,20 @@ API.getMyInfo((resp) => {
     }
 })
 
+const gen_user_wallet_key = (symbol, goods_grade) => {
+    return symbol + '/' + goods_grade;
+}
+
 let USER_WALLET = {}
 const set_user_wallet = function () {
     API.getTradeBalance('ALL','',(r) => {
         if (r && r.success) {
             const payload = r.payload
+            console.log('payload:', payload);
             for (row of payload) {
-                USER_WALLET[row.symbol] = row
+                USER_WALLET[gen_user_wallet_key(row.symbol, row.goods_grade)] = row
             }
+            console.log('USER_WALLET:', USER_WALLET);
         }
     })
 }
@@ -1189,7 +1195,7 @@ $(function() {
             const goods_grade = btn.data('goods_grade')
             const name = SELECTED_NAME
             const modal = $('#modal-buy-direct')
-            const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
+            const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE, '')]?.confirmed || 0;
             modal.find('.tea--available').text('' + real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
             modal.find('[name=orderid]').val(orderid)
             modal.find('[name=symbol]').val(symbol)
@@ -1244,7 +1250,7 @@ $(function() {
                 return false;
             }
             const modal = $('#modal-buy')
-            const cnt_buyable = USER_WALLET[SELECTED_EXCHANGE]?.confirmed || 0;
+            const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE,'')]?.confirmed || 0;
 
             modal.find('.tea--available').text(real_number_format(cnt_buyable))
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
@@ -1300,7 +1306,7 @@ $(function() {
             const goods_grade = btn.data('goods_grade')
             const name = SELECTED_NAME
             const modal = $('#modal-sell-direct')
-            const cnt_sellable = USER_WALLET[symbol]?.confirmed || 0;
+            const cnt_sellable = USER_WALLET[gen_user_wallet_key(symbol,goods_grade)]?.confirmed || 0;
 
             modal.find('.tea--available').text(real_number_format(cnt_sellable)+__('개'))
             modal.find('[name=orderid]').val(orderid)
@@ -1353,7 +1359,7 @@ $(function() {
                 return false;
             }
             const modal = $('#modal-sell')
-            const cnt_sellable = USER_WALLET[SELECTED_SYMBOL]?.confirmed || 0;
+            const cnt_sellable = USER_WALLET[gen_user_wallet_key(SELECTED_SYMBOL,SELECTED_GOODS_GRADE)]?.confirmed || 0;
             modal.find('.tea--available').text(real_number_format(cnt_sellable))
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
             modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
@@ -1403,22 +1409,11 @@ $(function() {
             })
             return false
         })
-        // $('#modal-sell').submit(e => {
-        //     e.preventDefault()
-    
-        //     API.sell($('#modal-sell').serializeObject(), (resp) => {
-        //         if(resp.success) {
-        //             $('#modal-sell').myModal('hide')
-    
-        //             $('#modal-sell-success .tea--name').text(SELECTED_NAME)
-        //             $('#modal-sell-success .volume').text($('#modal-sell [name=volume]').val().format())
-        //             $('#modal-sell-success').myModal('show')
-        //         } else {
-        //             alert(resp.error.message)
-        //         }
-        //     })
-        //     return false
-        // })
+    $('#modal-sell').find('[name="goods_grade"]').on('change', function () { 
+        let goods_grade = $(this).val();
+        let cnt_sellable = USER_WALLET[gen_user_wallet_key(SELECTED_SYMBOL, goods_grade)]?.confirmed || 0;
+        $('#modal-sell').find('.tea--available').text('' + real_number_format(cnt_sellable) + ' ')
+    })
     
     
     $('#scan')
