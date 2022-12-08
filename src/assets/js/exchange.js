@@ -1213,8 +1213,11 @@ $(function() {
                 if (resp.success) {
                     set_user_wallet();
                     $('#modal-buy-direct').myModal('hide')
-                    const price = parseFloat($('#modal-buy-direct [name=price]').val().replace(/[^0-9.\-\+]/, ''))
-                    const volume = parseFloat($('#modal-buy-direct [name=volume]').val())
+                    const payload = resp.payload;
+                    const price = payload.order_price;
+                    const volume = payload.volume;
+                    // const price = parseFloat($('#modal-buy-direct [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
+                    // const volume = parseFloat($('#modal-buy-direct [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
                     const exchange = parseFloat($('#modal-buy-direct [name=exchange]').val())
                     const goods_grade = ($('#modal-buy-direct [name=goods_grade]')).val()
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
@@ -1261,13 +1264,13 @@ $(function() {
                 if(resp.success) {
                     set_user_wallet();
                     $('#modal-buy').myModal('hide')
-                    const price = parseFloat($('#modal-buy [name=price]').val())
-                    const volume = parseFloat($('#modal-buy [name=volume]').val())
+                    const price = parseFloat($('#modal-buy [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
+                    const volume = parseFloat($('#modal-buy [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
                     const exchange = parseFloat($('#modal-buy [name=exchange]').val())
                     const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
                     $('#modal-buy-success .tea--name').text(SELECTED_NAME)
                     $('#modal-buy-success .volume').text(volume.format())
-                    $('#modal-buy-success .total').text(real_number(price * volume))
+                    $('#modal-buy-success .total').text(real_number_format(price * volume))
                     //$('#modal-buy-success .exchange').text(exchange)
                     $('#modal-buy-success .goods_grade').text(goods_grade)
                     $('#modal-buy-success').myModal('show')
@@ -1328,7 +1331,7 @@ $(function() {
                     const goods_grade = ($('#modal-sell-direct [name=goods_grade]')).val()
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
-                    $('#modal-sell-success .total').text(number_format(real_number_format(price * volume)))
+                    $('#modal-sell-success .total').text(real_number_format(price * volume))
                     // $('#modal-sell-success .exchange').text(exchange)
                     $('#modal-sell-success .goods_grade').text(goods_grade)
                     $('#modal-sell-success').myModal('show')
@@ -1380,13 +1383,13 @@ $(function() {
                     set_user_wallet();
                     $('#modal-sell').myModal('hide')
                     // $('#alert-sell').myModal('show')
-                    const price = parseFloat($('#modal-sell [name=price]').val())
-                    const volume = parseFloat($('#modal-sell [name=volume]').val())
+                    const price = parseFloat($('#modal-sell [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
+                    const volume = parseFloat($('#modal-sell [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
                     const exchange = parseFloat($('#modal-sell [name=exchange]').val())
                     const goods_grade = ($('#modal-sell [name=goods_grade]')).val()
                     $('#modal-sell-success .tea--name').text(SELECTED_NAME)
                     $('#modal-sell-success .volume').text(volume.format())
-                    $('#modal-sell-success .total').text(number_format(real_number(price * volume)))
+                    $('#modal-sell-success .total').text(real_number_format(price * volume))
                     //$('#modal-sell-success .exchange').text(exchange)
                     $('#modal-sell-success .goods_grade').text(goods_grade)
                     $('#modal-sell-success').myModal('show')
