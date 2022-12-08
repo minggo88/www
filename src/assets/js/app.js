@@ -1795,14 +1795,22 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             $('[name="mend"]').val(edate);
         });
 
+        let wallet_symbols = {};
+        for (row of Object.values(Model.user_wallet)) {
+            wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name, 'icon_url':row.icon_url };
+        };
+        console.log(wallet_symbols);
         let first_dropdown_value = '';
-        for(i of Object.values(Model.user_wallet)) {
-            if (i.symbol.length >= 10) {
+        for(i in wallet_symbols) {
+            row = wallet_symbols[i];
+            console.log(i, row);
+            if (row.symbol.length >= 10) {
                 if(!first_dropdown_value) {
-                    first_dropdown_value = i.symbol;
+                    first_dropdown_value = row.symbol;
                 }
                 // $('#symbol').dropdown('add', { value: i.symbol, text: i.name })
-                $('[name="symbol"]').dropdown('add', { value: i.symbol, text: i.name })
+                // let goods_grade = i.goods_grade ? i.goods_grade + '등급' : '';
+                $('[name="symbol"]').dropdown('add', { value: row.symbol, text: row.name })
             }
         }
         $('[name="symbol"]').dropdown('select', first_dropdown_value)
