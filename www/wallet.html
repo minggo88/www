@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
 <link rel="stylesheet" href="./assets/css/components.css?t=1670315205">
 <link rel="stylesheet" href="./assets/css/sub.css?t=1667450534">
-<link rel="stylesheet" href="./assets/css/wallet.css?t=1667450534">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1670482019">
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -223,11 +223,22 @@
 							</div>
 						</div>
 					</div>
-					<div class="grid">
+					<!-- <div class="grid">
 						<label for="" data-i18n>동결 평가 자산</label>
 						<div class="input pr-0">
 							<div id="totalLockedBalance" class="text-">0</div>
 							<div class="unconfirmedBalance currency dropdown-wrapper">
+								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
+									KRW
+								</button>
+							</div>
+						</div>
+					</div> -->
+					<div class="grid">
+						<label for="" data-i18n>구매 가능 금액</label>
+						<div class="input pr-0">
+							<div id="totalBuyableBalance" class="text-">0</div>
+							<div class="buyableBalance currency dropdown-wrapper">
 								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
 									KRW
 								</button>
@@ -337,6 +348,7 @@
 						let total_evaluated_balance = 0; // 총 보유 자산
 						let total_available_evaluated_balance = 0; // 총 사용 가능 자산
 						let total_locked_evaluated_balance = 0; // 총 동결 평가 자산
+						let total_buyable_balance = 0; // 총 구매 가능 자산
 
 						// console.log('getBalance resp:', resp);
 						if(resp.success) {
@@ -347,7 +359,13 @@
 								return true;
 							}).map((item) => {
 
-								console.log(item);
+								// 원은 목록에서 제거
+								if (item.symbol==='KRW') {
+									total_buyable_balance = item.confirmed;
+									return ;
+								}
+
+								// console.log(item);
 
 								if (item.confirmed > 0 || item.symbol=='KRW') {
 									item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
@@ -368,11 +386,12 @@
 									const deposit_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
 									const withdraw_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
 									const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
+									const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
 
 									const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
 									grid.append(`<div class="grid--inner-left">
 									<div class='item_img' style="background-image: url(${item.icon_url});"></div>
-									<div class='item_name desktop-only'>${item.name}</div>
+									<div class='item_name desktop-only'>${item_name}</div>
 								</div>`)
 									// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
 									// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
@@ -398,6 +417,7 @@
 							$('#totalBalance').text(real_number_format(total_evaluated_balance))
 							$('#totalAvailableBalance').text(real_number_format(total_available_evaluated_balance))
 							$('#totalLockedBalance').text(real_number_format(total_locked_evaluated_balance))
+							$('#totalBuyableBalance').text(real_number_format(total_buyable_balance))
 
 						}
 					})
@@ -453,7 +473,7 @@
 		</ul>
 	</nav>
 
-    <script src="./assets/js/app.js?t=1670410156"></script>
+    <script src="./assets/js/app.js?t=1670481946"></script>
 
 </body>
 </html>

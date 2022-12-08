@@ -94,6 +94,7 @@
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	box-sizing: border-box;
+	display:none;/* 사진을 깨끗하게 찍지 못해 아이콘을 숨겨달라고 함. */
 }
 
 @media screen and (max-width: 600px) {
