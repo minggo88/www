@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="./assets/css/sub.css?t={version}">
 <link rel="stylesheet" href="./assets/css/wallet.css?t={version}">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> -->
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -48,7 +48,7 @@
 <script src="./i18n/i18n.js?t={version}"></script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
 <!-- <script type="text/javascript" src="./assets/js/transaction.js?t={version}" defer></script> -->
 
 </head>
@@ -226,15 +226,31 @@
 							</ul>
 						</div>
 					</div>
-					<div style="display: flex; justify-content: space-between;">
-						<input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px">
-						<button type="submit" class="btn btn--red" name="btn-search" data-i18n>조회하기</button>
-						<button type="reset" class="btn btn--gray" name="btn-reset" data-i18n>초기화</button>
+					<div class="mobdatepicker" style="display: flex; justify-content: space-between;">
+						<!-- <input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px"> -->
+						<div class="mdatepicker">
+							<label for="mstart" class="blind">Start date:</label>
+							<input type="date" id="mstart" name="mstart" required pattern="\d{4}-\d{2}-\d{2}" />
+							<span>~</span>
+							<label for="mend" class="blind">End date:</label>
+							<input type="date" id="mend" name="mend" required pattern="\d{4}-\d{2}-\d{2}" />
+						</div>
+						<div class="btn_area">
+							<button type="submit" class="btn btn--red" name="btn-search" data-i18n>조회하기</button>
+							<button type="reset" class="btn btn--gray" name="btn-reset" data-i18n>초기화</button>
+						</div>
 					</div>
 				</div>
 				<div class="d-flex desktop-only" style="margin-bottom: 49px">
 					<div class="flex-center flex-self-center text--medium text-bold" style="width: 68px; text-align: center; margin-right: 7px" data-i18n>기간</div>
-					<input type="text" name="range" id="range" readonly class="daterange" style="margin-right: 10px">
+					<!-- <input type="text" name="range" id="range" readonly class="daterange" style="margin-right: 10px"> -->
+					<div class="datepicker" style="margin-right: 10px">
+						<label for="start" class="blind">Start date:</label>
+						<input type="date" id="start" name="start" required pattern="\d{4}-\d{2}-\d{2}" />
+						<span>~</span>
+						<label for="end" class="blind">End date:</label>
+						<input type="date" id="end" name="end" required pattern="\d{4}-\d{2}-\d{2}" />
+					</div>
 					<button type="submit" class="btn btn--red" style="margin-right:10px" name="btn-search" data-i18n>조회하기</button>
 					<button type="reset" class="btn btn--gray" style="width: 72px;" name="btn-reset" data-i18n>초기화</button>
 				</div>
