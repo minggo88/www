@@ -29,17 +29,17 @@
 <link rel="stylesheet" href="./assets/css/common.css?t=1666845393">
 <link rel="stylesheet" href="./assets/css/header.css?t=1668050247">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
-<link rel="stylesheet" href="./assets/css/components.css?t=1670315205">
+<link rel="stylesheet" href="./assets/css/components.css?t=1670501426">
 <link rel="stylesheet" href="./assets/css/sub.css?t=1667450534">
-<link rel="stylesheet" href="./assets/css/wallet.css?t=1670482019">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1670485122">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> -->
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/common.js?t=1670315205"></script>
-<script src="./assets/js/components.js?t=1670380128"></script>
+<script src="./assets/js/components.js?t=1670501028"></script>
 <script src="./assets/js/api.js?t=1668057319"></script>
 <script src="./assets/js/qrcode.min.js?t=1661823297"></script>
 
@@ -48,7 +48,7 @@
 <script src="./i18n/i18n.js?t=1665030514"></script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
 <!-- <script type="text/javascript" src="./assets/js/transaction.js?t=1670478179" defer></script> -->
 
 </head>
@@ -226,15 +226,31 @@
 							</ul>
 						</div>
 					</div>
-					<div style="display: flex; justify-content: space-between;">
-						<input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px">
-						<button type="submit" class="btn btn--red" name="btn-search" data-i18n>조회하기</button>
-						<button type="reset" class="btn btn--gray" name="btn-reset" data-i18n>초기화</button>
+					<div class="mobdatepicker" style="display: flex; justify-content: space-between;">
+						<!-- <input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px"> -->
+						<div class="mdatepicker">
+							<label for="mstart" class="blind">Start date:</label>
+							<input type="date" id="mstart" name="mstart" required pattern="\d{4}-\d{2}-\d{2}" />
+							<span>~</span>
+							<label for="mend" class="blind">End date:</label>
+							<input type="date" id="mend" name="mend" required pattern="\d{4}-\d{2}-\d{2}" />
+						</div>
+						<div class="btn_area">
+							<button type="submit" class="btn btn--red" name="btn-search" data-i18n>조회하기</button>
+							<button type="reset" class="btn btn--gray" name="btn-reset" data-i18n>초기화</button>
+						</div>
 					</div>
 				</div>
 				<div class="d-flex desktop-only" style="margin-bottom: 49px">
 					<div class="flex-center flex-self-center text--medium text-bold" style="width: 68px; text-align: center; margin-right: 7px" data-i18n>기간</div>
-					<input type="text" name="range" id="range" readonly class="daterange" style="margin-right: 10px">
+					<!-- <input type="text" name="range" id="range" readonly class="daterange" style="margin-right: 10px"> -->
+					<div class="datepicker" style="margin-right: 10px">
+						<label for="start" class="blind">Start date:</label>
+						<input type="date" id="start" name="start" required pattern="\d{4}-\d{2}-\d{2}" />
+						<span>~</span>
+						<label for="end" class="blind">End date:</label>
+						<input type="date" id="end" name="end" required pattern="\d{4}-\d{2}-\d{2}" />
+					</div>
 					<button type="submit" class="btn btn--red" style="margin-right:10px" name="btn-search" data-i18n>조회하기</button>
 					<button type="reset" class="btn btn--gray" style="width: 72px;" name="btn-reset" data-i18n>초기화</button>
 				</div>
@@ -396,7 +412,7 @@
 			</li>
 		</ul>
 	</nav>
-    <script src="./assets/js/app.js?t=1670481946"></script>
+    <script src="./assets/js/app.js?t=1670502417"></script>
 
 </body>
 </html>

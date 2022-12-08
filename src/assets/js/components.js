@@ -34,8 +34,6 @@ $(function() {
 
             if(typeof(arguments[0]) === 'string') {
                 const action = arguments[0]
-
-
                 switch (action) {
                     // 작업중... 선택이 않됨.
                     // case 'value':
@@ -45,6 +43,8 @@ $(function() {
                     case 'select':
                         this.find('.dropdown').html(list[arguments[1]]).end().find('.dropdown--item>span').html(list[arguments[1]])
                         this.data('selected', arguments[1])
+                        console.log('change trigger');
+                        this.trigger('change');
                         break
                     case 'selected':
                         return this.data('selected')
