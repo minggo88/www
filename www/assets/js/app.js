@@ -1795,14 +1795,22 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             $('[name="mend"]').val(edate);
         });
 
+        let wallet_symbols = {};
+        for (row of Object.values(Model.user_wallet)) {
+            wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name, 'icon_url':row.icon_url };
+        };
+        console.log(wallet_symbols);
         let first_dropdown_value = '';
-        for(i of Object.values(Model.user_wallet)) {
-            if (i.symbol.length >= 10) {
+        for(i in wallet_symbols) {
+            row = wallet_symbols[i];
+            console.log(i, row);
+            if (row.symbol.length >= 10) {
                 if(!first_dropdown_value) {
-                    first_dropdown_value = i.symbol;
+                    first_dropdown_value = row.symbol;
                 }
                 // $('#symbol').dropdown('add', { value: i.symbol, text: i.name })
-                $('[name="symbol"]').dropdown('add', { value: i.symbol, text: i.name })
+                // let goods_grade = i.goods_grade ? i.goods_grade + '등급' : '';
+                $('[name="symbol"]').dropdown('add', { value: row.symbol, text: row.name })
             }
         }
         $('[name="symbol"]').dropdown('select', first_dropdown_value)
@@ -1871,7 +1879,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                     data: 'currency_name' //, render: (data, type, row) => {return `<span class="product&#45;&#45;image"><img src="${wallet_icon_url}" alt=""></span>${data}`}
                     , orderable: false,
                 },  // 상품명
-                {data: 'production_date', render: (production_date) => {return production_date;}},  // 생산년도
+                {data: 'goods_grade'},  // 등급
+                // {data: 'production_date', render: (production_date) => {return production_date;}},  // 생산년도
                 {data: 'trading_type_str', render: (trading_type_str, type, row, meta) => {return trading_type_str;}},  // 거래종류
                 {data: 'status', render: (status, type, row, meta) => {
                         // '매매 상태. O: 대기중, C: 완료, T: 매매중, D: 삭제(취소)'
@@ -1900,7 +1909,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
             columnDefs: [
                 {searchable: false,orderable: true,targets: 0, "responsivePriority": 1,},  // 체결시간
                 {targets: 1,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 상품명
-                {targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 생산년도
+                {targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 등급
+                // {targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 생산년도
                 {targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1},   // 거래종류
                 {targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
                 {targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
@@ -2717,7 +2727,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
                         html.push(tpl
                             .replace(/\{coin.icon_url\}/g, row.icon_url||'about:blank')
                             .replace(/\{coin.name\}/g, row.name||'')
-                            .replace(/\{coin.SYMBOL\}/g, row.symbol||'')
+                            .replace(/\{coin.production_date\}/g, row.production_date||'')
                             .replace(/\{coin.basic_balance\}/g, real_number_format(row.basic_balance))
                             .replace(/\{coin.basic_evaluation_amount\}/g, real_number_format(row.basic_evaluation_amount))
                             .replace(/\{coin.final_balance\}/g, real_number_format(row.final_balance))
