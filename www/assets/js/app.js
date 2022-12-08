@@ -1754,44 +1754,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
     const fn_transaction = function() {
         check_login();
 
-        // $('input[name="range"]').daterangepicker({
-        //     format: 'YYYY-MM-DD',
-        //     maxDate: (new Date()),
-        //     autoUpdateInput: true,
-        //     autoApply: true,
-        //     locale: {
-        //         format: 'YYYY-MM-DD',
-        //         "daysOfWeek": [
-        //             __("일"),
-        //             __("월"),
-        //             __("화"),
-        //             __("수"),
-        //             __("목"),
-        //             __("금"),
-        //             __("토")
-        //         ],
-        //         "monthNames": [
-        //             __("1월"),
-        //             __("2월"),
-        //             __("3월"),
-        //             __("4월"),
-        //             __("5월"),
-        //             __("6월"),
-        //             __("7월"),
-        //             __("8월"),
-        //             __("9월"),
-        //             __("10월"),
-        //             __("11월"),
-        //             __("12월")
-        //         ],
-        //     }
-        // });
-
         // 검색기간
-        let sdate = date('Y-m-d');
+        let sdate = date('Y-m-d', time()-60*60*24*365);
         let edate = date('Y-m-d');
         $('[name="start"]').val(sdate);
         $('[name="end"]').val(edate);
+        $('[name="mstart"]').val(sdate);
+        $('[name="mend"]').val(edate);
 
         $('[name="btn-reset-1w"]').on('click', function() {
             sdate = date('Y-m-d', time()-60*60*24*7);
@@ -1839,204 +1808,145 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         $('[name="symbol"]').dropdown('select', first_dropdown_value)
 
 
-        $('[name="btn-search"]').on('click', function() {
-            check_login();
-
-            const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
-
-            if (!selected_symbol) {
-                alert('상품을 선택하세요.');
-                return false;
-            }
-
-            if (!sdate) {
-                alert('조회 기간을 선택하세요.');
-                return false;
-            }
-
-            if (!edate) {
-                alert('조회 기간을 선택하세요.');
-                return false;
-            }
-
-            let last_idx = 0
-            let page = 1
-            let totalPage = 1
-            const rows = 10
-
-            getTransactionList(page, rows)
-        });
-
-        $('[name="btn-search2"]').on('click', function() {
-            check_login();
-
-            const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
-
-            if (!selected_symbol) {
-                alert('상품을 선택하세요.');
-                return false;
-            }
-
-            if (!sdate) {
-                alert('조회 기간을 선택하세요.');
-                return false;
-            }
-
-            if (!edate) {
-                alert('조회 기간을 선택하세요.');
-                return false;
-            }
-
-            let last_idx = 0
-            let page = 1
-            let totalPage = 1
-            const rows = 10
-
-            getTransactionList(page, rows)
-        });
-
-        let last_page = 1;
-        let last_rows = 10;
-
+        let selected_symbol = $('[name=symbol]:visible').dropdown('selected');
         let selected_category = '';
-        const getTransactionList = (page, rows) => {
-            const selected_symbol = $('[name=symbol]:visible').dropdown('selected');
-            const category = selected_category;
-            add_request_item('getMyTradingList', {'token':getCookie('token'), 'symbol':selected_symbol, 'exchange':'krw', 'start_date':sdate, 'end_date':edate, 'category':category, 'page':page, 'rows':rows }, function(r) {
-                $('.board--list tbody').empty();
-                $('.m-transaction--list').empty();
-                last_page = page;
-                last_rows = rows;
-                r.payload.map((item) => {
-                    const tr = $('<tr>')
-                    tr.append(`<td class="text--left" style="font-size: 12px">${date('Y-m-d H:i', item.time_traded).substr(2,11)}</td>`)
-                    tr.append(`<td class="text&#45;&#45;left"  style="font-size: 12px"><span class="product&#45;&#45;image"><img src="${Model.user_wallet[selected_symbol].icon_url}" alt=""></span>${Model.user_wallet[selected_symbol].name}</td>`)
-                    tr.append(`<td class="text--right" style="font-size: 12px">${item.production_date}</td>`)
-                    // tr.append(`<td class="text--right" style="font-size: 12px"><i class="ico-${item.trading_type_str}"></i>${item.trading_type_str} <button type="button" class="btn btn--cancal" name="order_cancal" data-symbol="${item.symbol}" data-order_id="${item.orderid}" data-goods_grade="${item.goods_grade}" >취소</button> </td>`)
-                    let t = `<td class="text--right" style="font-size: 12px"><i class="ico-${item.trading_type_str}"></i>${item.trading_type_str}`;
+        let wallet = Model.user_wallet[selected_symbol];
+        let wallet_icon_url = wallet?.icon_url;
+        let wallet_name = wallet?.name;
 
-                    if(item.status == 'O' || item.status == 'T' && item.volume_remain > 0 ) {
-                        t+= `<button type="button" class="btn btn--cancal" name="order_cancal" data-symbol="${item.symbol}" data-order_id="${item.orderid}" data-goods_grade="${item.goods_grade}"  >취소</button>`;
-                    }
-                    t+=`</td>`;
-                    tr.append(t);
-                    tr.append(`<td class="text--right" style="font-size: 12px">${real_number_format(item.volume)}</td>`)
-                    tr.append(`<td class="" style="font-size: 10px">${real_number_format(item.price)}</td>`)
-                    tr.append(`<td class="" style="font-size: 10px">${real_number_format(item.amount)}</td>`)
-                    tr.append(`<td class="" style="font-size: 12px">${real_number_format(item.fee)}</td>`)
-                    tr.append(`<td class="" style="font-size: 12px">${real_number_format(item.settl_price)}</td>`)
-                    tr.appendTo('.board--list tbody')
+        $('[name=symbol]').on('change', function () { 
+            console.log('detect changed')
+            if ($(this).is(':visible')) {
+                selected_symbol = $(this).dropdown('selected');
+                wallet = Model.user_wallet[selected_symbol];
+                wallet_icon_url = wallet?.icon_url;
+                wallet_name = wallet?.name;
+            }
+        });
 
-                    const div = $('<div class="accordion&#45;&#45;item">')
-                    div.append('<header class="accordion--header">\n' +
-                        '\t\t\t\t\t\t\t\t<a href>\n' +
-                        '\t\t\t\t\t\t\t\t\t<div class="product">\n' +
-                        '\t\t\t\t\t\t\t\t\t\t<span class="product--image">\n' +
-                        '\t\t\t\t\t\t\t\t\t\t\t<img src="'+Model.user_wallet[selected_symbol].icon_url+'" alt="01">\n' +
-                        '\t\t\t\t\t\t\t\t\t\t</span>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t<div class="items">\n' +
-                        '\t\t\t\t\t\t\t\t\t\t\t<div class="name">'+Model.user_wallet[selected_symbol].name+'</div>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t\t<div class="item">\n' +
-                        '\t\t\t\t\t\t\t\t\t\t\t\t<span><i class=ico-'+item.trading_type_str+'></i> 제품 등록</span>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t\t\t<span>'+date('Y-m-d H:i', item.time_traded).substr(2,11)+'</span>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t</div>\n' +
-                        '\t\t\t\t\t\t\t\t\t</div>\n' +
-                        '\t\t\t\t\t\t\t\t\t<div class="price">\n' +
-                        '\t\t\t\t\t\t\t\t\t\t'+real_number_format(item.amount)+'\n' +
-                        '\t\t\t\t\t\t\t\t\t</div>\n' +
-                        '\t\t\t\t\t\t\t\t</a>\n' +
-                        '\t\t\t\t\t\t\t</header>')
-                    div.append('<div class="accordion--contents">\n' +
-                        '\t\t\t\t\t\t\t\t<ul>\n' +
-                        '\t\t\t\t\t\t\t\t\t<li>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t단가<span>'+real_number_format(item.price)+'</span>\n' +
-                        '\t\t\t\t\t\t\t\t\t</li>\n' +
-                        '\t\t\t\t\t\t\t\t\t<li>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t수량<span>'+real_number_format(item.volume)+'</span>\n' +
-                        '\t\t\t\t\t\t\t\t\t</li>\n' +
-                        '\t\t\t\t\t\t\t\t\t<li>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t수수료<span>'+real_number_format(item.fee)+'</span>\n' +
-                        '\t\t\t\t\t\t\t\t\t</li>\n' +
-                        '\t\t\t\t\t\t\t\t\t<li>\n' +
-                        '\t\t\t\t\t\t\t\t\t\t정산금액<span>'+real_number_format(item.settl_price)+'</span>\n' +
-                        '\t\t\t\t\t\t\t\t\t</li>\n' +
-                        '\t\t\t\t\t\t\t\t</ul>\n' +
-                        '\t\t\t\t\t\t\t</div>')
-                    div.appendTo('.m-transaction--list')
+        const transactionGrid = $('#transactionGrid').DataTable({
+            "lengthChange": false,
+            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            'pageLength': 10 ,
+            "order": [[ 0, 'desc' ]],
+            "searching" : false,
+            ajax: {
+                type: "post",
+                url: `${API.BASE_URL}/getMyOrderList/`,
+                // url: `${API.BASE_URL}/getMyTradingList/`,
+                // dataSrc: 'payload.data',
+                data:  function ( d ) {
+                    d.token = getCookie('token');
+                    d.symbol = $('[name=symbol]:visible').dropdown('selected');
+                    d.exchange = 'KRW';
+                    d.return_type = 'datatable';
+                    d.status = 'all';
+                    d.start_date = $('[name="start"]').val();
+                    d.end_date = $('[name="end"]').val();
+                    d.trading_type = selected_category
+                },
 
-                })
+            },
 
-                totalPage = Math.ceil(r.payload.length / rows)
-
-                $('.board--pagination').find('>ul').empty().end().show()
-                if (totalPage > 1) {
-                    let prev = (page <= 1) ? 1 : page -1
-                    $('<li>')
-                        .addClass('pagination--prev')
-                        .append(`<a href="#page-${prev}">이전 페이지</a>`)
-                        .appendTo('.board--pagination > ul')
-
-                    for (let i=1; i<=totalPage; i++) {
-                        $('<li>').append(`<a href="#page-${i}">${i}</a>`).appendTo('.board--pagination > ul')
-                    }
-
-                    let next = (page >= totalPage) ? totalPage : page+1
-                    $('<li>')
-                        .addClass('pagination--next')
-                        .append(`<a href="#page-${next}">다음 페이지</a>`)
-                        .appendTo('.board--pagination > ul')
+            "language": {
+                "emptyTable": "데이터가 없음.",
+                "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+                "info": "현재 _START_ - _END_ / _TOTAL_건",
+                "infoEmpty": "",
+                "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+                "search": "검색: ",
+                "zeroRecords": "일치하는 데이터가 없음",
+                "loadingRecords": "로딩중...",
+                "processing": '잠시만 기다려 주세요.',
+                "paginate": {
+                    "next": "다음",
+                    "previous": "이전"
                 }
-
-            })
-        }
-        const reloadTransactionlist = () => {
-            getTreansactionList(last_page, last_rows);
-        }
-
-
-        $('.board--pagination').on('click', 'a', (e) => {
-            e.preventDefault()
-            const page = $(e.target)
-                .attr('href')
-                .replaceAll(/#page-/g, '')
-            getTransactionList(page, 10)
-            return false
+            },
+            columns : [
+                {data: 'time_traded', render: (time_traded) => {return date('Y-m-d H:i', time_traded) ;}},  // 체결시간
+                {
+                    data: 'currency_name' //, render: (data, type, row) => {return `<span class="product&#45;&#45;image"><img src="${wallet_icon_url}" alt=""></span>${data}`}
+                    , orderable: false,
+                },  // 상품명
+                {data: 'production_date', render: (production_date) => {return production_date;}},  // 생산년도
+                {data: 'trading_type_str', render: (trading_type_str, type, row, meta) => {return trading_type_str;}},  // 거래종류
+                {data: 'status', render: (status, type, row, meta) => {
+                        // '매매 상태. O: 대기중, C: 완료, T: 매매중, D: 삭제(취소)'
+                        let status_str = ""
+                        if (status == "O") {
+                            status_str = "대기중"
+                        } else if (status == "C") {
+                            status_str = "완료"
+                        } else if (status == "T") {
+                            status_str = "매매중"
+                        } else if (status == "D") {
+                            status_str = "취소"
+                        }
+                        if(row.status == 'O' || row.status == 'T' && row.volume_remain > 0 ) {
+                            status_str = status_str +`<br/><button type="button" class="btn btn--cancal" name="order_cancal" data-symbol="${row.symbol}" data-order_id="${row.orderid}" data-goods_grade="${row.goods_grade}"  >취소</button>`;
+                        }
+                        return status_str;
+                    }
+                },  // 거래종류
+                {data: 'volume', render: (volume) => {return real_number_format(volume);}},  // 거래수량
+                {data: 'price', render: (price) => {return real_number_format(price);}},  // 거래단가
+                {data: 'amount', render: (amount) => {return real_number_format(amount);}},  // 거래금액
+                {data: 'fee', render: (fee) => {return real_number_format(fee);}},  // 수수료
+                {data: 'settl_price', render: (settl_price) => {return real_number_format(settl_price);}},  // 정산금액
+            ],
+            columnDefs: [
+                {searchable: false,orderable: true,targets: 0, "responsivePriority": 1,},  // 체결시간
+                {targets: 1,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 상품명
+                {targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 생산년도
+                {targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1},   // 거래종류
+                {targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
+                {targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
+                {targets: 6,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
+                {targets: 7,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
+                {targets: 8,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
+                {targets: 9,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
+            ],
+            "order": [ [0, 'desc'] ]
         })
 
-        $('[name="select_category"]').on('click', 'a', (e) => {
-            e.preventDefault()
-
-            // console.log($(e.target).text());
-            $('[name="category_label"]').text($(e.target).text());
-            selected_category = $(e.target).data('category')
-            getTransactionList(1, 10)
-            return false
-        })
-
-        $('[name="select_category"]').on('click', 'a', (e) => {
-            e.preventDefault()
-
-            $('[name="category_label"]').text($(e.target).text());
-            selected_category = $(e.target).data('category')
-            getTransactionList(1, 10)
-            return false
-        })
+        $('[name="btn-search"]').on('click', function() {
+            selected_symbol = $('[name=symbol]:visible').dropdown('selected');
+            category = '';
+            sdate = $('[name="start"]').val();
+            edate = $('[name="etart"]').val();
+            transactionGrid.ajax.reload(null, !!'reset page');
+        });
+        $('[name="btn-search2"]').on('click', function() {
+            selected_symbol = $('[name=symbol]:visible').dropdown('selected');
+            category = '';
+            sdate = $('[name="start"]').val();
+            edate = $('[name="etart"]').val();
+            transactionGrid.ajax.reload(null, !!'reset page');
+        });
+        $('[name="btn-reload"]').on('click', function() {
+            transactionGrid.ajax.reload(null, !!'reset page');
+        });
 
         $('[name="m_dropdown"]').on('click', 'button', (e) => {
             e.preventDefault()
-
-            $('[name="m_category_label"]').text($(e.target).text());
-            selected_category = $(e.target).data('category')
-            getTransactionList(1, 10)
+            let selected_text = $(e.target).text();
+            if (selected_text) {
+                $('[name="m_category_label"]').text(selected_text);
+                selected_category = $(e.target).data('category')
+                transactionGrid.ajax.reload(null, !!'reset page');
+            }
 
         })
 
         $(document).on('click', ".btn--cancal", function() {
             // alert($(this).data('order_id'));
             add_request_item('cancel', {'symbol':$(this).data('symbol'), 'orderid':$(this).data('order_id'),  'goods_grade':$(this).data('goods_grade') }, function(r) {
-                console.log(r)
-                if(r && r.success) { reloadTransactionlist(); }
+                if(r && r.success) {
+                    transactionGrid.ajax.reload(null, false);
+                }
             });
         })
     }
@@ -2715,41 +2625,45 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         // request_user_info();
         force_rander('user_info', Model.user_info);
 
-        $('input[name="range"]').daterangepicker({
-            format: 'YYYY-MM-DD',
-            maxDate: (new Date()),
-            autoUpdateInput: true,
-            autoApply: true,
-            locale: {
-                format: 'YYYY-MM-DD',
-                "daysOfWeek": [
-                    __("일"),
-                    __("월"),
-                    __("화"),
-                    __("수"),
-                    __("목"),
-                    __("금"),
-                    __("토")
-                ],
-                "monthNames": [
-                    __("1월"),
-                    __("2월"),
-                    __("3월"),
-                    __("4월"),
-                    __("5월"),
-                    __("6월"),
-                    __("7월"),
-                    __("8월"),
-                    __("9월"),
-                    __("10월"),
-                    __("11월"),
-                    __("12월")
-                ],
-            }
-        });
+        // $('input[name="range"]').daterangepicker({
+        //     format: 'YYYY-MM-DD',
+        //     maxDate: (new Date()),
+        //     autoUpdateInput: true,
+        //     autoApply: true,
+        //     locale: {
+        //         format: 'YYYY-MM-DD',
+        //         "daysOfWeek": [
+        //             __("일"),
+        //             __("월"),
+        //             __("화"),
+        //             __("수"),
+        //             __("목"),
+        //             __("금"),
+        //             __("토")
+        //         ],
+        //         "monthNames": [
+        //             __("1월"),
+        //             __("2월"),
+        //             __("3월"),
+        //             __("4월"),
+        //             __("5월"),
+        //             __("6월"),
+        //             __("7월"),
+        //             __("8월"),
+        //             __("9월"),
+        //             __("10월"),
+        //             __("11월"),
+        //             __("12월")
+        //         ],
+        //     }
+        // });
         // 검색기간
         let sdate = date('Y-m-d');
         let edate = date('Y-m-d');
+
+        $('[name="start"]').val(sdate);
+        $('[name="end"]').val(edate);
+
         $('input[name="range"]').on('apply.daterangepicker', function(ev, picker) {
             sdate = picker.startDate.format('YYYY-MM-DD');
             edate = picker.endDate.format('YYYY-MM-DD');
