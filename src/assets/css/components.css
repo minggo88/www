@@ -2193,7 +2193,8 @@ input[type=file].image-selector::after{
 }
 
 .modal.modal--tiny .modal--dialog {
-    width: 420px;
+    /* width: 420px; */
+	width: 350px;
     height: 460px;
     background: var(--white)
 }
