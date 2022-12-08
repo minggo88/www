@@ -2848,41 +2848,45 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
         // request_user_info();
         force_rander('user_info', Model.user_info);
 
-        $('input[name="range"]').daterangepicker({
-            format: 'YYYY-MM-DD',
-            maxDate: (new Date()),
-            autoUpdateInput: true,
-            autoApply: true,
-            locale: {
-                format: 'YYYY-MM-DD',
-                "daysOfWeek": [
-                    __("일"),
-                    __("월"),
-                    __("화"),
-                    __("수"),
-                    __("목"),
-                    __("금"),
-                    __("토")
-                ],
-                "monthNames": [
-                    __("1월"),
-                    __("2월"),
-                    __("3월"),
-                    __("4월"),
-                    __("5월"),
-                    __("6월"),
-                    __("7월"),
-                    __("8월"),
-                    __("9월"),
-                    __("10월"),
-                    __("11월"),
-                    __("12월")
-                ],
-            }
-        });
+        // $('input[name="range"]').daterangepicker({
+        //     format: 'YYYY-MM-DD',
+        //     maxDate: (new Date()),
+        //     autoUpdateInput: true,
+        //     autoApply: true,
+        //     locale: {
+        //         format: 'YYYY-MM-DD',
+        //         "daysOfWeek": [
+        //             __("일"),
+        //             __("월"),
+        //             __("화"),
+        //             __("수"),
+        //             __("목"),
+        //             __("금"),
+        //             __("토")
+        //         ],
+        //         "monthNames": [
+        //             __("1월"),
+        //             __("2월"),
+        //             __("3월"),
+        //             __("4월"),
+        //             __("5월"),
+        //             __("6월"),
+        //             __("7월"),
+        //             __("8월"),
+        //             __("9월"),
+        //             __("10월"),
+        //             __("11월"),
+        //             __("12월")
+        //         ],
+        //     }
+        // });
         // 검색기간
         let sdate = date('Y-m-d');
         let edate = date('Y-m-d');
+
+        $('[name="start"]').val(sdate);
+        $('[name="end"]').val(edate);
+
         $('input[name="range"]').on('apply.daterangepicker', function(ev, picker) {
             sdate = picker.startDate.format('YYYY-MM-DD');
             edate = picker.endDate.format('YYYY-MM-DD');
