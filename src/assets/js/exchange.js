@@ -560,8 +560,8 @@ $(function() {
             },
             // 거래금액
             {
-                data: 'amount', render: (amount) => {
-                    return real_number_format(amount);
+                data: 'amount_remain', render: (amount_remain) => {
+                    return real_number_format(amount_remain);
                 }
             },
             // // 상태
@@ -706,10 +706,10 @@ $(function() {
                     return number_format(volume_remain, 0);
                 }
             },
-            // 거래금액
+            // 거래금액 - price * volume_remain을 해야 하는데 남은 수량이 바뀔때마다 계산해서 정렬을 해줘야 해서 숨깁니다.
             {
-                data: 'amount', render: (volume) => {
-                    return real_number_format(volume);
+                data: 'amount_remain', render: (amount_remain) => {
+                    return real_number_format(amount_remain);
                 }
             },
             // // 상태
