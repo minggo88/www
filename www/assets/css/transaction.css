@@ -99,9 +99,12 @@
 	border-top: none;
 }
 
+.sub.transaction .transaction--list td:nth-of-type(1)
 .sub.transaction .transaction--list td:nth-of-type(2),
 .sub.transaction .transaction--list td:nth-of-type(6),
-.sub.transaction .transaction--list td:nth-of-type(7){
+.sub.transaction .transaction--list td:nth-of-type(7),
+.sub.transaction .transaction--list td:nth-of-type(8),
+.sub.transaction .transaction--list td:nth-of-type(9){
 	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -199,6 +202,11 @@
 }
 
 
+/* @media screen and (min-width: 801px) and (max-width: 1024px){
+	.sub.transaction .transaction--list th{
+		font-size: 12px;
+	}
+} */
 
 @media screen and (max-width: 800px){
 	.sub.transaction > header{display: none;}

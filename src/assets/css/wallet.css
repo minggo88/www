@@ -94,6 +94,7 @@
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	box-sizing: border-box;
+	display:none;/* 사진을 깨끗하게 찍지 못해 아이콘을 숨겨달라고 함. */
 }
 
 @media screen and (max-width: 600px) {
@@ -141,6 +142,7 @@
 .wallet--grid .wallet--price {
     font-size: 18px;
     letter-spacing: -0.15px;
+	word-break: break-all;
 }
 .wallet--grid .wallet--market-price {
     font-family: Inter;
@@ -1133,6 +1135,27 @@
 	display: none!important;
 }
 
+.wallet-analysis .datepicker{
+	width: 72%;
+	display: flex;
+	align-items: center;
+}
+.wallet-analysis .datepicker span{
+	font-size: 16px;
+	text-align: center;
+	width: 6%;
+	display: inline-block;
+	font-weight: 500;
+}
+
+.wallet-analysis .datepicker input[type="date"]{
+	border: 0.35px solid #DFDFDF;
+    border-radius: 3px;
+	height: 40px;
+	width: 46%;
+	padding: 0 10px;
+}
+
 /* @media screen and (min-width: 1071px) and (max-width: 1240px) {
 	.wallet-analysis .table-responsive{
 		min-width: 670px;
@@ -1191,19 +1214,52 @@
 		-webkit-mask-image: none;
 	}
 	
-	.sub.wallet-analysis .period .daterange{
+	/* .sub.wallet-analysis .period .daterange{
 		height: 44px;
 		width: 60%;
-	}
+	} */
 
-	.sub.wallet-analysis .period .btn{
+	/* .sub.wallet-analysis .period .btn{
 		width: 25%;
 		border-radius: 5px;
-	}
+	} */
 
-	.sub.wallet-analysis .period .btn:nth-of-type(1){
+	
+	.wallet-analysis .period .mdatepicker{
+		height: 44px;
+		width: 64%;
 		margin-right: 5px;
 	}
+	.wallet-analysis .period .mdatepicker span{
+		font-size: 16px;
+		text-align: center;
+		width: 5%;
+		display: inline-block;
+		font-weight: 500;
+	}
+
+	.wallet-analysis .period .mdatepicker input[type="date"]{
+		border: 0.35px solid #DFDFDF;
+		border-radius: 3px;
+		height: 44px;
+		width: 46%;
+		padding: 0 10px;
+	} 
+	.wallet-analysis .period .btn_area{
+		display: flex;
+		width: 35%;
+		column-gap: 5px;
+		
+	}
+	.wallet-analysis .period .btn_area .btn{
+		border-radius: 5px;
+		width: 50%;
+		font-size: 14px;
+	}
+
+	/* .sub.wallet-analysis .period .btn:nth-of-type(1){
+		margin-right: 5px;
+	} */
 
 	.wallet-analysis .middle_div.big {
 		clear: both;
@@ -1282,7 +1338,18 @@
 }
 
 @media screen and (max-width: 450px) { 
-	.wallet-analysis .daterange{font-size: 12px;}
+	/* .wallet-analysis .daterange{font-size: 12px;} */
+	.sub.wallet-analysis .period .mobdatepicker{
+		flex-direction: column;
+	}
+	.sub.wallet-analysis .period .mdatepicker{
+		width: 100%;
+		margin-right: 0;
+		margin-bottom: 10px;
+	}
+	.sub.wallet-analysis .period .btn_area{
+		width: 100%;
+	}
 
 	.wallet-analysis .middle_div.big{
 		height: 590px;
@@ -1318,6 +1385,7 @@
 		text-align: left;
 		font-weight: 350;
 	}
+	
 }
 
 @media screen and (max-width:380px) { 
