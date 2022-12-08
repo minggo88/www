@@ -553,7 +553,26 @@
 	}
 }
 
+@media screen and (max-width: 450px){
+	.m-transaction--list.accordion .accordion--item .accordion--header .items{
+		height: 65px;
+	}
+	
+	.m-transaction--list.accordion .accordion--item .accordion--header .item{
+		display: flex;
+		flex-direction: column;
+	}
+
+	.m-transaction--list.accordion .accordion--item .accordion--header a .price{
+		font-size: 16px;
+	}
+}
+
 @media screen and (max-width: 380px){
+	.m-transaction--list.accordion .accordion--item .accordion--header{
+		height: 90px;
+	}
+	
 	.sub.transaction .range_btn {
 		flex-direction: column;
 	}
@@ -563,8 +582,33 @@
 		margin-right: 0!important;
 		width: 100%;
 	}
+	.m-transaction--list.accordion .accordion--item .accordion--header a{
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+	}
+	.m-transaction--list.accordion .accordion--item .accordion--header a .price{
+		font-size: 14px;
+		align-self: flex-end;
+	}
+	.m-transaction--list.accordion .accordion--item .accordion--header .items .name{
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		width: 100px;
+	}
 
 	.sub.transaction .period .btn{
 		width: 100%;
+	}
+
+	.m-transaction--list.accordion .accordion--item .accordion--header .items{
+		height: 65px;
+		justify-content: initial;
+	}
+	
+	.m-transaction--list.accordion .accordion--item .accordion--header .item{
+		display: flex;
+		flex-direction: column;
 	}
 }
