@@ -59,8 +59,19 @@
 <script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}"></script>
-<script src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
+<script src="//cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
+<script src="//cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.js" type="text/javascript" charset="utf-8"></script>
+<script src="//cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js" type="text/javascript" charset="utf-8"></script>
+
+
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
 
@@ -331,13 +342,13 @@
 								</div>
 							</div>
 							<div class="refresh">
-								<button type="button" class="refresh-btn" onclick="location.reload(true);">방금전</button>
+								<button type="button" class="refresh-btn" name="btn-reload">방금전</button>
 							</div>
 						</div>
 					</div>
 
-					<table id="transactionGrid" class="transaction--list board--list desktop-only">
-						<colgroup class="desktop-only">
+					<table id="transactionGrid" class="transaction--list board--list" style="width:100%">
+						<colgroup class="">
 							<col /><!--전체-->
 							<col /><!--제품-->
 							<col /><!--단가-->
@@ -355,7 +366,7 @@
 							<col style="width: calc(100% * (130 / 919))">
 							<col style="width: calc(100% * (84 / 919))"> -->
 						</colgroup>
-						<thead class="desktop-only">
+						<thead class="">
 							<tr>
 								<th data-i18n>체결시간</th>
 								<th data-i18n>상품명</th>
