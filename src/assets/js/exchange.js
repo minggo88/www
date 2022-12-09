@@ -139,8 +139,6 @@ $(function() {
      */
     var height = 300
    	// const sidePanelWidth = $('.side--panel').width()
-    // const detailsWidth = $('main').width() - sidePanelWidth - 30
-	const detailsWidth = $('.details').width()
     const periodList = [
         { text: '1'+__('분'), value: '1m' },
         { text: '3'+__('분'), value: '3m' },
@@ -244,7 +242,7 @@ $(function() {
         const container = document.getElementById(target_id)
         $(container).empty();
         chart = LightweightCharts.createChart(container, {
-            width: detailsWidth,
+            width: $('.details').width(),
             height: height,
             crosshair: {
                 mode: LightweightCharts.CrosshairMode.Normal,
@@ -341,7 +339,7 @@ $(function() {
         const container = document.getElementById(target_id)
         $(container).empty();
         const chart = LightweightCharts.createChart(container, {
-            width: detailsWidth,
+            width: $('.details').width(),
             height: height,
             crosshair: {
                 mode: LightweightCharts.CrosshairMode.Normal,
