@@ -99,6 +99,24 @@
 	overflow-x: auto;
 }
 
+.d-grid.d-grid--empty.wallet--grid {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+
+.d-grid.d-grid--empty.wallet--grid .grid.grid--empty{
+	background: #FAFAFA;
+	height: 450px;
+	border-left: 0.35px solid #BDC4CB;
+	justify-content: center;
+}
+@media screen and (max-width: 800px) {
+	.d-grid.d-grid--empty.wallet--grid .grid.grid--empty{
+		border-left: none;
+		margin-bottom: 30px;
+	}
+}
+
 .wallet--grid .grid .grid--inner-left{
 	display: flex;
 	align-items: center;
