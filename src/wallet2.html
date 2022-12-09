@@ -246,7 +246,12 @@
 						</div>
 					</div>
 				</section>
-				<div class="d-grid wallet--grid loading">
+				<div class="d-grid d-grid--empty wallet--grid loading" name="d-grid--empty">
+					<div class="grid grid--empty" name="grid--empty">
+						<div>
+							보유중인 상품이 없습니다
+						</div>
+					</div>
 					<!-- <div class="grid" style="border-left-color: #000000;">
 						<div class="grid--inner-left">
 							<div class="item_img" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
@@ -351,7 +356,10 @@
 						let total_buyable_balance = 0; // 총 구매 가능 자산
 
 						// console.log('getBalance resp:', resp);
-						if(resp.success) {
+						if(resp.success && resp?.payload?.data && resp?.payload?.data?.length > 0) {
+							$('[name="d-grid--empty"]').removeClass('d-grid--empty');
+							$('[name="grid--empty"]').hide();
+
 							resp.payload.filter(function(item) {
 								if (item.crypto_currency === 'N') {
 									return false; // skip
@@ -473,7 +481,7 @@
 		</ul>
 	</nav>
 
-	<div class="modal modal--middle modal--open" tabindex="2">
+	<div class="modal modal--middle" tabindex="2">
 		<div class="modal--dialog">
 			<div class="modal--header">
 				<span data-i18n>상품이름, 번호</span>
