@@ -170,16 +170,19 @@ $(function() {
         genChartLine();
 
         API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+            $('.details').removeClass('loading')
             if (resp.success && resp.payload) {
                 displayChartLine('S', resp.payload);
             }
         })
         API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+            $('.details').removeClass('loading')
             if (resp.success && resp.payload) {
                 displayChartLine('A', resp.payload);
             }
         })
         API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+            $('.details').removeClass('loading')
             if (resp.success && resp.payload) {
                 displayChartLine('B', resp.payload);
             }
@@ -265,8 +268,6 @@ $(function() {
      */
     const displayChartLine = async (grade, data) => {
         
-        $('.details').removeClass('loading')
-
         // ---------------------------------------------------
         // 라인 차트 생성
         switch (grade) {
@@ -878,16 +879,19 @@ $(function() {
             let period = $('#period').dropdown('selected');
 
             API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+                $('.details').removeClass('loading')
                 if (resp.success && resp.payload) {
                     displayChartLine('S', resp.payload);
                 }
             })
             API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+                $('.details').removeClass('loading')
                 if (resp.success && resp.payload) {
                     displayChartLine('A', resp.payload);
                 }
             })
             API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+                $('.details').removeClass('loading')
                 if (resp.success && resp.payload) {
                     displayChartLine('B', resp.payload);
                 }
