@@ -368,15 +368,6 @@ div.dts div.dataTables_scrollBody {
 		padding-bottom: 52px;
 	}
 
-
-
-
-
-
-
-
-
-
 	/* .side--panel .tabs {
         border-bottom: 4px solid var(--lightgray);
         height: 36px;
@@ -436,3 +427,43 @@ div.dts div.dataTables_scrollBody {
         display: none;
     }
 } */
+
+#white-paper dl{
+	justify-content: flex-start;
+}
+
+#white-paper dl dt{
+	width: 150px;
+}
+
+#white-paper dl dd{
+	width: calc(100% - 150px);
+	min-width: 280px
+}
+
+#white-paper dl dd .input,
+#white-paper dl dd .textarea{
+	font-weight: 100;
+	font-size: 14px;
+}
+
+#white-paper dl dd .input input{
+	width:100%;
+}
+
+@media screen and (max-width: 600px) {
+	#white-paper dl{
+		flex-direction: column;
+	}
+
+	#white-paper dl dd{
+		width: 100%;
+		min-width: initial;
+	}
+
+	#white-paper .grid-2-column{
+		grid-template-columns: repeat(1, 1fr);
+		padding: 0 20px 20px!important;
+		overflow: auto;
+	}
+}
