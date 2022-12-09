@@ -62,7 +62,7 @@ div.dts div.dataTables_scrollBody {
 
 .details {
 	width: 100%;
-    overflow:auto;
+    overflow:hidden;/* 차트등 내부 영역이 넘어가면 모바일에서 좌우 스크롤이 생기는 현상 방지위해 hidden사용 */
 	min-width: 320px;
 }
 
