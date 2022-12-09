@@ -265,6 +265,8 @@ $(function() {
      */
     const displayChartLine = async (grade, data) => {
         
+        $('.details').removeClass('loading')
+
         // ---------------------------------------------------
         // 라인 차트 생성
         switch (grade) {
@@ -304,7 +306,6 @@ $(function() {
         // 차트 스케일 맞춤
         chart.timeScale().fitContent();
 
-        $('.details').removeClass('loading')
     }
 
     /**
