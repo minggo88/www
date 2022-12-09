@@ -1,3 +1,70 @@
+#goods-desc.modal.modal--middle .modal--dialog{
+	background: var(--white);
+	width: calc(100% * (720 / 1440));
+	height: calc(100% - 250px);
+}
+
+#goods-desc .modal--content{
+	height: calc(100% - 60px);
+	overflow-y: scroll;
+    position: relative;
+}
+
+#goods-desc .modal--content .info{
+	display: flex;
+	padding: 20px;
+	align-items: center;
+}
+
+#goods-desc .modal--content .info .thumb{
+	margin-right: 20px;
+}
+
+#goods-desc .modal--content .info table tr{
+	display: flex;
+}
+
+#goods-desc .modal--content .info table th{
+	width: 60px;
+	text-align: left;
+}
+#goods-desc .modal--content .info table td{
+	width: calc(100% - 60px)
+}
+
+#goods-desc .modal--content .desc_table{
+	width: 100%;
+}
+#goods-desc .modal--content .table_desc{
+	width: 100%;
+	border-collapse:collapse;
+}
+
+#goods-desc .modal--content .table_desc tr th{
+	border-top: 0.35px solid #BDC4CB;
+	border-bottom: 0.5px solid #777;
+	
+	background: #FBFDFF;
+	padding: 10px 15px;
+	font-size: 14px;
+	white-space: nowrap;
+}
+
+#goods-desc .modal--content .table_desc tr td{
+	border-bottom: 0.35px solid #BDC4CB;
+	text-align: center;
+	font-size: 12px;
+	padding: 10px 15px;
+}
+
+#goods-desc .modal--content .table_desc tr td a.adress{
+	display: block;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 80%;
+}
+
 /* wallet 보유자산 */
 @media screen and (max-width:1440px) {
 	.sub.wallet main{
@@ -79,6 +146,24 @@
     background-position: 12px center;
 	/* overflow: scroll; */
 	overflow-x: auto;
+}
+
+.d-grid.d-grid--empty.wallet--grid {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+
+.d-grid.d-grid--empty.wallet--grid .grid.grid--empty{
+	background: #FAFAFA;
+	height: 350px;
+	border-left: 0.35px solid #BDC4CB;
+	justify-content: center;
+}
+@media screen and (max-width: 800px) {
+	.d-grid.d-grid--empty.wallet--grid .grid.grid--empty{
+		border-left: none;
+		margin-bottom: 30px;
+	}
 }
 
 .wallet--grid .grid .grid--inner-left{

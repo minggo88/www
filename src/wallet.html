@@ -246,7 +246,12 @@
 						</div>
 					</div>
 				</section>
-				<div class="d-grid wallet--grid loading">
+				<div class="d-grid d-grid--empty wallet--grid loading" name="d-grid--empty">
+					<div class="grid grid--empty" name="grid--empty">
+						<div>
+							보유중인 상품이 없습니다
+						</div>
+					</div>
 					<!-- <div class="grid" style="border-left-color: #000000;">
 						<div class="grid--inner-left">
 							<div class="item_img" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
@@ -351,7 +356,10 @@
 						let total_buyable_balance = 0; // 총 구매 가능 자산
 
 						// console.log('getBalance resp:', resp);
-						if(resp.success) {
+						if(resp.success && resp?.payload?.data && resp?.payload?.data?.length > 0) {
+							$('[name="d-grid--empty"]').removeClass('d-grid--empty');
+							$('[name="grid--empty"]').hide();
+
 							resp.payload.filter(function(item) {
 								if (item.crypto_currency === 'N') {
 									return false; // skip
@@ -472,6 +480,110 @@
 			</li>
 		</ul>
 	</nav>
+
+	<div id="goods-desc" class="modal modal--middle modal--open" tabindex="2">
+		<div class="modal--dialog">
+			<div class="modal--header">
+				<div>
+					<i class="btn btn--star--on"></i>
+					<span class="text--bbold tea--name" style="font-size: 18px">상품이름, 등급</span>
+				</div>
+				<button type="button" class="btn btn--close"></button>
+			</div>
+			<div class="modal--content">
+				<div class="info">
+					<div class="thumb">
+						<img src="./assets/img/dummy/정보.png" alt="">
+					</div>
+					<div>
+						<table class="table">
+							<tr>
+								<th data-i18n>구분</th>
+								<td data-i18n name="meta_division"></td>
+							</tr>
+							<tr>
+								<th data-i18n>타입</th>
+								<td data-i18n name="meta_type"></td>
+							</tr>
+							<tr>
+								<th data-i18n>생산</th>
+								<td>
+									<span name="meta_produce"></span>
+								</td>
+							</tr>
+							<tr>
+								<th data-i18n>인증</th>
+								<td>
+									<div name="meta_certification_mark_name"></div>
+								</td>
+							</tr>
+							<tr>
+								<th data-i18n>차 소개</th>
+								<td>
+									<div name="meta_wp_teamaster_note">
+										비싸고 품질좋은 보이명차! 녹설현, A등급. 비싸고 품질좋은 보이명차! 녹설현, A등급. 비싸고 품질좋은 보이명차! 녹설현, A등급. 비싸고 품질좋은 보이명차! 녹설현, A등급. 
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="desc_table">
+					<table class="table_desc">
+						<colgroup>
+							<col />
+							<col />
+							<col />
+							<col />
+							<col />
+						</colgroup>
+						<thead>
+							<th data-i18n>번호</th>
+							<th data-i18n>Contract Address</th>
+							<th data-i18n>Token ID</th>
+							<th data-i18n>가격</th>
+							<th data-i18n>업데이트</th>
+						</thead>
+						<tbody>
+							<tr>
+								<td data-i18n>21</td>
+								<td data-i18n>
+									<a href="#none" class="adress">
+										0xC178994cB9b66307Cd62dB8b411759Ff36F9C2EE
+									</a>
+								</td>
+								<td data-i18n>2352</td>
+								<td data-i18n>1,000,000</td>
+								<td data-i18n>22.12.22</td>
+							</tr>
+							<tr>
+								<td data-i18n>21</td>
+								<td data-i18n>
+									<a href="#none" class="adress">
+										0xC178994cB9b66307Cd62dB8b411759Ff36F9C2EE
+									</a>
+								</td>
+								<td data-i18n>2352</td>
+								<td data-i18n>1,000,000</td>
+								<td data-i18n>22.12.22</td>
+							</tr>
+							<tr>
+								<td data-i18n>21</td>
+								<td data-i18n>
+									<a href="#none" class="adress">
+										0xC178994cB9b66307Cd62dB8b411759Ff36F9C2EE
+									</a>
+								</td>
+								<td data-i18n>2352</td>
+								<td data-i18n>1,000,000</td>
+								<td data-i18n>22.12.22</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 
     <script src="./assets/js/app.js?t={version}"></script>
 
