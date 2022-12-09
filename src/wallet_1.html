@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="./assets/css/footer.css?t={version}">
 <link rel="stylesheet" href="./assets/css/components.css?t={version}">
 <link rel="stylesheet" href="./assets/css/sub.css?t={version}">
-<link rel="stylesheet" href="./assets/css/wallet2.css?t={version}">
+<link rel="stylesheet" href="./assets/css/wallet.css?t={version}">
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -246,12 +246,7 @@
 						</div>
 					</div>
 				</section>
-				<div class="d-grid d-grid--empty wallet--grid loading" name="d-grid--empty">
-					<div class="grid grid--empty" name="grid--empty">
-						<div>
-							보유중인 상품이 없습니다
-						</div>
-					</div>
+				<div class="d-grid wallet--grid loading">
 					<!-- <div class="grid" style="border-left-color: #000000;">
 						<div class="grid--inner-left">
 							<div class="item_img" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
@@ -356,10 +351,7 @@
 						let total_buyable_balance = 0; // 총 구매 가능 자산
 
 						// console.log('getBalance resp:', resp);
-						if(resp.success && resp?.payload?.data && resp?.payload?.data?.length > 0) {
-							$('[name="d-grid--empty"]').removeClass('d-grid--empty');
-							$('[name="grid--empty"]').hide();
-
+						if(resp.success) {
 							resp.payload.filter(function(item) {
 								if (item.crypto_currency === 'N') {
 									return false; // skip
@@ -480,81 +472,6 @@
 			</li>
 		</ul>
 	</nav>
-
-	<div class="modal modal--middle" tabindex="2">
-		<div class="modal--dialog">
-			<div class="modal--header">
-				<span data-i18n>상품이름, 번호</span>
-				<button type="button" class="btn btn--close"></button>
-			</div>
-			<div class="modal--content modal--result">
-				<div class="size--18 text--center" style="margin-bottom: 20px" data-i18n>다음과 같이 주문이 등록되었습니다.</div>
-				<dl>
-					<dt data-i18n>상품번호</dt>
-					<dd class="goods_grade">등급</dd>
-					<dd class="tea--name">
-						<span class="volume">0</span> <span data-i18n>개</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt data-i18n>상품번호</dt>
-					<dd class="goods_grade">등급</dd>
-					<dd class="tea--name">
-						<span class="volume">0</span> <span data-i18n>개</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt data-i18n>상품번호</dt>
-					<dd class="goods_grade">등급</dd>
-					<dd class="tea--name">
-						<span class="volume">0</span> <span data-i18n>개</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt data-i18n>상품번호</dt>
-					<dd class="goods_grade">등급</dd>
-					<dd class="tea--name">
-						<span class="volume">0</span> <span data-i18n>개</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt data-i18n>상품번호</dt>
-					<dd class="goods_grade">등급</dd>
-					<dd class="tea--name">
-						<span class="volume">0</span> <span data-i18n>개</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt data-i18n>상품번호</dt>
-					<dd class="goods_grade">등급</dd>
-					<dd class="tea--name">
-						<span class="volume">0</span> <span data-i18n>개</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt data-i18n>상품번호</dt>
-					<dd class="goods_grade">등급</dd>
-					<dd class="tea--name">
-						<span class="volume">0</span> <span data-i18n>개</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt data-i18n>상품번호</dt>
-					<dd class="goods_grade">등급</dd>
-					<dd class="tea--name">
-						<span class="volume">0</span> <span data-i18n>개</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt data-i18n>상품번호</dt>
-					<dd class="goods_grade">등급</dd>
-					<dd class="tea--name">
-						<span class="volume">0</span> <span data-i18n>개</span>
-					</dd>
-				</dl>
-			</div>
-		</div>
-	</div>
 
     <script src="./assets/js/app.js?t={version}"></script>
 
