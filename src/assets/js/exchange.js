@@ -222,9 +222,9 @@ $(function() {
         }
     }
     const getLineChartData = (data) => {
-        return data.split('\n').slice(1).map((row, index) => {
+        return data ? data.split('\n').slice(1).map((row, index) => {
             return covertLineChartRowData(row);
-        })
+        }) : [];
     }
 
     let chart = null;
