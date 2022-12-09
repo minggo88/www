@@ -106,7 +106,7 @@
 
 .d-grid.d-grid--empty.wallet--grid .grid.grid--empty{
 	background: #FAFAFA;
-	height: 450px;
+	height: 350px;
 	border-left: 0.35px solid #BDC4CB;
 	justify-content: center;
 }
