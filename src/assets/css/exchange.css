@@ -150,21 +150,36 @@ div.dts div.dataTables_scrollBody {
 
 #tab-info {
     padding-top: 10px;
-    display: flex;
     column-gap: 11px;
+	display: flex;
+	flex-direction: column;
 }
 
-#tab-info img {
+#tab-info .info{
+	display: flex;
+}
+
+#tab-info .info > div{
+	flex: 1;
+}
+#tab-info .info > div.thumb{
+	width: 278px;
+	margin-right:20px;
+}
+
+#tab-info .info p {
     width: 278px;
-    height: 267px;
+    /* height: 267px; */
+	margin-right:20px
 }
 
 #tab-info .table {
     margin-top: 21px;
 }
 #tab-info .table th {
-    width: calc(100% * (53 / 536));
-    text-align: left;
+    /* width: calc(100% * (53 / 536)); */
+    width: 60px;
+	text-align: left;
     padding-right: 17px;
 }
 
@@ -176,7 +191,27 @@ div.dts div.dataTables_scrollBody {
 
 #tab-info .btns {
     margin-top: 24px;
+	justify-content: center;
 }
+
+@media screen and (max-width: 352px) {
+	#tab-info{
+		padding-bottom: 95px;
+	}
+	#tab-info .info{
+		flex-direction: column;
+	}
+	#tab-info .info > div.thumb{
+		margin-right: 0px;
+		width: 150px;
+		align-self: center;
+	}
+	#tab-info .btns{
+		margin-bottom: 10px;
+	}
+
+}
+
 
 #jqGrid tbody tr td .btn.btn--star--on{
 	margin-bottom: 2px;
@@ -189,9 +224,9 @@ div.dts div.dataTables_scrollBody {
 	margin-right: 10px;
 }
 
-#tab-info > div{
+/* #tab-info .info > div{
 	flex-grow: 1;
-}
+} */
 .tab-container{
 	height: 509px;
 }
