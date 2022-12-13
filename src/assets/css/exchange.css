@@ -427,6 +427,9 @@ div.dts div.dataTables_scrollBody {
         display: none;
     }
 } */
+#white-paper .modal--dialog{
+	width: 90%;
+}
 
 #white-paper dl{
 	justify-content: flex-start;
@@ -438,7 +441,7 @@ div.dts div.dataTables_scrollBody {
 
 #white-paper dl dd{
 	width: calc(100% - 150px);
-	min-width: 280px
+	/* min-width: 280px */
 }
 
 #white-paper dl dd .input,
@@ -451,7 +454,7 @@ div.dts div.dataTables_scrollBody {
 	width:100%;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
 	#white-paper dl{
 		flex-direction: column;
 	}

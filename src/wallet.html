@@ -42,6 +42,9 @@
 <script src="./assets/js/components.js?t={version}"></script>
 <script src="./assets/js/qrcode.min.js?t={version}"></script>
 
+<script src="//cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
+<script src="//cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
 <script src="./i18n/i18n.js?t={version}"></script>
@@ -339,8 +342,30 @@
 							</div>
 						</div>
 					</div> -->
+					<div class="grid" style="border-left-color: #000000;">
+						<div class="grid--inner-left">
+							<a name="goods_desc" data-symbol="GBULF3LZMU" data-goods_grade="A" >
+								<div class="item_img" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
+								<div class="item_name desktop-only">Goon #5562</div>
+							</a>
+						</div>
+						<div class="grid--inner-right">
+							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+								<a name="goods_desc" data-symbol="GBULF3LZMU" data-goods_grade="A" >
+									<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">Goon #5562</div>
+								</a>
+								<div class="wallet--price">1,000 개</div>
+								<div class="wallet--market-price">≈ 100,000 KRW</div>
+							</div>
+							<div class="wallet--btn">
+								<a href="wallet-deposit.html?symbol=GBULF3LZMU" class="btn btn--red btn--rounded" style="display:none">입금</a>
+								<a href="wallet-withdrawal.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded" style="display:none">출금</a>
+								<a href="exchange.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded">거래</a>
+							</div>
+						</div>
+					</div>
 				</div>
-				<script>
+				<!-- <script>
 
 					// set default exchange currency symbol
 					const exchange = 'KRW';
@@ -397,12 +422,10 @@
 									const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
 
 									const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-									grid.append(`<div class="grid--inner-left">
+									grid.append(`<div class="grid--inner-left"><a href="#none" name="goods_desc">
 									<div class='item_img' style="background-image: url(${item.icon_url});"></div>
-									<div class='item_name desktop-only'>${item_name}</div>
+									<div class='item_name desktop-only'>${item_name}</div></a>
 								</div>`)
-									// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
-									// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
 									grid.append(`
 								<div class="grid--inner-right">
 									<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
@@ -417,7 +440,6 @@
 									</div>
 								</div>`)
 									$('.wallet--grid').append(grid)
-									// $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
 								}
 
 							})
@@ -429,6 +451,8 @@
 
 						}
 					})
+					
+
 					$('.totalBalance').on('change', (event, symbol) => {
 						API.getBalance('ALL', symbol, (resp) => {
 							if(resp.success) {
@@ -459,7 +483,17 @@
 							}
 						})
 					})
-				</script>
+
+
+					// 팝업띄우기
+					$('[name="goods_desc"]').on('click', (e) => {
+						e.preventDefault()
+						$("#goods-desc").addClass('modal--open');
+						return;
+					})
+
+
+				</script> -->
 			</div>
 		</main>
 	</div>
@@ -481,12 +515,13 @@
 		</ul>
 	</nav>
 
-	<div id="goods-desc" class="modal modal--middle modal--open" tabindex="2">
+	<div id="goods-desc" class="modal modal--middle" tabindex="-1">
 		<div class="modal--dialog">
 			<div class="modal--header">
 				<div>
-					<i class="btn btn--star--on"></i>
-					<span class="text--bbold tea--name" style="font-size: 18px">상품이름, 등급</span>
+					<span class="text--bbold tea--name" style="font-size: 18px">상품이름</span>
+					<span style="font-size: 18px;">
+						<span style="vertical-align: initial;" class="text--bbold tea--grade"></span>등급</span>
 				</div>
 				<button type="button" class="btn btn--close"></button>
 			</div>
@@ -521,15 +556,14 @@
 								<th data-i18n>차 소개</th>
 								<td>
 									<div name="meta_wp_teamaster_note">
-										비싸고 품질좋은 보이명차! 녹설현, A등급. 비싸고 품질좋은 보이명차! 녹설현, A등급. 비싸고 품질좋은 보이명차! 녹설현, A등급. 비싸고 품질좋은 보이명차! 녹설현, A등급. 
 									</div>
 								</td>
 							</tr>
 						</table>
 					</div>
 				</div>
-				<div class="desc_table">
-					<table class="table_desc">
+				<div class="desc_table" id="desc_table">
+					<table class="transaction--list board--list table_desc" style="width:100%">
 						<colgroup>
 							<col />
 							<col />
@@ -538,46 +572,13 @@
 							<col />
 						</colgroup>
 						<thead>
-							<th data-i18n>번호</th>
-							<th data-i18n>Contract Address</th>
-							<th data-i18n>Token ID</th>
-							<th data-i18n>가격</th>
-							<th data-i18n>업데이트</th>
+							<th data-i18n>idx</th>
+							<th data-i18n>블록체인</th>
+							<th data-i18n>토큰 ID</th>
+							<th data-i18n>NFT 토큰 주소</th>
+							<th data-i18n>NFT 생성 TXID</th>
 						</thead>
 						<tbody>
-							<tr>
-								<td data-i18n>21</td>
-								<td data-i18n>
-									<a href="#none" class="adress">
-										0xC178994cB9b66307Cd62dB8b411759Ff36F9C2EE
-									</a>
-								</td>
-								<td data-i18n>2352</td>
-								<td data-i18n>1,000,000</td>
-								<td data-i18n>22.12.22</td>
-							</tr>
-							<tr>
-								<td data-i18n>21</td>
-								<td data-i18n>
-									<a href="#none" class="adress">
-										0xC178994cB9b66307Cd62dB8b411759Ff36F9C2EE
-									</a>
-								</td>
-								<td data-i18n>2352</td>
-								<td data-i18n>1,000,000</td>
-								<td data-i18n>22.12.22</td>
-							</tr>
-							<tr>
-								<td data-i18n>21</td>
-								<td data-i18n>
-									<a href="#none" class="adress">
-										0xC178994cB9b66307Cd62dB8b411759Ff36F9C2EE
-									</a>
-								</td>
-								<td data-i18n>2352</td>
-								<td data-i18n>1,000,000</td>
-								<td data-i18n>22.12.22</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>
