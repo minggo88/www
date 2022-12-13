@@ -143,6 +143,42 @@
 	}
 }
 
+@media screen and (max-width:800px) {
+	#goods-desc.modal.modal--middle .modal--dialog{
+		width: 90%;
+	}
+
+	#goods-desc .modal--content .table_desc tr td{
+		padding: 5px 0;
+	}
+
+	#goods-desc .modal--content .table_desc tr td:nth-child(1),
+	#goods-desc .modal--content .table_desc tr td:nth-child(3){
+		max-width: 30px;
+	}
+	
+	
+	#goods-desc .modal--content .table_desc tr td:nth-child(4) span, 
+	#goods-desc .modal--content .table_desc tr td:nth-child(5) span{
+		width: 90%;
+	}
+}
+
+@media screen and (max-width:600px) {
+	#goods-desc .modal--content .info{
+		flex-direction: column;
+	}
+
+	#goods-desc .modal--content .info .thumb{
+		margin-right: 0;
+		margin-bottom: 20px;
+	}
+	
+	#goods-desc .modal--content .table_desc tr th{
+		padding: 10px 4px;
+	}
+}
+
 
 
 /* wallet 보유자산 */
