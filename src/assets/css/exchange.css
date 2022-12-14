@@ -29,6 +29,14 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	cursor: default;
+}
+
+#sellGrid tbody tr td,
+#buyGrid tbody tr td,
+#tab-info tbody tr th,
+#tab-info tbody tr td{
+	cursor: default;
 }
 
 #jqGrid tbody tr td > ul{
