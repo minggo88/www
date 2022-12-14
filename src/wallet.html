@@ -44,6 +44,7 @@
 
 <script src="//cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
 <script src="//cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
@@ -342,7 +343,7 @@
 							</div>
 						</div>
 					</div> -->
-					<div class="grid" style="border-left-color: #000000;">
+					<!-- <div class="grid" style="border-left-color: #000000;">
 						<div class="grid--inner-left">
 							<a name="goods_desc" data-symbol="GBULF3LZMU" data-goods_grade="A" >
 								<div class="item_img" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
@@ -363,7 +364,7 @@
 								<a href="exchange.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded">거래</a>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 				<!-- <script>
 
@@ -589,4 +590,12 @@
     <script src="./assets/js/app.js?t={version}"></script>
 
 </body>
+<script>
+	var clipboard = new ClipboardJS('.copyBtn');
+	clipboard.on('success', function(e) {
+		alert("클립보드로 복사되었습니다.");
+		// console.log(e);
+	});
+</script>
+
 </html>
