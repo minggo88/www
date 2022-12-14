@@ -2535,15 +2535,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
 						grid.append(`<div class="grid--inner-left"><a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}">
-						<div class='item_img' style="background-image: url(${item.icon_url});"></div>
-						<div class='item_name desktop-only'>${item_name}</div></a>
+						<div class='item_name desktop-only'>${item_name}</div>
+						<div class="mname text--gray003 size--14 mobile-only">${item_name}</div></a>
 					</div>`)
 						// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
 						// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
 						grid.append(`
 					<div class="grid--inner-right">
 						<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-						<a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}"><div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">${item.name}</div></a>
 							<div class="wallet--price">${item.confirmed_str} ${symbol_str}</div>
 							${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+' '+exchange+'</div>' : ''}
 						</div>
@@ -2601,8 +2600,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 
 		// 팝업띄우기
-		
-		
 		$(document).on('click', '[name="goods_desc"]', function(e){
 			e.preventDefault()
 			$("#goods-desc").addClass('modal--open');
@@ -2619,7 +2616,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('#goods-desc .table tbody td > *').empty();
 			
 			
-
 			add_request_item('getGoodsNftInfo', {'token': getCookie('token'), 'symbol': symbol, 'goods_grade':goods_grade}, function (r) {
 				if (r && r.success) {
 					console.log(r.payload)
@@ -2654,19 +2650,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						tr.append(`<td><span>${item.nft_id}</span></td>`)
 						tr.append(`<td><div class="copyTd"><span id="${item.nft_tokenuri}">${item.nft_tokenuri}</span><button type="button" class="copyBtn" data-clipboard-target="#${item.nft_tokenuri}">COPY</button></div></td>`)
 						tr.append(`<td><div class="copyTd"><span id="${item.nft_txnid}">${item.nft_txnid}</span><button type="button" class="copyBtn" data-clipboard-target="#${item.nft_txnid}">COPY</button></div></td>`)
-
 						tr.appendTo('#desc_table tbody')
-
 					})
-
-
-
 				}
 			});
-
-			return;
 		})
-		
 	};
 
 	const fn_wallet_withdrawal = function () {
