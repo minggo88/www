@@ -529,22 +529,26 @@
 			<div class="modal--content">
 				<div class="info">
 					<div class="thumb">
-						<img src="./assets/img/dummy/정보.png" alt="">
+						<img src="./assets/img/dummy/noimage.gif" alt="상품이미지">
 					</div>
 					<div>
 						<table class="table">
 							<tr>
 								<th data-i18n>구분</th>
-								<td data-i18n name="meta_division"></td>
+								<td>
+									<div data-i18n name="meta_division"></div>
+								</td>
 							</tr>
 							<tr>
 								<th data-i18n>타입</th>
-								<td data-i18n name="meta_type"></td>
+								<td>
+									<div data-i18n name="meta_type"></div>
+								</td>
 							</tr>
 							<tr>
 								<th data-i18n>생산</th>
 								<td>
-									<span name="meta_produce"></span>
+									<div name="meta_produce"></div>
 								</td>
 							</tr>
 							<tr>
@@ -595,6 +599,9 @@
 	clipboard.on('success', function(e) {
 		alert("클립보드로 복사되었습니다.");
 		// console.log(e);
+	});
+	clipboard.on('error', function(e) {
+		alert("다시 시도해 주세요.")
 	});
 </script>
 

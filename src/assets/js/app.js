@@ -2477,7 +2477,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 	const fn_wallet = function () {
 		check_login();
-		/* force_rander('user_info', Model.user_info); */
+		force_rander('user_info', Model.user_info);
 	
 		// set default exchange currency symbol
 		const exchange = 'KRW';
@@ -2493,7 +2493,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			let total_buyable_balance = 0; // 총 구매 가능 자산
 
 			// console.log('getBalance resp:', resp);
-			if(resp.success && resp?.payload?.data && resp?.payload?.data?.length > 0) {
+			if(resp.payload.length > 0) {
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
 				$('[name="grid--empty"]').hide();
 
@@ -2510,7 +2510,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						return ;
 					}
 
-					console.log(item);
+					// console.log(item);
 
 					if (item.confirmed > 0 || item.symbol=='KRW') {
 						item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
@@ -2534,7 +2534,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
 
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-						grid.append(`<div class="grid--inner-left"><a name="goods_desc">
+						grid.append(`<div class="grid--inner-left"><a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}">
 						<div class='item_img' style="background-image: url(${item.icon_url});"></div>
 						<div class='item_name desktop-only'>${item_name}</div></a>
 					</div>`)
@@ -2543,7 +2543,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						grid.append(`
 					<div class="grid--inner-right">
 						<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-							<a name="mgoods_desc"><div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">${item.name}</div></a>
+						<a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}"><div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">${item.name}</div></a>
 							<div class="wallet--price">${item.confirmed_str} ${symbol_str}</div>
 							${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+' '+exchange+'</div>' : ''}
 						</div>
@@ -2601,57 +2601,68 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 
 		// 팝업띄우기
+		
+		
 		$(document).on('click', '[name="goods_desc"]', function(e){
 			e.preventDefault()
 			$("#goods-desc").addClass('modal--open');
 			let symbol = $(this).data('symbol')
 			let goods_grade = $(this).data('goods_grade')
+			console.log($(this).data('symbol'))
 			console.log($(this).data('goods_grade'))
 			
+			// modal창 clear작업
+			$('#goods-desc .tea--name').text('상품이름');
+			$('#goods-desc .tea--grade').empty();
+			$('#goods-desc .thumb img').attr('src', './assets/img/dummy/noimage.gif')
+			$('#desc_table tbody').empty();
+			$('#goods-desc .table tbody td > *').empty();
+			
+			
 
-			// add_request_item('getGoodsNftInfo', {'token': getCookie('token'), 'symbol': symbol, 'goods_grade':goods_grade}, function (r) {
-			// 	if (r && r.success) {
-			// 		console.log(r.payload)
-			// 		//Model.site_info = r.payload;
-			// 		console.log(r.payload.good_info.title)
-			// 		const goodInfo = r.payload.good_info;
-			// 		const nftInfo = r.payload.nft_info;
-			// 		$('#goods-desc .tea--name').text(goodInfo.title);
-			// 		$('#goods-desc .tea--grade').text(goodInfo.goods_grade);
+			add_request_item('getGoodsNftInfo', {'token': getCookie('token'), 'symbol': symbol, 'goods_grade':goods_grade}, function (r) {
+				if (r && r.success) {
+					console.log(r.payload)
+					//Model.site_info = r.payload;
+					console.log(r.payload.good_info.title)
+					const goodInfo = r.payload.good_info;
+					const nftInfo = r.payload.nft_info;
+					$('#goods-desc .tea--name').text(goodInfo.title);
+					$('#goods-desc .tea--grade').text(goodInfo.goods_grade);
 
-			// 		// 상품사진
-			// 		$('#goods-desc .thumb img').attr('src', goodInfo.main_pic)
+					// 상품사진
+					$('#goods-desc .thumb img').attr('src', goodInfo.main_pic)
 
-			// 		//구분
-			// 		$('#goods-desc [name=meta_division]').text(goodInfo.meta_division);
-			// 		//타입
-			// 		$('#goods-desc [name=meta_type]').text(goodInfo.meta_type);
-			// 		// 생산
-			// 		$('#goods-desc [name=meta_produce]').text(goodInfo.meta_produce);
-			// 		// 인증
-			// 		$('#goods-desc [name=meta_certification_mark_name]').text(goodInfo.meta_certification_mark);
-			// 		// 차소개
-			// 		$('#goods-desc [name=meta_wp_teamaster_note]').text(goodInfo.content);
-
-
-			// 		$('#desc_table tbody').empty()
-			// 		nftInfo.map((item) => {
-			// 			console.log(item)						
-			// 			const tr = $('<tr>')
-			// 			tr.append(`<td><span>${item.idx}</span></td>`)
-			// 			tr.append(`<td><span>${item.nft_blockchain}</span></td>`)
-			// 			tr.append(`<td><span>${item.nft_id}</span></td>`)
-			// 			tr.append(`<td><div class="copyTd"><span id="${item.nft_tokenuri}">${item.nft_tokenuri}</span><button type="button" class="copyBtn" data-clipboard-target="#${item.nft_tokenuri}">COPY</button></div></td>`)
-			// 			tr.append(`<td><div class="copyTd"><span id="${item.nft_txnid}">${item.nft_txnid}</span><button type="button" class="copyBtn" data-clipboard-target="#${item.nft_txnid}">COPY</button></div></td>`)
-
-			// 			tr.appendTo('#desc_table tbody')
-
-			// 		})
+					//구분
+					$('#goods-desc [name=meta_division]').text(goodInfo.meta_division);
+					//타입
+					$('#goods-desc [name=meta_type]').text(goodInfo.meta_type);
+					// 생산
+					$('#goods-desc [name=meta_produce]').text(goodInfo.meta_produce);
+					// 인증
+					$('#goods-desc [name=meta_certification_mark_name]').text(goodInfo.meta_certification_mark);
+					// 차소개
+					$('#goods-desc [name=meta_wp_teamaster_note]').text(goodInfo.content);
 
 
+					$('#desc_table tbody').empty()
+					nftInfo.map((item) => {
+						console.log(item)						
+						const tr = $('<tr>')
+						tr.append(`<td><span>${item.idx}</span></td>`)
+						tr.append(`<td><span>${item.nft_blockchain}</span></td>`)
+						tr.append(`<td><span>${item.nft_id}</span></td>`)
+						tr.append(`<td><div class="copyTd"><span id="${item.nft_tokenuri}">${item.nft_tokenuri}</span><button type="button" class="copyBtn" data-clipboard-target="#${item.nft_tokenuri}">COPY</button></div></td>`)
+						tr.append(`<td><div class="copyTd"><span id="${item.nft_txnid}">${item.nft_txnid}</span><button type="button" class="copyBtn" data-clipboard-target="#${item.nft_txnid}">COPY</button></div></td>`)
 
-			// 	}
-			// });
+						tr.appendTo('#desc_table tbody')
+
+					})
+
+
+
+				}
+			});
 
 			return;
 		})

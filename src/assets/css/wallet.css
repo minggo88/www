@@ -24,6 +24,8 @@
 #goods-desc .modal--content .info .thumb{
 	margin-right: 20px;
 	width: 100%;
+	max-width: 170px;
+	/* width: fit-content; */
 }
 
 #goods-desc .modal--content .info .table [name="meta_wp_teamaster_note"]{
