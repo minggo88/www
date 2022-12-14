@@ -351,7 +351,7 @@
     font-family: Inter;
     color: var(--blue-gray);
     letter-spacing: -0.15px;
-
+	word-break: break-all
 }
 
 .wallet--grid .wallet--btn {
@@ -484,6 +484,21 @@
 @media screen and (max-width: 600px) {
 	.wallet--grid .grid .grid--inner-left{
 		width: 25%;
+	}
+	.wallet--grid .wallet--price{
+		font-size: 12px;
+	}
+	.wallet--grid .wallet--market-price{
+		font-size: 11px;
+	}
+
+	.wallet--grid .grid .grid--inner-left{
+		width: 30%;
+		margin-right: 10px;
+	}
+	.wallet--grid .mname{
+		font-size: 13px;
+		word-break: keep-all;
 	}
 }
 
