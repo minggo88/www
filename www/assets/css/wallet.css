@@ -1,3 +1,188 @@
+#goods-desc.modal.modal--middle .modal--dialog{
+	background: var(--white);
+	/* width: calc(100% * (880 / 1440)); */
+	width: 65%;
+	height: calc(100% - 250px);
+	/* max-width:750px;
+	max-height: 610px;
+	width: 80%;
+	height: 100%; */
+}
+
+#goods-desc .modal--content{
+	height: calc(100% - 60px);
+	overflow-y: scroll;
+    position: relative;
+}
+
+#goods-desc .modal--content .info{
+	display: flex;
+	padding: 20px;
+	align-items: center;
+}
+
+#goods-desc .modal--content .info .thumb{
+	margin-right: 20px;
+	width: 100%;
+	max-width: 170px;
+	/* width: fit-content; */
+}
+
+#goods-desc .modal--content .info .table [name="meta_wp_teamaster_note"]{
+	max-height: 60px;
+	padding-right: 15px;
+	overflow-y: scroll;
+}
+
+#goods-desc .modal--content .info table tr{
+	display: flex;
+}
+
+#goods-desc .modal--content .info table th{
+	width: 60px;
+	text-align: left;
+}
+#goods-desc .modal--content .info table td{
+	width: calc(100% - 60px)
+}
+
+#goods-desc .modal--content .desc_table{
+	width: 100%;
+}
+#goods-desc .modal--content .table_desc{
+	width: 100%;
+	border-collapse:collapse;
+}
+
+#goods-desc .modal--content .table_desc colgroup col{
+	width: 20%;
+}
+#goods-desc .modal--content .table_desc colgroup col:nth-child(2){
+	width: 10%;
+}
+#goods-desc .modal--content .table_desc colgroup col:nth-child(4),
+#goods-desc .modal--content .table_desc colgroup col:nth-child(5){
+	width: 25%;
+}
+
+#goods-desc .modal--content .table_desc tr th{
+	border-top: 0.35px solid #BDC4CB;
+	border-bottom: 0.5px solid #777;
+	word-break: keep-all;
+	background: #FBFDFF;
+	padding: 10px 15px;
+	font-size: 14px;
+	white-space: nowrap;
+}
+
+#goods-desc .modal--content .table_desc tr td{
+	border-bottom: 0.35px solid #BDC4CB;
+	text-align: center;
+	font-size: 12px;
+	padding: 10px 15px;
+	word-break: break-all;
+}
+
+#goods-desc .modal--content .table_desc tr td:nth-child(4),
+#goods-desc .modal--content .table_desc tr td:nth-child(5){
+	max-width: 150px;
+}
+
+#goods-desc .modal--content .table_desc tr td .copyTd{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	row-gap: 5px;
+}
+
+#goods-desc .modal--content .table_desc tr td:nth-child(1) span,
+#goods-desc .modal--content .table_desc tr td:nth-child(3) span,
+#goods-desc .modal--content .table_desc tr td:nth-child(4) span,
+#goods-desc .modal--content .table_desc tr td:nth-child(5) span{
+	display: inline-block;
+	width: 80%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+
+#goods-desc .modal--content .table_desc tr td:nth-child(4) span,
+#goods-desc .modal--content .table_desc tr td:nth-child(5) span{
+	width: 75%;
+	
+}
+
+
+#goods-desc .modal--content .table_desc tr td .copyBtn{
+	display: inline-block;
+	border-radius: 50px;
+	border: 1px solid #B81C22;
+	font-size: 11px;
+	font-weight: 700;
+	padding:1px 5px;
+	background-color: #B81C22;
+	color:#fff;
+	box-sizing: border-box;
+}
+
+
+@media screen and (max-width:1080px) {
+	/* #goods-desc .modal--content .table_desc colgroup col:nth-child(2),
+	#goods-desc .modal--content .table_desc colgroup col:nth-child(4),
+	#goods-desc .modal--content .table_desc colgroup col:nth-child(5){
+		width: 20%;
+	} */
+
+	#goods-desc .modal--content .table_desc tr th{
+		font-size: 12px;
+		white-space: initial;
+	}
+
+	#goods-desc .modal--content .table_desc tr td:nth-child(4),
+	#goods-desc .modal--content .table_desc tr td:nth-child(5){
+		max-width: 70px;
+	}
+}
+
+@media screen and (max-width:800px) {
+	#goods-desc.modal.modal--middle .modal--dialog{
+		width: 90%;
+	}
+
+	#goods-desc .modal--content .table_desc tr td{
+		padding: 5px 0;
+	}
+
+	#goods-desc .modal--content .table_desc tr td:nth-child(1),
+	#goods-desc .modal--content .table_desc tr td:nth-child(3){
+		max-width: 30px;
+	}
+	
+	
+	#goods-desc .modal--content .table_desc tr td:nth-child(4) span, 
+	#goods-desc .modal--content .table_desc tr td:nth-child(5) span{
+		width: 90%;
+	}
+}
+
+@media screen and (max-width:600px) {
+	#goods-desc .modal--content .info{
+		flex-direction: column;
+	}
+
+	#goods-desc .modal--content .info .thumb{
+		margin-right: 0;
+		margin-bottom: 20px;
+	}
+	
+	#goods-desc .modal--content .table_desc tr th{
+		padding: 10px 4px;
+	}
+}
+
+
+
 /* wallet 보유자산 */
 @media screen and (max-width:1440px) {
 	.sub.wallet main{
@@ -81,6 +266,24 @@
 	overflow-x: auto;
 }
 
+.d-grid.d-grid--empty.wallet--grid {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+
+.d-grid.d-grid--empty.wallet--grid .grid.grid--empty{
+	background: #FAFAFA;
+	height: 350px;
+	border-left: 0.35px solid #BDC4CB;
+	justify-content: center;
+}
+@media screen and (max-width: 800px) {
+	.d-grid.d-grid--empty.wallet--grid .grid.grid--empty{
+		border-left: none;
+		margin-bottom: 30px;
+	}
+}
+
 .wallet--grid .grid .grid--inner-left{
 	display: flex;
 	align-items: center;
@@ -148,7 +351,7 @@
     font-family: Inter;
     color: var(--blue-gray);
     letter-spacing: -0.15px;
-
+	word-break: break-all
 }
 
 .wallet--grid .wallet--btn {
@@ -281,6 +484,21 @@
 @media screen and (max-width: 600px) {
 	.wallet--grid .grid .grid--inner-left{
 		width: 25%;
+	}
+	.wallet--grid .wallet--price{
+		font-size: 12px;
+	}
+	.wallet--grid .wallet--market-price{
+		font-size: 11px;
+	}
+
+	.wallet--grid .grid .grid--inner-left{
+		width: 30%;
+		margin-right: 10px;
+	}
+	.wallet--grid .mname{
+		font-size: 13px;
+		word-break: keep-all;
 	}
 }
 
