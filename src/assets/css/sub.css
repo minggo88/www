@@ -1769,9 +1769,9 @@
 
 	.sub.notice.inquiry > header{display: none;}
 
-    .sub form {
+    /* .sub form {
         height: auto;
-    }
+    } */
     .forget main {
 		align-items: center;
     }
