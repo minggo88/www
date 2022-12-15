@@ -2748,10 +2748,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			const to_address = $('[name="address"]').val();
 			const pin = $('[name="pin"]').val();
 			const symbol = Model.withdraw_currency.symbol;
-			console.log( pin )
-			console.log(to_address)
-			
-			add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
+			const symbol_addres = Model.withdraw_currency.symbol+'/A';
+
+			// console.log(to_address)
+			add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol_addres].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
 				if (r?.success) {
 					alert(__('출금신청을 완료했습니다.'));
 				} else {

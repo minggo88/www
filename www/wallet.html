@@ -26,25 +26,29 @@
 <link rel="preconnect" href="https://code.jquery.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1666845393">
-<link rel="stylesheet" href="./assets/css/header.css?t=1668050247">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
-<link rel="stylesheet" href="./assets/css/components.css?t=1670501426">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1667450534">
-<link rel="stylesheet" href="./assets/css/wallet.css?t=1670485122">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
+<link rel="stylesheet" href="./assets/css/common.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/header.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/components.css?t=1670505230">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1671067612">
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1670315205"></script>
-<script src="./assets/js/api.js?t=1668057319"></script>
-<script src="./assets/js/components.js?t=1670501028"></script>
-<script src="./assets/js/qrcode.min.js?t=1661823297"></script>
+<script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/api.js?t=1668055903"></script>
+<script src="./assets/js/components.js?t=1670805066"></script>
+<script src="./assets/js/qrcode.min.js?t=1667735148"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
-<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1665030514"></script>
+<script src="//cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
+<script src="//cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
+
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+<script src="./i18n/i18n.js?t=1667796157"></script>
 
 </head>
 <!-- BODY -->
@@ -77,7 +81,7 @@
 							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
 							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
 							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-login data-i18n>거래 내역</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
 							<li><a href="notification.html" data-login data-i18n>알림</a></li>
 						</ul>
 					</div>
@@ -183,6 +187,9 @@
 							<a href="wallet.html" data-login data-i18n>내 지갑</a>
 						</li>
 						<li>
+							<a href="transaction.html" data-login data-i18n>주문 및 거래내역</a>
+						</li>
+						<li>
 							<a href="wallet-deposit.html" data-login data-i18n>입금</a>
 						</li>
 						<li>
@@ -246,212 +253,13 @@
 						</div>
 					</div>
 				</section>
-				<div class="d-grid wallet--grid loading">
-					<!-- <div class="grid" style="border-left-color: #000000;">
-						<div class="grid--inner-left">
-							<div class="item_img" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
-							<div class="item_name desktop-only">Goon #5562</div>
-						</div>
-						<div class="grid--inner-right">
-							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">Goon #5562</div>
-								<div class="wallet--price">1,000 개</div>
-								<div class="wallet--market-price">≈ 100,000 KRW</div>
-							</div>
-							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=GBULF3LZMU" class="btn btn--red btn--rounded" style="display:none">입금</a>
-								<a href="wallet-withdrawal.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded" style="display:none">출금</a>
-								<a href="exchange.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded">거래</a>
-							</div>
+				<div class="d-grid d-grid--empty wallet--grid loading" name="d-grid--empty">
+					<div class="grid grid--empty" name="grid--empty">
+						<div>
+							보유중인 상품이 없습니다
 						</div>
 					</div>
-					<div class="grid" style="border-left-color: #000000;">
-						<div class="grid--inner-left">
-							<div class="item_img" style="background-image: url(https://smarttalk.s3.ap-northeast-2.amazonaws.com/202109/1ce4bb2f223b149caa128e32379d7ebeffa4ec3bf19060586789c75053b6693a.png);"></div>
-							<div class="item_name desktop-only">Goon #5562</div>
-						</div>
-						<div class="grid--inner-right">
-							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">Goon #5562</div>
-								<div class="wallet--price">1,000 개</div>
-								<div class="wallet--market-price">≈ 100,000 KRW</div>
-							</div>
-							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=GBULF3LZMU" class="btn btn--red btn--rounded" style="display:none">입금</a>
-								<a href="wallet-withdrawal.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded" style="display:none">출금</a>
-								<a href="exchange.html?symbol=GBULF3LZMU" class="btn btn--withdrawal btn--rounded">거래</a>
-							</div>
-						</div>
-					</div>
-					<div class="grid" style="border-left-color: #000000;">
-						<div class="grid--inner-left">
-							<div class="item_img" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
-							<div class="item_name desktop-only">대한민국, 원</div>
-						</div>
-						<div class="grid--inner-right">
-							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">대한민국, 원</div>
-								<div class="wallet--price">1,846,972.6 KRW</div>
-							</div>
-							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=KRW" class="btn btn--red btn--rounded">입금</a>
-								<a href="wallet-withdrawal.html?symbol=KRW" class="btn btn--withdrawal btn--rounded">출금</a>
-								<a href="exchange.html?symbol=KRW" class="btn btn--withdrawal btn--rounded" style="display:none">거래</a>
-							</div>
-						</div>
-					</div>
-					<div class="grid" style="border-left-color: #000000;">
-						<div class="grid--inner-left">
-							<div class="item_img" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
-							<div class="item_name desktop-only">대한민국, 원</div>
-						</div>
-						<div class="grid--inner-right">
-							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">대한민국, 원</div>
-								<div class="wallet--price">1,846,972.6 KRW</div>
-							</div>
-							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=KRW" class="btn btn--red btn--rounded">입금</a>
-								<a href="wallet-withdrawal.html?symbol=KRW" class="btn btn--withdrawal btn--rounded">출금</a>
-								<a href="exchange.html?symbol=KRW" class="btn btn--withdrawal btn--rounded" style="display:none">거래</a>
-							</div>
-						</div>
-					</div>
-					<div class="grid" style="border-left-color: #000000;">
-						<div class="grid--inner-left">
-							<div class="item_img" style="background-image: url(https://cdn.jsdelivr.net/gh/fgshop/fgshop_symbols@main/symbols/40x40/KRW.png);"></div>
-							<div class="item_name desktop-only">대한민국, 원</div>
-						</div>
-						<div class="grid--inner-right">
-							<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">대한민국, 원</div>
-								<div class="wallet--price">1,846,972.6 KRW</div>
-							</div>
-							<div class="wallet--btn">
-								<a href="wallet-deposit.html?symbol=KRW" class="btn btn--red btn--rounded">입금</a>
-								<a href="wallet-withdrawal.html?symbol=KRW" class="btn btn--withdrawal btn--rounded">출금</a>
-								<a href="exchange.html?symbol=KRW" class="btn btn--withdrawal btn--rounded" style="display:none">거래</a>
-							</div>
-						</div>
-					</div> -->
 				</div>
-				<script>
-
-					// set default exchange currency symbol
-					const exchange = 'KRW';
-
-					const withdrawable_symbols = ['KRW']; // , 'USD', 'ETH'
-
-					API.getBalance('ALL', '', (resp) => {
-						$('.wallet--grid').removeClass('loading')
-
-						let total_evaluated_balance = 0; // 총 보유 자산
-						let total_available_evaluated_balance = 0; // 총 사용 가능 자산
-						let total_locked_evaluated_balance = 0; // 총 동결 평가 자산
-						let total_buyable_balance = 0; // 총 구매 가능 자산
-
-						// console.log('getBalance resp:', resp);
-						if(resp.success) {
-							resp.payload.filter(function(item) {
-								if (item.crypto_currency === 'N') {
-									return false; // skip
-								}
-								return true;
-							}).map((item) => {
-
-								// 원은 목록에서 제거
-								if (item.symbol==='KRW') {
-									total_buyable_balance = item.confirmed;
-									return ;
-								}
-
-								// console.log(item);
-
-								if (item.confirmed > 0 || item.symbol=='KRW') {
-									item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
-									item.eval_locked = item.locked * item.price;		// 코인의 잠긴 평가금액
-									item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
-									item.eval_trading = item.trading * item.price;		// 코인의 전체 매도중금액
-
-									total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
-									total_available_evaluated_balance += item.eval_tadable; 	// 총 사용 가능 자산
-									total_locked_evaluated_balance += item.eval_locked + item.eval_trading; 	// 총 동결 평가 자산
-
-									// 잔액
-									item.confirmed_str = real_number_format(item.confirmed);
-									item.eval_valuation_str = real_number_format(item.eval_valuation);
-
-									const symbol_str = in_array(item.symbol,['KRW','USD']) ? item.symbol : __('개') ;
-
-									const deposit_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
-									const withdraw_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
-									const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
-									const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
-
-									const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-									grid.append(`<div class="grid--inner-left">
-									<div class='item_img' style="background-image: url(${item.icon_url});"></div>
-									<div class='item_name desktop-only'>${item_name}</div>
-								</div>`)
-									// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
-									// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
-									grid.append(`
-								<div class="grid--inner-right">
-									<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-										<div class="text--gray003 size--14 mobile-only" style="margin-bottom: 5px">${item.name}</div>
-										<div class="wallet--price">${item.confirmed_str} ${symbol_str}</div>
-										${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+' '+exchange+'</div>' : ''}
-									</div>
-									<div class="wallet--btn">
-										<a href="wallet-deposit.html?symbol=${item.symbol}" class="btn btn--red btn--rounded" ${deposit_hide_style}>입금</a>
-										<a href="wallet-withdrawal.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${withdraw_hide_style}>출금</a>
-										<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
-									</div>
-								</div>`)
-									$('.wallet--grid').append(grid)
-									// $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
-								}
-
-							})
-
-							$('#totalBalance').text(real_number_format(total_evaluated_balance))
-							$('#totalAvailableBalance').text(real_number_format(total_available_evaluated_balance))
-							$('#totalLockedBalance').text(real_number_format(total_locked_evaluated_balance))
-							$('#totalBuyableBalance').text(real_number_format(total_buyable_balance))
-
-						}
-					})
-					$('.totalBalance').on('change', (event, symbol) => {
-						API.getBalance('ALL', symbol, (resp) => {
-							if(resp.success) {
-								console.log(resp)
-								$('.wallet-summary .grid:eq(0)').find('.text-').text(resp.payload.price)
-							} else {
-								alert(resp.error.message)
-							}
-						})
-					})
-					$('.availableBalance').on('change', (event, symbol) => {
-						API.getBalance('ALL', symbol, (resp) => {
-							if(resp.success) {
-								const price = resp.payload.price
-								$('.wallet-summary .grid:eq(1)').find('.text-').text(price.format())
-							} else {
-								alert(resp.error.message)
-							}
-						})
-					})
-					$('.unconfirmedBalance').on('change', (event, symbol) => {
-						API.getBalance('ALL', symbol, (resp) => {
-							if(resp.success) {
-								const price = resp.payload.price
-								$('.wallet-summary .grid:eq(1)').find('.text-').text(price.format())
-							} else {
-								alert(resp.error.message)
-							}
-						})
-					})
-				</script>
 			</div>
 		</main>
 	</div>
@@ -473,7 +281,93 @@
 		</ul>
 	</nav>
 
-    <script src="./assets/js/app.js?t=1670506167"></script>
+	<div id="goods-desc" class="modal modal--middle" tabindex="-1">
+		<div class="modal--dialog">
+			<div class="modal--header">
+				<div>
+					<span class="text--bbold tea--name" style="font-size: 18px">상품이름</span>
+					<span style="font-size: 18px;">
+						<span style="vertical-align: initial;" class="text--bbold tea--grade"></span>등급</span>
+				</div>
+				<button type="button" class="btn btn--close"></button>
+			</div>
+			<div class="modal--content">
+				<div class="info">
+					<div class="thumb">
+						<img src="./assets/img/dummy/noimage.gif" alt="상품이미지">
+					</div>
+					<div>
+						<table class="table">
+							<tr>
+								<th data-i18n>구분</th>
+								<td>
+									<div data-i18n name="meta_division"></div>
+								</td>
+							</tr>
+							<tr>
+								<th data-i18n>타입</th>
+								<td>
+									<div data-i18n name="meta_type"></div>
+								</td>
+							</tr>
+							<tr>
+								<th data-i18n>생산</th>
+								<td>
+									<div name="meta_produce"></div>
+								</td>
+							</tr>
+							<tr>
+								<th data-i18n>인증</th>
+								<td>
+									<div name="meta_certification_mark_name"></div>
+								</td>
+							</tr>
+							<tr>
+								<th data-i18n>차 소개</th>
+								<td>
+									<div name="meta_wp_teamaster_note">
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="desc_table" id="desc_table">
+					<table class="transaction--list board--list table_desc" style="width:100%">
+						<colgroup>
+							<col />
+							<col />
+							<col />
+							<col />
+							<col />
+						</colgroup>
+						<thead>
+							<th data-i18n>idx</th>
+							<th data-i18n>블록체인</th>
+							<th data-i18n>토큰 ID</th>
+							<th data-i18n>NFT 토큰 주소</th>
+							<th data-i18n>NFT 생성 TXID</th>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <script src="./assets/js/app.js?t=1671089334"></script>
 
 </body>
+<script>
+	var clipboard = new ClipboardJS('.copyBtn');
+	clipboard.on('success', function(e) {
+		alert("클립보드로 복사되었습니다.");
+		// console.log(e);
+	});
+	clipboard.on('error', function(e) {
+		alert("다시 시도해 주세요.")
+	});
+</script>
+
 </html>

@@ -4,8 +4,70 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="거래 내역에서 거래중 데이터 보이도록(취소포함) 수정">
-      <change beforePath="$PROJECT_DIR$/src/exchange.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/exchange.html" afterDir="false" />
+    <list default="true" id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="출금 정보 수정">
+      <change afterPath="$PROJECT_DIR$/www/assets/css/wallet_1.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/assets/img/dummy/noimage.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/www/wallet_1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/i18n/en/LC_MESSAGES/WWW.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n/en/LC_MESSAGES/WWW.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/i18n/en/LC_MESSAGES/WWW.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n/en/LC_MESSAGES/WWW.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/i18n/ko/LC_MESSAGES/WWW.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n/ko/LC_MESSAGES/WWW.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/i18n/ko/LC_MESSAGES/WWW.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n/ko/LC_MESSAGES/WWW.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/i18n/zh/LC_MESSAGES/WWW.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n/zh/LC_MESSAGES/WWW.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/i18n/zh/LC_MESSAGES/WWW.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n/zh/LC_MESSAGES/WWW.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wallet-withdrawal.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/wallet-withdrawal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/assets/css/exchange.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/assets/css/exchange.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/assets/css/wallet.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/assets/css/wallet.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/assets/css/wallet2.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/assets/js/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/assets/js/components.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/assets/js/components.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/assets/js/components.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/assets/js/exchange.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/assets/js/exchange.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/auction.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/auction.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/change-account-number.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/change-account-number.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/change-pin-number.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/change-pin-number.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/create-account-security-password-confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/create-account-security-password-confirm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/create-account-security-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/create-account-security-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/create-account.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/create-account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/exchange.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/exchange.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/exchange2.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/exchange2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/faq.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/forget.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/forget.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/forget2.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/forget2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/group-buying.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/group-buying.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/i18n/en/LC_MESSAGES/WWW.cache" beforeDir="false" afterPath="$PROJECT_DIR$/www/i18n/en/LC_MESSAGES/WWW.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/i18n/en/LC_MESSAGES/WWW.json" beforeDir="false" afterPath="$PROJECT_DIR$/www/i18n/en/LC_MESSAGES/WWW.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/i18n/ko/LC_MESSAGES/WWW.cache" beforeDir="false" afterPath="$PROJECT_DIR$/www/i18n/ko/LC_MESSAGES/WWW.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/i18n/ko/LC_MESSAGES/WWW.json" beforeDir="false" afterPath="$PROJECT_DIR$/www/i18n/ko/LC_MESSAGES/WWW.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/i18n/zh/LC_MESSAGES/WWW.cache" beforeDir="false" afterPath="$PROJECT_DIR$/www/i18n/zh/LC_MESSAGES/WWW.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/i18n/zh/LC_MESSAGES/WWW.json" beforeDir="false" afterPath="$PROJECT_DIR$/www/i18n/zh/LC_MESSAGES/WWW.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/inquiry.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/inquiry.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/inquiry_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/inquiry_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/inquiry_write.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/inquiry_write.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/member-account.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/member-account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/my-verification-complete.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/my-verification-complete.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/my-verification.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/my-verification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/notice.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/notice.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/notice_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/notice_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/notification.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/notification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/repw.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/repw.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/tea-ceremony-culture_.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/tea-ceremony-culture_.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/transaction.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/transaction.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/verification.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/verification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/verification7.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/verification7.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/verification8.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/verification8.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/wallet-analysis.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/wallet-analysis.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/wallet-deposit-guide.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/wallet-deposit-guide.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/wallet-deposit.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/wallet-deposit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/wallet-withdrawal-address.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/wallet-withdrawal-address.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/wallet-withdrawal-guide.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/wallet-withdrawal-guide.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/wallet-withdrawal.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/wallet-withdrawal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/wallet.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/wallet.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/wallet2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/withdrawal.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/withdrawal.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +79,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/assets/js/app.js" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -65,7 +130,14 @@
       <workItem from="1669356527271" duration="1796000" />
       <workItem from="1669358521727" duration="1127000" />
       <workItem from="1669711439862" duration="1700000" />
-      <workItem from="1670201735834" duration="42453000" />
+      <workItem from="1670201735834" duration="42789000" />
+      <workItem from="1670407229067" duration="2457000" />
+      <workItem from="1670457766536" duration="35482000" />
+      <workItem from="1670805045763" duration="1957000" />
+      <workItem from="1670893464274" duration="607000" />
+      <workItem from="1670908842901" duration="800000" />
+      <workItem from="1670984976425" duration="2556000" />
+      <workItem from="1671080616310" duration="6408000" />
     </task>
     <task id="LOCAL-00001" summary="build">
       <created>1667886141115</created>
@@ -193,18 +265,76 @@
       <option name="project" value="LOCAL" />
       <updated>1670403909322</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="번호를 주문번호로 수정">
+      <created>1670407127286</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1670407127286</updated>
+    </task>
+    <task id="LOCAL-00020" summary="그리드로 수정">
+      <created>1670486237211</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1670486237211</updated>
+    </task>
+    <task id="LOCAL-00021" summary="종합분석 datapick변경">
+      <created>1670500857668</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1670500857668</updated>
+    </task>
+    <task id="LOCAL-00022" summary="종합분석 등급 추가 및 생산년도 추가">
+      <created>1670505221986</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1670505221986</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="hash">
+                    <value>
+                      <list>
+                        <option value="5def1bdb" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="text">
+                    <value>
+                      <list>
+                        <option value="5def1bdb" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -222,6 +352,11 @@
     <MESSAGE value="회원 가입시 이름, 핸드폰번호 기입" />
     <MESSAGE value="공지수항 수정" />
     <MESSAGE value="거래 내역에서 거래중 데이터 보이도록(취소포함) 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="거래 내역에서 거래중 데이터 보이도록(취소포함) 수정" />
+    <MESSAGE value="번호를 주문번호로 수정" />
+    <MESSAGE value="그리드로 수정" />
+    <MESSAGE value="종합분석 datapick변경" />
+    <MESSAGE value="종합분석 등급 추가 및 생산년도 추가" />
+    <MESSAGE value="출금 정보 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="출금 정보 수정" />
   </component>
 </project>
