@@ -170,16 +170,19 @@ $(function() {
         genChartLine();
 
         API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+            $('.details').removeClass('loading')
             if (resp.success && resp.payload) {
                 displayChartLine('S', resp.payload);
             }
         })
         API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+            $('.details').removeClass('loading')
             if (resp.success && resp.payload) {
                 displayChartLine('A', resp.payload);
             }
         })
         API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+            $('.details').removeClass('loading')
             if (resp.success && resp.payload) {
                 displayChartLine('B', resp.payload);
             }
@@ -222,9 +225,9 @@ $(function() {
         }
     }
     const getLineChartData = (data) => {
-        return data.split('\n').slice(1).map((row, index) => {
+        return data ? data.split('\n').slice(1).map((row, index) => {
             return covertLineChartRowData(row);
-        })
+        }) : [];
     }
 
     let chart = null;
@@ -304,7 +307,6 @@ $(function() {
         // 차트 스케일 맞춤
         chart.timeScale().fitContent();
 
-        $('.details').removeClass('loading')
     }
 
     /**
@@ -877,16 +879,19 @@ $(function() {
             let period = $('#period').dropdown('selected');
 
             API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+                $('.details').removeClass('loading')
                 if (resp.success && resp.payload) {
                     displayChartLine('S', resp.payload);
                 }
             })
             API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+                $('.details').removeClass('loading')
                 if (resp.success && resp.payload) {
                     displayChartLine('A', resp.payload);
                 }
             })
             API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+                $('.details').removeClass('loading')
                 if (resp.success && resp.payload) {
                     displayChartLine('B', resp.payload);
                 }
