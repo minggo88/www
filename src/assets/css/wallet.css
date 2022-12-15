@@ -1000,6 +1000,12 @@
 	.deposit-withdrawal .btnArea .btn{
 		width: 100%;
 	}
+
+	#pin_number.modal.modal--tiny .modal--dialog{
+		max-width: initial;
+		height: 100%;
+		border-radius: initial;
+	}
 }
 
 
