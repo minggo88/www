@@ -196,8 +196,9 @@
 }
 
 .wallet-summary {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     column-gap: 30px;
+	row-gap: 15px;
 }
 
 .wallet-summary .grid > div {
@@ -205,19 +206,23 @@
     display: flex;
     border: 0.35px solid var(--blue-gray2);
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     height: 40px;
-
 }
 
 .wallet-summary .grid > div .text- {
-    flex: 1 1 auto;
+    /* flex: 1 1 auto; */
+	width: 50%;
+	flex-basis:calc(100% - 60px);
     text-align: right;
     font-family: Inter;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 15px;
     border: 0 none;
     padding-right: 10px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .wallet-summary .grid .dropdown-wrapper {
@@ -379,10 +384,6 @@
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	.wallet-summary .grid:last-child{
-		margin-top: 10px;
-	}
-
 	.wallet--grid {
 		grid-template-columns: repeat(1, 1fr);
 	}
@@ -408,7 +409,7 @@
 		position: relative;
 		display: flex;
         flex-direction: column;
-        row-gap: 24px;
+        row-gap: 19px;
 	}
 	.wallet-summary:after{
 		content:"";
@@ -499,6 +500,10 @@
 	.wallet--grid .mname{
 		font-size: 13px;
 		word-break: keep-all;
+	}
+
+	.wallet-summary .grid > div .text-{
+		font-size: 14px;
 	}
 }
 
@@ -823,7 +828,6 @@
 
 /* deposit-withdrawal */
 /* 출금 */
-
 .deposit-withdrawal .grid ul{
 	list-style-type: disc;
 	padding-left: 10px;
@@ -841,6 +845,17 @@
 .deposit-withdrawal .input--group{
 	height: 40px;
 }
+
+.deposit-withdrawal .input--group .pin_btn{
+	height: 40px;
+	border: none;
+	background: var(--blue-gray);
+	color: var(--white);
+	font-weight: 700;   
+	align-self: center;
+	width: 100%;
+}
+
 
 .deposit-withdrawal .input--group input{text-align: right;}
 
@@ -860,6 +875,37 @@
 
 .deposit-withdrawal .contents .d-grid .grid .form--controls.input--box .input--group input{
 	border:none
+}
+
+#pin_number.modal .modal--header{
+	background: transparent;
+	justify-content: flex-end;
+}
+#pin_number.modal .modal--content .title{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 20px;
+}
+#pin_number.modal .modal--content .title h3{
+	color:var(--blue-dn);
+	margin: 0;
+	font-size: 24px;
+}
+#pin_number.modal .modal--content .title p{
+	margin: 0;
+	padding: 10px;
+	font-size: 16px;
+}
+#pin_number.modal .modal--content .pin_area{
+	margin-top: 50px;
+}
+
+#pin_number.modal .modal--content .pin_area .text--center{
+	margin-top: 100px;
+}
+#pin_number.modal .modal--content .pin_area .text--center .btn {
+	width: 80%;
 }
 
 @media screen and (max-width: 800px) {
