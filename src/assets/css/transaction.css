@@ -116,10 +116,13 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 .sub.transaction .transaction--list td:nth-of-type(6),
 .sub.transaction .transaction--list td:nth-of-type(7),
 .sub.transaction .transaction--list td:nth-of-type(8),
-.sub.transaction .transaction--list td:nth-of-type(9){
-	white-space: nowrap;
+.sub.transaction .transaction--list td:nth-of-type(9),
+.sub.transaction .transaction--list td:nth-of-type(10){
+	/* white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; */
+	word-break: break-all;
+    white-space: break-spaces;
 }
 
 .sub.transaction .pc_period{

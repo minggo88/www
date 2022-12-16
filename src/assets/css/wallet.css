@@ -908,6 +908,10 @@
 	width: 80%;
 }
 
+#pin_number.modal .modal--content .pin_area input[type=number] {
+    -webkit-text-security: disc;
+}
+
 @media screen and (max-width: 800px) {
 	.deposit-withdrawal main{
 		padding-bottom: 92px!important;
@@ -943,10 +947,10 @@
 		font-weight: 400;
 	}
 
-	.deposit-withdrawal .input--box{
+	/* .deposit-withdrawal .input--box{
 		margin-bottom: 25px!important;
 		flex-direction: column;
-	}
+	} */
 
 	.deposit-withdrawal .contents .d-grid .grid .input--box .input,
 	.deposit-withdrawal .contents .d-grid .grid .form--controls .input{
