@@ -2705,11 +2705,19 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		});
 
 		// 보안 비밀번호 입력창 
-		$('[name="pin"]').val();
+		/* $('[name="pin"]').val(); */
 		$('[name="pin_btn"]').on('click', function () { 
 			$('#pin_number').addClass('modal--open');
 		})
 
+		
+
+		// pin Number popup 띄우기
+		$('[name="btn-withdraw"]').on('click', function () { 
+			$('#pin_number').addClass('modal--open');
+		})
+
+		// 출금신청
 		$('#pin_number').submit((e) =>  { 
 			e.preventDefault();
 			console.log("a"+ Model.user_info.userno)
@@ -2730,8 +2738,23 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			if(check) {
 				API.checkPin(pin, (resp) => {
 					if(resp.success) {
+						// 출금액
+						const amount = $('[name=amount]').val().replace(/[^0-9.]/g, "");
+						const to_address = $('[name="address"]').val();
+						const symbol = Model.withdraw_currency.symbol;
+						const symbol_addres = Model.withdraw_currency.symbol+'/A';
+
+						// console.log(to_address)
+						add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol_addres].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
+							if (r?.success) {
+								alert(__('출금신청을 완료했습니다.'));
+							} else {
+								const msg = r?.error?.message || '';
+								alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
+							}
+						})
+
 						$('#pin_number').removeClass('modal--open'); //모달 창 닫아주기
-						$('[name="pin"]').val(pin); //팝업창의 비밀번호 원래 input 보안비밀번호에 심어주기
 						$('[name="pincode"]').val(""); //팝업창 비밀번호 초기화
 					} else {
 						alert(resp.error.message)
@@ -2739,26 +2762,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				})
 			}
 			return false
-		})
-
-		// 출금신청
-		$('[name="btn-withdraw"]').on('click', function () { 
-			// 출금액
-			const amount = $('[name=amount]').val().replace(/[^0-9.]/g, "");
-			const to_address = $('[name="address"]').val();
-			const pin = $('[name="pin"]').val();
-			const symbol = Model.withdraw_currency.symbol;
-			const symbol_addres = Model.withdraw_currency.symbol+'/A';
-
-			// console.log(to_address)
-			add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol_addres].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
-				if (r?.success) {
-					alert(__('출금신청을 완료했습니다.'));
-				} else {
-					const msg = r?.error?.message || '';
-					alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
-				}
-			})
 		})
 
 		// 출금수수료 계산
