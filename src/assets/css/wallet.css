@@ -863,11 +863,11 @@
 	width: 196px;
 }
 
-.deposit-withdrawal .form--controls .input--group + p.text--blue-gray{
-	/* white-space: nowrap; */
+/* .deposit-withdrawal .form--controls .input--group + p.text--blue-gray{
+	white-space: nowrap;
 	margin: 0;
 	margin-top: 3px;
-}
+} */
 
 .deposit-withdrawal .form--controls .form--label{
 	font-weight: 700;
@@ -901,8 +901,19 @@
 	margin-top: 50px;
 }
 
+#pin_number.modal .modal--content .pin_area .forget_pin{
+	margin: 0;
+	text-align: center;
+	padding: 20px;
+	word-break: keep-all;
+}
+
+#pin_number.modal .modal--content .pin_area .forget_pin a{
+	vertical-align: unset;
+}
+
 #pin_number.modal .modal--content .pin_area .text--center{
-	margin-top: 100px;
+	margin-top: 50px;
 }
 #pin_number.modal .modal--content .pin_area .text--center .btn {
 	width: 80%;
