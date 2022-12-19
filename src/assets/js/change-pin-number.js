@@ -38,12 +38,16 @@ $(function () {
 		$('#forget-security-password').show();
 	})
 
+	
+
 	// 현재 보안번호 재설정하기 form
 	$('#forget-security-password').submit((e) => {
 		e.preventDefault();
-
+		
 		const phoneCountry = $('#phoneCountry').val()
         const phone = $('#phone').val()
+		let code = ''
+        let check = true
 
 		if(!phoneCountry) {
             $('#phoneCountry').focus()
@@ -54,14 +58,53 @@ $(function () {
             return false
         }
 
+		// $('#forget-security-password').addClass('loading')
+        // $('#forget-security-password input[type=submit]').prop('disabled', true)
 
+		API.sendMobileConfirmCode(phoneCountry, phone, sended_phone, code, (resp) => {
+            if (resp.success) {
+                
+                sended_phoneCountry = phoneCountry;
+                sended_phone = phone;
 
-		$('#forget-security-password').hide();
-		$('#change-security-password').show();
+                // $('#create-account-phone').hide()
+				$('#create-account-phone').parent("section").hide()
+				// $('#create-account-phone-auth').show()
+                $('#create-account-phone-auth').parent("section").show()
+            } else {
+                $('#forget-security-password input[type=submit]').prop('disabled', false)
+
+                alert(resp.error.message)
+            }
+        })
+
+		
 		
 
         return false
 	})
+
+	// SMS 인증문자 발송
+	
+	
+	// SMS 인증문자 재발송
+	$('[name="btn-resend-sms"]').on('click', function () { 
+		if (!sended_phoneCountry || !sended_phone) return;
+		$('#create-account-phone-auth').addClass('loading');
+		API.sendMobileConfirmCode(sended_phoneCountry, sended_phone, (resp) => {
+			$('#create-account-phone-auth').removeClass('loading');
+			if(resp.success) {
+				// $('#create-account-phone').hide()
+				// $('#create-account-phone-auth').show()
+			} else {
+				// $('#create-account-phone input[type=submit]').prop('disabled', false)
+
+				alert(resp.error.message)
+			}
+		})
+		return false;
+	});
+
 
 
     $('#change-security-password').submit((e) => {
