@@ -213,10 +213,10 @@
 					<h1 data-i18n>보안비밀번호 변경</h1>
 				</header>
 				<h2 class="mobile-only"><i class="icon-user-fill icon-shield"></i> <span data-i18n>거래용 보안비밀번호 변경</span></h2>
+
 				<form id="change-security-password" action="change-security-password2.html" method="post" style="width: 100%; height: auto" >
 					<div class="boxed boxed--transparent text--center">
 						<div class="text--center">
-							<!-- <h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2> -->
 							<h2 class="m-0 text--medium text-bold" data-i18n>현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요.</h2>
 						</div>
 						<div style="margin-top: 52px;">
@@ -231,11 +231,49 @@
 								</div>
 							</div>
 						</div>
+						<div class="forget_pin text--blue-gray" data-i18n>
+							현재 사용 중인 보안비밀번호(Pin Number)를 잊으셨나요?
+							<p>
+								<a href="#forget-security-password" name="forget-security-password" data-login>현재 보안비밀번호 재설정 &gt;</a>
+							</p>
+						</div>
 					</div>
 					<div class="text--center btnArea">
 						<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>수정하기</button>
 					</div>
 				</form>
+
+				<form id="forget-security-password" action="change-security-password.html" method="post" style="width: 100%; height: auto; display: none" >
+					<div class="boxed boxed--transparent text--center">
+						<div class="text--center">
+							<h2 class="m-0 text--medium text-bold" data-i18n>현재 보안비밀번호(Pin Number) 재설정하기</h2>
+						</div>
+						<div class="form--pin-reset">
+							<div class="d-flex">
+								<label for="phone" class="form--label" data-i18n="">휴대폰번호</label>
+								<div class="d-flex input-phone-number">
+									<input type="text" name="phoneCountry" id="phoneCountry" class="b-dfdfdf" style="width: 70px">
+									<input type="tel" name="phone" id="phone" class="b-dfdfdf">
+								</div>
+							</div>
+							<div class="d-flex">
+								<label for="certify_number" class="form--label" data-i18n="">인증번호</label>
+								<div class="d-flex input_certify_number">
+									<input type="tel" name="certify_number" id="certify_number" class="b-dfdfdf">
+									<button class="btn btn--block btn--red" data-i18n="">인증하기</button>
+								</div>
+							</div>
+							<div>
+								<span class="text-bold" data-i18n="">문자가 오지 않으셨나요?</span>
+								<a href="#" onclick="" class="d-block text-red text-bold" data-i18n="" name="btn-resend-sms">인증문자 재발송</a>
+							</div>
+						</div>
+					</div>
+					<div class="text--center btnArea">
+						<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>email 발송</button>
+					</div>
+				</form>
+
 				<form id="change-security-password2" action="change-security-password-confirm.html" method="post" style="width: 100%; height: auto; display: none" >
 					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center">
