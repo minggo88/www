@@ -1290,7 +1290,7 @@
 }
 
 #forget-security-password .form--pin-reset > div{
-	max-width: 380px;
+	max-width: 450px;
 	width: 100%;
 }
 
@@ -1314,16 +1314,16 @@
 	width: calc(100% - 75px);
 }
 #forget-security-password .form--pin-reset .d-flex .d-flex input{
-	width: calc(100% - 75px);
+	width: calc(100% - 205px);
 	padding-left: 11px;
 }
 
 #forget-security-password .form--pin-reset .d-flex .d-flex.input_certify_number input{
-	width: calc(100% - 105px);
+	width: calc(100% - 125px);
 }
 
 #forget-security-password .form--pin-reset .d-flex .d-flex .btn{
-	width: 100px;
+	width: 120px;
 }
 
 @media screen and (max-width: 800px){
