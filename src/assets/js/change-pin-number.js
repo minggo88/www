@@ -1,10 +1,10 @@
 $(function () {
     $('.number').autotab({ tabOnSelect: true },'filter', 'number');
 	
-	const email = $('#email')
+	/* const email = $('#email')
     const password = $('#password')
 	const name = $('#name')
-    const password_confirm = $('#password_confirm')
+    const password_confirm = $('#password_confirm') */
     let sended_email = ''; // 발송 성공한 이메일 - 재발송시 사용
     let sended_phoneCountry = '';
     let sended_phone = '';
@@ -83,12 +83,10 @@ $(function () {
 
         return false
 	})
-
-	// SMS 인증문자 발송
 	
 	
 	// SMS 인증문자 재발송
-	$('[name="btn-resend-sms"]').on('click', function () { 
+	/* $('[name="btn-resend-sms"]').on('click', function () { 
 		if (!sended_phoneCountry || !sended_phone) return;
 		$('#create-account-phone-auth').addClass('loading');
 		API.sendMobileConfirmCode(sended_phoneCountry, sended_phone, (resp) => {
@@ -103,7 +101,7 @@ $(function () {
 			}
 		})
 		return false;
-	});
+	}); */
 
 
 
