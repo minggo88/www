@@ -252,8 +252,8 @@
 							<div class="d-flex">
 								<label for="phone" class="form--label" data-i18n="">휴대폰번호</label>
 								<div class="d-flex input-phone-number">
-									<input type="text" name="phoneCountry" id="phoneCountry" class="b-dfdfdf" style="width: 70px">
-									<input type="tel" name="phone" id="phone" class="b-dfdfdf">
+									<input type="text" name="phoneCountry" id="phoneCountry" class="b-dfdfdf" style="width: 70px" readonly>
+									<input type="tel" name="phone" id="phone" class="b-dfdfdf" readonly>
 									<button type="button" class="btn btn--block btn--red" name="btn-send-sms" data-i18n="">인증번호 발송</button>
 								</div>
 							</div>
@@ -271,7 +271,7 @@
 						</div>
 					</div>
 					<div class="text--center btnArea">
-						<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>email 발송</button>
+						<button type="button" class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n name="btn-send-email">email 발송</button>
 					</div>
 				</form>
 
