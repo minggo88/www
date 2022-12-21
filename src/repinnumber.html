@@ -99,26 +99,80 @@
         </li>
     </ul>
 </header>
-<main class="d-flex flex-center">
-    <form id="form_repw" method="post" class="d-flex flex-row flex-center">
-        <div class="form--header">
-            <button type="button" class="navigation--back"></button>
-            <h1 data-i18n>비밀번호 재설정</h1>
-        </div>
-        <div class="email form--controls">
-            <label for="pw" class="form--label" data-i18n>새로운 비밀번호</label>
-            <input type="password" name="password" id="pw">
-            <label for="pwre" class="form--label" data-i18n>비밀번호 재입력</label>
-            <input type="password" name="password2" id="pwre">
-        </div>
-        <div class="validation--message " style="display: none">
-            <p name="box_notice"></p>
-        </div>
-        <div class="form--btns" style="margin-top: 44px">
-            <button class="btn btn--block btn--red" data-i18n name="btn_repw">Change password</button>
-        </div>
-    </form>
-</main>
+<div class="content_wrap">
+	<main class="d-flex flex-center">
+		<div class="contents">
+			<form id="form_repw" action="form_repw-confirm.html" method="post" style="width: 100%; height: auto;" >
+				<div class="form--header mobile-only">
+					<button type="button" class="navigation--back"></button>
+					<h1 data-i18n>비밀번호 재설정</h1>
+				</div>
+				<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
+					<div class="text--center">
+						<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
+						<h2 class="m-0 text--medium text-bold " data-i18n>새로 사용할 보안비밀번호(Pin Number)를 입력하세요.</h2>
+					</div>
+					<div class="mt-52">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="text--center btnArea">
+					<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>비밀번호 변경</button>
+				</div>
+			</form>
+			
+			<form id="form_repw-confirm" action="form_repw-complete.html" method="post" style="width: 100%; height: auto; display: none" >
+				<div class="form--header mobile-only">
+					<button type="button" class="navigation--back"></button>
+					<h1 data-i18n>비밀번호 재설정</h1>
+				</div>
+				<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
+					<div class="text--center">
+						<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
+						<h2 class="m-0 text--medium text-bold " data-i18n>보안비밀번호(Pin Number)를 한번 더 입력하세요.</h2>
+					</div>
+					<div style="margin-top: 52px;">
+						<div class="d-flex flex-center">
+							<div class="d-grid grid--code">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+								<input type="number" name="" min="0" max="9" maxlength="1">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="text--center btnArea">
+					<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>수정하기</button>
+				</div>
+			</form>
+			<div id="form_repw-complete" class="password-complete" style="width: 100%; height: auto; display: none" >
+				<div class="boxed boxed--transparent d-flex flex-center" style="height: 333px; padding: 36px 0 56px">
+					<div class="text--center flex-self-center">
+						<i class="icon-user-fill icon-shield"></i>
+						<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
+						<h2 class="m-0 text--medium text-bold " data-i18n>보안비밀번호(Pin Number)가 변경되었습니다.</h2>
+					</div>
+				</div>
+				<div class="text--center btnArea">
+					<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>홈으로 가기</button>
+				</div>
+			</div>
+		</div>
+		
+	</main>
+</div>
 
 <script src="./assets/js/app.js?t={version}"></script>
 
