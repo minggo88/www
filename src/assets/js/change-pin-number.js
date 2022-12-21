@@ -1,107 +1,66 @@
 $(function () {
     $('.number').autotab({ tabOnSelect: true },'filter', 'number');
-	
-	/* const email = $('#email')
-    const password = $('#password')
-	const name = $('#name')
-    const password_confirm = $('#password_confirm') */
-    let sended_email = ''; // 발송 성공한 이메일 - 재발송시 사용
-    let sended_phoneCountry = '';
-    let sended_phone = '';
-    let bool_confirm_email = 0; // 이메일 인증 여부
-    let bool_confirm_mobile = 0; // 핸드폰 인증 여부
-    
-    let my_calling_code = '+82'; // 접속자 국제전화번호
-    let my_country_code = 'KR'; // 접속자 국가코드
-    let my_ip = ''; // 접속자 아이피
-
-	// 국가 선택 
-    function select_country(code) {
-        $('#country').find('button[value=' + (code.toLowerCase()) + ']').trigger('click');
-    }
-
-	API.getCurrentCountryInfo(my_ip, (resp) => {
-        if(resp.payload.calling_code) my_calling_code = resp.payload.calling_code
-        if (resp.payload.country_code) my_country_code = resp.payload.country_code
-        // 국가 선택
-        select_country(my_country_code)
-        if (resp.payload.ip) my_ip = resp.payload.ip
-        
-        // preset value
-        $('#phoneCountry').val(my_calling_code);
-    })
 
 	// 현재 보안비밀번호 재설정하기 click 하기
 	$('[name="forget-security-password"]').click((e) => {
 		e.preventDefault();
 		$('#change-security-password').hide();
 		$('#forget-security-password').show();
+
+        $('#phoneCountry').val(Model.user_info.country.calling_code)
+        $('#phone').val(Model.user_info.mobile)
+
 	})
 
-	
+    $('[name="btn-send-sms"]').on('click', (e) => {
+        let phoneCountry = $('[name="phoneCountry"]').val()
+        let phone = $('[name="phone"]').val()
 
-	// 현재 보안번호 재설정하기 form
-	$('#forget-security-password').submit((e) => {
-		e.preventDefault();
-		
-		const phoneCountry = $('#phoneCountry').val()
-        const phone = $('#phone').val()
-		let code = ''
-        let check = true
-
-		if(!phoneCountry) {
-            $('#phoneCountry').focus()
-            return false
-        }
-        if(!phone) {
-            $('#phone').focus()
-            return false
-        }
-
-		// $('#forget-security-password').addClass('loading')
-        // $('#forget-security-password input[type=submit]').prop('disabled', true)
-
-		API.sendMobileConfirmCode(phoneCountry, phone, sended_phone, code, (resp) => {
+        API.sendMobileConfirmCode(phoneCountry, phone, (resp) => {
             if (resp.success) {
-                
-                sended_phoneCountry = phoneCountry;
-                sended_phone = phone;
-
-                // $('#create-account-phone').hide()
-				$('#create-account-phone').parent("section").hide()
-				// $('#create-account-phone-auth').show()
-                $('#create-account-phone-auth').parent("section").show()
+                alert('인증번호를 발송 했습니다.')
             } else {
-                $('#forget-security-password input[type=submit]').prop('disabled', false)
+                $('#create-account-phone input[type=submit]').prop('disabled', false)
 
                 alert(resp.error.message)
             }
         })
+    })
 
-		
-		
+    $('[name="btn-sms-check"]').on('click', (e) => {
+        e.preventDefault();
 
-        return false
-	})
-	
-	
-	// SMS 인증문자 재발송
-	/* $('[name="btn-resend-sms"]').on('click', function () { 
-		if (!sended_phoneCountry || !sended_phone) return;
-		$('#create-account-phone-auth').addClass('loading');
-		API.sendMobileConfirmCode(sended_phoneCountry, sended_phone, (resp) => {
-			$('#create-account-phone-auth').removeClass('loading');
-			if(resp.success) {
-				// $('#create-account-phone').hide()
-				// $('#create-account-phone-auth').show()
-			} else {
-				// $('#create-account-phone input[type=submit]').prop('disabled', false)
+        let phone = $('[name="phone"]').val()
+        let code = $('[name="certify_number"]').val()
 
-				alert(resp.error.message)
-			}
-		})
-		return false;
-	}); */
+        API.checkMobileConfirmCode(phone, code, (resp) => {
+            if (resp.success) {
+                alert('인증 되었습니다.')
+            } else {
+                alert(resp.error.message)
+            }
+        })
+
+    })
+
+    $('[name="btn-send-email"]').on('click', (e) => {
+        e.preventDefault();
+
+        if (!Model.user_info.email) {
+            alert('등록된 이메일 정보가 없습니다.')
+            return false
+        }
+        let email = Model.user_info.email
+
+        API.findPinNumber(email, (resp) => {
+            if (resp.success) {
+                alert('이메일이 발송되었습니다.');
+            } else {
+                alert("1"+resp.error.message)
+            }
+        })
+
+    })
 
 
 
