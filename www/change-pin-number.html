@@ -21,8 +21,8 @@
 <link rel="stylesheet" href="./assets/css/common.css?t=1667796157">
 <link rel="stylesheet" href="./assets/css/header.css?t=1667796157">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1667796157">
-<link rel="stylesheet" href="./assets/css/components.css?t=1670505230">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1671513804">
 <link rel="stylesheet" href="./assets/css/mypage.css?t=1667796157">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <style>
@@ -46,7 +46,7 @@
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="https://unpkg.com/libphonenumber-js@1.10.11/bundle/libphonenumber-min.js"></script>
 <script src="./assets/js/jquery.autotab.js?t=1667796157"></script>
-<script src="./assets/js/api.js?t=1668055903"></script>
+<script src="./assets/js/api.js?t=1671599209"></script>
 <script src="./assets/js/components.js?t=1670805066"></script>
 <script src="./assets/js/common.js?t=1670369703"></script>
 <script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
@@ -213,11 +213,73 @@
 					<h1 data-i18n>보안비밀번호 변경</h1>
 				</header>
 				<h2 class="mobile-only"><i class="icon-user-fill icon-shield"></i> <span data-i18n>거래용 보안비밀번호 변경</span></h2>
+
 				<form id="change-security-password" action="change-security-password2.html" method="post" style="width: 100%; height: auto" >
 					<div class="boxed boxed--transparent text--center">
 						<div class="text--center">
-							<!-- <h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2> -->
 							<h2 class="m-0 text--medium text-bold" data-i18n>현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요.</h2>
+						</div>
+						<div style="margin-top: 52px;">
+							<div class="d-flex flex-center">
+								<div class="d-grid  grid--code">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus>
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								</div>
+							</div>
+						</div>
+						<div class="forget_pin text--blue-gray" data-i18n>
+							현재 사용 중인 보안비밀번호(Pin Number)를 잊으셨나요?
+							<p>
+								<a href="#forget-security-password" name="forget-security-password" data-login>현재 보안비밀번호 재설정 &gt;</a>
+							</p>
+						</div>
+					</div>
+					<div class="text--center btnArea">
+						<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>수정하기</button>
+					</div>
+				</form>
+
+				<form id="forget-security-password" action="change-security-password.html" method="post" style="width: 100%; height: auto; display: none" >
+					<div class="boxed boxed--transparent text--center">
+						<div class="text--center">
+							<h2 class="m-0 text--medium text-bold" data-i18n>현재 보안비밀번호(Pin Number) 재설정하기</h2>
+						</div>
+						<div class="form--pin-reset">
+							<div class="d-flex">
+								<label for="phone" class="form--label" data-i18n="">휴대폰번호</label>
+								<div class="d-flex input-phone-number">
+									<input type="text" name="phoneCountry" id="phoneCountry" class="b-dfdfdf" style="width: 70px" readonly>
+									<input type="tel" name="phone" id="phone" class="b-dfdfdf" readonly>
+									<button type="button" class="btn btn--block btn--red" name="btn-send-sms" data-i18n="">인증번호 발송</button>
+								</div>
+							</div>
+							<div class="d-flex">
+								<label for="certify_number" class="form--label" data-i18n="">인증번호</label>
+								<div class="d-flex input_certify_number">
+									<input type="tel" name="certify_number" id="certify_number" class="b-dfdfdf">
+									<button type="button" class="btn btn--block btn--red" data-i18n="" name="btn-sms-check">인증하기</button>
+								</div>
+							</div>
+							<div>
+								<span class="text-bold" data-i18n="">문자가 오지 않으셨나요?</span>
+								<a href="#" onclick="" class="d-block text-red text-bold" data-i18n="" name="btn-resend-sms">인증문자 재발송</a>
+							</div>
+						</div>
+					</div>
+					<div class="text--center btnArea">
+						<button type="button" class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n name="btn-send-email">email 발송</button>
+					</div>
+				</form>
+
+				<form id="change-security-password2" action="change-security-password-confirm.html" method="post" style="width: 100%; height: auto; display: none" >
+					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
+						<div class="text--center">
+							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
+							<h2 class="m-0 text--medium text-bold " data-i18n>새로 사용할 보안비밀번호(Pin Number)를 입력하세요.</h2>
 						</div>
 						<div style="margin-top: 52px;">
 							<div class="d-flex flex-center">
@@ -236,29 +298,6 @@
 						<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>수정하기</button>
 					</div>
 				</form>
-				<form id="change-security-password2" action="change-security-password-confirm.html" method="post" style="width: 100%; height: auto; display: none" >
-					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
-						<div class="text--center">
-							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
-							<h2 class="m-0 text--medium text-bold " data-i18n>새로 사용할 보안비밀번호(Pin Number)를 입력하세요.</h2>
-						</div>
-						<div style="margin-top: 52px;">
-							<div class="d-flex flex-center">
-								<div class="d-grid  grid--code">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="text--center btnArea">
-						<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>수정하기</button>
-					</div>
-				</form>
 				<form id="change-security-password-confirm" action="change-security-password-complete.html" method="post" style="width: 100%; height: auto; display: none" >
 					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center">
@@ -268,12 +307,12 @@
 						<div style="margin-top: 52px;">
 							<div class="d-flex flex-center">
 								<div class="d-grid grid--code">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus>
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
 								</div>
 							</div>
 						</div>
@@ -313,8 +352,8 @@
 	</nav>
 	
 
-    <script src="./assets/js/change-pin-number.js?t=1670287567"></script>
-    <script src="./assets/js/app.js?t=1671089334"></script>
+    <script src="./assets/js/change-pin-number.js?t=1671608704"></script>
+    <script src="./assets/js/app.js?t=1671610593"></script>
 
 </body>
 </html>

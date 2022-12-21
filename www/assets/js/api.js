@@ -235,6 +235,28 @@ const API = {
         })
     },
     /**
+     * 비밀번호 찾기
+     * @param {*} address
+     * @param {*} callback
+     */
+    findPinNumber: (address, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/findinfo/findpinnumber.php`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                address: address,
+                address_type: 'email',
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
      * 토큰생성
      * @param {*} callback 
      */

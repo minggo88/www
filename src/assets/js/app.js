@@ -2984,8 +2984,60 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 	const fn_change_pin_number = function () {
 		check_login();
+	}
 
-		
+	const fn_repinnumber = function () {
+		$('.number').autotab({ tabOnSelect: true },'filter', 'number');
+
+		let check = true
+		let pin = ''
+		let pin2 = ''
+
+		$('#form_repw').submit((e) => {
+			e.preventDefault()
+			$('#form_repw').hide()
+			$('#form_repw-confirm').show()
+		})
+
+		$('#form_repw-confirm').submit((e) => {
+			e.preventDefault()
+
+			$('#form_repw input[type=number]').each((_index, elem) => {
+				pin += $(elem).val()
+			})
+
+			$('#form_repw-confirm input[type=number]').each((_index, elem) => {
+				pin2 += $(elem).val()
+			})
+
+			if (!pin) {
+				alert(__('다시 확인해 주세요'))
+			}
+
+			if (!pin2) {
+				alert(__('다시 확인해 주세요'))
+			}
+
+			if (pin != pin2) {
+				alert(__('핀번호가 다릅니다.')+' '+__('다시 확인해 주세요'))
+			}
+
+			const data = {
+				't': getURLParameter('t'),
+				'pinnumber': pin
+			};
+
+			add_request_item('resetPinnumber', data, function (r) {
+				if (r && r.success) {
+					alert('핀번호를 변경 했습니다.')
+				} else {
+					alert(r.error.message)
+				}
+			});
+
+		})
+
+
 	}
 
 	const fn_create_account = function () {

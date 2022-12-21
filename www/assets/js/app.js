@@ -2534,24 +2534,29 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
 
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-						grid.append(`<div class="grid--inner-left"><a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}">
-						<div class='item_name desktop-only'>${item_name}</div>
-						<div class="mname text--gray003 size--14 mobile-only">${item_name}</div></a>
-					</div>`)
+						grid.append(`
+							<div class="grid--inner-left">
+								<a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}">
+									<div class='item_name desktop-only'>${item_name}</div>
+									<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
+								</a>
+							</div>
+						`)
 						// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
 						// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
 						grid.append(`
-					<div class="grid--inner-right">
-						<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-							<div class="wallet--price">${item.confirmed_str} ${symbol_str}</div>
-							${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+' '+exchange+'</div>' : ''}
-						</div>
-						<div class="wallet--btn">
-							<a href="wallet-deposit.html?symbol=${item.symbol}" class="btn btn--red btn--rounded" ${deposit_hide_style}>입금</a>
-							<a href="wallet-withdrawal.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${withdraw_hide_style}>출금</a>
-							<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
-						</div>
-					</div>`)
+							<div class="grid--inner-right">
+								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+									<div class="wallet--price">${item.confirmed_str} ${symbol_str}</div>
+									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+' '+exchange+'</div>' : ''}
+								</div>
+								<div class="wallet--btn">
+									<a href="wallet-deposit.html?symbol=${item.symbol}" class="btn btn--red btn--rounded" ${deposit_hide_style}>입금</a>
+									<a href="wallet-withdrawal.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${withdraw_hide_style}>출금</a>
+									<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
+								</div>
+							</div>
+						`)
 						$('.wallet--grid').append(grid)
 						// $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
 					}
@@ -2658,6 +2663,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	};
 
 	const fn_wallet_withdrawal = function () {
+		$('.number').autotab({ tabOnSelect: true },'filter', 'number');
+		
 		check_login();
 		// access level 4 
 		force_rander('user_info', Model.user_info);
@@ -2697,24 +2704,64 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			e.clearSelection()
 		});
 
-		// 출금신청
-		$('[name="btn-withdraw"]').on('click', function () { 
-			// 출금액
-			const amount = $('[name=amount]').val().replace(/[^0-9.]/g, "");
-			const to_address = $('[name="address"]').val();
-			const pin = $('[name="pin"]').val();
-			const symbol = Model.withdraw_currency.symbol;
-			const symbol_addres = Model.withdraw_currency.symbol+'/A';
+		// 보안 비밀번호 입력창 
+		/* $('[name="pin"]').val(); */
+		$('[name="pin_btn"]').on('click', function () { 
+			$('#pin_number').addClass('modal--open');
+		})
 
-			// console.log(to_address)
-			add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol_addres].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
-				if (r?.success) {
-					alert(__('출금신청을 완료했습니다.'));
-				} else {
-					const msg = r?.error?.message || '';
-					alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
+		
+
+		// pin Number popup 띄우기
+		$('[name="btn-withdraw"]').on('click', function () { 
+			$('#pin_number').addClass('modal--open');
+		})
+
+		// 출금신청
+		$('#pin_number').submit((e) =>  { 
+			e.preventDefault();
+			console.log("a"+ Model.user_info.userno)
+			let check = true
+			let pin = ''
+
+			$('#pin_number .grid--code input[type=number]').each((_index, elem) => {
+				if(!$(elem).val()) {
+					check = false
+					$(elem).focus()
+					return false
 				}
+				pin += $(elem).val();
 			})
+			
+			console.log(pin)
+
+			if(check) {
+				API.checkPin(pin, (resp) => {
+					if(resp.success) {
+						// 출금액
+						const amount = $('[name=amount]').val().replace(/[^0-9.]/g, "");
+						const to_address = $('[name="address"]').val();
+						const symbol = Model.withdraw_currency.symbol;
+						const symbol_addres = Model.withdraw_currency.symbol+'/A';
+
+						// console.log(to_address)
+						add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol_addres].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
+							if (r?.success) {
+								alert(__('출금신청을 완료했습니다.'));
+							} else {
+								const msg = r?.error?.message || '';
+								alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
+							}
+						})
+
+						$('#pin_number').removeClass('modal--open'); //모달 창 닫아주기
+						$('[name="pincode"]').val(""); //팝업창 비밀번호 초기화
+					} else {
+						alert(resp.error.message)
+					}
+				})
+			}
+			return false
 		})
 
 		// 출금수수료 계산
@@ -2937,8 +2984,60 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 	const fn_change_pin_number = function () {
 		check_login();
+	}
 
-		
+	const fn_repinnumber = function () {
+		$('.number').autotab({ tabOnSelect: true },'filter', 'number');
+
+		let check = true
+		let pin = ''
+		let pin2 = ''
+
+		$('#form_repw').submit((e) => {
+			e.preventDefault()
+			$('#form_repw').hide()
+			$('#form_repw-confirm').show()
+		})
+
+		$('#form_repw-confirm').submit((e) => {
+			e.preventDefault()
+
+			$('#form_repw input[type=number]').each((_index, elem) => {
+				pin += $(elem).val()
+			})
+
+			$('#form_repw-confirm input[type=number]').each((_index, elem) => {
+				pin2 += $(elem).val()
+			})
+
+			if (!pin) {
+				alert(__('다시 확인해 주세요'))
+			}
+
+			if (!pin2) {
+				alert(__('다시 확인해 주세요'))
+			}
+
+			if (pin != pin2) {
+				alert(__('핀번호가 다릅니다.')+' '+__('다시 확인해 주세요'))
+			}
+
+			const data = {
+				't': getURLParameter('t'),
+				'pinnumber': pin
+			};
+
+			add_request_item('resetPinnumber', data, function (r) {
+				if (r && r.success) {
+					alert('핀번호를 변경 했습니다.')
+				} else {
+					alert(r.error.message)
+				}
+			});
+
+		})
+
+
 	}
 
 	const fn_create_account = function () {

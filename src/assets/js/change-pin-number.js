@@ -10,9 +10,25 @@ $(function () {
         $('#phoneCountry').val(Model.user_info.country.calling_code)
         $('#phone').val(Model.user_info.mobile)
 
+        $('[name="btn-send-email"]').hide()
 	})
 
     $('[name="btn-send-sms"]').on('click', (e) => {
+        let phoneCountry = $('[name="phoneCountry"]').val()
+        let phone = $('[name="phone"]').val()
+
+        API.sendMobileConfirmCode(phoneCountry, phone, (resp) => {
+            if (resp.success) {
+                alert('인증번호를 발송 했습니다.')
+            } else {
+                $('#create-account-phone input[type=submit]').prop('disabled', false)
+
+                alert(resp.error.message)
+            }
+        })
+    })
+
+    $('[name="btn-resend-sms"]').on('click', (e) => {
         let phoneCountry = $('[name="phoneCountry"]').val()
         let phone = $('[name="phone"]').val()
 
@@ -35,6 +51,7 @@ $(function () {
 
         API.checkMobileConfirmCode(phone, code, (resp) => {
             if (resp.success) {
+                $('[name="btn-send-email"]').show()
                 alert('인증 되었습니다.')
             } else {
                 alert(resp.error.message)
@@ -66,7 +83,7 @@ $(function () {
 
     $('#change-security-password').submit((e) => {
         e.preventDefault()
-        console.log("a"+ Model.user_info.userno)
+
         let check = true
         let pin = ''
         $('#change-security-password .grid--code input[type=number]').each((_index, elem) => {
@@ -90,7 +107,7 @@ $(function () {
             })
         }
 
-		
+
 
         return false
     })
