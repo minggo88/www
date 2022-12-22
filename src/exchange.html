@@ -40,6 +40,8 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/libphonenumber-js@1.10.11/bundle/libphonenumber-min.js"></script>
+<script src="./assets/js/jquery.autotab.js?t={version}"></script>
 <script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}" defer></script>
@@ -357,7 +359,7 @@
 									</tbody>
 								</table>
 								<div class="text--right" style="margin-top: 20px">
-									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy" data-i18n>구매 등록</a>
+									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy-pin" data-i18n>구매 등록</a>
 								</div>
 							</div>
 							<div class="tab-content" id="tab-sell"  style="display: block">
@@ -379,7 +381,7 @@
 									</tbody>
 								</table>
 								<div class="text--right" style="margin-top: 20px">
-									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell" data-i18n>판매 등록</a>
+									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell-pin" data-i18n>판매 등록</a>
 								</div>
 							</div>
 							<div class="tab-content" id="tab-info" style="display: none">
@@ -512,6 +514,32 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- 구매등록Pin -->
+		<form id="modal-buy-pin" class="modal modal--tiny form-order" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<span data-i18n>핀번호 입력하기</span>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="margin">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+					</div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+				</div>
+			</div>
+		</form>
+		<!-- 구매등록Btn -->
 		<form id="modal-buy" class="modal modal--tiny form-order" tabindex="-1">
 			<input type="hidden" name="symbol" value="">
 			<input type="hidden" name="exchange" value="">
@@ -574,6 +602,32 @@
 				</div>
 			</div>
 		</form>
+
+		<!-- 구매 거래버튼 Pin -->
+		<form id="modal-buy-direct-pin" class="modal modal--tiny form-order" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<span data-i18n>핀번호 입력하기</span>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="margin">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+					</div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+				</div>
+			</div>
+		</form>
+		<!-- 구매 거래버튼 -->
         <form id="modal-buy-direct" class="modal modal--tiny form-order" tabindex="-1">
             <input type="hidden" name="symbol" value="">
             <input type="hidden" name="exchange" value="">
@@ -633,8 +687,34 @@
                 </div>
             </div>
         </form>
-		
-		<form id="modal-sell" class="modal modal--tiny form-order">
+
+
+		<!-- 판매등록Pin -->
+		<form id="modal-sell-pin" class="modal modal--tiny form-order" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<span data-i18n>핀번호 입력하기</span>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="margin">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+					</div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+				</div>
+			</div>
+		</form>
+		<!-- 판매등록Btn -->
+		<form id="modal-sell" class="modal modal--tiny form-order" tabindex="-1">
 			<input type="hidden" name="symbol" value="">
 			<input type="hidden" name="exchange" value="">
 			<div class="modal--dialog">
@@ -695,6 +775,32 @@
 				</div>
 			</div>
 		</form>
+
+		<!-- 판매 거래버튼 Pin -->
+		<form id="modal-sell-direct-pin" class="modal modal--tiny form-order" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<span data-i18n>핀번호 입력하기</span>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="margin">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+					</div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+				</div>
+			</div>
+		</form>
+		<!-- 판매 거래버튼 -->
         <form id="modal-sell-direct" class="modal modal--tiny form-order" tabindex="-1">
             <input type="hidden" name="symbol" value="">
             <input type="hidden" name="exchange" value="">
