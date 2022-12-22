@@ -1796,170 +1796,174 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		});
 
 		let wallet_symbols = {};
-		for (row of Object.values(Model.user_wallet)) {
-			wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name, 'icon_url':row.icon_url };
-		};
-		console.log(wallet_symbols);
-		let first_dropdown_value = '';
-		for(i in wallet_symbols) {
-			row = wallet_symbols[i];
-			console.log(i, row);
-			if (row.symbol.length >= 10) {
-				if(!first_dropdown_value) {
-					first_dropdown_value = row.symbol;
-				}
-				// $('#symbol').dropdown('add', { value: i.symbol, text: i.name })
-				// let goods_grade = i.goods_grade ? i.goods_grade + '등급' : '';
-				$('[name="symbol"]').dropdown('add', { value: row.symbol, text: row.name })
-			}
-		}
-		$('[name="symbol"]').dropdown('select', first_dropdown_value)
 
+		if (Object.values(Model.user_wallet).length > 1) {
+			for (row of Object.values(Model.user_wallet)) {
+				wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name, 'icon_url':row.icon_url };
+			};
 
-		let selected_symbol = $('[name=symbol]:visible').dropdown('selected');
-		let selected_category = '';
-		let wallet = Model.user_wallet[selected_symbol];
-		let wallet_icon_url = wallet?.icon_url;
-		let wallet_name = wallet?.name;
-
-		$('[name=symbol]').on('change', function () { 
-			console.log('detect changed')
-			if ($(this).is(':visible')) {
-				selected_symbol = $(this).dropdown('selected');
-				wallet = Model.user_wallet[selected_symbol];
-				wallet_icon_url = wallet?.icon_url;
-				wallet_name = wallet?.name;
-			}
-		});
-
-		const transactionGrid = $('#transactionGrid').DataTable({
-			"lengthChange": false,
-			"responsive": true,
-			"processing": true,
-			"serverSide": true,
-			'pageLength': 10 ,
-			"order": [[ 0, 'desc' ]],
-			"searching" : false,
-			ajax: {
-				type: "post",
-				url: `${API.BASE_URL}/getMyOrderList/`,
-				// url: `${API.BASE_URL}/getMyTradingList/`,
-				// dataSrc: 'payload.data',
-				data:  function ( d ) {
-					d.token = getCookie('token');
-					d.symbol = $('[name=symbol]:visible').dropdown('selected');
-					d.exchange = 'KRW';
-					d.return_type = 'datatable';
-					d.status = 'all';
-					d.start_date = $('[name="start"]').val();
-					d.end_date = $('[name="end"]').val();
-					d.trading_type = selected_category
-				},
-
-			},
-
-			"language": {
-				"emptyTable": "데이터가 없음.",
-				"lengthMenu": "페이지당 _MENU_ 개씩 보기",
-				"info": "현재 _START_ - _END_ / _TOTAL_건",
-				"infoEmpty": "",
-				"infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
-				"search": "검색: ",
-				"zeroRecords": "일치하는 데이터가 없음",
-				"loadingRecords": "로딩중...",
-				"processing": '잠시만 기다려 주세요.',
-				"paginate": {
-					"next": "다음",
-					"previous": "이전"
-				}
-			},
-			columns : [
-				{data: 'time_traded', render: (time_traded) => {return date('Y-m-d H:i', time_traded) ;}},  // 체결시간
-				{
-					data: 'currency_name' //, render: (data, type, row) => {return `<span class="product&#45;&#45;image"><img src="${wallet_icon_url}" alt=""></span>${data}`}
-					, orderable: false,
-				},  // 상품명
-				{data: 'goods_grade'},  // 등급
-				// {data: 'production_date', render: (production_date) => {return production_date;}},  // 생산년도
-				{data: 'trading_type_str', render: (trading_type_str, type, row, meta) => {return trading_type_str;}},  // 거래종류
-				{data: 'status', render: (status, type, row, meta) => {
-						// '매매 상태. O: 대기중, C: 완료, T: 매매중, D: 삭제(취소)'
-						let status_str = ""
-						if (status == "O") {
-							status_str = "대기중"
-						} else if (status == "C") {
-							status_str = "완료"
-						} else if (status == "T") {
-							status_str = "매매중"
-						} else if (status == "D") {
-							status_str = "취소"
-						}
-					if (row.status == 'O' || row.status == 'T' && row.volume_remain > 0) {
-							// status_str + 버튼
-							status_str = `<button type="button" class="btn btn--cancal" name="order_cancal" data-symbol="${row.symbol}" data-order_id="${row.orderid}" data-goods_grade="${row.goods_grade}"  >취소</button>`;
-						}
-						return status_str;
+			let first_dropdown_value = '';
+			for(i in wallet_symbols) {
+				row = wallet_symbols[i];
+				console.log(i, row);
+				if (row.symbol.length >= 10) {
+					if(!first_dropdown_value) {
+						first_dropdown_value = row.symbol;
 					}
-				},  // 거래종류
-				{data: 'volume', render: (volume) => {return real_number_format(volume);}},  // 거래수량
-				{data: 'price', render: (price) => {return real_number_format(price);}},  // 거래단가
-				{data: 'amount', render: (amount) => {return real_number_format(amount);}},  // 거래금액
-				{data: 'fee', render: (fee) => {return real_number_format(fee);}},  // 수수료
-				{data: 'settl_price', render: (settl_price) => {return real_number_format(settl_price);}},  // 정산금액
-			],
-			columnDefs: [
-				{searchable: false,orderable: true,targets: 0, "responsivePriority": 1,},  // 체결시간
-				{targets: 1,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 상품명
-				{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 등급
-				// {targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 생산년도
-				{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1},   // 거래종류
-				{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
-				{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
-				{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
-				{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
-				{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
-				{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
-			],
-			"order": [ [0, 'desc'] ]
-		})
-
-		$('[name="btn-search"]').on('click', function() {
-			selected_symbol = $('[name=symbol]:visible').dropdown('selected');
-			category = '';
-			sdate = $('[name="start"]').val();
-			edate = $('[name="etart"]').val();
-			transactionGrid.ajax.reload(null, !!'reset page');
-		});
-		$('[name="btn-search2"]').on('click', function() {
-			selected_symbol = $('[name=symbol]:visible').dropdown('selected');
-			category = '';
-			sdate = $('[name="start"]').val();
-			edate = $('[name="etart"]').val();
-			transactionGrid.ajax.reload(null, !!'reset page');
-		});
-		$('[name="btn-reload"]').on('click', function() {
-			transactionGrid.ajax.reload(null, !!'reset page');
-		});
-
-		$('[name="m_dropdown"]').on('click', 'button', (e) => {
-			e.preventDefault()
-			let selected_text = $(e.target).text();
-			if (selected_text) {
-				$('[name="m_category_label"]').text(selected_text);
-				selected_category = $(e.target).data('category')
-				transactionGrid.ajax.reload(null, !!'reset page');
+					// $('#symbol').dropdown('add', { value: i.symbol, text: i.name })
+					// let goods_grade = i.goods_grade ? i.goods_grade + '등급' : '';
+					$('[name="symbol"]').dropdown('add', { value: row.symbol, text: row.name })
+				}
 			}
+			$('[name="symbol"]').dropdown('select', first_dropdown_value)
 
-		})
 
-		$(document).on('click', ".btn--cancal", function() {
-			// alert($(this).data('order_id'));
-			add_request_item('cancel', {'symbol':$(this).data('symbol'), 'orderid':$(this).data('order_id'),  'goods_grade':$(this).data('goods_grade') }, function(r) {
-				if(r && r.success) {
-					transactionGrid.ajax.reload(null, false);
+			let selected_symbol = $('[name=symbol]:visible').dropdown('selected');
+			let selected_category = '';
+			let wallet = Model.user_wallet[selected_symbol];
+			let wallet_icon_url = wallet?.icon_url;
+			let wallet_name = wallet?.name;
+
+			$('[name=symbol]').on('change', function () {
+				console.log('detect changed')
+				if ($(this).is(':visible')) {
+					selected_symbol = $(this).dropdown('selected');
+					wallet = Model.user_wallet[selected_symbol];
+					wallet_icon_url = wallet?.icon_url;
+					wallet_name = wallet?.name;
 				}
 			});
-		})
+
+			const transactionGrid = $('#transactionGrid').DataTable({
+				"lengthChange": false,
+				"responsive": true,
+				"processing": true,
+				"serverSide": true,
+				'pageLength': 10 ,
+				"order": [[ 0, 'desc' ]],
+				"searching" : false,
+				ajax: {
+					type: "post",
+					url: `${API.BASE_URL}/getMyOrderList/`,
+					// url: `${API.BASE_URL}/getMyTradingList/`,
+					// dataSrc: 'payload.data',
+					data:  function ( d ) {
+						d.token = getCookie('token');
+						d.symbol = $('[name=symbol]:visible').dropdown('selected');
+						d.exchange = 'KRW';
+						d.return_type = 'datatable';
+						d.status = 'all';
+						d.start_date = $('[name="start"]').val();
+						d.end_date = $('[name="end"]').val();
+						d.trading_type = selected_category
+					},
+
+				},
+
+				"language": {
+					"emptyTable": "데이터가 없음.",
+					"lengthMenu": "페이지당 _MENU_ 개씩 보기",
+					"info": "현재 _START_ - _END_ / _TOTAL_건",
+					"infoEmpty": "",
+					"infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+					"search": "검색: ",
+					"zeroRecords": "일치하는 데이터가 없음",
+					"loadingRecords": "로딩중...",
+					"processing": '잠시만 기다려 주세요.',
+					"paginate": {
+						"next": "다음",
+						"previous": "이전"
+					}
+				},
+				columns : [
+					{data: 'time_traded', render: (time_traded) => {return date('Y-m-d H:i', time_traded) ;}},  // 체결시간
+					{
+						data: 'currency_name' //, render: (data, type, row) => {return `<span class="product&#45;&#45;image"><img src="${wallet_icon_url}" alt=""></span>${data}`}
+						, orderable: false,
+					},  // 상품명
+					{data: 'goods_grade'},  // 등급
+					// {data: 'production_date', render: (production_date) => {return production_date;}},  // 생산년도
+					{data: 'trading_type_str', render: (trading_type_str, type, row, meta) => {return trading_type_str;}},  // 거래종류
+					{data: 'status', render: (status, type, row, meta) => {
+							// '매매 상태. O: 대기중, C: 완료, T: 매매중, D: 삭제(취소)'
+							let status_str = ""
+							if (status == "O") {
+								status_str = "대기중"
+							} else if (status == "C") {
+								status_str = "완료"
+							} else if (status == "T") {
+								status_str = "매매중"
+							} else if (status == "D") {
+								status_str = "취소"
+							}
+							if (row.status == 'O' || row.status == 'T' && row.volume_remain > 0) {
+								// status_str + 버튼
+								status_str = `<button type="button" class="btn btn--cancal" name="order_cancal" data-symbol="${row.symbol}" data-order_id="${row.orderid}" data-goods_grade="${row.goods_grade}"  >취소</button>`;
+							}
+							return status_str;
+						}
+					},  // 거래종류
+					{data: 'volume', render: (volume) => {return real_number_format(volume);}},  // 거래수량
+					{data: 'price', render: (price) => {return real_number_format(price);}},  // 거래단가
+					{data: 'amount', render: (amount) => {return real_number_format(amount);}},  // 거래금액
+					{data: 'fee', render: (fee) => {return real_number_format(fee);}},  // 수수료
+					{data: 'settl_price', render: (settl_price) => {return real_number_format(settl_price);}},  // 정산금액
+				],
+				columnDefs: [
+					{searchable: false,orderable: true,targets: 0, "responsivePriority": 1,},  // 체결시간
+					{targets: 1,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 상품명
+					{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 등급
+					// {targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 생산년도
+					{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1},   // 거래종류
+					{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
+					{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
+					{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
+					{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
+					{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
+					{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
+				],
+				"order": [ [0, 'desc'] ]
+			})
+
+			$('[name="btn-search"]').on('click', function() {
+				selected_symbol = $('[name=symbol]:visible').dropdown('selected');
+				category = '';
+				sdate = $('[name="start"]').val();
+				edate = $('[name="etart"]').val();
+				transactionGrid.ajax.reload(null, !!'reset page');
+			});
+			$('[name="btn-search2"]').on('click', function() {
+				selected_symbol = $('[name=symbol]:visible').dropdown('selected');
+				category = '';
+				sdate = $('[name="start"]').val();
+				edate = $('[name="etart"]').val();
+				transactionGrid.ajax.reload(null, !!'reset page');
+			});
+			$('[name="btn-reload"]').on('click', function() {
+				transactionGrid.ajax.reload(null, !!'reset page');
+			});
+
+			$('[name="m_dropdown"]').on('click', 'button', (e) => {
+				e.preventDefault()
+				let selected_text = $(e.target).text();
+				if (selected_text) {
+					$('[name="m_category_label"]').text(selected_text);
+					selected_category = $(e.target).data('category')
+					transactionGrid.ajax.reload(null, !!'reset page');
+				}
+
+			})
+
+			$(document).on('click', ".btn--cancal", function() {
+				// alert($(this).data('order_id'));
+				add_request_item('cancel', {'symbol':$(this).data('symbol'), 'orderid':$(this).data('order_id'),  'goods_grade':$(this).data('goods_grade') }, function(r) {
+					if(r && r.success) {
+						transactionGrid.ajax.reload(null, false);
+					}
+				});
+			})
+		}
+
 	}
 
 
