@@ -4,9 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="핀번호 찾아 변경하기">
+    <list default="true" id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="거래내역 지갑이 없을 경우 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/js/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/js/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/js/exchange.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/js/exchange.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/change-account-number.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/change-account-number.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/change-pin-number.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/change-pin-number.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/member-account.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/member-account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/my-verification-complete.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/my-verification-complete.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/my-verification.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/my-verification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/notification.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/notification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/withdrawal.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/withdrawal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/change-account-number.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/change-account-number.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/change-pin-number.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/change-pin-number.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/member-account.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/member-account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/my-verification-complete.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/my-verification-complete.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/my-verification.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/my-verification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/notice.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/notice.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,20 +46,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/simtaejin/Codes/kkikda2/kkikda2_www&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/simtaejin/Codes/kkikda2/kkikda2_www",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -79,7 +94,7 @@
       <workItem from="1671080616310" duration="8611000" />
       <workItem from="1671512961553" duration="8000" />
       <workItem from="1671513781910" duration="7394000" />
-      <workItem from="1671586530139" duration="19865000" />
+      <workItem from="1671586530139" duration="39013000" />
     </task>
     <task id="LOCAL-00001" summary="build">
       <created>1667886141115</created>
@@ -256,7 +271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671611230132</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="거래내역 지갑이 없을 경우 수정">
+      <created>1671672226701</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1671672226701</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -303,6 +325,11 @@
     <MESSAGE value="출금 정보 수정" />
     <MESSAGE value="핀 번호 재설정" />
     <MESSAGE value="핀번호 찾아 변경하기" />
-    <option name="LAST_COMMIT_MESSAGE" value="핀번호 찾아 변경하기" />
+    <MESSAGE value="거래내역 지갑이 없을 경우 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="거래내역 지갑이 없을 경우 수정" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

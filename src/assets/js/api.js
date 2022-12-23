@@ -798,7 +798,28 @@ const API = {
                 }
             }
         })
+    },
+
+    orderCancel: (symbol, orderid, goods_grade, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/cancel/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                symbol: symbol,
+                orderid: orderid,
+                goods_grade: goods_grade,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
     }
+
+
 }
 
 if(!window.localStorage.token) {
