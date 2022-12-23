@@ -592,16 +592,8 @@ $(function() {
 				const volume_remain = d.volume_remain
 				const orderid = d.orderid
 				const goods_grade = d.goods_grade
-                console.log(d.userno)
-                let btn = '';
+				return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct-pin" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
 
-                if (Model.user_info.userno == d.userno) {
-                   btn = '<button type="button" class="btn btn--rounded btn--cancal" data-symbol="' + SELECTED_SYMBOL + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px" >'+__('취소')+'</button>'
-                } else {
-                   btn = '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
-                }
-
-                return btn
             } },
         ],
         columnDefs: [
@@ -748,14 +740,7 @@ $(function() {
                 const volume_remain = d.volume_remain
                 const orderid = d.orderid
                 const goods_grade = d.goods_grade
-
-                let btn = '';
-                if (Model.user_info.userno == d.userno) {
-                    btn = '<button type="button" class="btn btn--rounded btn--cancal" data-symbol="' + SELECTED_SYMBOL + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px" >'+__('취소')+'</button>'
-                } else {
-                    btn = '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
-                }
-                return btn
+                return '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct-pin" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
             } },
         ],
         columnDefs: [
@@ -1444,7 +1429,7 @@ $(function() {
         let cnt_sellable = USER_WALLET[gen_user_wallet_key(SELECTED_SYMBOL, goods_grade)]?.confirmed || 0;
         $('#modal-sell').find('.tea--available').text('' + real_number_format(cnt_sellable) + ' ')
     })
-
+    
     
     $('#scan')
         .myModal('beforeClose', _e => {
