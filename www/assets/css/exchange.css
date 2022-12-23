@@ -478,3 +478,37 @@ div.dts div.dataTables_scrollBody {
 		overflow: auto;
 	}
 }
+
+#modal-sell-pin .modal--content,
+#modal-buy-pin .modal--content,
+#modal-buy-direct-pin .modal--content,
+#modal-sell-direct-pin .modal--content{
+	height: calc(100% - 60px);
+}
+
+#modal-sell-pin .margin,
+#modal-buy-pin .margin,
+#modal-buy-direct-pin .margin,
+#modal-sell-direct-pin .margin{
+	margin: 100px 0;
+}
+
+#modal-sell-pin input[type=number],
+#modal-buy-pin input[type=number],
+#modal-buy-direct-pin input[type=number],
+#modal-sell-direct-pin input[type=number] {
+    -webkit-text-security: disc;
+}
+#modal-sell-pin .text--center,
+#modal-buy-pin .text--center,
+#modal-buy-direct-pin .text--center,
+#modal-sell-direct-pin .text--center{
+	margin-top: 80px;
+}
+
+#modal-sell-pin .text--center .btn,
+#modal-buy-pin .text--center .btn,
+#modal-buy-direct-pin .text--center .btn,
+#modal-sell-direct-pin .text--center .btn{
+	width: 80%;
+}
