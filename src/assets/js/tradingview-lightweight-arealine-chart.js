@@ -9,14 +9,19 @@
 ; (function ($) {
 
   const getData = async (symbol, exchange, period, cnt) => {
-    datatype = symbol ? 'stock' : 'total_volume'; // 종목코드가 있으면 종목의 차트데이터를 가져오고 종목 코드 없으면 전체 거래량을 가져옵니다.
+    datatype = symbol ? 'stock' : 'total_volume'; // 종목코드가 있으면 종목의 차트데이터를 가져오고 종목 코드 없으면 끽다 지수 값을 가져옵니다.
 
     // http://api.loc.kkikda.com/v1.0/getChartData/?symbol=GCA18KTDKK
+    // http://api.loc.kkikda.com/v1.0/getTradeIndex/?code=kkikda
     var xmlHttp = new XMLHttpRequest();
-    if (datatype==='total_volume') {
-      xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartDataTotalVolume/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period + '&cnt=' + cnt, false); // false for synchronous request
-    } else {
-      xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period + '&cnt=' + cnt, false); // false for synchronous request
+    switch (datatype) {
+      case 'total_volume':
+        xmlHttp.open("GET", '//api.' + (window.location.host.replace('www.', '')) + '/v1.0/getTradeIndex/?code=kkikda&cnt=' + cnt, false); // false for kkikda index(끽다 지수)
+        // xmlHttp.open("GET", '//api.' + (window.location.host.replace('www.', '')) + '/v1.0/getChartDataTotalVolume/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period + '&cnt=' + cnt, false); // false for synchronous request
+        break;
+      default:
+        xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period + '&cnt=' + cnt, false); // false for synchronous request
+        break;
     }
     xmlHttp.send(null);
     let json = xmlHttp.responseText;
@@ -29,7 +34,7 @@
           return row;
         }).map((row) => {
           if (datatype === 'total_volume') {
-            [date, volume] = row.split('\t');
+            [date, code, volume] = row.split('\t');
           } else {
             [date, open, high, low, close, volume, symbol] = row.split('\t');
           }
