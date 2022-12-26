@@ -1,21 +1,3 @@
-.sub.wallet .modal.modal--middle .modal--dialog{
-	background: var(--white);
-	width: calc(100% * (720 / 1440));
-	height: calc(100% - 250px);
-}
-
-.sub.wallet .modal--content{
-	height: calc(100% - 60px);
-	overflow-y: scroll;
-	padding-top: 2rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    position: relative;
-    /* background: url(../img/logo.svg) no-repeat calc(100% - 20px) top; */
-}
-
-
-
 /* wallet 보유자산 */
 @media screen and (max-width:1440px) {
 	.sub.wallet main{

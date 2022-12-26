@@ -27,24 +27,26 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1666845393">
-<link rel="stylesheet" href="./assets/css/header.css?t=1668050247">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
-<link rel="stylesheet" href="./assets/css/components.css?t=1670501426">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1667450534">
-<link rel="stylesheet" href="./assets/css/wallet.css?t=1670485122">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
+<link rel="stylesheet" href="./assets/css/common.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/header.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1671779306">
+<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1671513804">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1671513804">
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1670315205"></script>
-<script src="./assets/js/api.js?t=1668057319"></script>
-<script src="./assets/js/components.js?t=1670501028"></script>
+<script src="https://unpkg.com/libphonenumber-js@1.10.11/bundle/libphonenumber-min.js"></script>
+<script src="./assets/js/jquery.autotab.js?t=1667796157"></script>
+<script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/api.js?t=1671775853"></script>
+<script src="./assets/js/components.js?t=1670805066"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
-<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1665030514"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+<script src="./i18n/i18n.js?t=1667796157"></script>
 
 </head>
 <body class="sub deposit deposit-withdrawal">
@@ -76,7 +78,7 @@
 							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
 							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
 							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-login data-i18n>거래 내역</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
 							<li><a href="notification.html" data-login data-i18n>알림</a></li>
 						</ul>
 					</div>
@@ -182,6 +184,9 @@
 							<a href="wallet.html" data-login data-i18n>내 지갑</a>
 						</li>
 						<li>
+							<a href="transaction.html" data-login data-i18n>주문 및 거래내역</a>
+						</li>
+						<li>
 							<a href="wallet-deposit.html" data-login data-i18n>입금</a>
 						</li>
 						<li class="snb--active">
@@ -255,7 +260,7 @@
 							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 가능금액</label>
 							<div class="input bg--lightgray b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group bg--lightgray">
-									<input type="text" id="tradable" name="tradable" value="0" disabled readonly class="bg--none b--none text-right text-black" data-bind="user_wallet.KRW.tradable" data-format="comma">
+									<input type="text" id="tradable" name="tradable" value="0" disabled readonly class="bg--none b--none text-right text-black" data-bind="user_wallet.KRW/A.tradable" data-format="comma">
 									<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 								</div>
 							</div>
@@ -296,13 +301,14 @@
 								</div>
 							</div>
 						</div>
-						<div class="form--controls" style="margin-bottom: 10px">
+						<!-- <div class="form--controls" style="margin-bottom: 10px">
 							<label for="pin" class="form--label" style="margin-bottom: 7px" data-i18n>보안비밀번호</label>
 							<div class="input--group">
-								<input type="password" id="pin" name="pin" value="" class="text--blue-gray" placeholder="보안비밀번호 입력">
+								<input type="hidden" id="pin" name="pin" value="" class="text--blue-gray" placeholder="보안비밀번호 입력" readonly />
+								<button type="button" class="pin_btn" name="pin_btn">보안 비밀번호 입력하기</button>
 							</div>
 							<p class="text--blue-gray" data-i18n>보안비밀번호는 마이페이지 &gt; <a href="change-pin-number.html" data-login>보안비밀번호 변경</a>에서 바꾸실수 있습니다.</p>
-						</div>
+						</div> -->
 						<div class="form--controls input--box">
 							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 주소</label>
 							
@@ -344,7 +350,40 @@
 		</ul>
 	</nav>
 
-    <script src="./assets/js/app.js?t=1670506167"></script>
+	<form id="pin_number" class="modal modal--tiny" tabindex="-1">
+		<div class="modal--dialog">
+			<div class="modal--header">
+				<button type="button" class="btn btn--close"></button>
+			</div>
+			<div class="modal--content">
+				<div class="title">
+					<h3>출금신청</h3>
+					<p>PIN 번호를 입력해주세요</p>
+				</div>
+				<div class="pin_area">
+					<div class="d-flex flex-center">
+						<div class="d-grid  grid--code">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus>
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+						</div>
+					</div>
+					<p class="forget_pin text--blue-gray" data-i18n>
+						보안비밀번호는 마이페이지 &gt; 	
+						<a href="change-pin-number.html" data-login>보안비밀번호 변경</a>에서 바꾸실수 있습니다.
+					</p>
+					<div class="text--center">
+						<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+    <script src="./assets/js/app.js?t=1671673634"></script>
 
 </body>
 </html>

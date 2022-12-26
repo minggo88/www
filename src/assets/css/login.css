@@ -320,7 +320,18 @@ main {
 	margin-bottom: 8px;
 }
 
+.login.forget .mt-52{
+	margin-top: 52px;
+}
+
+.login.forget input[type=number] {
+    -webkit-text-security: disc;
+}
+
 @media screen and (max-width: 800px) {
+	.login.forget .mobile-only{
+		display: block;
+	}
 	.login.forget > header{
 		display: none;
 	}
@@ -352,7 +363,7 @@ main {
 	}
 
 	.forget form .form--header{
-		display: flex;
+		display: flex!important;
 		line-height: 60px; 
 		padding-left: 0;
 		margin-bottom: 20px;
@@ -362,6 +373,7 @@ main {
 	.forget form .form--header h1{
 		background: none;
 		margin-left: 10px;
+		font-size: 20px;
 	}
 
 	.forget .navigation--back{height: 60px;}
@@ -378,6 +390,25 @@ main {
 		margin-bottom: 20px;
 	}
 
+	.login.forget .mt-52{
+		margin-top: 0;
+	}
+
+	.login.forget form .grid--code{
+		margin-top: 50px;
+		margin-bottom: 50px;
+	}
+
+	.login.forget form .boxed--transparent{
+		padding: 0!important;
+	}
+
+	.login.forget form .btn,
+	.login.forget .password-complete .btn{
+		position: static;
+		transform: initial;
+	}
+
 }
 
 @media screen and (max-width: 600px) {
@@ -388,6 +419,13 @@ main {
 	.create-account form .form--header + p{
 		word-break: keep-all;
 		font-size: 14px;
+	}
+}
+
+@media screen and (max-width: 380px) {
+	.login.forget form .btn,
+	.login.forget .password-complete .btn{
+		width: 90%!important;
 	}
 }
 

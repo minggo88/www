@@ -235,6 +235,28 @@ const API = {
         })
     },
     /**
+     * 비밀번호 찾기
+     * @param {*} address
+     * @param {*} callback
+     */
+    findPinNumber: (address, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/findinfo/findpinnumber.php`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                address: address,
+                address_type: 'email',
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
      * 토큰생성
      * @param {*} callback 
      */
@@ -776,7 +798,28 @@ const API = {
                 }
             }
         })
+    },
+
+    orderCancel: (symbol, orderid, goods_grade, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/cancel/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                symbol: symbol,
+                orderid: orderid,
+                goods_grade: goods_grade,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
     }
+
+
 }
 
 if(!window.localStorage.token) {
