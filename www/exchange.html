@@ -27,30 +27,32 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" >
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;350;400;500;700;900&display=swap">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1666845393" />
-<link rel="stylesheet" href="./assets/css/header.css?t=1668050247">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1665623327">
-<link rel="stylesheet" href="./assets/css/components.css?t=1670501426">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1667450534">
-<link rel="stylesheet" href="./assets/css/exchange.css?t=1670501426">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
+<link rel="stylesheet" href="./assets/css/common.css?t=1667796157" />
+<link rel="stylesheet" href="./assets/css/header.css?t=1667796157">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1671779306">
+<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1671513804">
+<link rel="stylesheet" href="./assets/css/exchange.css?t=1671779306">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css"/>
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1670315205"></script>
-<script src="./assets/js/api.js?t=1668057319"></script>
-<script src="./assets/js/components.js?t=1670501028" defer></script>
+<script src="https://unpkg.com/libphonenumber-js@1.10.11/bundle/libphonenumber-min.js"></script>
+<script src="./assets/js/jquery.autotab.js?t=1667796157"></script>
+<script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/api.js?t=1671775853"></script>
+<script src="./assets/js/components.js?t=1670805066" defer></script>
 <script src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
-<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1665030514"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+<script src="./i18n/i18n.js?t=1667796157"></script>
 
 </head>
 <!-- BODY -->
@@ -84,7 +86,7 @@
 								<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
 								<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
 								<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
-								<li><a href="transaction.html" data-login data-i18n>거래 내역</a></li>
+								<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
 								<li><a href="notification.html" data-login data-i18n>알림</a></li>
 							</ul>
 						</div>
@@ -357,7 +359,7 @@
 									</tbody>
 								</table>
 								<div class="text--right" style="margin-top: 20px">
-									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy" data-i18n>구매 등록</a>
+									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy-pin" data-i18n>구매 등록</a>
 								</div>
 							</div>
 							<div class="tab-content" id="tab-sell"  style="display: block">
@@ -378,50 +380,55 @@
 									<tbody>
 									</tbody>
 								</table>
+
 								<div class="text--right" style="margin-top: 20px">
-									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell" data-i18n>판매 등록</a>
+									<a href="/transaction.html" class="btn btn--white" data-i18n>거래 내역</a>
+									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell-pin" data-i18n>판매 등록</a>
 								</div>
 							</div>
 							<div class="tab-content" id="tab-info" style="display: none">
-								<img src="./assets/img/dummy/정보.png" alt="">
-								<div>
-									<table class="table">
-										<tr>
-											<th data-i18n>구분</th>
-											<td data-i18n name="meta_division"></td>
-										</tr>
-										<tr>
-											<th data-i18n>타입</th>
-											<td data-i18n name="meta_type"></td>
-										</tr>
-										<tr>
-											<th data-i18n>생산</th>
-											<td>
-												<span name="meta_produce"></span>
-											</td>
-										</tr>
-										<tr>
-											<th data-i18n>인증</th>
-											<td>
-												<div name="meta_certification_mark_name"></div>
-												<!--<div class="d-flex" style="column-gap: 10px">
-													<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
-													<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
-													<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
-												</div>-->
-											</td>
-										</tr>
-										<tr>
-											<th data-i18n>차 소개</th>
-											<td>
-												<div style="height: 90px" name="meta_wp_teamaster_note"></div>
-											</td>
-										</tr>
-									</table>
-									<div class="btns">
-										<!-- <button type="button" class="btn btn--white" data-toggle="modal" data-target="#scan" data-i18n>입체스캔</button> -->
-										<button type="button" class="btn btn--white" data-toggle="modal" data-target="#white-paper" data-i18n>백서</button>
+								<div class="info">
+									<div class="thumb">
+										<img src="./assets/img/dummy/정보.png" alt="">
 									</div>
+									<div>
+										<table class="table">
+											<tr>
+												<th data-i18n>구분</th>
+												<td data-i18n name="meta_division"></td>
+											</tr>
+											<tr>
+												<th data-i18n>타입</th>
+												<td data-i18n name="meta_type"></td>
+											</tr>
+											<tr>
+												<th data-i18n>생산</th>
+												<td>
+													<span name="meta_produce"></span>
+												</td>
+											</tr>
+											<tr>
+												<th data-i18n>인증</th>
+												<td>
+													<div name="meta_certification_mark_name"></div>
+													<!--<div class="d-flex" style="column-gap: 10px">
+														<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
+														<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
+														<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
+													</div>-->
+												</td>
+											</tr>
+											<tr>
+												<th data-i18n>차 소개</th>
+												<td>
+													<div style="height: 90px" name="meta_wp_teamaster_note"></div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+								<div class="btns">
+									<button type="button" class="btn btn--white" data-toggle="modal" data-target="#white-paper" data-i18n>백서</button>
 								</div>
 							</div>
 						</div>
@@ -509,6 +516,32 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- 구매등록Pin -->
+		<form id="modal-buy-pin" class="modal modal--tiny form-order" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<span data-i18n>핀번호 입력하기</span>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="margin">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+					</div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+				</div>
+			</div>
+		</form>
+		<!-- 구매등록Btn -->
 		<form id="modal-buy" class="modal modal--tiny form-order" tabindex="-1">
 			<input type="hidden" name="symbol" value="">
 			<input type="hidden" name="exchange" value="">
@@ -571,6 +604,32 @@
 				</div>
 			</div>
 		</form>
+
+		<!-- 구매 거래버튼 Pin -->
+		<form id="modal-buy-direct-pin" class="modal modal--tiny form-order" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<span data-i18n>핀번호 입력하기</span>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="margin">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+					</div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+				</div>
+			</div>
+		</form>
+		<!-- 구매 거래버튼 -->
         <form id="modal-buy-direct" class="modal modal--tiny form-order" tabindex="-1">
             <input type="hidden" name="symbol" value="">
             <input type="hidden" name="exchange" value="">
@@ -630,8 +689,34 @@
                 </div>
             </div>
         </form>
-		
-		<form id="modal-sell" class="modal modal--tiny form-order">
+
+
+		<!-- 판매등록Pin -->
+		<form id="modal-sell-pin" class="modal modal--tiny form-order" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<span data-i18n>핀번호 입력하기</span>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="margin">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+					</div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+				</div>
+			</div>
+		</form>
+		<!-- 판매등록Btn -->
+		<form id="modal-sell" class="modal modal--tiny form-order" tabindex="-1">
 			<input type="hidden" name="symbol" value="">
 			<input type="hidden" name="exchange" value="">
 			<div class="modal--dialog">
@@ -692,6 +777,32 @@
 				</div>
 			</div>
 		</form>
+
+		<!-- 판매 거래버튼 Pin -->
+		<form id="modal-sell-direct-pin" class="modal modal--tiny form-order" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<span data-i18n>핀번호 입력하기</span>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="margin">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+					</div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+				</div>
+			</div>
+		</form>
+		<!-- 판매 거래버튼 -->
         <form id="modal-sell-direct" class="modal modal--tiny form-order" tabindex="-1">
             <input type="hidden" name="symbol" value="">
             <input type="hidden" name="exchange" value="">
@@ -772,12 +883,12 @@
 						<button type="button" class="btn btn--close"></button>
 					</div>
 					<div class="modal--body">
-						<div style="padding: 0 33px 0 52px"><i class="btn btn--star--on"></i> <span class="text--bbold tea--name" style="font-size: 18px">-</span></div>
-						<div class="d-grid grid-2-column" style="column-gap: 48px; padding: 0 33px 0 52px">
+						<div style="padding: 15px 33px 15px 52px"><i class="btn btn--star--on"></i> <span class="text--bbold tea--name" style="font-size: 18px">-</span></div>
+						<div class="d-grid grid-2-column" style="column-gap: 48px; padding: 0 33px 20px 52px">
 							<div class="column">
 								<dl>
 									<dt data-i18n>분류</dt>
-									<dd style="width: 394px">
+									<dd>
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_class" value="" readonly class="text--left">
 										</div>
@@ -785,7 +896,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>원산지</dt>
-									<dd style="width: 394px">
+									<dd>
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_origin" value="" readonly class="text--left">
 										</div>
@@ -793,7 +904,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>생산자</dt>
-									<dd style="width: 394px">
+									<dd>
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_producer" value="생산자" readonly class="text--left">
 										</div>
@@ -801,7 +912,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>생산년도</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_production_date" value="생산년도" readonly class="text--left">
 										</div>
@@ -809,7 +920,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>중량</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_weight" value="생산자" readonly class="text--left">
 										</div>
@@ -817,13 +928,13 @@
 								</dl>
 								<dl>
 									<dt data-i18n>맛</dt>
-									<dd style="width: 394px">
-										<div name="meta_wp_taste" class="textarea flex-left" style="height: 150px"></div>
+									<dd  >
+										<div name="meta_wp_taste" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>향</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_scent" value="" readonly class="text--left">
 										</div>
@@ -831,7 +942,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>품종</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_kind" value="" readonly class="text--left">
 										</div>
@@ -839,7 +950,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>차수령</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_second_order" value="" readonly class="text--left">
 										</div>
@@ -847,7 +958,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>가격동향</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_price_trend" value="" readonly class="text--left">
 										</div>
@@ -855,7 +966,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>가치성</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_valueability" value="" readonly class="text--left">
 										</div>
@@ -863,7 +974,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>희소성</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_scarcity" value="" readonly class="text--left">
 										</div>
@@ -871,7 +982,7 @@
 								</dl>
 								<dl>
 									<dt data-i18n>대중성</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_popular" value="" readonly class="text--left">
 										</div>
@@ -881,7 +992,7 @@
 							<div class="column">
 								<dl>
 									<dt data-i18n>마시는 방법</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div name="meta_wp_drink_method" class="textarea flex-left" name="meta_wp_drink_method">
 											마시는 방법
 										</div>
@@ -889,31 +1000,31 @@
 								</dl>
 								<dl>
 									<dt data-i18n>보관방법/유통기한</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div name="meta_wp_keep_method" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>스토리</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div name="meta_wp_story" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>티마스터 품평</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div name="meta_wp_teamaster_note" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>생산자 노트</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div name="meta_wp_producer_note" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>평점</dt>
-									<dd style="width: 394px">
+									<dd  >
 										<div name="meta_wp_grade" class="textarea flex-left" style="height: 64px"></div>
 									</dd>
 								</dl>
@@ -1016,7 +1127,7 @@
 			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 		</div>
 	</footer> -->
-	<script src="./assets/js/exchange.js?t=1670480379" defer></script>
-    <script src="./assets/js/app.js?t=1670506167"></script>
+	<script src="./assets/js/exchange.js?t=1671780029" defer></script>
+    <script src="./assets/js/app.js?t=1671673634"></script>
 </body>
 </html>

@@ -1263,6 +1263,68 @@
 .sub.changePin input[type=number] {
     -webkit-text-security: disc;
 }
+.sub.changePin .forget_pin{
+	/* max-width: 340px;
+	width: 100%;
+	margin: 50px auto 0; */
+	width: fit-content;
+	display: flex;
+	flex-direction: column;
+	margin: 50px auto 0;
+}
+
+.sub.changePin .forget_pin p{
+	margin: 0;
+	display: flex;
+	justify-content: flex-end;
+
+}
+
+#forget-security-password .form--pin-reset{
+	margin-top: 52px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	row-gap: 15px;
+}
+
+#forget-security-password .form--pin-reset > div{
+	max-width: 450px;
+	width: 100%;
+}
+
+#forget-security-password .form--pin-reset .form--label{
+	width: 75px;
+	flex-basis: 75px;
+	height: 44px;
+	line-height: 44px;
+	margin-bottom: 0;
+	text-align: left;
+}
+#forget-security-password .form--pin-reset input[type=text]{
+	height: 44px;
+	line-height: 44px;
+	padding-left: 11px;
+}
+
+#forget-security-password .form--pin-reset .d-flex .d-flex{
+	/* column-gap: 5px; */
+	justify-content: space-between;
+	width: calc(100% - 75px);
+}
+#forget-security-password .form--pin-reset .d-flex .d-flex input{
+	width: calc(100% - 205px);
+	padding-left: 11px;
+}
+
+#forget-security-password .form--pin-reset .d-flex .d-flex.input_certify_number input{
+	width: calc(100% - 125px);
+}
+
+#forget-security-password .form--pin-reset .d-flex .d-flex .btn{
+	width: 120px;
+}
 
 @media screen and (max-width: 800px){
 	.sub.changePin main{
@@ -1769,9 +1831,9 @@
 
 	.sub.notice.inquiry > header{display: none;}
 
-    .sub form {
+    /* .sub form {
         height: auto;
-    }
+    } */
     .forget main {
 		align-items: center;
     }
