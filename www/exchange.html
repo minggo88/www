@@ -1,63 +1,68 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<!-- META -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="title" content="Teaplat">
-<meta name="description" content="">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://assettea.com">
-<meta property="og:title" content="Teaplat">
-<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
-<meta property="og:description" content="">
-<meta property="og:site_name" content="Teaplat">
-<meta property="og:locale" content="ko_KR">
-<meta property="og:image:width" content="200">
-<meta property="og:image:height" content="100">
-<title>Teaplat</title>
-<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
-<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
-<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
-<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
-<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
-<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://code.jquery.com">
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" >
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;350;400;500;700;900&display=swap">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
-<link rel="stylesheet" href="./assets/css/common.css?t=1667796157" />
-<link rel="stylesheet" href="./assets/css/header.css?t=1667796157">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1671779306">
-<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1671513804">
-<link rel="stylesheet" href="./assets/css/exchange.css?t=1671779306">
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css"/>
-<!-- JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="https://unpkg.com/libphonenumber-js@1.10.11/bundle/libphonenumber-min.js"></script>
-<script src="./assets/js/jquery.autotab.js?t=1667796157"></script>
-<script src="./assets/js/common.js?t=1670369703"></script>
-<script src="./assets/js/api.js?t=1671775853"></script>
-<script src="./assets/js/components.js?t=1670805066" defer></script>
-<script src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
-<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
-<script src="./i18n/i18n.js?t=1667796157"></script>
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="title" content="Teaplat">
+	<meta name="description" content="">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://assettea.com">
+	<meta property="og:title" content="Teaplat">
+	<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
+	<meta property="og:description" content="">
+	<meta property="og:site_name" content="Teaplat">
+	<meta property="og:locale" content="ko_KR">
+	<meta property="og:image:width" content="200">
+	<meta property="og:image:height" content="100">
+	<title>Teaplat</title>
+	<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+	<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+	<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+	<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+	<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+	<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://code.jquery.com">
+	<link rel="preconnect" href="https://cdn.jsdelivr.net">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;350;400;500;700;900&display=swap">
+	<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
+	<link rel="stylesheet" href="./assets/css/common.css?t=1667796157" />
+	<link rel="stylesheet" href="./assets/css/header.css?t=1667796157">
+	<link rel="stylesheet" href="./assets/css/footer.css?t=1671779306">
+	<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
+	<link rel="stylesheet" href="./assets/css/sub.css?t=1671513804">
+	<link rel="stylesheet" href="./assets/css/exchange.css?t=1672042300">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet"
+		href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css">
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css" />
+	<!-- JS -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+	<script src="https://unpkg.com/libphonenumber-js@1.10.11/bundle/libphonenumber-min.js"></script>
+	<script src="./assets/js/jquery.autotab.js?t=1667796157"></script>
+	<script src="./assets/js/common.js?t=1670369703"></script>
+	<script src="./assets/js/api.js?t=1671775853"></script>
+	<script src="./assets/js/components.js?t=1670805066" defer></script>
+	<script src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+	<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+
+	<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+	<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+	<script src="./i18n/i18n.js?t=1667796157"></script>
 
 </head>
 <!-- BODY -->
+
 <body class="sub exchange">
-    <div class="container">
+	<div class="container">
 		<header>
 			<div class="header_inner">
 				<h1 class="logo"><a href="index.html">Teaplat</a></h1>
@@ -79,7 +84,8 @@
 				</nav>
 				<div class="nav--side">
 					<div name="box_logedin" class="profile dropdown-wrapper">
-						<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+						<button type="button" class="dropdown btn btn--mypage" name="btn-papage"
+							data-i18n>마이페이지</button>
 						<div class="dropdown--item" style="width: 134px;left: -32px;">
 							<ul>
 								<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
@@ -91,8 +97,10 @@
 							</ul>
 						</div>
 					</div>
-					<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-					<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+					<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout"
+							data-i18n>로그아웃</button></div>
+					<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login"
+							data-i18n>로그인</a></div>
 					<div class="language dropdown-wrapper">
 						<button type="button" class="dropdown">한국어</button>
 						<div class="dropdown--item" style="width: 81px">
@@ -125,19 +133,24 @@
 			<h1 class="size--20" data-i18n>마이페이지</h1>
 			<ul>
 				<li>
-					<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
+					<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보
+							수정</span></a>
 				</li>
 				<li>
-					<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
+					<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID
+							인증 관리</span></a>
 				</li>
 				<li>
-					<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
+					<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span
+							data-i18n>보안비밀번호 변경</span></a>
 				</li>
 				<li>
-					<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
+					<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span
+							data-i18n>출금계좌 변경</span></a>
 				</li>
 				<li>
-					<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
+					<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span
+							data-i18n>알림</span></a>
 				</li>
 			</ul>
 			<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>입출금</h1>
@@ -146,13 +159,16 @@
 					<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
 				</li>
 				<li>
-					<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+					<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span
+							data-i18n>입금</span></a>
 				</li>
 				<li>
-					<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+					<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span
+							data-i18n>출금</span></a>
 				</li>
 				<li>
-					<a href="wallet-analysis.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
+					<a href="wallet-analysis.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>종합
+							분석</span></a>
 				</li>
 			</ul>
 			<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
@@ -168,8 +184,10 @@
 				</li>
 			</ul>
 			<div class="nav--side mobile">
-				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout"
+						data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login"
+						data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
@@ -179,7 +197,7 @@
 				</div>
 			</div>
 		</aside>
-        <div class="content_wrap">
+		<div class="content_wrap">
 			<main class="d-grid">
 				<div class="contents mobile-only">
 					<header class="contents--header">
@@ -187,18 +205,21 @@
 						<h1 data-i18n>거래소</h1>
 					</header>
 				</div>
-				<div class="side--panel" >	<!--     -->
+				<div class="side--panel"> <!--     -->
 					<div class="tab-wrapper">
 						<div style="border-bottom: 1px solid var(--linegray)">
 							<ul class="tabs">
 								<li class="tab--active">
-									<button type="button" id="tab_all_item" name="tab_item" data-target="all" data-i18n>전체</button>
+									<button type="button" id="tab_all_item" name="tab_item" data-target="all"
+										data-i18n>전체</button>
 								</li>
 								<li>
-									<button type="button" id="tab_hold_item" name="tab_item" data-target="hold" data-i18n>보유</button>
+									<button type="button" id="tab_hold_item" name="tab_item" data-target="hold"
+										data-i18n>보유</button>
 								</li>
 								<li>
-									<button type="button" id="tab_wish_item" name="tab_item" data-target="wish" data-i18n>관심</button>
+									<button type="button" id="tab_wish_item" name="tab_item" data-target="wish"
+										data-i18n>관심</button>
 								</li>
 							</ul>
 						</div>
@@ -238,20 +259,25 @@
 					<div class="details--header">
 						<!-- btn--star--on -->
 						<button type="button" class="navigation--back mobile-only" name="btn_view_list"></button>
-						<button type="button" class="btn btn--star" name="btn_view_stat" ></button>
+						<button type="button" class="btn btn--star" name="btn_view_stat"></button>
 						<span class="tea--name"><!-- 상품명 --></span>
 						<small><!-- BING DO RAW PUER TEA CAKE --></small>
 					</div>
 					<div class="details--body">
 						<div class="d-flex"> <!-- style="flex-direction: column" -->
 							<span class="details--price">0 <span>KRW</span></span>
-							<span class="d-flex text-bold" style="margin-left: 10px; align-items: flex-end"><span style="line-height: 22px;" data-i18n>전일대비</span> <span class="details--diffPercent text--medium text--bold " style="margin-left: 5px">0% </span></span>
-							<span class="details--diff text--bold d-flex" style="margin-left: 8px; align-items: flex-end;margin-right: 14px;">
-								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==" alt="" width="9" height="8.22" style="margin-right: 4px; margin-bottom: 8px">
+							<span class="d-flex text-bold" style="margin-left: 10px; align-items: flex-end"><span
+									style="line-height: 22px;" data-i18n>전일대비</span> <span
+									class="details--diffPercent text--medium text--bold " style="margin-left: 5px">0%
+								</span></span>
+							<span class="details--diff text--bold d-flex"
+								style="margin-left: 8px; align-items: flex-end;margin-right: 14px;">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg=="
+									alt="" width="9" height="8.22" style="margin-right: 4px; margin-bottom: 8px">
 								<span id="spot-diff" class="text--bold">0</span>
 							</span>
 						</div>
-						<div class="d-grid grid-column" style="column-gap: 20px; font-weight: 400;" >
+						<div class="d-grid grid-column" style="column-gap: 20px; font-weight: 400;">
 							<!-- <div style="height:fit-content; overflow:hidden;">
 								<div class="row d-flex" style="justify-content: space-between; height: 22px; border-bottom: 0.5px solid var(--linegray)">
 									<span data-i18n>고가</span> <span id="highest-price" class="text--red">0</span>
@@ -261,14 +287,16 @@
 								</div>
 							</div> -->
 							<div style="height:fit-content; overflow:hidden;">
-								<div class="row d-flex" style="box-sizing:border-box; padding:0 5px 5px; justify-content: space-between; align-items: center; height: 25px; border-bottom: 0.5px solid var(--linegray); margin-bottom: 5px;">
-									<span data-i18n>거래량(24H)</span> 
+								<div class="row d-flex"
+									style="box-sizing:border-box; padding:0 5px 5px; justify-content: space-between; align-items: center; height: 25px; border-bottom: 0.5px solid var(--linegray); margin-bottom: 5px;">
+									<span data-i18n>거래량(24H)</span>
 									<div>
 										<span id="spot-volume">0</span> <span class="text--blue-gray"></span>
 									</div>
 								</div>
-								<div class="row d-flex under"  style="box-sizing:border-box; padding:0 5px; justify-content: space-between; align-items: center; height: 22px; margin-bottom: 0;">
-									<span data-i18n>거래대금(24H)</span> 
+								<div class="row d-flex under"
+									style="box-sizing:border-box; padding:0 5px; justify-content: space-between; align-items: center; height: 22px; margin-bottom: 0;">
+									<span data-i18n>거래대금(24H)</span>
 									<div>
 										<span id="spot-volume2">0</span> <span class="text--blue-gray">KRW</span>
 									</div>
@@ -359,10 +387,11 @@
 									</tbody>
 								</table>
 								<div class="text--right" style="margin-top: 20px">
-									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy-pin" data-i18n>구매 등록</a>
+									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy"
+										data-i18n>구매 등록</a>
 								</div>
 							</div>
-							<div class="tab-content" id="tab-sell"  style="display: block">
+							<div class="tab-content" id="tab-sell" style="display: block">
 								<table id="sellGrid" class="grid-table">
 									<thead>
 										<tr>
@@ -383,7 +412,8 @@
 
 								<div class="text--right" style="margin-top: 20px">
 									<a href="/transaction.html" class="btn btn--white" data-i18n>거래 내역</a>
-									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell-pin" data-i18n>판매 등록</a>
+									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell"
+										data-i18n>판매 등록</a>
 								</div>
 							</div>
 							<div class="tab-content" id="tab-info" style="display: none">
@@ -428,7 +458,8 @@
 									</div>
 								</div>
 								<div class="btns">
-									<button type="button" class="btn btn--white" data-toggle="modal" data-target="#white-paper" data-i18n>백서</button>
+									<button type="button" class="btn btn--white" data-toggle="modal"
+										data-target="#white-paper" data-i18n>백서</button>
 								</div>
 							</div>
 						</div>
@@ -441,7 +472,7 @@
 				<li class="exchange">
 					<a href="exchange.html" data-i18n>거래소</a>
 				</li>
-				<li class="area" >
+				<li class="area">
 					<a href="" data-i18n>티드로우</a>
 				</li>
 				<!-- <li class="auction"><a href="" data-i18n>경매</a></li> -->
@@ -453,8 +484,8 @@
 				</li>
 			</ul>
 		</div>
-		
-		
+
+
 		<div id="modal-buy-success" class="modal modal--tiny" tabindex="-1">
 			<div class="modal--dialog">
 				<div class="modal--header">
@@ -480,7 +511,8 @@
 						<dd><span class="total">0</span> <span class="exchange">KRW</span></dd>
 					</dl>
 					<div class="text--center" style="margin-top: 50px">
-						<button type="button" class="btn btn--white" onclick="$('#modal-buy-success').myModal('hide')" data-i18n>확인</button>
+						<button type="button" class="btn btn--white" onclick="$('#modal-buy-success').myModal('hide')"
+							data-i18n>확인</button>
 					</div>
 				</div>
 			</div>
@@ -492,8 +524,7 @@
 					<button type="button" class="btn btn--close"></button>
 				</div>
 				<div class="modal--content modal--result">
-					<div class="size--18 text--center"
-					style="margin-bottom:20px;" data-i18n>다음과 같이 주문이 등록되었습니다.</div>
+					<div class="size--18 text--center" style="margin-bottom:20px;" data-i18n>다음과 같이 주문이 등록되었습니다.</div>
 					<dl>
 						<dt data-i18n>대상</dt>
 						<dd class="tea--name"></dd>
@@ -511,7 +542,8 @@
 						<dd><span class="total">0</span> <span class="exchange">KRW</span></dd>
 					</dl>
 					<div class="text--center" style="margin-top: 50px">
-						<button type="button" class="btn btn--white" onclick="$('#modal-sell-success').myModal('hide')" data-i18n>확인</button>
+						<button type="button" class="btn btn--white" onclick="$('#modal-sell-success').myModal('hide')"
+							data-i18n>확인</button>
 					</div>
 				</div>
 			</div>
@@ -528,16 +560,23 @@
 					<div class="margin">
 						<div class="d-flex flex-center">
 							<div class="d-grid  grid--code">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
 							</div>
 						</div>
 					</div>
-					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center"
+							style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
 				</div>
 			</div>
 		</form>
@@ -553,7 +592,8 @@
 				<div class="modal--content">
 					<i class="btn btn--star--on"></i>
 					<span class="tea--name size--18">------------</span>
-					<div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px" name="orderid"></div>
+					<div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px"
+						name="orderid"></div>
 					<dl class="tea--" style="margin-bottom: 18px">
 						<dt data-i18n>구매가능금액</dt>
 						<dd class="tea--available" style="display: block;">0 <span>KRW</span></dd>
@@ -562,8 +602,11 @@
 						<dt data-i18n>가격</dt>
 						<dd>
 							<div class="input">
-								<input type="text" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
-								<div type="button" class="btn btn--gray" style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;" data-i18n>원</div>
+								<input type="text" name="price" value="0.0" min="0" step="0.1"
+									oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
+								<div type="button" class="btn btn--gray"
+									style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;"
+									data-i18n>원</div>
 							</div>
 						</dd>
 					</dl>
@@ -593,14 +636,19 @@
 					</dl>
 					<dl class="tea--price">
 						<dt data-i18n>총액</dt>
-						<dd >
+						<dd>
 							<div class="input">
-								<input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
-								<div type="button" class="btn btn--gray" style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;" data-i18n>원</div>
+								<input type="text" name="total" value="0" readonly="readonly"
+									oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
+								<div type="button" class="btn btn--gray"
+									style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;"
+									data-i18n>원</div>
 							</div>
 						</dd>
 					</dl>
-					<div class="text--center" style="margin-top: 32px"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>구매하기</button></div>
+					<div class="text--center" style="margin-top: 32px"><button type="submit"
+							class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"
+							data-i18n>구매하기</button></div>
 				</div>
 			</div>
 		</form>
@@ -616,57 +664,66 @@
 					<div class="margin">
 						<div class="d-flex flex-center">
 							<div class="d-grid  grid--code">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
 							</div>
 						</div>
 					</div>
-					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center"
+							style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
 				</div>
 			</div>
 		</form>
 		<!-- 구매 거래버튼 -->
-        <form id="modal-buy-direct" class="modal modal--tiny form-order" tabindex="-1">
-            <input type="hidden" name="symbol" value="">
-            <input type="hidden" name="exchange" value="">
+		<form id="modal-buy-direct" class="modal modal--tiny form-order" tabindex="-1">
+			<input type="hidden" name="symbol" value="">
+			<input type="hidden" name="exchange" value="">
 			<input type="hidden" name="orderid" value="">
-            <div class="modal--dialog">
-                <div class="modal--header">
+			<div class="modal--dialog">
+				<div class="modal--header">
 					<span data-i18n>구매하기</span>
-                    <button type="button" class="btn btn--close"></button>
-                </div>
-                <div class="modal--content">
-                    <i class="btn btn--star--on"></i>
-                    <span class="tea--name size--18"><!-- 상품이름 --></span>
-                    <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px" name="orderid"></div>
-                    <dl class="tea--" style="margin-bottom: 18px">
-                        <dt data-i18n>구매가능금액</dt>
-                        <dd class="tea--available" style="display: block;">0 <span>KRW</span></dd>
-                    </dl>
-                    <dl>
-                        <dt data-i18n>가격</dt>
-                        <dd>
-                            <div class="input">
-                                <input type="text" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value" readonly>
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt data-i18n>수량</dt>
-                        <dd>
-                            <div class="input--spiner">
-                                <input type="number" name="volume" class="onlynum"  value="0" min="0" step="any">
-                                <div class="d-flex">
-                                    <button type="button" class="spiner-minus"></button>
-                                    <button type="button" class="spiner-plus"></button>
-                                </div>
-                            </div>
-                        </dd>
-                    </dl>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<i class="btn btn--star--on"></i>
+					<span class="tea--name size--18"><!-- 상품이름 --></span>
+					<div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px"
+						name="orderid"></div>
+					<dl class="tea--" style="margin-bottom: 18px">
+						<dt data-i18n>구매가능금액</dt>
+						<dd class="tea--available" style="display: block;">0 <span>KRW</span></dd>
+					</dl>
+					<dl>
+						<dt data-i18n>가격</dt>
+						<dd>
+							<div class="input">
+								<input type="text" name="price" value="0.0" min="0" step="0.1"
+									oninput="this.parentNode.dataset.value = this.value" readonly>
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt data-i18n>수량</dt>
+						<dd>
+							<div class="input--spiner">
+								<input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
+								<div class="d-flex">
+									<button type="button" class="spiner-minus"></button>
+									<button type="button" class="spiner-plus"></button>
+								</div>
+							</div>
+						</dd>
+					</dl>
 					<dl>
 						<dt data-i18n>등급</dt>
 						<dd style="width: 220px">
@@ -675,20 +732,25 @@
 							</div>
 						</dd>
 					</dl>
-                    <dl class="tea--price">
-                        <dt data-i18n>총액</dt>
-                        <dd >
-                            <div class="input">
-                                <input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
-								<div type="button" class="btn btn--gray" style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;" data-i18n>원</div>
-                            </div>
-                        </dd>
-                    </dl>
-                    <div class="text--center" style="margin-top: 32px"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>구매하기</button></div>
+					<dl class="tea--price">
+						<dt data-i18n>총액</dt>
+						<dd>
+							<div class="input">
+								<input type="text" name="total" value="0" readonly="readonly"
+									oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
+								<div type="button" class="btn btn--gray"
+									style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;"
+									data-i18n>원</div>
+							</div>
+						</dd>
+					</dl>
+					<div class="text--center" style="margin-top: 32px"><button type="submit"
+							class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"
+							data-i18n>구매하기</button></div>
 
-                </div>
-            </div>
-        </form>
+				</div>
+			</div>
+		</form>
 
 
 		<!-- 판매등록Pin -->
@@ -702,16 +764,23 @@
 					<div class="margin">
 						<div class="d-flex flex-center">
 							<div class="d-grid  grid--code">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
 							</div>
 						</div>
 					</div>
-					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center"
+							style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
 				</div>
 			</div>
 		</form>
@@ -727,7 +796,8 @@
 				<div class="modal--content">
 					<i class="btn btn--star--on"></i>
 					<span class="tea--name size--18 text-bbold"><!-- 상품이름 --></span>
-					<div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px" name="orderid"></div>
+					<div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px"
+						name="orderid"></div>
 					<dl style="margin-bottom: 18px">
 						<dt data-i18n>판매가능수량</dt>
 						<dd class="tea--available" style="display: block;">0</dd>
@@ -736,7 +806,8 @@
 						<dt data-i18n>가격</dt>
 						<dd style="width: 220px">
 							<div class="input">
-								<input type="number" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
+								<input type="number" name="price" value="0.0" min="0" step="0.1"
+									oninput="this.parentNode.dataset.value = this.value">
 							</div>
 						</dd>
 					</dl>
@@ -768,12 +839,17 @@
 						<dt data-i18n>총액</dt>
 						<dd style="width: 220px">
 							<div class="input">
-								<input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
-								<div type="button" class="btn btn--gray" style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;" data-i18n>원</div>
+								<input type="text" name="total" value="0" readonly="readonly"
+									oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
+								<div type="button" class="btn btn--gray"
+									style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;"
+									data-i18n>원</div>
 							</div>
 						</dd>
 					</dl>
-					<div class="text--center" style="margin-top: 32px"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>판매하기</button></div>
+					<div class="text--center" style="margin-top: 32px"><button type="submit"
+							class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"
+							data-i18n>판매하기</button></div>
 				</div>
 			</div>
 		</form>
@@ -789,79 +865,93 @@
 					<div class="margin">
 						<div class="d-flex flex-center">
 							<div class="d-grid  grid--code">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric" autofocus="">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
+								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+									inputmode="numeric">
 							</div>
 						</div>
 					</div>
-					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
+					<div class="text--center"><button type="submit" class="btn btn--red flex-self-center"
+							style="height: 40px; line-height: 40px" data-i18n>입력하기</button></div>
 				</div>
 			</div>
 		</form>
 		<!-- 판매 거래버튼 -->
-        <form id="modal-sell-direct" class="modal modal--tiny form-order" tabindex="-1">
-            <input type="hidden" name="symbol" value="">
-            <input type="hidden" name="exchange" value="">
-            <input type="hidden" name="orderid" value="">
-            <div class="modal--dialog">
-                <div class="modal--header">
+		<form id="modal-sell-direct" class="modal modal--tiny form-order" tabindex="-1">
+			<input type="hidden" name="symbol" value="">
+			<input type="hidden" name="exchange" value="">
+			<input type="hidden" name="orderid" value="">
+			<div class="modal--dialog">
+				<div class="modal--header">
 					<span data-i18n>판매하기</span>
-                    <button type="button" class="btn btn--close"></button>
-                </div>
-                <div class="modal--content">
-                    <i class="btn btn--star--on"></i>
-                    <span class="tea--name size--18 text-bbold" style="padding-left: 4px"><!-- 상품이름 --></span>
-                    <div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px" name="orderid"></div>
-                    <dl style="margin-bottom: 18px">
-                        <dt data-i18n>판매가능수량</dt>
-                        <dd class="tea--available" style="display: block;">0</dd>
-                    </dl>
-                    <dl>
-                        <dt data-i18n>가격</dt>
-                        <dd style="width: 220px">
-                            <div class="input">
-                                <input type="text" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value" readonly>
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl style="margin-bottom: 10px">
-                        <dt data-i18n>수량</dt>
-                        <dd style="width: 220px">
-                            <div class="input--spiner">
-                                <input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
-                                <div class="d-flex">
-                                    <button type="button" class="spiner-minus"></button>
-                                    <button type="button" class="spiner-plus"></button>
-                                </div>
-                            </div>
-                        </dd>
-                    </dl>
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<i class="btn btn--star--on"></i>
+					<span class="tea--name size--18 text-bbold" style="padding-left: 4px"><!-- 상품이름 --></span>
+					<div class="text--blue-gray" style="padding-left: 4px;margin-top: 6px;margin-bottom: 20px"
+						name="orderid"></div>
+					<dl style="margin-bottom: 18px">
+						<dt data-i18n>판매가능수량</dt>
+						<dd class="tea--available" style="display: block;">0</dd>
+					</dl>
+					<dl>
+						<dt data-i18n>가격</dt>
+						<dd style="width: 220px">
+							<div class="input">
+								<input type="text" name="price" value="0.0" min="0" step="0.1"
+									oninput="this.parentNode.dataset.value = this.value" readonly>
+							</div>
+						</dd>
+					</dl>
+					<dl style="margin-bottom: 10px">
+						<dt data-i18n>수량</dt>
+						<dd style="width: 220px">
+							<div class="input--spiner">
+								<input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
+								<div class="d-flex">
+									<button type="button" class="spiner-minus"></button>
+									<button type="button" class="spiner-plus"></button>
+								</div>
+							</div>
+						</dd>
+					</dl>
 					<dl style="margin-bottom: 10px">
 						<dt data-i18n>등급</dt>
 						<dd style="width: 220px">
 							<div class="input text--center">
-                                <input type="text" name="goods_grade" readonly >
+								<input type="text" name="goods_grade" readonly>
 							</div>
 						</dd>
 					</dl>
-                    <dl>
-                        <dt data-i18n>총액</dt>
-                        <dd style="width: 220px">
-                            <div class="input">
-                                <input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
-								<div type="button" class="btn btn--gray" style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;" data-i18n>원</div>
-                            </div>
-                        </dd>
-                    </dl>
-                    <div class="text--center" style="margin-top: 32px"><button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n>판매하기</button></div>
+					<dl>
+						<dt data-i18n>총액</dt>
+						<dd style="width: 220px">
+							<div class="input">
+								<input type="text" name="total" value="0" readonly="readonly"
+									oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
+								<div type="button" class="btn btn--gray"
+									style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;"
+									data-i18n>원</div>
+							</div>
+						</dd>
+					</dl>
+					<div class="text--center" style="margin-top: 32px"><button type="submit"
+							class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px"
+							data-i18n>판매하기</button></div>
 
-                </div>
-            </div>
-        </form>
+				</div>
+			</div>
+		</form>
 		<div id="scan" class="modal">
 			<div class="modal--dialog">
 				<div class="modal--content">
@@ -883,14 +973,16 @@
 						<button type="button" class="btn btn--close"></button>
 					</div>
 					<div class="modal--body">
-						<div style="padding: 15px 33px 15px 52px"><i class="btn btn--star--on"></i> <span class="text--bbold tea--name" style="font-size: 18px">-</span></div>
+						<div style="padding: 15px 33px 15px 52px"><i class="btn btn--star--on"></i> <span
+								class="text--bbold tea--name" style="font-size: 18px">-</span></div>
 						<div class="d-grid grid-2-column" style="column-gap: 48px; padding: 0 33px 20px 52px">
 							<div class="column">
 								<dl>
 									<dt data-i18n>분류</dt>
 									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_class" value="" readonly class="text--left">
+											<input type="text" name="meta_wp_class" value="" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
@@ -898,7 +990,8 @@
 									<dt data-i18n>원산지</dt>
 									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_origin" value="" readonly class="text--left">
+											<input type="text" name="meta_wp_origin" value="" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
@@ -906,43 +999,47 @@
 									<dt data-i18n>생산자</dt>
 									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_producer" value="생산자" readonly class="text--left">
+											<input type="text" name="meta_wp_producer" value="생산자" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>생산년도</dt>
-									<dd  >
+									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_production_date" value="생산년도" readonly class="text--left">
+											<input type="text" name="meta_wp_production_date" value="생산년도" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>중량</dt>
-									<dd  >
+									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_weight" value="생산자" readonly class="text--left">
+											<input type="text" name="meta_wp_weight" value="생산자" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>맛</dt>
-									<dd  >
+									<dd>
 										<div name="meta_wp_taste" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>향</dt>
-									<dd  >
+									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_scent" value="" readonly class="text--left">
+											<input type="text" name="meta_wp_scent" value="" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>품종</dt>
-									<dd  >
+									<dd>
 										<div class="input flex-left">
 											<input type="text" name="meta_wp_kind" value="" readonly class="text--left">
 										</div>
@@ -950,41 +1047,46 @@
 								</dl>
 								<dl>
 									<dt data-i18n>차수령</dt>
-									<dd  >
+									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_second_order" value="" readonly class="text--left">
+											<input type="text" name="meta_wp_second_order" value="" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>가격동향</dt>
-									<dd  >
+									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_price_trend" value="" readonly class="text--left">
+											<input type="text" name="meta_wp_price_trend" value="" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>가치성</dt>
-									<dd  >
+									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_valueability" value="" readonly class="text--left">
+											<input type="text" name="meta_wp_valueability" value="" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>희소성</dt>
-									<dd  >
+									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_scarcity" value="" readonly class="text--left">
+											<input type="text" name="meta_wp_scarcity" value="" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>대중성</dt>
-									<dd  >
+									<dd>
 										<div class="input flex-left">
-											<input type="text" name="meta_wp_popular" value="" readonly class="text--left">
+											<input type="text" name="meta_wp_popular" value="" readonly
+												class="text--left">
 										</div>
 									</dd>
 								</dl>
@@ -992,39 +1094,40 @@
 							<div class="column">
 								<dl>
 									<dt data-i18n>마시는 방법</dt>
-									<dd  >
-										<div name="meta_wp_drink_method" class="textarea flex-left" name="meta_wp_drink_method">
+									<dd>
+										<div name="meta_wp_drink_method" class="textarea flex-left"
+											name="meta_wp_drink_method">
 											마시는 방법
 										</div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>보관방법/유통기한</dt>
-									<dd  >
+									<dd>
 										<div name="meta_wp_keep_method" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>스토리</dt>
-									<dd  >
+									<dd>
 										<div name="meta_wp_story" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>티마스터 품평</dt>
-									<dd  >
+									<dd>
 										<div name="meta_wp_teamaster_note" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>생산자 노트</dt>
-									<dd  >
+									<dd>
 										<div name="meta_wp_producer_note" class="textarea flex-left"></div>
 									</dd>
 								</dl>
 								<dl>
 									<dt data-i18n>평점</dt>
-									<dd  >
+									<dd>
 										<div name="meta_wp_grade" class="textarea flex-left" style="height: 64px"></div>
 									</dd>
 								</dl>
@@ -1036,7 +1139,8 @@
 		</div>
 		<div id="alert-buy" class="modal modal--tiny">
 			<div class="modal--body" style="padding-top: 0;padding-left: 0; padding-right: 0">
-				<div class="modal--header" style="padding-left:21px; height: 60px; box-sizing: border-box; line-height: 60px">
+				<div class="modal--header"
+					style="padding-left:21px; height: 60px; box-sizing: border-box; line-height: 60px">
 					<span data-i18n>구매하기</span>
 					<button type="button" class="btn btn--close"></button>
 				</div>
@@ -1059,12 +1163,14 @@
 						<dd><span name="order_amount">0</span> <span>KRW</span></dd>
 					</dl>
 				</div>
-				<div class="text--center" style="margin-top: 32px"><input type="submit" value="확인" class="btn btn--white flex-self-center" style="height: 40px; line-height: 40px"></div>
+				<div class="text--center" style="margin-top: 32px"><input type="submit" value="확인"
+						class="btn btn--white flex-self-center" style="height: 40px; line-height: 40px"></div>
 			</div>
 		</div>
 		<div id="alert-sell" class="modal modal--tiny" style="display:none">
 			<div class="modal--body" style="padding-top: 0;padding-left: 0; padding-right: 0">
-				<div class="modal--header" style="padding-left:21px; height: 60px; box-sizing: border-box; line-height: 60px">
+				<div class="modal--header"
+					style="padding-left:21px; height: 60px; box-sizing: border-box; line-height: 60px">
 					<span data-i18n>판매하기</span>
 					<button type="button" class="btn btn--close"></button>
 				</div>
@@ -1087,11 +1193,12 @@
 						<dd><span name="order_amount">0</span> <span>KRW</span></dd>
 					</dl>
 				</div>
-				<div class="text--center" style="margin-top: 32px"><input type="submit" value="확인" class="btn btn--white flex-self-center" style="height: 40px; line-height: 40px"></div>
+				<div class="text--center" style="margin-top: 32px"><input type="submit" value="확인"
+						class="btn btn--white flex-self-center" style="height: 40px; line-height: 40px"></div>
 			</div>
 		</div>
-    </div>
-    <!-- <footer class="desktop-only">
+	</div>
+	<!-- <footer class="desktop-only">
 		<div class="footer_inner">
 			<div class="logo">Teaplat</div>
 			<nav class="fnb">
@@ -1127,7 +1234,8 @@
 			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 		</div>
 	</footer> -->
-	<script src="./assets/js/exchange.js?t=1671780029" defer></script>
-    <script src="./assets/js/app.js?t=1671673634"></script>
+	<script src="./assets/js/exchange.js?t=1672042300" defer></script>
+	<script src="./assets/js/app.js?t=1672042347"></script>
 </body>
+
 </html>
