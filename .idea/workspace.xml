@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="거래내역 버튼 추가">
+    <list default="true" id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="build">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/js/app.js" afterDir="false" />
     </list>
@@ -81,7 +81,7 @@
       <workItem from="1671512961553" duration="8000" />
       <workItem from="1671513781910" duration="7394000" />
       <workItem from="1671586530139" duration="42398000" />
-      <workItem from="1672017101739" duration="7853000" />
+      <workItem from="1672017101739" duration="9690000" />
     </task>
     <task id="LOCAL-00001" summary="build">
       <created>1667886141115</created>
@@ -286,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671781082199</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="build">
+      <created>1672042405451</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1672042405451</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,7 +361,6 @@
     <MESSAGE value="차트 수정" />
     <MESSAGE value="index 공지사항 url 연결" />
     <MESSAGE value="팝니다, 삽니다 번호 수정" />
-    <MESSAGE value="build" />
     <MESSAGE value="회원 가입시 이름, 핸드폰번호 기입" />
     <MESSAGE value="공지수항 수정" />
     <MESSAGE value="거래 내역에서 거래중 데이터 보이도록(취소포함) 수정" />
@@ -368,7 +374,8 @@
     <MESSAGE value="거래내역 지갑이 없을 경우 수정" />
     <MESSAGE value="거래시 취소 버튼 추가" />
     <MESSAGE value="거래내역 버튼 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="거래내역 버튼 추가" />
+    <MESSAGE value="build" />
+    <option name="LAST_COMMIT_MESSAGE" value="build" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
