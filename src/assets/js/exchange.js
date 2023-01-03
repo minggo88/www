@@ -55,6 +55,8 @@ let SELECTED_GOODS_GRADE = 'A';
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
 
 $(function() {
+    $('.number').autotab({ tabOnSelect: true },'filter', 'number');
+
     $(window).on('resize', () => {
         isMobile = (window.matchMedia('(max-width: 800px)').matches)
 		if($(window).width()>=800) {
@@ -593,11 +595,15 @@ $(function() {
 				const orderid = d.orderid
 				const goods_grade = d.goods_grade
 
+                let cookie_check = $.cookie(Model.user_info.userid)
                 let btn = ''
 
                 if (Model.user_info.userno == d.userno) {
                     btn = '<button type="button" class="btn btn--rounded btn--cancal" data-symbol="' + SELECTED_SYMBOL + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px" >'+__('취소')+'</button>'
-                } else {
+                } else if (Model.user_info.userno !== d.userno && cookie_check === Model.user_info.userno) {
+                    btn = '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
+                }
+                else {
                     btn = '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct-pin" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
                 }
 
@@ -749,10 +755,13 @@ $(function() {
                 const orderid = d.orderid
                 const goods_grade = d.goods_grade
 
+                let cookie_check = $.cookie(Model.user_info.userid)
                 let btn = '';
                 if (Model.user_info.userno == d.userno) {
                     btn = '<button type="button" class="btn btn--rounded btn--cancal" data-symbol="' + SELECTED_SYMBOL + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px" >'+__('취소')+'</button>'
-                } else {
+                } else if (Model.user_info.userno !== d.userno && cookie_check === Model.user_info.userno){
+                    btn = '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
+                }else {
                     btn = '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct-pin" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
                 }
                 return btn
@@ -1193,10 +1202,11 @@ $(function() {
 
 
 $(function() { 
+
     $('.form-order').on('input', _e => {
         $form = $(_e.target).closest('form')
-        const price = parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''))
-        const volume = parseFloat($form.find('[name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
+        const price = $form.find('[name=price]').length>0 ? parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/g, '')) : 0;
+        const volume = $form.find('[name=volume]').length>0 ? parseFloat($form.find('[name=volume]').val().replace(/[^0-9.\-\+]/g, '')) : 0;
         $form.find('[name=total]').val('' + real_number_format(price * volume) + '')
     })
     // $('#modal-buy [name=price], #modal-buy [name=volume]').on('input', _e => {
@@ -1210,13 +1220,52 @@ $(function() {
     //     $('#modal-sell [name=total]').val('' + real_number(price * volume) + '')
     // })
 
-    $('#modal-buy-direct')
-        .myModal('beforeOpen', (_event, btn) => {
+    $('#modal-buy-direct-pin')
+        .myModal('beforeOpen', _e => {
             if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-                $('#modal-buy').myModal('stopEvent');
+                $('#modal-buy-direct-pin').myModal('stopEvent');
                 alert('로그인 해주세요');
                 return false;
+            } 
+        })
+        
+        .submit((e) => {
+            $('#modal-buy-direct-pin').find('button[type=submit]').attr('disabled', false)
+            e.preventDefault()
+
+            let check = true
+            let pin = ''
+            $('#modal-buy-direct-pin').find('input[name=pin]').each((_index, elem) => {
+                if(!$(elem).val()) {
+                    check = false
+                    $(elem).focus()
+                    return false
+                }
+                pin += $(elem).val()
+            })
+
+            if(check) {
+                API.checkPin(pin, (resp) => {
+                    if(resp.success) {
+                        $.cookie(Model.user_info.userid,Model.user_info.userno,{
+                            "expires": 0.5,
+                            // "domain": "loc.kkikda.com",
+                            "path": "/"
+                            })
+                        $("#modal-buy-direct-pin").myModal('hide')
+                        $("#modal-buy-direct").myModal('show')
+                    } else {
+                        alert(resp.error.message)
+                    }
+                })
+            } else {
+                alert('내용을 채워주세요. 항목을 입력해 주세요.')
             }
+            
+            return false
+        })
+    $('#modal-buy-direct')
+        .myModal('beforeOpen', (_event, btn) => {
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
             const exchange = btn.data('exchange')
@@ -1272,13 +1321,66 @@ $(function() {
             })
             return false
         })
-    $('#modal-buy')
+    
+    $('#modal-buy-pin')
         .myModal('beforeOpen', _e => {
+            
+            let cookie_check = $.cookie(Model.user_info.userid)
+
             if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-                $('#modal-buy').myModal('stopEvent');
+                $('#modal-buy-pin').myModal('stopEvent');
                 alert('로그인 해주세요');
                 return false;
+            } else if (cookie_check === Model.user_info.userno) {
+                $('#modal-buy-pin').hide();
+                $('#modal-buy-button').attr('data-target','#modal-buy');
+                $('#modal-buy-button').trigger('click');
+            } else {
+            return false
             }
+        })
+        $('[name=tab_item]').on('click', function () { 
+            $("#modal-buy-pin").myModal('hide')
+            $("#modal-buy").myModal('show')
+        })
+
+        .submit((e) => {
+            $('#modal-buy-pin').find('button[type=submit]').attr('disabled', false)
+            e.preventDefault()
+
+            let check = true
+            let pin = ''
+            $('#modal-buy-pin').find('input[name=pin]').each((_index, elem) => {
+                if(!$(elem).val()) {
+                    check = false
+                    $(elem).focus()
+                    return false
+                }
+                pin += $(elem).val()
+            })
+
+            if(check) {
+                API.checkPin(pin, (resp) => {
+                    if(resp.success) {
+                        $.cookie(Model.user_info.userid,Model.user_info.userno,{
+                            "expires": 0.5,
+                            // "domain": "loc.kkikda.com",
+                            "path": "/"
+                            })
+                        $("#modal-buy-pin").myModal('hide')
+                        $("#modal-buy").myModal('show')
+                    } else {
+                        alert(resp.error.message)
+                    }
+                })
+            } else {
+                alert('내용을 채워주세요. 항목을 입력해 주세요.')
+            }
+            
+            return false
+        })
+    $('#modal-buy')
+        .myModal('beforeOpen', _e => {
             const modal = $('#modal-buy')
             const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE,'')]?.confirmed || 0;
 
@@ -1321,13 +1423,53 @@ $(function() {
             return false
         })
     
-    $('#modal-sell-direct')
-        .myModal('beforeOpen', (_event, btn) => {
+    $('#modal-sell-direct-pin')
+        .myModal('beforeOpen', _e => {
             if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-                $('#modal-buy').myModal('stopEvent');
+                $('#modal-sell-direct-pin').myModal('stopEvent');
                 alert('로그인 해주세요');
                 return false;
             }
+        })
+        
+        .submit((e) => {
+            $('#modal-sell-direct-pin').find('button[type=submit]').attr('disabled', false)
+            e.preventDefault()
+
+            let check = true
+            let pin = ''
+            $('#modal-sell-direct-pin').find('input[name=pin]').each((_index, elem) => {
+                if(!$(elem).val()) {
+                    check = false
+                    $(elem).focus()
+                    return false
+                }
+                pin += $(elem).val()
+            })
+
+            if(check) {
+                API.checkPin(pin, (resp) => {
+                    if(resp.success) {
+                        $.cookie(Model.user_info.userid,Model.user_info.userno,{
+                            "expires": 0.5,
+                            // "domain": "loc.kkikda.com",
+                            "path": "/"
+                            })
+                        $("#modal-sell-direct-pin").myModal('hide')
+                        $("#modal-sell-direct").myModal('show')
+                    } else {
+                        alert(resp.error.message)
+                    }
+                })
+            } else {
+                alert('내용을 채워주세요. 항목을 입력해 주세요.')
+            }
+            
+            return false
+        })
+    $('#modal-sell-direct')
+        .myModal('beforeOpen', (_event, btn) => {
+            
             const orderid = btn.data('orderid')
             const symbol = btn.data('symbol')
             const exchange = btn.data('exchange')
@@ -1381,13 +1523,64 @@ $(function() {
             })
             return false
         })
-    $('#modal-sell')
+        
+        
+        $('#modal-sell-pin')
         .myModal('beforeOpen', _e => {
+            
+            let cookie_check = $.cookie(Model.user_info.userid)
+            
             if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-                $('#modal-buy').myModal('stopEvent');
+                $('#modal-sell-pin').myModal('stopEvent');
                 alert('로그인 해주세요');
                 return false;
+            } else if (cookie_check === Model.user_info.userno) {
+                $('#modal-sell-pin').hide();
+                $('#modal-sell-button').attr('data-target','#modal-sell');
+                $('#modal-sell-button').trigger('click');
+            } else {
+            return false
             }
+        })
+
+        
+        .submit((e) => {
+            e.preventDefault()
+
+            let check = true
+            let pin = ''
+            $('#modal-sell-pin').find('input[name=pin]').each((_index, elem) => {
+                if(!$(elem).val()) {
+                    check = false
+                    $(elem).focus()
+                    return false
+                }
+                pin += $(elem).val()
+            })
+
+            if(check) {
+                API.checkPin(pin, (resp) => {
+                    if(resp.success) {
+                        $.cookie(Model.user_info.userid,Model.user_info.userno,{
+                            "expires": 0.5,
+                            // "domain": "loc.kkikda.com",
+                            "path": "/"
+                            })
+                        $("#modal-sell-pin").myModal('hide')
+                        $("#modal-sell").myModal('show')
+                    } else {
+                        alert(resp.error.message)
+                    }
+                }) 
+            } else {
+                alert('내용을 채워주세요. 항목을 입력해 주세요.')
+            }
+            
+            return false
+        })
+
+    $('#modal-sell')
+        .myModal('beforeOpen', _e => {
             const modal = $('#modal-sell')
             const cnt_sellable = USER_WALLET[gen_user_wallet_key(SELECTED_SYMBOL,SELECTED_GOODS_GRADE)]?.confirmed || 0;
             modal.find('.tea--available').text(real_number_format(cnt_sellable))
