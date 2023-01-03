@@ -30,8 +30,9 @@ header .logo {
 	text-indent: -9999px;
 	z-index: 2;
 	position: absolute;
-	/* left: 30px; */
-	left: 0;
+	left: 30px;
+	/* left: 40px; */
+	/* left: 0; */
 }
 header .logo a {
     width: 100%;
@@ -97,7 +98,7 @@ header .logo a {
 	column-gap:10%;
 	font-size: 14px;
 	position: absolute;
-	right: 0px;
+	right: 30px;
 }
 .nav--side > *{
 	white-space: nowrap;
@@ -246,7 +247,7 @@ header .logo a {
 
 @media screen and (min-width: 801px) and (max-width: 1440px){
 	.header_inner{
-		width: 95%;
+		width: 100%;
 		margin: 0 auto;
 	}
 }
@@ -267,7 +268,7 @@ header .logo a {
 
 @media screen and (max-width: 1100px){
 	header .logo{
-		left: 65px;
+		left: 75px;
 	}
 	header .nav{display: none;}
 
