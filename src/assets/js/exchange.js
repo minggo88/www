@@ -1252,7 +1252,8 @@ $(function() {
                         $.cookie(Model.user_info.userid,Model.user_info.userno,{
                             "expires": 0.5,
                             // "domain": "loc.kkikda.com",
-                            "path": "/"
+                            "path": "/",
+                            // "secure": true
                             })
                         $("#modal-buy-direct-pin").myModal('hide')
                         $("#modal-buy-direct").myModal('show')
@@ -1341,10 +1342,11 @@ $(function() {
             return false
             }
         })
-        $('[name=tab_item]').on('click', function () { 
-            $("#modal-buy-pin").myModal('hide')
-            $("#modal-buy").myModal('show')
-        })
+
+        // $('[name=tab_item]').on('click', function () { 
+        //     $("#modal-buy-pin").myModal('hide')
+        //     $("#modal-buy").myModal('show')
+        // })
 
         .submit((e) => {
             $('#modal-buy-pin').find('button[type=submit]').attr('disabled', false)
@@ -1367,7 +1369,8 @@ $(function() {
                         $.cookie(Model.user_info.userid,Model.user_info.userno,{
                             "expires": 0.5,
                             // "domain": "loc.kkikda.com",
-                            "path": "/"
+                            "path": "/",
+                            // "secure": true
                             })
                         $("#modal-buy-pin").myModal('hide')
                         $("#modal-buy").myModal('show')
@@ -1455,7 +1458,8 @@ $(function() {
                         $.cookie(Model.user_info.userid,Model.user_info.userno,{
                             "expires": 0.5,
                             // "domain": "loc.kkikda.com",
-                            "path": "/"
+                            "path": "/",
+                            // "secure": true
                             })
                         $("#modal-sell-direct-pin").myModal('hide')
                         $("#modal-sell-direct").myModal('show')
@@ -1566,7 +1570,8 @@ $(function() {
                         $.cookie(Model.user_info.userid,Model.user_info.userno,{
                             "expires": 0.5,
                             // "domain": "loc.kkikda.com",
-                            "path": "/"
+                            "path": "/",
+                            // "secure": true
                             })
                         $("#modal-sell-pin").myModal('hide')
                         $("#modal-sell").myModal('show')
