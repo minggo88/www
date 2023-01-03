@@ -52,8 +52,15 @@
 	<script src="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<<<<<<< HEAD
 	<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 
+=======
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+		integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+>>>>>>> Wee
 	<script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 	<script src="./assets/js/lib/security.min.js?t={version}"></script>
 	<script src="./i18n/i18n.js?t={version}"></script>
@@ -387,8 +394,13 @@
 									</tbody>
 								</table>
 								<div class="text--right" style="margin-top: 20px">
+<<<<<<< HEAD
 									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-buy"
 										data-i18n>구매 등록</a>
+=======
+									<a href="" id="modal-buy-button" class="btn btn--white" data-toggle="modal"
+										data-target="#modal-buy-pin" data-i18n>구매 등록</a>
+>>>>>>> Wee
 								</div>
 							</div>
 							<div class="tab-content" id="tab-sell" style="display: block">
@@ -412,8 +424,13 @@
 
 								<div class="text--right" style="margin-top: 20px">
 									<a href="/transaction.html" class="btn btn--white" data-i18n>거래 내역</a>
+<<<<<<< HEAD
 									<a href="" class="btn btn--white" data-toggle="modal" data-target="#modal-sell"
 										data-i18n>판매 등록</a>
+=======
+									<a href="" id="modal-sell-button" class="btn btn--white" data-toggle="modal"
+										data-target="#modal-sell-pin" data-i18n>판매 등록</a>
+>>>>>>> Wee
 								</div>
 							</div>
 							<div class="tab-content" id="tab-info" style="display: none">
@@ -560,7 +577,11 @@
 					<div class="margin">
 						<div class="d-flex flex-center">
 							<div class="d-grid  grid--code">
+<<<<<<< HEAD
 								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
+=======
+								<input type="number" name="pin" class="number111" min="0" max="9" maxlength="1"
+>>>>>>> Wee
 									inputmode="numeric" autofocus="">
 								<input type="number" name="pin" class="number" min="0" max="9" maxlength="1"
 									inputmode="numeric">
@@ -654,7 +675,7 @@
 		</form>
 
 		<!-- 구매 거래버튼 Pin -->
-		<form id="modal-buy-direct-pin" class="modal modal--tiny form-order" tabindex="-1">
+		<form id="modal-buy-direct-pin" class="modal modal--tiny form-pin" tabindex="-1">
 			<div class="modal--dialog">
 				<div class="modal--header">
 					<span data-i18n>핀번호 입력하기</span>

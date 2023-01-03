@@ -105,6 +105,8 @@ $(function () {
                     alert(resp.error.message)
                 }
             })
+        } else {
+            alert('내용을 채워주세요. 항목을 입력해 주세요.')
         }
 
 
@@ -127,8 +129,24 @@ $(function () {
             pin += $(elem).val()
         })
 
-        $('#change-security-password2').hide()
-        $('#change-security-password-confirm').show()
+        if(check) {
+            $('#change-security-password2').hide()
+            $('#change-security-password-confirm').show()
+        } else {
+            alert('내용을 채워주세요. 항목을 입력해 주세요.')
+        }
+
+        // 핀 번호가 입력되지 않았을 때  
+        // if(check) {
+        //     API.checkPin(pin, (resp) => {
+        //         if(resp.success) {
+        //             $('#change-security-password2').hide()
+        //             $('#change-security-password-confirm').show()
+        //         } else {
+        //             alert(resp.error.message)
+        //         }
+        //     })
+        // }
 
         return false
     })
