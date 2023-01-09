@@ -100,10 +100,6 @@ $(function() {
 		$(".details").hide();
 	})
 
-    $("[name=bbb]").on('click', function() {
-        alert('fasdf');
-    })
-
     const genVolumeData = (data) => {
         let previous_close = 0
 
@@ -1342,7 +1338,6 @@ $(function() {
             return false
             }
         })
-
         // $('[name=tab_item]').on('click', function () { 
         //     $("#modal-buy-pin").myModal('hide')
         //     $("#modal-buy").myModal('show')
