@@ -370,29 +370,6 @@
 							{ label: '거래버튼', width: detailsWidth * 70 / 834, formatter: (_cellValue) => {
 								return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-target="#modal-sell" style="width: 100%; height: 25px; line-height: 25px">판매</button>'
 							}}-->
-							<div class="tab-content" id="tab-buy">
-								<table id="buyGrid" class="grid-table">
-									<thead>
-										<tr>
-											<th data-i18n>주문번호</th>
-											<!-- <th data-i18n class="category">구분</th> -->
-											<th data-i18n>등록일</th>
-											<th data-i18n>등급</th>
-											<th data-i18n>가격</th>
-											<th data-i18n>수량</th>
-											<th data-i18n>총액</th>
-											<!-- <th data-i18n>상태</th> -->
-											<th data-i18n>거래버튼</th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-								<div class="text--right" style="margin-top: 20px">
-									<a href="" id="modal-buy-button" class="btn btn--white" data-toggle="modal"
-										data-target="#modal-buy-pin" data-i18n>구매 등록</a>
-								</div>
-							</div>
 							<div class="tab-content" id="tab-sell" style="display: block">
 								<table id="sellGrid" class="grid-table">
 									<thead>
@@ -418,6 +395,29 @@
 									<a href="" id="modal-sell-button" class="btn btn--white" data-toggle="modal"
 										data-target="#modal-sell-pin" data-i18n>판매 등록</a>
 
+								</div>
+							</div>
+							<div class="tab-content" id="tab-buy">
+								<table id="buyGrid" class="grid-table">
+									<thead>
+										<tr>
+											<th data-i18n>주문번호</th>
+											<!-- <th data-i18n class="category">구분</th> -->
+											<th data-i18n>등록일</th>
+											<th data-i18n>등급</th>
+											<th data-i18n>가격</th>
+											<th data-i18n>수량</th>
+											<th data-i18n>총액</th>
+											<!-- <th data-i18n>상태</th> -->
+											<th data-i18n>거래버튼</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+								<div class="text--right" style="margin-top: 20px">
+									<a href="" id="modal-buy-button" class="btn btn--white" data-toggle="modal"
+										data-target="#modal-buy-pin" data-i18n>구매 등록</a>
 								</div>
 							</div>
 							<div class="tab-content" id="tab-info" style="display: none">
