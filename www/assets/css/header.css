@@ -5,10 +5,10 @@ body > header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: rgba(0, 0, 0, 0.02);
+	background: rgba(0, 0, 0, 0);
 }
 body.exchange > .container > header{
-	background: rgba(0, 0, 0, 0.02);
+	background: rgba(0, 0, 0, 0);
 } 
 
 .header_inner{
@@ -79,7 +79,7 @@ header .logo a {
 }
 
 .nav > ul li a {
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: 500;
     color: var(--basic-black);
     letter-spacing: -0.05em;
@@ -110,8 +110,8 @@ header .logo a {
     height: 22px;
     line-height: 22px;
     border-radius: 30px;
-    background: rgba(131, 137, 158, .2);
-    color: var(--basic-black) !important;
+    background: rgba(0, 0, 0, 0);
+    color: #B81C22;
     text-align: center;
     font-weight: 500;
     font-size: 14px;
@@ -122,10 +122,11 @@ header .logo a {
     height: 22px;
     line-height: 22px;
     border-radius: 30px;
-    background: rgba(131, 137, 158, .2);
-    color: var(--basic-black) !important;
+    background: rgba(0, 0, 0, 0);
+    color: #B81C22;
     font-size: 14px;
 	padding: 0 1rem;
+    font-weight: 500;
 }
 
 .nav--side .btn--mypage{
@@ -138,6 +139,7 @@ header .logo a {
     font-weight: 500;
     font-size: 14px;
 	background: transparent;
+	padding-left : 30px;
 }
 
 .nav--side .language{
