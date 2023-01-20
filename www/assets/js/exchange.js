@@ -727,11 +727,11 @@ $(function() {
                 }
             },
             // 거래금액 - price * volume_remain을 해야 하는데 남은 수량이 바뀔때마다 계산해서 정렬을 해줘야 해서 숨깁니다.
-            {
-                data: 'amount_remain', render: (amount_remain) => {
-                    return real_number_format(amount_remain);
-                }
-            },
+            //{
+            //    data: 'amount_remain', render: (amount_remain) => {
+            //        return real_number_format(amount_remain);
+            //    }
+            //},
             // // 상태
             // {
             //     data: 'status', render: (status, _type, _row) => {
