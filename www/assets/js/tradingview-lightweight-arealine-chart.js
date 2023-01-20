@@ -109,7 +109,7 @@
     // arealine 차트 생성
 
     var series = chart.addAreaSeries({	
-      topColor: 'rgba(19, 68, 193, 0.4)',	
+      topColor: 'rgba(0, 120, 255, 0.0)',	
       bottomColor: 'rgba(0, 120, 255, 0.0)',
       lineColor: 'rgba(19, 40, 153, 1.0)',
       lineWidth: 3
@@ -121,6 +121,19 @@
     var data = await getData(symbol, exchange, period, cnt); // 날짜,시간,시,고,저,종,거래량
     series.setData(data);
 
+    // ---------------------------------------------------
+    //mk 소수점 삭제
+    
+    series.applyOptions({
+      priceFormat: { // price format - y축
+        type: 'custom',
+        //minMove: 0.5,
+        formatter: function(f){
+          return f
+        }
+      }
+    });
+    
     // ---------------------------------------------------
     // 차트 스타일
 
@@ -139,7 +152,9 @@
     
     function setLastBarText() {
       const t = new Date(data[data.length - 1].time * 1000);
-      const dateStr = t.getFullYear() + '-' + ((t.getMonth() + 1 + 100).toString().substring(1)) + '-' + ((t.getDate() * 1 + 100).toString().substring(1));
+      //const dateStr = t.getFullYear() + '-' + ((t.getMonth() + 1 + 100).toString().substring(1)) + '-' + ((t.getDate() * 1 + 100).toString().substring(1));
+      //mk 날자 수정
+      const dateStr = ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
       $('#chartToolTip [name=dateStr]').text(dateStr)
       $('#chartToolTip [name=point]').text(data[data.length - 1].value)
       // toolTip.innerHTML = '<div style="font-size: 24px; margin: 4px 0px; color: #20262E">' + __('지수') + '<i class="icon--help" style="width: 16px;height: 18px;background: url(\'/assets/img/icon/btn_help.svg\') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i></div>'
@@ -163,7 +178,6 @@
         // toolTip.innerHTML =	'<div style="font-size: 24px; margin: 4px 0px; color: #20262E">'+__('지수')+'<i class="icon--help" style="width: 16px;height: 18px;background: url(\'/assets/img/icon/btn_help.svg\') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i></div>'+ '<div style="font-size: 22px; margin: 4px 0px; color: #20262E">' + (Math.round(price * 100) / 100).toFixed(2) + '</div>' + '<div>' + dateStr + '</div>';
       }
     });
-
   };
   
   window.displayChart = displayChart;
