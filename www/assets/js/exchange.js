@@ -565,11 +565,11 @@ $(function() {
                 }
             },
             // 거래금액
-            {
-                data: 'amount_remain', render: (amount_remain) => {
-                    return real_number_format(amount_remain);
-                }
-            },
+            //{
+            //    data: 'amount_remain', render: (amount_remain) => {
+            //        return real_number_format(amount_remain);
+            //    }
+            //},
             // // 상태
             // {
             //     data: 'status', render: (status, _type, _row) => {
