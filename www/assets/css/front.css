@@ -120,7 +120,7 @@
 }
 
 .front .getting-started {
-    margin-top: 110;
+    margin-top: 110px;
     display: flex;
     justify-content: center;
     column-gap: 36px;
