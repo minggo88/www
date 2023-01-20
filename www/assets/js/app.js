@@ -1429,7 +1429,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	 */
 	const request_user_info = function (callback) {
 		add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
-			console.log('getMyInfo r:', r);
+			//console.log('getMyInfo r:', r);
 			if (r && r.success && !r.error) {
 				let user_info = r.payload;
 				Model.user_info = user_info;
