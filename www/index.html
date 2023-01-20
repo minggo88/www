@@ -123,16 +123,16 @@
 	</header>
 	<section class="viusalArea">
 		<div class="typography">
-			<h1 data-i18n>새로운 인증시스템의 글로벌 표준 차 거래소</h1>
-			<p data-i18n>안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다.</p>
+			<h1 data-i18n>새로운 차 인증시스템을 기반으로</h1>
+			<h1 data-i18n>글로벌 표준을 만들어 갑니다.</h1>
 		</div>
 		<div class="statistics">
 			<section class="statistics--tea">
-				<h1 data-i18n>Tea</h1>
+				<h1 data-i18n>TEA</h1>
 				<em data-bind="trade_goods_summary.cnt_tea">0</em>
 			</section>
 			<section class="statistics--teaware">
-				<h1 data-i18n>Total Tea</h1>
+				<h1 data-i18n>Total</h1>
 				<em data-bind="trade_goods_summary.cnt_totaltea">0</em>
 			</section>
 		</div>
@@ -167,20 +167,23 @@
 			<section class="section section--index">
 				<script>
 				</script>
-				<div class="three-line-legend" id="chartToolTip" style="display: block; left: 3px; top: 3px;">
+				<div class="three-line-legend" id="chartToolTip" style="display: block; left: 3px; top: 3px; width: 100%;">
 					<div style="font-size: 24px; margin: 4px 0px; color: #20262E">
-						<span data-i18n>지수</span><i class="icon--help"
-							style="width: 16px;height: 18px;background: url('/assets/img/icon/btn_help.svg') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i>
+						<strong><span data-i18n>ATMI</span></strong>
+						<span style="width :20px">&nbsp;&nbsp;</span>
+						<strong><span style="font-size: 22px;margin: 4px 0px;color: #20262E;" name="point">727.39</span></strong>
+						<!--<i class="icon--help" style="width: 16px;height: 18px;background: url('/assets/img/icon/btn_help.svg') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i>
+						-->
 					</div>
 					<div class="pop_up">
 						<div class="pop_content" data-i18n>지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다.</div>
 					</div>
-					<div style="font-size: 22px; margin: 4px 0px; color: #20262E" name="point">0</div>
+					<!--<div style="font-size: 22px; margin: 4px 0px; color: #20262E" name="point">0</div>-->
 					<div name="dateStr"></div>
 				</div>
 
 				<div id="indexCanvas" class="canvas"
-					style="width: 100%; height: 42vh; max-height: 200px;    margin-top: 60px;"></div>
+					style="width: 100%; height: 42vh; max-height: 200px;    margin-top: 60px;border-bottom-width: 0px;"></div>
 			</section>
 			<section class="section">
 				<div class="section--header">
