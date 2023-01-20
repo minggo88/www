@@ -60,6 +60,7 @@
 /* 태이블 데이터 없을때 배경색 사선 그려지는것 제거 */
 div.dts div.dataTables_scrollBody {
     background: transparent !important;
+    border-bottom-width: 0px;
 }
 
 .side--panel {
@@ -244,6 +245,9 @@ div.dts div.dataTables_scrollBody {
 }
 .dt-body-right.text-right{
 	text-align : center!important;
+}
+.dt-body-left.dt-head-center.sorting_1.dtr-control{
+	text-align : left!important;
 }
 
 /* 구매하기 */
