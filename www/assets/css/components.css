@@ -438,6 +438,7 @@
     border: 0 none !important;
     border-bottom: 1px solid var(--black-green) !important;
     text-align: center !important;
+    font-family: normal !important;
 }
 
 .grid-table tbody tr.selected td {
@@ -523,10 +524,10 @@
     padding: 0 10px !important;
 }
 .grid-table tbody tr:not(.jqgfirstrow) td{
-    height: 43.3px !important;
-    line-height: 43.3px !important;
+    height: 45px !important;
+    line-height: 45px !important;
     font-family: "Noto Sans KR";
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: -0.02em;
     border: 0 none;
 }
