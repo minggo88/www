@@ -239,6 +239,13 @@ div.dts div.dataTables_scrollBody {
 	height: 509px;
 }
 
+.dtr-control{
+	text-align : center!important;
+}
+.dt-body-right.text-right{
+	text-align : center!important;
+}
+
 /* 구매하기 */
 #modal-buy .modal--content ,
 #modal-buy-direct .modal--content 
