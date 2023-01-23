@@ -282,25 +282,9 @@ $(function() {
         $(window).resize(function() {
             chart.applyOptions({
             width: $('#'+target_id).outerWidth(),
-            height: $('#'+target_id).outerHeight(),
-	    //mk y축 및 x축 표기 변환
-		priceFormat: { // price format - y축
-			type: 'custom',
-			//minMove: 0.5,
-			formatter: function(f){
-				return f
-			}
-		},
-		timeScale: {
-			tickMarkFormatter: (time, tickMarkType, locale) => {
-				//const t = new Date(data[data.length - 1].time * 1000);
-				const t = new Date(time * 1000);
-				const dateStr = ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
-				return dateStr;
-			},
-		},	    
-            });
-        });
+            height: $('#'+target_id).outerHeight()
+	    });    
+	});
     }
     genChartLine();
 
@@ -349,6 +333,28 @@ $(function() {
         // ---------------------------------------------------
         // 차트 스케일 맞춤
         chart.timeScale().fitContent();
+	    
+	    //mk y축 변경 및 x축 표기 변경
+	    chart.applyOptions({
+		priceScale: {
+			autoScale: true,
+		},
+		priceFormat: { // price format - y축
+			type: 'custom',
+			//minMove: 0.5,
+			formatter: function(f){
+				return f
+			}
+		},
+		timeScale: { // time format - x축
+		//barSpacing: 100, // 그래프 사이의 간격
+			tickMarkFormatter: (time, tickMarkType, locale) => {
+				const t = new Date(time * 1000);
+				const dateStr = ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
+				return dateStr;
+			}
+		},
+	});
 
     }
 
