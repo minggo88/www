@@ -14,6 +14,7 @@
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period, false); // false for synchronous request
     xmlHttp.send(null);
+    alert("symbol : " + symbol + ", exchagne : " + exchagne + ", period : " + period);
     let json = xmlHttp.responseText;
     if (json.indexOf('{') === 0) {
       json = JSON.parse(json);
@@ -128,6 +129,7 @@
     addSMAtoChart(data, 10, '#F00');
     addSMAtoChart(data, 30, '#0F0');
     addSMAtoChart(data, 90, '#00F');
+    alert("data" + data);
 
     function addSMAtoChart(data, cnt, color, line_width) {
       var smaData = calculateSMA(data, cnt);
