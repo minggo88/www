@@ -169,24 +169,51 @@ $(function() {
 
         genChartLine();
 
-        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
-            $('.details').removeClass('loading')
-            if (resp.success && resp.payload) {
-                displayChartLine('S', resp.payload);
-            }
-        })
-        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
-            $('.details').removeClass('loading')
-            if (resp.success && resp.payload) {
-                displayChartLine('A', resp.payload);
-            }
-        })
-        API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
-            $('.details').removeClass('loading')
-            if (resp.success && resp.payload) {
-                displayChartLine('B', resp.payload);
-            }
-        })
+	switch (SELECTED_GRADE) {
+	case 'S':
+		API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+			$('.details').removeClass('loading')
+			if (resp.success && resp.payload) {
+				displayChartLine('S', resp.payload);
+			}
+		})
+	break;
+	case 'A':
+		API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+			$('.details').removeClass('loading')
+			if (resp.success && resp.payload) {
+				displayChartLine('A', resp.payload);
+			}
+		})
+	break;
+	case 'B':
+		API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+			$('.details').removeClass('loading')
+			if (resp.success && resp.payload) {
+				displayChartLine('B', resp.payload);
+			}
+		})
+	break;
+	}    
+	    
+        //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+        //    $('.details').removeClass('loading')
+        //    if (resp.success && resp.payload) {
+        //        displayChartLine('S', resp.payload);
+        //    }
+        //})
+        //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+        //    $('.details').removeClass('loading')
+        //    if (resp.success && resp.payload) {
+        //        displayChartLine('A', resp.payload);
+        //    }
+        //})
+        //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+        //    $('.details').removeClass('loading')
+        //    if (resp.success && resp.payload) {
+        //        displayChartLine('B', resp.payload);
+        //    }
+        //})
 
         // API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, SELECTED_GRADE,(resp) => {
         //     $('.details').removeClass('loading')
@@ -278,7 +305,7 @@ $(function() {
                         lineWidth: 2,
                     });
                     window.lineSeries_S.setData(getLineChartData(data));
-                    $('#legend_s_grade').show();
+                    //$('#legend_s_grade').show();
                 }
                 break;
             case 'A':
@@ -288,7 +315,7 @@ $(function() {
                         lineWidth: 1,
                     });
                     window.lineSeries_A.setData(getLineChartData(data));
-                    $('#legend_a_grade').show();
+                    //$('#legend_a_grade').show();
                 }
                 break;
             case 'B':
@@ -298,7 +325,7 @@ $(function() {
                         lineWidth: 1,
                     });
                     window.lineSeries_B.setData(getLineChartData(data));
-                    $('#legend_b_grade').show();
+                    //$('#legend_b_grade').show();
                 }
                 break;
         }
@@ -916,24 +943,51 @@ $(function() {
 
             let period = $('#period').dropdown('selected');
 
-            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
-                $('.details').removeClass('loading')
-                if (resp.success && resp.payload) {
-                    displayChartLine('S', resp.payload);
-                }
-            })
-            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
-                $('.details').removeClass('loading')
-                if (resp.success && resp.payload) {
-                    displayChartLine('A', resp.payload);
-                }
-            })
-            API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
-                $('.details').removeClass('loading')
-                if (resp.success && resp.payload) {
-                    displayChartLine('B', resp.payload);
-                }
-            })
+	    switch (SELECTED_GRADE) {
+		case 'S':
+			API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+				$('.details').removeClass('loading')
+				if (resp.success && resp.payload) {
+				displayChartLine('S', resp.payload);
+			}
+		})
+		break;
+		case 'A':
+			API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+				$('.details').removeClass('loading')
+				if (resp.success && resp.payload) {
+					displayChartLine('A', resp.payload);
+				}
+			})
+		break;
+		case 'B':
+			API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+				$('.details').removeClass('loading')
+				if (resp.success && resp.payload) {
+					displayChartLine('B', resp.payload);
+				}
+			})
+		break;
+	    }
+		
+            //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+            //    $('.details').removeClass('loading')
+            //    if (resp.success && resp.payload) {
+            //        displayChartLine('S', resp.payload);
+            //    }
+            //})
+            //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+            //    $('.details').removeClass('loading')
+            //    if (resp.success && resp.payload) {
+            //        displayChartLine('A', resp.payload);
+            //    }
+            //})
+            //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+            //    $('.details').removeClass('loading')
+            //    if (resp.success && resp.payload) {
+            //        displayChartLine('B', resp.payload);
+            //    }
+            //})
             
 
             API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
