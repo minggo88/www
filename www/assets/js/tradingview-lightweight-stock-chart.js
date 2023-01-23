@@ -14,7 +14,7 @@
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period, false); // false for synchronous request
     xmlHttp.send(null);
-    alert("symbol : " + symbol + ", exchagne : " + exchagne + ", period : " + period);
+    
     let json = xmlHttp.responseText;
     if (json.indexOf('{') === 0) {
       json = JSON.parse(json);
@@ -102,6 +102,25 @@
        height: $('#'+target_id).outerHeight()
      });
    });
+    
+    //mk 소수점 삭제, x축 표기 변경
+    chart.applyOptions({
+      priceFormat: { // price format - y축
+        type: 'custom',
+        //minMove: 0.5,
+        formatter: function(f){
+          return f
+        }
+      },
+      timeScale: {
+        tickMarkFormatter: (time, tickMarkType, locale) => {
+          //const t = new Date(data[data.length - 1].time * 1000);
+          const t = new Date(time * 1000);
+          const dateStr = ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
+          return dateStr;
+        },
+      },
+    });
 
     // ---------------------------------------------------
     // 가격봉 차트 생성
@@ -129,7 +148,6 @@
     addSMAtoChart(data, 10, '#F00');
     addSMAtoChart(data, 30, '#0F0');
     addSMAtoChart(data, 90, '#00F');
-    alert("data" + data);
 
     function addSMAtoChart(data, cnt, color, line_width) {
       var smaData = calculateSMA(data, cnt);
