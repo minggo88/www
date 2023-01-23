@@ -132,6 +132,9 @@
           return f
         }
       },
+    });
+    //x축 변경
+    chart.applyOtion({
       timeScale: {
         tickMarkFormatter: (time, tickMarkType, locale) => {
           const t = new Date(data[data.length - 1].time * 1000);
@@ -179,8 +182,7 @@
         const dateStr = t.getFullYear() + '/' + ((t.getMonth()*1 + 1 + 100).toString().substring(1)) + '/' + ((t.getDate()*1 + 100).toString().substring(1));
         var price = param.seriesPrices.get(series);
         $('#chartToolTip [name=dateStr]').text(dateStr)
-        //mk 생략(최종포인트 y축에나타내는것)
-        //$('#chartToolTip [name=point]').text((Math.round(price * 100) / 100).toFixed(2))
+        $('#chartToolTip [name=point]').text((Math.round(price * 100) / 100).toFixed(2))
         // toolTip.innerHTML =	'<div style="font-size: 24px; margin: 4px 0px; color: #20262E">'+__('지수')+'<i class="icon--help" style="width: 16px;height: 18px;background: url(\'/assets/img/icon/btn_help.svg\') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i></div>'+ '<div style="font-size: 22px; margin: 4px 0px; color: #20262E">' + (Math.round(price * 100) / 100).toFixed(2) + '</div>' + '<div>' + dateStr + '</div>';
       }
     });
