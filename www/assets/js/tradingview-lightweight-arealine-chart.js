@@ -69,7 +69,7 @@
     $(container).empty();
 
     var width = 600;
-    var height = 360;
+    var height = 400;
 
     // ---------------------------------------------------
     // 차트 생성 
@@ -134,7 +134,7 @@
       },
     });
     //x축 변경
-    chart.applyOtion({
+    chart.applyOptions({
       timeScale: {
         tickMarkFormatter: (time, tickMarkType, locale) => {
           const t = new Date(data[data.length - 1].time * 1000);
