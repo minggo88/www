@@ -69,7 +69,7 @@
     $(container).empty();
 
     var width = 600;
-    var height = 300;
+    var height = 360;
 
     // ---------------------------------------------------
     // 차트 생성 
@@ -131,7 +131,14 @@
         formatter: function(f){
           return f
         }
-      }
+      },
+      timeScale: {
+        tickMarkFormatter: (time, tickMarkType, locale) => {
+          const t = new Date(data[data.length - 1].time * 1000);
+          const dateStr = ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
+          return dateStr;
+        },
+      },
     });
     
     // ---------------------------------------------------
@@ -152,9 +159,7 @@
     
     function setLastBarText() {
       const t = new Date(data[data.length - 1].time * 1000);
-      //const dateStr = t.getFullYear() + '-' + ((t.getMonth() + 1 + 100).toString().substring(1)) + '-' + ((t.getDate() * 1 + 100).toString().substring(1));
-      //mk 날자 수정
-      const dateStr = ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
+      const dateStr = t.getFullYear() + '/' + ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
       $('#chartToolTip [name=dateStr]').text(dateStr)
       $('#chartToolTip [name=point]').text(data[data.length - 1].value)
       // toolTip.innerHTML = '<div style="font-size: 24px; margin: 4px 0px; color: #20262E">' + __('지수') + '<i class="icon--help" style="width: 16px;height: 18px;background: url(\'/assets/img/icon/btn_help.svg\') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i></div>'
@@ -171,10 +176,11 @@
       } else {
         // dateStr = param.time.year +' - '+ param.time.month + ' - ' + param.time.day;
         const t = new Date(param.time * 1000);
-        const dateStr = t.getFullYear() + '-' + ((t.getMonth()*1 + 1 + 100).toString().substring(1)) + '-' + ((t.getDate()*1 + 100).toString().substring(1));
+        const dateStr = t.getFullYear() + '/' + ((t.getMonth()*1 + 1 + 100).toString().substring(1)) + '/' + ((t.getDate()*1 + 100).toString().substring(1));
         var price = param.seriesPrices.get(series);
         $('#chartToolTip [name=dateStr]').text(dateStr)
-        $('#chartToolTip [name=point]').text((Math.round(price * 100) / 100).toFixed(2))
+        //mk 생략(최종포인트 y축에나타내는것)
+        //$('#chartToolTip [name=point]').text((Math.round(price * 100) / 100).toFixed(2))
         // toolTip.innerHTML =	'<div style="font-size: 24px; margin: 4px 0px; color: #20262E">'+__('지수')+'<i class="icon--help" style="width: 16px;height: 18px;background: url(\'/assets/img/icon/btn_help.svg\') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i></div>'+ '<div style="font-size: 22px; margin: 4px 0px; color: #20262E">' + (Math.round(price * 100) / 100).toFixed(2) + '</div>' + '<div>' + dateStr + '</div>';
       }
     });
