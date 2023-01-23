@@ -137,7 +137,8 @@
     chart.applyOptions({
       timeScale: {
         tickMarkFormatter: (time, tickMarkType, locale) => {
-          const t = new Date(data[data.length - 1].time * 1000);
+          //const t = new Date(data[data.length - 1].time * 1000);
+          const t = new Date(time * 1000);
           const dateStr = ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
           return dateStr;
         },
