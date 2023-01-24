@@ -955,6 +955,7 @@ $(function() {
             SELECTED_EXCHANGE = exchange
             SELECTED_NAME = name
             SELECTED_GRADE = data.goods_grade
+	    SELECTED_GOODS_GRADE = SELECTED_GRADE
             // console.log('SELECTED_GRADE:', SELECTED_GRADE);
 
             // 로딩 애니메이션 출력
@@ -1364,6 +1365,11 @@ $(function() {
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
             modal.find('[name=goods_grade]').val(goods_grade)
+	    
+	    //mk 물품 구매시 total가격, 수량 수정
+	    modal.find('[name=volume]').val(1)
+            modal.find('[name=volume]').prop('min',1)
+            modal.find('[name=total]').val('' + real_number_format(price * 1) + '')
         })
         .submit(e => {
             $('#modal-buy-direct').find('button[type=submit]').attr('disabled', true);
@@ -1568,6 +1574,11 @@ $(function() {
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
             modal.find('[name=goods_grade]').val(goods_grade)
+	    
+	    //mk 물품 구매시 total가격, 수량 수정
+	    modal.find('[name=volume]').val(1)
+            modal.find('[name=volume]').prop('min',1)
+            modal.find('[name=total]').val('' + real_number_format(price * 1) + '')
         })
         .submit(e => {
             $('#modal-sell-direct').find('button[type=submit]').attr('disabled', true);
