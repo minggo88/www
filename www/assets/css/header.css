@@ -79,7 +79,7 @@ header .logo a {
 }
 
 .nav > ul li a {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--basic-black);
     letter-spacing: -0.05em;
