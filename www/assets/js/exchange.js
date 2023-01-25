@@ -567,6 +567,7 @@ $(function() {
         scrollY: 308,
         deferRender: true,
         scroller: true,
+	autoWidth: false,
         ajax: {
             url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`,
             type: 'POST',
@@ -663,8 +664,7 @@ $(function() {
             {
                 searchable: false,
                 orderable: true,
-                targets: 0,
-		width: 120px,
+                targets: 0
             },
             // {
             //     targets: '_all',
@@ -676,14 +676,14 @@ $(function() {
                 className: 'dt-body-center',
                 type: 'title-string',
                 orderable: true,
-		width: 170px,
+
             },
             {
                 targets: 2,
                 className: 'dt-body-center',
                 type: 'any-number',
                 orderable: true,
-		width: 100px,
+
             },
             {
                 targets: 3,
@@ -699,14 +699,14 @@ $(function() {
                 type: 'any-number',
                 orderable: true,
                 responsivePriority: 1,
-		width: 100px,
+
             },
             {
                 targets: 5,
                 className: 'dt-body-right text-right',
                 orderable: true,
                 responsivePriority: 1,
-		width: 180px,
+
             },
             // {
             //     targets: 6,
@@ -730,6 +730,7 @@ $(function() {
         scrollY: 308,
         deferRender: true,
         scroller: true,
+	autoWidth: false,
         ajax: {
             url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`,
             type: 'POST',
@@ -828,7 +829,7 @@ $(function() {
                 searchable: false,
                 orderable: true,
                 targets: 0,
-		width: 120px,
+
             },
             // {
             //     targets: '_all',
@@ -840,7 +841,7 @@ $(function() {
                 className: 'dt-body-center',
                 type: 'title-string',
                 orderable: true,
-		width: 170px,
+
             },
             {
                 targets: 2,
@@ -848,7 +849,7 @@ $(function() {
                 type: 'any-number',
                 orderable: true,
                 responsivePriority: 1,
-		width: 100px,
+
             },
             {
                 targets: 3,
@@ -856,7 +857,7 @@ $(function() {
                 type: 'any-number',
                 orderable: true,
                 responsivePriority: 1,
-		width: 170px,
+
             },
             {
                 targets: 4,
@@ -864,14 +865,14 @@ $(function() {
                 type: 'any-number',
                 orderable: true,
                 responsivePriority: 1,
-		width: 100px,
+
             },
             {
                 targets: 5,
                 className: 'dt-body-right text-right',
                 orderable: true,
                 responsivePriority: 1,
-		width: 180px,
+
             },
             // {
             //     targets: 6,
