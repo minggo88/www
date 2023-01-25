@@ -691,7 +691,7 @@ $(function() {
                 type: 'any-number',
                 orderable: true,
                 responsivePriority: 1,
-		width: 170px,
+
             },
             {
                 targets: 4,
