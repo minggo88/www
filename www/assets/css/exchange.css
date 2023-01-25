@@ -168,6 +168,7 @@ div.dts div.dataTables_scrollBody {
 #tab-info {
     padding-top: 10px;
     column-gap: 11px;
+	width: 800px;
 	display: flex;
 	flex-direction: column;
 }
@@ -177,11 +178,17 @@ div.dts div.dataTables_scrollBody {
 }
 
 #tab-info .info > div{
-	flex: 1;
+	flex-grow: 1;
 }
 #tab-info .info > div.thumb{
-	width: 278px;
-	margin-right:20px;
+	width: calc(44%);
+	/*margin-right:20px;*/
+	display:flex;
+}
+#tab-info .info > div.info_p{
+	width: calc(56%);
+	/*margin-right:20px;*/
+	display:flex;
 }
 
 #tab-info .info p {
@@ -189,9 +196,24 @@ div.dts div.dataTables_scrollBody {
     /* height: 267px; */
 	margin-right:20px
 }
+#tab-info div img{
+	width: 250px;
+    height: 250px;
+    margin-left: 50px;
+    margin-top: 100px;
+    margin-right: 50px;
+}
+
+#tab-info #info{
+	width: 250px;
+    height: 250px;
+    margin-left: 50px;
+    margin-top: 100px;
+    margin-right: 50px;
+}
 
 #tab-info .table {
-    margin-top: 21px;
+    margin-top: 40px;
 }
 #tab-info .table th {
     /* width: calc(100% * (53 / 536)); */
