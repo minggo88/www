@@ -583,6 +583,7 @@ $(function() {
                 //     // return meta.row + 1
                 //     return _d.orderid;
                 // }
+		, width: '15%'
             },
             // {
             //     data: () => {
@@ -595,24 +596,24 @@ $(function() {
                     return date('Y-m-d H:i', timestamp);
                     // const date = new Date(timestamp * 1000)
                     // return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
-                }
+                }, width: '20%'
             },
             {
                 data: 'goods_grade', render: (goods_grade) => {
                     return goods_grade;
-                }
+                }, width: '15%'
             },
             // 가격
             {
                 data: 'price', render: (price) => {
                     return real_number_format(price);
-                }
+                }, width: '20%'
             },
             // 수량
             {
                 data: 'volume_remain', render: (volume_remain) => {
                     return number_format(volume_remain, 0);
-                }
+                }, width: '12%'
             },
             // 거래금액
             //{
@@ -658,7 +659,8 @@ $(function() {
                 }
 
                 return btn
-            } },
+            	}, width: '18%'
+	    },
         ],
         columnDefs: [
             {
@@ -749,6 +751,7 @@ $(function() {
                 //     // return pageInfo.length - meta.row + 1 // 역순(점점작게)
                 //     // return meta.row+1 // 정순(점점크게)
                 // }
+		, width: '15%'
             },
             // {
             //     data: () => {
@@ -761,25 +764,25 @@ $(function() {
                     return date('Y-m-d H:i', timestamp);
                     // const date = new Date(timestamp * 1000)
                     // return date.getFullYear() + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + String(date.getDate()).padStart(2, '0')
-                }
+                }, width: '20%'
             },
             {
                 data: 'goods_grade', render: (goods_grade) => {
                     return goods_grade;
-                }
+                }, width: '15%'
             },
             // 가격
             {
                 // data: 'price', render: DataTable.render.number( null, null, 0, '' )
                 data: 'price', render: (price) => {
                     return real_number_format(price);
-                }
+                }, width: '20%'
             },
             // 수량
             {
                 data: 'volume_remain', render: (volume_remain) => {
                     return number_format(volume_remain, 0);
-                }
+                }, width: '12%'
             },
             // 거래금액 - price * volume_remain을 해야 하는데 남은 수량이 바뀔때마다 계산해서 정렬을 해줘야 해서 숨깁니다.
             //{
@@ -822,14 +825,14 @@ $(function() {
 
                 }
                 return btn
-            } },
+            	}, width: '18%'
+	    },
         ],
         columnDefs: [
             {
                 searchable: false,
                 orderable: true,
                 targets: 0,
-
             },
             // {
             //     targets: '_all',
@@ -841,7 +844,6 @@ $(function() {
                 className: 'dt-body-center',
                 type: 'title-string',
                 orderable: true,
-
             },
             {
                 targets: 2,
@@ -849,7 +851,6 @@ $(function() {
                 type: 'any-number',
                 orderable: true,
                 responsivePriority: 1,
-
             },
             {
                 targets: 3,
@@ -857,7 +858,6 @@ $(function() {
                 type: 'any-number',
                 orderable: true,
                 responsivePriority: 1,
-
             },
             {
                 targets: 4,
@@ -865,14 +865,12 @@ $(function() {
                 type: 'any-number',
                 orderable: true,
                 responsivePriority: 1,
-
             },
             {
                 targets: 5,
                 className: 'dt-body-right text-right',
                 orderable: true,
                 responsivePriority: 1,
-
             },
             // {
             //     targets: 6,
