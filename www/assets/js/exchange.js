@@ -646,13 +646,13 @@ $(function() {
                 let btn = ''
 
                 if (Model.user_info.userno == d.userno) {
-                    btn = '<button type="button" class="btn btn--rounded btn--cancal" data-symbol="' + SELECTED_SYMBOL + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px" >'+__('취소')+'</button>'
+                    btn = '<button type="button" class="btn btn btn--cancal" data-symbol="' + SELECTED_SYMBOL + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px" >'+__('취소')+'</button>'
 
                 } else if (Model.user_info.userno !== d.userno && cookie_check === Model.user_info.userno) {
-                    btn = '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
+                    btn = '<button type="button" class="btn btn--blue btn" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
                 }
                 else {
-                    btn = '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct-pin" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
+                    btn = '<button type="button" class="btn btn--blue btn" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct-pin" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
 
                 }
 
@@ -807,12 +807,12 @@ $(function() {
                 let cookie_check = $.cookie(Model.user_info.userid)
                 let btn = '';
                 if (Model.user_info.userno == d.userno) {
-                    btn = '<button type="button" class="btn btn--rounded btn--cancal" data-symbol="' + SELECTED_SYMBOL + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px" >'+__('취소')+'</button>'
+                    btn = '<button type="button" class="btn btn btn--cancal" data-symbol="' + SELECTED_SYMBOL + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px" >'+__('취소')+'</button>'
 
                 } else if (Model.user_info.userno !== d.userno && cookie_check === Model.user_info.userno){
-                    btn = '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
+                    btn = '<button type="button" class="btn btn--red btn" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
                 }else {
-                    btn = '<button type="button" class="btn btn--red btn--rounded" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct-pin" style="width: 70px; height: 25px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
+                    btn = '<button type="button" class="btn btn--red btn" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-price="' + price + '" data-volume="' + volume_remain + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-buy-direct-pin" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px">'+__('구매')+'</button>'
 
                 }
                 return btn
