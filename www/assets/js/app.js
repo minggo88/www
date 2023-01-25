@@ -1691,6 +1691,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		const permission_level = Model.user_info.permission.match(/1/g).length; // '11000' => 2 ,
 		if (Model.user_info.permission.substr(4, 1) == '1') {// 신분증 인증 완료
 			$('[name=status_success]').show();
+			//mk 인증완료시 내역 숨기기
+			$('.d-grid.column-2').hide()
+			$('.flex-self-left p').hide()
+			$('.text-black').hide()
+			$('[name=btn_save]').hide();
 		} else {
 			if (Model.user_info.image_bank_url) { // 신분증 인증 대기중
 				$('[name=status_waiting]').show();
