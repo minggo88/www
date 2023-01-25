@@ -1063,6 +1063,7 @@ $(function() {
 
             $('.tea--name').text(name) // .details--header 
             $('#tab-info .certificate').text(data.meta_certification_mark_name)
+	    $('#tab-info .meta_wp_teamaster_note').text(data.content)
             $('#tab-info [name=meta_wp_teamaster_note]').text(data.meta_wp_teamaster_note)
             // 상품사진
             $('#tab-info img').attr('src', data.main_pic)
