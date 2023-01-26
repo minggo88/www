@@ -82,7 +82,7 @@
 						<ul>
 							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
 							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안 비밀번호변경</a></li>
 							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
 							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
 							<li><a href="notification.html" data-login data-i18n>알림</a></li>
@@ -129,7 +129,7 @@
 				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
 			</li>
 			<li>
-				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
+				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안 비밀번호 변경</span></a>
 			</li>
 			<li>
 				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
@@ -184,16 +184,16 @@
 				<nav class="side--snb">
 					<ul>
 						<li>
-							<a href="member-account.html" data-login data-i18n>정보 수정</a>
+							<a href="member-account.html" data-login data-i18n>계정 정보</a>
 						</li>
 						<li>
-							<a href="my-verification.html" data-login data-i18n>ID 인증 관리</a>
+							<a href="my-verification.html" data-login data-i18n>인증 관리</a>
+						</li>
+						<li>
+							<a href="change-pin-number.html" data-login data-i18n>보안 비밀번호 변경</a>
 						</li>
 						<li class="snb--active">
-							<a href="change-pin-number.html" data-login data-i18n>보안비밀번호 변경</a>
-						</li>
-						<li>
-							<a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a>
+							<a href="change-account-number.html" data-login data-i18n>출금계좌 관리</a>
 						</li>
 <!--						<li>-->
 <!--							<a href="transaction.html" data-login data-i18n>거래 내역</a>-->
@@ -210,14 +210,14 @@
 			<div class="contents">
 				<header class="contents--header">
 					<button type="button" class="navigation--back"></button>
-					<h1 data-i18n>보안비밀번호 변경</h1>
+					<h1 data-i18n>보안 비밀번호 변경</h1>
 				</header>
-				<h2 class="mobile-only"><i class="icon-user-fill icon-shield"></i> <span data-i18n>거래용 보안비밀번호 변경</span></h2>
+				<h2 class="mobile-only"><i class="icon-user-fill icon-shield"></i> <span data-i18n>거래용 보안 비밀번호 변경</span></h2>
 
 				<form id="change-security-password" action="change-security-password2.html" method="post" style="width: 100%; height: auto" >
 					<div class="boxed boxed--transparent text--center">
 						<div class="text--center">
-							<h2 class="m-0 text--medium text-bold" data-i18n>현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요.</h2>
+							<h2 class="m-0 text--medium text-bold" data-i18n>현재 사용 중인 보안 비밀번호(Pin Number)를 입력하세요.</h2>
 						</div>
 						<div style="margin-top: 52px;">
 							<div class="d-flex flex-center">
@@ -232,9 +232,9 @@
 							</div>
 						</div>
 						<div class="forget_pin text--blue-gray" data-i18n>
-							현재 사용 중인 보안비밀번호(Pin Number)를 잊으셨나요?
+							현재 사용 중인 보안 비밀번호(Pin Number)를 잊으셨나요?
 							<p>
-								<a href="#forget-security-password" name="forget-security-password" data-login>현재 보안비밀번호 재설정 &gt;</a>
+								<a href="#forget-security-password" name="forget-security-password" data-login>현재 보안 비밀번호 재설정 &gt;</a>
 							</p>
 						</div>
 					</div>
@@ -246,7 +246,7 @@
 				<form id="forget-security-password" action="change-security-password.html" method="post" style="width: 100%; height: auto; display: none" >
 					<div class="boxed boxed--transparent text--center">
 						<div class="text--center">
-							<h2 class="m-0 text--medium text-bold" data-i18n>현재 보안비밀번호(Pin Number) 재설정하기</h2>
+							<h2 class="m-0 text--medium text-bold" data-i18n>현재 보안 비밀번호(Pin Number) 재설정하기</h2>
 						</div>
 						<div class="form--pin-reset">
 							<div class="d-flex">
@@ -278,8 +278,8 @@
 				<form id="change-security-password2" action="change-security-password-confirm.html" method="post" style="width: 100%; height: auto; display: none" >
 					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center">
-							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
-							<h2 class="m-0 text--medium text-bold " data-i18n>새로 사용할 보안비밀번호(Pin Number)를 입력하세요.</h2>
+							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안 비밀번호 변경</h2>
+							<h2 class="m-0 text--medium text-bold " data-i18n>새로 사용할 보안 비밀번호(Pin Number)를 입력하세요.</h2>
 						</div>
 						<div style="margin-top: 52px;">
 							<div class="d-flex flex-center">
@@ -301,8 +301,8 @@
 				<form id="change-security-password-confirm" action="change-security-password-complete.html" method="post" style="width: 100%; height: auto; display: none" >
 					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center">
-							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
-							<h2 class="m-0 text--medium text-bold " data-i18n>보안비밀번호(Pin Number)를 한번 더 입력하세요.</h2>
+							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안 비밀번호 변경</h2>
+							<h2 class="m-0 text--medium text-bold " data-i18n>보안 비밀번호(Pin Number)를 한번 더 입력하세요.</h2>
 						</div>
 						<div style="margin-top: 52px;">
 							<div class="d-flex flex-center">
@@ -325,8 +325,8 @@
 					<div class="boxed boxed--transparent d-flex flex-center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center flex-self-center">
 							<i class="icon-user-fill icon-shield"></i>
-							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
-							<h2 class="m-0 text--medium text-bold " data-i18n>보안비밀번호(Pin Number)가 변경되었습니다.</h2>
+							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안 비밀번호 변경</h2>
+							<h2 class="m-0 text--medium text-bold " data-i18n>보안 비밀번호(Pin Number)가 변경되었습니다.</h2>
 						</div>
 					</div>
 				</div>
