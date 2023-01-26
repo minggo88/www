@@ -232,13 +232,13 @@
 							<div class="col-6">
 								<div class="form--controls">
 									<label for="bank_name" class="form--label mobile-only" data-i18n>은행명</label>
-									<input type="text" id="bank_name" name="bank_name" placeholder="은행명" data-bind="form.bank_name">
+									<input type="text" id="bank_name" name="bank_name" placeholder="은행명" data-bind="form.bank_name" disabled>
 								</div>
 							</div>
 							<div class="col-6">
 								<div class="form--controls">
 									<label for="bank_owner" class="form--label mobile-only" data-i18n>이름</label>
-									<input type="text" id="bank_owner" name="bank_owner" placeholder="이름" data-bind="form.bank_owner">
+									<input type="text" id="bank_owner" name="bank_owner" placeholder="이름" data-bind="form.bank_owner" disabled>
 								</div>
 							</div>
 						</div>
@@ -256,7 +256,7 @@
 									<div class="form--controls">
 <!--										<label for="bank_account" class="form&#45;&#45;label mobile-only" data-i18n>통장사본</label>-->
 <!--										<input type="file" id="image_bank_url" name="file-upload" placeholder="통장사본">-->
-										<input type="file" name="file_bank_url" id="file_bank_url" data-target="#image_bank_url" title="신분증 사진" id="front-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px">
+										<input type="file" name="file_bank_url" id="file_bank_url" data-target="#image_bank_url" title="신분증 사진" id="front-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px" disabled>
 										<input type="hidden" name="image_bank_url" id="image_bank_url">
 										<div name="preview" class="preview" for="file_bank_url"></div>
 
@@ -270,7 +270,8 @@
 						<p class="m-0 text-red" id="account_success" style="display:none;" data-i18n="">계좌 변경이 필요하시면 1:1 문의로 문의 주세요 (주말제외)</p>
 					</div>
 					<div class="text--center btnArea" id="account_ing4" style="display: block;">
-						<button type="button" class="btn btn--red" name="btn_save" style="width: 340px; margin-top: 40px"data-i18n>수정하기</button>
+						<button type="button" class="btn btn--red" name="btn_check" style="width: 340px; margin-top: 40px; display:block;" data-i18n>수정</button>
+						<button type="button" class="btn btn--red" name="btn_save" style="width: 340px; margin-top: 40px; display:none;" data-i18n="">수정완료</button>
 					</div>
 				</form>
 				<script>
