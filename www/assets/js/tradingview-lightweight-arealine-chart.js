@@ -111,7 +111,7 @@
     var series = chart.addAreaSeries({	
       topColor: 'rgba(0, 120, 255, 0.0)',	
       bottomColor: 'rgba(0, 120, 255, 0.0)',
-      lineColor: 'rgba(19, 40, 153, 1.0)',
+      lineColor: 'rgba(51, 51, 51, 1.0)',
       lineWidth: 3
     });
 
