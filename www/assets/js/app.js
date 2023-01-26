@@ -1727,7 +1727,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		}
 		console.log('user_info : '+ bank_ac_text);
 		$('$bank_account_p').text(bank_ac_text);
-		} 
+		
 		
 		let image_url = "";
 		$('input[type="file"]').on('change', function () {
