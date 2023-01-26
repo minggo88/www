@@ -200,16 +200,16 @@
 				<nav class="side--snb">
 					<ul>
 						<li>
-							<a href="member-account.html" data-login data-i18n>정보 수정</a>
+							<a href="member-account.html" data-login data-i18n>계정 정보</a>
 						</li>
 						<li class="snb--active">
-							<a href="my-verification.html" data-login data-i18n>ID 인증 관리</a>
+							<a href="my-verification.html" data-login data-i18n>인증 관리</a>
 						</li>
 						<li>
-							<a href="change-pin-number.html" data-login data-i18n>보안비밀번호 변경</a>
+							<a href="change-pin-number.html" data-login data-i18n>보안 비밀번호 변경</a>
 						</li>
 						<li>
-							<a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a>
+							<a href="change-account-number.html" data-login data-i18n>출금계좌 관리</a>
 						</li>
 <!--						<li>-->
 <!--							<a href="transaction.html" data-login data-i18n>거래 내역</a>-->
@@ -227,7 +227,7 @@
 				<header class="contents--header">
 					<div>
 						<button type="button" class="navigation--back"></button>
-						<h1 data-i18n>ID 인증 관리</h1>
+						<h1 data-i18n>인증 관리</h1>
 					</div>
 					<div class="mobile-only">
 						<i class="icon-user-fill icon-alarm"></i>
@@ -235,7 +235,7 @@
 					</div>
 				</header>
 
-				<h2 class="mobile-only"><i class="icon-user-fill"></i> <span data-i18n>ID 인증 관리</span></h2>
+				<h2 class="mobile-only"><i class="icon-user-fill"></i> <span data-i18n>인증 관리</span></h2>
 				<form action="my-verification-complete.html" method="post" style="width: 100%; height: auto;display:none" >
 					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center">
@@ -263,14 +263,14 @@
 					<div class="flex-self-left" style="width: 100%">
 						
 						<div class="text--center">
-							<h2 class="m-0 mb-24 text-red" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_success" data-i18n>ID 인증 완료!</h2>
-							<h2 class="m-0 mb-24" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_waiting" data-i18n>ID 인증 대기중</h2>
-							<h2 class="m-0 mb-24" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_default" data-i18n>ID 인증 필요</h2>
+							<h2 class="m-0 mb-24 text-red" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_success" data-i18n>인증 완료!</h2>
+							<h2 class="m-0 mb-24" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_waiting" data-i18n>인증 대기중</h2>
+							<h2 class="m-0 mb-24" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_default" data-i18n>인증 필요</h2>
 						</div>
-						<p class="m-0 flex-self-left text--medium text-bold" data-i18n>
+						<!--<p class="m-0 flex-self-left text--medium text-bold" data-i18n>
 							주민등록증을 업로드합니다.
-						</p>
-						<div class="d-grid column-2" style="margin-top: 48px">
+						</p>-->
+						<div class="d-grid column-2" style="margin-top: 10px">
 							<div>
 								<label for="front-side" style="font-weight: 400" data-i18n>신분증 사진</label>
 								<div class="box-image-selector">
@@ -288,14 +288,17 @@
 								</div>
 							</div>
 						</div>
-						<p class="m-0 text-bold" style="font-size: 14px; margin-top: 43px !important; margin-bottom: 17px !important; letter-spacing: 0" data-i18n>
-							문서가 아래의 모든 표준을 충족하는지 확인하십시오.
-						</p>
+						<p class="m-0 text-bold" style="font-size: 14px; margin-top: 43px !important; margin-bottom: 17px !important; letter-spacing: 0" data-i18n="">정부에서 발행한 아래 서류중 한가지를 준비해주세요.</p>
 						<ul class="text-black" style="letter-spacing: 0; list-style-position: inside">
-							<li data-i18n>읽기 쉽고 선명하며 조명이 밝음</li>
-							<li data-i18n>반사되지 않음, 흐릿하지 않음</li>
-							<li data-i18n>흑백 영상 없음, 편집 없음</li>
-							<li data-i18n>문서는 단색 배경에 배치됩니다.</li>
+						    <li data-i18n="">주민등록증</li>
+						    <li data-i18n="">운전면허증</li>
+						    <li data-i18n="">여권</li>
+						</ul>
+						<p class="m-0 text-bold" style="font-size: 14px; margin-top: 20px !important; margin-bottom: 17px !important; letter-spacing: 0" data-i18n="">사진을 업로드 하기전에 아래 기준을 체크해주세요</p>
+						<ul class="text-black" style="letter-spacing: 0; list-style-position: inside">
+						    <li data-i18n="">만료되지 않은 정부 발행 문서입니다.</li>
+						    <li data-i18n="">스캔 또는 사본이 아닌 원본입니다.</li>
+						    <li data-i18n="">읽기 쉽고 빛 반사 없이 선명합니다.</li>
 						</ul>
 					</div>
 					<div class="form--btns btn-area">
