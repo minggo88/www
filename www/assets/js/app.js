@@ -3,6 +3,8 @@ $('label,.btn,button,a,th').on('contextmenu selectstart dragstart', function() {
 $('body').on('contextmenu', function() {return false;});
 document.onmousedown = disableclick;
 
+var check_num = 0;
+
 function disableclick(event) {
 	if (event.button == 2) {
 		return false;
@@ -2143,38 +2145,42 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		// force_rander('user_info', Model.user_info);
 		
 		//계정 정보 주소 수정
-		$('.btn.btn--check').on('click', function () {
-			$('.btn.btn--check').hide();
-			$('.btn.btn--red').show();
-			$('.dropdown').attr("disabled", false);
-			$('#city').attr("disabled", false);
-			$('#address_a').attr("disabled", false);
-			$('#address_b').attr("disabled", false);
-			$('#zipcode').attr("disabled", false);
-		});
-		
-		$('.btn.btn--red').on('click', function () {
-			$('#country').dropdown('selected')
-			$('#mobile_country_code').val($('#country').dropdown('selected').toUpperCase())
+		if(check_num<1){
+			$('.btn.btn--check').on('click', function () {
+				$('.btn.btn--check').hide();
+				$('.btn.btn--red').show();
+				$('.dropdown').attr("disabled", false);
+				$('#city').attr("disabled", false);
+				$('#address_a').attr("disabled", false);
+				$('#address_b').attr("disabled", false);
+				$('#zipcode').attr("disabled", false);
+				check_num = 1;
+				return false;
+			});
+		}else{
+			$('.btn.btn--red').on('click', function () {
+				$('#country').dropdown('selected')
+				$('#mobile_country_code').val($('#country').dropdown('selected').toUpperCase())
 
-			add_request_item('putMyInfo', $(this).serialize(), function (r) {
-				if (r?.success) {
-					alert(__('저장했습니다.'));
-					
-					$('.btn.btn--check').show();
-					$('.btn.btn--red').hide();
-					$('.dropdown').attr("disabled", true);
-					$('#city').attr("disabled", true);
-					$('#address_a').attr("disabled", true);
-					$('#address_b').attr("disabled", true);
-					$('#zipcode').attr("disabled", true);
-					
-				} else {
-					alert(__('저장하지 못했습니다.') + r?.error?.message||'')
-				}
-			})
-			return false;
-		});
+				add_request_item('putMyInfo', $(this).serialize(), function (r) {
+					if (r?.success) {
+						alert(__('저장했습니다.'));
+
+						$('.btn.btn--check').show();
+						$('.btn.btn--red').hide();
+						$('.dropdown').attr("disabled", true);
+						$('#city').attr("disabled", true);
+						$('#address_a').attr("disabled", true);
+						$('#address_b').attr("disabled", true);
+						$('#zipcode').attr("disabled", true);
+						check_num = 0;
+					} else {
+						alert(__('저장하지 못했습니다.') + r?.error?.message||'')
+					}
+				})
+				return false;
+			});
+		}
 
 		// 국가 선택 
 		function select_country(code) {
