@@ -2153,7 +2153,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('#zipcode').attr("disabled", false);
 		});
 		
-		$('.btn.btn--check').on('click', function () {
+		$('.btn.btn--red').on('click', function () {
 			$('#country').dropdown('selected')
 			$('#mobile_country_code').val($('#country').dropdown('selected').toUpperCase())
 
