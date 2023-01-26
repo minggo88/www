@@ -431,9 +431,12 @@ $(function() {
 
         // ---------------------------------------------------
         // MA 생성 
-        addSMAtoChart(cdata, 10, '#F00');
+        /*addSMAtoChart(cdata, 10, '#F00');
         addSMAtoChart(cdata, 30, '#0F0');
-        addSMAtoChart(cdata, 90, '#00F');
+        addSMAtoChart(cdata, 90, '#00F');*/
+	addSMAtoChart(cdata, 10, '#333333');
+        addSMAtoChart(cdata, 30, '#333333');
+        addSMAtoChart(cdata, 90, '#333333');    
 
         function addSMAtoChart(data, cnt, color, line_width) {
             var smaData = calculateSMA(data, cnt);
