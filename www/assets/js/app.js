@@ -2136,30 +2136,39 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	}
 	window.logout = fn_logout;
 	
-	//계정 정보 주소 수정
-	$('.btn.btn--check').on('click', function () {
-		$('.btn.btn--check').hide();
-		$('.btn.btn--red').show();
-		$('.dropdown').attr("disabled", false);
-		$('#city').attr("disabled", false);
-		$('#address_a').attr("disabled", false);
-		$('#address_b').attr("disabled", false);
-		$('#zipcode').attr("disabled", false);
-	});
-
 	const fn_member_account = function () {
 		check_login();
 		request_user_info();
 		Model.form = clone(Model.user_info);
 		// force_rander('user_info', Model.user_info);
-
-		$('#member-account').on('submit', function () {
+		
+		//계정 정보 주소 수정
+		$('.btn.btn--check').on('click', function () {
+			$('.btn.btn--check').hide();
+			$('.btn.btn--red').show();
+			$('.dropdown').attr("disabled", false);
+			$('#city').attr("disabled", false);
+			$('#address_a').attr("disabled", false);
+			$('#address_b').attr("disabled", false);
+			$('#zipcode').attr("disabled", false);
+		});
+		
+		$('.btn.btn--check').on('click', function () {
 			$('#country').dropdown('selected')
 			$('#mobile_country_code').val($('#country').dropdown('selected').toUpperCase())
 
 			add_request_item('putMyInfo', $(this).serialize(), function (r) {
 				if (r?.success) {
 					alert(__('저장했습니다.'));
+					
+					$('.btn.btn--check').show();
+					$('.btn.btn--red').hide();
+					$('.dropdown').attr("disabled", true);
+					$('#city').attr("disabled", true);
+					$('#address_a').attr("disabled", true);
+					$('#address_b').attr("disabled", true);
+					$('#zipcode').attr("disabled", true);
+					
 				} else {
 					alert(__('저장하지 못했습니다.') + r?.error?.message||'')
 				}
