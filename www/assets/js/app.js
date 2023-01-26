@@ -2135,6 +2135,17 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		});
 	}
 	window.logout = fn_logout;
+	
+	//계정 정보 주소 수정
+	$('.btn.btn--check').on('click', function () {
+		$('.btn.btn--check').hide();
+		$('.btn.btn--check').show;
+		$('#dropdown').attr("disabled", false);
+		$('#city').attr("disabled", false);
+		$('#address_a').attr("disabled", false);
+		$('#address_b').attr("disabled", false);
+		$('#zipcode').attr("disabled", false);
+	}
 
 	const fn_member_account = function () {
 		check_login();
