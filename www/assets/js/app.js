@@ -2145,7 +2145,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$('#address_a').attr("disabled", false);
 		$('#address_b').attr("disabled", false);
 		$('#zipcode').attr("disabled", false);
-	}
+	});
 
 	const fn_member_account = function () {
 		check_login();
