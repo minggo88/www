@@ -1436,6 +1436,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				let user_info = r.payload;
 				Model.user_info = user_info;
 				user_info.bank_full = user_info.bank_name +' / '+ user_info.bank_account +' / '+ user_info.bank_owner;
+				var bank_ac = user_info.bank_account;
 				if(bank_ac.length > 7){
 					length_num = user_info.bank_account.length - 7;
 					var tt='';
