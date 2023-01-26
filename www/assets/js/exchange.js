@@ -301,7 +301,7 @@ $(function() {
             case 'S':
                 if (data) {
                     window.lineSeries_S = chart.addLineSeries({
-                        color: '#ea4274',
+                        color: '#333333',
                         lineWidth: 2,
                     });
                     window.lineSeries_S.setData(getLineChartData(data));
@@ -311,7 +311,7 @@ $(function() {
             case 'A':
                 if (data) {
                     window.lineSeries_A = chart.addLineSeries({
-                        color: '#58be82',
+                        color: '#333333',
                         lineWidth: 1,
                     });
                     window.lineSeries_A.setData(getLineChartData(data));
@@ -321,7 +321,7 @@ $(function() {
             case 'B':
                 if (data) {
                     window.lineSeries_B = chart.addLineSeries({
-                        color: '#4c4c4c',
+                        color: '#333333',
                         lineWidth: 1,
                     });
                     window.lineSeries_B.setData(getLineChartData(data));
@@ -431,12 +431,9 @@ $(function() {
 
         // ---------------------------------------------------
         // MA 생성 
-        /*addSMAtoChart(cdata, 10, '#F00');
+        addSMAtoChart(cdata, 10, '#F00');
         addSMAtoChart(cdata, 30, '#0F0');
-        addSMAtoChart(cdata, 90, '#00F');*/
-	addSMAtoChart(cdata, 10, '#333333');
-        addSMAtoChart(cdata, 30, '#333333');
-        addSMAtoChart(cdata, 90, '#333333');    
+        addSMAtoChart(cdata, 90, '#00F'); 
 
         function addSMAtoChart(data, cnt, color, line_width) {
             var smaData = calculateSMA(data, cnt);
