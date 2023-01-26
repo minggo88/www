@@ -1436,6 +1436,18 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				let user_info = r.payload;
 				Model.user_info = user_info;
 				user_info.bank_full = user_info.bank_name +' / '+ user_info.bank_account +' / '+ user_info.bank_owner;
+				if(user_info.bank_account.length > 7){
+					length_num = user_info.bank_account.length - 7;
+					formatNum = num.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-*****');
+					var tt='';
+					for (var i = 3; i < length_num; i++) {
+					  tt = tt + "*";
+					}
+					user_info.bank_accoount_p = user_info.bank_account.substr(0,3) + tt +
+					user_info.bank_account.substr(-4);
+				}else{
+					user_info.bank_accoount_p = user_info.bank_account;
+				}
 				force_rander('user_info', user_info);
 				reset_logedin_status();
 				if (callback && typeof callback === 'function') {
