@@ -1699,11 +1699,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('.text-black').hide();
 			$('[name=btn_save]').hide();
 			
-			$('.#account_ing').hide();
-			$('.#account_ing2').hide();
-			$('.#account_ing3').hide();
-			$('.#account_ing4').hide();
-			$('.#account_success').show();
+			$('#account_ing').hide();
+			$('#account_ing2').hide();
+			$('#account_ing3').hide();
+			$('#account_ing4').hide();
+			$('#account_success').show();
 		} else {
 			if (Model.user_info.image_bank_url) { // 신분증 인증 대기중
 				$('[name=status_waiting]').show();
@@ -2417,11 +2417,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('.text-black').hide();
 			$('[name=btn_save]').hide();
 			
-			$('.#account_ing').hide();
-			$('.#account_ing2').hide();
-			$('.#account_ing3').hide();
-			$('.#account_ing4').hide();
-			$('.#account_success').show();
+			$('#account_ing').hide();
+			$('#account_ing2').hide();
+			$('#account_ing3').hide();
+			$('#account_ing4').hide();
+			$('#account_success').show();
 		} else {
 			if (Model.user_info.image_identify_url) { // 신분증 인증 대기중
 				$('[name=status_waiting]').show();
