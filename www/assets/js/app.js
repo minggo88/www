@@ -2589,7 +2589,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						return ;
 					}
 
-					// console.log(item);
+					console.log('item :' + item);
 
 					if (item.confirmed > 0 || item.symbol=='KRW') {
 						item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
