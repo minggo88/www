@@ -2592,6 +2592,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					}
 
 					console.log(item);
+					console.log("평가수익 : "+item.eval_income);
 					
 
 					if (item.confirmed > 0 || item.symbol=='KRW') {
@@ -2658,15 +2659,16 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				
 				//---------------------------------------------------
 				//총보유자산
-				$('#totalBalance').text(real_number_format(total_evaluated_balance + total_money))
+				var num = real_number_format(total_evaluated_balance,1) + real_number_format(total_money,20);
+				$('#totalBalance').text(num)
 				//평가손익
-				$('#totalAvailableBalance').text(real_number_format(total_income))
+				$('#totalAvailableBalance').text(real_number_format(total_income,1))
 				//자산평가금액
-				$('#totalLockedBalance').text(real_number_format(total_evaluated_balance))
+				$('#totalLockedBalance').text(real_number_format(total_evaluated_balance,1))
 				//보유금액
-				$('#totalBuyableBalance').text(real_number_format(total_money))
+				$('#totalBuyableBalance').text(real_number_format(total_money,20))
 				//주문금액
-				$('#totalBuingBalance').text(real_number_format(total_locked_evaluated_balance))
+				$('#totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,1))
 
 			}
 		})
