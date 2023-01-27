@@ -2625,43 +2625,18 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const avg_price_one = real_number_format(item.avg_buy_price,1);
 						const avg_price = item.avg_buy_price*item.confirmed_str;
 						const avg_price_num = real_number_format(avg_price,1);
-
-						if(item.eval_income>0){
-							const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-						grid.append(`
-							<div class="grid--inner-left">
-								<div class='item_name desktop-only'>${item_name}</div>
-								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
-							</div>
-							<div class='item_grade desktop-only'>${item_grade}</div>
-							<div class="wallet--count">${item.confirmed_str}</div>
-							<div class=my_income style ="color: var(--red-up) !important;"> ${item_income}</div>
-						`)
-						}else if(item.eval_income<0){
-							const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-						grid.append(`
-							<div class="grid--inner-left">
-								<div class='item_name desktop-only'>${item_name}</div>
-								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
-							</div>
-							<div class='item_grade desktop-only'>${item_grade}</div>
-							<div class="wallet--count">${item.confirmed_str}</div>
-							<div class=my_income style ="var(--blue-dn) !important;"> ${item_income}</div>
-						`)
-						}else if(item.eval_income == 0){
-							const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-						grid.append(`
-							<div class="grid--inner-left">
-								<div class='item_name desktop-only'>${item_name}</div>
-								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
-							</div>
-							<div class='item_grade desktop-only'>${item_grade}</div>
-							<div class="wallet--count">${item.confirmed_str}</div>
-							<div class=my_income> ${item_income}</div>
-						`)
-						}
 						
-						
+						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
+						grid.append(`
+							<div class="grid--inner-left">
+								<div class='item_name desktop-only'>${item_name}</div>
+								<div class='item_grade desktop-only'>${item_grade}</div>
+								<div class="wallet--count">${item.confirmed_str}</div>
+								
+								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
+							</div>
+						`)
+												
 						/* mk 그리드 새로 제작
 						grid.append(`
 							<div class="grid--inner-left">
@@ -2673,6 +2648,39 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						`)*/
 						// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
 						// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
+						
+						if(item.eval_income>0){
+						grid.append(`
+							<div class="grid--inner-left">
+								<div class='item_name desktop-only'>${item_name}</div>
+								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
+							</div>
+							<div class='item_grade desktop-only'>${item_grade}</div>
+							<div class="wallet--count">${item.confirmed_str}</div>
+							<div class=my_income style ="color: var(--red-up) !important;"> ${item_income}</div>
+						`)
+						}else if(item.eval_income<0){
+						grid.append(`
+							<div class="grid--inner-left">
+								<div class='item_name desktop-only'>${item_name}</div>
+								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
+							</div>
+							<div class='item_grade desktop-only'>${item_grade}</div>
+							<div class="wallet--count">${item.confirmed_str}</div>
+							<div class=my_income style ="var(--blue-dn) !important;"> ${item_income}</div>
+						`)
+						}else if(item.eval_income == 0){
+						grid.append(`
+							<div class="grid--inner-left">
+								<div class='item_name desktop-only'>${item_name}</div>
+								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
+							</div>
+							<div class='item_grade desktop-only'>${item_grade}</div>
+							<div class="wallet--count">${item.confirmed_str}</div>
+							<div class=my_income> ${item_income}</div>
+						`)
+						}
+						
 						/* mk 그리드 새로 제작
 						grid.append(`
 							<div class="grid--inner-right">
