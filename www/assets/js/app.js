@@ -2649,13 +2649,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const avg_price_one = real_number_format(item.avg_buy_price,1);
 						const avg_price = item.avg_buy_price*item.confirmed_str;
 						const avg_price_num = real_number_format(avg_price,1);
-						const income_rate = (item.currency_price-avg_price) / avg_price * 100;
+						const income_rate = item.eval_income / avg_price * 100;
 												
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
 						grid.append(`
 							<div class="grid--inner-left">
 								<div class='item_name desktop-only'>${item_name}</div>
-								<div class='item_grade desktop-only' style="margin-right: 30px;">${item_grade}</div>
+								<div class='item_grade desktop-only' style="margin-right: 90px;">${item_grade}</div>
 								<div class="wallet--count">${item.confirmed_str}</div>
 								
 								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
