@@ -2591,8 +2591,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						return ;
 					}
 
-					console.log(item);
-					console.log("평가수익 : "+item.eval_income);
+					//console.log(item);
+					//console.log("평가수익 : "+item.eval_income);
 
 					if (item.confirmed > 0 || item.symbol=='KRW') {
 						item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
@@ -2653,7 +2653,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						grid.append(`
 							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item.currency_price} </div>
+									<div class="wallet--price">${item_price}</div>
 									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(item.eval_valuation_str,1)+'</div>' : ''}
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
@@ -2669,7 +2669,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						grid.append(`
 							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item.currency_price} </div>
+									<div class="wallet--price">${item_price}</div>
 									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(item.eval_valuation_str,1)+'</div>' : ''}
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
@@ -2685,7 +2685,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						grid.append(`
 							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item.currency_price} </div>
+									<div class="wallet--price">${item_price}</div>
 									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(item.eval_valuation_str,1)+'</div>' : ''}
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
@@ -2751,7 +2751,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$('.totalBalance').on('change', (event, symbol) => {
 			API.getBalance('ALL', symbol, (resp) => {
 				if(resp.success) {
-					console.log(resp)
+					//console.log(resp)
 					$('.wallet-summary .grid:eq(0)').find('.text-').text(resp.payload.price)
 				} else {
 					alert(resp.error.message)
@@ -2786,8 +2786,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$("#goods-desc").addClass('modal--open');
 			let symbol = $(this).data('symbol')
 			let goods_grade = $(this).data('goods_grade')
-			console.log($(this).data('symbol'))
-			console.log($(this).data('goods_grade'))
+			//console.log($(this).data('symbol'))
+			//console.log($(this).data('goods_grade'))
 			
 			// modal창 clear작업
 			$('#goods-desc .tea--name').text('상품이름');
