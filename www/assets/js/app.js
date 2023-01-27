@@ -2577,7 +2577,26 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			if(resp.payload.length > 0) {
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
 				$('[name="grid--empty"]').hide();
-
+				
+				const grid = $(`<div class="grid" />`)
+						grid.append(`
+							<div class="grid--inner-left">
+								<div class='item_name desktop-only'>상품명</div>
+								<div class='item_grade desktop-only'>상품등급</div>
+								<div class="wallet--count">수량</div>
+								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+									<div class="wallet--price">평가 금액</div>
+									
+								</div>
+								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+									<div class="item--avg--price">매입 금액</div>
+								</div>
+								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+									<div class=my_income>평가손익</div>
+								</div>
+							</div>
+						`)
+				
 				resp.payload.filter(function(item) {
 					if (item.crypto_currency === 'N') {
 						return false; // skip
