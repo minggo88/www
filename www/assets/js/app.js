@@ -2570,6 +2570,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			let total_available_evaluated_balance = 0; // 총 사용 가능 자산
 			let total_locked_evaluated_balance = 0; // 총 동결 평가 자산
 			let total_buyable_balance = 0; // 총 구매 가능 자산
+			let total_income = 0;
+			let total_money = 0;
 
 			// console.log('getBalance resp:', resp);
 			if(resp.payload.length > 0) {
