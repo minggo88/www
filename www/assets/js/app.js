@@ -2625,11 +2625,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const avg_price_one = real_number_format(item.avg_buy_price,1);
 						const avg_price = item.avg_buy_price*item.confirmed_str;
 						const avg_price_num = real_number_format(avg_price,1);
-						const my_income = $('<div class=my_income >${item_income}</div>';);
+						const my_income = $('<div class=my_income >${item_income}</div>;');
 						if(item.eval_income>0){
-							my_income = $('<div class=my_income font-color: var(--red-up) !important;>${item_income}</div>';);
+							my_income = $('<div class=my_income font-color: var(--red-up) !important;>${item_income}</div>;');
 						}else if(item.eval_income<0){
-							my_income = $('<div class=my_income font-color: var(--blue-dn); !important;>${item_income}</div>';);
+							my_income = $('<div class=my_income font-color: var(--blue-dn); !important;>${item_income}</div>;');
 						}
 						
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
