@@ -2617,9 +2617,27 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const deposit_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
 						const withdraw_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
 						const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
-						const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
-
+						//const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
+						const item_name = item.name;
+						const item_grade = item.good_grade;
+						const avg_price = item.avg_buy_price*item.confirmed_str;
+						
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
+
+						grid.append(`
+							<div class="grid--inner-left">
+								<a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}">
+									<div class='item_name desktop-only'>${item_name}</div>
+									<div class='item_grade desktop-only'>${item_grade}</div>
+									<div class="wallet--count">${item.confirmed_str}</div>
+									
+									
+									
+									<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
+								</a>
+							</div>
+						`)
+						/* mk 그리드 새로 제작
 						grid.append(`
 							<div class="grid--inner-left">
 								<a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}">
@@ -2627,9 +2645,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 									<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
 								</a>
 							</div>
-						`)
+						`)*/
 						// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
 						// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
+						/* mk 그리드 새로 제작
 						grid.append(`
 							<div class="grid--inner-right">
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
@@ -2642,7 +2661,25 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 									<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
 								</div>
 							</div>
+						`)*/
+						grid.append(`
+							<div class="grid--inner-right">
+								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+									<div class="wallet--price">${item.currency_price} </div>
+									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+'</div>' : ''}
+								</div>
+								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+									<div class="item--avg--price">${item.avg_buy_price}</div>
+									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+avg_price +'</div>' : ''}
+								</div>
+								<div class="wallet--btn">
+									<a href="wallet-deposit.html?symbol=${item.symbol}" class="btn btn--red btn--rounded" ${deposit_hide_style}>입금</a>
+									<a href="wallet-withdrawal.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${withdraw_hide_style}>출금</a>
+									<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
+								</div>
+							</div>
 						`)
+						
 						$('.wallet--grid').append(grid)
 						// $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
 					}
