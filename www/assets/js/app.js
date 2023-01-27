@@ -2627,11 +2627,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const avg_price_num = real_number_format(avg_price,1);
 						const class_name = '';
 						if(item.eval_income > 0){
-							class_name = income_p;
+							class_name = 'income_p';
 						}else if(item.eval_income < 0){
-							class_name = income_m;
+							class_name = 'income_m';
 						}else if(item.eval_income == 0){
-							class_name = income;
+							class_name = 'income';
 						};
 						
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
