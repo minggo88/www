@@ -23,9 +23,9 @@ if(!window.localStorage.locale) {
     window.localStorage.locale = 'ko'
 }
 
-$(document).ready( function() {
+/*$(document).ready( function() {
 	$(".nav--side").load("./nav_side.html");  
-});
+});*/
 
 $.fn.serializeObject = function() {
     var obj = null;
