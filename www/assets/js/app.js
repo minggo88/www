@@ -2166,7 +2166,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			// window.location.reload();
 			// } else {
 			// 	let msg = r.error && r.error.message ? r.error.message : '';
-			// 	alert(__('로그아웃하지 못했습니다.')+' '+msg);
+			 	alert(__('로그아웃하지 못했습니다.')+' '+msg);
 			// }
 		});
 	}
@@ -3189,6 +3189,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 	/* 로그아웃 */
 	$('[name="btn-logout"]').on('click', function() {
+		console.log('로그아웃 체크');
 		fn_logout();
 		return false;
 	})
