@@ -2650,7 +2650,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						grid.append(`
 							<div class="grid--inner-left">
 								<div class='item_name desktop-only'>${item_name}</div>
-								<div class='item_grade desktop-only'>${item_grade}</div>
+								<div class='item_grade desktop-only' style="margin-right: 30px;">${item_grade}</div>
 								<div class="wallet--count">${item.confirmed_str}</div>
 								
 								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
