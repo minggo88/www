@@ -2626,16 +2626,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 						grid.append(`
 							<div class="grid--inner-left">
-								<a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}">
-									<div class='item_name desktop-only'>${item_name}</div>
-									<div class='item_grade desktop-only'>${item_grade}</div>
-									<div class="wallet--count">${item.confirmed_str}</div>
-									
-									
-									
-									<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
-								</a>
+								<div class='item_name desktop-only'>${item_name}</div>
+								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
 							</div>
+							<div class='item_grade desktop-only'>item.good_grade</div>
+							<div class="wallet--count">${item.confirmed_str}</div>
 						`)
 						/* mk 그리드 새로 제작
 						grid.append(`
@@ -2666,11 +2661,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 							<div class="grid--inner-right">
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class="wallet--price">${item.currency_price} </div>
-									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+'</div>' : ''}
+									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(item.eval_valuation_str,1)+'</div>' : ''}
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="item--avg--price">${item.avg_buy_price}</div>
-									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+avg_price +'</div>' : ''}
+									<div class="item--avg--price">'+real_number_format(${item.avg_buy_price},1)+'</div>
+									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(avg_price,1) +'</div>' : ''}
 								</div>
 								<div class="wallet--btn">
 									<a href="wallet-deposit.html?symbol=${item.symbol}" class="btn btn--red btn--rounded" ${deposit_hide_style}>입금</a>
