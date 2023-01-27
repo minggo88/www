@@ -2625,7 +2625,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						if(typeof item.eval_income != typeof undefined){
 							total_income += item.eval_income;                   // 총 수입
 						}
-						total_money = item.total_money.toFixed(0);                    // 현금보유
+						total_money = item.total_money;                        // 현금보유
 
 						total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
 						total_available_evaluated_balance += item.eval_tadable; 	// 총 사용 가능 자산
