@@ -2640,7 +2640,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const item_name = item.name;
 						const item_price = real_number_format(item.currency_price,1);
 						const item_income = real_number_format(item.eval_income,1);
-						const item_total = item_price * ${item.confirmed_str};
+						const item_total = item_price * item.confirmed_str;
 						const item_grade = item.goods_grade;
 						const avg_price_one = real_number_format(item.avg_buy_price,1);
 						const avg_price = item.avg_buy_price*item.confirmed_str;
