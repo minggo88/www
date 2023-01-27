@@ -2593,14 +2593,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 					console.log(item);
 					console.log("평가수익 : "+item.eval_income);
-					
 
 					if (item.confirmed > 0 || item.symbol=='KRW') {
 						item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
 						item.eval_locked = item.locked * item.price;		// 코인의 잠긴 평가금액
 						item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
 						item.eval_trading = item.trading * item.price;		// 코인의 전체 매도중금액
-						if(isNaN(item.eval_income)){
+						if(typeof item.eval_income != typeof undefined){
 							total_income += item.eval_income;                   // 총 수입
 						}
 						total_money = item.total_money;                         // 현금보유
@@ -2661,8 +2660,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				
 				//---------------------------------------------------
 				//총보유자산
-				var num = real_number_format(total_evaluated_balance,1)*1 + real_number_format(total_money,20)*1;
-				$('#totalBalance').text(num)
+				let num = (total_evaluated_balance*1) + (total_money*1);
+				$('#totalBalance').text(real_number_format(num,1))
 				//평가손익
 				$('#totalAvailableBalance').text(real_number_format(total_income,1))
 				//자산평가금액
