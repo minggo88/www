@@ -2625,14 +2625,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const avg_price_one = real_number_format(item.avg_buy_price,1);
 						const avg_price = item.avg_buy_price*item.confirmed_str;
 						const avg_price_num = real_number_format(avg_price,1);
-						const my_income = $('<div class=my_income >${item_income}</div>;');
+
 						if(item.eval_income>0){
-							my_income = $('<div class=my_income font-color: var(--red-up) !important;>${item_income}</div>;');
-						}else if(item.eval_income<0){
-							my_income = $('<div class=my_income font-color: var(--blue-dn); !important;>${item_income}</div>;');
-						}
-						
-						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
+							const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
 						grid.append(`
 							<div class="grid--inner-left">
 								<div class='item_name desktop-only'>${item_name}</div>
@@ -2640,7 +2635,33 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 							</div>
 							<div class='item_grade desktop-only'>${item_grade}</div>
 							<div class="wallet--count">${item.confirmed_str}</div>
+							<div class=my_income style ="color: var(--red-up) !important;"> ${item_income}</div>
 						`)
+						}else if(item.eval_income<0){
+							const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
+						grid.append(`
+							<div class="grid--inner-left">
+								<div class='item_name desktop-only'>${item_name}</div>
+								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
+							</div>
+							<div class='item_grade desktop-only'>${item_grade}</div>
+							<div class="wallet--count">${item.confirmed_str}</div>
+							<div class=my_income style ="var(--blue-dn) !important;"> ${item_income}</div>
+						`)
+						}else if(item.eval_income == 0){
+							const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
+						grid.append(`
+							<div class="grid--inner-left">
+								<div class='item_name desktop-only'>${item_name}</div>
+								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
+							</div>
+							<div class='item_grade desktop-only'>${item_grade}</div>
+							<div class="wallet--count">${item.confirmed_str}</div>
+							<div class=my_income> ${item_income}</div>
+						`)
+						}
+						
+						
 						/* mk 그리드 새로 제작
 						grid.append(`
 							<div class="grid--inner-left">
@@ -2666,21 +2687,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								</div>
 							</div>
 						`)*/
-						grid.append(`
-							<div class="grid--inner-right">
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item_price} </div>
-									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(item.eval_valuation_str,1)+'</div>' : ''}
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="item--avg--price">${avg_price_one} </div>
-									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(avg_price,1) +'</div>' : ''}
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									${my_income}
-								</div>
-							</div>
-						`)
+						
 						
 						$('.wallet--grid').append(grid)
 						// $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
