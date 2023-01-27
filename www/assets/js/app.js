@@ -99,6 +99,10 @@ function getCookie( name ){
 	return "";
 }
 
+function roundToTwo(num) {
+    return +(Math.round(num + "e+2")  + "e-2");
+}
+
 /**
  * get url parameter value
  * @param String key Parameter Name
@@ -2646,8 +2650,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const avg_price = item.avg_buy_price*item.confirmed_str;
 						const avg_price_num = real_number_format(avg_price,1);
 						const income_rate = (item.currency_price-avg_price) / avg_price * 100;
-						income_rate = income_rate.toFixed(2);
-						
+												
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
 						grid.append(`
 							<div class="grid--inner-left">
@@ -2685,7 +2688,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class=my_income style ="color: var(--red-up) !important;padding-right: 25px;"> ${item_income}</div>
-									<div class=my_income_rate style ="color: var(--red-up)  !important;padding-right: 25px;"> ${income_rate}</div>
+									<div class=my_income_rate style ="color: var(--red-up)  !important;padding-right: 25px;"> ${income_rate.toFixed(2)}</div>
 								</div>
 							</div>
 						`)
@@ -2703,7 +2706,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class=my_income style ="color: var(--blue-dn) !important;padding-right: 25px;"> ${item_income}</div>
-									<div class=my_income_rate style ="color: var(--blue-dn) !important;padding-right: 25px;"> ${income_rate}</div>
+									<div class=my_income_rate style ="color: var(--blue-dn) !important;padding-right: 25px;"> ${income_rate.toFixed(2)}</div>
 								</div>
 							</div>
 						`)
@@ -2721,7 +2724,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class=my_income style="padding-right: 25px;"> ${item_income}</div>
-									<div class=my_income style="padding-right: 25px;"> ${income_rate}</div>
+									<div class=my_income style="padding-right: 25px;"> ${income_rate.toFixed(2)}</div>
 								</div>
 							</div>
 							
