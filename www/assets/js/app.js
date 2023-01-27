@@ -2600,7 +2600,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						item.eval_locked = item.locked * item.price;		// 코인의 잠긴 평가금액
 						item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
 						item.eval_trading = item.trading * item.price;		// 코인의 전체 매도중금액
-						total_income += item.eval_income;                       // 총 수입
+						if(isNaN(item.eval_income)){
+							total_income += item.eval_income;                   // 총 수입
+						}
 						total_money = item.total_money;                         // 현금보유
 
 						total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
@@ -2659,7 +2661,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				
 				//---------------------------------------------------
 				//총보유자산
-				var num = real_number_format(total_evaluated_balance,1) + real_number_format(total_money,20);
+				var num = real_number_format(total_evaluated_balance,1)*1 + real_number_format(total_money,20)*1;
 				$('#totalBalance').text(num)
 				//평가손익
 				$('#totalAvailableBalance').text(real_number_format(total_income,1))
