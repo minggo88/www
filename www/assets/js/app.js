@@ -2589,17 +2589,19 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						return ;
 					}
 
-					console.log(item);
-					 console.log("평가수익 : "+item.eval_income);
-					 console.log("보유금액 : "+item.confirmed);
-					 console.log("매도 중 금액 :" + item.trading);
-					 console.log("매수 중 금액 :" + item.trading);
+					//console.log(item);
+					 //console.log("평가수익 : "+item.eval_income);
+					 //console.log("보유금액 : "+item.confirmed);
+					 //console.log("매도 중 금액 :" + item.trading);
+					 //console.log("매수 중 금액 :" + item.trading);
 
 					if (item.confirmed > 0 || item.symbol=='KRW') {
 						item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
 						item.eval_locked = item.locked * item.price;		// 코인의 잠긴 평가금액
 						item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
 						item.eval_trading = item.trading * item.price;		// 코인의 전체 매도중금액
+						total_income += item.eval_income;                       // 총 수입
+						total_money = item.total_money;                         // 현금보유
 
 						total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
 						total_available_evaluated_balance += item.eval_tadable; 	// 총 사용 가능 자산
@@ -2646,10 +2648,26 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 				})
 
-				$('#totalBalance').text(real_number_format(total_evaluated_balance))
-				$('#totalAvailableBalance').text(real_number_format(total_available_evaluated_balance))
-				$('#totalLockedBalance').text(real_number_format(total_locked_evaluated_balance))
-				$('#totalBuyableBalance').text(real_number_format(total_buyable_balance))
+				//총보유자산->자산평가금액
+				//$('#totalBalance').text(real_number_format(total_evaluated_balance))
+				//사용가능자산
+				//$('#totalAvailableBalance').text(real_number_format(total_available_evaluated_balance))
+				//동결평가자산
+				//$('#totalLockedBalance').text(real_number_format(total_locked_evaluated_balance))
+				//구매가능금액
+				//$('#totalBuyableBalance').text(real_number_format(total_buyable_balance))
+				
+				//---------------------------------------------------
+				//총보유자산
+				$('#totalBalance').text(real_number_format(total_evaluated_balance + total_money))
+				//평가손익
+				$('#totalAvailableBalance').text(real_number_format(total_income))
+				//자산평가금액
+				$('#totalLockedBalance').text(real_number_format(total_evaluated_balance))
+				//보유금액
+				$('#totalBuyableBalance').text(real_number_format(total_money))
+				//주문금액
+				$('#totalBuingBalance').text(real_number_format(total_locked_evaluated_balance))
 
 			}
 		})
