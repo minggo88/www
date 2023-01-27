@@ -246,6 +246,59 @@
     top: 48px;
 }
 
+.wallet-summary2 {
+	margin-top: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 30px;
+	row-gap: 15px;
+}
+
+.wallet-summary2 .grid > div {
+    margin-top:6px;
+    display: flex;
+    border: 0.35px solid var(--blue-gray2);
+    align-items: center;
+    justify-content: flex-end;
+    height: 40px;
+}
+
+
+.wallet-summary2 .grid > div .text- {
+    /* flex: 1 1 auto; */
+	width: 50%;
+	flex-basis:calc(100% - 60px);
+    text-align: right;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 15px;
+    border: 0 none;
+    padding-right: 10px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.wallet-summary2 .grid .dropdown-wrapper {
+	width: 60px;
+    flex-basis: 60px;
+    max-width: 60px;
+    height: 100%;
+}
+
+.wallet-summary2 .grid .input:after{content:none;}
+.wallet-summary2 .grid .dropdown {
+    flex-basis: 70px;
+    background-color: var(--lightgray);
+    border: 0 none !important;
+    border-left: 0.35px solid var(--blue-gray2) !important;
+	height: 38px;
+	justify-content: center;
+}
+.wallet-summary2 .grid .dropdown-wrapper .dropdown--item {
+    min-width: auto;
+    top: 48px;
+}
+
 .wallet--grid {
     margin-top: 40px;
 	margin-bottom: 40px;
