@@ -2589,11 +2589,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						return ;
 					}
 
-					//console.log(item);
-					 //console.log("평가수익 : "+item.eval_income);
-					 //console.log("보유금액 : "+item.confirmed);
-					 //console.log("매도 중 금액 :" + item.trading);
-					 //console.log("매수 중 금액 :" + item.trading);
+					console.log(item);
+					
 
 					if (item.confirmed > 0 || item.symbol=='KRW') {
 						item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
