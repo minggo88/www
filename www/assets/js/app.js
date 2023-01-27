@@ -2634,7 +2634,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								<div class="wallet--count">${item.confirmed_str}</div>
 								
 								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
-							</div>
+							
 						`)
 												
 						/* mk 그리드 새로 제작
@@ -2651,7 +2651,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						
 						if(item.eval_income>0){
 						grid.append(`
-							<div class="grid--inner-right">
+							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class="wallet--price">${item.currency_price} </div>
 									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(item.eval_valuation_str,1)+'</div>' : ''}
@@ -2667,7 +2667,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						`)
 						}else if(item.eval_income<0){
 						grid.append(`
-							<div class="grid--inner-right">
+							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class="wallet--price">${item.currency_price} </div>
 									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(item.eval_valuation_str,1)+'</div>' : ''}
@@ -2683,7 +2683,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						`)
 						}else if(item.eval_income == 0){
 						grid.append(`
-							<div class="grid--inner-right">
+							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class="wallet--price">${item.currency_price} </div>
 									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(item.eval_valuation_str,1)+'</div>' : ''}
