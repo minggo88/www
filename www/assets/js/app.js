@@ -2619,12 +2619,22 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
 						//const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
 						const item_name = item.name;
-						const item_grade = item.good_grade;
+						const item_price = real_number_format(item.currency_price,1);
+						const item_income = real_number_format(item.eval_income,1);
+						const item_grade = item.goods_grade;
+						const avg_price_one = real_number_format(item.avg_buy_price,1);
 						const avg_price = item.avg_buy_price*item.confirmed_str;
-						const avg_price_num = real_number_format(avg_price,1);
+						const avg_price_num = real_number_format($avg_price,1);
+						const class_name = '';
+						if(item.eval_income > 0){
+							class_name = income_p;
+						}else if(item.eval_income < 0){
+							class_name = income_m;
+						}else if(item.eval_income == 0){
+							class_name = income;
+						};
 						
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-
 						grid.append(`
 							<div class="grid--inner-left">
 								<div class='item_name desktop-only'>${item_name}</div>
@@ -2661,17 +2671,15 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						grid.append(`
 							<div class="grid--inner-right">
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item.currency_price} </div>
+									<div class="wallet--price">${item_price} </div>
 									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(item.eval_valuation_str,1)+'</div>' : ''}
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="item--avg--price">${avg_price_num} </div>
+									<div class="item--avg--price">${avg_price_one} </div>
 									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+real_number_format(avg_price,1) +'</div>' : ''}
 								</div>
-								<div class="wallet--btn">
-									<a href="wallet-deposit.html?symbol=${item.symbol}" class="btn btn--red btn--rounded" ${deposit_hide_style}>입금</a>
-									<a href="wallet-withdrawal.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${withdraw_hide_style}>출금</a>
-									<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
+								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
+									<div class="${class_name}">${item_income}</div>
 								</div>
 							</div>
 						`)
