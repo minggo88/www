@@ -2624,7 +2624,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const item_grade = item.goods_grade;
 						const avg_price_one = real_number_format(item.avg_buy_price,1);
 						const avg_price = item.avg_buy_price*item.confirmed_str;
-						const avg_price_num = real_number_format($avg_price,1);
+						const avg_price_num = real_number_format(avg_price,1);
 						const class_name = '';
 						if(item.eval_income > 0){
 							class_name = income_p;
