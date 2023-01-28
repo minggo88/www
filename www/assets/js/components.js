@@ -68,14 +68,15 @@ $(function() {
                     case 'add':
                         if(typeof(arguments[1]) === 'string') {
                             const li = $('<li>')
+				if(arguments[1] != '전체'){
+					list[arguments[1]] = arguments[1]
+        
+				    const button = $('<button>').attr('type', 'button').text(arguments[1])
 
-                            list[arguments[1]] = arguments[1]
-        
-                            const button = $('<button>').attr('type', 'button').text(arguments[1])
-            
-                            button.appendTo(li)
-        
-                            this.find('.dropdown--item').find('>ul').append(li)
+				    button.appendTo(li)
+
+				    this.find('.dropdown--item').find('>ul').append(li)
+				}
                         }
                         else if(typeof(arguments[1]) === 'object') {
                             list[arguments[1].value] = arguments[1].text
