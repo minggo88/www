@@ -73,9 +73,9 @@ $(function() {
         
                             const button = $('<button>').attr('type', 'button').text(arguments[1])
             
-                            button.appendTo(li)
+                            //button.appendTo(li)
         
-                            this.find('.dropdown--item').find('>ul').append(li)
+                            //this.find('.dropdown--item').find('>ul').append(li)
                         }
                         else if(typeof(arguments[1]) === 'object') {
                             list[arguments[1].value] = arguments[1].text
