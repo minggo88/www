@@ -50,6 +50,7 @@ let SELECTED_SYMBOL_PRICE = 0
 let SELECTED_EXCHANGE = getURLParameter('exchange') || 'KRW'
 let CHART_TIMER
 let SELECTED_GOODS_GRADE = 'A';
+let PIN_NUMBER_ON = 0;
 
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -902,13 +903,12 @@ $(function() {
 
     $('.details .tabs').on('beforeShow', (_event, _index, target) => {
         // console.log('====== .details .tabs beforeShow');
-		if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-			$('#modal-buy-button').attr('data-target','#modal-buy-pin');
-		}else{
-			$('#modal-buy-button').attr('data-target','#modal-sell-pin');
-		}
-			    
-	    
+	if(PIN_NUMBER_ON <1){
+		$('#modal-buy-button').attr('data-target','#modal-sell-pin');
+	}else{
+		$('#modal-buy-button').attr('data-target','#modal-buy-pin');
+	}
+			    	    
         if(target === '#tab-sell') {
             sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
             sellGrid.clear().load()
@@ -1681,6 +1681,7 @@ $(function() {
                         $("#modal-sell-pin").myModal('hide')
                         //$("#modal-sell").myModal('show')
 			$('#modal-buy-button').attr('data-target','#modal-buy-pin');
+			PIN_NUMBER_ON = 1;
                     } else {
                         alert(resp.error.message)
                     }
