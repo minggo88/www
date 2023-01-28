@@ -1462,7 +1462,7 @@ $(function() {
                             "path": "/"
                             })
                         $("#modal-buy-pin").myModal('hide')
-                        $("#modal-buy").myModal('show')
+                        //$("#modal-buy").myModal('show')
                     } else {
                         alert(resp.error.message)
                     }
@@ -1666,7 +1666,7 @@ $(function() {
                             "path": "/"
                             })
                         $("#modal-sell-pin").myModal('hide')
-                        $("#modal-sell").myModal('show')
+                        //$("#modal-sell").myModal('show')
                     } else {
                         alert(resp.error.message)
                     }
