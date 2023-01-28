@@ -1861,9 +1861,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					}
 					// $('#symbol').dropdown('add', { value: i.symbol, text: i.name })
 					// let goods_grade = i.goods_grade ? i.goods_grade + '등급' : '';
-					if(row.symbol != 'all' || row.name != ''){
-						$('[name="symbol"]').dropdown('add', { value: row.symbol, text: row.name })
-					};
+					if(row.symbol == 'all' || row.name ==''){
+						
+					}else{
+						$('[name="symbol"]').dropdown('add', { value: row.symbol, text: row.name })	
+					}
 				}
 			}
 			$('[name="symbol"]').dropdown('select', first_dropdown_value)
