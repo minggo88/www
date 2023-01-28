@@ -1466,6 +1466,8 @@ $(function() {
                             })
                         $("#modal-buy-pin").myModal('hide')
                         //$("#modal-buy").myModal('show')
+			    
+			    return false
                     } else {
                         alert(resp.error.message)
                     }
