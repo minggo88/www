@@ -903,9 +903,9 @@ $(function() {
     $('.details .tabs').on('beforeShow', (_event, _index, target) => {
         // console.log('====== .details .tabs beforeShow');
 		if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-			$('#modal-buy-button').attr('data-target','#modal-sell-pin');
-		}else{
 			$('#modal-buy-button').attr('data-target','#modal-buy-pin');
+		}else{
+			$('#modal-buy-button').attr('data-target','#modal-sell-pin');
 		}
 			    
 	    
