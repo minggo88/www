@@ -67,17 +67,17 @@ $(function() {
                         break
                     case 'add':
                         if(typeof(arguments[1]) === 'string') {
-                            const li = $('<li>')
+                            /* mk 전체 기능 생략 
+				const li = $('<li>')
 			    
 			    list[arguments[1]] = arguments[1]				
-	
-				console.log('arg : ' arguments[1]);
 				
 			    const button = $('<button>').attr('type', 'button').text(arguments[1])
 
 			    button.appendTo(li)
 
 			    this.find('.dropdown--item').find('>ul').append(li)
+			    */
                         }
                         else if(typeof(arguments[1]) === 'object') {
                             list[arguments[1].value] = arguments[1].text
