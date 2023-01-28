@@ -260,7 +260,7 @@
 							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 가능금액</label>
 							<div class="input bg--lightgray b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group bg--lightgray">
-									<input type="text" id="tradable" name="tradable" value="0" disabled readonly class="bg--none b--none text-right text-black" data-bind="user_wallet.KRW/A.tradable" data-format="comma">
+									<input type="text" id="tradable" name="tradable" value="0" disabled readonly class="bg--none b--none text-right text-black" data-bind="user_wallet.KRW.confirmed" data-format="comma">
 									<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
 								</div>
 							</div>
@@ -310,12 +310,12 @@
 							<p class="text--blue-gray" data-i18n>보안비밀번호는 마이페이지 &gt; <a href="change-pin-number.html" data-login>보안비밀번호 변경</a>에서 바꾸실수 있습니다.</p>
 						</div> -->
 						<div class="form--controls input--box">
-							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 주소</label>
+							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>출금 계좌</label>
 							
 							<div class="input b--dfdfdf" style="height: 40px;display:block;padding: 0;">
 								<div class="input--group">
 									<input type="text" id="address" name="address" readonly data-bind="user_info.bank_full" style="text-align:left">
-									<button type="button" class="btn btn--copy btn--blue-gray"data-clipboard-target="[name=address]"  data-i18n>복사</button>
+									<button type="button" class="btn btn--copy btn--blue-gray" style="display:none;" data-clipboard-target="[name=address]"  data-i18n>복사</button>
 								</div>
 							</div>
 						</div>
