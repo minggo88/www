@@ -1843,7 +1843,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		let wallet_symbols = {};
 
 		if (Object.values(Model.user_wallet).length > 1) {
-			wallet_symbols['all'] = { 'symbol': 'all', 'name': '전체', 'icon_url':'' }
+			//wallet_symbols['all'] = { 'symbol': 'all', 'name': '전체', 'icon_url':'' }
 
 			for (row of Object.values(Model.user_wallet)) {
 				wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name, 'icon_url':row.icon_url };
