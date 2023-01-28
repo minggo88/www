@@ -66,17 +66,17 @@ $(function() {
                         })
                         break
                     case 'add':
-                        if(arguments[1] != '전체'){
-				    const li = $('<li>')
+                         if(typeof(arguments[1]) === 'string') {
+                            const li = $('<li>')
 
-				    list[arguments[1]] = arguments[1]
-
-				    const button = $('<button>').attr('type', 'button').text(arguments[1])
-
-				    button.appendTo(li)
-
-				    this.find('.dropdown--item').find('>ul').append(li)
-				}
+                            list[arguments[1]] = arguments[1]
+        
+                            const button = $('<button>').attr('type', 'button').text(arguments[1])
+            
+                            button.appendTo(li)
+        
+                            this.find('.dropdown--item').find('>ul').append(li)
+                        }
                         else if(typeof(arguments[1]) === 'object') {
                             list[arguments[1].value] = arguments[1].text
 
