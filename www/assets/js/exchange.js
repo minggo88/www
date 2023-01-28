@@ -1440,8 +1440,10 @@ $(function() {
         })
 
         .submit((e) => {
-            //$('#modal-buy-pin').find('button[type=submit]').attr('disabled', false)
+            
             e.preventDefault()
+		
+	    $('#modal-buy-pin').find('button[type=submit]').attr('disabled', false)
 
             let check = true
             let pin = ''
