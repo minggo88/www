@@ -1429,6 +1429,7 @@ $(function() {
                 $('#modal-buy-pin').hide();
                 $('#modal-buy-button').attr('data-target','#modal-buy');
                 $('#modal-buy-button').trigger('click');
+		$("#modal-buy").myModal('show');
             } else {
             return false
             }
@@ -1637,6 +1638,7 @@ $(function() {
                 $('#modal-sell-pin').hide();
                 $('#modal-sell-button').attr('data-target','#modal-sell');
                 $('#modal-sell-button').trigger('click');
+		$("#modal-sell").myModal('show');
             } else {
             return false
             }
