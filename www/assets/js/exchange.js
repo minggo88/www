@@ -902,9 +902,16 @@ $(function() {
     })
 
     $('.details .tabs').on('beforeShow', (_event, _index, target) => {
-        // console.log('====== .details .tabs beforeShow');
-	if(PIN_NUMBER_ON <1){
-		$('#modal-buy-button').attr('data-target','#modal-sell-pin');
+         
+	let cookie_check = $.cookie(Model.user_info.userid);
+
+	if(PIN_NUMBER_ON <1) {
+		if(cookie_check === Model.user_info.userno){
+			$('#modal-buy-button').attr('data-target','#modal-buy-pin');
+			console.log('3333333 : ' + PIN_NUMBER_ON);
+		}else{
+			$('#modal-buy-button').attr('data-target','#modal-sell-pin');
+		}
 	}else{
 		$('#modal-buy-button').attr('data-target','#modal-buy-pin');
 	}
