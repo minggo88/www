@@ -4,6 +4,8 @@ let SELECTED_NAME = ''
 let SELECTED_SYMBOL_PRICE = 0
 let SELECTED_EXCHANGE = getURLParameter('exchange') || 'USD'
 let CHART_TIMER
+let SELECTED_GOODS_GRADE = 'A';
+let PIN_NUMBER_ON = 0;
 
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -675,6 +677,19 @@ $(function() {
                             })
 
                             $('.details .tabs').on('beforeShow', (_event, _index, target) => {
+                                let cookie_check = $.cookie(Model.user_info.userid);
+                                
+                                if(PIN_NUMBER_ON <1) {
+                                    if(cookie_check === Model.user_info.userno){
+                                        $('#modal-buy-button').attr('data-target','#modal-buy-pin');
+                                        console.log('3333333 : ' + PIN_NUMBER_ON);
+                                    }else{
+                                        $('#modal-buy-button').attr('data-target','#modal-sell-pin');
+                                    }
+                                }else{
+                                    $('#modal-buy-button').attr('data-target','#modal-buy-pin');
+                                }                                
+                                
                                 if(target === '#tab-sell') {
                                     sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell`)
                                     sellGrid.clear().load()
