@@ -982,7 +982,7 @@ $(function() {
             // console.log('SELECTED_GRADE:', SELECTED_GRADE);
 
             // 로딩 애니메이션 출력
-            $('.details').addClass('loading')
+            //$('.details').addClass('loading')
             // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE);
 
             genChartLine();
