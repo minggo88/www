@@ -458,7 +458,7 @@
 	}
 }
 
-//230130 메인 이미지 추가
+/*230130 메인 이미지 추가*/
 .section--service {
     height: 810px;
     background: url('../img/bg2.png') no-repeat center;
@@ -469,7 +469,7 @@
 	padding-top: 60px;
 }
 
-//230130 메인 이미지 추가
+/*230130 메인 이미지 추가*/
 .section--service2 {
     height: 810px;
     background: url('../img/bg3.png') no-repeat center;
@@ -480,7 +480,7 @@
 	padding-top: 60px;
 }
 
-//230130 메인 이미지 추가
+/*230130 메인 이미지 추가*/
 .section--service3 {
     height: 754px;
     background: url('../img/bg4.png') no-repeat center;
