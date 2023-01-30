@@ -1552,6 +1552,8 @@ $(function() {
         .submit(e => {
             $('#modal-buy').find('button[type=submit]').attr('disabled', true);
             e.preventDefault()
+	    const price_num2 =parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''));
+	    $('#modal-sell [name=price]').val(price_num2);	
             API.buy($('#modal-buy').serializeObject(), (resp) => {
                 $('#modal-buy').find('button[type=submit]').attr('disabled', false);
                 if(resp.success) {
@@ -1759,6 +1761,8 @@ $(function() {
         .submit(e => {
             $('#modal-sell').find('button[type=submit]').attr('disabled', true);
             e.preventDefault()
+	    const price_num2 =parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''));
+	    $('#modal-sell [name=price]').val(price_num2);	
             API.sell($('#modal-sell').serializeObject(), (resp) => {
                 $('#modal-sell').find('button[type=submit]').attr('disabled', false);
                 if (resp.success) {
