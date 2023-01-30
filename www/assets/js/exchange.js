@@ -307,6 +307,20 @@ $(function() {
                     });
                     window.lineSeries_S.setData(getLineChartData(data));
                     //$('#legend_s_grade').show();
+			
+			window.lineSeries_S.applyOptions({
+					priceScale: {
+						autoScale: true,
+					},
+					priceFormat: { // price format - y축
+						type: 'custom',
+						//minMove: 0.5,
+						formatter: function(f){
+							return f
+						}
+						
+					},
+	                })
                 }
                 break;
             case 'A':
@@ -317,6 +331,20 @@ $(function() {
                     });
                     window.lineSeries_A.setData(getLineChartData(data));
                     //$('#legend_a_grade').show();
+			
+			window.lineSeries_A.applyOptions({
+					priceScale: {
+						autoScale: true,
+					},
+					priceFormat: { // price format - y축
+						type: 'custom',
+						//minMove: 0.5,
+						formatter: function(f){
+							return f
+						}
+						
+					},
+	                })
                 }
                 break;
             case 'B':
@@ -327,6 +355,20 @@ $(function() {
                     });
                     window.lineSeries_B.setData(getLineChartData(data));
                     //$('#legend_b_grade').show();
+					
+		    window.lineSeries_B.applyOptions({
+					priceScale: {
+						autoScale: true,
+					},
+					priceFormat: { // price format - y축
+						type: 'custom',
+						//minMove: 0.5,
+						formatter: function(f){
+							return f
+						}
+						
+					},
+	                })	
                 }
                 break;
         }
