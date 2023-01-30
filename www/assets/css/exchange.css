@@ -287,7 +287,8 @@ div.dts div.dataTables_scrollBody {
     margin-top: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    position: relative; background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
+    position: relative; 
+    //background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
 }
 #modal-buy .tea--name ,
 #modal-buy-direct .tea--name {
@@ -303,7 +304,7 @@ div.dts div.dataTables_scrollBody {
     padding-left: 2rem;
     padding-right: 2rem;
     position: relative;
-    background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
+    //background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
 }
 #modal-sell .tea--name,
 #modal-sell-direct .tea--name {
