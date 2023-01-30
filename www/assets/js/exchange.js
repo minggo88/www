@@ -1220,7 +1220,7 @@ $(function() {
             {
                 targets: '_all',
                 className: 'dt-head-center',
-                "orderable": false,
+                //"orderable": false,
             },
             {
                 targets: 'name',
