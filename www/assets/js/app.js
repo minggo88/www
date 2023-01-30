@@ -1852,7 +1852,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			let first_dropdown_value = '';
 			for(i in wallet_symbols) {
 				row = wallet_symbols[i];
-				console.log(i, row);
+				//console.log(i, row);
 				if (row.symbol.length >= 10 || row.symbol=='all') {
 					if(!first_dropdown_value) {
 						if (row.symbol.length >= 10) {
@@ -1936,7 +1936,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					},  // 상품명
 					{data: 'goods_grade'},  // 등급
 					// {data: 'production_date', render: (production_date) => {return production_date;}},  // 생산년도
-					{data: 'trading_type_str', render: (trading_type_str, type, row, meta) => {return trading_type_str;}},  // 거래종류
+					{data: 'trading_type', render: (trading_type_str, type, row, meta) => {
+						let trading_type_str2 = '구매';
+						if(trading_type_str == "sell"){
+							trading_type_str2 = '판매';
+						}
+						return trading_type_str2;}},  // 거래종류
 					{data: 'status', render: (status, type, row, meta) => {
 							// '매매 상태. O: 대기중, C: 완료, T: 매매중, D: 삭제(취소)'
 							let status_str = ""
