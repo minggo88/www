@@ -1220,13 +1220,13 @@ $(function() {
             {
                 targets: '_all',
                 className: 'dt-head-center',
-                "orderable": true,
+                "orderable": false,
             },
             {
                 targets: 'name',
                 className: 'dt-body-left',
                 type: 'title-string',
-                "orderable": false,
+                "orderable": true,
                 responsivePriority: 1
             },
             {
