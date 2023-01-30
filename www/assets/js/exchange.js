@@ -666,7 +666,7 @@ $(function() {
         columnDefs: [
             {
                 searchable: false,
-                orderable: true,
+                orderable: false,
                 targets: 0
             },
             // {
@@ -678,21 +678,21 @@ $(function() {
                 targets: 1,
                 className: 'dt-body-center',
                 type: 'title-string',
-                orderable: true,
+                orderable: false,
 
             },
             {
                 targets: 2,
                 className: 'dt-body-center',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
 
             },
             {
                 targets: 3,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
                 responsivePriority: 1,
 
             },
@@ -700,14 +700,14 @@ $(function() {
                 targets: 4,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
                 responsivePriority: 1,
 
             },
             {
                 targets: 5,
                 className: 'dt-body-right text-right',
-                orderable: true,
+                orderable: false,
                 responsivePriority: 1,
 
             },
@@ -832,45 +832,45 @@ $(function() {
         columnDefs: [
             {
                 searchable: false,
-                orderable: true,
+                orderable: false,
                 targets: 0,
             },
             // {
             //     targets: '_all',
             //     className: 'dt-head-center',
-            //     orderable: true,
+            //     orderable: false,
             // },
             {
                 targets: 1,
                 className: 'dt-body-center',
                 type: 'title-string',
-                orderable: true,
+                orderable: false,
             },
             {
                 targets: 2,
                 className: 'dt-body-center',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
                 responsivePriority: 1,
             },
             {
                 targets: 3,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
                 responsivePriority: 1,
             },
             {
                 targets: 4,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: true,
+                orderable: false,
                 responsivePriority: 1,
             },
             {
                 targets: 5,
                 className: 'dt-body-right text-right',
-                orderable: true,
+                orderable: false,
                 responsivePriority: 1,
             },
             // {
@@ -908,7 +908,7 @@ $(function() {
 	if(PIN_NUMBER_ON <1) {
 		if(cookie_check === Model.user_info.userno){
 			$('#modal-buy-button').attr('data-target','#modal-buy-pin');
-			console.log('3333333 : ' + PIN_NUMBER_ON);
+			//console.log('3333333 : ' + PIN_NUMBER_ON);
 		}else{
 			$('#modal-buy-button').attr('data-target','#modal-sell-pin');
 		}
@@ -1220,7 +1220,7 @@ $(function() {
             {
                 targets: '_all',
                 className: 'dt-head-center',
-                "orderable": true,
+                "orderable": false,
             },
             {
                 targets: 'name',
