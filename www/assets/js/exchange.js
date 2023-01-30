@@ -857,7 +857,7 @@ $(function() {
                 targets: 3,
                 className: 'dt-body-right text-right',
                 type: 'any-number',
-                orderable: false,
+                orderable: true,
                 responsivePriority: 1,
             },
             {
@@ -1220,7 +1220,7 @@ $(function() {
             {
                 targets: '_all',
                 className: 'dt-head-center',
-                "orderable": false,
+                "orderable": true,
             },
             {
                 targets: 'name',
