@@ -295,6 +295,7 @@ div.dts div.dataTables_scrollBody {
     padding-left: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.02em;
+    padding-left: 0px;	
 }
 
 /* 판매하기 */
@@ -311,6 +312,7 @@ div.dts div.dataTables_scrollBody {
     padding-left: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.02em;
+    padding-left: 0px;
 }
 
 #modal-buy .btn--star--on,
