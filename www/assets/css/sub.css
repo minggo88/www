@@ -644,7 +644,7 @@
     border-radius: 4px;
     box-shadow: 0 0 0 1px #BDC4CB;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 15px;
     text-align: center;
     table-layout: fixed;
 }
@@ -710,7 +710,7 @@
     width: 70px;
     height: 25px;
     line-height: 25px;
-    font-size: 13px;
+    font-size: 15px;
 }
 #inquiry .board--list tbody tr:not(:last-child) td {
     border-bottom: 0.35px solid #BDC4CB;
