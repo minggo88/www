@@ -1,3 +1,6 @@
+//title 변경
+document.title = "ASSETTEA" ;
+
 let os = ''
 
 if(navigator.userAgent.match(/Windows/)) {
