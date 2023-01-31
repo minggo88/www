@@ -254,11 +254,11 @@
 	width:100% ; 
 	margin: 0 auto;
 	height: 100%; 
-	background:#B81C22 url('../img/banner01.png') no-repeat 50% 50%/cover;
+	background:#E21A32 url('../img/banner01.png') no-repeat 50% 50%/cover;
 }
 
 .front .news .column li:nth-child(2) a .bg{
-	background:#B81C22 url('../img/banner01.png') no-repeat 50% 50%/cover;
+	background:#E21A32 url('../img/banner01.png') no-repeat 50% 50%/cover;
 }
 
 /* .front .news .column .badge {
