@@ -314,7 +314,7 @@ $(function() {
 					},
 					priceFormat: { // price format - y축
 						type: 'custom',
-						//minMove: 0.5,
+						minMove: 500,
 						formatter: function(f){
 							return f
 						}
@@ -338,7 +338,7 @@ $(function() {
 					},
 					priceFormat: { // price format - y축
 						type: 'custom',
-						//minMove: 0.5,
+						minMove: 500,
 						formatter: function(f){
 							return f
 						}
@@ -362,7 +362,7 @@ $(function() {
 					},
 					priceFormat: { // price format - y축
 						type: 'custom',
-						//minMove: 0.5,
+						minMove: 500,
 						formatter: function(f){
 							return f
 						}
