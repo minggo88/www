@@ -337,7 +337,7 @@ div.dts div.dataTables_scrollBody {
 #modal-sell-success .modal--content{
     height: auto;
 	padding: 3rem 2rem 0;
-    background: url('../img/logo.svg') no-repeat calc(100% - 20px) 17px;
+    //background: url('../img/logo.svg') no-repeat calc(100% - 20px) 17px;
 }
 
 .tea--volume {
