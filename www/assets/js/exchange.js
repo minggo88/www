@@ -941,10 +941,13 @@ $(function() {
                 $('#buyGrid').DataTable().ajax.reload(null, false);
             }
         })
+	set_user_wallet();
+	getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
+	set_user_wallet();
     })
 
     $('.details .tabs').on('beforeShow', (_event, _index, target) => {
-         
+        const cnt_sellable = USER_WALLET[gen_user_wallet_key(SELECTED_SYMBOL,SELECTED_GOODS_GRADE)]?.confirmed || 0;
 	let cookie_check = $.cookie(Model.user_info.userid);
 
 	if(PIN_NUMBER_ON <1) {
