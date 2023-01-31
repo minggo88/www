@@ -2585,6 +2585,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			let total_buyable_balance = 0; // 총 구매 가능 자산
 			let total_income = 0;
 			let total_money = 0;
+			let frozen_money = 0;
 
 			// console.log('getBalance resp:', resp);
 			if(resp.payload.length > 0) {
@@ -2638,11 +2639,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 						total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
 						total_available_evaluated_balance += item.eval_tadable; 	// 총 사용 가능 자산
-						total_locked_evaluated_balance += item.eval_locked + item.eval_trading; 	// 총 동결 평가 자산
+						frozen_money = item.eval_locked + item.eval_trading;
+						total_locked_evaluated_balance += frozen_money;	// 총 동결 평가 자산
 
 						// 잔액
 						item.confirmed_str = real_number_format(item.confirmed);
 						item.eval_valuation_str = real_number_format(item.eval_valuation);
+						
 
 						const symbol_str = in_array(item.symbol,['KRW','USD']) ? item.symbol : __('개') ;
 
