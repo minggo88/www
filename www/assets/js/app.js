@@ -2783,7 +2783,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				//자산평가금액
 				$('#totalLockedBalance').text(real_number_format(total_evaluated_balance,1))
 				//보유금액
-				$('#totalBuyableBalance').text(real_number_format(total_money,20))
+				$('#totalBuyableBalance').text(real_number_format(total_money-total_locked_evaluated_balance,20))
 				//주문금액
 				$('#totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,1))
 
