@@ -2623,24 +2623,29 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						total_buyable_balance = item.confirmed;
 						return ;
 					}
+					// 다른 화폐 제거
+					if(item.symbol ==='USD' || item.symbol ==='ETH'){
+						return;
+					}
 
 					//console.log(item);
 					//console.log("평가수익 : "+item.eval_income);
 
-					if (item.confirmed > 0 || item.symbol=='KRW') {
+					//기존 item.confirmed > 0 -> 기준 오류(모둔 상품이 거래가 있을시 0으로 계산 됨)
+					if (item.valuation > 0 || item.symbol=='KRW' ) {
 						item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
 						item.eval_locked = item.locked * item.price;		// 코인의 잠긴 평가금액
 						item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
 						item.eval_trading = item.trading * item.price;		// 코인의 전체 매도중금액
 						if(typeof item.eval_income != typeof undefined){
-							total_income += item.eval_income;                   // 총 수입
+							//total_income += item.eval_income;                   // 총 수입
 						}
 						total_money = item.total_money;                        // 현금보유
 
 						total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
 						total_available_evaluated_balance += item.eval_tadable; 	// 총 사용 가능 자산
-						frozen_money = item.eval_locked + item.eval_trading;
-						total_locked_evaluated_balance += frozen_money;	// 총 동결 평가 자산
+						frozen_money = item.withdrawing + item.wait_buy;                //동결자산(출금 금액 + 물품 구매금액)
+						total_locked_evaluated_balance = frozen_money;	// 총 동결 평가 자산
 
 						// 잔액
 						item.confirmed_str = real_number_format(item.confirmed);
@@ -2654,14 +2659,20 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
 						//const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
 						const item_name = item.name;
-						const item_price = real_number_format(item.currency_price,1);
-						const item_income = real_number_format(item.eval_income,1);
+						const item_price = real_number_format(item.currency_price,0);
+						//const item_income = real_number_format(item.eval_income,1); //DB에서 가져오지만 잘못된 정보를 갖고와 수입 다시 계산
 						const item_total = item.currency_price * item.confirmed_str;
 						const item_grade = item.goods_grade;
-						const avg_price_one = real_number_format(item.avg_buy_price,1);
-						const avg_price = item.avg_buy_price*item.confirmed_str;
-						const avg_price_num = real_number_format(avg_price,1);
-						const income_rate = item.eval_income / avg_price * 100;
+						//const avg_price_one = real_number_format(item.avg_buy_price,1);
+						//const avg_price = item.avg_buy_price*item.confirmed_str;
+						
+						const avg_price_tot = item.sum_buy_goods * item.confirmed_str;
+						const avg_price_one = real_number_format(item.sum_buy_goods,0);
+						const avg_price_num = real_number_format(avg_price_tot,0);
+						const income = item_total - avg_price_tot;
+						const item_income = real_number_format(income,0);
+						const income_rate = income / avg_price_tot * 100;
+						total_income += income;
 												
 						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
 						grid.append(`
@@ -2686,7 +2697,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
 						// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
 						
-						if(item.eval_income>0){
+						if(income>0){
 						grid.append(`
 							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
@@ -2695,8 +2706,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									
-									${item.symbol !== exchange ? '<div class="wallet--rice"> '+real_number_format(item_total,1)+'</div>' : ''}
-									${item.symbol !== exchange ? '<div class="wallet--price"> '+real_number_format(avg_price_num,1) +'</div>' : ''}
+									${item.symbol !== exchange ? '<div class="wallet--rice"> '+real_number_format(item_total,0)+'</div>' : ''}
+									${item.symbol !== exchange ? '<div class="wallet--price"> '+real_number_format(avg_price_num,0) +'</div>' : ''}
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class=my_income style ="color: var(--red-up) !important;padding-right: 25px;"> ${item_income}</div>
@@ -2704,7 +2715,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								</div>
 							</div>
 						`)
-						}else if(item.eval_income<0){
+						}else if(income<0){
 						grid.append(`
 							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
@@ -2713,8 +2724,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									
-									${item.symbol !== exchange ? '<div class="wallet--rice"> '+real_number_format(item_total,1)+'</div>' : ''}
-									${item.symbol !== exchange ? '<div class="wallet--price"> '+real_number_format(avg_price_num,1) +'</div>' : ''}
+									${item.symbol !== exchange ? '<div class="wallet--rice"> '+real_number_format(item_total,0)+'</div>' : ''}
+									${item.symbol !== exchange ? '<div class="wallet--price"> '+real_number_format(avg_price_num,0) +'</div>' : ''}
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class=my_income style ="color: var(--blue-dn) !important;padding-right: 25px;"> ${item_income}</div>
@@ -2731,8 +2742,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									
-									${item.symbol !== exchange ? '<div class="wallet--rice"> '+real_number_format(item_total,1)+'</div>' : ''}
-									${item.symbol !== exchange ? '<div class="wallet--price"> '+real_number_format(avg_price_num,1) +'</div>' : ''}
+									${item.symbol !== exchange ? '<div class="wallet--rice"> '+real_number_format(item_total,0)+'</div>' : ''}
+									${item.symbol !== exchange ? '<div class="wallet--price"> '+real_number_format(avg_price_num,0) +'</div>' : ''}
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									<div class=my_income style="padding-right: 25px;"> ${item_income}</div>
@@ -2777,15 +2788,15 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				//---------------------------------------------------
 				//총보유자산
 				let num = (total_evaluated_balance*1) + (total_money*1);
-				$('#totalBalance').text(real_number_format(num,1))
+				$('#totalBalance').text(real_number_format(num,0))
 				//평가손익
-				$('#totalAvailableBalance').text(real_number_format(total_income,1))
+				$('#totalAvailableBalance').text(real_number_format(total_income,0))
 				//자산평가금액
-				$('#totalLockedBalance').text(real_number_format(total_evaluated_balance,1))
+				$('#totalLockedBalance').text(real_number_format(total_evaluated_balance,0))
 				//보유금액
-				$('#totalBuyableBalance').text(real_number_format(total_money-total_locked_evaluated_balance,20))
-				//주문금액
-				$('#totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,1))
+				$('#totalBuyableBalance').text(real_number_format(total_money,0))
+				//주문 및 동결 금액
+				$('#totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
 
 			}
 		})
