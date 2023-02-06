@@ -2647,8 +2647,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						frozen_money = item.withdrawing + item.wait_buy;                //동결자산(출금 금액 + 물품 구매금액)
 						total_locked_evaluated_balance = frozen_money;	// 총 동결 평가 자산
 
-						// 잔액
-						item.confirmed_str = real_number_format(item.confirmed);
+						// 잔액 230206 mk 지갑내 수량 (거래중일때 감소되는 현상) 수정
+						//item.confirmed_str = real_number_format(item.confirmed);
+						item.confirmed_str = real_number_format(item.valuation);
 						item.eval_valuation_str = real_number_format(item.eval_valuation);
 						
 
