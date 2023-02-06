@@ -1929,7 +1929,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					}
 				},
 				columns : [
-					{data: 'time_traded', render: (time_traded) => {return date('Y-m-d H:i', time_traded) ;}},  // 체결시간
+					{data: 'time_traded', render: (time_traded) => {
+						if(time_traded != ''){
+							return date('Y-m-d H:i', time_traded) 
+						}else{
+							return ''
+						} ;}
+					},  // 체결시간
 					{
 						data: 'currency_name' //, render: (data, type, row) => {return `<span class="product&#45;&#45;image"><img src="${wallet_icon_url}" alt=""></span>${data}`}
 						, orderable: false,
