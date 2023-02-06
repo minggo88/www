@@ -1422,7 +1422,8 @@ $(function() {
             const goods_grade = btn.data('goods_grade')
             const name = SELECTED_NAME
             const modal = $('#modal-buy-direct')
-            const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE, '')]?.confirmed || 0;
+            //const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE, '')]?.confirmed || 0;
+	    const cnt_buyable = Model.user_wallet.KRW.total_money;
             modal.find('.tea--available').text('' + real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
             modal.find('[name=orderid]').val(orderid)
             modal.find('[name=symbol]').val(symbol)
@@ -1540,7 +1541,8 @@ $(function() {
     $('#modal-buy')
         .myModal('beforeOpen', _e => {
             const modal = $('#modal-buy')
-            const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE,'')]?.confirmed || 0;
+            //const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE,'')]?.confirmed || 0;
+	    const cnt_buyable = Model.user_wallet.KRW.total_money;
 
             modal.find('.tea--available').text(real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
