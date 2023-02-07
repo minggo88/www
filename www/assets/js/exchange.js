@@ -1557,7 +1557,7 @@ $(function() {
         .submit(e => {
             $('#modal-buy').find('button[type=submit]').attr('disabled', true);
             e.preventDefault()
-	    const price_num2 =parseFloat($form.find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''));
+	    const price_num2 =parseFloat($('#modal-buy').find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''));
 	    $('#modal-buy [name=price]').val(price_num2);	
             API.buy($('#modal-buy').serializeObject(), (resp) => {
                 $('#modal-buy').find('button[type=submit]').attr('disabled', false);
