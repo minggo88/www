@@ -2668,12 +2668,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const item_name = item.name;
 						const item_price = real_number_format(item.currency_price,0);
 						//const item_income = real_number_format(item.eval_income,1); //DB에서 가져오지만 잘못된 정보를 갖고와 수입 다시 계산
-						const item_total = item.currency_price * item.confirmed_str;
+						const item_total = item.currency_price * item.valuation;
 						const item_grade = item.goods_grade;
 						//const avg_price_one = real_number_format(item.avg_buy_price,1);
 						//const avg_price = item.avg_buy_price*item.confirmed_str;
 						
-						const avg_price_tot = item.sum_buy_goods * item.confirmed_str;
+						const avg_price_tot = item.sum_buy_goods * item.valuation;
 						const avg_price_one = real_number_format(item.sum_buy_goods,0);
 						const avg_price_num = real_number_format(avg_price_tot,0);
 						const income = item_total - avg_price_tot;
