@@ -2740,7 +2740,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								</div>
 							</div>
 						`)
-						}else if(item.eval_income == 0){
+						/* mk 참조 변수 변경 
+						}else if(item.eval_income == 0){*/
+						}else if(income == 0){
 						grid.append(`
 							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
