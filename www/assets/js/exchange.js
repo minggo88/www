@@ -1303,7 +1303,7 @@ $(function() {
         select: true,
         info: false,
         paging: false,
-        order: [[0, 'desc']],
+        order: [[0, 'asc']],
     })
 
     const setItemGrid = function (data) {
@@ -1330,6 +1330,9 @@ $(function() {
         API.getCurrency(symbol, (resp) => {
             if (resp.success) {
                 CURRENCY_INFO = resp.payload;
+		//이름순으로 순서 변경
+		CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
+		CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
                 setItemGrid(CURRENCY_INFO);
             } else {
                 setItemGrid(null);
