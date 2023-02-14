@@ -223,8 +223,8 @@
     font-weight: 700 !important;
     font-size: 24px;
     height: 57px;
-    color: #B81C22;
-    border-bottom: 4px solid #B81C22;
+    color: #E21A32;
+    border-bottom: 4px solid #E21A32;
     box-sizing: border-box;
     margin-bottom: 34px;
 }
@@ -872,7 +872,7 @@
 		content:"+"; 
 		position: absolute; 
 		font-size: 28px; 
-		color:#B81C22;
+		color:#E21A32;
 		top: 0; 
 		right: 15px;
 		line-height: 48px;
