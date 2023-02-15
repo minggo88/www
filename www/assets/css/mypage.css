@@ -1,6 +1,6 @@
 form.boxed{
 	width: 100%;
-	height: 582px;
+	height: 713px;
 	justify-content: center;
 	padding: 0;
 }
@@ -45,10 +45,45 @@ input[type=text] {
 	/* margin-bottom: 10px; */
 }
 
+/*mk 수정  */
+.default .user_info_check.form--controls label + selection + input,
+#join_user_number_A,#join_user_number_B,
 .default .email.form--controls label+input,
 .default .name.form--controls label+input,
 .default .nickname.form--controls label+input{
 	margin-bottom: 15px;
+}
+
+#join_type{
+	min-height : 38px;
+	width: 49.2%;
+	margin-bottom: 8px;
+	height: 40px;
+	padding-left: 11px;
+	border: 1px solid #dfdfdf;
+	font-weight: 400;
+    font-size: 16px;
+    color: var(--basic-gray);
+	font-style: normal;
+    font-family: "Noto Sans KR" !important;
+    vertical-align: middle;
+}
+
+.form--controls.join_user_number{
+	width : 355px;
+}
+
+#join_user_number_A,#join_user_number_A{
+	border: 1px solid #dfdfdf;
+}
+
+.default #join_user_passport{
+	width: auto;
+	border: 1px solid #dfdfdf;
+}
+
+.default .user_info_check.form--controls .form--controls.join_user_number{
+	display:none;
 }
 
 .region {
