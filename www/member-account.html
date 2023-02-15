@@ -241,10 +241,13 @@
 							<!--230215 mk 개인정보 내역 추가-->
 							<div class="user_info_check form--controls">
 								<label for="user_info_check" data-i18n="">개인 인증 정보</label>
-								<label><input type="radio" name="join_type" value="A" disabled=""> 주민등록번호</label>
-								<label><input type="radio" name="join_type" value="B" disabled=""> 여권번호</label>
-								<input type="text" name="join_user_passport" id="join_user_passport" placeholder="여권번호" autocomplete="off" data-bind="form.nickname" disabled="">
-								<div class="form--controls join_user_number" style="display:none">
+								<select id="join_type" name="join_type" >
+								  <option value="A">주민등록번호</option>
+								  <option value="B">여권번호</option>
+								</select>
+								
+								<input type="text" name="join_user_passport" id="join_user_passport" placeholder="여권번호" autocomplete="off" data-bind="form.nickname" disabled="" style="margin-bottom: 15px; display:block">
+								<div class="form--controls join_user_number" style="display:none;">
 									<div class="row" style="margin-bottom: 15px;">
 										<div class="col-6">
 											<input type="text" name="join_user_number_A" id="join_user_number_A" placeholder="주민번호 앞자리" autocomplete="off" data-bind="form.address_b" disabled="">
