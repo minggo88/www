@@ -1,6 +1,6 @@
 form.boxed{
 	width: 100%;
-	height: 713px;
+	height: 723px;
 	justify-content: center;
 	padding: 0;
 }
@@ -22,7 +22,7 @@ input[type=text] {
 
 .default {
 	align-self: center; 
-	padding: 40px 0 40px;
+	padding: 40px 0 0px;
 	height: auto;
 	position: relative;
 }
@@ -48,6 +48,7 @@ input[type=text] {
 /*mk 수정  */
 .default .user_info_check.form--controls label + selection + input,
 #join_user_number_A,#join_user_number_B,
+#btn-info_num-save,
 .default .email.form--controls label+input,
 .default .name.form--controls label+input,
 .default .nickname.form--controls label+input{
@@ -73,7 +74,7 @@ input[type=text] {
 	width : 355px;
 }
 
-#join_user_number_A,#join_user_number_A{
+#join_user_number_A,#join_user_number_B{
 	border: 1px solid #dfdfdf;
 }
 
@@ -84,6 +85,15 @@ input[type=text] {
 
 .default .user_info_check.form--controls .form--controls.join_user_number{
 	display:none;
+}
+
+.default .user_info_check #check_off{
+	color: var(--red-up);
+    font-size: 14px;
+}
+.default .user_info_check #check_on{
+	color: var(--blue-dn);
+    font-size: 14px;
 }
 
 .region {
@@ -155,7 +165,7 @@ form {
 
 .sub.member-account .btn-area{
 	position: relative;
-	margin-top: 10px;
+	margin-top: 8px;
 }
 
 .sub.member-account .change_info{
