@@ -245,14 +245,14 @@
 									<span id="check_off" style="display:iline-block;">등록 필요</span>
 									<span id="check_on" style="display:none;">등록 완료</span>
 								</label>
-								<select id="join_type" name="join_type">
+								<select id="join_type" name="join_type" onchange="change_select()">
 								  <option value="A">주민등록번호</option>
 								  <option value="B">여권번호</option>
 								</select>
 								
-								<input type="text" name="join_user_passport" id="join_user_passport" placeholder="여권번호" autocomplete="off" data-bind="form.nickname" disabled="" style="margin-bottom: 15px; display:none">
+								<input type="text" name="join_user_passport" id="join_user_passport" placeholder="여권번호" autocomplete="off" data-bind="form.nickname" style="display: block;">
 								<div class="form--controls join_user_number" style="display:block;">
-									<div class="row" style="margin-bottom: 8px;">
+									<div class="row">
 										<div class="col-6">
 											<input type="text" name="join_user_number_A" id="join_user_number_A" placeholder="주민번호 앞자리" autocomplete="off" data-bind="form.address_b" maxlength='6'>
 										</div>
