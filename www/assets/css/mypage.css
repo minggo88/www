@@ -47,7 +47,6 @@ input[type=text] {
 
 /*mk 수정  */
 .default .user_info_check.form--controls label + selection + input,
-#join_user_number_A,#join_user_number_B,
 #btn-info_num-save,
 .default .email.form--controls label+input,
 .default .name.form--controls label+input,
