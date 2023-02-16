@@ -95,6 +95,11 @@ input[type=text] {
     font-size: 14px;
 }
 
+.btn.user-info {
+    background: var(--red-up);
+    color: var(--white) !important;
+}
+
 .region {
     margin-top: 25px;
 }
