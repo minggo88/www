@@ -2199,6 +2199,19 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		document.getElementById("join_user_passport").value = Model.user_info.user_info_A + "***";
 		document.getElementById("join_user_number_A").value = Model.user_info.user_info_A;
 		document.getElementById("join_user_number_B").value = Model.user_info.user_info_B + "******";
+		if(Model.user_info.user_join_type == "B"){
+			document.getElementById("join_user_number_A").style.display = 'none';
+			document.getElementById("join_user_number_B").style.display = 'none';
+			document.getElementById("join_user_passport").style.display = 'block';
+			document.getElementById("join_user_number_A").value = '';
+			document.getElementById("join_user_number_B").value = '';
+		}else{
+			document.getElementById("join_user_number_A").style.display = 'block';
+			document.getElementById("join_user_number_B").style.display = 'block';
+			document.getElementById("join_user_passport").style.display = 'none';
+			document.getElementById("join_user_passport").value = '';
+		}
+		
 		// force_rander('user_info', Model.user_info);
 		
 		$('#member-account').on('submit', function () {
