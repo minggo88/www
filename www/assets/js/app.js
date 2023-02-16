@@ -2195,6 +2195,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		check_login();
 		request_user_info();
 		Model.form = clone(Model.user_info);
+		document.getElementById("join_type").value = Model.user_info.user_join_type;
+		document.getElementById("join_user_passport").value = Model.user_info.user_info_A + "***";
+		document.getElementById("join_user_number_A").value = Model.user_info.user_info_A;
+		document.getElementById("join_user_number_B").value = Model.user_info.user_info_B + "******";
 		// force_rander('user_info', Model.user_info);
 		
 		$('#member-account').on('submit', function () {
@@ -2230,6 +2234,47 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			}
 			return false;
 		});
+		
+		//개인정보 저장
+		$('#btn-info_num-save').on('click', function () {
+			var user_join_type = document.getElementById("join_type").value;
+			var user_join_number = '';
+			var text = '';
+			if(user_join_type == "A"){
+				user_join_number = document.getElementById("join_user_number_A").value + document.getElementById("join_user_number_B").value;
+				text = 'mobile_country_code=KR&user_join_type=';
+				text += user_join_type;
+				text += '&user_join_number=';
+				text += user_join_number;
+			}else{
+				user_join_number = document.getElementById("join_user_passport").value;
+				text = 'mobile_country_code=KR&user_join_type=';
+				text += user_join_type;
+				text += '&user_join_number=';
+				text += user_join_number;
+			}
+			add_request_item('putMyInfo', text, function (r) {
+				if (r?.success) {
+					alert(__('등록 했습니다.'));
+				} else {
+					alert(__('등록하지 못했습니다.') + r?.error?.message||'')
+				}
+			})
+			return false;
+		});
+		
+		// 신분증 인증 완료
+		if (Model.user_info.permission.substr(3, 1) == '1') {
+			document.getElementById("join_user_number_A").value = '';
+			document.getElementById("join_user_number_B").value = '';
+			document.getElementById("join_user_number_A").style.display = 'none';
+			document.getElementById("join_user_number_B").style.display = 'none';
+			document.getElementById("join_user_passport").style.display = 'none';
+			document.getElementById("check_off").style.display = 'none';
+			document.getElementById("check_on").style.display = 'inline-block';
+			document.getElementById("join_type").style.display = 'none';
+			document.getElementById("btn-info_num-save").style.display = 'none';
+		} 
 
 		// 국가 선택 
 		function select_country(code) {
@@ -3392,4 +3437,21 @@ function htmlencode(str) {
 	return str.replace(/[&<>"']/g, function($0) {
 		return "&" + { "&": "amp", "<": "lt", ">": "gt", '"': "quot", "'": "#39" }[$0] + ";";
 	});
+}
+
+// 셀렉트박스 
+function change_select(){
+	var join_type = document.getElementById("join_type").value;
+	if(join_type=="B"){
+		document.getElementById("join_user_number_A").style.display = 'none';
+		document.getElementById("join_user_number_B").style.display = 'none';
+		document.getElementById("join_user_passport").style.display = 'block';
+		document.getElementById("join_user_number_A").value = '';
+		document.getElementById("join_user_number_B").value = '';
+	}else{
+		document.getElementById("join_user_number_A").style.display = 'block';
+		document.getElementById("join_user_number_B").style.display = 'block';
+		document.getElementById("join_user_passport").style.display = 'none';
+		document.getElementById("join_user_passport").value = '';
+	}
 }
