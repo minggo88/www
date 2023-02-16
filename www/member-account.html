@@ -246,17 +246,18 @@
 								  <option value="B">여권번호</option>
 								</select>
 								
-								<input type="text" name="join_user_passport" id="join_user_passport" placeholder="여권번호" autocomplete="off" data-bind="form.nickname" disabled="" style="margin-bottom: 15px; display:block">
-								<div class="form--controls join_user_number" style="display:none;">
-									<div class="row" style="margin-bottom: 15px;">
+								<input type="text" name="join_user_passport" id="join_user_passport" placeholder="여권번호" autocomplete="off" data-bind="form.nickname" disabled="" style="margin-bottom: 15px; display:none">
+								<div class="form--controls join_user_number" style="display:block;">
+									<div class="row" style="margin-bottom: 8px;">
 										<div class="col-6">
 											<input type="text" name="join_user_number_A" id="join_user_number_A" placeholder="주민번호 앞자리" autocomplete="off" data-bind="form.address_b" disabled="">
 										</div>
 										<div class="col-6">
-											<input type="text" name="join_user_number_B" id="join_user_number_B" placeholder="주민번호 뒷자리" autocomplete="off" data-bind="form.zipcode" disabled="">
+											<input type="password" name="join_user_number_B" id="join_user_number_B" placeholder="주민번호 뒷자리" autocomplete="off" data-bind="form.zipcode" disabled="">
 										</div>
 									</div>
 								</div>
+								<button class="btn btn--red" style="width: 355px; display: block;margin-bottom: 15px;" id="btn-info_num-save" data-i18n="">등록 완료</button>
 							</div>
 							<div class="phone form--controls">
 								<label for="mobile" data-i18n>핸드폰 번호</label>
@@ -303,8 +304,8 @@
 						</div>
 						<a href="" class="text--red mobile-only" data-i18n>로그인 비밀번호 변경</a>
 						<div class="text--center btn-area">
-							<button class="btn btn--check" style="width: 340px; display: block;" name="" data-i18n="">주소 수정</button>
-							<button class="btn btn--red" style="width: 340px; display: none;" name="btn-save-info" data-i18n="">수정 완료</button>
+							<button class="btn btn--check" style="width: 355px; display: block;" name="" data-i18n="">주소 수정</button>
+							<button class="btn btn--red" style="width: 355px; display: none;" name="btn-save-info" data-i18n="">수정 완료</button>
 						</div>
 						<div class="text--center desktop-only change_info"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password"  data-toggle="modal" data-target="#change-password" data-i18n>로그인 비밀번호 변경</a></div>
 					</div>
