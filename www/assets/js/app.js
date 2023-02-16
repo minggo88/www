@@ -2287,6 +2287,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			document.getElementById("check_on").style.display = 'inline-block';
 			document.getElementById("join_type").style.display = 'none';
 			document.getElementById("btn-info_num-save").style.display = 'none';
+			$('.boxed').height(575);
 		} 
 
 		// 국가 선택 
