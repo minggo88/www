@@ -1819,3 +1819,7 @@ $(function() {
             $('#scan .modal--body').find('img,iframe').attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==')
         })
 })
+
+function open_use_agreement() {
+	window.open('https://www.assettea.com', '_blank');
+}
