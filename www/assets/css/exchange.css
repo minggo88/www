@@ -556,3 +556,13 @@ div.dts div.dataTables_scrollBody {
 #modal-sell-direct-pin .text--center .btn{
 	width: 80%;
 }
+
+/* 230217 mk 이용약관 추가*/
+#dl_agree{
+	margin-top: 7px;
+    margin-bottom: 8px;
+}
+
+#dl_agree label input{
+	margin-right:10px;
+}
