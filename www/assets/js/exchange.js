@@ -1825,5 +1825,5 @@ $(function() {
 })
 
 function open_use_agreement() {
-	window.open('https://www.assettea.com', '_blank');
+	window.open('https://www.assettea.com/use_agreement.html', '_blank');
 }
