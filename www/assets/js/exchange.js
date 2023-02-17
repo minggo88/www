@@ -1438,6 +1438,7 @@ $(function() {
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
             modal.find('[name=goods_grade]').val(goods_grade)
+	    $('[name=use_agreement]').prop('checked', false);
 	    
 	    //mk 물품 구매시 total가격, 수량 수정
 	    modal.find('[name=volume]').val(1)
@@ -1556,6 +1557,7 @@ $(function() {
             modal.find('[name=total]').val('0')
             modal.find('.tea--name').text(SELECTED_NAME)
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
+	    $('[name=use_agreement]').prop('checked', false);
         })
         .submit(e => {
             $('#modal-buy').find('button[type=submit]').attr('disabled', true);
@@ -1655,6 +1657,7 @@ $(function() {
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
             modal.find('[name=goods_grade]').val(goods_grade)
+	    $('[name=use_agreement]').prop('checked', false);
 	    
 	    //mk 물품 구매시 total가격, 수량 수정
 	    modal.find('[name=volume]').val(1)
@@ -1765,6 +1768,7 @@ $(function() {
             modal.find('[name=total]').val('0')
             modal.find('.tea--name').text(SELECTED_NAME)
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
+	    $('[name=use_agreement]').prop('checked', false);
         })
         .submit(e => {
             $('#modal-sell').find('button[type=submit]').attr('disabled', true);
