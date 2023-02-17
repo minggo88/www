@@ -1691,7 +1691,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		check_login();
 		Model.form = clone(Model.user_info);
 
-		if(Model.user_info.image_bank_url) $('.preview[for="file_bank_url"]').css({'background-image':'url(' + Model.user_info.image_bank_url + ')', 'display':'block'});
+		//if(Model.user_info.image_bank_url) $('.preview[for="file_bank_url"]').css({'background-image':'url(' + Model.user_info.image_bank_url + ')', 'display':'block'});
 
 		// permission 값 의미 : 1: 가입여부, 2: 로그인여부, 3: 핸드폰 인증여부, 4: 신분증 인증 여부, 5:은행 인증 여부
 		const permission_level = Model.user_info.permission.match(/1/g).length; // '11000' => 2 ,
@@ -1750,7 +1750,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('#bank_owner').attr("disabled", false);
 			$('#bank_account_p').hide();
 			$('#bank_account').show();
-			$('#file_bank_url').attr("disabled", false);
+			//$('#file_bank_url').attr("disabled", false);
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();
 			return false;
@@ -1772,9 +1772,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				return false
 			}
 
-			if (!$('#change-account-number #file_bank_url').val() && !Model.user_info.image_bank_url ) {
+			/*if (!$('#change-account-number #file_bank_url').val() && !Model.user_info.image_bank_url ) {
 				alert(__('출금 계좌 사진을 선택해주세요.')); return false;
-			}
+			}*/
 
 			if (Model.user_info.image_bank_url) {
 				$('#change-account-number #image_bank_url').val(Model.user_info.image_bank_url)
@@ -2459,10 +2459,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				return false;
 			}
 
-			if (!$('#verification5 #file_bank_url').val()) {
+			/*if (!$('#verification5 #file_bank_url').val()) {
 				alert(__('통장 사진을 선택해주세요.'))
 				return false;
-			}
+			}*/
 
 			if (!$('#verification5 #city').val()) {
 				alert(__('도시를 입력해주세요'))
