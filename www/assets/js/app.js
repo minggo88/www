@@ -1709,7 +1709,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('#account_ing4').hide();
 			$('#account_success').show();
 		} else {
-			if (Model.user_info.image_bank_url) { // 신분증 인증 대기중
+			if (Model.user_info.bank_name) { // 신분증 인증 대기중
 				$('[name=status_waiting]').show();
 			} else { // 신분증 인증 입력 필요
 				$('[name=status_default]').show();
