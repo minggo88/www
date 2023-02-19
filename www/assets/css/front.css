@@ -621,6 +621,7 @@
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service {
 	    width: calc(100% - 20px);
+		margin-left : 10px;
 	    height: 600px;
 	    background: url('../img/mobile_mian1.png') no-repeat center;
 	    display: flex;
@@ -629,6 +630,7 @@
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service2 {
 	    width: calc(100% - 20px);
+		margin-left : 10px;
 	    height: 600px;
 	    background: url('../img/mobile_mian2.png') no-repeat center;
 	    display: flex;
@@ -638,6 +640,7 @@
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service3 {
 	    width: calc(100% - 20px);
+	    margin-left : 10px;
 	    height: 1500px;
 	    background: url('../img/mobile_mian3.png') no-repeat center;
 	    display: flex;
