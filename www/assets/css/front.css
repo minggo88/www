@@ -620,36 +620,24 @@
 	
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service {
-	    height: 700px;
-	    background: url('../img/mobile_mian1.png') no-repeat center;
-	    background-size: cover;
+	    height: 600px;
+	    background: url('../img/mobile_mian2.png') no-repeat center;
 	    display: flex;
-	    flex-direction: column;
-	    box-sizing: border-box;
-		padding-top: 60px;
 	}
 	
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service2 {
-	    height: 700px;
+	    height: 600px;
 	    background: url('../img/mobile_mian2.png') no-repeat center;
-	    background-size: cover;
 	    display: flex;
-	    flex-direction: column;
-	    box-sizing: border-box;
-		padding-top: 60px;
+
 	}
 	
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service3 {
-	    height: 2200px;
-	    display: flex;
+	    height: 4500px;
 	    background: url('../img/mobile_mian3.png') no-repeat center;
-	    background-size: cover;
 	    display: flex;
-	    flex-direction: column;
-	    box-sizing: border-box;
-		padding-top: 60px;
 	}
 }
 
