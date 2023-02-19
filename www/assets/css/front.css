@@ -620,7 +620,7 @@
 	
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service {
-	    width: calc(100% - 20px);
+	    width: 100% - 20px;
 		margin-left : 10px;
 	    height: 600px;
 		background-size: contain;
@@ -630,7 +630,7 @@
 	
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service2 {
-	    width: calc(100% - 20px);
+	    width: 100% - 20px;
 		margin-left : 10px;
 	    height: 600px;
 		background-size: contain;
@@ -641,7 +641,7 @@
 	
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service3 {
-	    width: calc(100% - 20px);
+	    width: 100% - 20px;
 	    margin-left : 10px;
 	    height: 1500px;
 		background-size: contain;
