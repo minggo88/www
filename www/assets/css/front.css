@@ -623,7 +623,7 @@
 	    width: calc(100% - 20px);
 		margin-left : 10px;
 	    height: 600px;
-		background-size: cover;
+		background-size: contain;
 	    background: url('../img/mobile_mian1.png') no-repeat center;
 	    display: flex;
 	}
@@ -633,7 +633,7 @@
 	    width: calc(100% - 20px);
 		margin-left : 10px;
 	    height: 600px;
-		background-size: cover;
+		background-size: contain;
 	    background: url('../img/mobile_mian2.png') no-repeat center;
 	    display: flex;
 
@@ -644,7 +644,7 @@
 	    width: calc(100% - 20px);
 	    margin-left : 10px;
 	    height: 1500px;
-		background-size: cover;
+		background-size: contain;
 	    background: url('../img/mobile_mian3.png') no-repeat center;
 	    display: flex;
 	}
