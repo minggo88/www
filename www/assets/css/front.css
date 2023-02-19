@@ -149,6 +149,7 @@
     box-sizing: border-box;
 }
 
+/* mk 모바일크기에 대한 옵션 제거
 @media (max-width: 600px) {
 	.viusalArea{height: 100vh; min-height: 600px;}
 	.viusalArea .logo{display: none;}
@@ -162,7 +163,7 @@
 	.front .getting-started > *{display: block;}
 	.front .getting-started .btn-- {margin-bottom: 20px;}
 }
-
+*/
 
 .front .news {
 	height: 82px;
@@ -387,7 +388,8 @@
 .front main .section:last-child .list li span{
 	flex-basis: 25%;
 }
-@media screen and (min-width: 601px) and (max-width: 900px) {
+/*@media screen and (min-width: 601px) and (max-width: 900px) {*/
+@media screen and (min-width: 1px) and (max-width: 900px) {
 	.front main {
 		margin: 30px 0 40px;
 		padding: 0 75px;
@@ -533,10 +535,13 @@
 	.section--service .service--desc{font-size: 12px;}
 }
 
-@media screen and (min-width: 601px) and (max-width: 800px) {
+/*@media screen and (min-width: 601px) and (max-width: 800px) {*/
+@media screen and (min-width: 1px) and (max-width: 800px) {
 	.front .box-mobile-menu{display: block;}
 }
 
+/* mk 모바일크기에 대한 옵션 제거
 @media (max-width: 600px) {
 	header, .front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none!important;}
 }
+*/
