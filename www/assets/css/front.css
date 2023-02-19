@@ -621,7 +621,7 @@
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service {
 	    height: 600px;
-	    background: url('../img/mobile_mian2.png') no-repeat center;
+	    background: url('../img/mobile_mian1.png') no-repeat center;
 	    display: flex;
 	}
 	
