@@ -687,6 +687,41 @@
 	.front main .section:nth-child(2) .list--text:last-child{
 		flex-basis:20%;
 	}
+	
+	.front main .section:nth-child(2) .list--text{
+	flex-basis: 30%;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	}
+	.front main .section:nth-child(2) .list--text:nth-child(2){
+		flex-basis:45%;
+	}
+	.front main .section:nth-child(2) .list--text:last-child{
+		flex-basis:20%;
+	}
+
+	.viusalArea .typography h1,
+	.front .viusalArea .statistics em {
+		font-size : 24px;
+	}
+
+	.front .viusalArea .statistics h1 {
+		font-size : 20px;
+	}
+
+	.front .news .column li a .bg{
+		max-width: 1440px;
+		width:100% ; 
+		margin: 0 auto;
+		height: 100%; 
+		background:#E21A32 url('../img/mobile_banner.png') no-repeat 50% 50%/cover;
+	}
+	
+	.front .news .column li:nth-child(2) a .bg{
+		background:#E21A32 url('../img/mobile_banner.png') no-repeat 50% 50%/cover;
+	}
+	
 }
 
 /* mk 모바일 크기에 대한 css 제거
