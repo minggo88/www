@@ -648,6 +648,10 @@
 	    background: url('../img/mobile_mian3.png') no-repeat center;
 	    display: flex;
 	}
+	
+	footer{
+		display : block!important;
+	}
 }
 
 /* mk 모바일 크기에 대한 css 제거
