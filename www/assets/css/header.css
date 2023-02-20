@@ -355,7 +355,7 @@ header .logo a {
 	}
 	
 	/* 햄버거 메뉴 */
-    .front .contents--header .navigation {
+    .sub .contents .contents--header .navigation {
         width: 24px;
         height: 24px;
         background: url('../img/menu.svg') no-repeat 0 50%;
@@ -364,7 +364,7 @@ header .logo a {
         float:left;
     }
 	/* 로고 메뉴 */
-    .front .contents--header a {
+    .sub .contents .contents--header a {
         width: 100px;
         height: 24px;
 		padding-left:2%;
@@ -377,11 +377,11 @@ header .logo a {
 		background-size: cover;*/
     }
 	/* 빈공간 */
-	.front .contents--header span {
+	.sub .contents .contents--header span {
 		width: calc(100% - 139px);
 	}
 	/* 왼쪽 정렬 */
-	.front .contents--header{
+	.sub .contents .contents--header{
 		display: flex;
 		justify-content: flex-end!important;
 	}
