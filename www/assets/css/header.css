@@ -355,24 +355,33 @@ header .logo a {
 	}
 	
 	/* 햄버거 메뉴 */
-    .sub .contents .contents--header .navigation {
+    .front .contents--header .navigation {
         width: 24px;
         height: 24px;
         background: url('../img/menu.svg') no-repeat 0 50%;
         border: 0 none;
-	margin-right : 0px!important;
+		margin-right : 0px!important;
         float:left;
     }
 	/* 로고 메뉴 */
-    .sub .contents .contents--header a {
-        width: calc(100% - 39px);
+    .front .contents--header a {
+        width: 100px;
         height: 24px;
-	padding-left:2%;
+		padding-left:2%;
+		font-size:16px;
+		font-weight:700;
+		padding-left:16px;
         float:right;
+		display:relase;
+		/*background: url('../img/Teaplat-logo_color.png') no-repeat center center;
+		background-size: cover;*/
     }
-	
-	/* 오른쪽 정렬 */
-	.sub .contents .contents--header{
+	/* 빈공간 */
+	.front .contents--header span {
+		width: calc(100% - 139px);
+	}
+	/* 왼쪽 정렬 */
+	.front .contents--header{
 		display: flex;
 		justify-content: flex-end!important;
 	}
