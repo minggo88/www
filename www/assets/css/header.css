@@ -360,6 +360,7 @@ header .logo a {
         height: 24px;
         background: url('../img/menu.svg') no-repeat 0 50%;
         border: 0 none;
+	margin-right : 0px!important;
         float:left;
     }
 	/* 로고 메뉴 */
@@ -370,10 +371,10 @@ header .logo a {
         float:right;
     }
 	
-	/* 왼쪽 정렬 */
+	/* 오른쪽 정렬 */
 	.sub .contents .contents--header{
 		display: flex;
-		justify-content: flex-start!important;
+		justify-content: flex-end!important;
 	}
 	
 	.sub .contents .contents--header .navigation--back,
