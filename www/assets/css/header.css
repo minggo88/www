@@ -362,6 +362,19 @@ header .logo a {
         border: 0 none;
         float:left;
     }
+	/* 로고 메뉴 */
+    .sub .contents .contents--header a {
+        width: calc(100% - 39px);
+        height: 24px;
+	padding-left:2%;
+        float:right;
+    }
+	
+	/* 왼쪽 정렬 */
+	.sub .contents .contents--header{
+		display: flex;
+		justify-content: flex-start!important;
+	}
 	
 	.sub .contents .contents--header .navigation--back,
 	.sub .contents .contents--header .navigation,
