@@ -462,7 +462,7 @@
 
 /*230130 메인 이미지 추가*/
 .section--service {
-    height: 810px;
+    height: 2430px;
     background: url('../img/bg2.png') no-repeat center;
     background-size: cover;
     display: flex;
@@ -473,7 +473,7 @@
 
 /*230130 메인 이미지 추가*/
 .section--service2 {
-    height: 810px;
+    height: 2430px;
     background: url('../img/bg3.png') no-repeat center;
     background-size: cover;
     display: flex;
@@ -484,8 +484,19 @@
 
 /*230130 메인 이미지 추가*/
 .section--service3 {
-    height: 754px;
+    height: 2250px;
     background: url('../img/bg4.png') no-repeat center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+	padding-top: 60px;
+}
+
+/*230220 메인 이미지 추가*/
+.section--service3 {
+    height: 1200px;
+    background: url('../img/bg5.png') no-repeat center;
     background-size: cover;
     display: flex;
     flex-direction: column;
