@@ -765,17 +765,17 @@
         height: 24px;
         background: url('../img/menu.svg') no-repeat 0 50%;
         border: 0 none;
-		margin-right : 0px!important;
+    	padding-right: 16px;
+	margin-right : 0px!important;
         float:left;
     }
 	/* 로고 메뉴 */
     .front .contents--header a {
         width: 100px;
         height: 24px;
-		padding-left:2%;
-		font-size:16px;
-		font-weight:700;
-		padding-left:16px;
+	padding-left:calc(2%+16px);
+	font-size:16px;
+	font-weight:700;
         float:right;
 		display:relase;
 		/*background: url('../img/Teaplat-logo_color.png') no-repeat center center;
