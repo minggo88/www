@@ -448,7 +448,7 @@
 @media screen and (min-width: 1px) and (max-width: 900px) {
 	.front main {
 		margin: 30px 0 40px;
-		padding: 0 75px;
+		padding: 0 55px;
 		height: auto;
 		display: flex;
 		flex-direction: column;
@@ -672,6 +672,20 @@
 	
 	footer{
 		display : block!important;
+	}
+	
+	/* 230220 모바일 세션 크기 조정 */
+	.front main .section:nth-child(2) .list--text{
+	flex-basis: 30%;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	}
+	.front main .section:nth-child(2) .list--text:nth-child(2){
+		flex-basis:45%;
+	}
+	.front main .section:nth-child(2) .list--text:last-child{
+		flex-basis:20%;
 	}
 }
 
