@@ -731,3 +731,86 @@
 
 }
 */
+
+@media screen and (max-width: 800px) {
+	.front header{display: none;}
+	.front .contents--header{
+		display: flex;
+		justify-content: flex-end;
+	}
+	.front .contents--header > div{width: 50%;}
+	.front .contents--header > div.mobile-only{
+		display: flex!important;
+		justify-content: flex-end
+	}
+	.front .contents--header > div.mobile-only > i:first-child{
+		margin-right: 10px;
+	}
+
+	.front .desktop-only{display: none!important;}
+	.front .mobile-only{display: block!important;}
+
+	.front .contents{
+		height: initial;
+	}
+	.front .contents--header{
+		margin-bottom: 0;
+		line-height: 48px;
+		width:100%;
+	}
+	
+	/* 햄버거 메뉴 */
+    .front .contents--header .navigation {
+        width: 24px;
+        height: 24px;
+        background: url('../img/menu.svg') no-repeat 0 50%;
+        border: 0 none;
+		margin-right : 0px!important;
+        float:left;
+    }
+	/* 로고 메뉴 */
+    .front .contents--header a {
+        width: 100px;
+        height: 24px;
+		padding-left:2%;
+		font-size:16px;
+		font-weight:700;
+		padding-left:16px;
+        float:right;
+		display:relase;
+		/*background: url('../img/Teaplat-logo_color.png') no-repeat center center;
+		background-size: cover;*/
+    }
+	/* 빈공간 */
+	.front .contents--header span {
+		width: calc(100% - 139px);
+	}
+	/* 왼쪽 정렬 */
+	.front .contents--header{
+		display: flex;
+		justify-content: flex-end!important;
+	}
+	
+
+	.front .mobile-only.navigation--back{
+		
+		display: inline-block!important;
+		margin-right: 15px;
+	}
+
+	.front .contents--header .navigation{
+		margin-left : calc(width*0.275)px;
+		height: 48px;
+		margin-right: 30x;
+	}
+
+	.front .contents--header h1 {
+	    margin: 0;
+	    padding: 0;
+	    font-weight: inherit;
+	    font-size: inherit;
+	    font-family: inherit !important;
+	}
+
+
+}
