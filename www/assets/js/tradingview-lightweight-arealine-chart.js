@@ -116,11 +116,28 @@
     });
 
     // ---------------------------------------------------
-    // 데이터 추가 
+    // 데이터 추가, x축 데이터 변환(5일)
 
     var data = await getData(symbol, exchange, period, cnt); // 날짜,시간,시,고,저,종,거래량
     series.setData(data);
+    
+    const now = new Date();
+    const fiveDaysAgo = new Date(now.getTime() - (5 * 24 * 60 * 60 * 1000));
 
+    // 현재 시간의 년, 월, 일, 시간, 분, 초 구하기
+    const now_year = now.getFullYear();
+    const now_month = String(now.getMonth() + 1).padStart(2, '0');
+    const now_day = String(now.getDate()).padStart(2, '0');
+    // 5일 전 시간의 년, 월, 일, 시간, 분, 초 구하기
+    const year = fiveDaysAgo.getFullYear();
+    const month = fiveDaysAgo.getMonth() + 1;
+    const day = fiveDaysAgo.getDate();
+    
+    chart.timeScale().setVisibleRange({
+        from: year+'-'+month+'-'+day,
+        to: now_year+'-'+now_month+'-'+now_day
+    });
+    
     // ---------------------------------------------------
     //mk 소수점 삭제
     
