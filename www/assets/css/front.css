@@ -100,6 +100,10 @@
 
 .front .viusalArea .statistics .statistics--tea em{
 	padding: 0 35px;
+	padding-right: 21px;
+}
+.front .viusalArea .statistics .statistics--tea h1{
+	margin-left: 7px;
 }
 
 .front .statistics > section{
@@ -448,7 +452,7 @@
 @media screen and (min-width: 1px) and (max-width: 900px) {
 	.front main {
 		margin: 30px 0 40px;
-		padding: 0 55px;
+		padding: 0 35px;
 		height: auto;
 		display: flex;
 		flex-direction: column;
@@ -761,7 +765,7 @@
 	
 	/* 햄버거 메뉴 */
     .front .contents--header .navigation {
-        width: 24px;
+        width: 44px;
         height: 24px;
         background: url('../img/menu.svg') no-repeat 0 50%;
         border: 0 none;
@@ -783,7 +787,7 @@
     }
 	/* 빈공간 */
 	.front .contents--header span {
-		width: calc(100% - 139px);
+		width: calc(100% - 159px);
 	}
 	/* 왼쪽 정렬 */
 	.front .contents--header{
