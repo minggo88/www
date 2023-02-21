@@ -150,7 +150,7 @@ form {
 	position: relative;
 	margin-bottom: 74px;
 }
-
+/*
 .sub.member-account .contents--header a{
 	position: absolute;
 	font-size: 14px;
@@ -160,6 +160,7 @@ form {
 	top: 80px;
 
 }
+*/
 
 .sub.member-account .contents form .default .form--controls{
 	flex-direction: column;
