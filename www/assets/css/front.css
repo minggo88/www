@@ -636,7 +636,6 @@
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service {
 	    width: 100% - 20px;
-		margin-left : 10px;
 	    height: 600px;
 		background-size: contain;
 	    background: url('../img/mobile_mian1.png') no-repeat center;
@@ -646,7 +645,6 @@
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service2 {
 	    width: 100% - 20px;
-		margin-left : 10px;
 	    height: 460px;
 		background-size: contain;
 	    background: url('../img/mobile_mian2.png') no-repeat center;
@@ -657,7 +655,6 @@
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service3 {
 	    width: 100% - 20px;
-	    margin-left : 10px;
 	    height: 1500px;
 		background-size: contain;
 	    background: url('../img/mobile_mian3.png') no-repeat center;
@@ -667,7 +664,6 @@
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service4 {
 	    width: 100% - 20px;
-	    margin-left : 10px;
 	    height: 500px;
 		background-size: contain;
 	    background: url('../img/mobile_mian4.png') no-repeat center;
