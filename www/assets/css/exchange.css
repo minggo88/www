@@ -390,8 +390,8 @@ div.dts div.dataTables_scrollBody {
 	}
 
 	.sub.exchange .desktop-only{display: none!important;}
-	/* 모바일 바텀 네비 제거*/
-	/*.sub.exchange .mobile-only{display: block!important;}*/
+	
+	.sub.exchange .mobile-only{display: block!important;}
 
 	.sub.exchange main{
 		padding:0 16px!important;
