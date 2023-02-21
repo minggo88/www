@@ -28,8 +28,8 @@ if(!window.localStorage.locale) {
 
 $(document).ready( function() {
 	$(".nav--side div .dropdown--item").load("./nav_side.html");  
-	document.getElementsByClassName("contents mobile-only")[0].innerHTML = "";
-	$(".contents.mobile-only").load("./mobile_head.html");  
+	//document.getElementsByClassName("contents mobile-only")[0].innerHTML = "";
+	//$(".contents.mobile-only").load("./mobile_head.html");  
 });
 
 $.fn.serializeObject = function() {
