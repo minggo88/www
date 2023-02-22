@@ -2196,9 +2196,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		request_user_info();
 		Model.form = clone(Model.user_info);
 		document.getElementById("join_type").value = Model.user_info.user_join_type;
-		document.getElementById("join_user_passport").value = Model.user_info.user_info_A + "***";
+		document.getElementById("join_user_passport").value = Model.user_info.user_info_A;
 		document.getElementById("join_user_number_A").value = Model.user_info.user_info_A;
-		document.getElementById("join_user_number_B").value = Model.user_info.user_info_B + "******";
+		document.getElementById("join_user_number_B").value = Model.user_info.user_info_B;
 		if(Model.user_info.user_join_type == "B"){
 			document.getElementById("join_user_number_A").style.display = 'none';
 			document.getElementById("join_user_number_B").style.display = 'none';
@@ -2260,7 +2260,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				text += '&user_join_number=';
 				text += user_join_number;
 			}else{
-				user_join_number = document.getElementById("join_user_passport").value;
+				var passport_t = document.getElementById("join_user_passport").value;
+				if (passport_t.indexOf('*') !== -1) {
+				    user_join_number =Model.user_info.user_info_B;
+				} else{
+					user_join_number = passport_t;	
+				}
 				text = 'mobile_country_code=KR&user_join_type=';
 				text += user_join_type;
 				text += '&user_join_number=';
