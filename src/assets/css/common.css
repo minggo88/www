@@ -28,6 +28,7 @@ p {
     font-style: normal;
     font-family: "Noto Sans KR" !important;
     vertical-align: middle;
+    pointer-events: none;
 }
 
 img {
