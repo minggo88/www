@@ -69,7 +69,7 @@ a,
 a:hover,
 a:focus,
 a:visited {
-    color: var(--basic-black);
+    color: var(--red-up);
     text-decoration: none;
     cursor: pointer;
 }
