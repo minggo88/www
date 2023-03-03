@@ -273,6 +273,10 @@ header .logo a {
 		left: 75px;
 	}
 	header .nav{display: none;}
+	
+	.contents--header a{
+		color: var(--red-up)
+	}
 
 	.box-mobile-menu {
         display: block;
