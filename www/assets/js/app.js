@@ -2755,6 +2755,42 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
 							
 						`)
+						
+						<!-- mk0306 grid_mobile 형태 추가 -->
+						const grid_mobile = $(`<tbody name="table_profit">`)
+						const tr_color = '--basic-black';
+						if(income <0){
+							tr_color = '--blue-dn';
+						}else if(income > 0){
+							tr_color = '--red-up';
+						}
+						
+							grid_mobile.append(`
+									<tr name="tpl" >
+										<td class="pcenter text-left mergeTd symbol light">
+											${item_name}
+										</td>
+										<td class="pcenter text-center mergeTd cord">
+											${item_grade}
+										</td>
+										<td class="pcenter text-right numberDiv">
+											${item.confirmed_str}
+										</td>
+										<td class="pcenter text-right numberDiv">
+											<div class="number_div">${item_price}</div>
+											<div class="symbol_div">${avg_price_one}</div>
+										</td>
+										<td class="pcenter text-right numberDiv">
+											${item.symbol !== exchange ? '<div class="number_div"> '+real_number_format(item_total,0)+'</div>' : ''}
+											${item.symbol !== exchange ? '<div class="number_div"> '+real_number_format(avg_price_num,0) +'</div>' : ''}
+										</td>
+										<td class="pcenter text-right numberDiv" style="color: var(`+tr_color+`) !important; ">
+											${item_income}										
+										</td>	
+										<td class="pcenter text-right numberDiv" style="color: var(`+tr_color+`) !important;">
+											 ${income_rate.toFixed(2) +'%'}
+										</td>
+						  `)
 												
 						/* mk 그리드 새로 제작
 						grid.append(`
@@ -2842,7 +2878,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 							</div>
 						`)*/
 						
-						
+						$('.table.table-bordered').append(grid_mobile)
 						$('.wallet--grid').append(grid)
 						// $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
 					}
