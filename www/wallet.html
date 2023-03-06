@@ -298,9 +298,72 @@
 						</div>
 					</div>
 				</div>
+				<!--230306 mk 모바일전용 grid 추가 -->
+				<div class="table-responsive historyTb" style="display:none">
+					<table class="table table-bordered">
+						<colgroup>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="pcenter text-left mergeTd symbol light" data-i18n="">차이름</th>
+								<th class="text-center" data-i18n="">등급</th>
+								<th class="text-center" data-i18n="">수량</th>
+								<th class="text-center" data-i18n="">현재가<br>평균 매입금액</th>
+								<th class="text-center" data-i18n="">평가금액<br>총 매입금액</th>
+								<th class="text-center" data-i18n="">평가손익</th>
+								<th class="text-center" data-i18n="">수익률</th>
+							</tr>
+						</thead>
+						<tbody name="table_profit">
+							<tr name="empty" style="display:none">
+								<td colspan="7" class="text-center" data-i18n="">조회내용이 없습니다.</td>
+							</tr>
+							<tr name="search" style="display: none;">
+								<td colspan="7" class="text-center" data-i18n="">조회중입니다.</td>
+							</tr>
+							<tr name="tpl" style="display:none">
+								<td class="pcenter text-left mergeTd symbol light">
+									<!-- <span class="icon-24 icon-24-{coin.symbol} mr-5" style="margin-bottom: -5px;"></span> -->
+									<!-- <img src="{coin.icon_url}" style="height:24px;width:24px;"> -->
+									{coin.name}
+								</td>
+								<td class="pcenter text-center mergeTd cord">
+									{coin.basic_balance}
+								</td>
+								<td class="pcenter text-right numberDiv">
+									<div class="number_div">{coin.basic_balance}</div>
+									<div class="number_div">{coin.basic_evaluation_amount}</div>
+								</td>
+								<td class="pcenter text-right numberDiv">
+									<div class="number_div">{coin.final_balance}</div>
+									<div class="number_div">≈{coin.final_evaluation_amount}</div>
+								</td>
+								<td class="pcenter text-right mergeTd light">
+									<div class="number_div text-center">{coin.deposit_evaluation_amount}</div>
+								</td>
+								<td class="pcenter text-right mergeTd light">
+									<div class="number_div text-center">{coin.withdraw_evaluation_amount}</div>
+								</td>
+								<td class="pcenter text-center mergeTd light">
+									<div class="number_div text-center">{coin.withdraw_evaluation_amount}</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
 			</div>
 		</main>
 	</div>
+	
+	
 	<!--<nav class="mobile-bottom mobile-only">
 		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
 			<li class="exchange">
@@ -392,68 +455,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	<div class="table-responsive historyTb" style="display:none">
-		<table class="table table-bordered">
-			<colgroup>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-			</colgroup>
-			<thead>
-				<tr>
-					<th class="pcenter text-left mergeTd symbol light" data-i18n="">차이름</th>
-					<th class="text-center" data-i18n="">등급</th>
-					<th class="text-center" data-i18n="">수량</th>
-					<th class="text-center" data-i18n="">현재가<br>평균 매입금액</th>
-					<th class="text-center" data-i18n="">평가금액<br>총 매입금액</th>
-					<th class="text-center" data-i18n="">평가손익</th>
-					<th class="text-center" data-i18n="">수익률</th>
-				</tr>
-			</thead>
-			<tbody name="table_profit">
-				<tr name="empty" style="display:none">
-					<td colspan="7" class="text-center" data-i18n="">조회내용이 없습니다.</td>
-				</tr>
-				<tr name="search" style="display: none;">
-					<td colspan="7" class="text-center" data-i18n="">조회중입니다.</td>
-				</tr>
-				<tr name="tpl" style="display:none">
-					<td class="pcenter text-left mergeTd symbol light">
-						<!-- <span class="icon-24 icon-24-{coin.symbol} mr-5" style="margin-bottom: -5px;"></span> -->
-						<!-- <img src="{coin.icon_url}" style="height:24px;width:24px;"> -->
-						{coin.name}
-					</td>
-					<td class="pcenter text-center mergeTd cord">
-						{coin.basic_balance}
-					</td>
-					<td class="pcenter text-right numberDiv">
-						<div class="number_div">{coin.basic_balance}</div>
-						<div class="number_div">{coin.basic_evaluation_amount}</div>
-					</td>
-					<td class="pcenter text-right numberDiv">
-						<div class="number_div">{coin.final_balance}</div>
-						<div class="number_div">≈{coin.final_evaluation_amount}</div>
-					</td>
-					<td class="pcenter text-right mergeTd light">
-						<div class="number_div text-center">{coin.deposit_evaluation_amount}</div>
-					</td>
-					<td class="pcenter text-right mergeTd light">
-						<div class="number_div text-center">{coin.withdraw_evaluation_amount}</div>
-					</td>
-					<td class="pcenter text-center mergeTd light">
-						<div class="number_div text-center">{coin.withdraw_evaluation_amount}</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
+	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
 
 </body>
