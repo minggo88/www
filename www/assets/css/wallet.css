@@ -1565,7 +1565,7 @@
 		width: 100%;
 	}
 	#hidden_title{
-		display:block;
+		display:block!important;
 	}
 	.d-grid.wallet-summary2{
 		display:none;
