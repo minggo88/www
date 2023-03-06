@@ -636,6 +636,23 @@
 /*@media screen and (min-width: 601px) and (max-width: 800px) {*/
 @media screen and (min-width: 1px) and (max-width: 800px) {
 	.front .box-mobile-menu{display: block;}
+	/*230219 메인 section 사이즈 변경*/
+	.d-grid.grid-3-column main{
+		margin-top:10px;
+		margin-bottom: 30px;
+	}
+	.content_wrap{
+		margin-top: 0px;
+	}
+	/*.d-grid.grid-3-column section{
+		margin-bottom: 0px;	
+	}*/
+	.d-grid.grid-3-column .section.section--index{
+		margin-bottom: 0px;	
+	}
+	.d-grid.grid-3-column .section section{
+		margin-bottom: 10px;	
+	}
 	
 	/*230219 메인 모바일 이미지 추가*/
 	.section--service {
