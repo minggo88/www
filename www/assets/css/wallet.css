@@ -340,6 +340,16 @@
 		border-left: none;
 		margin-bottom: 30px;
 	}
+	.table-responsive.historyTb{
+		display:block!important;
+	}
+	#wallet_title,
+	.d-grid.wallet--grid{
+		display: none!important;
+	}
+	.wallet-table{
+		display:none;
+	}
 }
 
 .wallet--grid .grid .grid--inner-left{
@@ -1212,6 +1222,22 @@
 	width: 100%;
 	overflow-x: auto;
 }
+
+/*230306 내지갑 CSS 가로스크롤 및 고정 변경 */
+.historyTb{
+	margin-top : 30px;
+	overflow-x: auto;
+    max-width: 100%;
+}
+.pcenter.text-left.mergeTd.symbol.light{
+	position: sticky;
+	top: auto;  
+    left: 0;
+    border-right: 1px solid #ddd;
+    background-color: #eeeeee;
+    z-index: 2;
+}
+/*****/
 
 .historyTb .table-bordered {
 	border: 1px solid #EBEBEB;
