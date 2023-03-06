@@ -487,7 +487,7 @@
         flex-direction: column;
         row-gap: 19px;
 	}
-	.wallet-summary:after{
+	.wallet-summary:after{/*
 		content:"";
 		display: block;
 		width: 100%;
@@ -495,7 +495,7 @@
 		background-color: #F5F5F5;
 		position: absolute;
 		left: 0;
-		bottom: 0;
+		bottom: 0;*/
 	}
 
     .wallet-summary label {
@@ -1556,6 +1556,20 @@
 }
 
 @media screen and (max-width: 800px) { 
+	/* 230306 mk summary 생략 */
+	.d-grid.wallet-summary{
+		padding-bottom: 10px !important;
+	}
+	.wallet-analysis .content_wrap .contents{
+		height: initial;
+		width: 100%;
+	}
+	#hidden_title{
+		display:block;
+	}
+	.d-grid.wallet-summary2{
+		display:none;
+	}
 	.wallet-analysis .content_wrap .contents{
 		height: initial;
 		width: 100%;
@@ -1911,3 +1925,6 @@
 	height: auto;
 }
 
+#hidden_title{
+	display:none;
+}
