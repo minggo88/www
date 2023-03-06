@@ -637,7 +637,7 @@
 @media screen and (min-width: 1px) and (max-width: 800px) {
 	.front .box-mobile-menu{display: block;}
 	/*230219 메인 section 사이즈 변경*/
-	.d-grid.grid-3-column main{
+	.d-grid.grid-3-column{
 		margin-top:10px;
 		margin-bottom: 30px;
 	}
@@ -650,7 +650,7 @@
 	.d-grid.grid-3-column .section.section--index{
 		margin-bottom: 0px;	
 	}
-	.d-grid.grid-3-column .section section{
+	.d-grid.grid-3-column .section{
 		margin-bottom: 10px;	
 	}
 	
