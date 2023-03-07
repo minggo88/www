@@ -2900,12 +2900,15 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				$('#totalBalance').text(real_number_format(num,0))
 				//평가손익
 				$('#totalAvailableBalance').text(real_number_format(total_income,0))
-				//자산평가금액
-				$('#totalLockedBalance').text(real_number_format(total_evaluated_balance,0))
+				//자산평가금액 --mk 모바일용, 웹용 전부 입력 가능하도록 변경
+				$('.d-grid.wallet-summary #totalLockedBalance').text(real_number_format(total_evaluated_balance,0))
+				$('.d-grid.wallet-summary2 #totalLockedBalance').text(real_number_format(total_evaluated_balance,0))
 				//보유금액
-				$('#totalBuyableBalance').text(real_number_format(total_money,0))
+				$('.d-grid.wallet-summary #totalBuyableBalance').text(real_number_format(total_money,0))
+				$('.d-grid.wallet-summary2 #totalBuyableBalance').text(real_number_format(total_money,0))
 				//주문 및 동결 금액
-				$('#totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
+				$('.d-grid.wallet-summary #totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
+				$('.d-grid.wallet-summary2 #totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
 
 			}
 		})
