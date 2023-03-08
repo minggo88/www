@@ -136,7 +136,16 @@ $(function() {
 		} 
     })
     $('.navigation').click(() => {
-        $('.mobile-panel').show()
+	/**** 메인에서 제대로 작동하지 않아 재 입력  ***/
+    const user_info = Model.user_info;
+	if (user_info.userno && user_info.userid) {
+		$('[name=box_logedin]').show();
+		$('[name=box_unlogedin]').hide();
+	} else {
+		$('[name=box_logedin]').hide();
+		$('[name=box_unlogedin]').show();
+	}
+	$('.mobile-panel').show()
     })
 
     $.fn.myModal = function(action) {
