@@ -240,6 +240,31 @@ header .logo a {
 .gnb {
     display: none;
 }
+/****** 230308 header 수정 ******/
+.contents--header{
+	display: none;
+	
+}
+.sub .contents .contents--header2 {
+    font-family: Inter !important;
+    font-weight: 700 !important;
+    font-size: 24px;
+    height: 57px;
+    color: #E21A32;
+    border-bottom: 4px solid #E21A32;
+    box-sizing: border-box;
+    margin-bottom: 34px;
+}
+.contents--header2 p{
+	width: 100px;
+	height: 24px;
+	font-size:24px;
+	font-weight:700;
+	color:var(--basic-black);
+	margin-top:0px;
+	float:left;
+	display:relase;
+}
 
 
 @media screen and (max-width: 1440px) {
@@ -336,6 +361,9 @@ header .logo a {
 
 
 @media screen and (max-width: 800px){
+	.sub .contents .contents--header2 {
+		margin-top:18px;
+	}
 	.sub header{padding-left: 11px; height: 60px;}
 	.sub header .logo, .sub header .nav{display: none!important;}
 
