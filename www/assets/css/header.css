@@ -367,9 +367,27 @@ header .logo a {
 
 @media screen and (max-width: 800px){
 	.sub .contents .contents--header2 {
-		margin-top:18px;
+	    font-family: Inter !important;
+	    font-weight: 700 !important;
+	    margin-top: 10px;
+		height: 30px;
+	    color: #E21A32;
+	    border-bottom: 2px solid #E21A32;
+	    box-sizing: border-box;
+	    margin-bottom: 20px;
+	}
+	.contents--header2 p{
+		width: 100px;
+		height: 15px!important;
+		font-size:14px;
+		font-weight:700;
+		color:var(--basic-black);
+		float:left;
+		display:relase;
 	}
 	.contents--header2 button{
+		font-size:13px;
+		float:right;
 		display : block;
 	}
 	.sub header{padding-left: 11px; height: 60px;}
