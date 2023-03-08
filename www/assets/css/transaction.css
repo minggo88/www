@@ -414,7 +414,11 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 		max-widht:100%;
 	}
 #transactionGrid2{
-	min-width: 1080px;
+	min-width: 1200px;
+	padding-right:16px;
+}
+#transactionGrid2_paginate{
+	padding-right:16px;
 }
 
 @media screen and (max-width: 1400px){
