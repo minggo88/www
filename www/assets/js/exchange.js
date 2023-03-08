@@ -1303,7 +1303,7 @@ $(function() {
         select: true,
         info: false,
         paging: false,
-        order: [[0, 'asc']],
+        order: [[0, 'desc']],
     })
 
     const setItemGrid = function (data) {
