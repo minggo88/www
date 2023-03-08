@@ -371,10 +371,9 @@ header .logo a {
     .sub .contents .contents--header a {
         width: 100px;
         height: 24px;
-		padding-left:2%;
-		font-size:16px;
-		font-weight:700;
-		padding-right:16px;
+	font-size:16px;
+	font-weight:700;
+	padding-right:16px;
         float:right;
 		display:relase;
 		/*background: url('../img/Teaplat-logo_color.png') no-repeat center center;
