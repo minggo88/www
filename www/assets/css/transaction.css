@@ -73,6 +73,192 @@
 	color: #fff;
 }
 
+/*230309 거래내역 CSS 가로스크롤 및 고정 변경 */
+.historyTb{
+	margin-top : 30px;
+	overflow-x: auto;
+	white-space: nowrap;
+	max-width: 100%;
+	
+}
+
+.historyTb .table-bordered > thead > tr > th,
+.historyTb .table-bordered > thead > tr > td {
+	background-color: #EEEEEE;
+	border-bottom-width: 1px;
+	width: 150px;
+}
+
+.historyTb .table-bordered > thead > tr > th,
+.historyTb .table-bordered > tbody > tr > th,
+.historyTb .table-bordered > tfoot > tr > th,
+.historyTb .table-bordered > thead > tr > td,
+.historyTb .table-bordered > tbody > tr > td,
+.historyTb .table-bordered > tfoot > tr > td {
+	border: 1px solid #E0E0E0;
+	white-space: nowrap;
+}
+
+.historyTb .table > thead > tr > th {
+	border-bottom: 1px solid #8b8b8b;
+	vertical-align: bottom;
+}
+
+.historyTb .table thead th{min-width: 70px;}
+
+.historyTb .table > thead > tr > th,
+.historyTb .table > tbody > tr > th,
+.historyTb .table > tfoot > tr > th,
+.historyTb .table > thead > tr > td,
+.historyTb .table > tbody > tr > td,
+.historyTb .table > tfoot > tr > td {
+	border-top: 1px solid #d3d5d6;
+	line-height: 1.42857;
+	/* padding: 5px 0px; */
+	padding: 0.5rem 1rem;
+	box-sizing: border-box;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.historyTb thead tr th {
+	background-color: #f1f1f1;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 14px;
+	font-weight: 500 !important;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	text-align: center;
+	color: #000000;
+	border: 1px solid #cacaca;
+	border-top: 1px solid #cacaca;
+}
+
+.historyTb tbody > tr > td {
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	text-align: center;
+	color: #3a3c41;
+	border-bottom: 1px solid #cacaca;
+}
+
+.historyTb tbody tr.firstTr td {
+	padding-top: 18px;
+	padding-bottom: 18px;
+}
+
+.historyTb tbody tr td.no-data-row {
+	font-size: 14px;
+	height: 50px;
+	line-height: 33px;
+}
+
+.historyTb tbody tr td.numberTd {
+	padding-right: 20px;
+}
+
+.historyTb tbody tr td.mergeTd {
+	font-weight: 500;
+}
+
+.historyTb tbody tr td.mergeTd.light {
+	font-weight: normal;
+}
+
+.historyTb tbody tr td.mergeTd.symbol {
+	text-align: left;
+	vertical-align: middle;
+	overflow:hidden;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	white-space: nowrap;
+	min-width: 140px;
+}
+.historyTb tbody tr td.mergeTd.cord {
+	/* text-align: left; */
+	text-align: center;
+	vertical-align: middle;
+	overflow:hidden;
+	/* padding:0 0.5rem; */
+	/* padding:0.5rem; */
+	white-space: nowrap;
+}
+
+.historyTb tbody tr td.numberDiv{
+	text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    /* padding:0 0.5rem; */
+	padding:0.5rem;
+    white-space: nowrap;
+}
+
+
+.historyTb tbody tr td.title_td {
+	font-size: 14px;
+}
+
+.historyTb tbody tr td .number_div {
+	font-size: 14px;
+	text-align: right;
+	/* padding-right: 2rem; */
+}
+
+.historyTb tbody tr td .number_div.text-center{
+	text-align: center;
+	padding-right: 0;
+}
+
+.historyTb tbody tr td .number_div.number_plus { color: #e43335; }
+.historyTb tbody tr td .number_div.number_minus { color: #064780; }
+
+.historyTb tbody tr td .symbol_div {
+	font-size: 12px;
+	text-align: right;
+	color: #596581;
+	/* padding-right: 2rem; */
+}
+
+.historyTb thead tr th:first-child,
+.historyTb tbody tr td:first-child {
+	border-left: 1px solid #cacaca;
+}
+
+.historyTb thead tr th:last-child,
+.historyTb tbody tr td:last-child {
+	border-right: 1px solid #cacaca;
+}
+
+.historyTb tbody tr td.mergeTd .btnArea{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}
+
+.historyTb .btn.btn-xs{
+	padding: 6px 14px 6px;
+	font-size: 10px;
+}
+
+.historyTb .btn-primary{
+	background-color: var(--blue-dn);
+	border-color: var(--blue-dn);
+	color: #FFFFFF;
+}
+.historyTb .btn-danger{
+	background-color: var(--red-up);
+	border-color: var(--red-up);
+    color: #FFFFFF;
+}
+
+
 /* dataTable 스타일 수정 */
 /* top이 고정이라서 (+) 아이콘이 줄 안맞아요. auto로 풀어 줄맞춤합니다. */
 table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, 
@@ -222,8 +408,33 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 		font-size: 12px;
 	}
 } */
+/******  230309 mk 모바일용 그리드 추가 ***/
+.historyTb{
+		display: none;
+	}
+
+@media screen and (max-width: 1400px){
+	.historyTb{
+		display: flex;
+	}
+	#transactionGrid2{
+		flex: 1;
+		min-width: 1080px;
+	}
+	#transactionGrid_wrapper{
+		display: none;
+	}
+}
 
 @media screen and (max-width: 800px){
+	#transactionGrid2_wrapper .dataTables_info{
+		display: inline- block;	
+		width:10%;
+	}
+	#transactionGrid2_paginate{
+		display: none;
+	}
+	
 	.sub.transaction > header{display: none;}
 
 	.sub.transaction .contents .contents--header{
