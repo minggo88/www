@@ -4,18 +4,18 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="title" content="Teaplat">
+<meta name="title" content="ASSETTEA">
 <meta name="description" content="">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kkikda.com">
-<meta property="og:title" content="Teaplat">
+<meta property="og:title" content="ASSETTEA">
 <meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
 <meta property="og:description" content="">
-<meta property="og:site_name" content="Teaplat">
+<meta property="og:site_name" content="ASSETTEA">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image:width" content="200">
 <meta property="og:image:height" content="100">
-<title>Teaplat</title>
+<title>ASSETTEA</title>
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 <link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 <link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
@@ -84,7 +84,7 @@
 <body class="sub transaction m-bottom">
 	<header>
 		<div class="header_inner">
-			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
+			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
@@ -228,20 +228,20 @@
 				</nav>
 			</aside>
 			<div class="contents">
+				<div class="contents">
 				<header class="contents--header">
-					<!-- <div> -->
-						<button type="button" class="navigation--back"></button>
-						<h1 data-i18n>거래 내역</h1>
-					<!-- </div> -->
-					<!-- <div class="mobile-only">
-						<i class="icon-alarm"></i>
-						<i class="icon-setting"></i>
-					</div> -->
+					<a href="index.html" style="height: 48px;">ASSETTEA</a>
+					<span class=""></span>
+					<button type="button" class="navigation"></button>
 				</header>
-				<h2 class="size--20 mobile-only">
+				<!-- 모바일 side 타이틀 변경 -->
+				<div class="contents--header2">
+					<p style="height: 48px;">주문 및 거래내역</p>
+				</div>
+				<!--<h2 class="size--20 mobile-only">
 					<i class="icon-transaction"></i> 
 					<span data-i18n>거래 내역</span>
-				</h2>
+				</h2>-->
 				<div class="d-flex mobile-only period" style="margin-bottom: 16px">
 					<div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
 						<div name="symbol" class="dropdown-wrapper m-symbol-select">
@@ -346,15 +346,16 @@
 
 					<table id="transactionGrid" class="transaction--list board--list" style="width:100%">
 						<colgroup class="">
-							<col /><!--전체-->
-							<col /><!--제품-->
-							<col /><!--단가-->
-							<col /><!--수량-->
-							<col /><!--총액-->
-							<col /><!--보냄-->
-							<col /><!--받음-->
-							<col /><!--날짜-->
-							<col />
+							<col style="width:10%"/><!--체결시간-->
+							<col style="width:15%"/><!--상품명-->
+							<col style="width:4%"/><!--생산년도-->
+							<col style="width:6%"/><!--거래종류-->
+							<col style="width:4%"/><!--상태-->
+							<col style="width:4%"/><!--거래수량-->
+							<col style="width:16%"/><!--거래단가-->
+							<col style="width:16%"/><!--거래금액-->
+							<col style="width:9%"/><!--수수료-->
+							<col style="width:16%"/><!--정산금액-->
 							<!-- <col style="width: calc(100% * (220 / 919))">
 							<col style="width: calc(100% * (80 / 919))">
 							<col style="width: calc(100% * (70 / 919))">
@@ -367,7 +368,7 @@
 							<tr>
 								<th data-i18n>체결시간</th>
 								<th data-i18n>상품명</th>
-								<th data-i18n>등급</th>
+								<th data-i18n>생산년도</th>
 								<!-- <th data-i18n>생산년도</th> -->
 								<th data-i18n>거래종류</th>
 								<th data-i18n>상태</th>
@@ -382,6 +383,46 @@
 
 						</tbody>
 					</table>
+					<!--230309 mk 모바일전용 grid 추가 -->
+					<div class="table-responsive historyTb">
+						<table id="transactionGrid2" class="transaction--list board--list" >
+							<colgroup class="">
+								<col style="width:10%"/><!--체결시간-->
+								<col style="width:13%"/><!--상품명-->
+								<col style="width:6%"/><!--생산년도-->
+								<col style="width:6%"/><!--거래종류-->
+								<col style="width:4%"/><!--상태-->
+								<col style="width:4%"/><!--거래수량-->
+								<col style="width:16%"/><!--거래단가-->
+								<col style="width:16%"/><!--거래금액-->
+								<col style="width:9%"/><!--수수료-->
+								<col style="width:16%"/><!--정산금액-->
+								<!-- <col style="width: calc(100% * (220 / 919))">
+								<col style="width: calc(100% * (80 / 919))">
+								<col style="width: calc(100% * (70 / 919))">
+								<col style="width: calc(100% * (110 / 919))">
+								<col style="width: calc(100% * (130 / 919))">
+								<col style="width: calc(100% * (130 / 919))">
+								<col style="width: calc(100% * (84 / 919))"> -->
+							</colgroup>
+							<thead class="">
+								<tr>
+									<th data-i18n>체결시간</th>
+									<th data-i18n>상품명</th>
+									<!--<th data-i18n>등급</th>-->
+									<th data-i18n>생산년도</th> 
+									<th data-i18n>거래종류</th>
+									<th data-i18n>상태</th>
+									<th data-i18n>거래수량</th>
+									<th data-i18n>거래단가</th>
+									<th data-i18n>거래금액</th>
+									<th data-i18n>수수료</th>
+									<th data-i18n>정산금액</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+									
 					<div class="m-transaction--list mobile-only accordion">
 
 					</div>
@@ -404,7 +445,7 @@
 			</div>
 		</main>
 	</div>
-    <div class="mobile-bottom mobile-only">
+    <!--<div class="mobile-bottom mobile-only">
         <ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
             <li class="exchange">
                 <a href="exchange.html" data-i18n>거래소</a>
@@ -412,7 +453,7 @@
             <li class="area" >
                 <a href="" data-i18n>티드로우</a>
             </li>
-            <!-- <li class="auction"><a href="" data-i18n>경매</a></li> -->
+            <!-- <li class="auction"><a href="" data-i18n>경매</a></li> 
             <li class="transaction text--red">
                 <a href="transaction.html" data-login class="text--red" data-i18n>거래내역</a>
             </li>
@@ -420,7 +461,7 @@
                 <a href="" data-i18n>더보기</a>
             </li>
         </ul>
-    </div>
+    </div>-->
 
     <script src="./assets/js/app.js?t=1672042800"></script>
 
