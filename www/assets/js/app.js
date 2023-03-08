@@ -2166,7 +2166,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					last_idx = item.idx
 				})
 				totalPage = Math.ceil(r.payload.totel_count / rows)
-
+				/**230309 mk 알림이 있을경우 알림이 없습니다 화면 제거 ***/
+				if(r.payload.totel_count>0){
+					$(".board--empty").hide();
+				}
+				
 				$('.board--pagination').find('>ul').empty().end().show()
 				if (totalPage > 1) {
 					let prev = (page <= 1) ? 1 : page -1
