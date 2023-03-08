@@ -100,7 +100,7 @@
 
 @media screen and (max-width: 800px){
 	.sub main {
-		padding:0 30px 30px!important;
+		padding:0 16px 16px!important;
 		display: block;
 		align-items: flex-start;
 		/* height: 100vh; */ /* 가로값때문에 지워줌 */
