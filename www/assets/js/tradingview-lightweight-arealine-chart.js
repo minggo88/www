@@ -40,7 +40,8 @@
           }
           return {
             'time': new Date(`${date}`).getTime() / 1000,
-            'value': volume * 1
+            //'value': volume * 1
+            'value': volume * 3
           };
         });
         return cdata;
