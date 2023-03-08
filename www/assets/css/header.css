@@ -268,6 +268,7 @@ header .logo a {
 .contents--header2 button{
 	margin-top:8px;
 	float:right;
+	display:none;
 }
 
 
@@ -367,6 +368,9 @@ header .logo a {
 @media screen and (max-width: 800px){
 	.sub .contents .contents--header2 {
 		margin-top:18px;
+	}
+	.contents--header2 button{
+		display : block;
 	}
 	.sub header{padding-left: 11px; height: 60px;}
 	.sub header .logo, .sub header .nav{display: none!important;}
