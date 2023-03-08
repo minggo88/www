@@ -78,7 +78,7 @@
 	margin-top : 30px;
 	overflow-x: auto;
 	white-space: nowrap;
-	min-width: 1080px;
+	max-width: 100%;
 	
 }
 
@@ -411,7 +411,7 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 /******  230309 mk 모바일용 그리드 추가 ***/
 .historyTb{
 		display: none;
-		min-width: 1080px;
+		max-widht:100%;
 	}
 #transactionGrid2{
 	min-width: 1080px;
