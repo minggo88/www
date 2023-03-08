@@ -265,6 +265,10 @@ header .logo a {
 	float:left;
 	display:relase;
 }
+.contents--header2 button{
+	margin-top:8px;
+	float:right;
+}
 
 
 @media screen and (max-width: 1440px) {
