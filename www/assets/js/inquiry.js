@@ -3,9 +3,10 @@ jQuery(function () {
     // let page = window.location.hash.replace('#','')
 
     // 해시이동 중지
-    $('section a').on('click', function(){
+    //230309 로고 a링크문제로 삭제
+    /*$('section a').on('click', function(){
         return false;
-    });
+    });*/
 
     let USER_INFO = {}
     API.getMyInfo((resp) => {
