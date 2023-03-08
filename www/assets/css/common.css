@@ -378,9 +378,12 @@ dl dd {
 	.mobile-only-block{
 		display: block
 	}
-	h1,h2,h3,h4,h5,input,textarea,button,a,span,p {
-	    -webkit-tap-highlight-color : transparent !important;
-	}
 
+}
+
+@media only screen and (max-width: 1400px) {
+   h1,h2,h3,h4,h5,input,textarea,button,a,span,p {
+      -webkit-tap-highlight-color : transparent !important;
+   }
 }
 
