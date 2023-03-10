@@ -918,6 +918,8 @@
 	color: white;
 	padding: 10px;
 	display:none;
+	margin-top:53px;
+	padding-bottom:0px;
 }
 .left {
 	text-align: center;
@@ -942,7 +944,7 @@
 }
 
  /* 반응형 스타일 */
-@media (min-width: 310px) and (max-width: 370px) {
+@media (min-width: 310px) and (max-width: 380px) {
 	.left, .right {
 		flex-basis: 50%;
 	}
