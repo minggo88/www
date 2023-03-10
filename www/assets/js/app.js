@@ -1542,7 +1542,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					const li = $('<li>')
 					const regDate = new Date(item.regdate)
 					li.append(`<a href="notice_detail.html?idx=${item.idx}" class="list--text">${item.subject}</a>`);
-					li.append(`<span class="list--date list--right">${regDate.getFullYear()}.${regDate.getMonth()}.${regDate.getDate()}</sp>`);
+					li.append(`<span class="list--date list--right">${regDate.getFullYear()}.${regDate.getMonth()+1}.${regDate.getDate()}</sp>`);
 					li.appendTo('#notice--list')
 				})
 			}
