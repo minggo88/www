@@ -909,3 +909,55 @@
     }
 
 }
+
+/** 230310 mk 일정 크기에 따른 컨테이너 추가 */
+.container_min {
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	color: white;
+	padding: 10px;
+	display:none;
+}
+.left {
+	text-align: center;
+	font-size: 24px;
+	flex-basis: 100%;
+	margin-bottom: 10px;
+}
+.left.white-text {
+	font-size: 20px;
+}
+.right {
+	text-align: center;
+	font-size: 24px;
+	flex-basis: 100%;
+	margin-bottom: 10px;
+}
+.right.white-text {
+	font-size: 20px;
+}
+.white-text {
+	color: white;
+}
+.container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	background-color: black;
+	color: white;
+	padding: 10px;
+}
+ /* 반응형 스타일 */
+@media (min-width: 310px) and (max-width: 370px) {
+	.left, .right {
+		flex-basis: 50%;
+	}
+	.container_min {
+		display:flex;
+	}
+	.front .viusalArea .statistics{
+		display:none;
+	}
+}
