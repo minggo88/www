@@ -19,10 +19,6 @@ input[type=text] {
 	border: 0.35px solid #dfdfdf;
 }
 
-.btn.user-info{
-	margin-top :15px;
-}
-
 .default {
 	align-self: center; 
 	padding: 25px 0 0px;
