@@ -251,14 +251,14 @@
 								</label>
 								<select id="join_type" name="join_type" onchange="change_select()">
 								  <option value="A">운전면허 등록번호</option>
-								  <option value="B" selected>여권 번호</option>
+								  <option value="B">여권 번호</option>
 								</select>
 								
-								<input type="text" name="join_user_passport" id="join_user_passport" placeholder="여권번호" autocomplete="off" data-bind="form.nickname" style="display: block;">
-								<div class="form--controls join_user_number" style="display:block;">
+								<input type="text" name="join_user_passport" id="join_user_passport" placeholder="여권번호" autocomplete="off" style="display: none;">
+								<input type="text" name="join_user_number_A" id="join_user_number_A" placeholder="운전면허 등록번호" autocomplete="off">
+								<div class="form--controls join_user_number" style="display:none;">
 									<div class="row">
 										<div class="col-6">
-											<input type="text" name="join_user_number_A" id="join_user_number_A" placeholder="운전면허 등록번호" autocomplete="off" data-bind="form.address_b">
 										</div>
 										<div class="col-6">
 											<input type="password" name="join_user_number_B" id="join_user_number_B" placeholder="주민번호 뒷자리" autocomplete="off" data-bind="form.zipcode" maxlength='7' style="display:none;">
