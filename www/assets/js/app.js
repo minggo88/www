@@ -3618,7 +3618,7 @@ function change_select(){
 		document.getElementById("join_user_number_B").value = '';
 	}else{
 		document.getElementById("join_user_number_A").style.display = 'block';
-		document.getElementById("join_user_number_B").style.display = 'block';
+		document.getElementById("join_user_number_B").style.display = 'none';
 		document.getElementById("join_user_passport").style.display = 'none';
 		document.getElementById("join_user_passport").value = '';
 	}
