@@ -51,7 +51,21 @@
 <script src="./i18n/i18n.js?t=1667796157"></script>
 
 <script>
-	let USER_INFO = {}
+	let USER_INFO = {};
+	//차트 라이브러리를 가져오지 못할경우가 있어 강제로 가져오도록 추가
+	var script = document.createElement('script');
+	script.src = 'https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js';
+	document.head.appendChild(script);
+	
+	// LightweightCharts 라이브러리가 로드된 후 실행될 콜백 함수 정의
+	function initChart() {
+		var chart = LightweightCharts.createChart(document.getElementById('container'), {
+		  // chart options
+		});
+	}
+	
+	// LightweightCharts 라이브러리가 로드될 때까지 대기 후 콜백 함수 실행
+	script.onload = initChart;
 </script>
 </head>
 <!-- BODY -->
