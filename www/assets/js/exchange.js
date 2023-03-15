@@ -1096,7 +1096,7 @@ $(function() {
 					$('#spot-volume').text(spot.volume.format())
 
 					//거래대금
-					$('#spot-volume2').text(asianUintNumber((parseFloat(spot.price_close) * parseFloat(spot.volume))))
+					$('#spot-volume2').text(asianUintNumber((parseFloat(spot.price_close/2) * parseFloat(spot.volume))))
 
                     SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
                     // console.log('data:', data);
