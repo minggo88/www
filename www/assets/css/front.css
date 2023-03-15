@@ -585,15 +585,17 @@
 
 /*230315 회사소개 이미지 추가*/
 .section--company {
+    margin: 0 auto;
     max-width: 1440px;
-	height: auto;
-    background: url('../img/company.png') no-repeat center;
+    height: 4000px;
+    background: url('../img/company.jpg') no-repeat center;
     background-size: cover;
     display: flex;
-    flex-direction: column;
+    flex-direction: column!important;
     box-sizing: border-box;
-	padding-top: 30px;
-	padding-bottom: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    align-content: center!important;
 }
 
 
@@ -924,7 +926,9 @@
 
 	/*230315 회사소개 이미지 추가*/
 	.section--company {
-		max-width: 400px;
+		margin: 0 auto;
+		height:1700px!important;
+		max-width: 380px;
 		background: url('../img/mobile_company.png') no-repeat center;
 	}
 
