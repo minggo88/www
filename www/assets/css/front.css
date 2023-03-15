@@ -583,6 +583,20 @@
     height: 62px;
 }
 
+/*230315 회사소개 이미지 추가*/
+.section--company {
+    max-width: 1440px;
+	height: auto;
+    background: url('../img/company.png') no-repeat center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+
 .appdown {
     width: 344px;
     justify-content: center;
@@ -907,6 +921,12 @@
     .notification > header {
         display: none;
     }
+
+	/*230315 회사소개 이미지 추가*/
+	.section--company {
+		max-width: 400px;
+		background: url('../img/mobile_company.png') no-repeat center;
+	}
 
 }
 
