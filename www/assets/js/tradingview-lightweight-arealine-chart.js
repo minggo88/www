@@ -193,7 +193,7 @@
     setLastBarText(); 
     
     chart.subscribeCrosshairMove(function (param) {
-      if ( param === undefined || param.time === undefined || param.point.x < 0 || param.point.x > width || param.point.y < 0 || param.point.y > height ) {
+      /*if ( param === undefined || param.time === undefined || param.point.x < 0 || param.point.x > width || param.point.y < 0 || param.point.y > height ) {
         setLastBarText();   
       } else {
         // dateStr = param.time.year +' - '+ param.time.month + ' - ' + param.time.day;
@@ -203,7 +203,7 @@
         $('#chartToolTip [name=dateStr]').text(dateStr)
         $('#chartToolTip [name=point]').text((Math.round(price * 100) / 100).toFixed(2))
         // toolTip.innerHTML =	'<div style="font-size: 24px; margin: 4px 0px; color: #20262E">'+__('지수')+'<i class="icon--help" style="width: 16px;height: 18px;background: url(\'/assets/img/icon/btn_help.svg\') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i></div>'+ '<div style="font-size: 22px; margin: 4px 0px; color: #20262E">' + (Math.round(price * 100) / 100).toFixed(2) + '</div>' + '<div>' + dateStr + '</div>';
-      }
+      }*/
     });
   };
   
