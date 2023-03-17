@@ -1853,8 +1853,10 @@ function mobile_title_click(){
 	if(isMobile) {
 		$(".side--panel").hide();
 		$(".details").show();
+        $('.tabs .tab--sell button').click();
 	} else {
 		$(".side--panel").show();
 		$(".details").show();
+        $('#tab_all_item').click();
 	}
 }
