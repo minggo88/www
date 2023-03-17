@@ -43,6 +43,13 @@
 	width: 100%;
 }
 
+#jqGrid tbody tr td:before{
+	display:none!important;
+}
+#jqGrid tbody .child{
+	display:none!important;
+}
+
 #jqGrid tbody tr td > ul >li:first-child{
 	padding-top: 0.5em;
 }
@@ -288,7 +295,7 @@ div.dts div.dataTables_scrollBody {
     padding-left: 2rem;
     padding-right: 2rem;
     position: relative; 
-    //background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
+    /*background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;*/
 }
 #modal-buy .tea--name ,
 #modal-buy-direct .tea--name {
@@ -305,7 +312,7 @@ div.dts div.dataTables_scrollBody {
     padding-left: 2rem;
     padding-right: 2rem;
     position: relative;
-    //background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
+    /*background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;*/
 }
 #modal-sell .tea--name,
 #modal-sell-direct .tea--name {
@@ -337,7 +344,7 @@ div.dts div.dataTables_scrollBody {
 #modal-sell-success .modal--content{
     height: auto;
 	padding: 3rem 2rem 0;
-    //background: url('../img/logo.svg') no-repeat calc(100% - 20px) 17px;
+    /*background: url('../img/logo.svg') no-repeat calc(100% - 20px) 17px;*/
 }
 
 .tea--volume {

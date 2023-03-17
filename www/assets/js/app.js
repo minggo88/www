@@ -1440,6 +1440,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				let user_info = r.payload;
 				Model.user_info = user_info;
 				user_info.bank_full = user_info.bank_name +' / '+ user_info.bank_account +' / '+ user_info.bank_owner;
+				//계좌정보 없을시 정보등록 요구
+				if(user_info.bank_name == ''){
+					user_info.bank_full = "계좌정보를 등록해 주세요";
+				}
 				force_rander('user_info', user_info);
 				reset_logedin_status();
 				if (callback && typeof callback === 'function') {
@@ -1717,18 +1721,23 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		}
 		//계좌번호 숨김
 		var bank_ac = Model.user_info.bank_account;
-		if(bank_ac.length > 7){
-			var tt='';
-			for (var i = 3; i < bank_ac.length-4; i++) {
-			  tt = tt + "*";
+		if(bank_ac != ''){
+			if(bank_ac.length > 7){
+				var tt='';
+				for (var i = 3; i < bank_ac.length-4; i++) {
+				  tt = tt + "*";
+				}
+				bank_ac_text = bank_ac.substr(0,3) + tt +
+				bank_ac.substr(-4);
+			}else{
+				bank_ac_text = bank_ac;
 			}
-			bank_ac_text = bank_ac.substr(0,3) + tt +
-			bank_ac.substr(-4);
-		}else{
-			bank_ac_text = bank_ac;
+
+			$('#bank_account_p').val(bank_ac_text);
 		}
+		
 		//console.log('user_info : '+ bank_ac_text);
-		$('#bank_account_p').val(bank_ac_text);
+		
 		//console.log('user_info : '+ bank_ac_text);
 		
 		
@@ -2867,7 +2876,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 							
 						`)
 						
-						<!-- mk0306 grid_mobile 형태 추가 -->
+						/* mk0306 grid_mobile 형태 추가 */
 						const grid_mobile = $(`<tbody name="table_profit">`)
 						let tr_color = '#333333';
 						if(income < 0){

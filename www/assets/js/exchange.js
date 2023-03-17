@@ -64,8 +64,8 @@ $(function() {
 			$(".side--panel").show();
 			$(".details").show();
 		} else {
-			$(".side--panel").show();
-			$(".details").hide();
+			//$(".side--panel").show();
+			//$(".details").hide();
 		}
     })
 
@@ -995,13 +995,13 @@ $(function() {
         window.selected_row = indexes;
         if ( type === 'row' ) {
 
-			if(isMobile) {
+			/*if(isMobile) {
 				$(".side--panel").hide();
 				$(".details").show();
 			} else {
 				$(".side--panel").show();
 				$(".details").show();
-			}
+			}*/
 
             const data = row.data()
             
@@ -1023,7 +1023,7 @@ $(function() {
             SELECTED_EXCHANGE = exchange
             SELECTED_NAME = name
             SELECTED_GRADE = data.goods_grade
-	    SELECTED_GOODS_GRADE = SELECTED_GRADE
+	        SELECTED_GOODS_GRADE = SELECTED_GRADE
             // console.log('SELECTED_GRADE:', SELECTED_GRADE);
 
             // 로딩 애니메이션 출력
@@ -1184,8 +1184,8 @@ $(function() {
         } else {
             // api.row(ROWS_COUNT-1).select() // 마지막 선택
 			if(isMobile) {
-                $(".side--panel").show();
-				$(".details").hide();
+                //$(".side--panel").show();
+				//$(".details").hide();
             } else {
                 row_no = window.selected_row ? window.selected_row : null;
                 api.row(row_no).select() // 첫번째 선택, 모바일에서는 목록만 먼저 나와야 해서 선택 안합니다.
@@ -1206,26 +1206,42 @@ $(function() {
                     const classOn = row.like == 'Y' ? 'btn--star--on' : 'btn--star'
                     // 버튼
                     if (isMobile) {
-                        // return `<button type="button" class="btn ${classOn}"></button>${data}<br><span class="text--gray005">${row.meta_type}</span>`
-                    }
-                    return `<button type="button" class="btn ${classOn}" data-star-idx="${row.idx}"></button>${data}`
+                        return `<button type="button" class="btn ${classOn}" data-star-idx="${row.idx}"></button><span id="item_name" onclick="mobile_title_click()">${data}</span>`
+                    }else{
+	                    return `<button type="button" class="btn ${classOn}" data-star-idx="${row.idx}"></button><span id="item_name">${data}</span>`
+					}
                 }
             },
-            // 타입
+            // 등급
             // { data: 'meta_type', render: (data, _type, row) => { return data ? data : '' } },
-            { data: 'display_grade' },
+            { 
+                data: 'display_grade',
+                render: (data, _type, row)=> {
+                      return `<span onclick="mobile_title_click()">${data}</span>`
+                }
+            },
             // 생산년도
-            { data: 'meta_wp_production_date', render: (data, _type, row) => { return data ? data : '' } },
+            { 
+                data: 'meta_wp_production_date', 
+                render: (data, _type, row) => { 
+                    if (isMobile) {
+                        return `<span onclick="mobile_title_click()">${data}</span>`
+                    }else{
+                        return data ? data : '' 
+					}
+                   
+                } 
+            },
             // 현재가
             {
                 data: 'price', responsivePriority: 1, render: (data, _type, row) => {
                     const diff = row.price_close - row.price_open
 
                     if (typeof (Intl) !== 'undefined') {
-                        return diff > 0 ? ('<span class="text-red text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>') : diff < 0 ? ('<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>') : '<span class="text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>'
+                        return diff > 0 ? ('<span class="text-red text-bold" onclick="mobile_title_click()">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>') : diff < 0 ? ('<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>') : '<span class="text-bold" onclick="mobile_title_click()">' + new Intl.NumberFormat('ko-KR').format(row.price_close) + '</span>'
                     }
         
-                    return '<span class="text-red text-bold">' + real_number_format(row.price_close) + '</span>'
+                    return '<span class="text-red text-bold" onclick="mobile_title_click()">' + real_number_format(row.price_close) + '</span>'
                 }
             },
             // 전일대비
@@ -1237,12 +1253,12 @@ $(function() {
                     row.price_open = row.price_open*1
                     const diff = row.price > 0 && row.price > 0 ? (row.price - row.price_open) / row.price_open * 100 : 0;
                     if (typeof (Intl) !== 'undefined') {
-                        return diff > 0 ? ('<span class="text-red text-bold">+' + new Intl.NumberFormat('ko-KR', {
+                        return diff > 0 ? ('<span class="text-red text-bold" onclick="mobile_title_click()">+' + new Intl.NumberFormat('ko-KR', {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
-                        }).format(diff) + '%</span>') : diff < 0 ? ('<span class="text-blue text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>') : '<span class="text-bold">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>'
+                        }).format(diff) + '%</span>') : diff < 0 ? ('<span class="text-blue text-bold" onclick="mobile_title_click()">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>') : '<span class="text-bold" onclick="mobile_title_click()">' + new Intl.NumberFormat('ko-KR').format(diff) + '%</span>'
                     }
-                    return '<span class="text-red text-bold">' + real_number_format(diff) + '</span>'
+                    return '<span class="text-red text-bold" onclick="mobile_title_click()">' + real_number_format(diff) + '</span>'
                 }
             },
             // 거래대금
@@ -1257,7 +1273,11 @@ $(function() {
                         price = price + __('원')
                     }
 
-                    return price
+                    if (isMobile) {
+                        return `<span onclick="mobile_title_click()">${price}</span>`
+                    }else{
+                        return price
+					}
                 }
             },
         ],
@@ -1826,4 +1846,15 @@ $(function() {
 
 function open_use_agreement() {
 	window.open('https://www.assettea.com/use_agreement.html', '_blank');
+}
+
+function mobile_title_click(){
+	// 그리드를 선택하면
+	if(isMobile) {
+		$(".side--panel").hide();
+		$(".details").show();
+	} else {
+		$(".side--panel").show();
+		$(".details").show();
+	}
 }
