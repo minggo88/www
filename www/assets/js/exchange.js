@@ -1,3 +1,5 @@
+$("#title_1").addClass("active");
+
 let USER_INFO = {}
 API.getMyInfo((resp) => {
     if(resp.success) {
