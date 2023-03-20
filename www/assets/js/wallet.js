@@ -1,0 +1,1 @@
+$("#title_2").addClass("active");
