@@ -225,7 +225,7 @@
 									const item = $('<div class="accordion--item" />')
 									faq.contents = faq.contents.replaceAll(/\r\n/g, '<br>')
 									item.append(
-											`<header class="accordion--header"><a href=""><span class="text-red">Q</span> <span>${faq.subject}</span></a></header>`,
+											`<div class="accordion--header"><a href=""><span class="text-red">Q</span> <span>${faq.subject}</span></a></div>`,
 										)
 										item.append(`<div class="accordion--contents">${faq.contents}</div>`)
 										$('.accordion').append(item)
