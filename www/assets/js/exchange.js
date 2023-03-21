@@ -1,5 +1,7 @@
-$("#title_2").hide()
-$("#title_2_on").show()
+setTimeout(function() {
+	$("#title_1").hide()
+	$("#title_1_on").show()
+}, 500);
 
 let USER_INFO = {}
 API.getMyInfo((resp) => {
