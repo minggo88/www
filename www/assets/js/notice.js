@@ -1,1 +1,2 @@
-$("#title_3").addClass("active");
+$("#title_3").hide()
+$("#title_3_on").show()
