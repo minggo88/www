@@ -1,4 +1,5 @@
-$("#title_1").addClass("active");
+$("#title_2").hide()
+$("#title_2_on").show()
 
 let USER_INFO = {}
 API.getMyInfo((resp) => {
