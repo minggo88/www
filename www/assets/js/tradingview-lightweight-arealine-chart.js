@@ -147,7 +147,7 @@
     series.applyOptions({
       priceFormat: { // price format - y축
         type: 'custom',
-        //minMove: 0.5,
+        minMove: 0.5,
         formatter: function(f){
           return f
         }
@@ -185,7 +185,7 @@
       const t = new Date(data[data.length - 1].time * 1000);
       const dateStr_ori = t.getFullYear() + '-' + ((t.getMonth() + 1 + 100).toString().substring(1)) + '-' + ((t.getDate() * 1 + 100).toString().substring(1));
       const dateStr = t.getFullYear() + '/' + ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
-      $('#chartToolTip [name=dateStr]').text(dateStr_ori)
+      $('#chartToolTip [name=dateStr]').text(dateStr)
       $('#chartToolTip [name=point]').text(data[data.length - 1].value)
       // toolTip.innerHTML = '<div style="font-size: 24px; margin: 4px 0px; color: #20262E">' + __('지수') + '<i class="icon--help" style="width: 16px;height: 18px;background: url(\'/assets/img/icon/btn_help.svg\') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i></div>'
       //   + '<div class="pop_up"><div class="pop_content">'+__('지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다.')+'</div></div>'
