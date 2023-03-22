@@ -131,8 +131,10 @@
     const now_day = String(now.getDate()).padStart(2, '0');
     // 5일 전 시간의 년, 월, 일, 시간, 분, 초 구하기
     const year = fiveDaysAgo.getFullYear();
-    const month = fiveDaysAgo.getMonth() + 1;
-    const day = fiveDaysAgo.getDate();
+    //const month = fiveDaysAgo.getMonth() + 1;
+    //const day = fiveDaysAgo.getDate();
+    const month = String( fiveDaysAgo.getMonth() + 1).padStart(2, '0');
+    const day = String(fiveDaysAgo.getDate()).padStart(2, '0');
     
     chart.timeScale().setVisibleRange({
         from: year+'-'+month+'-'+day,
