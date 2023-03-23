@@ -3630,17 +3630,20 @@ function htmlencode(str) {
 
 // 셀렉트박스 
 function change_select(){
-	var join_type = document.getElementById("join_type").value;
 	if(join_type=="B"){
 		document.getElementById("join_user_number_A").style.display = 'none';
-		document.getElementById("join_user_number_B").style.display = 'none';
+		//document.getElementById("join_user_number_B").style.display = 'none';
 		document.getElementById("join_user_passport").style.display = 'block';
 		document.getElementById("join_user_number_A").value = '';
-		document.getElementById("join_user_number_B").value = '';
+		//document.getElementById("join_user_number_B").value = '';
+		$("#join_user_passport").show();
+		$("#join_user_number_A").hide();
 	}else{
 		document.getElementById("join_user_number_A").style.display = 'block';
-		document.getElementById("join_user_number_B").style.display = 'none';
+		//document.getElementById("join_user_number_B").style.display = 'none';
 		document.getElementById("join_user_passport").style.display = 'none';
 		document.getElementById("join_user_passport").value = '';
+		$("#join_user_number_A").show();
+		$("#join_user_passport").hide();
 	}
 }
