@@ -2381,7 +2381,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			var user_join_number = '';
 			var text = '';
 			if(user_join_type == "A"){
-				user_join_number = document.getElementById("join_user_number_A").value + document.getElementById("join_user_number_B").value;
+				user_join_number = document.getElementById("join_user_number_A").value;
 				text = 'mobile_country_code=KR&user_join_type=';
 				text += user_join_type;
 				text += '&user_join_number=';
@@ -2398,13 +2398,17 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				text += '&user_join_number=';
 				text += user_join_number;
 			}
-			add_request_item('putMyInfo', text, function (r) {
-				if (r?.success) {
-					alert(__('등록 했습니다.'));
-				} else {
-					alert(__('등록하지 못했습니다.') + r?.error?.message||'')
-				}
-			})
+			if(user_join_number.length<8){
+				alert('정확한 정보를 입력해 주세요');
+			}else{
+				add_request_item('putMyInfo', text, function (r) {
+					if (r?.success) {
+						alert(__('등록 했습니다.'));
+					} else {
+						alert(__('등록하지 못했습니다.') + r?.error?.message||'')
+					}
+				})
+			}
 			return false;
 		});
 		
