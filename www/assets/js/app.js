@@ -3630,6 +3630,7 @@ function htmlencode(str) {
 
 // 셀렉트박스 
 function change_select(){
+	var join_type = document.getElementById("join_type").value;
 	if(join_type=="B"){
 		document.getElementById("join_user_number_A").style.display = 'none';
 		//document.getElementById("join_user_number_B").style.display = 'none';
