@@ -287,7 +287,9 @@ $(function() {
         // 반응형처리
         $(window).resize(function() {
             chart.applyOptions({
-            width: $('#'+target_id).outerWidth(),
+            //230324 chart 모바일 크기 수정
+            //width: $('#'+target_id).outerWidth(),
+            width: Math.floor(window.innerWidth / 100)*100,
             height: $('#'+target_id).outerHeight()
 	    });    
 	});
@@ -449,7 +451,9 @@ $(function() {
         // 반응형처리
         $(window).resize(function() {
             chart.applyOptions({
-            width: $('#'+target_id).outerWidth(),
+            //230324 chart 모바일 크기 수정
+            //width: $('#'+target_id).outerWidth(),
+            width: Math.floor(window.innerWidth / 100)*100,
             height: $('#'+target_id).outerHeight()
             });
         });
@@ -1865,3 +1869,20 @@ function mobile_title_click(){
         $('#tab_all_item').click();
 	}
 }
+
+//화면 세로 고정
+// 페이지 로드 시 핸드폰 화면을 항상 세로 모드로 고정하는 코드 
+window.onload = function() {
+    // 화면 회전 이벤트 리스너 등록
+    window.addEventListener("orientationchange", function() {
+        // 현재 방향을 가져와서 가로 모드일 경우 다시 세로 모드로 고정
+        if (window.orientation == 90 || window.orientation == -90) {
+        document.body.style.transform = "rotate(0deg)";
+        }
+    });
+
+    // 초기 방향 설정
+    if (window.orientation == 90 || window.orientation == -90) {
+        document.body.style.transform = "rotate(0deg)";
+    }
+};
