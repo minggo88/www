@@ -382,6 +382,31 @@ div.dts div.dataTables_scrollBody {
 }
 
 @media screen and (max-width: 800px) {
+	/** 230324 정보탭 CSS수정 **/
+	#tab-info .info > div.thumb{
+		width: calc(80%);
+	}
+	#tab-info .info{
+		display: block;
+	}
+	#tab-info div img{
+		margin: 0 auto;
+	}
+	#tab-info .info > div.info_p{
+	    width: 80%;
+	}
+	#tab-info .info > div.info_p table{
+	    margin-top:0px;
+	}
+	#tab-info .table th,
+	#tab-info .table td {
+	    padding: 0 0 10px;
+	    vertical-align: top;
+	}
+	.tab-container{
+		padding-bottom: 100px;
+	}
+	
 	.sub.exchange > .container >  header{display: none;}
 	.sub.exchange .contents--header{
 		display: flex;
@@ -424,10 +449,6 @@ div.dts div.dataTables_scrollBody {
 	.exchange .details{
 		display: none;
 	}
-	.tab-container{
-		padding-bottom: 52px;
-	}
-
 	/* .side--panel .tabs {
         border-bottom: 4px solid var(--lightgray);
         height: 36px;
@@ -528,6 +549,44 @@ div.dts div.dataTables_scrollBody {
 		grid-template-columns: repeat(1, 1fr);
 		padding: 0 20px 20px!important;
 		overflow: auto;
+	}
+}
+
+/** 230324 크기에따른 정보탭 수정 **/
+@media screen and (max-width: 680px) {
+	/** 230324 정보탭 CSS수정 **/
+	#tab-info .info > div.thumb{
+		width: calc(60%);
+	}
+	#tab-info .info > div.info_p{
+	    width: 60%;
+	}
+	.tab-container{
+		padding-bottom: 150px;
+	}
+}
+@media screen and (max-width: 520px) {
+	/** 230324 정보탭 CSS수정 **/
+	#tab-info .info > div.thumb{
+		width: calc(50%);
+	}
+	#tab-info .info > div.info_p{
+	    width: 50%;
+	}
+	.tab-container{
+		padding-bottom: 190px;
+	}
+}
+@media screen and (max-width: 440px) {
+	/** 230324 정보탭 CSS수정 **/
+	#tab-info .info > div.thumb{
+		width: calc(40%);
+	}
+	#tab-info .info > div.info_p{
+		width: calc(40%);
+	}
+	.tab-container{
+		padding-bottom: 280px;
 	}
 }
 
