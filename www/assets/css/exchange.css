@@ -403,9 +403,10 @@ div.dts div.dataTables_scrollBody {
 	    padding: 0 0 10px;
 	    vertical-align: top;
 	}
+	/* 230326 buy, sell의 경우 padding 값이 변경되어야 해서 js 에서 클릭시 조정할수 있도록 변경
 	.tab-container{
 		padding-bottom: 100px;
-	}
+	}*/
 	
 	.sub.exchange > .container >  header{display: none;}
 	.sub.exchange .contents--header{
@@ -561,9 +562,9 @@ div.dts div.dataTables_scrollBody {
 	#tab-info .info > div.info_p{
 	    width: 60%;
 	}
-	.tab-container{
+	/*.tab-container{
 		padding-bottom: 150px;
-	}
+	}*/
 }
 @media screen and (max-width: 520px) {
 	/** 230324 정보탭 CSS수정 **/
@@ -573,9 +574,9 @@ div.dts div.dataTables_scrollBody {
 	#tab-info .info > div.info_p{
 	    width: 50%;
 	}
-	.tab-container{
+	/*.tab-container{
 		padding-bottom: 190px;
-	}
+	}*/
 }
 @media screen and (max-width: 440px) {
 	/** 230324 정보탭 CSS수정 **/
@@ -585,9 +586,9 @@ div.dts div.dataTables_scrollBody {
 	#tab-info .info > div.info_p{
 		width: calc(40%);
 	}
-	.tab-container{
+	/*.tab-container{
 		padding-bottom: 280px;
-	}
+	}*/
 }
 
 #modal-sell-pin .modal--content,
