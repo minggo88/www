@@ -971,7 +971,7 @@ $(function() {
         }
             
         const tabContainer = document.querySelector('.tab-container');
-        tabContainer.style.paddingBottom = '52px';
+        tabContainer.style.paddingBottom = '0px';
         if(target === '#tab-sell') {
             sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
             sellGrid.clear().load()
@@ -979,13 +979,13 @@ $(function() {
             buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
             buyGrid.clear().load()
         } else if( target === '#tab-info'){ 
-            if (window.innerWidth < 800) {
+            if (window.innerWidth < 800 && window.innerWidth >= 680) {
                 tabContainer.style.paddingBottom = '100px';
-            } else if(window.innerWidth < 680) {
+            } else if(window.innerWidth < 680 && window.innerWidth >= 520) {
                 tabContainer.style.paddingBottom = '150px';
-            } else if(window.innerWidth < 520) {
+            } else if(window.innerWidth < 520 && window.innerWidth >= 440) {
                 tabContainer.style.paddingBottom = '190px';
-            } else if(window.innerWidth < 440) {
+            } else if(window.innerWidth < 440 && window.innerWidth >= 1) {
                 tabContainer.style.paddingBottom = '280px';
             }
         }
