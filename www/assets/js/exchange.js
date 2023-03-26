@@ -957,25 +957,37 @@ $(function() {
 
     $('.details .tabs').on('beforeShow', (_event, _index, target) => {
         const cnt_sellable = USER_WALLET[gen_user_wallet_key(SELECTED_SYMBOL,SELECTED_GOODS_GRADE)]?.confirmed || 0;
-	let cookie_check = $.cookie(Model.user_info.userid);
+        let cookie_check = $.cookie(Model.user_info.userid);
 
-	if(PIN_NUMBER_ON <1) {
-		if(cookie_check === Model.user_info.userno){
-			$('#modal-buy-button').attr('data-target','#modal-buy-pin');
-			//console.log('3333333 : ' + PIN_NUMBER_ON);
-		}else{
-			$('#modal-buy-button').attr('data-target','#modal-sell-pin');
-		}
-	}else{
-		$('#modal-buy-button').attr('data-target','#modal-buy-pin');
-	}
-			    	    
+        if(PIN_NUMBER_ON <1) {
+            if(cookie_check === Model.user_info.userno){
+                $('#modal-buy-button').attr('data-target','#modal-buy-pin');
+                //console.log('3333333 : ' + PIN_NUMBER_ON);
+            }else{
+                $('#modal-buy-button').attr('data-target','#modal-sell-pin');
+            }
+        }else{
+            $('#modal-buy-button').attr('data-target','#modal-buy-pin');
+        }
+            
+        const tabContainer = document.querySelector('.tab-container');
+        tabContainer.style.paddingBottom = '52px';
         if(target === '#tab-sell') {
             sellGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=sell&status=unclose`)
             sellGrid.clear().load()
         } else if ( target === '#tab-buy') {
             buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
             buyGrid.clear().load()
+        } else if( target === '#tab-info'){ 
+            if (window.innerWidth < 800) {
+                tabContainer.style.paddingBottom = '100px';
+            } else if(window.innerWidth < 680) {
+                tabContainer.style.paddingBottom = '150px';
+            } else if(window.innerWidth < 520) {
+                tabContainer.style.paddingBottom = '190px';
+            } else if(window.innerWidth < 440) {
+                tabContainer.style.paddingBottom = '280px';
+            }
         }
     })
 
