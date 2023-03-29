@@ -27,6 +27,8 @@ $(document).ready(function() {
 			$('[name="box-menu"]').attr('style','');
 		}
 	})
+
+	mobile_login_config();
 });
 
 
@@ -3647,4 +3649,17 @@ function change_select(){
 		$("#join_user_number_A").show();
 		$("#join_user_passport").hide();
 	}
+}
+
+function mobile_login_config(){
+	let windowHeight = window.innerHeight;
+	let mobile_screenWidth = window.innerWidth;
+	if(windowHeight < 650 && mobile_screenWidth < 801){
+		$('.nav--side.mobile').hide();
+		$('.mobile_side_login').show();
+	}else{
+		$('.nav--side.mobile').show();
+		$('.mobile_side_login').hide();
+	}
+	
 }
