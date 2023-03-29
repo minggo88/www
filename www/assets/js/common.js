@@ -31,6 +31,8 @@ $(document).ready( function() {
     $(".sub header .header_inner").load("./header.html");  
 	document.getElementsByClassName("mobile-panel").innerHTML = "";
 	$(".mobile-panel").load("./mobile_aside.html");  
+    //230329 모바일 로그인 버튼 페이지 수정
+    mobile_login_config();
 });
 
 $.fn.serializeObject = function() {
@@ -82,4 +84,17 @@ function asianUintNumber(n){
 		n = n + __('')
 	}
 	return n;
+}
+
+function mobile_login_config(){
+	let windowHeight = window.innerHeight;
+	let mobile_screenWidth = window.innerWidth;
+	if(windowHeight < 650 && mobile_screenWidth < 801){
+		$('.nav--side.mobile').hide();
+		$('.mobile_side_login').show();
+	}else{
+		$('.nav--side.mobile').show();
+		$('.mobile_side_login').hide();
+	}
+	
 }
