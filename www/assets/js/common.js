@@ -31,8 +31,7 @@ $(document).ready( function() {
     $(".sub header .header_inner").load("./header.html");  
 	document.getElementsByClassName("mobile-panel").innerHTML = "";
 	$(".mobile-panel").load("./mobile_aside.html");  
-    //230329 모바일 로그인 버튼 페이지 수정
-    mobile_login_config();
+    
 });
 
 $.fn.serializeObject = function() {
@@ -68,7 +67,8 @@ if(typeof window.getURLParameter === 'undefined') {
 $(function() {
     $('.mobile-bottom .more').click((e) => {
         e.preventDefault()
-
+        //230329 모바일 로그인 버튼 페이지 수정
+        mobile_login_config()
         $('.mobile-panel').show()
     })
 })
