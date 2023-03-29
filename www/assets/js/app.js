@@ -3576,9 +3576,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		if (user_info.userno && user_info.userid) {
 			$('[name=box_logedin]').show();
 			$('[name=box_unlogedin]').hide();
+			$('[name=m_box_logedin]').show();
+			$('[name=m_box_unlogedin]').hide();
 		} else {
 			$('[name=box_logedin]').hide();
 			$('[name=box_unlogedin]').show();
+			$('[name=m_box_logedin]').hide();
+			$('[name=m_box_unlogedin]').show();
 		}
 	};
 	// reset_logedin_status();
