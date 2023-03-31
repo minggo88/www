@@ -27,7 +27,7 @@ $(document).ready(function() {
 			$('[name="box-menu"]').attr('style','');
 		}
 	})
-
+	reset_logedin_status();
 	mobile_login_config();
 });
 
@@ -3658,7 +3658,8 @@ function change_select(){
 function mobile_login_config(){
 	let windowHeight = window.innerHeight;
 	let mobile_screenWidth = window.innerWidth;
-	if(windowHeight < 650 && mobile_screenWidth < 801){
+	//if(windowHeight < 650 && mobile_screenWidth < 801){
+	if(mobile_screenWidth < 801){//모바일의 경우로 수정
 		$('.nav--side.mobile').hide();
 		$('.mobile_side_login').show();
 	}else{
