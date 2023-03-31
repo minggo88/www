@@ -136,15 +136,40 @@ $(function() {
 		} 
     })
     $('.navigation').click(() => {
-	/**** 메인에서 제대로 작동하지 않아 재 입력  ***/
-    const user_info = Model.user_info;
-	if (user_info.userno && user_info.userid) {
-		$('[name=box_logedin]').show();
-		$('[name=box_unlogedin]').hide();
-	} else {
-		$('[name=box_logedin]').hide();
-		$('[name=box_unlogedin]').show();
-	}
+        /**** 메인에서 제대로 작동하지 않아 재 입력  ***/
+        const user_info = Model.user_info;
+        if (user_info.userno && user_info.userid) {
+            $('[name=box_logedin]').show();
+            $('[name=box_unlogedin]').hide();
+        } else {
+            $('[name=box_logedin]').hide();
+            $('[name=box_unlogedin]').show();
+        }
+
+        let mobile_screenWidth = window.innerWidth;
+        // 요소를 가져옵니다.
+        var box = document.getElementsByName("box_logedin")[0];
+        // 요소의 display 속성 값을 가져옵니다.
+        var m_login_displayValue = box.style.display;
+
+        //if(windowHeight < 650 && mobile_screenWidth < 801){
+        if(mobile_screenWidth < 801){//모바일의 경우로 수정
+            $('.nav--side.mobile').hide();
+            $('.mobile_side_login').show();
+
+            if (m_login_displayValue == "block") { //로그아웃이 표시되었다면
+                $('[name=m_login]').hide(); //로그인 표시
+                $('[name=m_logout]').show(); //로그아웃 표시
+            } else {
+                $('[name=m_login]').show(); //로그인 표시
+                $('[name=m_logout]').hide();//로그아웃 표시
+            }
+
+        }else{
+            $('.nav--side.mobile').show();
+            $('.mobile_side_login').hide();
+        }
+
 	$('.mobile-panel').show()
     })
 
