@@ -29,7 +29,9 @@ $(document).ready(function() {
 		}
 	})
 	//reset_logedin_status();
-	mobile_login_config();
+	setTimeout(function() {
+	    mobile_login_config()}, 500);
+	
 });
 
 
@@ -3575,16 +3577,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		const user_info = Model.user_info;
 		// console.log('user_info:', user_info);
 		if (user_info.userno && user_info.userid) {
-			$('[name=box_logedin]').show();
-			$('[name=box_unlogedin]').hide();
-			$('[name=m_box_logedin]').show();
-			$('[name=m_box_unlogedin]').hide();
+			$('[name=box_logedin]').show();//로그인 된상태 -> 로그아웃 표시
+			$('[name=box_unlogedin]').hide();//로그인 안된상태 -> 로그인 표시
 			check_login_var = 1;
 		} else {
 			$('[name=box_logedin]').hide();
 			$('[name=box_unlogedin]').show();
-			$('[name=m_box_logedin]').hide();
-			$('[name=m_box_unlogedin]').show();
 			check_login_var = 0;
 		}
 	};
@@ -3661,40 +3659,27 @@ function change_select(){
 function mobile_login_config(){
 	let windowHeight = window.innerHeight;
 	let mobile_screenWidth = window.innerWidth;
+	// 요소를 가져옵니다.
+	var box = document.getElementsByName("box_logedin")[0];
+	// 요소의 display 속성 값을 가져옵니다.
+	var m_login_displayValue = box.style.display;
 
 	//if(windowHeight < 650 && mobile_screenWidth < 801){
 	if(mobile_screenWidth < 801){//모바일의 경우로 수정
 		$('.nav--side.mobile').hide();
 		$('.mobile_side_login').show();
 
-		if (check_login_var < 1) {
-			$('[name=box_logedin]').hide();
-			$('[name=box_unlogedin]').hide();
-			$('[name=m_box_logedin]').show();
-			$('[name=m_box_unlogedin]').hide();
+		if (m_login_displayValue == "block") { //로그아웃이 표시되었다면
+			$('[name=m_login]').hide(); //로그인 표시
+			$('[name=m_logout]').show(); //로그아웃 표시
 		} else {
-			$('[name=box_logedin]').hide();
-			$('[name=box_unlogedin]').hide();
-			$('[name=m_box_logedin]').hide();
-			$('[name=m_box_unlogedin]').show();
+			$('[name=m_login]').show(); //로그인 표시
+			$('[name=m_logout]').hide();//로그아웃 표시
 		}
 
 	}else{
 		$('.nav--side.mobile').show();
 		$('.mobile_side_login').hide();
-
-		if (check_login_var < 1) {
-			$('[name=box_logedin]').show();
-			$('[name=box_unlogedin]').hide();
-			$('[name=m_box_logedin]').hide();
-			$('[name=m_box_unlogedin]').hide();
-		} else {
-			$('[name=box_logedin]').hide();
-			$('[name=box_unlogedin]').show();
-			$('[name=m_box_logedin]').hide();
-			$('[name=m_box_unlogedin]').hide();
-		}
-
 	}
 	
 }
