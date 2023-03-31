@@ -4,6 +4,7 @@ $('body').on('contextmenu', function() {return false;});
 document.onmousedown = disableclick;
 
 var check_num = 0;
+var check_login_var = 0;
 
 function disableclick(event) {
 	if (event.button == 2) {
@@ -27,7 +28,7 @@ $(document).ready(function() {
 			$('[name="box-menu"]').attr('style','');
 		}
 	})
-	reset_logedin_status();
+	//reset_logedin_status();
 	mobile_login_config();
 });
 
@@ -3578,11 +3579,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name=box_unlogedin]').hide();
 			$('[name=m_box_logedin]').show();
 			$('[name=m_box_unlogedin]').hide();
+			check_login_var = 0;
 		} else {
 			$('[name=box_logedin]').hide();
 			$('[name=box_unlogedin]').show();
 			$('[name=m_box_logedin]').hide();
 			$('[name=m_box_unlogedin]').show();
+			check_login_var = 1;
 		}
 	};
 	// reset_logedin_status();
@@ -3658,6 +3661,19 @@ function change_select(){
 function mobile_login_config(){
 	let windowHeight = window.innerHeight;
 	let mobile_screenWidth = window.innerWidth;
+	
+	if (check_login_var < 1) {
+		$('[name=box_logedin]').show();
+		$('[name=box_unlogedin]').hide();
+		$('[name=m_box_logedin]').show();
+		$('[name=m_box_unlogedin]').hide();
+	} else {
+		$('[name=box_logedin]').hide();
+		$('[name=box_unlogedin]').show();
+		$('[name=m_box_logedin]').hide();
+		$('[name=m_box_unlogedin]').show();
+	}
+
 	//if(windowHeight < 650 && mobile_screenWidth < 801){
 	if(mobile_screenWidth < 801){//모바일의 경우로 수정
 		$('.nav--side.mobile').hide();
