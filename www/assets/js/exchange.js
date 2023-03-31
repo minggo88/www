@@ -104,6 +104,9 @@ $(function() {
 	$("[name=btn_view_list]").on('click',function(){
 		$(".side--panel").show();
 		$(".details").hide();
+        //너비가 맞지 않아 resize 하는 기능 추가
+        var bodywidth = $('.dataTables_scrollBody').width();
+		$('.dataTables_scrollHeadInner').css('width', bodywidth);
 	})
 
     $("[name=bbb]").on('click', function() {
