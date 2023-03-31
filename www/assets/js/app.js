@@ -3661,26 +3661,40 @@ function change_select(){
 function mobile_login_config(){
 	let windowHeight = window.innerHeight;
 	let mobile_screenWidth = window.innerWidth;
-	
-	if (check_login_var < 1) {
-		$('[name=box_logedin]').show();
-		$('[name=box_unlogedin]').hide();
-		$('[name=m_box_logedin]').show();
-		$('[name=m_box_unlogedin]').hide();
-	} else {
-		$('[name=box_logedin]').hide();
-		$('[name=box_unlogedin]').show();
-		$('[name=m_box_logedin]').hide();
-		$('[name=m_box_unlogedin]').show();
-	}
 
 	//if(windowHeight < 650 && mobile_screenWidth < 801){
 	if(mobile_screenWidth < 801){//모바일의 경우로 수정
 		$('.nav--side.mobile').hide();
 		$('.mobile_side_login').show();
+
+		if (check_login_var < 1) {
+			$('[name=box_logedin]').hide();
+			$('[name=box_unlogedin]').hide();
+			$('[name=m_box_logedin]').show();
+			$('[name=m_box_unlogedin]').hide();
+		} else {
+			$('[name=box_logedin]').hide();
+			$('[name=box_unlogedin]').hide();
+			$('[name=m_box_logedin]').hide();
+			$('[name=m_box_unlogedin]').show();
+		}
+
 	}else{
 		$('.nav--side.mobile').show();
 		$('.mobile_side_login').hide();
+
+		if (check_login_var < 1) {
+			$('[name=box_logedin]').show();
+			$('[name=box_unlogedin]').hide();
+			$('[name=m_box_logedin]').hide();
+			$('[name=m_box_unlogedin]').hide();
+		} else {
+			$('[name=box_logedin]').hide();
+			$('[name=box_unlogedin]').show();
+			$('[name=m_box_logedin]').hide();
+			$('[name=m_box_unlogedin]').hide();
+		}
+
 	}
 	
 }
