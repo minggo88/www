@@ -4,19 +4,19 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="title" content="Teaplat">
+<meta name="title" content="끽다거">
 <meta name="description" content="">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://assettea.com">
-<meta property="og:title" content="Teaplat">
-<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
 <meta property="og:description" content="">
-<meta property="og:site_name" content="Teaplat">
+<meta property="og:site_name" content="끽다거">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image:width" content="200">
 <meta property="og:image:height" content="100">
 <!-- TITLE -->
-<title>Teaplat</title>
+<title>끽다거</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 <link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
@@ -68,131 +68,96 @@
 
 </head>
 <!-- BODY -->
-<body class="sub notice verifiy m-bottom">
-	<header>
-		<div class="header_inner">
+<body class="sub notice verifiy">
+    <header>
+        <div class="header_inner">
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
-					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
-					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 					<li>
-						<a href="wallet.html" data-login data-i18n>입출금</a>
+						<a href="" data-i18n>공동구매</a>
 					</li>
-					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+					<li>
+						<a href="" data-i18n>경매</a>
+					</li>
+					<li>
+						<a href="" data-i18n>입출금</a>
+					</li>
+					<li>
+						<a href="" data-i18n>다도 문화</a>
+					</li>
 					<li>
 						<a href="notice.html" data-i18n>고객센터</a>
 					</li>
 				</ul>
 			</nav>
 			<div class="nav--side">
-				<div name="box_logedin" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-					<div class="dropdown--item" style="width: 134px;left: -32px;">
+				<div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
+					<div class="dropdown--item" style="width: 134px">
 						<ul>
-							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
-							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
-							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
-							<li><a href="notification.html" data-login data-i18n>알림</a></li>
+							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
+							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
+							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
+							<li><a href="notification.html" data-i18n>알림</a></li>
 						</ul>
 					</div>
 				</div>
-				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+				<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
+					<button type="button" class="dropdown" data-i18n>지갑관리</button>
+					<div class="dropdown--item" style="width: 100px">
+						<ul>
+							<li><a href="wallet.html" data-i18n>보유 자산</a></li>
+							<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
+							<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
+							<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
+						</ul>
+					</div>
+				</div>
+				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+				<div name="box_unlogedin">
+					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
+				</div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
 						<span>한국어</span>
-						<ul></ul>
+						<ul>
+						</ul>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="box-mobile-menu">
-			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
-		</div>
-		<ul class="gnb box-menu" name="box-menu">
-			<li>
-				<a href="exchange.html" data-i18n>거래소</a>
-			</li>
-			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
-			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
-			<li>
-				<a href="wallet.html" data-login data-i18n>입출금</a>
-			</li>
-			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
-			<li>
-				<a href="notice.html" data-i18n>고객센터</a>
-			</li>
-		</ul>
-	</header>
-	<aside class="mobile-panel">
-		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
-		<h1 class="size--20" data-i18n>마이페이지</h1>
-		<ul>
-			<li>
-				<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
-			</li>
-			<li>
-				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
-			</li>
-			<li>
-				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
-			</li>
-			<li>
-				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
-			</li>
-			<!-- <li>
-				<a href="transaction.html" data-login data-i18n><i class="icon-transaction-black"></i><span data-i18n>거래내역</span></a>
-			</li> -->
-			<li>
-				<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
-			</li>
-		</ul>
-		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>입출금</h1>
-		<ul>
-			<li>
-				<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
-			</li>
-			<li>
-				<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
-			</li>
-			<li>
-				<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
-			</li>
-			<li>
-				<a href="wallet-analysis.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
-			</li>
-		</ul>
-		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
-		<ul>
-			<li>
-				<a href="notice.html"><i class="icon-alarm"></i> <span data-i18n>공지사항</span></a>
-			</li>
-			<li>
-				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n>자주하는 질문</span></a>
-			</li>
-			<li>
-				<a href="inquiry.html" data-login><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
-			</li>
-		</ul>
-		<div class="nav--side mobile">
-			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-			<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
-			<div class="language dropdown-wrapper">
-				<button type="button" class="dropdown">한국어</button>
-				<div class="dropdown--item" style="width: 81px">
-					<span>한국어</span>
-					<ul></ul>
-				</div>
+			<div class="box-mobile-menu">
+				<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
 			</div>
+			<ul class="gnb box-menu" name="box-menu">
+				<li>
+					<a href="exchange.html" data-i18n>거래소</a>
+				</li>
+				<li>
+					<a href="" data-i18n>공동구매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>경매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>입출금</a>
+				</li>
+				<li>
+					<a href="" data-i18n>다도 문화</a>
+				</li>
+				<li>
+					<a href="notice.html" data-i18n>고객센터</a>
+				</li>
+			</ul>
 		</div>
-	</aside>	
+    </header>
     <div class="content_wrap">
 		<main class="d-flex d-justify">
 			<aside class="side">
@@ -200,22 +165,22 @@
 				<nav class="side--snb">
 					<ul>
 						<li>
-							<a href="member-account.html" data-login data-i18n>정보 수정</a>
+							<a href="member-account.html" data-i18n>정보 수정</a>
 						</li>
 						<li class="snb--active">
-							<a href="my-verification.html" data-login data-i18n>ID 인증 관리</a>
+							<a href="my-verification.html" data-i18n>ID 인증 관리</a>
 						</li>
 						<li>
-							<a href="change-pin-number.html" data-login data-i18n>보안비밀번호 변경</a>
+							<a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
 						</li>
 						<li>
-							<a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a>
+							<a href="change-account-number.html" data-i18n>출금계좌 변경</a>
 						</li>
-<!--						<li>-->
-<!--							<a href="transaction.html" data-login data-i18n>거래 내역</a>-->
-<!--						</li>-->
 						<li>
-							<a href="notification.html" data-login data-i18n>알림</a>
+							<a href="transaction.html" data-i18n>거래 내역</a>
+						</li>
+						<li>
+							<a href="notification.html" data-i18n>알림</a>
 						</li>
 						<!-- <li>
 							<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
@@ -227,16 +192,15 @@
 				<header class="contents--header">
 					<div>
 						<button type="button" class="navigation--back"></button>
-						<h1 data-i18n>ID 인증 관리</h1>
+						<h1 data-i18n>Identity Verification</h1>
 					</div>
 					<div class="mobile-only">
 						<i class="icon-user-fill icon-alarm"></i>
 						<i class="icon-user-fill icon-setting"></i>
 					</div>
 				</header>
-
 				<h2 class="mobile-only"><i class="icon-user-fill"></i> <span data-i18n>ID 인증 관리</span></h2>
-				<form action="my-verification-complete.html" method="post" style="width: 100%; height: auto;display:none" >
+				<form action="my-verification-complete.html" method="post" style="width: 100%; height: auto" >
 					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center">
 							<h2 class="m-0 mb-24 text-bold size--16" data-i18n>다음의 인증 절차를 진행하여 본인 확인을 완료하십시오.</h2>
@@ -256,91 +220,28 @@
 						<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>인증 진행</button>
 					</div>
 				</form>
-
-				
-				<form id="verification4" method="post" class="d-flex flex-row flex-center" style="width: 100%; height: auto;">
-					<input type="hidden" name="bool_confirm_idimage" id="bool_confirm_idimage" value="" data-bind="user_info.bool_confirm_idimage">
-					<div class="flex-self-left" style="width: 100%">
-						
-						<div class="text--center">
-							<h2 class="m-0 mb-24 text-red" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_success" data-i18n>ID 인증 완료!</h2>
-							<h2 class="m-0 mb-24" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_waiting" data-i18n>ID 인증 대기중</h2>
-							<h2 class="m-0 mb-24" style="font-family: Inter; font-weight: 700; font-size:20px;display:none" name="status_default" data-i18n>ID 인증 필요</h2>
-						</div>
-						<p class="m-0 flex-self-left text--medium text-bold" data-i18n>
-							주민등록증을 업로드합니다.
-						</p>
-						<div class="d-grid column-2" style="margin-top: 48px">
-							<div>
-								<label for="front-side" style="font-weight: 400" data-i18n>신분증 사진</label>
-								<div class="box-image-selector">
-									<input type="file" name="file_identify_url" id="file_identify_url" data-target="#image_identify_url" title="신분증 사진" id="front-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px">
-									<input type="hidden" name="image_identify_url" id="image_identify_url">
-									<div name="preview" class="preview" for="file_identify_url"></div>
-								</div>
-							</div>
-							<div>
-								<label for="back-side" style="font-weight: 400;" data-i18n>신분증 및 회원 사진</label>
-								<div class="box-image-selector">
-									<input type="file" name="file_mix_url" id="file_mix_url" data-target="#image_mix_url" title="신분증 및 회원 사진" id="back-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px">
-									<input type="hidden" name="image_mix_url" id="image_mix_url" data-bind="user_info.image_mix_url">
-									<div name="preview" class="preview" for="file_mix_url"></div>
-								</div>
-							</div>
-						</div>
-						<p class="m-0 text-bold" style="font-size: 14px; margin-top: 43px !important; margin-bottom: 17px !important; letter-spacing: 0" data-i18n>
-							문서가 아래의 모든 표준을 충족하는지 확인하십시오.
-						</p>
-						<ul class="text-black" style="letter-spacing: 0; list-style-position: inside">
-							<li data-i18n>읽기 쉽고 선명하며 조명이 밝음</li>
-							<li data-i18n>반사되지 않음, 흐릿하지 않음</li>
-							<li data-i18n>흑백 영상 없음, 편집 없음</li>
-							<li data-i18n>문서는 단색 배경에 배치됩니다.</li>
-						</ul>
-					</div>
-					<div class="form--btns btn-area">
-						<button class="btn btn--block btn--red text-bold" name="btn_save" data-i18n>저장</button>
-					</div>
-				</form>
-				
-				<!-- 완료 상태 표시 -->
-				<form action="my-verification-complete.html" method="post" style="width: 100%; height: auto;display:none" >
-					<div class="boxed boxed--transparent text--center d-flex flex-row flex-center" style="height: 333px; padding: 36px 0 56px">
-						<div class="text--center">
-							<h2 class="m-0 mb-24 text-red" style="font-family: Inter; font-weight: 700; font-size:20px">Identity Verification Success!</h2>
-						</div>
-						<div class="flex-self-center">
-							<p class="m-0 flex-self-left size--16" style="font-weight: 500">
-								<span style="font-weight: 900">kikdda@teaplat.com</span> 님은<br>
-								ID 본인 인증 절차가 모두 완료되었습니다.<br>
-								<br>
-								Teaplat에서 모든 금융거래를 진행할 수 있습니다.                        </p>
-						</div>
-					</div>
-					<div class="text--center submitBtn">
-						<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>확인</button>
-					</div>
-				</form>
 			</div>
 		</main>
+		<nav class="mobile-bottom mobile-only">
+			<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+				<li class="exchange">
+					<a href="" data-i18n>거래소</a>
+				</li>
+				<li class="area" >
+					<a href="" data-i18n>티드로우</a>
+				</li>
+				<li class="auction" style="flex: 1 1 auto">
+					<a href="" data-i18n>경매</a>
+				</li>
+				<li class="transaction" style="flex: 1 1 auto">
+					<a href="" data-i18n>거래내역</a>
+				</li>
+				<li class="more">
+					<a href="" data-i18n>더보기</a>
+				</li>
+			</ul>
+		</nav>
 	</div>
-	<nav class="mobile-bottom mobile-only">
-		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
-			<li class="exchange">
-				<a href="exchange.html" data-i18n>거래소</a>
-			</li>
-			<li class="area" >
-				<a href="" data-i18n>티드로우</a>
-			</li>
-			<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> -->
-			<li class="transaction" style="flex: 1 1 auto">
-				<a href="transaction.html" data-login data-i18n>거래내역</a>
-			</li>
-			<li class="more">
-				<a href="" data-i18n>더보기</a>
-			</li>
-		</ul>
-	</nav>
     <!-- <footer class="desktop-only">
 		<div class="logo">Teaplat</div>
 		<nav class="fnb">

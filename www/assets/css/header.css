@@ -5,10 +5,10 @@ body > header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0.02);
 }
 body.exchange > .container > header{
-	background: rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0.02);
 } 
 
 .header_inner{
@@ -21,8 +21,8 @@ body.exchange > .container > header{
 }
 
 header .logo {
-	width: 145px;
-	height: 21px;
+	width: 142px;
+	height: 32px;
 	background: url('../img/Teaplat-logo_color.png') no-repeat center center;
 	background-size: cover;
 	font-size: 1px;
@@ -31,8 +31,6 @@ header .logo {
 	z-index: 2;
 	position: absolute;
 	left: 30px;
-	/* left: 40px; */
-	/* left: 0; */
 }
 header .logo a {
     width: 100%;
@@ -79,24 +77,11 @@ header .logo a {
 }
 
 .nav > ul li a {
-    font-size: 15px;
+    font-size: 1.3em;
     font-weight: 500;
     color: var(--basic-black);
     letter-spacing: -0.05em;
     opacity: .6;
-}
-
-.nav > ul li .btn--login {
-    display: block;
-    width: 72px;
-    height: 22px;
-    line-height: 22px;
-    border-radius: 30px;
-    background: rgba(0, 0, 0, 0);
-    color: #E21A32!important;
-    text-align: center;
-    font-weight: 500;
-    font-size: 14px;
 }
 
 .nav ul li.active a {opacity: 1;}
@@ -124,7 +109,7 @@ header .logo a {
     line-height: 22px;
     border-radius: 30px;
     background: rgba(0, 0, 0, 0);
-    color: #E21A32!important;
+    color: #B81C22;
     text-align: center;
     font-weight: 500;
     font-size: 14px;
@@ -136,10 +121,9 @@ header .logo a {
     line-height: 22px;
     border-radius: 30px;
     background: rgba(0, 0, 0, 0);
-    color: #E21A32!important;
-    font-size: 14px;
-	padding: 0 1rem;
+    color: #B81C22;
     font-weight: 500;
+    font-size: 14px;
 }
 
 .nav--side .btn--mypage{
@@ -155,24 +139,16 @@ header .logo a {
 	padding-left : 30px;
 }
 
-.nav--side .language{
-	display: none;
-}
 
 .nav--side .language .dropdown {
     border: 0 none;
     padding:0 14px 0 0;
     font-weight: 500;
-	text-transform: capitalize;
 }
 .nav--side .language .dropdown::after {
     width: 10px;
     right: 0;
     opacity: .5;
-}
-.nav--side .language .dropdown--item>span,
-.nav--side .language .dropdown--item button {
-	text-transform: capitalize;
 }
 
 .nav--side {
@@ -199,7 +175,7 @@ header .logo a {
 .nav--side .profile .dropdown+.dropdown--item,
 .nav--side .wallet .dropdown+.dropdown--item {
     padding-top: 0;
-    top: 40px;
+    top: 48px;
 }
 .nav--side .profile .dropdown+.dropdown--item ul li {
     height: 17px;
@@ -213,33 +189,12 @@ header .logo a {
 	top: 10px;
 }
 
-.nav--side.mobile{
-	width: calc(100% - 35px);
-	height: auto;
-	right: 0px;
-	left: 20px;
-	bottom: 15px;
-	flex-direction: row;
-	justify-content: space-between;
+/* .sub .nav{
+	margin-left: 25%;
+	flex: auto;
 }
+ */
 
-.nav--side.mobile .btn--login,
-.nav--side.mobile .btn--logout,
-.nav--side.mobile .language .dropdown{
-	width: 80px;
-}
-
-.nav--side.mobile .language .dropdown+.dropdown--item{
-	left: 0;
-	bottom: 0;
-	top: initial;
-}
-
-.nav--side.mobile .btn--login,
-.nav--side.mobile .btn--logout{
-	height: 25px;
-	line-height: 25px;
-}
 /* ####################################### */
 
 .box-menu {
@@ -253,48 +208,12 @@ header .logo a {
 .gnb {
     display: none;
 }
-/****** 230308 header 수정 ******/
-.contents--header{
-	display: none;
-	
-}
-.sub .contents .contents--header2 {
-    font-family: Inter !important;
-    font-weight: 700 !important;
-    font-size: 24px;
-    height: 57px;
-    color: #E21A32;
-    border-bottom: 4px solid #E21A32;
-    box-sizing: border-box;
-    margin-bottom: 34px;
-}
-.contents--header2 p{
-	width: 200px;
-	height: 24px;
-	font-size:24px;
-	font-weight:700;
-	color:var(--basic-black);
-	margin-top:0px;
-	float:left;
-	display:relase;
-}
-.contents--header2 button{
-	margin-top:8px;
-	float:right;
-	display:none;
-}
 
 
 @media screen and (max-width: 1440px) {
+	.header_inner{width: 100%;}
 	.nav > ul li a {font-size: 14px}
 	.nav--side [class*=btn--]{font-size: 14px;}
-}
-
-@media screen and (min-width: 801px) and (max-width: 1440px){
-	.header_inner{
-		width: 100%;
-		margin: 0 auto;
-	}
 }
 
 @media screen and (max-width: 1280px) {
@@ -313,23 +232,19 @@ header .logo a {
 
 @media screen and (max-width: 1100px){
 	header .logo{
-		left: 75px;
+		left: 70px;
 	}
 	header .nav{display: none;}
-	
-	.contents--header a{
-		color: var(--red-up)
-	}
 
 	.box-mobile-menu {
         display: block;
         position: absolute;
-        z-index: 1002;
+        z-index: 50;
         text-align: center;
         width: 60px;
 		height: 60px;
-        left: 5px;
-        top: 0px;
+        left: 0px;
+        top: 0
     }
 
 	.btn.hamburger {
@@ -363,7 +278,6 @@ header .logo a {
         height: 100vh;
         padding-top: 85px;
 		padding-left: 0;
-		z-index: 1001;
     }
 
     .gnb > * {
@@ -377,106 +291,27 @@ header .logo a {
     }
 }
 
-
 @media screen and (max-width: 800px){
-	.sub .contents .contents--header2 {
-	    font-family: Inter !important;
-	    font-weight: 700 !important;
-	    margin-top: 10px;
-		height: 30px;
-	    color: #E21A32;
-	    border-bottom: 2px solid #E21A32;
-	    box-sizing: border-box;
-	    margin-bottom: 20px;
-	}
-	.contents--header2 p{
-		width: 200px;
-		height: 15px!important;
-		font-size:14px;
-		font-weight:700;
-		color:var(--basic-black);
-		float:left;
-		display:relase;
-	}
-	.contents--header2 button{
-		font-size:13px;
-		float:right;
-		display : block;
-	}
+	 /* 뒤로가기 버튼 */
 	.sub header{padding-left: 11px; height: 60px;}
 	.sub header .logo, .sub header .nav{display: none!important;}
-
-	 /* 뒤로가기 버튼 */
 	.sub header .navigation--back {
 		display: block;
 		text-indent: -9999px;
 		width: 24px;
 		height: 24px;
-		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
+		background: transparent url('../img/icon/icon-back.svg') no-repeat 50%;
 		border: 0 none;
 	}
-
-	.sub header .navi--back {
-		display: block;
-		text-indent: -9999px;
-		width: 24px;
-		height: 24px;
-		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
-		border: 0 none;
+	.sub .contents .contents--header .navigation--back {
+		margin: 0 33px 0 0;
 	}
-	
-	/* 햄버거 메뉴 */
-    .sub .contents .contents--header .navigation {
-        width: 24px;
-        height: 24px;
-        background: url('../img/menu.svg') no-repeat 0 50%;
-        border: 0 none;
-		margin-right : 0px!important;
-        float:left;
-    }
-	/* 로고 메뉴 */
-    .sub .contents .contents--header a {
-        width: 100px;
-        height: 24px;
-	font-size:16px;
-	font-weight:700;
-	padding-right:16px;
-        float:right;
-		display:relase;
-		/*background: url('../img/Teaplat-logo_color.png') no-repeat center center;
-		background-size: cover;*/
-    }
-	/* 빈공간 */
-	.sub .contents .contents--header span {
-		width: calc(100% - 139px);
-	}
-	/* 오른쪽 정렬 */
-	.sub .contents .contents--header{
-		display: flex;
-		justify-content: flex-start!important;
-	}
-	
-	.sub .contents .contents--header .navigation--back,
-	.sub .contents .contents--header .navigation,
-	.sub .contents .contents--header .navi--back {
-		line-height: 48px;
-		height: 48px;
-		margin: 0 20px 0 0;
-	}
-
-	/* .sub .contents .navigation--back{height: 48px;} */
 
 	.box-mobile-menu{display: none;}
+}
 
-	.sub .contents .contents--header h1{
-		color: #E21A32;
-	}
-	
-	aside ul li a{
-		padding-left : 25px;
-	}
-	/* 작은화면에서 로그인 CSS */
-	.mobile_side_login{
-		color: #E21A32!important;margin-left: 5px;
+@media screen and (max-width: 600px){
+	.sub header .navigation--back {
+		line-height: 48px;
 	}
 }

@@ -39,7 +39,7 @@
 }
 
 .sub.transaction .transaction--list{
-	/* table-layout: fixed; */
+	table-layout: fixed;
 	border-spacing: 0;
 	width: 100%;
 }
@@ -50,49 +50,26 @@
 	width: 100%;
 	height: 1px;
 }
-.sub.transaction .transaction--list th {
-	text-align: center; 
-}
 .sub.transaction .transaction--list th,
 .sub.transaction .transaction--list td{
     height: 46px; 
 	border: 0.35px solid #BDC4CB; 
 	background-color: #f5f5f5; 
+	text-align: center; 
 	font-size: 14px;
 	font-weight: 500;
 	white-space: nowrap;
 	box-sizing: border-box;
 }
-.sub.transaction .transaction--list td .btn--cancal {
-	width: auto;
-	padding: 0 0.3rem;
-	height: auto;
-	line-height: 1.4rem;
-	font-size: .7rem;
-	background: var(--red-up);
-	color: #fff;
-}
-
-/* dataTable 스타일 수정 */
-/* top이 고정이라서 (+) 아이콘이 줄 안맞아요. auto로 풀어 줄맞춤합니다. */
-table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, 
-table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
-	top:auto !important; 
-}
-/* 숨겨진 요소 영역을 width: 100%로 꽉채워요 */
-table.dataTable>tbody>tr.child ul.dtr-details {
-	width: 100%;
-}
-
 
 .sub.transaction .transaction--list th:first-of-type{
 	/* 첫번째 th */
-	/* border-top-left-radius: 10px; */
+	border-top-left-radius: 10px;
 }
 
 .sub.transaction .transaction--list th:last-of-type{
 	/* 마지막 th */
-	/* border-top-right-radius: 10px; */
+	border-top-right-radius: 10px;
 }
 
 .sub.transaction .transaction--list th:not(:first-child),
@@ -111,123 +88,54 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 	border-top: none;
 }
 
-.sub.transaction .transaction--list td:nth-of-type(1)
 .sub.transaction .transaction--list td:nth-of-type(2),
 .sub.transaction .transaction--list td:nth-of-type(6),
-.sub.transaction .transaction--list td:nth-of-type(7),
-.sub.transaction .transaction--list td:nth-of-type(8),
-.sub.transaction .transaction--list td:nth-of-type(9),
-.sub.transaction .transaction--list td:nth-of-type(10){
-	/* white-space: nowrap;
+.sub.transaction .transaction--list td:nth-of-type(7){
+	white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; */
-	word-break: break-all;
-    white-space: break-spaces;
+    text-overflow: ellipsis;
 }
 
-.sub.transaction .pc_period{
-	flex-wrap: wrap;
-}
-.sub.transaction .top_area{
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
-	height: 40px;
-	margin-bottom: 10px;
-}
-
-.sub.transaction .period_btnArea{
-	display: flex;
-}
-
-
-.sub.transaction .symbol-select{
-	border: 0.35px solid #DFDFDF;
-	border-radius: 3px;
-	width: 31%;
-}
-
-
-.sub.transaction .symbol-select .dropdown+.dropdown--item{
-	min-width: initial;
-}
-
-.sub.transaction .symbol-select .dropdown+.dropdown--item input[name=search]{
-	height: 40px;
-	line-height: 40px;
-	width: 100%;
-}
-
-.sub.transaction .symbol-select .dropdown::after{
-	right: 5px;
-}
-
-
-
-.sub.transaction .period_text{
-	width: 68px; 
-	text-align: center; 
-	margin:0 10px;
-	font-size: 16px;
-	font-weight: 500;
-	align-items: center;
-    justify-content: center;
-	align-self: center;
-}
-
-.sub.transaction .period_btn{
-	width: 60px;
-	height: 40px;
-	line-height: 40px;
-}
-.sub.transaction .period_btn:not(:last-child){
-	margin-right: 10px;
-}
-
-.sub.transaction .datepicker{
-	width: 68%;
-}
-
-.sub.transaction .daterange::before{
-	display: none;
-}
-
-/* .sub.transaction .datepicker .blind{
-	position: absolute; left: 0; top: 0; 
-	width: 0; height: 0; font-size: 0; line-height: 0; 
-	text-indent: -9999px; overflow: hidden; visibility: hidden;
+/* .sub.transaction .transaction--list td:last-of-type{
+	border-left: none;
+	background-color: #fdd;
 } */
-.sub.transaction .datepicker span{
-	font-size: 16px;
-	text-align: center;
-	width: 6%;
-	display: inline-block;
-	font-weight: 500;
-}
-.sub.transaction .datepicker input[type="date"]{
-	border: 0.35px solid #DFDFDF;
-    border-radius: 3px;
-	height: 40px;
-	width: 46%;
-	padding: 0 10px;
-} 
-.sub.transaction .desktop-only .btn.btn--red{
-	width: calc(32% - 10px);
-}
 
 
-/* @media screen and (min-width: 801px) and (max-width: 1024px){
-	.sub.transaction .transaction--list th{
-		font-size: 12px;
+
+/* ############################ */
+@media screen and (min-width:801px) and (max-width: 1440px){
+	.sub.transaction .daterange{
+		width: 30%;
 	}
-} */
+}
+
+@media screen and (max-width: 1200px){
+	.sub.transaction .side{display: none;}
+	.sub.transaction main{
+		padding-top: 30px;
+	}
+	.sub.transaction .content_wrap .contents {
+		max-width: initial;
+	}
+}
 
 @media screen and (max-width: 800px){
 	.sub.transaction > header{display: none;}
 
-	.sub.transaction .contents .contents--header{
+	.sub.transaction main{
+		display: flex;
 		justify-content: flex-start;
+		padding:0 30px;
+	}
+
+	.sub.transaction main header.contents--header{
+		display: flex; 
+		border-bottom: none; 
+		margin-bottom: 0;
+		line-height: 60px; 
+		padding-left: 0;
+		justify-content: space-between;
 		align-items: center;
 	}
 
@@ -243,11 +151,34 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 	.sub.transaction .contents--header > div .icon-setting{
 		background: url('../img/icon/icon-setting.svg') no-repeat 50%;
 	}
-
-	.sub.transaction .contents .contents--header h1{
-		color: var(--red-up);
+	.sub.transaction main header.contents--header{
+		line-height: 60px; 
+		padding-left: 0;
+		margin-bottom: 0;
+		border-bottom: none;
+		display: flex;
 	}
 
+	.sub.transaction main header.contents--header h1{
+		color: #333;
+		padding-left: 31px;
+	}
+
+	.sub.transaction .navigation{
+		display: block;
+		width: 24px;
+		height: 24px;
+		background: url(../img/menu.svg) no-repeat 50%;
+		border: 0 none;
+		float: left;
+		
+	}
+
+	.sub.transaction .contents h1.size--20.mobile-only{
+		margin:24px 0 31px;
+		height: 20px;
+		line-height: 20px;
+	}
 	.sub.transaction .contents .icon-transaction{
 		background: url('../img/icon/icon-transaction-red.svg') no-repeat 50%;
 		background-size: contain;
@@ -261,18 +192,6 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 	.sub.transaction .desktop-only{display: none!important;}
 	.sub.transaction .mobile-only{display: block!important;}
 
-	.sub.transaction .period > div:nth-of-type(1) .dropdown-wrapper:nth-child(1){
-		/* width: 140px; */
-		width: calc(30% - 4px);
-		padding-left: 0px;
-	}
-
-	.sub.transaction .period > div:nth-of-type(1) .dropdown-wrapper:nth-child(1) .dropdown+.dropdown--item input[name=search]{
-		height: 40px;
-		line-height: 40px;
-		width: 100%;
-	}
-
 	.sub.transaction .period{
 		padding-bottom:28px;
 		border-bottom: 8px solid #f5f5f5;
@@ -283,7 +202,7 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 
 	.sub.transaction .period .dropdown{
 		padding: 0;
-		/* padding-left: 10px; */
+		padding-left: 10px;
 		justify-content: space-between;
 	}
 	.sub.transaction .period .dropdown:after,
@@ -295,54 +214,27 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 		transform: none;
 		background: transparent url(../img/btn-rolldown.svg) no-repeat 50% 50%;
 		background-size: contain;
-		mask-image: none;
 		-webkit-mask-image: none;
+		/* background-repeat: no-repeat; */
+		/* -webkit-mask-image: url(../img/btn-rolldown.svg); */
 	}
 	
-	.sub.transaction .period .mdatepicker{
+	.sub.transaction .period .daterange{
 		height: 44px;
 		width: 64%;
 	}
-	.sub.transaction .period .mdatepicker span{
-		font-size: 16px;
-		text-align: center;
-		width: 5%;
-		display: inline-block;
-		font-weight: 500;
-	}
-
-	.sub.transaction .period .mdatepicker input[type="date"]{
-		border: 0.35px solid #DFDFDF;
-		border-radius: 3px;
-		height: 44px;
-		width: 46%;
-		padding: 0 10px;
-	} 
 
 	.sub.transaction .period .btn{
 		width: 34%;
 		border-radius: 5px;
 	}
-	
-	@media screen and (max-width: 500px){
-		.sub.transaction .range_btn{
-			flex-direction: column;
-		}
-		.sub.transaction .period .mdatepicker{
-			width: 100%;
-		}
-		.sub.transaction .period .btn{
-			margin-top: 10px;
-			width: 100%;
-			border-radius: 5px;
-		}
-		.sub.transaction .period > div:nth-of-type(1) .dropdown-wrapper:nth-child(1){
-			width: calc(47% - 5px);
-		}
-	}
 
-	/* ########################################################################### */
+	/* ################################## */
 	/* tab head */
+	/* .sub.transaction .board--body .tab_bar{
+		position: relative;
+	} */
+
 	.sub.transaction .board--body .tab_bar .background{
 		display: none;
 		position: fixed;
@@ -445,6 +337,11 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 		padding-top: 0;
 	}
 
+	/* .sub.transaction .board--body .dropdown--item li{
+		height: 16px;
+		line-height: 16px;
+	} */
+
 	.sub.transaction .board--body .dropdown--item li:not(:last-child){
 		margin-bottom:20px;
 	}
@@ -457,173 +354,62 @@ table.dataTable>tbody>tr.child ul.dtr-details {
 		font-weight: 400;
 	}
 
-	
-	/* ############################################################################# */
-	.m-transaction--list{
+
+
+
+
+
+
+
+
+	/* ################################## */
+
+
+
+
+	.sub.transaction .transaction--list{
 		width: 100%;
 	}
 
-	.m-transaction--list .date{
-		font-size: 14px;
-		font-weight: 400;
-		color: #8B95A1;
-		margin-bottom: 30px;
-	}
-	
-	.m-transaction--list.accordion .accordion--item .accordion--header{
-		height: 102px;
-		padding-left: 0;
-	}
-	.m-transaction--list.accordion .accordion--item:not(.accordion--open) .accordion--header{
-		border-radius: none;
-	}
-	
-	.m-transaction--list.accordion .accordion--item:not(:last-child) {
-		margin-bottom: 0;
-	}
-	.m-transaction--list.accordion .accordion--item {
-		border: none;
-		border-radius: initial;
-		/* 전부변경 */
-	}
-	.m-transaction--list.accordion .accordion--item.accordion--open .accordion--header {
-		border-bottom: none;
-		border-radius: initial;
-		/* 전부변경 */
-	}
-
-	.m-transaction--list.accordion .accordion--item .accordion--header {
-		height: 102px;
-		background: var(--white);
-	}
-	.m-transaction--list.accordion .accordion--item .accordion--header::after {
-		right: 0px;
-	}
-	.m-transaction--list.accordion .accordion--item .accordion--header a {
-		width: 80%;
-		padding: 0 48px 0 0;
-		justify-content: space-between;
-	}
-
-	.m-transaction--list.accordion .accordion--item .accordion--header .product{
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.m-transaction--list.accordion .accordion--item .accordion--header .items{
-		height: 45px;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		font-size: 16px;
-		font-weight: 500;
-		color: #333;
-	}
-
-	.m-transaction--list.accordion .accordion--item .accordion--header .item{
-		color:#8B95A1;
-		font-size: 12px;
-		font-weight: 400;
-	}
-
-	.m-transaction--list.accordion .accordion--item .accordion--contents {
-		height: 0;
-		padding: 0 16px 0 52px;
-		background: #F9FAFB;
-		border-radius: initial;
-		-webkit-transition: all .12s cubic-bezier(0, 0, 1, 1);
-		transition: all .12s cubic-bezier(0, 0, 1, 1);
+	/* .sub.transaction .transaction--list tbody{
 		box-sizing: border-box;
-		overflow: hidden;
-		position: relative;
-	}
-	.m-transaction--list .accordion--item .accordion--contents ul li{
-		list-style-type: none;
+	} */
+
+	.sub.transaction .transaction--list tr{
+		display: block;
+		padding: 9px 0 11px;
+		border-bottom: 1px solid #f5f5f5;
 	}
 
-	.m-transaction--list .accordion--item.accordion--open .accordion--contents {
-		padding: 24px 12px 31px;
-		height: auto;
-		line-height: 14px;
-	}
-	
-	.m-transaction--list .accordion--item.accordion--open .accordion--contents ul li{
-		list-style-type: none;
-		font-size: 14px;
-		font-weight: 400;
-		line-height: 14px;
+	.sub.transaction .transaction--list tbody td{
+		display: block;
+		width: 100%;
+		padding: 1px 0;
+		border:0 none;
+		text-align: left;
+		line-height: 1.6;
 	}
 
-	.m-transaction--list .accordion--item.accordion--open .accordion--contents ul li:not(:last-child){
-		margin-bottom: 20px;
-	}
 
-	.m-transaction--list .accordion--item.accordion--open .accordion--header {
-		background: var(--white);
-	}
-	.m-transaction--list .accordion--item.accordion--open .accordion--contents ul li span{
-		display: inline;
-		float: right;
-	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
-@media screen and (max-width: 450px){
-	.m-transaction--list.accordion .accordion--item .accordion--header .items{
-		height: 65px;
-	}
-	
-	.m-transaction--list.accordion .accordion--item .accordion--header .item{
-		display: flex;
-		flex-direction: column;
-	}
-
-	.m-transaction--list.accordion .accordion--item .accordion--header a .price{
-		font-size: 16px;
-	}
-}
-
-@media screen and (max-width: 380px){
-	.m-transaction--list.accordion .accordion--item .accordion--header{
-		height: 90px;
-	}
-	
-	.sub.transaction .range_btn {
-		flex-direction: column;
-	}
-
-	.sub.transaction .period .daterange{
-		margin-bottom: 10px;
-		margin-right: 0!important;
-		width: 100%;
-	}
-	.m-transaction--list.accordion .accordion--item .accordion--header a{
-		flex-direction: column;
-		align-items: flex-start;
-		justify-content: center;
-	}
-	.m-transaction--list.accordion .accordion--item .accordion--header a .price{
-		font-size: 14px;
-		align-self: flex-end;
-	}
-	.m-transaction--list.accordion .accordion--item .accordion--header .items .name{
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		width: 100px;
-	}
-
-	.sub.transaction .period .btn{
-		width: 100%;
-	}
-
-	.m-transaction--list.accordion .accordion--item .accordion--header .items{
-		height: 65px;
-		justify-content: initial;
-	}
-	
-	.m-transaction--list.accordion .accordion--item .accordion--header .item{
-		display: flex;
-		flex-direction: column;
-	}
+@media screen and (max-width: 600px){
+	.sub.transaction main header.contents--header{line-height: 48px;}
+	.sub.transaction .navigation--back{height: 48px;}
 }

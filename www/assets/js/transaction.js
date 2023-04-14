@@ -37,17 +37,17 @@ $(function() {
 
                 const tradedDate  = item.time ? String(timeTraded.getFullYear()).substr(2, 2) + '-' + String(timeTraded.getMonth() + 1).padStart(2, '0') + '-' + String(timeTraded.getDate()).padStart(2, '0') : ''
 
-                tr.append(`<td class="" style="font-size: 12px"><i class="ico-${category}"></i> ${category}</td>`)
+                tr.append(`<td class="text--left" style="font-size: 12px"><i class="ico-${category}"></i> ${category}</td>`)
                 // 제품이미지
                 tr.append(`<td class="text--left" style="font-size: 12px"><span class="product--image">
                         <img src="./assets/img/청소타차_누끼이미지1.png" alt="">
                     </span>
                     원영호 원창호</td>`)
                 // 가격?
-                tr.append(`<td class="" style="font-size: 12px">${item.volume * item.amount}</td>`)
+                tr.append(`<td class="text--right" style="font-size: 12px">$${item.volume * item.amount}</td>`)
                 // 수량
-                tr.append(`<td class="" style="font-size: 12px">${item.volume}</td>`)
-                tr.append(`<td class="" style="font-size: 12px">${item.amount}</td>`)
+                tr.append(`<td class="text--right" style="font-size: 12px">${item.volume}</td>`)
+                tr.append(`<td class="text--right" style="font-size: 12px">${item.amount}</td>`)
                 tr.append(`<td class="" style="font-size: 10px">${item.from_name}</td>`)
                 tr.append(`<td class="" style="font-size: 10px">${item.to_name}</td>`)
                 tr.append(`<td class="" style="font-size: 12px">${tradedDate}</td>`)

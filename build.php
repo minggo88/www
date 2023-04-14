@@ -32,8 +32,7 @@ if(stripos(PHP_OS, 'linux')!==false) {
 	$target_dir = str_replace('/','\\',$target_dir);
 	exec('ROBOCOPY /MIR "'.$source_dir.'" "'.$target_dir.'" /XD DIRS "'.$source_dir.'\assets\img\resource"'); 
 } else {
-    exec("rsync -a --delete --exclude=www/assets/img/resource --exclude=.git --exclude=.gitignore --exclude=.vscode --exclude=.idea --exclude=README.md --exclude=.DS_Store '{$source_dir}/' '{$target_dir}'");
-//	exit('지원하지 않는 OS입니다.');
+	exit('지원하지 않는 OS입니다.');
 }
 
 unlink($target_dir.'/i18n/build_pot.sh');

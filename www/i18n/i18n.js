@@ -7,8 +7,7 @@
         }
         return false;
     }
-    // const support_lang = ['en', 'zh', 'ko'],
-    const support_lang = ['ko'], // 우선 한국어만 지원
+    const support_lang = ['en', 'zh', 'ko'],
         default_lang = 'ko';
     var lang_data = window.localStorage['lang_data_'+lang] ? JSON.parse(Decrypt(window.localStorage['lang_data_'+lang], i18n_key, 256)) : {},
         lang = navigator.language || navigator.userLanguage,
@@ -68,7 +67,7 @@
 
     const get_lang_data = function(callback) {
         let cache_time = Math.ceil(((new Date().getTime()) / 1000) / (60 * 60 * 1));
-        let data_file = './i18n/' + lang + '/LC_MESSAGES/WWW.json?v=' + cache_time;
+        let data_file = '/i18n/' + lang + '/LC_MESSAGES/WWW.json?v=' + cache_time;
         httpRequest = new XMLHttpRequest();
         if (httpRequest) {
             httpRequest.onreadystatechange = function() {
