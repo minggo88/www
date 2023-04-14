@@ -6,11 +6,11 @@ const API = {
         if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
             API_URL = "http://api.loc.kkikda.com/v1.0"
         }
-        if (window.location.host.indexOf('dev.') !== -1) {
+        if (window.location.host.indexOf('devapi.') !== -1) {
             API_URL = "https://devapi.kkikda.com/v1.0"
         }
         if (window.location.host.indexOf('127.0.0.1') !== -1) {
-            API_URL = "https://api.dev.kkikda.com/v1.0"
+            API_URL = "https://devapi.kkikda.com/v1.0"
         }
         return API_URL; // 'https://api.dev.kkikda.com/v1.0'
     }(),
