@@ -352,19 +352,19 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	}
 	if (window.location.host.indexOf('dev.') !== -1) {
 		APP_RUNMODE = "dev";
-		API_URL = "//api.dev.kkikda.com/v1.0"
+		API_URL = "//devapi.assettea.com/v1.0"
 		// SERVICE_DOMAIN = window.location.host.replace('www.','');
 		// API_WALLET_URL = 'http://dev.wallet.smart-talk.io/api/v1.0';
 	}
 	if (window.location.host.indexOf('stage.') !== -1) {
 		APP_RUNMODE = "stage";
-		API_URL = "//api.dev.kkikda.com/v1.0"
+		API_URL = "//devapi.assettea.com/v1.0"
 		// SERVICE_DOMAIN = window.location.host.replace('www.','');
 		// API_WALLET_URL = 'http://stage.wallet.smart-talk.io/api/v1.0';
 	}
 	if (window.location.host.indexOf('127.0.0.1') !== -1) {
 		APP_RUNMODE = "loc";
-		API_URL = "//api.dev.kkikda.com/v1.0";
+		API_URL = "//devapi.assettea.com/v1.0";
 		// SERVICE_DOMAIN = window.location.host.replace('www.','');
 		// API_WALLET_URL = 'http://loc.wallet.smart-talk.io/api/v1.0';
 	}
