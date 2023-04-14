@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <!-- TITLE -->
-<title>끽다거</title>
+<title>ASSETTEA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
@@ -17,13 +17,13 @@
 <link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
 <link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
 <!-- CSS -->
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1663240012">
-<link rel="stylesheet" href="./assets/css/header.css?t=1663661193">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663661193">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663671111">
-<link rel="stylesheet" href="./assets/css/mypage.css?t=1663202358">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
+<link rel="stylesheet" href="./assets/css/common.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/header.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/mypage.css?t=1667796157">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <style>
     .product--image {
@@ -44,77 +44,58 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/api.js?t=1663584012"></script>
-<script src="./assets/js/components.js?t=1663671111"></script>
-
-<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
-<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1663208420"></script>
+<script src="https://unpkg.com/libphonenumber-js@1.10.11/bundle/libphonenumber-min.js"></script>
+<script src="./assets/js/jquery.autotab.js?t=1667796157"></script>
+<script src="./assets/js/api.js?t=1671775853"></script>
+<script src="./assets/js/components.js?t=1672721419"></script>
+<script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+<script src="./i18n/i18n.js?t=1667796157"></script>
 
 </head>
 <!-- BODY -->
 <body class="sub notice changePin">
-    <header>
-        <div class="header_inner">
-			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
+	<header>
+		<div class="header_inner">
+			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
+					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 					<li>
-						<a href="" data-i18n>공동구매</a>
+						<a href="wallet.html" data-login data-i18n>입출금</a>
 					</li>
-					<li>
-						<a href="" data-i18n>경매</a>
-					</li>
-					<li>
-						<a href="" data-i18n>입출금</a>
-					</li>
-					<li>
-						<a href="" data-i18n>다도 문화</a>
-					</li>
+					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 					<li>
 						<a href="notice.html" data-i18n>고객센터</a>
 					</li>
 				</ul>
 			</nav>
 			<div class="nav--side">
-				<div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-					<div class="dropdown--item" style="width: 134px">
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
 						<ul>
-							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
-							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
-							<li><a href="notification.html" data-i18n>알림</a></li>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<!--<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>-->
+							<li><a href="change-pin-number.html" data-login data-i18n>보안 비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
 						</ul>
 					</div>
 				</div>
-				<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
-					<button type="button" class="dropdown" data-i18n>지갑관리</button>
-					<div class="dropdown--item" style="width: 100px">
-						<ul>
-							<li><a href="wallet.html" data-i18n>보유 자산</a></li>
-							<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
-							<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
-							<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
-						</ul>
-					</div>
-				</div>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-				<div name="box_unlogedin">
-					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
-				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
 						<span>한국어</span>
-						<ul>
-						</ul>
+						<ul></ul>
 					</div>
 				</div>
 			</div>
@@ -125,24 +106,77 @@
 				<li>
 					<a href="exchange.html" data-i18n>거래소</a>
 				</li>
+				<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+				<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 				<li>
-					<a href="" data-i18n>공동구매</a>
+					<a href="wallet.html" data-login data-i18n>입출금</a>
 				</li>
-				<li>
-					<a href="" data-i18n>경매</a>
-				</li>
-				<li>
-					<a href="" data-i18n>입출금</a>
-				</li>
-				<li>
-					<a href="" data-i18n>다도 문화</a>
-				</li>
+				<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 				<li>
 					<a href="notice.html" data-i18n>고객센터</a>
 				</li>
 			</ul>
 		</div>
-    </header>
+	</header>
+	<aside class="mobile-panel">
+		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
+		<h1 class="size--20" data-i18n>마이페이지</h1>
+		<ul>
+			<li>
+				<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
+			</li>
+			<!--<li>
+				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
+			</li>-->
+			<li>
+				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안 비밀번호 변경</span></a>
+			</li>
+			<li>
+				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
+			</li>
+			<li>
+				<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>입출금</h1>
+		<ul>
+			<li>
+				<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
+			</li>
+			<li>
+				<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+			</li>
+			<li>
+				<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+			</li>
+			<li>
+				<a href="wallet-analysis.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
+		<ul>
+			<li>
+				<a href="notice.html"><i class="icon-alarm"></i> <span data-i18n>공지사항</span></a>
+			</li>
+			<li>
+				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n>자주하는 질문</span></a>
+			</li>
+			<li>
+				<a href="inquiry.html" data-login><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
+			</li>
+		</ul>
+		<div class="nav--side mobile">
+			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+			<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+			<div class="language dropdown-wrapper">
+				<button type="button" class="dropdown">한국어</button>
+				<div class="dropdown--item" style="width: 81px">
+					<span>한국어</span>
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</aside>
     <div class="content_wrap">
 		<main class="d-flex d-justify">
 			<aside class="side">
@@ -150,22 +184,22 @@
 				<nav class="side--snb">
 					<ul>
 						<li>
-							<a href="member-account.html" data-i18n>정보 수정</a>
+							<a href="member-account.html" data-login data-i18n>계정 정보</a>
 						</li>
-						<li>
-							<a href="my-verification.html" data-i18n>ID 인증 관리</a>
-						</li>
+						<!--<li>
+							<a href="my-verification.html" data-login data-i18n>인증 관리</a>
+						</li>-->
 						<li class="snb--active">
-							<a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+							<a href="change-pin-number.html" data-login data-i18n>보안 비밀번호 변경</a>
 						</li>
 						<li>
-							<a href="change-account-number.html" data-i18n>출금계좌 변경</a>
+							<a href="change-account-number.html" data-login data-i18n>출금계좌 관리</a>
 						</li>
+<!--						<li>-->
+<!--							<a href="transaction.html" data-login data-i18n>거래 내역</a>-->
+<!--						</li>-->
 						<li>
-							<a href="transaction.html" data-i18n>거래 내역</a>
-						</li>
-						<li>
-							<a href="notification.html" data-i18n>알림</a>
+							<a href="notification.html" data-login data-i18n>알림</a>
 						</li>
 						<!-- <li>
 							<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
@@ -175,48 +209,92 @@
 			</aside>
 			<div class="contents">
 				<header class="contents--header">
-					<button type="button" class="navigation--back"></button>
-					<h1 data-i18n>Change Pin Number</h1>
+					<a href="index.html" style="height: 48px;">ASSETTEA</a>
+					<span class=""></span>
+					<button type="button" class="navigation"></button>
 				</header>
-				<h2 class="mobile-only"><i class="icon-user-fill icon-shield"></i> <span data-i18n>거래용 보안비밀번호 변경</span></h2>
+				<!-- 모바일 side 타이틀 변경 -->
+				<div class="contents--header2">
+					<p style="height: 48px;">보안 비밀번호 변경</p>
+				</div>
+				<!--<h2 class="mobile-only"><i class="icon-user-fill icon-shield"></i> <span data-i18n>거래용 보안 비밀번호 변경</span></h2>-->
+
 				<form id="change-security-password" action="change-security-password2.html" method="post" style="width: 100%; height: auto" >
-					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
+					<div class="boxed boxed--transparent text--center">
 						<div class="text--center">
-							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
-							<h2 class="m-0 text--medium text-bold" data-i18n>현재 사용 중인 보안비밀번호(Pin Number)를 입력하세요.</h2>
+							<h2 class="m-0 text--medium text-bold" data-i18n>현재 사용 중인 보안 비밀번호(Pin Number)를 입력하세요.</h2>
 						</div>
 						<div style="margin-top: 52px;">
 							<div class="d-flex flex-center">
 								<div class="d-grid  grid--code">
-									<input type="number" name="" min="0" max="9" maxlength="1" autofocus>
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus>
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
 								</div>
 							</div>
+						</div>
+						<div class="forget_pin text--blue-gray" data-i18n>
+							현재 사용 중인 보안 비밀번호(Pin Number)를 잊으셨나요?
+							<p>
+								<a href="#forget-security-password" name="forget-security-password" data-login>현재 보안 비밀번호 재설정 &gt;</a>
+							</p>
 						</div>
 					</div>
 					<div class="text--center btnArea">
 						<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>수정하기</button>
 					</div>
 				</form>
+
+				<form id="forget-security-password" action="change-security-password.html" method="post" style="width: 100%; height: auto; display: none" >
+					<div class="boxed boxed--transparent text--center">
+						<div class="text--center">
+							<h2 class="m-0 text--medium text-bold" data-i18n>현재 보안 비밀번호(Pin Number) 재설정하기</h2>
+						</div>
+						<div class="form--pin-reset">
+							<div class="d-flex">
+								<label for="phone" class="form--label" data-i18n="">휴대폰번호</label>
+								<div class="d-flex input-phone-number">
+									<input type="text" name="phoneCountry" id="phoneCountry" class="b-dfdfdf" style="width: 70px" readonly>
+									<input type="tel" name="phone" id="phone" class="b-dfdfdf" readonly>
+									<button type="button" class="btn btn--block btn--red" name="btn-send-sms" data-i18n="">인증번호 발송</button>
+								</div>
+							</div>
+							<div class="d-flex">
+								<label for="certify_number" class="form--label" data-i18n="">인증번호</label>
+								<div class="d-flex input_certify_number">
+									<input type="tel" name="certify_number" id="certify_number" class="b-dfdfdf">
+									<button type="button" class="btn btn--block btn--red" data-i18n="" name="btn-sms-check">인증하기</button>
+								</div>
+							</div>
+							<div>
+								<span class="text-bold" data-i18n="">문자가 오지 않으셨나요?</span>
+								<a href="#" onclick="" class="d-block text-red text-bold" data-i18n="" name="btn-resend-sms">인증문자 재발송</a>
+							</div>
+						</div>
+					</div>
+					<div class="text--center btnArea">
+						<button type="button" class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n name="btn-send-email">email 발송</button>
+					</div>
+				</form>
+
 				<form id="change-security-password2" action="change-security-password-confirm.html" method="post" style="width: 100%; height: auto; display: none" >
 					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center">
-							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
-							<h2 class="m-0 text--medium text-bold " data-i18n>새로 사용할 보안비밀번호(Pin Number)를 입력하세요.</h2>
+							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안 비밀번호 변경</h2>
+							<h2 class="m-0 text--medium text-bold " data-i18n>새로 사용할 보안 비밀번호(Pin Number)를 입력하세요.</h2>
 						</div>
 						<div style="margin-top: 52px;">
 							<div class="d-flex flex-center">
 								<div class="d-grid  grid--code">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus>
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
 								</div>
 							</div>
 						</div>
@@ -228,18 +306,18 @@
 				<form id="change-security-password-confirm" action="change-security-password-complete.html" method="post" style="width: 100%; height: auto; display: none" >
 					<div class="boxed boxed--transparent text--center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center">
-							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
-							<h2 class="m-0 text--medium text-bold " data-i18n>보안비밀번호(Pin Number)를 한번 더 입력하세요.</h2>
+							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안 비밀번호 변경</h2>
+							<h2 class="m-0 text--medium text-bold " data-i18n>보안 비밀번호(Pin Number)를 한번 더 입력하세요.</h2>
 						</div>
 						<div style="margin-top: 52px;">
 							<div class="d-flex flex-center">
 								<div class="d-grid grid--code">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
-									<input type="number" name="" min="0" max="9" maxlength="1">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus>
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+									<input type="number" name="pin" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
 								</div>
 							</div>
 						</div>
@@ -252,57 +330,35 @@
 					<div class="boxed boxed--transparent d-flex flex-center" style="height: 333px; padding: 36px 0 56px">
 						<div class="text--center flex-self-center">
 							<i class="icon-user-fill icon-shield"></i>
-							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안비밀번호 변경</h2>
-							<h2 class="m-0 text--medium text-bold " data-i18n>보안비밀번호(Pin Number)가 변경되었습니다.</h2>
+							<h2 class="m-0 mb-24 text--bbold size--18" data-i18n>거래용 보안 비밀번호 변경</h2>
+							<h2 class="m-0 text--medium text-bold " data-i18n>보안 비밀번호(Pin Number)가 변경되었습니다.</h2>
 						</div>
 					</div>
 				</div>
 			</div>
 		</main>
 	</div>
-	<!--  <footer>
-        <div class="logo">Teaplat</div>
-        <nav class="fnb">
-			<ul>
-				<li>
-					<a href="" data-i18n>회사소개</a>
-				</li>
-				<li>
-					<a href="" data-i18n>이용약관</a>
-				</li>
-				<li>
-					<a href="" data-i18n>개인정보보호정책</a>
-				</li>
-				<li>
-					<a href="faq.html" data-i18n>자주묻는질문</a>
-				</li>
-			</ul>
-			<div class="copyright">
-                <span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
-                <br>
-                <span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span>
-                <br><br>
-                Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. 
-			</div>
-		</nav>
-		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
-		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
-		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
-    </footer> -->
+	<!--<nav class="mobile-bottom mobile-only">
+		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+			<li class="exchange">
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<li class="area" >
+				<a href="" data-i18n>티드로우</a>
+			</li>
+			<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> 
+			<li class="transaction" style="flex: 1 1 auto">
+				<a href="transaction.html" data-login data-i18n>거래내역</a>
+			</li>
+			<li class="more">
+				<a href="" data-i18n>더보기</a>
+			</li>
+		</ul>
+	</nav>-->
 	
 
-    <script src="./assets/js/change-pin-number.js?t=1662530274"></script>
-    <script src="./assets/js/app.js?t=1663583665"></script>
+    <script src="./assets/js/change-pin-number.js?t=1672721419"></script>
+    <script src="./assets/js/app.js?t=1672042800"></script>
 
 </body>
 </html>

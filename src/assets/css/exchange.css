@@ -1,18 +1,119 @@
+.exchange main{
+	display: grid;
+	padding: 0;
+	grid-template-columns: 2fr 3fr;
+	column-gap: 1%;
+}
+
+.exchange .tab-wrapper{
+	width: 100%;
+}
+
+.exchange .tab--content{
+	clear:both;
+	width: 100%;
+}
+
+#jqGrid thead th{
+	white-space: nowrap;
+}
+
+
+#jqGrid tbody{
+	height: auto;
+	box-sizing: border-box;
+}
+
+
+#jqGrid tbody tr td{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	cursor: default;
+}
+
+#sellGrid tbody tr td,
+#buyGrid tbody tr td,
+#tab-info tbody tr th,
+#tab-info tbody tr td{
+	cursor: default;
+}
+
+#jqGrid tbody tr td > ul{
+	width: 100%;
+}
+
+#jqGrid tbody tr td > ul >li:first-child{
+	padding-top: 0.5em;
+}
+
+.exchange table.dataTable.no-footer{
+	width: 100%!important;
+}
+.exchange .table.dataTable.no-footer tbody{
+	position: relative; 
+	overflow: auto; 
+	width: 100%;
+	background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);
+}
+
+/* 태이블 데이터 없을때 배경색 사선 그려지는것 제거 */
+div.dts div.dataTables_scrollBody {
+    background: transparent !important;
+}
+
+.side--panel {
+	width: 100%;
+    overflow:auto;
+	/* min-width: 330px; */
+}
+
+.details {
+	width: 100%;
+    overflow:hidden;/* 차트등 내부 영역이 넘어가면 모바일에서 좌우 스크롤이 생기는 현상 방지위해 hidden사용 */
+	min-width: 320px;
+}
+
+.details--header {
+    font-weight: 700;
+    font-size: 14px;
+    height: 46px;
+    line-height: 46px;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid var(--linegray);
+    box-sizing: border-box;
+}
+
+.details--header small {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    color: var(--blue-gray);
+}
 
 .details--body {
     display: flex;
-    padding: 12px 0 21px 10px;
+    /* padding: 12px 0 21px 10px; */
+	padding: 12px 0 12px 10px;
     justify-content: space-between;
     border-bottom: 0.5px solid var(--linegray);
-    height: 65px;
+    height: 75px;
     box-sizing: border-box;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
+}
+.details--body > div > *{
+	white-space: nowrap;
+}
+
+.details--body > div.d-flex{
+	align-items: center;
+	flex-direction: row;
 }
 
 .details--body .details--price {
     font-weight: 700;
     font-size: 26px;
-    color: var(--red-up);
+    /* color: var(--red-up); */
 }
 
 .details--price {
@@ -23,8 +124,14 @@
     font-size: 16px
 }
 
+#legend_s_grade, #legend_a_grade, #legend_b_grade{line-height: 2rem;}
+#legend_s_grade:before{background: #ea4274;content: "";width: 10px;height: 3px;display: inline-block;margin: 3px 0.5rem;}
+#legend_a_grade:before{background: #58be82;content: "";width: 10px;height: 3px;display: inline-block;margin: 3px 0.5rem;}
+#legend_b_grade:before{background: #4c4c4c;content: "";width: 10px;height: 3px;display: inline-block;margin: 3px 0.5rem;}
+
+
 .details .tabs {
-    width: 546px;
+	width: 100%;
     margin: 0 auto;
 }
 .details .tabs li {
@@ -32,7 +139,14 @@
     color: var(--basic-black);
     border-bottom: 0 none !important;
 }
-.details .tabs li.tab--sell.tab--active {
+
+.details .tabs li.tab--active {
+    border-bottom: 4px solid var(--red-up) !important
+}
+
+.details .d-grid.grid-2-column{width: 50%;}
+
+/* .details .tabs li.tab--sell.tab--active {
     border-bottom: 4px solid var(--red-up) !important
 }
 .details .tabs li.tab--buy.tab--active {
@@ -40,25 +154,40 @@
 }
 .details .tabs li.tab--info.tab--active {
     border-bottom: 4px solid var(--basic-black) !important
-}
+} */
 
 #tab-info {
     padding-top: 10px;
-    display: flex;
     column-gap: 11px;
+	display: flex;
+	flex-direction: column;
 }
 
-#tab-info img {
+#tab-info .info{
+	display: flex;
+}
+
+#tab-info .info > div{
+	flex: 1;
+}
+#tab-info .info > div.thumb{
+	width: 278px;
+	margin-right:20px;
+}
+
+#tab-info .info p {
     width: 278px;
-    height: 267px;
+    /* height: 267px; */
+	margin-right:20px
 }
 
 #tab-info .table {
     margin-top: 21px;
 }
 #tab-info .table th {
-    width: calc(100% * (53 / 536));
-    text-align: left;
+    /* width: calc(100% * (53 / 536)); */
+    width: 60px;
+	text-align: left;
     padding-right: 17px;
 }
 
@@ -70,44 +199,100 @@
 
 #tab-info .btns {
     margin-top: 24px;
+	justify-content: center;
+}
+
+@media screen and (max-width: 352px) {
+	#tab-info{
+		padding-bottom: 95px;
+	}
+	#tab-info .info{
+		flex-direction: column;
+	}
+	#tab-info .info > div.thumb{
+		margin-right: 0px;
+		width: 150px;
+		align-self: center;
+	}
+	#tab-info .btns{
+		margin-bottom: 10px;
+	}
+
+}
+
+
+#jqGrid tbody tr td .btn.btn--star--on{
+	margin-bottom: 2px;
+}
+#jqGrid tbody tr td .btn.btn--star{
+	margin-bottom: 2px;
+}
+
+.exchange .btn.btn--star{
+	margin-right: 5px;
+} 
+
+/* #tab-info .info > div{
+	flex-grow: 1;
+} */
+.tab-container{
+	height: 509px;
 }
 
 /* 구매하기 */
-#modal-buy .modal--content {
-    margin-top: 36px;
-    padding-left: 39px;
-    padding-right: 21px;
+#modal-buy .modal--content ,
+#modal-buy-direct .modal--content 
+{
+    margin-top: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     position: relative; background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
 }
-#modal-buy .tea--name {
-    padding-left: 4px;
+#modal-buy .tea--name ,
+#modal-buy-direct .tea--name {
+    padding-left: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.02em;
 }
 
 /* 판매하기 */
-#modal-sell .modal--content{
-    margin-top: 36px;
-    padding-left: 39px;
-    padding-right: 21px;
+#modal-sell .modal--content,
+#modal-sell-direct .modal--content{
+    margin-top: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     position: relative;
     background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;
 }
+#modal-sell .tea--name,
+#modal-sell-direct .tea--name {
+    padding-left: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
 
 #modal-buy .btn--star--on,
-#modal-sell .btn--star--on {
+#modal-buy-direct .btn--star--on,
+#modal-sell .btn--star--on ,
+#modal-sell-direct .btn--star--on 
+{
     position: absolute;
     left: 19px;
     top: 5px;
 }
 
 #modal-buy dd,
-#modal-sell dd {
+#modal-buy-direct dd,
+#modal-sell dd, 
+#modal-sell-direct dd 
+{
     width: 220px;
 }
 
-#modal-buy-success .modal--content {
-    padding: 73px 20px 0;
+#modal-buy-success .modal--content,
+#modal-sell-success .modal--content{
+    height: auto;
+	padding: 3rem 2rem 0;
     background: url('../img/logo.svg') no-repeat calc(100% - 20px) 17px;
 }
 
@@ -115,17 +300,57 @@
     margin-bottom: 40px;
 }
 
+.input_select{
+    width: 100%;
+    box-sizing: border-box;
+    height: 35px;
+}
+
+.input_select select{
+	border: 0.5px solid var(--linegray);
+	width: 100%;
+	height: 100%;
+	padding: 0 10px;
+	font-weight: 500;
+    font-size: 18px;
+}
+
+@media screen  and (max-width: 1300px){
+	.details--body{padding: 7px 0 7px 0}
+	.details--body .details--price {
+		font-size: 20px;
+	}
+	
+	.details--body{
+		padding-left: 0;
+		flex-direction: column;
+		height: 125px;
+	}
+
+	/* .details .row.d-flex.under{border-bottom: 0.5px solid var(--linegray)} */
+}
 
 @media screen and (max-width: 800px) {
 	.sub.exchange > .container >  header{display: none;}
+	.sub.exchange .contents--header{
+		display: flex;
+		justify-content: flex-start;
+	}
+	.sub.exchange .contents--header > div{width: 50%;}
+	.sub.exchange .contents--header > div.mobile-only{
+		display: flex!important;
+		justify-content: flex-end
+	}
+	.sub.exchange .contents--header > div.mobile-only > i:first-child{
+		margin-right: 10px;
+	}
 
 	.sub.exchange .desktop-only{display: none!important;}
 	.sub.exchange .mobile-only{display: block!important;}
 
 	.sub.exchange main{
-		padding:0 10px;
-		/* display: flex;
-		flex-direction: column; */
+		padding:0 16px!important;
+		grid-template-columns: 1fr;
 	}
 	.sub.exchange .contents{
 		height: initial;
@@ -134,21 +359,24 @@
 		margin-bottom: 0;
 		line-height: 48px;
 	}
-	.sub.exchange .contents--header .navigation{
-		height: 48px;
-		margin-right: 5px;
+
+	.sub.exchange .mobile-only.navigation--back{
+		display: inline-block!important;
+		margin-right: 15px;
 	}
 
+	.sub.exchange .contents--header .navigation{
+		height: 48px;
+		margin-right: 15px;
+	}
+	.exchange .details{
+		display: none;
+	}
+	.tab-container{
+		padding-bottom: 52px;
+	}
 
-
-
-
-
-
-
-
-
-	.side--panel .tabs {
+	/* .side--panel .tabs {
         border-bottom: 4px solid var(--lightgray);
         height: 36px;
         box-sizing: border-box;
@@ -173,7 +401,7 @@
     }
     .details {
         display: none;
-    }
+    } */
 }
 
 
@@ -207,3 +435,80 @@
         display: none;
     }
 } */
+#white-paper .modal--dialog{
+	width: 90%;
+}
+
+#white-paper dl{
+	justify-content: flex-start;
+}
+
+#white-paper dl dt{
+	width: 150px;
+}
+
+#white-paper dl dd{
+	width: calc(100% - 150px);
+	/* min-width: 280px */
+}
+
+#white-paper dl dd .input,
+#white-paper dl dd .textarea{
+	font-weight: 100;
+	font-size: 14px;
+}
+
+#white-paper dl dd .input input{
+	width:100%;
+}
+
+@media screen and (max-width: 800px) {
+	#white-paper dl{
+		flex-direction: column;
+	}
+
+	#white-paper dl dd{
+		width: 100%;
+		min-width: initial;
+	}
+
+	#white-paper .grid-2-column{
+		grid-template-columns: repeat(1, 1fr);
+		padding: 0 20px 20px!important;
+		overflow: auto;
+	}
+}
+
+#modal-sell-pin .modal--content,
+#modal-buy-pin .modal--content,
+#modal-buy-direct-pin .modal--content,
+#modal-sell-direct-pin .modal--content{
+	height: calc(100% - 60px);
+}
+
+#modal-sell-pin .margin,
+#modal-buy-pin .margin,
+#modal-buy-direct-pin .margin,
+#modal-sell-direct-pin .margin{
+	margin: 100px 0;
+}
+
+#modal-sell-pin input[type=number],
+#modal-buy-pin input[type=number],
+#modal-buy-direct-pin input[type=number],
+#modal-sell-direct-pin input[type=number] {
+    -webkit-text-security: disc;
+}
+#modal-sell-pin .text--center,
+#modal-buy-pin .text--center,
+#modal-buy-direct-pin .text--center,
+#modal-sell-direct-pin .text--center{
+	margin-top: 80px;
+}
+
+#modal-sell-pin .text--center .btn,
+#modal-buy-pin .text--center .btn,
+#modal-buy-direct-pin .text--center .btn,
+#modal-sell-direct-pin .text--center .btn{
+	width: 80%;
+}

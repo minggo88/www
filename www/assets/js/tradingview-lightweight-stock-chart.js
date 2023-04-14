@@ -14,6 +14,7 @@
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", '//api.'+(window.location.host.replace('www.',''))+'/v1.0/getChartData/?symbol=' + symbol + '&exchagne=' + exchange + '&period=' + period, false); // false for synchronous request
     xmlHttp.send(null);
+    
     let json = xmlHttp.responseText;
     if (json.indexOf('{') === 0) {
       json = JSON.parse(json);
@@ -45,8 +46,8 @@
   const genVolumeData = (data) => {
     let previous_close = 0;
     const rdata = data.map((row) => {
-      const price_decrease_color = 'rgba(255,82,82, 0.8)'; // 종가 상승시 거래량 색
-      const price_increase_color = 'rgba(0, 150, 136, 0.8)'; // 종가 하락시 거래량 색
+      const price_decrease_color = 'rgba(8,8,255, 0.8)'; // 종가 상승시 거래량 색 파랑
+      const price_increase_color = 'rgba(255,8,8, 0.8)'; // 종가 하락시 거래량 색 빨강
       const price_color = previous_close <= row.close ? price_increase_color : price_decrease_color;
       previous_close = row.close;
       return {
@@ -68,7 +69,7 @@
   const displayChart = async (target_id, symbol, exchange, period) => {
 
     symbol = symbol || '';
-    exchange = exchange || 'USD';
+    exchange = exchange || 'KRW';
     period = period || '1d';
     // document.body.style.position = 'relative';
 
@@ -101,10 +102,32 @@
        height: $('#'+target_id).outerHeight()
      });
    });
+    
+    //mk 소수점 삭제, x축 표기 변경
+    chart.applyOptions({
+      priceFormat: { // price format - y축
+        type: 'custom',
+        //minMove: 0.5,
+        formatter: function(f){
+          return f
+        }
+      },
+      timeScale: {
+        tickMarkFormatter: (time, tickMarkType, locale) => {
+          //const t = new Date(data[data.length - 1].time * 1000);
+          const t = new Date(time * 1000);
+          const dateStr = ((t.getMonth() + 1 + 100).toString().substring(1)) + '/' + ((t.getDate() * 1 + 100).toString().substring(1));
+          return dateStr;
+        },
+      },
+    });
 
     // ---------------------------------------------------
     // 가격봉 차트 생성
-    var candleSeries = chart.addCandlestickSeries();
+    var candleSeries = chart.addCandlestickSeries({
+      'upColor': '#f00', 'borderUpColor': '#f00', 'wickUpColor': '#f00', // https://tradingview.github.io/lightweight-charts/docs/api/interfaces/CandlestickStyleOptions
+      'downColor':'#00f', 'borderDownColor': '#00f', 'wickDownColor': '#00f',
+    });
 
     // 거래량 차트 생성
     var volumeSeries = chart.addHistogramSeries({

@@ -4,18 +4,18 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="title" content="끽다거">
+<meta name="title" content="Teaplat">
 <meta name="description" content="">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://kkikda.com">
-<meta property="og:title" content="끽다거">
-<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:url" content="https://assettea.com">
+<meta property="og:title" content="Teaplat">
+<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
 <meta property="og:description" content="">
-<meta property="og:site_name" content="끽다거">
+<meta property="og:site_name" content="Teaplat">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image:width" content="200">
 <meta property="og:image:height" content="100">
-<title>끽다거</title>
+<title>Teaplat</title>
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 <link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 <link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
@@ -26,13 +26,13 @@
 <link rel="preconnect" href="https://code.jquery.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1663240012">
-<link rel="stylesheet" href="./assets/css/header.css?t=1663661193">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663661193">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663671111">
-<link rel="stylesheet" href="./assets/css/mypage.css?t=1663202358">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
+<link rel="stylesheet" href="./assets/css/common.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/header.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/mypage.css?t=1667796157">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
 <style>
     .product--image {
@@ -53,225 +53,269 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t=1663583938"></script>
-<script src="./assets/js/api.js?t=1663584012"></script>
-<script src="./assets/js/components.js?t=1663671111"></script>
+<script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/api.js?t=1671775853"></script>
+<script src="./assets/js/components.js?t=1672721419"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
-<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1663208420"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+<script src="./i18n/i18n.js?t=1667796157"></script>
 
 </head>
 <!-- BODY -->
-<body class="sub notice member-account">
+<body class="sub notice member-account m-bottom">
     <header class="desktop-only">
-        <div class="header_inner">
+		<div class="header_inner">
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
+					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 					<li>
-						<a href="" data-i18n>공동구매</a>
+						<a href="wallet.html" data-login data-i18n>입출금</a>
 					</li>
-					<li>
-						<a href="" data-i18n>경매</a>
-					</li>
-					<li>
-						<a href="" data-i18n>입출금</a>
-					</li>
-					<li>
-						<a href="" data-i18n>다도 문화</a>
-					</li>
+					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 					<li>
 						<a href="notice.html" data-i18n>고객센터</a>
 					</li>
 				</ul>
 			</nav>
 			<div class="nav--side">
-				<div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-					<div class="dropdown--item" style="width: 134px">
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
 						<ul>
-							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
-							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
-							<li><a href="notification.html" data-i18n>알림</a></li>
-							<li><a href="#" name="btn-logout" data-i18n>로그아웃</a></li>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<!--<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>-->
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
 						</ul>
 					</div>
 				</div>
-				<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
-					<button type="button" class="dropdown" data-i18n>지갑관리</button>
-					<div class="dropdown--item" style="width: 100px">
-						<ul>
-							<li><a href="wallet.html" data-i18n>보유 자산</a></li>
-							<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
-							<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
-							<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
-						</ul>
-					</div>
-				</div>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-				<div name="box_unlogedin">
-					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
-				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
-					<div class="dropdown--item">
+					<div class="dropdown--item" style="width: 81px">
 						<span>한국어</span>
-						<ul>
-						</ul>
+						<ul></ul>
 					</div>
 				</div>
 			</div>
-			<div class="box-mobile-menu">
-				<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
-			</div>
-			<ul class="gnb box-menu" name="box-menu">
-				<li>
-					<a href="exchange.html" data-i18n>거래소</a>
-				</li>
-				<li>
-					<a href="" data-i18n>공동구매</a>
-				</li>
-				<li>
-					<a href="" data-i18n>경매</a>
-				</li>
-				<li>
-					<a href="" data-i18n>입출금</a>
-				</li>
-				<li>
-					<a href="" data-i18n>다도 문화</a>
-				</li>
-				<li>
-					<a href="notice.html" data-i18n>고객센터</a>
-				</li>
-			</ul>
 		</div>
-    </header>
+		<div class="box-mobile-menu">
+			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
+		</div>
+		<ul class="gnb box-menu" name="box-menu">
+			<li>
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
+			<li>
+				<a href="wallet.html" data-login data-i18n>입출금</a>
+			</li>
+			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+			<li>
+				<a href="notice.html" data-i18n>고객센터</a>
+			</li>
+		</ul>
+	</header>
+	<aside class="mobile-panel">
+		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
+		<h1 class="size--20" data-i18n>마이페이지</h1>
+		<ul>
+			<li>
+				<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
+			</li>
+			<!--<li>
+				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
+			</li>-->
+			<li>
+				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
+			</li>
+			<li>
+				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
+			</li>
+			<!-- <li>
+				<a href="transaction.html" data-login data-i18n><i class="icon-transaction-black"></i><span data-i18n>거래내역</span></a>
+			</li> -->
+			<li>
+				<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>계정 관리</h1>
+		<ul>
+			<li>
+				<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
+			</li>
+			<li>
+				<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+			</li>
+			<li>
+				<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+			</li>
+			<li>
+				<a href="wallet-analysis.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
+		<ul>
+			<li>
+				<a href="notice.html"><i class="icon-alarm"></i> <span data-i18n>공지사항</span></a>
+			</li>
+			<li>
+				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n>자주하는 질문</span></a>
+			</li>
+			<li>
+				<a href="inquiry.html" data-login><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
+			</li>
+		</ul>
+		<div class="nav--side mobile">
+			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+			<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+			<div class="language dropdown-wrapper">
+				<button type="button" class="dropdown">한국어</button>
+				<div class="dropdown--item" style="width: 81px">
+					<span>한국어</span>
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</aside>
     <div class="content_wrap">
-		<aside class="mobile-panel">
-			<h1 class="size--20" data-i18n>계정 관리</h1>
-			<ul>
-				<li>
-					<a href="member-account.html" data-i18n>정보 수정</a>
-				</li>
-				<li>
-					<a href="my-verification.html" data-i18n>ID 인증 관리</a>
-				</li>
-				<li>
-					<a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
-				</li>
-				<li>
-					<a href="change-account-number.html" data-i18n>출금계좌 변경</a>
-				</li>
-				<!-- <li>
-					<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
-				</li> -->
-			</ul>
-			<h1 class="size--20" data-i18n>지갑 관리</h1>
-			<ul>
-				<li>
-					<a href="wallet.html"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
-				</li>
-				<li>
-					<a href="wallet-deposit.html"><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
-				</li>
-				<li>
-					<a href="wallet-withdrawal.html"><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
-				</li>
-				<li>
-					<a href="wallet-analysis.html"><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
-				</li>
-			</ul>
-		</aside>
 		<main class="d-flex d-justify">
 			<aside class="side">
-				<h1 data-i18n>계정 관리</h1>
+				<h1 data-i18n>입출금</h1>
 				<nav class="side--snb">
 					<ul>
 						<li class="snb--active">
-							<a href="member-account.html" data-i18n>정보 수정</a>
+							<a href="member-account.html" data-login data-i18n>계정 정보</a>
+						</li>
+						<!--<li>
+							<a href="my-verification.html" data-login data-i18n>인증 관리</a>
+						</li>-->
+						<li>
+							<a href="change-pin-number.html" data-login data-i18n>보안 비밀번호 변경</a>
 						</li>
 						<li>
-							<a href="my-verification.html" data-i18n>ID 인증 관리</a>
+							<a href="change-account-number.html" data-login data-i18n>출금계좌 관리</a>
 						</li>
+<!--						<li>-->
+<!--							<a href="transaction.html" data-login data-i18n>거래 내역</a>-->
+<!--						</li>-->
 						<li>
-							<a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
+							<a href="notification.html" data-login data-i18n>알림</a>
 						</li>
-						<li>
-							<a href="change-account-number.html" data-i18n>출금계좌 변경</a>
-						</li>
-						<li>
-							<a href="transaction.html" data-i18n>거래 내역</a>
-						</li>
-						<li>
-							<a href="notification.html" data-i18n>알림</a>
-						</li>
-						<!-- <li>
-							<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
-						</li> -->
 					</ul>
 				</nav>
 			</aside>
 			<div class="contents">
 				<header class="contents--header">
-					<button type="button" class="navigation--back"></button>
-					<h1 data-i18n>Member Account</h1>
-					<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
+					<a href="index.html">ASSETTEA</a>
+					<span class=""></span>
+					<button type="button" class="navigation"></button>
 				</header>
+				<!-- 모바일 side 타이틀 변경 -->
+				<div class="contents--header2">
+					<p style="height: 48px;">계정 정보</p>
+				</div>
 				<form id="member-account" action="change-security-password2.html" class="boxed boxed--transparent d-flex" method="post" >
+					<input type="hidden" name="mobile_country_code" id="mobile_country_code" value="">
 					<div>
-						<h1 class="m-0 size--20 mobile-only" style="color: var(--black);"><i class="icon-user-fill"></i> <span data-i18n>정보 수정</span></h1>
+						<!--<h2 class="size--20 mobile-only" style="color: var(--black);"><i class="icon-user-fill"></i> <span data-i18n>계정 정보</span></h2>-->
 						<div class="default" >
 							<div class="email form--controls">
 								<label for="email" data-i18n>이메일</label>
-								<input type="email" name="email" id="email" disabled>
+								<input type="email" name="email" id="email" autocomplete="off" disabled data-bind="form.email">
+							</div>
+							<div class="name form--controls">
+								<label for="name" data-i18n>이름</label>
+								<input type="text" name="name" id="name" autocomplete="off" disabled data-bind="form.name">
+							</div>
+							<!--<div class="nickname form--controls">
+								<label for="nickname" data-i18n>닉네임</label>
+								<input type="text" name="nickname" id="nickname" autocomplete="off" data-bind="form.nickname">
+							</div>-->
+							<!--230215 mk 개인정보 내역 추가-->
+							<div class="user_info_check form--controls">
+								<label for="user_info_check" data-i18n="">
+									<span>개인 정보&nbsp;&nbsp;</span>
+									<span id="check_off" style="display:iline-block;">등록 필요</span>
+									<span id="check_on" style="display:none;">등록 완료</span>
+								</label>
+								<select id="join_type" name="join_type" onchange="change_select()">
+								  <option value="A">운전면허 등록번호</option>
+								  <option value="B">여권 번호</option>
+								</select>
+								
+								<input type="text" name="join_user_passport" id="join_user_passport" placeholder="여권번호" autocomplete="off" style="display: none;">
+								<input type="text" name="join_user_number_A" id="join_user_number_A" placeholder="운전면허 등록번호" autocomplete="off" style="display: block;">
+								<!--<div class="form--controls join_user_number" style="display:none;">
+									<div class="row">
+										<div class="col-6">
+										</div>
+										<div class="col-6">
+											<input type="password" name="join_user_number_B" id="join_user_number_B" placeholder="주민번호 뒷자리" autocomplete="off" data-bind="form.zipcode" maxlength='7' style="display:none;">
+										</div>
+									</div>
+								</div>-->
+								<button class="btn user-info" style="width: 355px; display:block; margin-bottom: 15px; margin-top:8px;" id="btn-info_num-save" data-i18n="">정보 등록</button>
 							</div>
 							<div class="phone form--controls">
 								<label for="mobile" data-i18n>핸드폰 번호</label>
-								<input type="tel" name="mobile" id="mobile" disabled>
+								<input type="tel" name="mobile" id="mobile" autocomplete="off" disabled data-bind="form.mobile">
 							</div>
-							<div class="region">
-								<h1 class="m-0 size--16" data-i18n>거주지</h1>
+							<div class="region" style="margin-top: 20px;">
+								<span class="m-0 size--14" data-i18n>주소</span>
 								<div class="form--controls">
 									<div class="row">
 										<div class="col-6">
 											<label for="country" class="form--label mobile-only" data-i18n>국가</label>
-											<input type="text" name="country" id="country" placeholder="국가" style="width: 100%" disabled>
+											<!-- <input type="text" name="country" id="country" placeholder="국가" style="width: 100%" autocomplete="off" disabled data-bind="form.country.name"> -->
+											
+											<div id="country" class="dropdown-wrapper" style="border: 1px solid #dfdfdf;width: 100%">
+												<button type="button" id="btn_drop" class="dropdown" disabled></button>
+												<div class="dropdown--item">
+													<ul class="mt-0">
+													</ul>
+												</div>
+											</div>
+
 										</div>
 										<div class="col-6">
 											<label for="country" class="form--label mobile-only" data-i18n>도시</label>
-											<input type="text" name="city" id="city" placeholder="도시" style="width: 100%" disabled>
+											<input type="text" name="city" id="city" placeholder="도시" style="width: 100%" autocomplete="off" data-bind="form.city" disabled>
 										</div>
 									</div>
 								</div>
 								<div class="form--controls address">
 									<label for="address" class="form--label mobile-only" data-i18n>주소</label>
-									<input type="text" name="address" id="address" placeholder="주소" style="width: 100%">
+									<input type="text" name="address_a" id="address_a" placeholder="주소" style="width: 100%" autocomplete="off" data-bind="form.address_a" disabled>
 								</div>
 								<div class="form--controls addressDesc">
 									<div class="row">
 										<div class="col-6">
-											<input type="text" name="address2" id="address2" placeholder="상세주소(옵션)">
+											<input type="text" name="address_b" id="address_b" placeholder="상세주소(옵션)" autocomplete="off" data-bind="form.address_b" disabled>
 										</div>
 										<div class="col-6">
-											<input type="text" name="postcode" id="postcode" placeholder="우편번호">
+											<input type="text" name="zipcode" id="zipcode" placeholder="우편번호" autocomplete="off" data-bind="form.zipcode" disabled>
 										</div>
 									</div>
 								</div> 
 							</div>
+							<!--<a href="" class="text--red mobile-only" data-i18n>로그인 비밀번호 변경</a>-->
+							<div class="text--center btn-area">
+								<button class="btn btn--check" style="width: 355px; display: block;margin-top: 15px;" name="" data-i18n="">주소 수정</button>
+								<button class="btn btn--red" style="width: 355px; display: none;" name="btn-save-info" data-i18n="">수정 완료</button>
+							</div>
+							<div class="text--center desktop-only change_info"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password"  data-toggle="modal" data-target="#change-password" data-i18n>로그인 비밀번호 변경</a></div>
 						</div>
-						<a href="" class="text--red mobile-only" data-i18n>로그인 비밀번호 변경</a>
-						<div class="text--center">
-							<button class="btn btn--red" style="width: 340px; margin-top: 40px" data-i18n>계정 수정</button>
-						</div>
-						<div class="text--center desktop-only"><a href="" class="btn btn--transprent text-red" data-toggle="modal" data-target="#change-password" style="width: 340px; margin-top: 30px" data-toggle="modal" data-target="#change-password" data-i18n>로그인 비밀번호 변경</a></div>
 					</div>
 				</form>
 				<form method="post" id="change-password" class="modal modal--tiny">
@@ -294,33 +338,31 @@
 								<input type="password" name="new_password2" id="new_password2">
 							</div>
 							<div class="form--btns" style="align-self: flex-end">
-								<button class="btn btn--red" style="width: 100%" data-i18n>비밀번호 변경하기</button>
+								<button type="button" id="change_password_btn" name="change_password_btn" class="btn btn--red" style="width: 100%" data-i18n>비밀번호 변경하기</button>
 							</div>
 						</div>
 					</div>
 				</form>
 			</div>
 		</main>
-		<nav class="mobile-bottom mobile-only">
-			<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
-				<li class="exchange">
-					<a href="" data-i18n>거래소</a>
-				</li>
-				<li class="area" >
-					<a href="" data-i18n>티드로우</a>
-				</li>
-				<li class="auction" style="flex: 1 1 auto">
-					<a href="" data-i18n>경매</a>
-				</li>
-				<li class="transaction" style="flex: 1 1 auto">
-					<a href="" data-i18n>거래내역</a>
-				</li>
-				<li class="more">
-					<a href="" data-i18n>더보기</a>
-				</li>
-			</ul>
-		</nav>
 	</div>
+	<!--<nav class="mobile-bottom mobile-only">
+		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+			<li class="exchange">
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<li class="area" >
+				<a href="" data-i18n>티드로우</a>
+			</li>
+			<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> 
+			<li class="transaction" style="flex: 1 1 auto">
+				<a href="transaction.html" data-login data-i18n>거래내역</a>
+			</li>
+			<li class="more">
+				<a href="" data-i18n>더보기</a>
+			</li>
+		</ul>
+	</nav>-->
     <!-- <footer class="desktop-only">
 		<div class="footer_inner">
 			<div class="logo">Teaplat</div>
@@ -358,7 +400,7 @@
 		</div>
 	</footer> -->
 
-    <script src="./assets/js/app.js?t=1663583665"></script>
+    <script src="./assets/js/app.js?t=1672042800"></script>
 
 </body>
 </html>

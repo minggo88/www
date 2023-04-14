@@ -1,6 +1,10 @@
 $(function () {
-    const email = $('#email')
+	$('.number').autotab({ tabOnSelect: true },'filter', 'number');
+
+	const email = $('#email')
     const password = $('#password')
+	const name = $('#name')
+    const password_confirm = $('#password_confirm')
     let sended_email = ''; // 발송 성공한 이메일 - 재발송시 사용
     let sended_phoneCountry = '';
     let sended_phone = '';
@@ -97,10 +101,56 @@ $(function () {
             return false
         }
 
+		// 이름이 빈칸일 경우
+		if(!name.val()) {
+			name.focus()
+			return false
+		}
 
         if(!password.val()) {
             password.focus()
             return false
+        }
+
+
+        if (/^.{8,}$/.test(password.val()) === false) {
+            alert('비밀번호는 8 자리 이상 입력 해주세요.');
+            return false;
+        }
+
+        if (/^(?=.*[a-z]).*$/.test(password.val()) === false) {
+            alert('비밀번호는 영문자 포함해서 입력 해주세요.');
+            return false;
+        }
+
+        if (/^(?=.*[0-9]).*$/.test(password.val()) === false) {
+            alert('비밀번호는 숫자 포함해서 입력 해주세요.');
+            return false;
+        }
+
+        if (/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(password.val()) === false) {
+            alert('비밀번호는 특수문자 포함해서 입력 해주세요.');
+            return false;
+        }
+		
+		if (!password_confirm.val()) {
+            password.focus()
+            return false;
+        }
+
+        if (password.val() != password_confirm.val()) {
+            alert('비밀번호가 다릅니다.');
+            return false;
+        }
+
+        if (!$('#terms_of_service').is(':checked')) {
+            alert('이용약관 동의에 체크 해주세요.');
+            return false;
+        }
+
+        if (!$('#privacy').is(':checked')) {
+            alert('개인정보 수집 및 이용 동의에 체크 해주세요.');
+            return false;
         }
 
         $('#create-account-info').addClass('loading')
@@ -113,8 +163,10 @@ $(function () {
                 sended_email = email.val();
 				//	$('#create-account-info').hide()
 				$('#create-account-info').parent("section").hide()
-				//	$('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
-				$('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
+				$('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
+
+                $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
+                //$('#create-account-password-confirm').parent("section").show()
             } else {
                 $('#create-account-info input[type=submit]').prop('disabled', false)
 
@@ -141,6 +193,27 @@ $(function () {
         })
         return false;
     });
+
+    /* $('#create-account-password-confirm').on('submit', (e) => {
+        e.preventDefault()
+
+        if (!password_confirm.val()) {
+            password.focus()
+            return false;
+        }
+
+        if (password.val() != password_confirm.val()) {
+            alert('비밀번호가 다릅니다.');
+            return false;
+        }
+
+        $('#create-account-password-confirm input[type=submit]').prop('disabled', false)
+
+        $('#create-account-password-confirm').parent("section").hide()
+        $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
+
+        return false;
+    }); */
 
     $('#create-account-mail-auth').on('submit', (e) => {
         e.preventDefault()
@@ -255,7 +328,7 @@ $(function () {
             $('#create-account-phone-auth').addClass('loading')
             $('#create-account-phone-auth input[type=submit]').prop('disabled', true)
 
-            API.checkMobileConfirmCode(phone, (resp) => {
+            API.checkMobileConfirmCode(sended_phone, code, (resp) => {
                 $('#create-account-phone-auth').removeClass('loading')
 
                 if (resp.success) {
@@ -288,25 +361,31 @@ $(function () {
         // $('#create-account-pin-number').hide()
 		// $('#create-account-pin-number-confirm').hide()
 		$('#create-account-pin-number').parent("section").hide()
-		$('#create-account-pin-number-confirm').parent("section").hide()
+		$('#create-account-pin-number-confirm').parent("section").show()
 
         return false
     })
+
+	$('[name="go-back-btn"]').on('click', function () { 
+		$('#create-account-pin-number-confirm').parent("section").hide()
+		$('#create-account-pin-number').parent("section").show()
+	})
+
     $('#create-account-pin-number-confirm').on('submit', () => {
-        let pin = ''
+		let pin = ''
         let pinConfirm = ''
 
         let check = true
 
-        $('#create-account-pin-number .grid--code input[type=number]').each((elem) => {
+        $('#create-account-pin-number .grid--code input[type=number]').each((_index, elem) => {
             pin += $(elem).val()
         })
 
-        $('#create-account-pin-number-confirm .grid--code input[type=number]').each((elem) => {
+        $('#create-account-pin-number-confirm .grid--code input[type=number]').each((_index, elem) => {
             if(!$(elem).val()) {
                 check = false
                 $(elem).focus()
-                return
+                return false;
             }
 
             pinConfirm += $(elem).val()
@@ -320,10 +399,12 @@ $(function () {
 
         if(check) {
             $('#create-account-pin-number-confirm').addClass('loading')
-            
+
             API.join({
                 'social_id': email.val(),
                 'social_name': '', // 아이디/비번 방식으로 email 방식 제거
+                'name': $('[name="name"]').val(),
+                'mobile':$('[name="phone"]').val(),
                 'email': email.val(),
                 'userpw': password.val(),
                 'mobile_calling_code': sended_phoneCountry,
@@ -341,6 +422,7 @@ $(function () {
                     // $('#create-account-pin-number-confirm').hide()
 					$('#create-account-pin-number').parent("section").hide()
                     $('#create-account-pin-number-confirm').parent("section").hide()
+                    $('#create-account-complete').parent("section").show()
                 } else {
                     alert(resp.error.message)
                 }

@@ -1,77 +1,76 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<!-- META -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="title" content="끽다거">
-<meta name="description" content="">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://kkikda.com">
-<meta property="og:title" content="끽다거">
-<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
-<meta property="og:description" content="">
-<meta property="og:site_name" content="끽다거">
-<meta property="og:locale" content="ko_KR">
-<meta property="og:image:width" content="200">
-<meta property="og:image:height" content="100">
-<title>Teaplat</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
-<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
-<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
-<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
-<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
-<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t={version}">
-<link rel="stylesheet" href="./assets/css/common.css?t={version}">
-<link rel="stylesheet" href="./assets/css/header.css?t={version}">
-<link rel="stylesheet" href="./assets/css/footer.css?t={version}">
-<link rel="stylesheet" href="./assets/css/components.css?t={version}">
-<link rel="stylesheet" href="./assets/css/front.css?t={version}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
-<!-- JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-<script src="./assets/js/common.js?t={version}"></script>
-<script src="./assets/js/api.js?t={version}"></script>
-<script src="./assets/js/components.js?t={version}"></script>
 
-<script src="./assets/js/lib/php.default.min.js?t={version}"></script>
-<script src="./assets/js/lib/security.min.js?t={version}"></script>
-<script src="./i18n/i18n.js?t={version}"></script>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="title" content="Teaplat">
+	<meta name="description" content="">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://assettea.com">
+	<meta property="og:title" content="Teaplat">
+	<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
+	<meta property="og:description" content="">
+	<meta property="og:site_name" content="Teaplat">
+	<meta property="og:locale" content="ko_KR">
+	<meta property="og:image:width" content="200">
+	<meta property="og:image:height" content="100">
+	<title>Teaplat</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://cdn.jsdelivr.net">
+	<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+	<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+	<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+	<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+	<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+	<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
+	<link href="//fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap"
+		rel="stylesheet">
+	<link href="//fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="./assets/css/colorset.css?t={version}">
+	<link rel="stylesheet" href="./assets/css/common.css?t={version}">
+	<link rel="stylesheet" href="./assets/css/header.css?t={version}">
+	<link rel="stylesheet" href="./assets/css/footer.css?t={version}">
+	<link rel="stylesheet" href="./assets/css/components.css?t={version}">
+	<link rel="stylesheet" href="./assets/css/front.css?t={version}">
+	<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />-->
+	<!-- JS -->
+	<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+	<script src="//unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+	<script src="./assets/js/common.js"></script>
+	<script src="./assets/js/api.js"></script>
+	<script src="./assets/js/components.js"></script>
 
-<script>
-    let USER_INFO = {}
-</script>
+
+	<script src="./assets/js/lib/php.default.min.js?t={version}"></script>
+	<script src="./assets/js/lib/security.min.js?t={version}"></script>
+	<script src="./i18n/i18n.js?t={version}"></script>
+
+	<script>
+		let USER_INFO = {}
+	</script>
 </head>
 <!-- BODY -->
+
 <body class="front">
 	<header>
 		<div class="header_inner">
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
 			<nav class="nav">
 				<ul>
-					<li class="active">
+					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
-					<!--<li>
-						<a href="" data-i18n>공동구매</a>
-					</li>
+					<li><a href="group-buying.html" data-i18n>공동구매</a></li>
+					<li><a href="auction.html" data-i18n>경매</a></li>
 					<li>
-						<a href="" data-i18n>경매</a>
-					</li>-->
-					<li>
-						<a href="" data-i18n>입출금</a>
+						<a href="wallet.html" data-login data-i18n>입출금</a>
 					</li>
-					<li>
-						<a href="" data-i18n>다도 문화</a>
-					</li>
+					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 					<li>
 						<a href="notice.html" data-i18n>고객센터</a>
 					</li>
@@ -79,35 +78,22 @@
 			</nav>
 			<div class="nav--side">
 				<div name="box_logedin" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-					<div class="dropdown--item" style="width: 134px">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
 						<ul>
-							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
-							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
-							<li><a href="notification.html" data-i18n>알림</a></li>
-							<li><a href="#" name="btn-logout" data-i18n>로그아웃</a></li>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
 						</ul>
 					</div>
 				</div>
-				<!-- <div name="box_logedin" class="wallet dropdown-wrapper">
-					<button type="button" class="dropdown" data-i18n>지갑관리</button>
-					<div class="dropdown--item" style="width: 100px">
-						<ul>
-							<li><a href="wallet.html" data-i18n>보유 자산</a></li>
-							<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
-							<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
-							<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
-						</ul>
-					</div>
-				</div> -->
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-				<div name="box_unlogedin">
-					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
-				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout"
+						data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login"
+						data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
@@ -116,27 +102,24 @@
 					</div>
 				</div>
 			</div>
-			<div class="box-mobile-menu">
-				<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
-			</div>
-			<ul class="gnb box-menu" name="box-menu">
-				<li>
-					<a href="exchange.html" data-i18n>거래소</a>
-				</li>
-				<li>
-					<a href="" data-i18n>입출금</a>
-				</li>
-				<!--<li>
-						<a href="" data-i18n>경매</a>
-				</li>
-				<li>
-					<a href="" data-i18n>다도 문화</a>
-				</li>-->
-				<li>
-					<a href="notice.html" data-i18n>고객센터</a>
-				</li>
-			</ul>
 		</div>
+		<div class="box-mobile-menu">
+			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
+		</div>
+		<ul class="gnb box-menu" name="box-menu">
+			<li>
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<li><a href="group-buying.html" data-i18n>공동구매</a></li>
+			<li><a href="auction.html" data-i18n>경매</a></li>
+			<li>
+				<a href="wallet.html" data-login data-i18n>입출금</a>
+			</li>
+			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+			<li>
+				<a href="notice.html" data-i18n>고객센터</a>
+			</li>
+		</ul>
 	</header>
 	<section class="viusalArea">
 		<div class="typography">
@@ -145,12 +128,12 @@
 		</div>
 		<div class="statistics">
 			<section class="statistics--tea">
-				<h1>Tea</h1>
+				<h1 data-i18n>Tea</h1>
 				<em data-bind="trade_goods_summary.cnt_tea">0</em>
 			</section>
 			<section class="statistics--teaware">
-				<h1>Teaware</h1>
-				<em data-bind="trade_goods_summary.cnt_teaware">0</em>
+				<h1 data-i18n>Total Tea</h1>
+				<em data-bind="trade_goods_summary.cnt_totaltea">0</em>
 			</section>
 		</div>
 		<div class="getting-started">
@@ -158,18 +141,20 @@
 			<!-- <span name="box_logedin" style="display: none" >
 				<button class="btn--login" name="btn-logout" data-i18n>로그아웃</button>
 			</span>
-			<a href="login.html" name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a> -->
+			<a href="login.html" data-logout name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a> -->
 		</div>
 	</section>
 	<div class="news">
 		<div class="column">
 			<div class="swiper">
-				<ul class="swiper-wrapper" name="main_notice" style="height:auto;">
-					<li class="swiper-slide hide" name="tpl" style="height:82px;">
+				<ul class="swiper-wrapper">
+					<li class="swiper-slide">
 						<a href="" style="width:100% ;">
-							<!-- <span class="badge badge--white" {hide_tag} data-i18n>공지</span>
-							<span class="news--text">{message}</span>
-							<span class="icon-new" {hide_new}></span> -->
+							<div class="bg"></div>
+						</a>
+					</li>
+					<li class="swiper-slide">
+						<a href style="width:100% ;">
 							<div class="bg"></div>
 						</a>
 					</li>
@@ -180,57 +165,22 @@
 	<div class="content_wrap">
 		<main class="d-grid grid-3-column">
 			<section class="section section--index">
-				<!-- 지수 표시 부분 일단 잠시 숨깁니다. -->
-				<!-- <div class="section--header" style="height: 30px; line-height: 1">
-					<h1 style="height: 23px" data-i18n>지수<i class="icon--help"></i></h1>
-					<div class="text--price"><span data-bind="selected_spot_price.price_close">0</span> <span data-bind="selected_spot_price.exchange">USD</span></div>
-				</div>
-				<div class="text--info d-flex" style="justify-content: space-between">
-					<div class="text--date" data-bind="chart_info.last_date">-</div>
-					<div class="text--price">
-						<span class="" data-bind="selected_spot_price.price_updown_color" data-format="add-class"><span data-bind="selected_spot_price.price_updown_symbol"></span> <span data-bind="selected_spot_price.price_updown_amount" data-format="comma">0</span></span>
-						<span class="" data-bind="selected_spot_price.price_updown_color"><span data-bind="selected_spot_price.price_updown_sign">+</span> <span data-bind="selected_spot_price.price_updown_percent">0.00%</span></span>
-					</div>
-				</div>
-				<div class="pop_up">
-					<div class="pop_content">
-						지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다.
-					</div>
-				</div> -->
 				<script>
-					$(function(){
-						$(".icon--help").hover(function(){
-							$(".pop_up").show();
-						},function(){
-							$(".pop_up").hide();
-						});
-					});
 				</script>
-				<style>
-					.three-line-legend {
-						width: 96px;
-						height: 70px;
-						position: absolute;
-						padding: 8px;
-						font-size: 12px;
-						color: '#20262E';
-						background-color: rgba(255, 255, 255, 0.23);
-						text-align: left;
-						z-index: 1000;
-						pointer-events: none;
-					}
-				</style>
-				<div id="indexCanvas" class="canvas" style="width: 100%; height: 22vh; max-height: 200px;    margin-top: 60px;"></div>
-				<!-- <div class="controller d-flex d-justify" style="padding-left: 10px; margin-top: 5px">
-					<div style="flex-basis: calc(100% * (74 / 427))" data-i18n>기간</div>
-					<ul class="tabs" name="chart_term">
-						<li><button type="button" name="btn-term-1h" data-i18n>1H</button></li>
-						<li><button type="button" name="btn-term-12h" data-i18n>12H</button></li>
-						<li><button type="button" name="btn-term-1d" data-i18n>24H</button></li>
-						<li><button type="button" name="btn-term-1w" data-i18n>7D</button></li>
-						<li><button type="button" name="btn-term-1M" data-i18n>1M</button></li>
-					</ul>
-				</div> -->
+				<div class="three-line-legend" id="chartToolTip" style="display: block; left: 3px; top: 3px;">
+					<div style="font-size: 24px; margin: 4px 0px; color: #20262E">
+						<span data-i18n>지수</span><i class="icon--help"
+							style="width: 16px;height: 18px;background: url('/assets/img/icon/btn_help.svg') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i>
+					</div>
+					<div class="pop_up">
+						<div class="pop_content" data-i18n>지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다.</div>
+					</div>
+					<div style="font-size: 22px; margin: 4px 0px; color: #20262E" name="point">0</div>
+					<div name="dateStr"></div>
+				</div>
+
+				<div id="indexCanvas" class="canvas"
+					style="width: 100%; height: 42vh; max-height: 200px;    margin-top: 60px;"></div>
 			</section>
 			<section class="section">
 				<div class="section--header">
@@ -239,7 +189,8 @@
 				</div>
 				<ul class="list" name="price_table">
 					<li name="tpl" style="display:none">
-						<span class="list--text"><a href="exchange.html?symbol={symbol}&exchange={exchange}">{stock_name}</a></span>
+						<span class="list--text"><a
+								href="exchange.html?symbol={symbol}&exchange={exchange}">{stock_name}</a></span>
 						<span class="list--text text-right {stock_updown_color}">
 							{stock_price} {stock_exchange}
 						</span>
@@ -299,9 +250,9 @@
 				<div class="row m-0 flex-self-center">
 					<div class="app--5 text--right">
 						<img src="./assets/img/icon-app-5.svg" alt="">
-		
+
 						<div class="service--title" data-i18n>투명하고 안전한 거래</div>
-						<div  class="service--desc" data-i18n>블록체인 기술의 도입으로 투명한 거래 이력과 완벽한 보안을 제공합니다</div>
+						<div class="service--desc" data-i18n>블록체인 기술의 도입으로 투명한 거래 이력과 완벽한 보안을 제공합니다</div>
 					</div>
 					<div class="app--6 text--left">
 						<img src="./assets/img/icon-app-6.svg" alt="">
@@ -316,7 +267,7 @@
 	</div>
 	<footer class="desktop-only">
 		<div class="footer_inner">
-			<div class="logo">Teaplat</div>
+			<!-- <div class="logo">Teaplat</div> -->
 			<nav class="fnb">
 				<ul>
 					<li>
@@ -334,15 +285,23 @@
 				</ul>
 				<div class="copyright">
 					<address>
-					<span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
-					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
-					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
-					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
-						<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
-						<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
-						<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
+						<span class="company--name" data-bind="company_info.license_company">(주)끽다</span>
+						<span class="company--ceo"><span data-i18n>대표이사</span> : <span
+								data-bind="company_info.license_ceo">안성희</span></span>
+						<span class="company--number"><span data-i18n>사업자등록번호</span> : <span
+								data-bind="company_info.license_no">824-87-00881</span></span>
+						<span class="company--address"><span data-i18n>주소</span> : <span
+								data-bind="company_info.license_address">인천광역시 연수구 송도문화로 119, 인천글로벌캠퍼스 비
+								1006호(송도동)</span></span>
+						<span><span data-i18n>전화</span> : <span
+								data-bind="company_info.shop_phone">02-733-9746</span></span>
+						<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제
+								2022-인천연수구-1661 호</span></span>
+						<span><span data-i18n>이메일</span> : <span
+								data-bind="company_info.shop_admin_email">CEO@assettea.com</span></span>
 					</address>
-					<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
+					<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다</span>. All
+						rights reserved. </div>
 				</div>
 			</nav>
 			<!-- <span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
@@ -351,9 +310,8 @@
 		</div>
 	</footer>
 
-    <script src="./assets/js/front.js?t={version}"></script>
-    <script src="./assets/js/tradingview-lightweight-arealine-chart.js?t={version}"></script>
-    <script src="./assets/js/app.js?t={version}"></script>
-
+	<script src="./assets/js/tradingview-lightweight-arealine-chart.js?t={version}"></script>
+	<script src="./assets/js/app.js?t={version}"></script>
 </body>
+
 </html>

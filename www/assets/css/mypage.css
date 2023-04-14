@@ -1,7 +1,6 @@
 form.boxed{
-	/* width: 910px; */ 
 	width: 100%;
-	height: 470px;
+	height: 723px;
 	justify-content: center;
 	padding: 0;
 }
@@ -13,20 +12,18 @@ form.boxed{
     margin-bottom: 8px;
 }
 input[type=text] {
-    background: #F1F1F1;
-    /* border: 0 none !important; */
+   /*  background: #F1F1F1; */
     height: 37px;
     line-height: 37px;
-    font-size: 12px !important;
+    /* font-size: 12px !important; */
 	border: 0.35px solid #dfdfdf;
 }
 
-
 .default {
-	/*  width: 340px; 
-	height: 333px;  */
 	align-self: center; 
-	padding: 39px 0 60px
+	padding: 25px 0 0px;
+	height: auto;
+	position: relative;
 }
 
 .default .form--controls {
@@ -38,24 +35,81 @@ input[type=text] {
     flex-grow: 1;
     flex-basis: auto;
 	font-weight: 500;
-	font-size: 12px;
+	font-size: 14px;
 	margin-bottom: 8px;
 }
 .default .form--controls label+input {
     width: auto;
 	border: 1px solid #dfdfdf;
+	/* margin-bottom: 10px; */
 }
 
-.default .email.form--controls label+input{
-	margin-bottom: 36px;
+/*mk 수정  */
+.default .user_info_check.form--controls label + selection + input,
+#btn-info_num-save,
+.default .email.form--controls label+input,
+.default .name.form--controls label+input,
+.default .nickname.form--controls label+input{
+	margin-bottom: 15px;
+}
+
+#join_type{
+	min-height : 38px;
+	width: 49.2%;
+	margin-bottom: 8px;
+	height: 40px;
+	padding-left: 11px;
+	border: 1px solid #dfdfdf;
+	font-weight: 400;
+    font-size: 16px;
+    color: var(--basic-gray);
+	font-style: normal;
+    font-family: "Noto Sans KR" !important;
+    vertical-align: middle;
+}
+
+.form--controls.join_user_number{
+	width : 355px;
+}
+
+#join_user_number_A,#join_user_number_B{
+	border: 1px solid #dfdfdf;
+}
+
+.default #join_user_passport{
+	width: auto;
+	border: 1px solid #dfdfdf;
+}
+
+.default .user_info_check.form--controls .form--controls.join_user_number{
+	display:none;
+}
+
+.default .user_info_check #check_off{
+	color: var(--red-up);
+    font-size: 14px;
+}
+.default .user_info_check #check_on{
+	color: var(--blue-dn);
+    font-size: 14px;
+}
+
+.btn.user-info {
+    background: var(--red-up);
+    color: var(--white) !important;
 }
 
 .region {
-    margin-top: 36px;
+    margin-top: 25px;
 }
 
 .region .form--controls label {
     display: none;
+}
+.region .form--controls #country{
+	height: 40px;
+	line-height: 40px;
+	box-sizing: border-box;
 }
 
 .region .form--controls{
@@ -66,8 +120,18 @@ input[type=text] {
 	border: 0.35px solid #dfdfdf;
 }
 
+.region .dropdown+.dropdown--item input[name=search]{
+	height: 40px;
+	/* height: 100%; */
+	line-height: 40px;
+}
+
 .region .row {
 	margin-bottom: 0;
+}
+
+.region input[type=text] {
+	font-size: 12px!important;
 }
 
 form {
@@ -78,14 +142,14 @@ form {
 .inside {
     margin-top: 40px;
     width: 312.06px;
-    height: 178px;
+	height: 100%;
 }
 
-.sub.member-account .contents--header{
+.sub.member-account .contents .contents--header{
 	position: relative;
 	margin-bottom: 74px;
 }
-
+/*
 .sub.member-account .contents--header a{
 	position: absolute;
 	font-size: 14px;
@@ -95,16 +159,7 @@ form {
 	top: 80px;
 
 }
-
-/* .sub.member-account .side{
-	max-width:200px;
-	width: 100%;
-} */
-
-.sub.member-account .contents{
-	max-width:910px;
-	width: 100%;
-}
+*/
 
 .sub.member-account .contents form .default .form--controls{
 	flex-direction: column;
@@ -112,57 +167,81 @@ form {
 
 .size--16{font-size: 18px;}
 
+.sub.member-account .btn-area{
+	position: relative;
+	margin-top: 8px;
+}
 
-@media screen and (min-width:801px) and (max-width: 1440px){
-	/* .content_wrap{width: 95%; margin: 0 auto;} */
-	.sub.member-account main{
-		display: flex;
-	}
+.sub.member-account .change_info{
+	position: relative;
+	margin-top: 30px;
+	padding-bottom: 30px;
+}
+
+.sub.member-account .change_info .btn{
+	width: 340px;
+}
+
+.sub.member-account #country .dropdown::after{
+	right: 5px;
 }
 
 @media screen and (max-width: 800px) {	
 	.sub.member-account > header{display: none;}
-	.sub.member-account .contents--header{
-		display: flex; 
-		border-bottom: none;
-		margin-bottom: 24px;
+	.sub.member-account .contents .contents--header{
+		margin-bottom: 0;
 	}
 	.sub.member-account .boxed--transparent{border: transparent!important;}
-	.sub.member-account .contents form.boxed{display: block;}
+	.sub.member-account .contents form.boxed{
+		display: block;
+		height: calc(100% - 63px);
+	}
+	
 	.sub.member-account .contents form .default .form--controls{
 		flex-direction: row;
 		justify-content: space-between
 	}
-	.sub.member-account .contents{margin-top: 0;}
-	.sub.member-account main header.contents--header{
-		line-height: 60px;
-		padding-left: 0;
-	}
-	.sub.member-account .navigation--back{height: 60px;}
-	.sub.member-account main{
-		display: flex;
-		justify-content: flex-start;
-		padding:0 30px;
-	}
-
+	
 	.sub.member-account .contents--header a{
 		top: calc(100vh - 135px); 
 		right: 0px;
 	}
-	.sub.member-account .side{display: none;}
-	.sub.member-account .mobile-only{display: block!important;}
+
+	.sub.member-account .mobile-only{
+		display: block!important;
+	}
+
+	.sub.member-account .btn-area{
+		position: relative;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		margin-top: 40px;
+	}
+
+	.sub.member-account .btn-area .btn{
+		margin-top: 0!important;
+	}
 	
 	.row > * {
 		flex:auto;
 		margin-right: 0;
 	}
+
 	[name=email],
-    [name=phone] {
+    [name=phone],
+	[name=name],
+	[name=nickname] {
         text-align: right;
     }
-    .email {
+
+
+	
+
+    /* .email {
         margin-bottom: 20px;
-    }
+    } */
+
     .form--controls input[type=text],
     .form--controls input[type=password],
     .form--controls input[type=number],
@@ -179,8 +258,9 @@ form {
     .form--controls input[type=email][disabled],
     .form--controls input[type=url][disabled],
     .form--controls input[type=tel][disabled] {
-        border: 0 none !important;
-        height: 16px;
+		border: 0 none !important;
+		/* height: 16px; */
+		background-color:rgba(239, 239, 239, 0.3);
     }
 
     .inside {
@@ -194,8 +274,9 @@ form {
     .bankAndName .col-6 {
         flex: 0 0 100%;
     }
+	
 	.default {
-		padding: 39px 0 120px
+		padding-top: 0;
 	}
 	
 
@@ -216,17 +297,32 @@ form {
 		font-family: "Noto Sans KR";
 	}
 
-	.default .email.form--controls label+input, .default .phone.form--controls label+input{
+	
+	.default .email.form--controls,
+	.default .name.form--controls,
+	.default .nickname.form--controls{
+		margin-bottom: 15px;
+	}
+
+	.default .form--controls label{
+		width: 40%;
+	}
+
+	.default .email.form--controls label+input, 
+	.default .name.form--controls label+input,
+	.default .nickname.form--controls label+input,
+	.default .phone.form--controls label+input{
 		display: inline-block;
 		height: 35px;
 		line-height: 35px;
 		font-size: 16px;
 		margin-bottom: 0;
 		padding-left: 0;
-		width: 100%;
+		padding-right: 10px;
+		flex:1 1 auto;
 	}
 	.default .address.form--controls{
-		margin-top: 25px;
+		margin-top: 15px;
 	}
 
     .region::before {
@@ -244,19 +340,25 @@ form {
 
     .region .row {
         flex-direction: column;
-        row-gap: 25px;
+        row-gap: 15px;
     }
     .region .row .col-6 {
         display: flex;
 		justify-content: space-between;
 		width: 100%;
-		height: 30px;
-		line-height: 30px;
+		height: 35px;
+		line-height: 35px;
     }
 
 	.region .row .col-6 input{
 		height: 35px;
 		line-height: 35px;
+		width:auto!important;
+		flex: 1 1 auto;
+	}
+
+	.region .row .col-6 .dropdown+.dropdown--item input[name=search]{
+		width: 100%!important;
 	}
 
 	.region .form--controls label{
@@ -266,7 +368,21 @@ form {
 		font-size: 16px;
 		font-weight: 500;
 		margin-bottom: 0;
+		width: 40%;
 	}
+
+	.region .form--controls #country{
+		width:auto!important;
+		flex: 1 1 auto;
+		box-sizing: border-box;
+		height: 35px;
+		line-height: 35px;
+	}
+	.region .form--controls #country .dropdown{
+		height: 100%;
+		/* line-height: 35px; */
+	}
+
 	.region .form--controls input{
 		display: inline-block;
 		align-self: flex-end;
@@ -274,12 +390,84 @@ form {
 		line-height: 35px;
 		font-size: 16px;
 		margin-bottom: 0;
-		padding-left: 0;
+		padding-left: 10px;
+		padding-right: 10px;
+		width:auto!important;
+		flex: 1 1 auto;
 	}
+
+	.region .dropdown+.dropdown--item input[name=search]{
+		height: 35px;
+		line-height: 35px;
+	}
+	
+	.region .form--controls{
+		margin-top: 15px;
+	}
+
+	
+
 	.sub.member-account .text--red.mobile-only{
 		text-align: center;
 	}
 
-	.default .addressDesc{display: none;}
+	/* .default .addressDesc{display: none;} */
 	.desktop-only{display: none;}
+}
+
+@media screen and (max-width: 600px) {	
+	.sub.member-account .contents form .default .form--controls{
+		flex-direction: column;
+	}
+
+	.default .form--controls label{
+		width: 100%;
+		height: initial;
+		line-height: initial;
+		margin-bottom: 8px;
+	}
+
+	.default .email.form--controls label+input, .default .phone.form--controls label+input{
+		width: 100%;
+		text-align: left;
+	}
+
+	.email{
+		margin-bottom: 10px;
+	}
+
+	.region{
+		margin-top: 25px;
+	}
+	.region h1{
+		margin-top: 20px !important;
+	}
+	.region span{
+		font-weight: 500;
+	}
+	.region .row{
+		row-gap: 8px;
+	}
+	.region .row .col-6{
+		flex-direction: column;
+		height: auto;
+		line-height: initial;
+	}
+
+	.default .address.form--controls{
+		margin-top: 8px;
+	}
+
+	.region .form--controls #country,
+	.region .row .col-6 input,
+	.region .form--controls input{
+		width: 100%!important;
+	}
+
+}
+
+@media screen and (max-width: 400px) {	
+	.sub.member-account .btn-area .btn{
+		width: 100%!important;
+	}
 }

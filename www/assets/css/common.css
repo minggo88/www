@@ -8,10 +8,14 @@ body{
     margin: 0;
     padding: 0;
     font-family: "Noto Sans KR";
-    font-size: 12px;
+    font-size: 14px;
     color: var(--basic-black);
-    display: flex;
-    flex-direction: column;
+   /*  display: flex;
+    flex-direction: column; */
+}
+
+body.modal--open {
+    overflow: hidden;
 }
 
 h1,
@@ -42,6 +46,16 @@ input {
     letter-spacing: -0.15px;
     box-sizing: border-box;
 }
+/* Change the color to your own background color */
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	transition: background-color 5000s ease-in-out 0s;
+	-webkit-transition: background-color 9999s ease-out;
+	-webkit-box-shadow: 0 0 0px 1000px white inset !important;
+	-webkit-text-fill-color: #ccc !important;
+} */
 
 h1,
 h2,
@@ -57,6 +71,7 @@ a:focus,
 a:visited {
     color: var(--basic-black);
     text-decoration: none;
+    cursor: pointer;
 }
 
 p {
@@ -110,6 +125,7 @@ dl dt {
     line-height: 35px;
     font-weight: 500;
     font-size: 16px;
+    overflow:hidden;
 }
 dl dd {
     display: flex;
@@ -182,6 +198,7 @@ dl dd {
 
 .size--14 {
     font-size: 14px;
+	font-weight: 500;
 }
 .size--16 {
     font-size: 16px;
@@ -292,6 +309,8 @@ dl dd {
         position: fixed;
         bottom: 0;
         background: var(--white);
+		box-shadow: -4px -20px 30px rgb(0 0 0 / 8%);
+		z-index: 101;
     }
     .mobile-bottom li {
         height: 72px;
@@ -345,6 +364,10 @@ dl dd {
     }
 }
 
+.mobile-only,
+.mobile-only-block {
+    display:none;
+}
 @media (max-width: 600px) {
 	.desktop-only {
         display: none !important;
@@ -355,5 +378,12 @@ dl dd {
 	.mobile-only-block{
 		display: block
 	}
+
+}
+
+@media only screen and (max-width: 1400px) {
+   h1,h2,h3,h4,h5,input,textarea,button,a,span,p {
+      -webkit-tap-highlight-color : transparent !important;
+   }
 }
 
