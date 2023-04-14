@@ -1,14 +1,13 @@
 .front {
     position: relative;
-	background-color: #FFFFFF!important;
+	background-color: #fafbfc;
 }
 
 .content_wrap{
-	background-color: #FFFFFF!important;
+	background-color: #fafbfc;
 	max-width: 1440px;
 	width: 100%;
 	margin: 0 auto;
-	margin-top: 50px;
 }
 
 .language .dropdown {
@@ -40,9 +39,9 @@
 
 .viusalArea .typography h1 {
     margin: 0;
-    height: 50px;
-    font-size: 32px;
-    font-weight: 700;
+    height: 60px;
+    font-size: 26px;
+    font-weight: 500;
     line-height: 46px;
     color: var(--white);
 }
@@ -57,7 +56,7 @@
 }
 
 .front .viusalArea .statistics {
-    margin-top: 55px;
+	margin-top: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,17 +96,8 @@
 	margin: 20px 0 15px;
 }
 
-
-.front .viusalArea .statistics .statistics--tea em{
-	padding: 0 35px;
-	padding-right: 21px;
-}
-.front .viusalArea .statistics .statistics--tea h1{
-	margin-left: 7px;
-}
-
 .front .statistics > section{
-    width: 160px;
+    width: 120px;
     height: 60px;
     position: relative;
 }
@@ -115,9 +105,7 @@
 .front .statistics--tea em::after{
 	content: '';
 	position: relative;
-	/* left: 110%; */ 
-	left: 140%;
-	top: -30px;
+	left: 110%; top: -30px;
     display: block;
 	width: 1px;
 	height: 40px;
@@ -125,7 +113,7 @@
 }
 
 .front .getting-started {
-    margin-top: 110px;
+    margin-top: 120px;
     display: flex;
     justify-content: center;
     column-gap: 36px;
@@ -135,8 +123,6 @@
     width: 180px;
     height: 40px;
     line-height: 40px;
-    padding-top : 4px;
-    padding-bottom : 4px;
     text-align: center;
 	background-color: transparent;
     /* background: rgba(255, 255, 255, 0.15); */
@@ -163,7 +149,7 @@
     box-sizing: border-box;
 }
 
-/* mk 모바일 크기에 대한 css 제거
+/* mk 모바일크기에 대한 옵션 제거
 @media (max-width: 600px) {
 	.viusalArea{height: 100vh; min-height: 600px;}
 	.viusalArea .logo{display: none;}
@@ -171,51 +157,26 @@
 		padding-top: 0;
 	}
 	.viusalArea .typography {padding-top: 180px;}
-	.viusalArea .typography h1 {
-		font-size: 18px; 
-		line-height: 25px;
-		padding:0 20px;
-	}
-	.front .viusalArea .typography p {
-		margin: 20px; 
-		font-size: 12px; 
-		font-weight: 300; 
-		line-height: 23px;
-	}
+	.viusalArea .typography h1 {font-size: 24px; line-height: 60px;}
+	.front .viusalArea .typography p {margin: 20px; font-size: 16px; font-weight: 300; line-height: 23px;}
 	.front .getting-started {margin-top: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; column-gap: 36px;}
 	.front .getting-started > *{display: block;}
 	.front .getting-started .btn-- {margin-bottom: 20px;}
-}*/
-
-@media (max-width: 375px) {
-	.front .viusalArea .statistics{
-		flex-direction: column;
-		margin-top: 50px;
-	}
-	.front .statistics > section.statistics--tea{
-		margin-bottom: 30px;
-	}
-	.front .statistics--tea em::after{
-		display: none;
-	}
 }
+*/
 
 .front .news {
 	height: 82px;
     box-sizing: border-box;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-	background: #E21A32;
+	background: #B81C22;
 	color: #fff;
-	display: flex;
-    justify-content: center;
 }
 
 .front .news .column{
-	width: 100%;
-	height: 82px;
+	height: 100%;
 	overflow: hidden;
 }
-
 .front .news .column .swiper {
 	width: 100%;
 	height: 100%;
@@ -224,15 +185,11 @@
 .front .news .column li{
     margin: 0;
     padding: 0;
-    height: 82px;
+    height: 17px;
     list-style: none;
     font-size: 14px;
     letter-spacing: -0.05em;
 }
-.front .news .column ul.swiper-wrapper{
-	transform: translate3d(0px,0px,0px);
-}
-
 .front .news .column li {
     width: 100%;
     align-self: center;
@@ -259,11 +216,7 @@
 	width:100% ; 
 	margin: 0 auto;
 	height: 100%; 
-	background:#E21A32 url('../img/banner01.png') no-repeat 50% 50%/cover;
-}
-
-.front .news .column li:nth-child(2) a .bg{
-	background:#E21A32 url('../img/banner01.png') no-repeat 50% 50%/cover;
+	background:#B81C22 url('../img/notice-001.png') no-repeat 50% 50%/cover;
 }
 
 /* .front .news .column .badge {
@@ -289,16 +242,16 @@
 	color: var(--yellow);
 } */
 
-/* @media (max-width: 960px) {
+@media (max-width: 960px) {
 	.front .news .column li a .bg{
 		max-width: 800px;
 		background-image: url('../img/notice-moblie-001.png');
 		background-size: 100% 100%;
 	}
-} */
+}
 
 .front main {
-	padding:0 30px;
+	padding:0 40px;
 	margin:23px 0 40px;
     height: 318px;
     display: grid;
@@ -326,12 +279,12 @@
     margin: 0;
     padding: 0;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .front main .section .section--header .section--more {
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .front main .section:first-child .section--header {
@@ -352,31 +305,14 @@
 	vertical-align: top;
 }
 
-.front main .section:first-child .three-line-legend {
-    width: 10rem;
-    /* height: 70px; */
-    position: absolute;
-    padding: 8px;
-    font-size: 12px;
-    color: '#20262E';
-    background-color: rgba(255, 255, 255, 0.23);
-    text-align: left;
-    z-index: 1000;
-    padding-left: 10%;
-}
-#indexCanvas{
-	padding-left: 10%;
-}
 .front main .section:first-child .pop_up{
 	display: none;
 	position: absolute;
-	left: 5rem;
-	top: 0rem;
+	left: 45px;
+	top: 30px;
 	padding: 12px 15px 11px 17px;
 	max-width: 200px;
 	background-color: #FFF176;
-    width: 300px;
-    border-radius: 0.7rem;
 }
 
 
@@ -456,7 +392,7 @@
 @media screen and (min-width: 1px) and (max-width: 900px) {
 	.front main {
 		margin: 30px 0 40px;
-		padding: 0 35px;
+		padding: 0 75px;
 		height: auto;
 		display: flex;
 		flex-direction: column;
@@ -468,43 +404,10 @@
 	}
 }
 
-/*230130 메인 이미지 추가*/
+
 .section--service {
-    height: 810px;
+    height: 745px;
     background: url('../img/bg2.png') no-repeat center;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-	padding-top: 60px;
-}
-
-/*230130 메인 이미지 추가*/
-.section--service2 {
-    height: 810px;
-    background: url('../img/bg3.png') no-repeat center;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-	padding-top: 60px;
-}
-
-/*230130 메인 이미지 추가*/
-.section--service3 {
-    height: 750px;
-    background: url('../img/bg4.png') no-repeat center;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-	padding-top: 60px;
-}
-
-/*230220 메인 이미지 추가*/
-.section--service4 {
-    height: 400px;
-    background: url('../img/bg5.png') no-repeat center;
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -583,22 +486,6 @@
     height: 62px;
 }
 
-/*230315 회사소개 이미지 추가*/
-.section--company {
-    margin: 0 auto;
-    max-width: 1440px;
-    height: 4000px;
-    background: url('../img/company.png') no-repeat center;
-    background-size: cover;
-    display: flex;
-    flex-direction: column!important;
-    box-sizing: border-box;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    align-content: center!important;
-}
-
-
 .appdown {
     width: 344px;
     justify-content: center;
@@ -633,8 +520,7 @@
     font-weight: 700
 }
 
-/*@media screen and (min-width: 601px) and (max-width: 1100px) {*/
-@media screen and (min-width: 1px) and (max-width: 1100px) {
+@media screen and (min-width: 801px) and (max-width: 1100px) {
 	.section--service{padding-top: 30px; height: 715px;}
 	.section--service .descArea > div {
 		column-gap: 225px;
@@ -652,331 +538,10 @@
 /*@media screen and (min-width: 601px) and (max-width: 800px) {*/
 @media screen and (min-width: 1px) and (max-width: 800px) {
 	.front .box-mobile-menu{display: block;}
-	/*230219 메인 section 사이즈 변경*/
-	.d-grid.grid-3-column{
-		margin-top:10px;
-		margin-bottom: 30px;
-	}
-	.content_wrap{
-		margin-top: 0px;
-	}
-	/*.d-grid.grid-3-column section{
-		margin-bottom: 0px;	
-	}*/
-	.d-grid.grid-3-column .section.section--index{
-		margin-bottom: 0px;	
-	}
-	.d-grid.grid-3-column .section{
-		margin-bottom: 10px;	
-	}
-	
-	/*230219 메인 모바일 이미지 추가*/
-	.section--service {
-	    width: 100% - 20px;
-	    height: 600px;
-		background-size: contain;
-	    background: url('../img/mobile_mian1.png') no-repeat center;
-	    display: flex;
-	}
-	
-	/*230219 메인 모바일 이미지 추가*/
-	.section--service2 {
-	    width: 100% - 20px;
-	    height: 460px;
-		background-size: contain;
-	    background: url('../img/mobile_mian2.png') no-repeat center;
-	    display: flex;
-
-	}
-	
-	/*230219 메인 모바일 이미지 추가*/
-	.section--service3 {
-	    width: 100% - 20px;
-	    height: 1500px;
-		background-size: contain;
-	    background: url('../img/mobile_mian3.png') no-repeat center;
-	    display: flex;
-	}
-	
-	/*230219 메인 모바일 이미지 추가*/
-	.section--service4 {
-	    width: 100% - 20px;
-	    height: 500px;
-		background-size: contain;
-	    background: url('../img/mobile_mian4.png') no-repeat center;
-	    display: flex;
-	}
-	
-	footer{
-		display : block!important;
-	}
-	
-	/* 230220 모바일 세션 크기 조정 */
-	.front main .section:nth-child(2) .list--text{
-	flex-basis: 30%;
-	overflow:hidden;
-	text-overflow:ellipsis;
-	white-space:nowrap;
-	}
-	.front main .section:nth-child(2) .list--text:nth-child(2){
-		flex-basis:45%;
-	}
-	.front main .section:nth-child(2) .list--text:last-child{
-		flex-basis:20%;
-	}
-	
-	.front main .section:nth-child(2) .list--text{
-	flex-basis: 30%;
-	overflow:hidden;
-	text-overflow:ellipsis;
-	white-space:nowrap;
-	}
-	.front main .section:nth-child(2) .list--text:nth-child(2){
-		flex-basis:45%;
-	}
-	.front main .section:nth-child(2) .list--text:last-child{
-		flex-basis:20%;
-	}
-
-	.viusalArea .typography h1,
-	.front .viusalArea .statistics em {
-		font-size : 24px;
-	}
-
-	.front .viusalArea .statistics h1 {
-		font-size : 20px;
-	}
-
-	.front .news .column li a .bg{
-		max-width: 1440px;
-		width:100% ; 
-		margin: 0 auto;
-		height: 100%; 
-		background:#E21A32 url('../img/mobile_banner.png') no-repeat 50% 50%/cover;
-	}
-	
-	.front .news .column li:nth-child(2) a .bg{
-		background:#E21A32 url('../img/mobile_banner.png') no-repeat 50% 50%/cover;
-	}
-	
 }
 
-/* mk 모바일 크기에 대한 css 제거
+/* mk 모바일크기에 대한 옵션 제거
 @media (max-width: 600px) {
 	header, .front main, .front main .section, .front .news, .section--service, footer, .appdown  {display: none!important;}
-
-
 }
 */
-
-@media screen and (max-width: 800px) {
-	.front header{display: none;}
-	.front .contents--header{
-		display: flex;
-		justify-content: flex-end;
-	}
-	.front .contents--header > div{width: 50%;}
-	.front .contents--header > div.mobile-only{
-		display: flex!important;
-		justify-content: flex-end
-	}
-	.front .contents--header > div.mobile-only > i:first-child{
-		margin-right: 10px;
-	}
-
-	.front .desktop-only{display: none!important;}
-	.front .mobile-only{display: block!important;}
-
-	.front .contents{
-		height: initial;
-	}
-	.front .contents--header{
-		margin-bottom: 0;
-		line-height: 48px;
-		width:100%;
-	}
-	
-	/* 햄버거 메뉴 */
-    .front .contents--header .navigation {
-        width: 44px;
-        height: 24px;
-        background: url('../img/menu.svg') no-repeat 0 50%;
-        border: 0 none;
-    	padding-right: 16px;
-	margin-right : 0px!important;
-        float:left;
-    }
-	/* 로고 메뉴 */
-    .front .contents--header a {
-        width: 100px;
-        height: 24px;
-	padding-left:calc(2%+16px);
-	font-size:16px;
-	font-weight:700;
-        float:right;
-		display:relase;
-		/*background: url('../img/Teaplat-logo_color.png') no-repeat center center;
-		background-size: cover;*/
-    }
-	/* 빈공간 */
-	.front .contents--header span {
-		width: calc(100% - 159px);
-	}
-	/* 왼쪽 정렬 */
-	.front .contents--header{
-		display: flex;
-		justify-content: flex-end!important;
-	}
-	
-
-	.front .mobile-only.navigation--back{
-		
-		display: inline-block!important;
-		margin-right: 15px;
-	}
-
-	.front .contents--header .navigation{
-		margin-left : calc(width*0.275)px;
-		height: 48px;
-		margin-right: 30x;
-	}
-
-	.front .contents--header h1 {
-	    margin: 0;
-	    padding: 0;
-	    font-weight: inherit;
-	    font-size: inherit;
-	    font-family: inherit !important;
-	}
-	.mobile-panel {
-    display: none;
-	    position: fixed;
-	    width: 100%;
-		height: 100%;;
-	    background: var(--white);
-		padding: 15px 16px 15px 16px;
-	    z-index: 1001;
-		box-sizing: border-box;
-	}
-	
-	.mobile-panel .navigation--close + h1.size--20{
-		margin-top: 0;
-		margin-bottom: 7px;
-	}
-	
-	.mobile-panel ul {
-	    margin: 0;
-	    padding: 0;
-	    list-style: none;
-	    display: flex;
-	    flex-direction: column;
-	    row-gap: 10px;
-	}
-	.mobile-panel ul li {
-	    margin: 0;
-	    padding: 0;
-	    height: 22px;
-	    line-height: 22px;
-	    font-size: 14px;
-	    font-weight: 400;
-	    color: var(--gray002);
-	}
-	
-	.mobile-panel ul li [class^=icon-] {
-		width: 22px;
-		height: 22px;
-	}
-	
-	.mobile-panel ul li span{
-		margin-left: 5px;
-	}
-	.navigation {
-		display: inline-block;
-	}
-	.navigation--back {
-		display: block;
-		width: 24px;
-		height: 24px;
-		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
-		border: 0 none;
-	}
-
-	.navi--back {
-		display: block;
-		width: 24px;
-		height: 24px;
-		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
-		border: 0 none;
-	}
-
-	.navigation--close {
-		display: block;
-		width: 24px;
-		height: 24px;
-		background: transparent url('../img/icon/icon-close-black.svg') no-repeat 0 50%;
-		border: 0 none;
-		position: absolute;
-		right: 10px;
-		top: 15px;
-	}
-
-    .notification > header {
-        display: none;
-    }
-
-	/*230315 회사소개 이미지 추가*/
-	.section--company {
-		
-		margin: 0 auto;
-		height:1700px;
-		max-width: 380px;
-		background: url('../img/mobile_company.png') no-repeat center;
-	}
-
-}
-
-/** 230310 mk 일정 크기에 따른 컨테이너 추가 */
-.container_min {
-	flex-wrap: wrap;
-	justify-content: space-between;
-	align-items: center;
-	color: white;
-	padding: 10px;
-	display:none;
-	margin-top:53px;
-	padding-bottom:0px;
-}
-.left {
-	text-align: center;
-	font-size: 24px;
-	flex-basis: 100%;
-	margin-bottom: 10px;
-}
-.left.white-text {
-	font-size: 20px;
-}
-.right {
-	text-align: center;
-	font-size: 24px;
-	flex-basis: 100%;
-	margin-bottom: 10px;
-}
-.right.white-text {
-	font-size: 20px;
-}
-.white-text {
-	color: white;
-}
-
- /* 반응형 스타일 */
-@media (min-width: 310px) and (max-width: 380px) {
-	.left, .right {
-		flex-basis: 50%;
-	}
-	.container_min {
-		display:flex;
-	}
-	.front .viusalArea .statistics{
-		display:none;
-	}
-}

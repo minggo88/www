@@ -1,32 +1,20 @@
 footer {
 	width: 100%;
 	margin-top: auto;
-	/* height: 160px; */
+	height: 160px;
 	color: var(--gray003);
 	position: relative;
 	letter-spacing: -0.02em;
-	font-size: 12px!important;
 	/* padding: 30px 0 25px 40px;
 	box-sizing: border-box; */
-	background: #FFFFFF;
 }
-.sub footer{
-	background: #121212;
-	color: #fff;
-}
-
-.sub .fnb ul li a{
-	color:#fff;
-}
-
 .footer_inner{
-	max-width: 1440px;
+	width: 1440px;
 	margin:0 auto;
 	display: flex;
-	/* background: #f8f8f8; */
-	padding: 30px 0 25px 0px;
+	background: #f8f8f8;
+	padding: 30px 0 25px 40px;
 	box-sizing: border-box;
-	margin-left: 15px;
 }
 
 footer .logo {
@@ -46,19 +34,17 @@ footer .logo a {
 }
 
 .fnb {
-	/* margin-left: 134px; */
+	margin-left: 134px;
 	max-width: 650px;
 	width: 100%;
 }
 
 .fnb ul{
 	margin: 0;
-	margin-right : 15px;
 	padding:0;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: flex-start;
 }
 
 .fnb ul li {
@@ -96,9 +82,9 @@ footer .copyright {
 
 footer .copyright address{
 	width: 100%;
-	/*display: flex;
+	display: flex;
 	flex-direction: row;
-	flex-wrap:wrap;*/
+	flex-wrap:wrap;
 }
 
 footer .copyright address > span{
@@ -146,22 +132,16 @@ footer .customer--time {
 
 
 
-/*
-@media screen and (max-width: 600px) {
+
+@media screen and (max-width: 1400px) {
 	footer{height: auto; padding: 0; box-sizing: border-box; }
 	.footer_inner{width: 100%; padding:30px 0 25px; flex-direction: column; justify-content: center; align-items: center; height: auto;}
-	footer .fnb{
-		margin-left: 0; 
-		/* margin-top: 20px; 
-	}
+	footer .fnb{margin-left: 0; margin-top: 20px;}
 	footer .fnb ul{justify-content: center;}
-	footer .copyright{
-		/* margin-bottom: 20px;  
-		text-align: center;
-	}
+	footer .copyright{margin-bottom: 20px; text-align: center;}
 	footer .copyright address{justify-content: center; text-align: center; flex:auto;}
 	footer .customer--text,footer .customer--number,footer .customer--time{position: static;}
-}*/
-/* @media screen and (max-width: 800px) {
+}
+@media screen and (max-width: 800px) {
 	.footer_inner{padding:30px 10px 25px;}
-} */
+}

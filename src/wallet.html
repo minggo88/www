@@ -4,18 +4,18 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="title" content="Teaplat">
+<meta name="title" content="끽다거">
 <meta name="description" content="">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://assettea.com">
-<meta property="og:title" content="Teaplat">
-<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
+<meta property="og:url" content="https://kkikda.com">
+<meta property="og:title" content="끽다거">
+<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
 <meta property="og:description" content="">
-<meta property="og:site_name" content="Teaplat">
+<meta property="og:site_name" content="끽다거">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image:width" content="200">
 <meta property="og:image:height" content="100">
-<title>Teaplat</title>
+<title>끽다거</title>
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 <link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 <link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
@@ -33,18 +33,42 @@
 <link rel="stylesheet" href="./assets/css/components.css?t={version}">
 <link rel="stylesheet" href="./assets/css/sub.css?t={version}">
 <link rel="stylesheet" href="./assets/css/wallet.css?t={version}">
-
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}"></script>
 <script src="./assets/js/qrcode.min.js?t={version}"></script>
+<script>
+    let USER_INFO = {}
 
-<script src="//cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
-<script src="//cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
+    API.getMyInfo((resp) => {
+        if(resp.success) {
+            const payload = resp.payload
+
+            USER_INFO = {
+                ...USER_INFO,
+                userno: payload.userno,
+                userid: payload.userid,
+                phone: payload.phone,
+                mobile: payload.mobile,
+                bool_email: payload.bool_email,
+                bool_sms: payload.bool_sms,
+                regdate: payload.regdate,
+                bank_name: payload.bank_name,
+                bank_account: payload.bank_account,
+                bank_owner: payload.bank_owner,
+            }
+
+            if(USER_INFO.userno) {
+                $('.nav--side .btn--login').hide()
+                $('.profile').show()
+                $('.wallet').show()
+                $('.profile .dropdown').text(USER_INFO.userid)
+            }
+        }
+    })
+</script>
 
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
@@ -53,321 +77,284 @@
 </head>
 <!-- BODY -->
 <body class="sub wallet notice">
-	<header>
-		<div class="header_inner">
-			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
-			<nav class="nav">
-				<ul>
-					<li>
-						<a href="exchange.html" data-i18n>거래소</a>
-					</li>
-					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
-					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
-					<li class="active">
-						<a href="wallet.html" data-login data-i18n>입출금</a>
-					</li>
-					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
-					<li>
-						<a href="notice.html" data-i18n>고객센터</a>
-					</li>
-				</ul>
-			</nav>
-			<div class="nav--side">
-				<div name="box_logedin" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-					<div class="dropdown--item" style="width: 134px;left: -32px;">
-						<ul>
-							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
-							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
-							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
-							<li><a href="notification.html" data-login data-i18n>알림</a></li>
-						</ul>
-					</div>
-				</div>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
-				<div class="language dropdown-wrapper">
-					<button type="button" class="dropdown">한국어</button>
-					<div class="dropdown--item" style="width: 81px">
-						<span>한국어</span>
-						<ul></ul>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="box-mobile-menu">
-			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
-		</div>
-		<ul class="gnb box-menu" name="box-menu">
-			<li>
-				<a href="exchange.html" data-i18n>거래소</a>
-			</li>
-			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
-			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
-			<li>
-				<a href="wallet.html" data-login data-i18n>입출금</a>
-			</li>
-			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
-			<li>
-				<a href="notice.html" data-i18n>고객센터</a>
-			</li>
-		</ul>
-	</header>
-	<aside class="mobile-panel">
-		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
-		<h1 class="size--20" data-i18n>마이페이지</h1>
-		<ul>
-			<li>
-				<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
-			</li>
-			<li>
-				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
-			</li>
-			<li>
-				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
-			</li>
-			<li>
-				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
-			</li>
-			<!-- <li>
-				<a href="transaction.html" data-login data-i18n><i class="icon-transaction-black"></i><span data-i18n>거래내역</span></a>
-			</li> -->
-			<li>
-				<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
-			</li>
-		</ul>
-		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>입출금</h1>
-		<ul>
-			<li>
-				<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
-			</li>
-			<li>
-				<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
-			</li>
-			<li>
-				<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
-			</li>
-			<li>
-				<a href="wallet-analysis.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
-			</li>
-		</ul>
-		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
-		<ul>
-			<li>
-				<a href="notice.html"><i class="icon-alarm"></i> <span data-i18n>공지사항</span></a>
-			</li>
-			<li>
-				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n>자주하는 질문</span></a>
-			</li>
-			<li>
-				<a href="inquiry.html" data-login><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
-			</li>
-		</ul>
-		<div class="nav--side mobile">
-			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-			<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
-			<div class="language dropdown-wrapper">
-				<button type="button" class="dropdown">한국어</button>
-				<div class="dropdown--item" style="width: 81px">
-					<span>한국어</span>
-					<ul></ul>
-				</div>
-			</div>
-		</div>
-	</aside>
-    <div class="content_wrap">
-		<main class="d-flex d-justify">
-			<aside class="side">
-				<h1 data-i18n>입출금</h1>
-				<nav class="side--snb">
-					<ul>
-						<li class="snb--active">
-							<a href="wallet.html" data-login data-i18n>내 지갑</a>
-						</li>
-						<li>
-							<a href="transaction.html" data-login data-i18n>주문 및 거래내역</a>
-						</li>
-						<li>
-							<a href="wallet-deposit.html" data-login data-i18n>입금</a>
-						</li>
-						<li>
-							<a href="wallet-withdrawal.html" data-login data-i18n>출금</a>
-						</li>
-						<li>
-							<a href="wallet-analysis.html" data-login data-i18n>종합 분석</a>
-						</li>
-					</ul>
-				</nav>
-			</aside>
-			<div class="contents">
-				<header class="contents--header">
-					<button type="button" class="navigation--back"></button>
-					<h1 data-i18n>내 지갑</h1>
-				</header>
-				<h2 class="mobile-only" style="margin-bottom: 32px !important"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></h2>
-				<section class="d-grid wallet-summary">
-					<div class="grid">
-						<label data-i18n>총 보유 자산</label>
-						<div class="input pr-0">
-							<div id="totalBalance" class="text- text-red">0</div>
-							<div class="totalBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<label for="" data-i18n>사용 가능 자산</label>
-						<div class="input pr-0">
-							<div id="totalAvailableBalance" class="text-">0</div>
-							<div class="availableBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<label for="" data-i18n>동결 평가 자산</label>
-						<div class="input pr-0">
-							<div id="totalLockedBalance" class="text-">0</div>
-							<div class="unconfirmedBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<label for="" data-i18n>구매 가능 금액</label>
-						<div class="input pr-0">
-							<div id="totalBuyableBalance" class="text-">0</div>
-							<div class="buyableBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-				</section>
-				<div class="d-grid d-grid--empty wallet--grid loading" name="d-grid--empty">
-					<div class="grid grid--empty" name="grid--empty">
-						<div>
-							보유중인 상품이 없습니다
-						</div>
-					</div>
-				</div>
-			</div>
-		</main>
-	</div>
-	<nav class="mobile-bottom mobile-only">
-		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
-			<li class="exchange">
-				<a href="exchange.html" data-i18n>거래소</a>
-			</li>
-			<li class="area" >
-				<a href="" data-i18n>티드로우</a>
-			</li>
-			<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> -->
-			<li class="transaction" style="flex: 1 1 auto">
-				<a href="transaction.html" data-login data-i18n>거래내역</a>
-			</li>
-			<li class="more">
-				<a href="" data-i18n>더보기</a>
-			</li>
-		</ul>
-	</nav>
+    <header>
+        <h1 class="logo"><a href="/">Teaplat</a></h1>
+        <nav class="nav">
+            <ul>
+                <li>
+                    <a href="exchange.html" data-i18n>거래소</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>공동구매</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>경매</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>가이드</a>
+                </li>
+                <li>
+                    <a href="" data-i18n>다도 문화</a>
+                </li>
+                <li>
+                    <a href="notice.html" data-i18n>고객센터</a>
+                </li>
+            </ul>
+            <div class="nav--side">
 
-	<div id="goods-desc" class="modal modal--middle" tabindex="-1">
-		<div class="modal--dialog">
-			<div class="modal--header">
-				<div>
-					<span class="text--bbold tea--name" style="font-size: 18px">상품이름</span>
-					<span style="font-size: 18px;">
-						<span style="vertical-align: initial;" class="text--bbold tea--grade"></span>등급</span>
-				</div>
-				<button type="button" class="btn btn--close"></button>
+                <div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
+                    <button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
+                    <div class="dropdown--item" style="width: 134px">
+                        <ul>
+                            <li><a href="member-account.html" data-i18n>정보 수정</a></li>
+                            <li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
+                            <li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
+                            <li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
+                            <li><a href="transaction.html" data-i18n>거래 내역</a></li>
+                            <li><a href="notification.html" data-i18n>알림</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
+                    <button type="button" class="dropdown" data-i18n>지갑관리</button>
+                    <div class="dropdown--item" style="width: 100px">
+                        <ul>
+                            <li><a href="wallet.html" data-i18n>보유 자산</a></li>
+                            <li><a href="wallet-deposit.html" data-i18n>입금</a></li>
+                            <li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
+                            <li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button name="box_logedin" style="display: none" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+                <div name="box_unlogedin" style="display: none">
+                    <a href="login.html" class="btn--login" data-i18n>로그인</a>
+                </div>
+
+                <div class="language dropdown-wrapper">
+                    <button type="button" class="dropdown">한국어</button>
+                    <div class="dropdown--item">
+                        <span>한국어</span>
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="d-grid">
+        <aside class="side">
+            <h1 data-i18n>지갑 관리</h1>
+            <nav class="side--snb">
+                <ul>
+                    <li class="snb--active">
+                        <a href="wallet.html" data-i18n>보유 자산</a>
+                    </li>
+                    <li>
+                        <a href="wallet-deposit.html" data-i18n>입금</a>
+                    </li>
+                    <li>
+                        <a href="wallet-withdrawal.html" data-i18n>출금</a>
+                    </li>
+                    <li>
+                        <a href="wallet-analysis.html" data-i18n>종합 분석</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="contents">
+            <header class="contents--header">
+                <button type="button" class="navigation--back"></button>
+                <h1 data-i18n>My Wallet</h1>
+            </header>
+            <h2 class="m-0 mobile-only" style="margin-bottom: 32px !important"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></h2>
+
+            <section class="d-grid wallet-summary">
+                <div class="grid">
+                    <label data-i18n>총 보유 자산</label>
+                    <div class="input pr-0">
+                        <div id="totalBalance" class="text- text-red">12,345,678,900</div>
+                        <div class="totalBalance currency dropdown-wrapper">
+                            <button type="button" class="dropdown">
+                                KRW
+                            </button>
+                            <div class="dropdown--item">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <label for="" data-i18n>사용 가능 자산</label>
+                    <div class="input pr-0">
+                        <div class="text-">10,000,000,000</div>
+                        <div class="availableBalance currency dropdown-wrapper">
+                            <button type="button" class="dropdown">
+                                KRW
+                            </button>
+                            <div class="dropdown--item">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <label for="" data-i18n>동결 평가 자산</label>
+                    <div class="input pr-0">
+                        <div class="text-">2,345,678,900</div>
+                        <div class="unconfirmedBalance currency dropdown-wrapper">
+                            <button type="button" class="dropdown">
+                                KRW
+                            </button>
+                            <div class="dropdown--item">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="d-grid wallet--grid loading">
+            </div>
+            <script>
+                $('.wallet--grid').removeClass('loading')
+                API.getCurrency('', (resp) => {
+                    if(resp.success) {
+                        resp.payload.filter(function(item) {
+                            if (item.crypto_currency === 'N') {
+                                return false; // skip
+                            }
+                            return true;
+                        }).map((item) => {
+                            let className = ''
+
+                            switch(item.symbol) {
+                                case 'AAT':
+                                    className = ''
+                                    break
+                                case 'ETH':
+                                    className = 'grid--ethereum'
+                                    break
+                                case 'BTC':
+                                    className = 'grid--bitcoin'
+                                    break
+                                case 'BTG':
+                                    className = 'grid--bitcoingold'
+                                    break
+                                case 'BCH':
+                                    className = 'grid--bitcoincash'
+                                    break
+                                case 'LTC':
+                                    className = 'grid--lightcoin'
+                                    break
+                                case 'KRW':
+                                    className = 'grid--krw'
+                                    break
+                            }
+
+                            API.getBalance(item.symbol, null, (res) => {
+                                if(res.success) {
+                                    console.log('test', res.payload[0])
+
+                                    $('#totalBalance').text(res.payload[0].eval_amount.format())
+                                }
+                            })
+
+                            const grid = $(`<div class="grid ${className}" style="/*border-left-color: #${item.color}*/" />`)
+
+                            grid.append(`<div>${item.name}</div>`)
+                            grid.append(`
+                            <div class="grid--inner-right">
+                                <div clas="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-end">
+                                    <div class="text--gray003 size--14 mobile-only" style="margin-bottom: 16px">${item.name}</div>
+                                    <div class="wallet--price">0.00000000 ${item.symbol}</div>
+                                    ${item.crypto_currency === 'Y' ? '<div class="wallet--market-price">≈ 0.00000000 KRW</div>' : ''}
+                                </div>
+                                <div class="wallet--btn">
+                                    <a href="wallet-deposit.html" class="btn btn--red btn--rounded">입금</a>
+                                    <a href="wallet-withdrawal.html" class="btn btn--withdrawal btn--rounded">출금</a>
+                                </div>
+                            </div>`)
+
+                            $('.wallet--grid').append(grid)
+                            $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
+                        })
+                    }
+                })
+
+                $('.totalBalance').on('change', (event, symbol) => {
+                    API.getBalance('ALL', symbol, (resp) => {
+                        if(resp.success) {
+                            console.log(resp)
+
+                            $('.wallet-summary .grid:eq(0)').find('.text-').text(resp.payload.price)
+                        } else {
+                            alert(resp.error.message)
+                        }
+                    })
+                })
+                $('.availableBalance').on('change', (event, symbol) => {
+                    API.getBalance('ALL', symbol, (resp) => {
+                        if(resp.success) {
+                            const price = resp.payload.price
+                            $('.wallet-summary .grid:eq(1)').find('.text-').text(price.format())
+                        } else {
+                            alert(resp.error.message)
+                        }
+                    })
+                })
+                $('.unconfirmedBalance').on('change', (event, symbol) => {
+                    API.getBalance('ALL', symbol, (resp) => {
+                        if(resp.success) {
+                            const price = resp.payload.price
+                            $('.wallet-summary .grid:eq(1)').find('.text-').text(price.format())
+                        } else {
+                            alert(resp.error.message)
+                        }
+                    })
+                })
+
+            </script>
+        </div>
+    </main>
+    <footer class="desktop-only">
+		<div class="logo">Teaplat</div>
+		<nav class="fnb">
+			<ul>
+				<li>
+					<a href="" data-i18n>회사소개</a>
+				</li>
+				<li>
+					<a href="" data-i18n>이용약관</a>
+				</li>
+				<li>
+					<a href="" data-i18n>개인정보보호정책</a>
+				</li>
+				<li>
+					<a href="faq.html" data-i18n>자주묻는질문</a>
+				</li>
+			</ul>
+			<div class="copyright">
+				<address>
+					<span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
+					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
+					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
+					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
+					<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
+					<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
+					<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
+				</address>
+				<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
 			</div>
-			<div class="modal--content">
-				<div class="info">
-					<div class="thumb">
-						<img src="./assets/img/dummy/noimage.gif" alt="상품이미지">
-					</div>
-					<div>
-						<table class="table">
-							<tr>
-								<th data-i18n>구분</th>
-								<td>
-									<div data-i18n name="meta_division"></div>
-								</td>
-							</tr>
-							<tr>
-								<th data-i18n>타입</th>
-								<td>
-									<div data-i18n name="meta_type"></div>
-								</td>
-							</tr>
-							<tr>
-								<th data-i18n>생산</th>
-								<td>
-									<div name="meta_produce"></div>
-								</td>
-							</tr>
-							<tr>
-								<th data-i18n>인증</th>
-								<td>
-									<div name="meta_certification_mark_name"></div>
-								</td>
-							</tr>
-							<tr>
-								<th data-i18n>차 소개</th>
-								<td>
-									<div name="meta_wp_teamaster_note">
-									</div>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="desc_table" id="desc_table">
-					<table class="transaction--list board--list table_desc" style="width:100%">
-						<colgroup>
-							<col />
-							<col />
-							<col />
-							<col />
-							<col />
-						</colgroup>
-						<thead>
-							<th data-i18n>idx</th>
-							<th data-i18n>블록체인</th>
-							<th data-i18n>토큰 ID</th>
-							<th data-i18n>NFT 토큰 주소</th>
-							<th data-i18n>NFT 생성 TXID</th>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+		</nav>
+		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
+		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
+		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
+	</footer>
 
     <script src="./assets/js/app.js?t={version}"></script>
 
 </body>
-<script>
-	var clipboard = new ClipboardJS('.copyBtn');
-	clipboard.on('success', function(e) {
-		alert("클립보드로 복사되었습니다.");
-		// console.log(e);
-	});
-	clipboard.on('error', function(e) {
-		alert("다시 시도해 주세요.")
-	});
-</script>
-
 </html>

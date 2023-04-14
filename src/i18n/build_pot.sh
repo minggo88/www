@@ -27,4 +27,4 @@ xgettext --from-code=UTF-8 --default-domain=WWW --output-dir=. --output=WWW.pot 
 php add_html_tags.php
 
 # 대상 파일 목록 삭제
-# rm file_list.txt
+rm file_list.txt

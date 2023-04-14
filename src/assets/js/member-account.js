@@ -1,15 +1,13 @@
-/* $(function() {
+$(function() {
     $('#member-account [name=email]').val(USER_INFO.userid)
-    $('#member-account [name=phone]').val(USER_INFO.mobile)
-
+    $('#member-account [name=mobile]').val(USER_INFO.mobile)
 
     $('#member-account').submit((e) => {
         e.preventDefault()
 
         API.putMyInfo({
             email: $('#email').val(),
-            mobile: $('#phone').val(),
-
+            mobile: $('#mobile').val(),
         }, (resp) => {
             if(resp.success) {
 
@@ -19,4 +17,4 @@
         })
         return false
     })
-}) */
+})

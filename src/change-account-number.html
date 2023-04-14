@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <!-- TITLE -->
-<title>Teaplat</title>
+<title>끽다거</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
@@ -47,6 +47,15 @@
 <script src="./assets/js/common.js?t={version}"></script>
 <script src="./assets/js/api.js?t={version}"></script>
 <script src="./assets/js/components.js?t={version}"></script>
+<script>
+    let USER_INFO = {}
+</script>
+<style>
+    /* .sub > header {
+        display: none;
+    } */
+</style>
+
 <script src="./assets/js/lib/php.default.min.js?t={version}"></script>
 <script src="./assets/js/lib/security.min.js?t={version}"></script>
 <script src="./i18n/i18n.js?t={version}"></script>
@@ -62,119 +71,87 @@
 					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
-					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
-					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 					<li>
-						<a href="wallet.html" data-login data-i18n>입출금</a>
+						<a href="" data-i18n>공동구매</a>
 					</li>
-					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+					<li>
+						<a href="" data-i18n>경매</a>
+					</li>
+					<li>
+						<a href="" data-i18n>입출금</a>
+					</li>
+					<li>
+						<a href="" data-i18n>다도 문화</a>
+					</li>
 					<li>
 						<a href="notice.html" data-i18n>고객센터</a>
 					</li>
 				</ul>
 			</nav>
 			<div class="nav--side">
-				<div name="box_logedin" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-					<div class="dropdown--item" style="width: 134px;left: -32px;">
+				<div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
+					<div class="dropdown--item" style="width: 134px">
 						<ul>
-							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
-							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
-							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
-							<li><a href="notification.html" data-login data-i18n>알림</a></li>
+							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
+							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
+							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
+							<li><a href="notification.html" data-i18n>알림</a></li>
 						</ul>
 					</div>
 				</div>
-				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+				<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
+					<button type="button" class="dropdown" data-i18n>지갑관리</button>
+					<div class="dropdown--item" style="width: 100px">
+						<ul>
+							<li><a href="wallet.html" data-i18n>보유 자산</a></li>
+							<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
+							<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
+							<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
+						</ul>
+					</div>
+				</div>
+				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+				<div name="box_unlogedin">
+					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
+				</div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
 						<span>한국어</span>
-						<ul></ul>
+						<ul>
+						</ul>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="box-mobile-menu">
-			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
-		</div>
-		<ul class="gnb box-menu" name="box-menu">
-			<li>
-				<a href="exchange.html" data-i18n>거래소</a>
-			</li>
-			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
-			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
-			<li>
-				<a href="wallet.html" data-login data-i18n>입출금</a>
-			</li>
-			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
-			<li>
-				<a href="notice.html" data-i18n>고객센터</a>
-			</li>
-		</ul>
-	</header>
-	<aside class="mobile-panel">
-		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
-		<h1 class="size--20" data-i18n>마이페이지</h1>
-		<ul>
-			<li>
-				<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
-			</li>
-			<li>
-				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
-			</li>
-			<li>
-				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
-			</li>
-			<li>
-				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
-			</li>
-			<li>
-				<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
-			</li>
-		</ul>
-		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>입출금</h1>
-		<ul>
-			<li>
-				<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
-			</li>
-			<li>
-				<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
-			</li>
-			<li>
-				<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
-			</li>
-			<li>
-				<a href="wallet-analysis.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>종합 분석</span></a>
-			</li>
-		</ul>
-		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
-		<ul>
-			<li>
-				<a href="notice.html"><i class="icon-alarm"></i> <span data-i18n>공지사항</span></a>
-			</li>
-			<li>
-				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n>자주하는 질문</span></a>
-			</li>
-			<li>
-				<a href="inquiry.html" data-login><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
-			</li>
-		</ul>
-		<div class="nav--side mobile">
-			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-			<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
-			<div class="language dropdown-wrapper">
-				<button type="button" class="dropdown">한국어</button>
-				<div class="dropdown--item" style="width: 81px">
-					<span>한국어</span>
-					<ul></ul>
-				</div>
+			<div class="box-mobile-menu">
+				<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
 			</div>
+			<ul class="gnb box-menu" name="box-menu">
+				<li>
+					<a href="exchange.html" data-i18n>거래소</a>
+				</li>
+				<li>
+					<a href="" data-i18n>공동구매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>경매</a>
+				</li>
+				<li>
+					<a href="" data-i18n>입출금</a>
+				</li>
+				<li>
+					<a href="" data-i18n>다도 문화</a>
+				</li>
+				<li>
+					<a href="notice.html" data-i18n>고객센터</a>
+				</li>
+			</ul>
 		</div>
-	</aside>
+	</header>
     <div class="content_wrap">
 		<main class="d-flex d-justify">
 			<aside class="side">
@@ -182,22 +159,22 @@
 				<nav class="side--snb">
 					<ul>
 						<li>
-							<a href="member-account.html" data-login data-i18n>정보 수정</a>
+							<a href="member-account.html" data-i18n>정보 수정</a>
 						</li>
 						<li>
-							<a href="my-verification.html" data-login data-i18n>ID 인증 관리</a>
+							<a href="my-verification.html" data-i18n>ID 인증 관리</a>
 						</li>
 						<li>
-							<a href="change-pin-number.html" data-login data-i18n>보안비밀번호 변경</a>
+							<a href="change-pin-number.html" data-i18n>보안비밀번호 변경</a>
 						</li>
 						<li class="snb--active">
-							<a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a>
+							<a href="change-account-number.html" data-i18n>출금계좌 변경</a>
 						</li>
-<!--						<li>-->
-<!--							<a href="transaction.html" data-login data-i18n>거래 내역</a>-->
-<!--						</li>-->
 						<li>
-							<a href="notification.html" data-login data-i18n>알림</a>
+							<a href="transaction.html" data-i18n>거래 내역</a>
+						</li>
+						<li>
+							<a href="notification.html" data-i18n>알림</a>
 						</li>
 						<!-- <li>
 							<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
@@ -208,37 +185,32 @@
 			<div class="contents">
 				<header class="contents--header">
 					<button type="button" class="navigation--back"></button>
-					<h1 data-i18n>출금 계좌 변경</h1>
+					<h1 data-i18n>Change bank account number</h1>
 				</header>
-				<form id="change-account-number" action="" method="post" enctype="multipart/form-data" >
-					<input type="hidden" name="bool_confirm_bank" id="bool_confirm_bank" value="" data-bind="user_info.bool_confirm_bank">
-
+				<form id="change-account-number" action="" method="post">
 					<div class="boxed boxed--transparent d-flex flex-row flex-self-center flex-center">
-						<h2 class="m-0 text--medium text-bold text--center text-red" style="display:none" name="status_success" data-i18n>출금 계좌 정보 확인 완료!</h2>
-						<h2 class="m-0 text--medium text-bold text--center" style="display:none" name="status_waiting" data-i18n>출금 계좌 정보 확인 대기중</h2>
-						<h2 class="m-0 text--medium text-bold text--center" style="display:none" name="status_default" data-i18n>출금 계좌 정보 확인 필요</h2>
-
+						<h2 class="m-0 text--medium text-bold text--center" data-i18n>출금 계좌 정보를 수정합니다.</h2>
 						<div class="inside">
 						<p class="m-0 text-bold desktop-only" style="font-size: 13px" data-i18n>은행 및 계좌</p>
-<!--						<div class="row">-->
-<!--							<div class="col-6">-->
-<!--								<div class="form&#45;&#45;controls">-->
-<!--									<label class="form&#45;&#45;label mobile-only" data-i18n>국가 및 화폐 선택</label>-->
-<!--									<input type="text" name="" placeholder="국가 및 화폐 선택">-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
+						<div class="row">
+							<div class="col-6">
+								<div class="form--controls">
+									<label class="form--label mobile-only" data-i18n>국가 및 화폐 선택</label>
+									<input type="text" name="" placeholder="국가 및 화폐 선택">
+								</div>
+							</div>
+						</div>
 						<div class="bankAndName row">
 							<div class="col-6">
 								<div class="form--controls">
 									<label for="bank_name" class="form--label mobile-only" data-i18n>은행명</label>
-									<input type="text" id="bank_name" name="bank_name" placeholder="은행명" data-bind="form.bank_name">
+									<input type="text" id="bank_name" name="bank_name" placeholder="은행명">
 								</div>
 							</div>
 							<div class="col-6">
 								<div class="form--controls">
 									<label for="bank_owner" class="form--label mobile-only" data-i18n>이름</label>
-									<input type="text" id="bank_owner" name="bank_owner" placeholder="이름" data-bind="form.bank_owner">
+									<input type="text" id="bank_owner" name="bank_owner" placeholder="이름">
 								</div>
 							</div>
 						</div>
@@ -246,20 +218,7 @@
 								<div class="col">
 									<div class="form--controls">
 										<label for="bank_account" class="form--label mobile-only" data-i18n>계좌번호</label>
-										<input type="text" id="bank_account" name="bank_account" placeholder="계좌번호" data-bind="form.bank_account">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form--controls">
-<!--										<label for="bank_account" class="form&#45;&#45;label mobile-only" data-i18n>통장사본</label>-->
-<!--										<input type="file" id="image_bank_url" name="file-upload" placeholder="통장사본">-->
-										<input type="file" name="file_bank_url" id="file_bank_url" data-target="#image_bank_url" title="신분증 사진" id="front-side" accept="image/*" class="image-selector" capture="camera" style="margin-top: 5px">
-										<input type="hidden" name="image_bank_url" id="image_bank_url">
-										<div name="preview" class="preview" for="file_bank_url"></div>
-
-
+										<input type="text" id="bank_account" name="bank_account" placeholder="계좌번호">
 									</div>
 								</div>
 							</div>
@@ -269,7 +228,7 @@
 						</div>
 					</div>
 					<div class="text--center btnArea">
-						<button type="button" class="btn btn--red" name="btn_save" style="width: 340px; margin-top: 40px"data-i18n>수정하기</button>
+						<button class="btn btn--red" style="width: 340px; margin-top: 40px"data-i18n>수정하기</button>
 					</div>
 				</form>
 				<script>
@@ -288,23 +247,45 @@
 			</div>
 		</main>
 	</div>
-    <nav class="mobile-bottom mobile-only">
-		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
-			<li class="exchange">
-				<a href="exchange.html" data-i18n>거래소</a>
-			</li>
-			<li class="area" >
-				<a href="" data-i18n>티드로우</a>
-			</li>
-			<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> -->
-			<li class="transaction" style="flex: 1 1 auto">
-				<a href="transaction.html" data-login data-i18n>거래내역</a>
-			</li>
-			<li class="more">
-				<a href="" data-i18n>더보기</a>
-			</li>
-		</ul>
-	</nav>
+    <!-- <footer class="desktop-only">
+        <div class="logo">Teaplat</div>
+        <nav class="fnb">
+			<ul>
+				<li>
+					<a href="" data-i18n>회사소개</a>
+				</li>
+				<li>
+					<a href="" data-i18n>이용약관</a>
+				</li>
+				<li>
+					<a href="" data-i18n>개인정보보호정책</a>
+				</li>
+				<li>
+					<a href="faq.html" data-i18n>자주묻는질문</a>
+				</li>
+			</ul>
+			<div class="copyright">
+                <span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
+                <br>
+                <span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span>
+                <br><br>
+                Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. 
+			</div>
+		</nav>
+		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
+		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
+		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
+    </footer> -->
 
     <script src="./assets/js/app.js?t={version}"></script>
 
