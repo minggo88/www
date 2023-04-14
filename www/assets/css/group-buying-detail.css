@@ -1,0 +1,234 @@
+/* group-buying-detail */
+
+.group-buying-detail main{
+	padding: 30px 0;
+}
+
+.group-buying-detail .content_wrap{
+	height: initial;
+}
+.group-buying-detail .content_wrap .contents{
+	max-width: none;
+}
+
+.group-buying-detail .detailArea{
+	padding: 0 50px;
+	width: calc(100% - 100px);
+	/* height: 680px; */
+	display: flex;
+	justify-content: space-between;
+}
+
+/* .group-buying-detail .itemArea{
+	display: flex;
+	flex-wrap: wrap;
+} */
+
+.group-buying-detail .itemArea ul{
+	list-style-type: none;
+	padding-left: 0;
+	display: flex;
+	flex-wrap: wrap;
+	max-width:618px;
+	justify-content: space-between;
+	column-gap: 5px;
+	row-gap: 10px;
+}
+
+.group-buying-detail .itemArea ul li{
+	width: 305px;
+	height: 335px;
+	background: #F3F3F3;
+}
+.group-buying-detail .itemArea ul li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: url('/assets/img/list-item1.png') no-repeat 50% 50%/contain;
+}
+.group-buying-detail .itemArea ul li:nth-child(1) a{
+	background-image: url('/assets/img/list-item4.png') ;
+}
+.group-buying-detail .itemArea ul li:nth-child(2) a{
+	background-image: url('/assets/img/list-item5.png') ;
+}
+.group-buying-detail .itemArea ul li:nth-child(3) a{
+	background-image: url('/assets/img/list-item6.png') ;
+}
+.group-buying-detail .itemArea ul li:nth-child(4) a{
+	background-image: url('/assets/img/list-item7.png') ;
+}
+
+
+.group-buying-detail .itemDescArea{
+	width: 505px;
+	margin-top: 40px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.group-buying-detail .itemDescArea .textArea{
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+}
+.group-buying-detail .itemDescArea .textArea h2{
+	margin: 0;
+	font-weight: 500;
+	font-size: 17px;
+	line-height: 25px;
+}
+.group-buying-detail .itemDescArea .textArea h3{
+	margin: 0;
+	font-weight: 700;
+	font-size: 28px;
+	line-height: 41px;
+}
+.group-buying-detail .itemDescArea .textArea .price{
+	margin: 0;
+	font-weight: 500;
+	font-size: 21px;
+	line-height: 30px;
+}
+.group-buying-detail .itemDescArea .textArea .itemDesc{
+	margin: 0;
+	width: 100%;
+	height: 430px;
+	overflow: auto;
+	font-weight: 500;
+	font-size: 17px;
+	line-height: 25px;
+	text-align: center;
+}
+
+.group-buying-detail .itemDescArea .btnArea .btn{
+	width: 250px;
+	height: 50px;
+	line-height: 50px;
+}
+
+
+
+
+
+.group-buying-detail .detailDesc{
+	margin-top: 50px;
+	
+	/* 임시로 넣어준 값 */
+	border: 1px solid #000;
+	/* background-color: #fdd; */
+	/* height: 700px; */
+}
+
+.group-buying-detail .detailDesc p{
+	margin: 0;
+	font-weight: 400;
+    font-size: 17px;
+    line-height: 25px
+}      
+
+
+#group-buying-check.modal .modal--dialog{
+	width: 100%;
+    max-width: 400px;
+    height: 250px;
+	border-radius: none;
+	border-radius: initial;
+}
+
+#group-buying-check .modal--body{
+	padding-top: 0;padding-left: 0; padding-right: 0;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+
+}
+
+#group-buying-check .check_btn{
+	text-align: center;
+}
+
+#group-buying-check .check_btn .btn{
+	width: 100%;
+	max-width: 270px;
+}
+
+#group-buying-check .txt_desc{
+	text-align: center;
+
+}
+#group-buying-check .txt_desc{
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 25px;
+	margin: 50px 0 40px;
+	padding: 15px 30px;
+}
+#group-buying-check .txt_desc p{
+	margin: 0;
+	line-height: 30px;
+}
+#group-buying-check .txt_desc span{
+	vertical-align: baseline;
+}
+
+
+/*#######################################*/
+#modal-popup.modal::before{
+	background: #F3F3F3;
+}
+
+#modal-popup.modal .modal--dialog{
+	width: 100%;
+	height: 100%;
+	border-radius: 0;
+}
+
+#modal-popup.modal .btn.btn--close{
+	position: absolute;
+	top: 30px;
+	right: 40px;
+	cursor: pointer;
+	z-index: 2;
+}
+
+#modal-popup .modal--content{
+    background: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#modal-popup .navBtns{
+	width: 17px;
+    height: 35px;
+    border: none;
+    position: absolute;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#modal-popup #navLeft{
+	left: 40px;
+}
+
+#modal-popup #navRight{
+	right: 40px;
+	transform: scaleX(-1); 
+}
+
+#modal-popup .slide_box{
+    width: 450px;
+	height: 650px;
+    border-radius: 5px;
+    z-index: 1;
+    transition: all 1s;
+
+	/* 임시로 넣어줌 */
+	border: 1px solid #000;
+}

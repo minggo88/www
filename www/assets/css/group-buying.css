@@ -1,0 +1,337 @@
+/* group-buying */
+
+.group-buying main{
+	padding: 0!important;
+}
+
+/* 배너 section */
+.banner{
+	z-index: 30; 
+	position: relative; 
+	width: 100%;
+	max-width: 1440px; 
+	margin:0 auto;
+	height: 650px;
+}
+.banner > div{
+	overflow: hidden;
+}
+.banner_frame{
+	width: 300%; 
+	position: relative; 
+	left: 0;
+}
+.banner_frame > section{
+	width: 33.333%; 
+	float: left; 
+	height: 650px; 
+	background: #eee;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.banner_frame > section:first-of-type{
+	background: url('/assets/img/group-buying1.png') no-repeat 50% 0;
+}
+.banner_frame > section:nth-of-type(2){
+	background: url('/assets/img/group-buying2.png') no-repeat 50% 0;
+}
+.banner_frame > section:nth-of-type(3){
+	background: url('/assets/img/group-buying3.png') no-repeat 50% 0;
+}
+
+.banner_frame > section > .banner_desc{
+	width: 500px; 
+	text-align: center;
+}
+
+.banner_frame > section > .banner_desc a {
+	display: block;
+	color: #fff;
+}
+
+.banner_frame > section > .banner_desc h3{
+	margin: 0;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 35px;
+}
+
+.banner_frame > section > .banner_desc h2{
+	margin: 0;
+	font-weight: 700;
+	font-size: 36px;
+	line-height: 55px;
+}
+.banner_frame > section > .banner_desc p{
+	margin: 0;
+	margin-top: 85px;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 35px;
+}
+
+
+/* 배너 롤링 */
+.rolling{
+	position: absolute; 
+	left: 50%; 
+	transform: translateX(-50%); 
+	bottom: 30px;
+}
+.rolling > ul{
+	padding-left: 0; 
+}
+.rolling > ul > li{
+	display: inline-block; 
+	line-height: 25px; 
+	margin-left: 10px;
+}
+.rolling > ul > li > a{
+	display: inline-block; 
+	width: 10px; 
+	height: 10px;
+	text-indent: -9999px;
+	overflow: hidden; 
+	background: url(/assets/img/btn_banner.png) no-repeat 0 50%;
+}
+.rolling > ul > li > a.on{
+	background: url(/assets/img/btn_banner_red.png) no-repeat 0 50%;
+}
+
+
+
+
+
+
+.group-buying .content_wrap{
+	height: initial;
+}
+.group-buying .content_wrap .contents{
+	max-width: none;
+}
+
+.group-buying .tabs-area{
+	border-bottom: 0.5px solid #DDDDDD;
+	display: flex;
+	justify-content: center;
+}
+.group-buying .tabs{
+	width: 100%;
+	max-width: 390px;
+}
+
+.group-buying .tabs li{ 
+	border-bottom:none!important;
+}
+
+.group-buying .tabs .tab--active{
+	border-bottom: 2px solid #B81C22!important;
+	color: #B81C22!important;
+}
+
+.group-buying .tabs li button{
+	font-weight: 400;
+}
+
+.group-buying .tab-content{
+	margin-bottom: 40px;
+}
+
+.group-buying .tab_list{
+	margin: 55px 30px;
+}
+
+.group-buying .tab_list > ul{
+	list-style: none;
+	padding: 0;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	/* row-gap: 15px; */
+}
+.group-buying .tab_list > ul li{
+	width: 33%;
+	max-width: 450px;
+}
+
+.group-buying .tab_list > ul li .bg{
+	background: #F3F3F3;
+	/* width: 33%;
+	max-width: 450px; */
+	width: 100%;
+	height: 500px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.group-buying .tab_list > ul li .bg a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: url('/assets/img/list-item1.png') no-repeat 50% 50%/contain;
+}
+
+.group-buying .tab_list > ul li:nth-child(1) .bg a{
+	background-image: url('/assets/img/list-item1.png') ;
+}
+.group-buying .tab_list > ul li:nth-child(2) .bg a{
+	background-image: url('/assets/img/list-item2.png') ;
+}
+.group-buying .tab_list > ul li:nth-child(3) .bg a{
+	background-image: url('/assets/img/list-item3.png') ;
+}
+.group-buying .tab_list > ul li:nth-child(4) .bg a{
+	background-image: url('/assets/img/list-item1.png') ;
+}
+.group-buying .tab_list > ul li:nth-child(5) .bg a{
+	background-image: url('/assets/img/list-item2.png') ;
+}
+.group-buying .tab_list > ul li:nth-child(6) .bg a{
+	background-image: url('/assets/img/list-item3.png') ;
+}
+.group-buying .tab_list > ul li:nth-child(7) .bg a{
+	background-image: url('/assets/img/list-item1.png') ;
+}
+.group-buying .tab_list > ul li:nth-child(8) .bg a{
+	background-image: url('/assets/img/list-item2.png') ;
+}
+.group-buying .tab_list > ul li:nth-child(9) .bg a{
+	background-image: url('/assets/img/list-item3.png') ;
+}
+
+.group-buying div.dts {
+    display: block !important;
+}
+.group-buying .tab_list .item-desc{
+	color: #333;
+	text-align: center;
+	font-weight: 500;
+	font-size: 17px;
+	margin: 25px 0;
+}
+.group-buying .tab_list .tea-type{
+	margin: 0;
+	line-height: 25px;
+}
+
+.group-buying .tab_list .tea-name{
+	font-size: 24px;
+	margin: 0;
+	line-height: 35px;
+}
+
+.group-buying .tab_list > ul li.sold-out .bg{
+	position: relative;
+}
+
+.group-buying .tab_list > ul li.sold-out .sold-out-txt{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	background: rgba(0, 0, 0, 0.6);
+	font-weight: 500;
+	font-size: 24px;
+	color: #fff;
+}
+
+.group-buying .more{
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 23px;
+	color: #333333;
+	border:none;
+	background: none;
+	cursor: pointer;
+}	
+
+
+/* ##################################### */
+#tab-notice h2{
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
+	font-weight: 500;
+	font-size: 24px;
+	line-height: 35px;
+	margin-bottom: 10px;
+}
+#tab-notice .board--list{
+	width: 100%;
+	max-width: 1000px;
+	margin:0 auto;
+    border: 0 none;
+    border-collapse: collapse;
+    /* border-radius: 4px; */
+   /*  box-shadow: 0 0 0 1px #bdc4cb; */
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    table-layout: fixed;
+}
+#tab-notice .board--list thead{
+	display: none;
+}
+
+#tab-notice .board--list tbody tr td{
+	padding: 13px 10px;
+}
+
+#tab-notice .board--list tbody tr td{
+	border-bottom: 0.35px solid #BDC4CB;
+}
+#tab-notice .board--list tbody tr:first-child td{
+	border-top: 0.35px solid #BDC4CB;
+}
+
+#tab-notice .board--list tbody tr td:nth-child(2){
+	text-align: left;
+    padding: 13px 10px 13px 25px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ##################################### */
+
+#tab-how-to section{
+	width: 100%;
+	max-width: 960px;
+	margin:0 auto;
+	padding-bottom: 30px;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 27px;
+}
+
+
+#tab-how-to section h3{
+	margin: 0;
+	margin-bottom: 20px;
+	font-size: 24px;
+	letter-spacing: -0.03em;
+	font-weight: 500;
+}
+
+#tab-how-to section .guide{
+	list-style: none;
+	padding-left: 0;
+}
+
+#tab-how-to section.guide_class{
+	margin-bottom: 60px;
+}
+
+#tab-how-to section.guide_detail p{
+	margin: 40px 0;
+}

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="build">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/js/exchange.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/js/exchange.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exchange.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/exchange.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/assets/js/exchange.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/assets/js/exchange.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/exchange.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/exchange.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/assets/js/app.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2HB15b78wLsrQ9WQm84gSdo6sWM" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/simtaejin/Codes/kkikda2/kkikda2_www&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e14c4b28-d3f8-4771-bd44-129254f5cdd6" name="Changes" comment="" />
+      <created>1667743480121</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667743480121</updated>
+      <workItem from="1667743481227" duration="7000" />
+      <workItem from="1667789985897" duration="2910000" />
+      <workItem from="1667884986063" duration="3069000" />
+      <workItem from="1668043971245" duration="7864000" />
+      <workItem from="1668067402462" duration="34000" />
+      <workItem from="1668075811172" duration="278000" />
+      <workItem from="1668559206974" duration="4000" />
+      <workItem from="1668559263191" duration="18141000" />
+      <workItem from="1668643082789" duration="1264000" />
+      <workItem from="1669017546810" duration="1495000" />
+      <workItem from="1669079468054" duration="3717000" />
+      <workItem from="1669090995716" duration="6799000" />
+      <workItem from="1669356527271" duration="1796000" />
+      <workItem from="1669358521727" duration="1127000" />
+      <workItem from="1669711439862" duration="1700000" />
+      <workItem from="1670201735834" duration="42789000" />
+      <workItem from="1670407229067" duration="2457000" />
+      <workItem from="1670457766536" duration="35482000" />
+      <workItem from="1670805045763" duration="1957000" />
+      <workItem from="1670893464274" duration="607000" />
+      <workItem from="1670908842901" duration="800000" />
+      <workItem from="1670984976425" duration="2556000" />
+      <workItem from="1671080616310" duration="8611000" />
+      <workItem from="1671512961553" duration="8000" />
+      <workItem from="1671513781910" duration="7394000" />
+      <workItem from="1671586530139" duration="42398000" />
+      <workItem from="1672017101739" duration="25666000" />
+      <workItem from="1672721398564" duration="546000" />
+    </task>
+    <task id="LOCAL-00001" summary="build">
+      <created>1667886141115</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1667886141115</updated>
+    </task>
+    <task id="LOCAL-00002" summary="build">
+      <created>1667886350329</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1667886350329</updated>
+    </task>
+    <task id="LOCAL-00003" summary="getChartData에 goods_grade 추가">
+      <created>1668049654149</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668049654149</updated>
+    </task>
+    <task id="LOCAL-00004" summary="build">
+      <created>1668049691140</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668049691140</updated>
+    </task>
+    <task id="LOCAL-00005" summary="getChartData에 goods_grade 수정">
+      <created>1668055931417</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1668055931417</updated>
+    </task>
+    <task id="LOCAL-00006" summary="build">
+      <created>1668056071854</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668056071854</updated>
+    </task>
+    <task id="LOCAL-00007" summary="즐겨찾기 수정, 내 지갑 이더리움, 0인거 제거">
+      <created>1668574743401</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1668574743401</updated>
+    </task>
+    <task id="LOCAL-00008" summary="build">
+      <created>1668574805654</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1668574805654</updated>
+    </task>
+    <task id="LOCAL-00009" summary="차트 수정">
+      <created>1668643105791</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668643105791</updated>
+    </task>
+    <task id="LOCAL-00010" summary="build">
+      <created>1668643147458</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1668643147458</updated>
+    </task>
+    <task id="LOCAL-00011" summary="index 공지사항 url 연결">
+      <created>1669017834965</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1669017834965</updated>
+    </task>
+    <task id="LOCAL-00012" summary="팝니다, 삽니다 번호 수정">
+      <created>1669082620606</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1669082620606</updated>
+    </task>
+    <task id="LOCAL-00013" summary="build">
+      <created>1669099865512</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1669099865512</updated>
+    </task>
+    <task id="LOCAL-00014" summary="build">
+      <created>1669101665208</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1669101665208</updated>
+    </task>
+    <task id="LOCAL-00015" summary="build">
+      <created>1669102678981</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1669102678981</updated>
+    </task>
+    <task id="LOCAL-00016" summary="회원 가입시 이름, 핸드폰번호 기입">
+      <created>1670220348964</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1670220348964</updated>
+    </task>
+    <task id="LOCAL-00017" summary="공지수항 수정">
+      <created>1670287670960</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1670287670960</updated>
+    </task>
+    <task id="LOCAL-00018" summary="거래 내역에서 거래중 데이터 보이도록(취소포함) 수정">
+      <created>1670403909322</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1670403909322</updated>
+    </task>
+    <task id="LOCAL-00019" summary="번호를 주문번호로 수정">
+      <created>1670407127286</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1670407127286</updated>
+    </task>
+    <task id="LOCAL-00020" summary="그리드로 수정">
+      <created>1670486237211</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1670486237211</updated>
+    </task>
+    <task id="LOCAL-00021" summary="종합분석 datapick변경">
+      <created>1670500857668</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1670500857668</updated>
+    </task>
+    <task id="LOCAL-00022" summary="종합분석 등급 추가 및 생산년도 추가">
+      <created>1670505221986</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1670505221986</updated>
+    </task>
+    <task id="LOCAL-00023" summary="출금 정보 수정">
+      <created>1671089703647</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1671089703647</updated>
+    </task>
+    <task id="LOCAL-00024" summary="핀 번호 재설정">
+      <created>1671602872002</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1671602872002</updated>
+    </task>
+    <task id="LOCAL-00025" summary="핀번호 찾아 변경하기">
+      <created>1671611230132</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1671611230132</updated>
+    </task>
+    <task id="LOCAL-00026" summary="거래내역 지갑이 없을 경우 수정">
+      <created>1671672226701</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1671672226701</updated>
+    </task>
+    <task id="LOCAL-00027" summary="거래내역 지갑이 없을 경우 수정">
+      <created>1671779295245</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1671779295245</updated>
+    </task>
+    <task id="LOCAL-00028" summary="거래시 취소 버튼 추가">
+      <created>1671780120083</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1671780120083</updated>
+    </task>
+    <task id="LOCAL-00029" summary="거래내역 버튼 추가">
+      <created>1671781082199</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1671781082199</updated>
+    </task>
+    <task id="LOCAL-00030" summary="build">
+      <created>1672042405451</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1672042405451</updated>
+    </task>
+    <task id="LOCAL-00031" summary="build">
+      <created>1672118491556</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1672118491556</updated>
+    </task>
+    <task id="LOCAL-00032" summary="build">
+      <created>1672721485733</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1672721485733</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/Wee" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/Wee" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/benant" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="jquery autotab.js 추가" />
+    <MESSAGE value="getChartData에 goods_grade 추가" />
+    <MESSAGE value="getChartData에 goods_grade 수정" />
+    <MESSAGE value="즐겨찾기 수정, 내 지갑 이더리움, 0인거 제거" />
+    <MESSAGE value="차트 수정" />
+    <MESSAGE value="index 공지사항 url 연결" />
+    <MESSAGE value="팝니다, 삽니다 번호 수정" />
+    <MESSAGE value="회원 가입시 이름, 핸드폰번호 기입" />
+    <MESSAGE value="공지수항 수정" />
+    <MESSAGE value="거래 내역에서 거래중 데이터 보이도록(취소포함) 수정" />
+    <MESSAGE value="번호를 주문번호로 수정" />
+    <MESSAGE value="그리드로 수정" />
+    <MESSAGE value="종합분석 datapick변경" />
+    <MESSAGE value="종합분석 등급 추가 및 생산년도 추가" />
+    <MESSAGE value="출금 정보 수정" />
+    <MESSAGE value="핀 번호 재설정" />
+    <MESSAGE value="핀번호 찾아 변경하기" />
+    <MESSAGE value="거래내역 지갑이 없을 경우 수정" />
+    <MESSAGE value="거래시 취소 버튼 추가" />
+    <MESSAGE value="거래내역 버튼 추가" />
+    <MESSAGE value="build" />
+    <option name="LAST_COMMIT_MESSAGE" value="build" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

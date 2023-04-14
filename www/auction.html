@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- META -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta name="title" content="Teaplat">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://assettea.com">
+<meta property="og:title" content="Teaplat">
+<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Teaplat">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
+<title>Teaplat</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
+
+<!-- CSS -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148" />
+<link rel="stylesheet" href="./assets/css/common.css?t=1672721419" />
+<link rel="stylesheet" href="./assets/css/header.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/components.css?t=1671090276" />
+<link rel="stylesheet" href="./assets/css/sub.css?t=1672721419" />
+<link rel="stylesheet" href="./assets/css/group-buying.css?t=1672721419">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="./assets/css/trirand/ui.jqgrid.css?t=1667735148" />
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/api.js?t=1671775853"></script>
+<script src="./assets/js/components.js?t=1672721419"></script>
+<!-- <script src="./assets/js/group-buying.js"></script> -->
+
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+<script src="./i18n/i18n.js?t=1667796157"></script>
+</head>
+<!-- BODY -->
+<body class="sub group-buying aution">
+	<header>
+		<div class="header_inner">
+			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
+			<nav class="nav">
+				<ul>
+					<li>
+						<a href="exchange.html" data-i18n>거래소</a>
+					</li>
+					<li><a href="group-buying.html" data-i18n>공동구매</a></li>
+					<li class="active"><a href="auction.html" data-i18n>경매</a></li>
+					<li>
+						<a href="wallet.html" data-login data-i18n>입출금</a>
+					</li>
+					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+					<li>
+						<a href="notice.html" data-i18n>고객센터</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="nav--side">
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
+						<ul>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
+						</ul>
+					</div>
+				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+				<div class="language dropdown-wrapper">
+					<button type="button" class="dropdown">한국어</button>
+					<div class="dropdown--item" style="width: 81px">
+						<span>한국어</span>
+						<ul></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-mobile-menu">
+			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
+		</div>
+		<ul class="gnb box-menu" name="box-menu">
+			<li>
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<li><a href="group-buying.html" data-i18n>공동구매</a></li>
+			<li><a href="auction.html" data-i18n>경매</a></li>
+			<li>
+				<a href="wallet.html" data-login data-i18n>입출금</a>
+			</li>
+			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+			<li>
+				<a href="notice.html" data-i18n>고객센터</a>
+			</li>
+		</ul>
+	</header>
+	<section class="banner">
+		<h2 class="blind">공동구매 배너</h2>
+		<!-- banner_frame -->
+		<div>
+			<div class="banner_frame">
+				<!-- 1 -->
+				<section>
+					<div class="banner_desc">
+						<a href="#none">
+							<h3>
+								역사로 기록될 맹해다창
+							</h3>
+							<h2>
+								2023 년 1월 공동구매
+							</h2>
+							<p>
+								2023. 01. 08 ~ 2023. 02. 25
+							</p>
+						</a>
+					</div>
+				</section>
+
+				<!-- 2 -->
+				<section>
+					<div class="banner_desc">
+						<a href="#none">
+							<h3>
+								역사로 기록될 맹해다창 기획전
+							</h3>
+							<h2>
+								역사로 기록될 맹해다창 기획전
+							</h2>
+							<p>
+								2023. 04. 28 ~ 2023. 05. 25 
+							</p>
+						</a>
+					</div>
+				</section>
+
+				<!-- 3 -->
+				<section>
+					<div class="banner_desc">
+						<a href="#none">
+							<h3>
+								천년고차수를 만나다
+							</h3>
+							<h2>
+								영원호 원창호
+							</h2>
+							<p>
+								2023. 04. 28 ~ 2023. 05. 25 
+							</p>
+						</a>
+					</div>
+				</section>
+			</div>
+			<!-- //banner_frame -->
+			<div class="rolling">
+				<ul class="banner_roll">
+					<li><a class="on" href="#none">1</a></li>
+					<li><a href="#none">2</a></li>
+					<li><a href="#none">3</a></li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- //배너 section -->
+	<div class="content_wrap">
+		<main class="d-flex d-justify">
+			<div class="contents">
+				<div class="tab-container">
+					<div class="tab-wrapper">
+						<div class="tabs-area">
+							<ul class="tabs">
+								<li class="tab--active tab--sell" data-target="#tab-sell">
+									<button type="button" data-i18n>LIST</button>
+								</li>
+								<li data-target="#tab-buy" class="tab--buy">
+									<button type="button" data-i18n>HOW TO</button>
+								</li>
+								<li data-target="#tab-info" class="tab--info">
+									<button type="button" data-i18n>NOTICE</button>
+								</li>
+							</ul>
+						</div>
+						<!-- tab-list -->
+						<div class="tab-content" id="tab-list" style="display: block;">
+							<div class="tab_list dts">
+								<ul>
+									<li>
+										<div class="bg">
+											<a href="group-buying-detail.html"></a>
+										</div>
+										<div class="item-desc">
+											<p class="tea-type">보이생차</p>
+											<p class="tea-name">금과공차</p>
+										</div>
+									</li>
+									<li>
+										<div class="bg">
+											<a href="group-buying-detail.html"></a>
+										</div>
+										<div class="item-desc">
+											<p class="tea-type">끽다 x 맹해다창</p>
+											<p class="tea-name">영원호 송빙</p>
+										</div>
+									</li>
+									<li>
+										<div class="bg">
+											<a href="group-buying-detail.html"></a>
+										</div>
+										<div class="item-desc">
+											<p class="tea-type">보이생차</p>
+											<p class="tea-name">원성호 청병</p>
+										</div>
+									</li>
+									<li>
+										<div class="bg">
+											<a href="group-buying-detail.html"></a>
+										</div>
+										<div class="item-desc">
+											<p class="tea-type">보이생차</p>
+											<p class="tea-name">금과공차</p>
+										</div>
+									</li>
+									<li>
+										<div class="bg">
+											<a href="group-buying-detail.html"></a>
+										</div>
+										<div class="item-desc">
+											<p class="tea-type">끽다 x 맹해다창</p>
+											<p class="tea-name">영원호 송빙</p>
+										</div>
+									</li>
+									<li>
+										<div class="bg">
+											<a href="group-buying-detail.html"></a>
+										</div>
+										<div class="item-desc">
+											<p class="tea-type">보이생차</p>
+											<p class="tea-name">원성호 청병</p>
+										</div>
+									</li>
+									<li class="sold-out">
+										<div class="bg">
+											<a href="group-buying-detail.html"></a>
+											<div class="sold-out-txt">
+												<span>SOLD OUT</span>
+											</div>
+										</div>
+										<div class="item-desc">
+											<p class="tea-type">보이생차</p>
+											<p class="tea-name">금과공차</p>
+										</div>
+									</li>
+									<li class="sold-out">
+										<div class="bg">
+											<a href="group-buying-detail.html"></a>
+											<div class="sold-out-txt">
+												<span>SOLD OUT</span>
+											</div>
+										</div>
+										<div class="item-desc">
+											<p class="tea-type">끽다 x 맹해다창</p>
+											<p class="tea-name">영원호 송빙</p>
+										</div>
+									</li>
+									<li class="sold-out">
+										<div class="bg">
+											<a href="group-buying-detail.html"></a>
+											<div class="sold-out-txt">
+												<span>SOLD OUT</span>
+											</div>
+										</div>
+										<div class="item-desc">
+											<p class="tea-type">보이생차</p>
+											<p class="tea-name">원성호 청병</p>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<button type="button" class="more">더 불러오기</button>
+						</div>
+						
+						<!-- //tab-list -->
+
+						<!-- tab-how-to -->
+						<div class="tab-content" id="tab-notice">
+							<div class="tab_list dts">
+
+								<h2>NOTICE</h2>
+								<table class="board--list">
+									<colgroup>
+										<col style="width: 65px">
+										<col style="width: calc(100% * (583 / 900))">
+										<col style="width: 146px">
+									</colgroup>
+									<thead>
+										<tr>
+											<th data-i18n="">번호</th>
+											<th data-i18n="">제목</th>
+											<th data-i18n="">날짜</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>10</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+										<tr>
+											<td>9</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+										<tr>
+											<td>8</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+										<tr>
+											<td>7</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+										<tr>
+											<td>6</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+										<tr>
+											<td>5</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+										<tr>
+											<td>4</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+										<tr>
+											<td>2</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>
+												<a href="notice_detail.html?idx=100">공지입니다.</a>
+											</td>
+											<td>2022.12.01</td>
+										</tr>
+									</tbody>
+								</table>
+								<nav class="board--pagination">
+									<ul>
+										<li><a href="#none">1</a></li>
+										<li><a href="#none">2</a></li>
+										<li><a href="#none">3</a></li>
+										<li><a href="#none">4</a></li>
+										<li><a href="#none">5</a></li>
+										<li><a href="#none">6</a></li>
+										<li><a href="#none">7</a></li>
+										<li><a href="#none">8</a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+						<!-- //tab-how-to -->
+
+						<!-- tab-notice -->
+						<div class="tab-content" id="tab-how-to">
+							<div class="tab_list dts">
+								<section>
+									<h3>How to buying at auction</h3>
+
+									The following is intended to give you useful information on how to buy at a Sotheby’s auction. All bidders should read the following information carefully and note that Sotheby’s acts for the seller. Bidders’ attention is specifically drawn to Condition 3 of the Conditions of Business for Buyers, which require them to investigate lots prior to bidding and which contain specific limitations and exclusions of the legal liability of Sotheby’s and sellers. The limitations and exclusions 
+								</section>
+								<section class="guide_class">
+									<h3>This Guide contains the following sections</h3>
+									<ol class="guide">
+										<li>1. BEFORE YOU BID (including information on how to create and login to your account)</li>
+										<li>2. HOW TO BID (in live auctions and in timed auctions)</li>
+										<li>3. PAYMENT</li>
+										<li>4. COLLECTION / STORAGE / SHIPMENT / EXPORT</li>
+										<li>5. SYMBOL KEY</li>
+										<li>6. VAT and Other Tax Information</li>
+										<li>7. Glossary AND ADDITIONAL INFORMATION ABOUT SPECIFIC TYPES OF PROPERTY</li>
+										<li>8. Important Notices</li>
+										<li>9. CONDITIONS OF BUSINESS FOR BUYERS for London Sales (including AUTHENTICITY GUARANTEE)</li>
+									</ol>
+								</section>
+								<section class="guide_detail">
+									<h3>1. BEFORE YOU BID</h3>
+											
+									<p>A. Register a Verified Account with Sotheby’s</p>
+									
+									In order to be eligible to participate in a Sotheby’s auction, you must have registered, and maintain, an account with Sotheby’s. As part of that process you will be asked to provide valid and appropriate identification documents which will be verified by Sotheby’s (a “Verified Account”). The registration process requires you also to enter your debit card or credit card information, your address and to confirm that you have read and accept our Conditions of Business for Buyers and this guide to Buying at Auction. To create your Verified Account, please follow the instructions provided at:
+								</section>
+							</div>
+						</div>
+						<!-- //tab-notice -->
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+	<footer class="desktop-only">
+		<div class="footer_inner">
+			<!-- <div class="logo">Teaplat</div> -->
+			<nav class="fnb">
+				<ul>
+					<li>
+						<a href="" data-i18n>회사소개</a>
+					</li>
+					<li>
+						<a href="" data-i18n>이용약관</a>
+					</li>
+					<li>
+						<a href="" data-i18n>개인정보보호정책</a>
+					</li>
+					<li>
+						<a href="faq.html" data-i18n>자주묻는질문</a>
+					</li>
+				</ul>
+				<div class="copyright">
+					<address>
+					<span class="company--name" data-bind="company_info.license_company">(주)끽다</span>
+					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
+					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
+					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">인천광역시 연수구 송도문화로 119, 인천글로벌캠퍼스 비 1006호(송도동)</span></span>
+						<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
+						<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2022-인천연수구-1661 호</span></span>
+						<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">CEO@assettea.com</span></span>
+					</address>
+					<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다</span>. All rights reserved. </div>
+				</div>
+			</nav>
+			<!-- <span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
+			<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
+			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span> -->
+		</div>
+	</footer>
+
+    <script src="./assets/js/app.js?t=1672042800"></script>
+
+</body>
+</html>
