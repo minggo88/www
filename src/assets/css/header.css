@@ -31,6 +31,8 @@ header .logo {
 	z-index: 2;
 	position: absolute;
 	left: 30px;
+	/* left: 40px; */
+	/* left: 0; */
 }
 header .logo a {
     width: 100%;
@@ -123,6 +125,7 @@ header .logo a {
     background: rgba(131, 137, 158, .2);
     color: var(--basic-black) !important;
     font-size: 14px;
+	padding: 0 1rem;
 }
 
 .nav--side .btn--mypage{
@@ -137,16 +140,24 @@ header .logo a {
 	background: transparent;
 }
 
+.nav--side .language{
+	display: none;
+}
 
 .nav--side .language .dropdown {
     border: 0 none;
     padding:0 14px 0 0;
     font-weight: 500;
+	text-transform: capitalize;
 }
 .nav--side .language .dropdown::after {
     width: 10px;
     right: 0;
     opacity: .5;
+}
+.nav--side .language .dropdown--item>span,
+.nav--side .language .dropdown--item button {
+	text-transform: capitalize;
 }
 
 .nav--side {
@@ -173,7 +184,7 @@ header .logo a {
 .nav--side .profile .dropdown+.dropdown--item,
 .nav--side .wallet .dropdown+.dropdown--item {
     padding-top: 0;
-    top: 48px;
+    top: 40px;
 }
 .nav--side .profile .dropdown+.dropdown--item ul li {
     height: 17px;
@@ -187,12 +198,33 @@ header .logo a {
 	top: 10px;
 }
 
-/* .sub .nav{
-	margin-left: 25%;
-	flex: auto;
+.nav--side.mobile{
+	width: calc(100% - 35px);
+	height: auto;
+	right: 0px;
+	left: 20px;
+	bottom: 15px;
+	flex-direction: row;
+	justify-content: space-between;
 }
- */
 
+.nav--side.mobile .btn--login,
+.nav--side.mobile .btn--logout,
+.nav--side.mobile .language .dropdown{
+	width: 80px;
+}
+
+.nav--side.mobile .language .dropdown+.dropdown--item{
+	left: 0;
+	bottom: 0;
+	top: initial;
+}
+
+.nav--side.mobile .btn--login,
+.nav--side.mobile .btn--logout{
+	height: 25px;
+	line-height: 25px;
+}
 /* ####################################### */
 
 .box-menu {
@@ -209,9 +241,15 @@ header .logo a {
 
 
 @media screen and (max-width: 1440px) {
-	.header_inner{width: 100%;}
 	.nav > ul li a {font-size: 14px}
 	.nav--side [class*=btn--]{font-size: 14px;}
+}
+
+@media screen and (min-width: 801px) and (max-width: 1440px){
+	.header_inner{
+		width: 100%;
+		margin: 0 auto;
+	}
 }
 
 @media screen and (max-width: 1280px) {
@@ -230,19 +268,19 @@ header .logo a {
 
 @media screen and (max-width: 1100px){
 	header .logo{
-		left: 70px;
+		left: 75px;
 	}
 	header .nav{display: none;}
 
 	.box-mobile-menu {
         display: block;
         position: absolute;
-        z-index: 50;
+        z-index: 1002;
         text-align: center;
         width: 60px;
 		height: 60px;
-        left: 0px;
-        top: 0
+        left: 5px;
+        top: 0px;
     }
 
 	.btn.hamburger {
@@ -276,6 +314,7 @@ header .logo a {
         height: 100vh;
         padding-top: 85px;
 		padding-left: 0;
+		z-index: 1001;
     }
 
     .gnb > * {
@@ -289,27 +328,52 @@ header .logo a {
     }
 }
 
+
 @media screen and (max-width: 800px){
-	 /* 뒤로가기 버튼 */
 	.sub header{padding-left: 11px; height: 60px;}
 	.sub header .logo, .sub header .nav{display: none!important;}
+
+	 /* 뒤로가기 버튼 */
 	.sub header .navigation--back {
 		display: block;
 		text-indent: -9999px;
 		width: 24px;
 		height: 24px;
-		background: transparent url('../img/icon/icon-back.svg') no-repeat 50%;
+		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
 		border: 0 none;
 	}
-	.sub .contents .contents--header .navigation--back {
-		margin: 0 33px 0 0;
+
+	.sub header .navi--back {
+		display: block;
+		text-indent: -9999px;
+		width: 24px;
+		height: 24px;
+		background: transparent url('../img/icon/icon-back.svg') no-repeat 0 50%;
+		border: 0 none;
+	}
+	
+	/* 햄버거 메뉴 */
+    .sub .contents .contents--header .navigation {
+        width: 24px;
+        height: 24px;
+        background: url('../img/menu.svg') no-repeat 0 50%;
+        border: 0 none;
+        float:left;
+    }
+	
+	.sub .contents .contents--header .navigation--back,
+	.sub .contents .contents--header .navigation,
+	.sub .contents .contents--header .navi--back {
+		line-height: 48px;
+		height: 48px;
+		margin: 0 20px 0 0;
 	}
 
-	.box-mobile-menu{display: none;}
-}
+	/* .sub .contents .navigation--back{height: 48px;} */
 
-@media screen and (max-width: 600px){
-	.sub header .navigation--back {
-		line-height: 48px;
+	.box-mobile-menu{display: none;}
+
+	.sub .contents .contents--header h1{
+		color: #B81C22;
 	}
 }

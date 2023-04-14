@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-15 11:06+0900\n"
-"PO-Revision-Date: 2022-09-15 11:08+0900\n"
+"PO-Revision-Date: 2022-10-04 12:02+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ko\n"
@@ -935,10 +935,10 @@ msgid "Back Side"
 msgstr "Back Side"
 
 msgid "안녕하세요.<br><span data-bind=\"user_info.name\">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 완료되었습니다.<br><br>따라서, <span data-bind=\"user_info.name\">OOO</span>님께서는 본 사이트에서<br>모든 금융 거래를 진행하실 수 있습니다."
-msgstr "Hello.<br>As a result of reviewing documents submitted by <span data-bind="user_info.name">OOO</span><br>ID verification has been completed.<br><br>Therefore, <span data-bind="user_info.name">OOO</span> can conduct all financial transactions<br>on this site."
+msgstr "Hello.<br>As a result of reviewing documents submitted by <span data-bind=\"user_info.name\">OOO</span><br>ID verification has been completed.<br><br>Therefore, <span data-bind=\"user_info.name\">OOO</span> can conduct all financial transactions<br>on this site."
 
 msgid "안녕하세요.<br><span data-bind=\"user_info.name\">OOO</span>님이 제출하신 서류 검토 결과<br>ID 인증이 거절되었습니다."
-msgstr "Hello.<br>As a result of reviewing documents submitted by <span data-bind="user_info.name">OOO</span><br>ID authentication was rejected."
+msgstr "Hello.<br>As a result of reviewing documents submitted by <span data-bind=\"user_info.name\">OOO</span><br>ID authentication was rejected."
 
 msgid "거절 사유"
 msgstr "Reason for refusal"
@@ -960,3 +960,399 @@ msgstr "문의 작성하기"
 
 msgid "작성하기"
 msgstr "작성하기"
+
+msgid "입금액을 입력해주세요."
+msgstr "입금액을 입력해주세요."
+
+msgid "입금자 이름을 입력해주세요."
+msgstr "입금자 이름을 입력해주세요."
+
+msgid "입금 신청을 완료했습니다."
+msgstr "입금 신청을 완료했습니다."
+
+msgid "입금 신청을 완료하지 못했습니다."
+msgstr "입금 신청을 완료하지 못했습니다."
+
+msgid "마이페이지"
+msgstr "마이페이지"
+
+msgid "보유"
+msgstr "보유"
+
+msgid "관심"
+msgstr "관심"
+
+msgid "타입"
+msgstr "타입"
+
+msgid "생산연도"
+msgstr "생산연도"
+
+msgid "현재가"
+msgstr "현재가"
+
+msgid "전일대비"
+msgstr "전일대비"
+
+msgid "거래대금"
+msgstr "거래대금"
+
+msgid "고가"
+msgstr "고가"
+
+msgid "저가"
+msgstr "저가"
+
+msgid "거래량(24H)"
+msgstr "거래량(24H)"
+
+msgid "거래대금(24H)"
+msgstr "거래대금(24H)"
+
+msgid "시간단위"
+msgstr "시간단위"
+
+msgid "1일"
+msgstr "1일"
+
+msgid "팝니다"
+msgstr "팝니다"
+
+msgid "삽니다"
+msgstr "삽니다"
+
+msgid "정보"
+msgstr "정보"
+
+msgid "구분"
+msgstr "구분"
+
+msgid "등록일"
+msgstr "등록일"
+
+msgid "가격"
+msgstr "가격"
+
+msgid "거래버튼"
+msgstr "거래버튼"
+
+msgid "구매 등록"
+msgstr "구매 등록"
+
+msgid "판매 등록"
+msgstr "판매 등록"
+
+msgid "생산"
+msgstr "생산"
+
+msgid "인증"
+msgstr "인증"
+
+msgid "차 소개"
+msgstr "차 소개"
+
+msgid "구매하기"
+msgstr "구매하기"
+
+msgid "다음과 같이 구매하였습니다"
+msgstr "다음과 같이 구매하였습니다"
+
+msgid "대상"
+msgstr "대상"
+
+msgid "구매가능금액"
+msgstr "구매가능금액"
+
+msgid "판매하기"
+msgstr "판매하기"
+
+msgid "판매가능수량"
+msgstr "판매가능수량"
+
+msgid "입체스캔"
+msgstr "입체스캔"
+
+msgid "백서"
+msgstr "백서"
+
+msgid "분류"
+msgstr "분류"
+
+msgid "원산지"
+msgstr "원산지"
+
+msgid "생산자"
+msgstr "생산자"
+
+msgid "생산년도"
+msgstr "생산년도"
+
+msgid "중량"
+msgstr "중량"
+
+msgid "맛"
+msgstr "맛"
+
+msgid "향"
+msgstr "향"
+
+msgid "품종"
+msgstr "품종"
+
+msgid "차수령"
+msgstr "차수령"
+
+msgid "가격동향"
+msgstr "가격동향"
+
+msgid "가치성"
+msgstr "가치성"
+
+msgid "희소성"
+msgstr "희소성"
+
+msgid "대중성"
+msgstr "대중성"
+
+msgid "마시는 방법"
+msgstr "마시는 방법"
+
+msgid "보관방법/유통기한"
+msgstr "보관방법/유통기한"
+
+msgid "스토리"
+msgstr "스토리"
+
+msgid "티마스터 품평"
+msgstr "티마스터 품평"
+
+msgid "생산자 노트"
+msgstr "생산자 노트"
+
+msgid "평점"
+msgstr "평점"
+
+msgid "개"
+msgstr "개"
+
+msgid "평균가격"
+msgstr "평균가격"
+
+msgid "다음과 같이 판매등록이 완료되었습니다."
+msgstr "다음과 같이 판매등록이 완료되었습니다."
+
+msgid "등록하기"
+msgstr "등록하기"
+
+msgid "01"
+msgstr "01"
+
+msgid "초기화"
+msgstr "초기화"
+
+msgid "USD"
+msgstr "USD"
+
+msgid "Create Address"
+msgstr "주소 생성"
+
+msgid "거래소 상품을 구매하기 위해서는 거래소 지갑에 입금을 하셔야 합니다."
+msgstr "거래소 상품을 구매하기 위해서는 거래소 지갑에 입금을 하셔야 합니다."
+
+msgid "입금정보를 저장 후 입금용 주소로 이채하시면 담당자가 확인 후 입금처리 됩니다."
+msgstr "입금정보를 저장 후 입금용 주소로 이채하시면 담당자가 확인 후 입금처리 됩니다."
+
+msgid "잔액"
+msgstr "잔액"
+
+msgid "입금액"
+msgstr "입금액"
+
+msgid "입금자 이름"
+msgstr "입금자 이름"
+
+msgid "입금하기"
+msgstr "입금하기"
+
+msgid "출금안내"
+msgstr "출금안내"
+
+msgid "kikdda@kikdda.com"
+msgstr "kikdda@kikdda.com"
+
+msgid "출금 (비트코인 주소) 주소"
+msgstr "출금 (비트코인 주소) 주소"
+
+msgid "출금하실 주소를 입력해주세요."
+msgstr "출금하실 주소를 입력해주세요."
+
+msgid "잘못 된 주소입니다."
+msgstr "잘못 된 주소입니다."
+
+msgid "출금 가능한 주소입니다."
+msgstr "출금 가능한 주소입니다."
+
+msgid "출금요청"
+msgstr "출금요청"
+
+msgid "보안 비밀번호 입력"
+msgstr "보안 비밀번호 입력"
+
+msgid "데이터가 없음"
+msgstr "데이터가 없음"
+
+msgid "페이지당 _MENU_ 개씩 보기"
+msgstr "페이지당 _MENU_ 개씩 보기"
+
+msgid "현재 _START_ - _END_ / _TOTAL_건"
+msgstr "현재 _START_ - _END_ / _TOTAL_건"
+
+msgid "_MAX_건의 데이터에서 필터링됨"
+msgstr "_MAX_건의 데이터에서 필터링됨"
+
+msgid "검색"
+msgstr "검색"
+
+msgid "로딩중..."
+msgstr "로딩중..."
+
+msgid "잠시만 기다려 주세요."
+msgstr "잠시만 기다려 주세요."
+
+msgid "이전"
+msgstr "이전"
+
+msgid "판매완료"
+msgstr "판매완료"
+
+msgid "구매완료"
+msgstr "구매완료"
+
+msgid "거래중"
+msgstr "거래중"
+
+msgid "대기"
+msgstr "대기"
+
+msgid "백만"
+msgstr "백만"
+
+msgid "분"
+msgstr "분"
+
+msgid "시간"
+msgstr "시간"
+
+msgid "일"
+msgstr "일"
+
+msgid "주"
+msgstr "주"
+
+msgid "답변완료"
+msgstr "답변완료"
+
+msgid "답변대기중"
+msgstr "답변대기중"
+
+msgid "로그인 해주세요."
+msgstr "로그인 해주세요."
+
+msgid "등록하지 못했습니다."
+msgstr "등록하지 못했습니다."
+
+msgid "다음과 같이 판매되었습니다."
+msgstr "다음과 같이 판매되었습니다."
+
+msgid "조회중입니다."
+msgstr "조회중입니다."
+
+msgid "등록"
+msgstr "등록"
+
+msgid "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
+msgstr "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
+
+msgid "Tea"
+msgstr "Tea"
+
+msgid "Teaware"
+msgstr "Teaware"
+
+msgid "다음과 같이 주문이 등록되었습니다."
+msgstr "다음과 같이 주문이 등록되었습니다."
+
+msgid "준비중입니다."
+msgstr "준비중입니다."
+
+msgid "총 투자수익률"
+msgstr "총 투자수익률"
+
+msgid "총 투자금액(KRW)"
+msgstr "총 투자금액(KRW)"
+
+msgid "총 투자손익(KRW)"
+msgstr "총 투자손익(KRW)"
+
+msgid "기초평가금액"
+msgstr "기초평가금액"
+
+msgid "기말평가금액"
+msgstr "기말평가금액"
+
+msgid "출금가능원화"
+msgstr "출금가능원화"
+
+msgid "주문가능원화"
+msgstr "주문가능원화"
+
+msgid "입금평가금액"
+msgstr "입금평가금액"
+
+msgid "출금평가금액"
+msgstr "출금평가금액"
+
+msgid "자산구분"
+msgstr "자산구분"
+
+msgid "코드"
+msgstr "코드"
+
+msgid "기초잔고"
+msgstr "기초잔고"
+
+msgid "기말잔고"
+msgstr "기말잔고"
+
+msgid "기간 중 입금"
+msgstr "기간 중 입금"
+
+msgid "기간 중 출금"
+msgstr "기간 중 출금"
+
+msgid "바로가기"
+msgstr "바로가기"
+
+msgid "조회내용이 없습니다."
+msgstr "조회내용이 없습니다."
+
+msgid "거래"
+msgstr "거래"
+
+msgid "본 거래소 고객님의 지갑에서 외부 지갑으로 송금이 가능 합니다."
+msgstr "본 거래소 고객님의 지갑에서 외부 지갑으로 송금이 가능 합니다."
+
+msgid "거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 출금 수수료가 차감된 금액 입니다."
+msgstr "거래 시 거래 수수료가 포함됩니다. 실제 입금 금액은 출금 수수료가 차감된 금액 입니다."
+
+msgid "모든 출금은 관리자가 확인한 후에 실행됩니다."
+msgstr "모든 출금은 관리자가 확인한 후에 실행됩니다."
+
+msgid "보안비밀번호는 마이페이지 &gt; <a href=\"change-pin-number.html\">보안비밀번호 변경</a>에서 바꾸실수 있습니다."
+msgstr "보안비밀번호는 마이페이지 &gt; <a href=\"change-pin-number.html\">보안비밀번호 변경</a>에서 바꾸실수 있습니다."
+
+msgid "출금 주소"
+msgstr "출금 주소"
+
+msgid "출금신청"
+msgstr "출금신청"

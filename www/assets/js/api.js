@@ -1,12 +1,13 @@
 const API = {
     
     BASE_URL: function() {
-        let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
+        // let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
+        let API_URL = "https://api.assettea.com/v1.0"; // for live
         if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
-            API_URL = "//api." + (window.location.host) + "/v1.0";
+            API_URL = "http://api.loc.kkikda.com/v1.0"
         }
         if (window.location.host.indexOf('dev.') !== -1) {
-            API_URL = "//api." + (window.location.host) + "/v1.0";
+            API_URL = "https://api.dev.kkikda.com/v1.0"
         }
         if (window.location.host.indexOf('127.0.0.1') !== -1) {
             API_URL = "https://api.dev.kkikda.com/v1.0"
@@ -234,6 +235,28 @@ const API = {
         })
     },
     /**
+     * 비밀번호 찾기
+     * @param {*} address
+     * @param {*} callback
+     */
+    findPinNumber: (address, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/findinfo/findpinnumber.php`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                address: address,
+                address_type: 'email',
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
      * 토큰생성
      * @param {*} callback 
      */
@@ -377,6 +400,23 @@ const API = {
             }
         })
     },
+    getTradeBalance: (symbol = 'ALL', exchange = null, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getTradeBalance/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol: symbol,
+                exchange: exchange,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
     getBBSList: (bbscode, page = 1, rows = 10, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getBBSList/`,
@@ -465,13 +505,13 @@ const API = {
         })
     },
     getCurrency: (symbol = null, callback) => {
-        console.log( `${API.BASE_URL}/getCurrency/`)
+        // console.log( `${API.BASE_URL}/getCurrency/`)
         $.ajax({
             url: `${API.BASE_URL}/getCurrency/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
-                lang: window.localStorage.locale,
+                token: window.localStorage.token, lang: window.localStorage.locale,
                 symbol: symbol
             },
             success: (resp) => {
@@ -487,15 +527,15 @@ const API = {
      * @param {*} symbol 
      * @param {*} callback 
      */
-    getChartData: (symbol, period = '1d', callback) => {
+    getChartData: (symbol, exchange='KRW', period = '1d', goods_grade, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getChartData/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
                 token: window.localStorage.token, lang: window.localStorage.locale,
-                symbol: symbol,
-                period: period,
+                symbol: symbol, exchange: exchange,
+                period: period, goods_grade: goods_grade
             },
             success: (resp) => {
                 callback(resp)
@@ -605,7 +645,7 @@ const API = {
             }
         })
     },
-    getSpotPrice: (symbol, exchange, callback) => {
+    getSpotPrice: (symbol, exchange, goods_grade, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getSpotPrice/`,
             type: 'POST',
@@ -614,6 +654,7 @@ const API = {
                 symbol: symbol,
                 exchange: exchange,
                 lang: window.localStorage.locale,
+                goods_grade: goods_grade
             },
             success: (resp) => {
                 callback(resp)
@@ -757,7 +798,28 @@ const API = {
                 }
             }
         })
+    },
+
+    orderCancel: (symbol, orderid, goods_grade, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/cancel/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                symbol: symbol,
+                orderid: orderid,
+                goods_grade: goods_grade,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
     }
+
+
 }
 
 if(!window.localStorage.token) {

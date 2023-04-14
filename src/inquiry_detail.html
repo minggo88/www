@@ -4,18 +4,18 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="title" content="끽다거">
+<meta name="title" content="Teaplat">
 <meta name="description" content="">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://kkikda.com">
-<meta property="og:title" content="끽다거">
-<meta property="og:image" content="https://kkikda.com/assets/img/og_kkikda.png">
+<meta property="og:url" content="https://assettea.com">
+<meta property="og:title" content="Teaplat">
+<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
 <meta property="og:description" content="">
-<meta property="og:site_name" content="끽다거">
+<meta property="og:site_name" content="Teaplat">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image:width" content="200">
 <meta property="og:image:height" content="100">
-<title>끽다거</title>
+<title>Teaplat</title>
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 <link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 <link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
@@ -46,61 +46,41 @@
 </head>
 <!-- BODY -->
 <body class="sub notice inquiry_detail">
-    <header>
-        <div class="header_inner">
+	<header>
+		<div class="header_inner">
 			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
+					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 					<li>
-						<a href="" data-i18n>공동구매</a>
+						<a href="wallet.html" data-login data-i18n>입출금</a>
 					</li>
-					<li>
-						<a href="" data-i18n>경매</a>
-					</li>
-					<li>
-						<a href="" data-i18n>입출금</a>
-					</li>
-					<li>
-						<a href="" data-i18n>다도 문화</a>
-					</li>
+					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 					<li class="active">
 						<a href="notice.html" data-i18n>고객센터</a>
 					</li>
 				</ul>
 			</nav>
 			<div class="nav--side">
-				<div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-					<div class="dropdown--item" style="width: 134px">
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
 						<ul>
-							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
-							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
-							<li><a href="notification.html" data-i18n>알림</a></li>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
 						</ul>
 					</div>
 				</div>
-				<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
-					<button type="button" class="dropdown" data-i18n>지갑관리</button>
-					<div class="dropdown--item" style="width: 100px">
-						<ul>
-							<li><a href="wallet.html" data-i18n>보유 자산</a></li>
-							<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
-							<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
-							<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
-						</ul>
-					</div>
-				</div>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-				<div name="box_unlogedin">
-					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
-				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
@@ -116,29 +96,23 @@
 				<li>
 					<a href="exchange.html" data-i18n>거래소</a>
 				</li>
+				<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+				<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 				<li>
-					<a href="" data-i18n>공동구매</a>
+					<a href="wallet.html" data-login data-i18n>입출금</a>
 				</li>
-				<li>
-					<a href="" data-i18n>경매</a>
-				</li>
-				<li>
-					<a href="" data-i18n>입출금</a>
-				</li>
-				<li>
-					<a href="" data-i18n>다도 문화</a>
-				</li>
+				<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 				<li>
 					<a href="notice.html" data-i18n>고객센터</a>
 				</li>
 			</ul>
 		</div>
-    </header>
+	</header>
     <div class="content_wrap">
 		<main class="d-flex d-justify">
 			<aside class="side">
 				<button type="button" class="navigation--back"></button>
-				<h1 data-i18n>고객 센터</h1>
+				<h1 data-i18n>고객센터</h1>
 				<nav class="side--snb">
 					<ul>
 						<li>
@@ -148,7 +122,7 @@
 							<a href="notice.html" data-i18n>자주하는 질문</a>
 						</li>
 						<li class="snb--active">
-							<a href="inquiry.html" data-i18n>1:1 문의</a>
+							<a href="inquiry.html" data-login data-i18n>1:1 문의</a>
 						</li>
 					</ul>
 				</nav>
@@ -157,7 +131,7 @@
 				<header class="contents--header">
 					<div>
 						<button type="button" class="navigation--back"></button>
-						<h1 data-i18n>Direct Inquiry</h1>
+						<h1 data-i18n>1:1문의</h1>
 					</div>
 					<div class="mobile-only"><a href="inquiry_write.html" class="btn" data-i18n>문의하기</a></div>
 				</header>
@@ -224,7 +198,7 @@
 					</dd>
 				</dl>
 				<div class="board--btn">
-					<a href="inquiry.html" class="btn btn--gray btn--list" data-i18n>목록</a>
+					<a href="inquiry.html" data-login class="btn btn--gray btn--list" data-i18n>목록</a>
 					<a href="" class="btn btn--gray btn--modify" data-i18n>내용 수정</a>
 					<a href="inquiry_write.html" class="btn btn--red btn--write" data-i18n>문의하기</a>
 				</div>
