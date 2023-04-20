@@ -7,12 +7,12 @@ const API = {
             API_URL = "http://api.loc.kkikda.com/v1.0"
         }
         if (window.location.host.indexOf('dev.') !== -1) {
-            API_URL = "https://dev.api.assettea.com/v1.0"
+            API_URL = "https://api.dev.assettea.com/v1.0"
         }
         if (window.location.host.indexOf('127.0.0.1') !== -1) {
-            API_URL = "https://dev.api.assettea.com/v1.0"
+            API_URL = "https://api.dev.assettea.com/v1.0"
         }
-        return API_URL; // 'https://dev.api.assettea.com/v1.0'
+        return API_URL; // 'https://api.dev.assettea.com/v1.0'
     }(),
 
     /**
