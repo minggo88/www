@@ -1760,13 +1760,32 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$('.preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
 
 		$('[name="btn_check"]').on('click', function () {
-			$('#bank_name').attr("disabled", false);
+			/*$('#bank_name').attr("disabled", false);
 			$('#bank_owner').attr("disabled", false);
 			$('#bank_account_p').hide();
 			$('#bank_account').show();
 			//$('#file_bank_url').attr("disabled", false);
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();
+			*/
+			$.ajax({
+				'url': API_URL + '/checkAccount/?',
+				'async': false,
+				'success': function(res) {
+					if(res && res.indexOf('<!DOCTYPE html>')>-1) {
+						html = res;
+					} else {
+						// r = '<div id="' + page_name + '" class="box404 text-center"><h1>404</h1><h3 class="font-bold mb-3">'+__('Page Not Found')+'</h3><div class="error-desc">'+__('Sorry, but the page you are looking for has note been found. Try checking the URL for error, then hit the refresh button on your browser or try found something else in our app.')+'</div><a href="/">['+__('Go Homepage')+']</a></div>';
+					}
+					
+				},
+				'fail': function (res) {
+					alert(__('{item_name} 파일을 업로드하지 못했습니다.').replace('{item_name}', $res));
+				}
+			});
+
+
+
 			return false;
 		});
 		
