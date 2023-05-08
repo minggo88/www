@@ -1769,7 +1769,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_save"]').show();
 			*/
 			$.ajax({
-				'url': API_URL + '/checkAccount/?',
+				'url': "//api.dev.assettea.com/v1.0/checkAccount/?",
 				'async': false,
 				'success': function(res) {
 					if(res && res.indexOf('<!DOCTYPE html>')>-1) {
