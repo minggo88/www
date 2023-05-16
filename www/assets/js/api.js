@@ -317,7 +317,7 @@ const API = {
      * 계좌정보확인
      */
     checkAccount: (data, callback = null) => {
-        /*$.ajax({
+        $.ajax({
             url: `${API.BASE_URL}/checkAccount/`,
             type: 'POST',
             dataType: 'JSON',
@@ -334,8 +334,8 @@ const API = {
                 callback("2222222" + resp);
               }
             }
-        })*/
-        const net = require('net');
+        })
+        /*const net = require('net');
 
         // 서버에 연결
         const client = net.connect({ host: '61.109.249.165', port: 30433 }, () => {
@@ -354,7 +354,7 @@ const API = {
         // 서버 연결 종료 이벤트 처리
         client.on('end', () => {
         console.log('서버 연결이 종료되었습니다.');
-        });
+        });*/
     },
     getTradingList: (symbol, exchange = null, page = 1, callback = null) => {
         $.ajax({
