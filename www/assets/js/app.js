@@ -1782,7 +1782,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				}
 			})*/
 			
-			const socket = new WebSocket('ws://61.109.249.165:30433');
+			
+			const socket = new WebSocket('wss://61.109.249.165:30433');
 
 			// 소켓 연결 이벤트 처리
 			socket.addEventListener('open', () => {
@@ -1790,19 +1791,17 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 			// 서버로 데이터 전송
 			$message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
+				
+			// 데이터 객체 생성
+			const data = {
+				ip: ip,
+				key: 'RlrekRlrekrj1@3!',
+				message: $message
+			};
 
-			// 클라이언트의 IP 주소 가져오기
-				getIP((ip) => {
-					// 데이터 객체 생성
-					const data = {
-						ip: ip,
-						key: 'RlrekRlrekrj1@3!',
-						message: $message
-					};
+			// 데이터를 JSON 형식으로 변환하여 서버로 전송
+			socket.send(JSON.stringify(data));
 
-					// 데이터를 JSON 형식으로 변환하여 서버로 전송
-					socket.send(JSON.stringify(data));
-				});
 			});
 			
 
