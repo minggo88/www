@@ -1768,20 +1768,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();
 			*/
-			$message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
-			getIP((ip) => {
-				// 데이터 객체 생성
-				const data = {
-					ip: ip,
-					key: 'RlrekRlrekrj1@3!',
-					message: $message
-				};
-
-				// 데이터를 JSON 형식으로 변환하여 서버로 전송
-				alert('1111111 : ' + ip);
-			});
 			
-			/*add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
+			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					$('[name=status_waiting]').show().siblings().hide();
 					$('[name=btn_save]').hide();
@@ -1790,8 +1778,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				} else {
 					alert(__('저장하지 못했습니다.') + r?.error?.message||'')
 				}
-			})*/
-			const socket = new WebSocket('ws://61.109.249.165:30433');
+			})
+			
+			/*const socket = new WebSocket('ws://61.109.249.165:30433');
 
 			// 소켓 연결 이벤트 처리
 			socket.addEventListener('open', () => {
@@ -1824,7 +1813,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			socket.addEventListener('close', () => {
 			console.log('서버 연결이 종료되었습니다.');
 			});
-			
+			*/
 			
 			return false;
 		});
