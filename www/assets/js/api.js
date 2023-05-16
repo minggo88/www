@@ -329,13 +329,14 @@ const API = {
                     callback(resp);
                     console.log("SSS:", resp);
                 }
-            },
+            }
+            /*,
             error: (resp) => {
               if (callback) {
                 callback("2222222" + resp);
                 console.log("Error:", resp);
               }
-            }
+            }*/
         })
         /*const net = require('net');
 
