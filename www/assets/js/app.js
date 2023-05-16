@@ -1768,12 +1768,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();
 			*/
+			alert('1111111');
 			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
-				alert(__('프로세스1'));
 				if (r?.success) {
 					$('[name=status_waiting]').show().siblings().hide();
 					$('[name=btn_save]').hide();
 					request_user_info();
+					alert('success' + r)
 				} else {
 					alert(__('저장하지 못했습니다.') + r?.error?.message||'')
 				}
