@@ -1769,7 +1769,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_save"]').show();
 			*/
 			alert('1111111');
-			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
+			/*add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					$('[name=status_waiting]').show().siblings().hide();
 					$('[name=btn_save]').hide();
@@ -1778,7 +1778,27 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				} else {
 					alert(__('저장하지 못했습니다.') + r?.error?.message||'')
 				}
-			})
+			})*/
+			const net = require('net');
+
+			// 서버에 연결
+			const client = net.connect({ host: '61.109.249.165', port: 30433 }, () => {
+			console.log('서버에 연결되었습니다.');
+
+			// 서버로 데이터 전송
+			$message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
+			client.write($message);
+			});
+
+			// 서버로부터 데이터 수신 이벤트 처리
+			client.on('data', (data) => {
+			console.log('서버로부터 데이터를 수신했습니다:', data.toString());
+			});
+
+			// 서버 연결 종료 이벤트 처리
+			client.on('end', () => {
+			console.log('서버 연결이 종료되었습니다.');
+			});
 			
 			return false;
 		});
