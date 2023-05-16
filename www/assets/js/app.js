@@ -1767,7 +1767,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			//$('#file_bank_url').attr("disabled", false);
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();
-			
+
 			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					for (var key in r) {
