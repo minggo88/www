@@ -1786,7 +1786,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			const socket = new WebSocket('wss://61.109.249.165:30433');
 
 			// 소켓 연결 이벤트 처리
-			webSocket.onopen = ()=>{
+			socket.onopen = ()=>{
 				console.log("웹소켓서버와 연결 성공");
 			};
 			socket.addEventListener('open', () => {
