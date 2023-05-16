@@ -325,14 +325,15 @@ const API = {
                 token: window.localStorage.token, lang: window.localStorage.locale,
             }),
             success: (resp) => {
+                callback(resp)
                 if(callback) {
                     callback(resp)
                 }
             },
             error: (resp) => {
+                callback(resp)
                 if (callback) {
                   callback("2222222" + resp);
-                  console.log("Error:", resp);
                 }
               }
         })
