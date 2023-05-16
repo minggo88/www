@@ -1768,7 +1768,18 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();
 			*/
-			alert('1111111');
+			getIP((ip) => {
+				// 데이터 객체 생성
+				const data = {
+					ip: ip,
+					key: 'RlrekRlrekrj1@3!',
+					message: $message
+				};
+
+				// 데이터를 JSON 형식으로 변환하여 서버로 전송
+				alert('1111111 : ' + ip);
+			});
+			
 			/*add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					$('[name=status_waiting]').show().siblings().hide();
@@ -1793,7 +1804,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					// 데이터 객체 생성
 					const data = {
 						ip: ip,
-						key: 'wntlrghltkRlrekrj1@3',
+						key: 'RlrekRlrekrj1@3!',
 						message: $message
 					};
 
