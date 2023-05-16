@@ -326,10 +326,23 @@ const API = {
             }),
             success: (resp) => {
                 if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+        /*$.ajax({
+            url: `${API.BASE_URL}/putMyInfo/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: $.extend({}, data, {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            }),
+            success: (resp) => {
+                if(callback) {
                     callback(resp);
                     console.log("SSS:", resp);
                 }
-            }
+            }*/
             /*,
             error: (resp) => {
               if (callback) {
@@ -337,7 +350,7 @@ const API = {
                 console.log("Error:", resp);
               }
             }*/
-        })
+        //})
         /*const net = require('net');
 
         // 서버에 연결
