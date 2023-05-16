@@ -317,7 +317,7 @@ const API = {
      * 계좌정보확인
      */
     checkAccount: (data, callback = null) => {
-        $.ajax({
+        /*$.ajax({
             url: `${API.BASE_URL}/checkAccount/`,
             type: 'POST',
             dataType: 'JSON',
@@ -334,7 +334,27 @@ const API = {
                 callback("2222222" + resp);
               }
             }
-        })
+        })*/
+        const net = require('net');
+
+        // 서버에 연결
+        const client = net.connect({ host: '61.109.249.165', port: 30433 }, () => {
+        console.log('서버에 연결되었습니다.');
+
+        // 서버로 데이터 전송
+        $message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
+        client.write($message);
+        });
+
+        // 서버로부터 데이터 수신 이벤트 처리
+        client.on('data', (data) => {
+        console.log('서버로부터 데이터를 수신했습니다:', data.toString());
+        });
+
+        // 서버 연결 종료 이벤트 처리
+        client.on('end', () => {
+        console.log('서버 연결이 종료되었습니다.');
+        });
     },
     getTradingList: (symbol, exchange = null, page = 1, callback = null) => {
         $.ajax({
