@@ -1844,7 +1844,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 			add_request_item('putMyInfo', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
-					alert(__('저장했습니다.'));
+					alert(__('저장했습니다.' + r));
 					$('[name=status_waiting]').show().siblings().hide();
 					$('[name=btn_save]').hide();
 					request_user_info();
