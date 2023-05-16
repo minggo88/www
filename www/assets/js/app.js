@@ -1760,16 +1760,16 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$('.preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
 
 		$('[name="btn_check"]').on('click', function () {
-			/*$('#bank_name').attr("disabled", false);
+			$('#bank_name').attr("disabled", false);
 			$('#bank_owner').attr("disabled", false);
 			$('#bank_account_p').hide();
 			$('#bank_account').show();
 			//$('#file_bank_url').attr("disabled", false);
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();
-			*/
 			
-			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
+			
+			/*add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					$('[name=status_waiting]').show().siblings().hide();
 					$('[name=btn_save]').hide();
@@ -1778,7 +1778,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				} else {
 					alert(__('저장하지 못했습니다.') + r?.error?.message||'')
 				}
-			})
+			})*/
 			
 			/*const socket = new WebSocket('ws://61.109.249.165:30433');
 
