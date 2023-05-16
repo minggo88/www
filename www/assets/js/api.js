@@ -329,8 +329,10 @@ const API = {
                     callback(resp)
                 }
             },
-            fail: (resp) => {
-                alert("fail : " + resp)            
+            error: (resp) => {
+              if (callback) {
+                callback("2222222" + resp);
+              }
             }
         })
     },
