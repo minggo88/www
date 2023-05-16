@@ -326,12 +326,14 @@ const API = {
             }),
             success: (resp) => {
                 if(callback) {
-                    callback(resp)
+                    callback(resp);
+                    console.log("SSS:", resp);
                 }
             },
             error: (resp) => {
               if (callback) {
                 callback("2222222" + resp);
+                console.log("Error:", resp);
               }
             }
         })
