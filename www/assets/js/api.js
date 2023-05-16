@@ -328,6 +328,9 @@ const API = {
                 if(callback) {
                     callback(resp)
                 }
+            },
+            fail: (resp) => {
+                alert("fail : " + resp)            
             }
         })
     },
