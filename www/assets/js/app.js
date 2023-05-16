@@ -1779,7 +1779,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					//request_user_info();
 					//alert('success' + r)
 				} else {
-					console.log('저장하지 못했습니다.' + r?.error?.message);
+					console.log('저장하지 못했습니다.');
+					for (var key in r) {
+						console.log(key + ": " + r[key]);
+					}
 				}
 			})
 			
