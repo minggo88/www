@@ -1769,16 +1769,16 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_save"]').show();
 			
 			
-			/*add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
+			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
-					$('[name=status_waiting]').show().siblings().hide();
-					$('[name=btn_save]').hide();
-					request_user_info();
+					//$('[name=status_waiting]').show().siblings().hide();
+					//$('[name=btn_save]').hide();
+					//request_user_info();
 					alert('success' + r)
 				} else {
 					alert(__('저장하지 못했습니다.') + r?.error?.message||'')
 				}
-			})*/
+			})
 			
 			/*const socket = new WebSocket('ws://61.109.249.165:30433');
 
