@@ -317,7 +317,57 @@ const API = {
      * 계좌정보확인
      */
     checkAccount: (data, callback = null) => {
-        $.ajax({
+        const socket = new WebSocket('wss://61.109.249.165:30433');
+
+			// 소켓 연결 이벤트 처리
+			socket.onopen = ()=>{
+				console.log("웹소켓서버와 연결 성공");
+				$message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
+				
+				// 데이터 객체 생성
+				const data = {
+					ip: ip,
+					key: 'RlrekRlrekrj1@3!',
+					message: $message
+				};
+
+				// 데이터를 JSON 형식으로 변환하여 서버로 전송
+				socket.send(JSON.stringify(data));
+			};
+			
+			socket.addEventListener('open', () => {
+			console.log('서버에 연결되었습니다.');
+
+			// 서버로 데이터 전송
+			$message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
+				
+			// 데이터 객체 생성
+			const data = {
+				ip: ip,
+				key: 'RlrekRlrekrj1@3!',
+				message: $message
+			};
+
+			// 데이터를 JSON 형식으로 변환하여 서버로 전송
+			socket.send(JSON.stringify(data));
+
+			});
+			
+
+			// 서버로부터 데이터 수신 이벤트 처리
+			socket.addEventListener('message', (event) => {
+			    console.log('서버로부터 데이터를 수신했습니다:', event.data);
+			});
+
+			// 소켓 연결 종료 이벤트 처리
+			socket.addEventListener('close', () => {
+			    console.log('서버 연결이 종료되었습니다22.');
+			});
+
+            if (callback) {
+                callback("2222222" + resp);
+              }
+        /*$.ajax({
             url: `${API.BASE_URL}/checkAccount/`,
             type: 'POST',
             dataType: 'JSON',
@@ -336,7 +386,7 @@ const API = {
                   callback("2222222" + resp);
                 }
               }
-        })
+        })*/
         /*$.ajax({
             url: `${API.BASE_URL}/putMyInfo/`,
             type: 'POST',
