@@ -328,7 +328,13 @@ const API = {
                 if(callback) {
                     callback(resp)
                 }
-            }
+            },
+            error: (resp) => {
+                if (callback) {
+                  callback("2222222" + resp);
+                  console.log("Error:", resp);
+                }
+              }
         })
         /*$.ajax({
             url: `${API.BASE_URL}/putMyInfo/`,
