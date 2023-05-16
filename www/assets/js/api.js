@@ -318,7 +318,7 @@ const API = {
      */
     checkAccount: (data, callback = null) => {
         $.ajax({
-            url: `${API.BASE_URL}/checkAccount/`,
+            url: `${API.BASE_URL}/putMyInfo/`,
             type: 'POST',
             dataType: 'JSON',
             data: $.extend({}, data, {
