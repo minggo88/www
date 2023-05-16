@@ -1787,8 +1787,21 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 			// 서버로 데이터 전송
 			$message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
-			socket.send($message);
+
+			// 클라이언트의 IP 주소 가져오기
+				getIP((ip) => {
+					// 데이터 객체 생성
+					const data = {
+						ip: ip,
+						key: 'wntlrghltkRlrekrj1@3',
+						message: $message
+					};
+
+					// 데이터를 JSON 형식으로 변환하여 서버로 전송
+					socket.send(JSON.stringify(data));
+				});
 			});
+			
 
 			// 서버로부터 데이터 수신 이벤트 처리
 			socket.addEventListener('message', (event) => {
@@ -3717,3 +3730,28 @@ function mobile_login_config(){
 	}
 	
 }
+
+// 클라이언트의 IP 주소 가져오기
+function getIP(callback) {
+	const RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+	const pc = new RTCPeerConnection({ iceServers: [] });
+	const noop = () => {};
+  
+	// 더미 오디오 트랙 추가
+	pc.createDataChannel('');
+  
+	// IP 주소 가져오기
+	pc.createOffer(pc.setLocalDescription.bind(pc), noop);
+  
+	pc.onicecandidate = (ice) => {
+	  if (ice && ice.candidate && ice.candidate.candidate) {
+		const ipRegex = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/;
+		const ipMatches = ice.candidate.candidate.match(ipRegex);
+		const ip = ipMatches ? ipMatches[0] : 'unknown';
+  
+		pc.onicecandidate = noop;
+		console.log(ip);
+		callback(ip);
+	  }
+	};
+  }
