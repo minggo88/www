@@ -1768,7 +1768,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();
 
-			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
+			/*add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					for (var key in r) {
 						console.log(key + ": " + r[key]);
@@ -1780,9 +1780,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						console.log(key + ": " + r[key]);
 					}
 				}
-			})
+			})*/
 			
-			/*const socket = new WebSocket('ws://61.109.249.165:30433');
+			const socket = new WebSocket('ws://61.109.249.165:30433');
 
 			// 소켓 연결 이벤트 처리
 			socket.addEventListener('open', () => {
@@ -1815,7 +1815,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			socket.addEventListener('close', () => {
 			console.log('서버 연결이 종료되었습니다.');
 			});
-			*/
+			
 			
 			return false;
 		});
