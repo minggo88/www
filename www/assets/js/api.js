@@ -313,6 +313,24 @@ const API = {
             }
         })
     },
+    /***
+     * 계좌정보확인
+     */
+    checkAccount: (data, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/checkAccount/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: $.extend({}, data, {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            }),
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
     getTradingList: (symbol, exchange = null, page = 1, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getTradingList/`,

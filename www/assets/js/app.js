@@ -1768,24 +1768,17 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();
 			*/
-			$.ajax({
-				'url': "//api.dev.assettea.com/v1.0/checkAccount/?",
-				'async': false,
-				'success': function(res) {
-					if(res && res.indexOf('<!DOCTYPE html>')>-1) {
-						html = res;
-					} else {
-						// r = '<div id="' + page_name + '" class="box404 text-center"><h1>404</h1><h3 class="font-bold mb-3">'+__('Page Not Found')+'</h3><div class="error-desc">'+__('Sorry, but the page you are looking for has note been found. Try checking the URL for error, then hit the refresh button on your browser or try found something else in our app.')+'</div><a href="/">['+__('Go Homepage')+']</a></div>';
-					}
-					
-				},
-				'fail': function (res) {
-					alert(__('{item_name} 파일을 업로드하지 못했습니다.').replace('{item_name}', $res));
+			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
+				alert(__('프로세스1'));
+				if (r?.success) {
+					$('[name=status_waiting]').show().siblings().hide();
+					$('[name=btn_save]').hide();
+					request_user_info();
+				} else {
+					alert(__('저장하지 못했습니다.') + r?.error?.message||'')
 				}
-			});
-
-
-
+			})
+			
 			return false;
 		});
 		
