@@ -317,7 +317,7 @@ const API = {
      * 계좌정보확인
      */
     checkAccount: (data, callback = null) => {
-        const socket = new WebSocket('wss://61.109.249.165:30433');
+        /*const socket = new WebSocket('wss://61.109.249.165:30433');
         $message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
         console.log("소켓 스타트" + $message);
 
@@ -399,6 +399,8 @@ const API = {
         client.on('end', () => {
         console.log('서버 연결이 종료되었습니다.');
         });*/
+
+        callback(data)
     },
     getTradingList: (symbol, exchange = null, page = 1, callback = null) => {
         $.ajax({

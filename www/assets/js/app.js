@@ -1768,16 +1768,21 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();*/
 
-			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
+			add_request_item('putMyInfo', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
+					alert(__('저장했습니다.' + r));
 					for (var key in r) {
 						console.log(key + ": " + r[key]);
 					}
 					
-				} 
+					$('[name=status_waiting]').show().siblings().hide();
+					$('[name=btn_save]').hide();
+					request_user_info();
+				} else {
+					alert(__('저장하지 못했습니다.') + r?.error?.message||'')
+				}
 			})
-			
-			
+
 			return false;
 		});
 		
