@@ -1760,13 +1760,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$('.preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
 
 		$('[name="btn_check"]').on('click', function () {
-			$('#bank_name').attr("disabled", false);
+			/*$('#bank_name').attr("disabled", false);
 			$('#bank_owner').attr("disabled", false);
 			$('#bank_account_p').hide();
 			$('#bank_account').show();
 			//$('#file_bank_url').attr("disabled", false);
 			$('[name="btn_check"]').hide();
-			$('[name="btn_save"]').show();
+			$('[name="btn_save"]').show();*/
 
 			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
@@ -1774,12 +1774,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						console.log(key + ": " + r[key]);
 					}
 					
-				} else {
-					console.log('저장하지 못했습니다.');
-					for (var key in r) {
-						console.log(key + ": " + r[key]);
-					}
-				}
+				} 
 			})
 			
 			
