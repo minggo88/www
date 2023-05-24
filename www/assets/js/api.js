@@ -317,28 +317,7 @@ const API = {
      * 계좌정보확인
      */
     checkAccount: (data, callback = null) => {
-        /*const socket = new WebSocket('wss://61.109.249.165:30433');
-        $message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
-        console.log("소켓 스타트" + $message);
-
-        socket.onopen = function(event) {
-          console.log('WebSocket 연결이 열렸습니다.');
-          socket.send($message);
-        };
-        
-        socket.onmessage = function(event) {
-          console.log('서버로부터 메시지를 수신했습니다: ' + event.data);
-        };
-        
-        socket.onerror = function(error) {
-          console.error('WebSocket 오류 발생: ' + error);
-        };
-        
-        socket.onclose = function(event) {
-          console.log('WebSocket 연결이 닫혔습니다.');
-        };
-			
-        /*$.ajax({
+        $.ajax({
             url: `${API.BASE_URL}/checkAccount/`,
             type: 'POST',
             dataType: 'JSON',
@@ -346,61 +325,13 @@ const API = {
                 token: window.localStorage.token, lang: window.localStorage.locale,
             }),
             success: (resp) => {
-                callback(resp)
                 if(callback) {
                     callback(resp)
                 }
-            },
-            error: (resp) => {
-                callback(resp)
-                if (callback) {
-                  callback("2222222" + resp);
-                }
-              }
-        })*/
-        /*$.ajax({
-            url: `${API.BASE_URL}/putMyInfo/`,
-            type: 'POST',
-            dataType: 'JSON',
-            data: $.extend({}, data, {
-                token: window.localStorage.token, lang: window.localStorage.locale,
-            }),
-            success: (resp) => {
-                if(callback) {
-                    callback(resp);
-                    console.log("SSS:", resp);
-                }
-            }*/
-            /*,
-            error: (resp) => {
-              if (callback) {
-                callback("2222222" + resp);
-                console.log("Error:", resp);
-              }
-            }*/
-        //})
-        /*const net = require('net');
-
-        // 서버에 연결
-        const client = net.connect({ host: '61.109.249.165', port: 30433 }, () => {
-        console.log('서버에 연결되었습니다.');
-
-        // 서버로 데이터 전송
-        $message = "02000200XXXXXXXX200132015071110421423           023           0000002OY   74312391143                         88    0000000000100test                0000000000000                             088";
-        client.write($message);
-        });
-
-        // 서버로부터 데이터 수신 이벤트 처리
-        client.on('data', (data) => {
-        console.log('서버로부터 데이터를 수신했습니다:', data.toString());
-        });
-
-        // 서버 연결 종료 이벤트 처리
-        client.on('end', () => {
-        console.log('서버 연결이 종료되었습니다.');
-        });*/
-
-        callback(data)
+            },error: (jqXHR) => {
+                console.error(jqXHR)
+            }
+        })
     },
     getTradingList: (symbol, exchange = null, page = 1, callback = null) => {
         $.ajax({
