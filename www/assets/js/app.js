@@ -1770,6 +1770,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 			console.log('1111');
 			console.log(unserialize($('#change-account-number').serialize()));
+			console.log(location.origin);
 			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					for (var key in r) {
