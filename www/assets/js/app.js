@@ -36,16 +36,16 @@ $(document).ready(function() {
 
 
 // F12 버튼 방지
-$(document).ready(function() {
+/*$(document).ready(function() {
 	$(document).bind('keydown', function(evt) {
 		let keyCode = get_keycode(evt);
-		if (evt.keyCode == 123 /* F12 */ ) {
-			evt.preventDefault();
+		if (evt.keyCode == 123 /* F12 */ //) {
+			/*evt.preventDefault();
 			evt.returnValue = false;
 			return false;
 		}
 	});
-});
+});*/
 
 String.prototype.trim = function() {
 	var str = this;
