@@ -1,7 +1,7 @@
-main {
+/* main {
     height: 100%;
     box-sizing: border-box;
-}
+} */
 form {
     height: auto;
 }
@@ -18,5 +18,104 @@ form {
     font-size: 12px;
 }
 .form--btns {
-    margin-top: 167px;
+    margin-top: 70px;
+}
+
+#verification4 .d-grid.column-2{
+	position: relative;
+}
+
+#verification4 .d-grid.column-2 .preview{
+	display: none;
+	position: absolute;
+	width: 161px;
+	height: 110px;
+	left: 0;
+	top: 22px;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	z-index: 10;
+}
+
+#verification4 .d-grid.column-2 .preview.back{
+	right:0;
+	left:initial;
+}
+
+#verification5 .bank_account{
+	position: relative;
+}
+
+#verification5 .bank_account .preview{
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 110px;
+	left: 0;
+	top: 5px;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	z-index: 10;
+}
+
+@media screen and (max-width: 800px) {
+	/* .verification > header{
+		display: none;
+	} */
+	.verification .mobile-only{display: block!important;}
+	.verification main{
+		flex-direction: column;
+		height: 100vh;
+	}
+	.verification .contents--header {
+		align-self: flex-start;
+		height: 48px;
+	}
+
+	.verification .navigation--back{
+		height: 48px;
+		line-height: 48px;
+		margin-bottom: 0;
+		margin-left: 10px;
+	}
+
+	/* .verification main{
+			flex-direction: column;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0!important;
+	} */
+
+	.verification form{
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		/* justify-content: center; */
+		height: 100%;
+		align-self: center;
+		max-width: 340px;
+		width: 100%;
+		padding:0 20px;
+		box-sizing: border-box;
+	}
+
+	.verification #verification6 p.nowrap{
+		white-space: initial!important;
+	}
+
+	.navigation--back{
+		position: relative;
+		left: 0;
+		top: 0;
+		margin-bottom: 20px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	#verification5 .bank_account + p{
+		height: auto!important;
+	}
 }

@@ -4,7 +4,7 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>끽다거</title>
+<title>ASSETTEA</title>
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 <link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 <link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
@@ -14,13 +14,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/colorset.css?t=1662601748">
-<link rel="stylesheet" href="./assets/css/common.css?t=1663240012">
-<link rel="stylesheet" href="./assets/css/header.css?t=1663661193">
-<link rel="stylesheet" href="./assets/css/footer.css?t=1663660804">
-<link rel="stylesheet" href="./assets/css/components.css?t=1663661193">
-<link rel="stylesheet" href="./assets/css/sub.css?t=1663671111">
-<link rel="stylesheet" href="./assets/css/login.css?t=1663583665">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
+<link rel="stylesheet" href="./assets/css/common.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/header.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/login.css?t=1671607479">
 <!-- JS -->
 <script>
     let USER_INFO = {}
@@ -28,117 +28,91 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="https://unpkg.com/libphonenumber-js@1.10.11/bundle/libphonenumber-min.js"></script>
-<script src="./assets/js/common.js?t=1663583938"></script>
-<script src="./assets/js/api.js?t=1663584012" defer></script>
-<script src="./assets/js/components.js?t=1663671111" defer></script>
-<script src="./assets/js/create-account.js?t=1663122236" defer></script>
+<script src="./assets/js/jquery.autotab.js?t=1667796157"></script>
+<script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/api.js?t=1671775853" defer></script>
+<script src="./assets/js/components.js?t=1672721419" defer></script>
+<script src="./assets/js/create-account.js?t=1670216759" defer></script>
 
-<script src="./assets/js/lib/php.default.min.js?t=1661837315"></script>
-<script src="./assets/js/lib/security.min.js?t=1661838502"></script>
-<script src="./i18n/i18n.js?t=1663208420"></script>
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+<script src="./i18n/i18n.js?t=1667796157"></script>
+
 
 </head>
 <!-- BODY -->
 <body class="sub login create-account">
-    <header>
-        <div class="header_inner">
-			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
+	<header>
+		<div class="header_inner">
+			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
 						<a href="exchange.html" data-i18n>거래소</a>
 					</li>
+					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 					<li>
-						<a href="" data-i18n>공동구매</a>
+						<a href="wallet.html" data-login data-i18n>입출금</a>
 					</li>
-					<li>
-						<a href="" data-i18n>경매</a>
-					</li>
-					<li>
-						<a href="" data-i18n>입출금</a>
-					</li>
-					<li>
-						<a href="" data-i18n>다도 문화</a>
-					</li>
+					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 					<li>
 						<a href="notice.html" data-i18n>고객센터</a>
 					</li>
 				</ul>
 			</nav>
 			<div class="nav--side">
-				<div name="box_logedin" style="display: none" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown text--blue-gray" data-bind="user_info.userid">kik**@teaplat.com</button>
-					<div class="dropdown--item" style="width: 134px">
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
 						<ul>
-							<li><a href="member-account.html" data-i18n>정보 수정</a></li>
-							<li><a href="verification.html" data-i18n>ID 인증 관리</a></li>
-							<li><a href="change-pin-number.html" data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-i18n>출금계좌 변경</a></li>
-							<li><a href="transaction.html" data-i18n>거래 내역</a></li>
-							<li><a href="notification.html" data-i18n>알림</a></li>
-							<li><a href="#" name="btn-logout" data-i18n>로그아웃</a></li>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
 						</ul>
 					</div>
 				</div>
-				<div name="box_logedin" style="display: none" class="wallet dropdown-wrapper">
-					<button type="button" class="dropdown" data-i18n>지갑관리</button>
-					<div class="dropdown--item" style="width: 100px">
-						<ul>
-							<li><a href="wallet.html" data-i18n>보유 자산</a></li>
-							<li><a href="wallet-deposit.html" data-i18n>입금</a></li>
-							<li><a href="wallet-withdrawal.html" data-i18n>출금</a></li>
-							<li><a href="wallet-analysis.html" data-i18n>종합 분석</a></li>
-						</ul>
-					</div>
-				</div>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
-				<div name="box_unlogedin">
-					<a href="login.html" class="btn--login"  style="display: none" data-i18n>로그인</a>
-				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
 						<span>한국어</span>
-						<ul>
-						</ul>
+						<ul></ul>
 					</div>
 				</div>
 			</div>
-			<div class="box-mobile-menu">
-				<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
-			</div>
-			<ul class="gnb box-menu" name="box-menu">
-				<li>
-					<a href="exchange.html" data-i18n>거래소</a>
-				</li>
-				<li>
-					<a href="" data-i18n>공동구매</a>
-				</li>
-				<li>
-					<a href="" data-i18n>경매</a>
-				</li>
-				<li>
-					<a href="" data-i18n>입출금</a>
-				</li>
-				<li>
-					<a href="" data-i18n>다도 문화</a>
-				</li>
-				<li>
-					<a href="notice.html" data-i18n>고객센터</a>
-				</li>
-			</ul>
-			<button type="button" class="navigation--back"></button>
 		</div>
-    </header>
+		<div class="box-mobile-menu">
+			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
+		</div>
+		<ul class="gnb box-menu" name="box-menu">
+			<li>
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
+			<li>
+				<a href="wallet.html" data-login data-i18n>입출금</a>
+			</li>
+			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+			<li>
+				<a href="notice.html" data-i18n>고객센터</a>
+			</li>
+		</ul>
+	</header>
 	<main class="d-flex flex-center">
 		<section>
 			<form id="create-account-country" action="create-account.html" method="post" class="flex-row flex-center">
 				<div class="form--header text-red">
-					<h1 data-i18n>Create Your Account</h1>
+					<h1 data-i18n>계정 만들기</h1>
 				</div>
-				<p class="m-0 flex-self-left text-bold size--16" style="white-space: nowrap" data-i18n>
-					TEAPLAT은 전 세계에서 생산되는 차들의 인증과<br>기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다.
+				<p class="m-0 flex-self-left text-bold size--16" data-i18n>
+					ASSETTEA은 전 세계에서 생산되는 차들의 인증과
+					기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다.
 				</p>
 				<div class="guide">
 					<div class="guide--step">
@@ -178,26 +152,46 @@
 					<h1 class="desktop-only" data-i18n>Create Your Account</h1>
 					<h1 class="mobile-only" data-i18n>계정 등록</h1>
 				</div>
-				<p class="m-0 flex-self-left text-bold size--16" style="white-space: nowrap" data-i18n>
-					TEAPLAT은 전 세계에서 생산되는 차들의 인증과<br>기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다.
+				<p class="m-0 flex-self-left text-bold size--16" data-i18n>
+					ASSETTEA은 전 세계에서 생산되는 차들의 인증과
+					기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다.
 				</p>
 				<div class="form--controls" style="margin-top: 46px;">
 					<label for="email" class="form--label" data-i18n>Email</label>
-					<input type="email" name="email" id="email" style="border-color: #DFDFDF">
+					<input type="email" name="email" id="email" style="border-color: #DFDFDF" placeholder="이메일을 입력해주세요" required>
 					<input type="hidden" name="checkJoin" id="checkJoin" value="">
 				</div>
-				<div class="form--controls" style="margin-top: 10px;">
+				<div class="form--controls" style="margin-top: 15px;">
+					<label for="name" class="form--label" data-i18n>이름</label>
+					<input type="text" name="name" id="name" style="border-color: #DFDFDF" placeholder="이름을 입력해주세요" required>
+				</div>
+				<div class="form--controls" style="margin-top: 15px;">
 					<label for="password" class="form--label" data-i18n>Password</label>
-					<input type="password" name="password" id="password" style="border-color: #DFDFDF">
+					<input type="password" name="password" id="password" style="border-color: #DFDFDF" placeholder="특수문자 포함 8자리 이상 입력해주세요" required>
+				</div>
+				<div class="form--controls" style="margin-top: 15px;">
+					<label for="password_confirm" class="form--label" data-i18n>비밀번호 확인</label>
+					<input type="password" name="password_confirm" id="password_confirm" style="border-color: #DFDFDF" placeholder="비밀번호를 다시 한번 입력해주세요" required>
 				</div>
 				<div class="form--controls" style="margin-top: 46px;">
 					<div class="checkbox">
-						<input type="checkbox" name="mailing" id="mailing"><label for="mailing" data-i18n>I agree to receive email updates from Teaplat</label>
+						<!-- <input type="checkbox" name="mailing" id="mailing"><label for="mailing" data-i18n>(essential) I agree to receive email updates from ASSETTEA</label> -->
+						<input type="checkbox" name="terms_of_service" id="terms_of_service">
+						<label for="terms_of_service" data-i18n>이용약관 동의<span class="red">(필수)</span></label>
 					</div>
 				</div>
 				<div class="form--controls" style="margin-top: 16px;">
 					<div class="checkbox">
-						<input type="checkbox" name="marketing" id="marketing"><label for="marketing" data-i18n>I agree to share data for marketing purposes</label>
+						<!-- <input type="checkbox" name="mailing" id="mailing"><label for="mailing" data-i18n>(essential) I agree to receive email updates from ASSETTEA</label> -->
+						<input type="checkbox" name="privacy" id="privacy">
+						<label for="privacy" data-i18n>개인정보 수집 및 이용 동의<span class="red">(필수)</span></label>
+					</div>
+				</div>
+				<div class="form--controls" style="margin-top: 16px;">
+					<div class="checkbox">
+						<!-- <input type="checkbox" name="marketing" id="marketing"><label for="marketing" data-i18n>(select) I agree to share data for marketing purposes</label> -->
+						<input type="checkbox" name="marketing" id="marketing">
+						<label for="marketing" data-i18n>마케팅 및 프로모션 정보 수신 동의<span>(선택)</span></label>
 					</div>
 				</div>
 				<div class="form--btns" style="margin-top: 44px">
@@ -292,12 +286,12 @@
 					입력한 휴대폰 번호로 인증번호가 발송되었습니다.
 				</p>
 				<div class="d-grid grid--code">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1">
 				</div>
 				<div class="flex-self-left">
 					<span class="text-bold" data-i18n>문자가 오지 않으셨나요?</span>
@@ -331,12 +325,12 @@
 					보안 비밀 번호 6자리를 입력해 주세요.
 				</p>
 				<div class="d-grid grid--code" style="margin-top: 52px; margin-bottom: 162px">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1">
-					<input name="pin" type="number" min="0" max="9" value="" maxlength="1">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input name="pin" type="number" class="number" min="0" max="9" value="" maxlength="1" inputmode="numeric">
 				</div>
 				<div class="form--btns mt-0">
 					<button class="btn btn--block btn--red" data-i18n>확인</button>
@@ -353,7 +347,7 @@
 				</ol>
 			</nav>
 		</section>
-		<section style="display: none">
+		<section style="display: none;">
 			<form id="create-account-pin-number-confirm" method="post" class="d-flex flex-row flex-center">
 				<div class="mb-24 form--header text-red" >
 					<h1 data-i18n class="desktop-only">Create Your Account</h1>
@@ -366,14 +360,15 @@
 					한번 더 입력해 주세요.
 				</p>
 				<div class="d-grid grid--code" style="margin-top: 52px; margin-bottom: 162px">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
-					<input type="number" name="" min="0" max="9" value="" maxlength="1">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
+					<input type="number" class="number" name="" min="0" max="9" value="" maxlength="1" inputmode="numeric">
 				</div>
 				<div class="form--btns mt-0">
+					<button type="button" class="btn btn--block" name="go-back-btn" data-i18n>이전으로 가기</button>
 					<button class="btn btn--block btn--red" data-i18n>확인</button>
 				</div>
 			</form>
@@ -401,13 +396,13 @@
 					거래를 하기 위해서는 로그인 후에<br>ID 본인 인증이 필요합니다.
 				</p>
 				<div class="form--btns" style="margin-top: 0">
-					<a href="login.html" class="btn btn--block btn--red" data-i18n>로그인</a>
+					<a href="login.html" data-logout class="btn btn--block btn--red" data-i18n>로그인</a>
 				</div>
 			</form>
 		</section>
 	</main>
 
-    <script src="./assets/js/app.js?t=1663583665"></script>
+    <script src="./assets/js/app.js?t=1672042800"></script>
 
 </body>
 </html>
