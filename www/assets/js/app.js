@@ -1768,10 +1768,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();*/
 
-			console.log('1111');
+			console.log('putMyInfo');
 			console.log(unserialize($('#change-account-number').serialize()));
 			console.log(location.origin);
-			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
+			add_request_item('putMyInfo', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					for (var key in r) {
 						console.log(key + ": " + r[key]);
