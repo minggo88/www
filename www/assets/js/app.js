@@ -2812,7 +2812,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			let total_money = 0;
 			let frozen_money = 0;
 
-			// console.log('getBalance resp:', resp);
+			console.log('getBalance resp:', resp);
+			/*
 			if(resp.payload.length > 0) {
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
 				$('[name="grid--empty"]').hide();
@@ -2911,7 +2912,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 							
 						`)
 						
-						/* mk0306 grid_mobile 형태 추가 */
+						
 						const grid_mobile = $(`<tbody name="table_profit">`)
 						let tr_color = '#333333';
 						if(income < 0){
@@ -2955,7 +2956,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 									<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
 								</a>
 							</div>
-						`)*/
+						`)
 						// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
 						// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
 						
@@ -2996,7 +2997,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 							</div>
 						`)
 						/* mk 참조 변수 변경 
-						}else if(item.eval_income == 0){*/
+						}else if(item.eval_income == 0){
 						}else if(income == 0){
 						grid.append(`
 							
@@ -3031,7 +3032,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 									<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
 								</div>
 							</div>
-						`)*/
+						`)
 						
 						$('.table.table-bordered').append(grid_mobile)
 						$('.wallet--grid').append(grid)
@@ -3065,7 +3066,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				$('.d-grid.wallet-summary #totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
 				$('.d-grid.wallet-summary2 #totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
 
-			}
+			}*/
 		})
 		
 
