@@ -237,6 +237,10 @@
 			</div>
 		</div>
 	</aside>
+
+	<div id="options1">
+		<!-- 드롭다운 리스트를 동적으로 생성할 부분 -->
+	</div>
     
 	<div class="options">
 		<label for="option1">천년고수 제일병1 - 수량: 1.0000</label>
@@ -275,79 +279,110 @@
 
 </body>
 <script>
+	$(document).ready(function(){
+		var optionsData = [
+			{name: "천년고수 제일병1", confirmed: "1.0000", symbol: "GJ2GNMGZ00", userno: "1016"},
+			{name: "천년고수 제일병2", confirmed: "13.0000", symbol: "GJ2GNMGZ01", userno: "1016"},
+			{name: "천년고수 제일병3", confirmed: "16.0000", symbol: "GJ2GNMGZ02", userno: "1016"}
+		];
+
+		var optionsContainer = $("#options1");
+
+		optionsData.forEach(function(optionData) {
+			var selectContainer = createSelectContainer(optionData);
+			optionsContainer.append(selectContainer);
+		});
+
+		function createSelectContainer(optionData) {
+			var selectContainer = $("<div>").addClass("select-container");
+			var selectLabel = $("<label>").addClass("select-label").text(optionData.name + " - 수량: " + optionData.confirmed);
+			var select = $("<select>");
+
+			select.append($("<option>").attr("value", "").text("선택하세요"));
+			select.append($("<option>").attr("value", "1").text("1개"));
+			select.append($("<option>").attr("value", "2").text("2개"));
+			select.append($("<option>").attr("value", "3").text("3개"));
+
+			selectContainer.append(selectLabel, select);
+
+			return selectContainer;
+		}
+	});
+
+
 	document.querySelectorAll('.input-group').forEach(function(inputGroup) {
-  const minusBtn = inputGroup.querySelector('.minus-btn');
-  const plusBtn = inputGroup.querySelector('.plus-btn');
-  const quantity = inputGroup.querySelector('input[name=quantity]');
-  const removeBtn = inputGroup.querySelector('.remove-btn');
-  
-  minusBtn.addEventListener('click', function() {
-    const currentValue = parseInt(quantity.value);
-    if (currentValue > 0) {
-      quantity.value = currentValue - 1;
-      if (quantity.value == 0) {
-        minusBtn.disabled = true;
-      }
-    }
-    if (plusBtn.disabled) {
-      plusBtn.disabled = false;
-    }
-  });
+	const minusBtn = inputGroup.querySelector('.minus-btn');
+	const plusBtn = inputGroup.querySelector('.plus-btn');
+	const quantity = inputGroup.querySelector('input[name=quantity]');
+	const removeBtn = inputGroup.querySelector('.remove-btn');
+	
+	minusBtn.addEventListener('click', function() {
+		const currentValue = parseInt(quantity.value);
+		if (currentValue > 0) {
+		quantity.value = currentValue - 1;
+		if (quantity.value == 0) {
+			minusBtn.disabled = true;
+		}
+		}
+		if (plusBtn.disabled) {
+		plusBtn.disabled = false;
+		}
+	});
 
-  plusBtn.addEventListener('click', function() {
-    const currentValue = parseInt(quantity.value);
-    if (!isNaN(currentValue) && currentValue < 1000) {
-      quantity.value = currentValue + 1;
-      if (quantity.value > 0) {
-        minusBtn.disabled = false;
-      }
-    }
-    if (quantity.value == 1000) {
-      plusBtn.disabled = true;
-    }
-  });
-  
-  quantity.addEventListener('input', function() {
-    if (this.value == '' || parseInt(this.value) < 0) {
-      this.value = 0;
-    } else if (parseInt(this.value) > 1000) {
-      this.value = 1000;
-    }
-    if (this.value == 0) {
-      minusBtn.disabled = true;
-    } else if (!minusBtn.disabled) {
-      minusBtn.disabled = false;
-    }
-    if (this.value == 1000) {
-      plusBtn.disabled = true;
-    } else if (!plusBtn.disabled) {
-      plusBtn.disabled = false;
-    }
-  });
-  
-  removeBtn.addEventListener('click', function() {
-    quantity.value = 0;
-    minusBtn.disabled = true;
-    plusBtn.disabled = false;
-  });
-  
-  quantity.dispatchEvent(new Event('input'));
-});
+	plusBtn.addEventListener('click', function() {
+		const currentValue = parseInt(quantity.value);
+		if (!isNaN(currentValue) && currentValue < 1000) {
+		quantity.value = currentValue + 1;
+		if (quantity.value > 0) {
+			minusBtn.disabled = false;
+		}
+		}
+		if (quantity.value == 1000) {
+		plusBtn.disabled = true;
+		}
+	});
+	
+	quantity.addEventListener('input', function() {
+		if (this.value == '' || parseInt(this.value) < 0) {
+		this.value = 0;
+		} else if (parseInt(this.value) > 1000) {
+		this.value = 1000;
+		}
+		if (this.value == 0) {
+		minusBtn.disabled = true;
+		} else if (!minusBtn.disabled) {
+		minusBtn.disabled = false;
+		}
+		if (this.value == 1000) {
+		plusBtn.disabled = true;
+		} else if (!plusBtn.disabled) {
+		plusBtn.disabled = false;
+		}
+	});
+	
+	removeBtn.addEventListener('click', function() {
+		quantity.value = 0;
+		minusBtn.disabled = true;
+		plusBtn.disabled = false;
+	});
+	
+	quantity.dispatchEvent(new Event('input'));
+	});
 
-const cartBtn = document.querySelector('.cart-btn');
-cartBtn.addEventListener('click', function() {
-  let message = '';
-  document.querySelectorAll('.options input[type=text]').forEach(function(input) {
-    const name = input.parentElement.previousElementSibling.textContent.trim();
-    const quantity = parseInt(input.value);
-    if (!isNaN(quantity) && quantity > 0) {
-      message += `${name}-${quantity}\n`;
-    }
-  });
-  if (message != '') {
-    alert(`반출신청\n${message}`);
-  }
-});
+	const cartBtn = document.querySelector('.cart-btn');
+	cartBtn.addEventListener('click', function() {
+	let message = '';
+	document.querySelectorAll('.options input[type=text]').forEach(function(input) {
+		const name = input.parentElement.previousElementSibling.textContent.trim();
+		const quantity = parseInt(input.value);
+		if (!isNaN(quantity) && quantity > 0) {
+		message += `${name}-${quantity}\n`;
+		}
+	});
+	if (message != '') {
+		alert(`반출신청\n${message}`);
+	}
+	});
 </script>
 
 </html>
