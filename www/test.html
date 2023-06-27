@@ -239,40 +239,42 @@
 	</aside>
 
 	<select id = "test_op">
-		<option value="">선택하세요</option>
+		
 	</select>
-    
-	<div class="options">
-		<label for="option1">천년고수 제일병1 - 수량: 1.0000</label>
-		<div class="input-group">
-		  <button class="minus-btn" type="button" name="button" disabled>-</button>
-		  <input type="text" name="quantity" value="0" min="0" max="1000" pattern="[0-9]*" inputmode="numeric" />
-		  <button class="plus-btn" type="button" name="button">+</button>
-		  <button class="remove-btn" type="button" name="button">x</button>
+    <div class="list">
+		<div class="options">
+			<label for="option1">천년고수 제일병1 - 수량: 1.0000</label>
+			<div class="input-group">
+			<button class="minus-btn" type="button" name="button" disabled>-</button>
+			<input type="text" name="quantity" value="0" min="0" max="1000" pattern="[0-9]*" inputmode="numeric" />
+			<button class="plus-btn" type="button" name="button">+</button>
+			<button class="remove-btn" type="button" name="button">x</button>
+			</div>
 		</div>
-	  </div>
-	  <div class="options">
-		<label for="option2">천년고수 제일병2 - 수량: 13.0000</label>
-		<div class="input-group">
-		  <button class="minus-btn" type="button" name="button" disabled>-</button>
-		  <input type="text" name="quantity" value="0" min="0" max="1000" pattern="[0-9]*" inputmode="numeric" />
-		  <button class="plus-btn" type="button" name="button">+</button>
-		  <button class="remove-btn" type="button" name="button">x</button>
+		<div class="options">
+			<label for="option2">천년고수 제일병2 - 수량: 13.0000</label>
+			<div class="input-group">
+			<button class="minus-btn" type="button" name="button" disabled>-</button>
+			<input type="text" name="quantity" value="0" min="0" max="1000" pattern="[0-9]*" inputmode="numeric" />
+			<button class="plus-btn" type="button" name="button">+</button>
+			<button class="remove-btn" type="button" name="button">x</button>
+			</div>
 		</div>
-	  </div>
-	  <div class="options">
-		<label for="option3">천년고수 제일병3 - 수량: 16.0000</label>
-		<div class="input-group">
-		  <button class="minus-btn" type="button" name="button" disabled>-</button>
-		  <input type="text" name="quantity" value="0" min="0" max="1000" pattern="[0-9]*" inputmode="numeric" />
-		  <button class="plus-btn" type="button" name="button">+</button>
-		  <button class="remove-btn" type="button" name="button">x</button>
+		<div class="options">
+			<label for="option3">천년고수 제일병3 - 수량: 16.0000</label>
+			<div class="input-group">
+			<button class="minus-btn" type="button" name="button" disabled>-</button>
+			<input type="text" name="quantity" value="0" min="0" max="1000" pattern="[0-9]*" inputmode="numeric" />
+			<button class="plus-btn" type="button" name="button">+</button>
+			<button class="remove-btn" type="button" name="button">x</button>
+			</div>
 		</div>
-	  </div>
-	  <div class="cart">
-		<button class="cart-btn" type="button" disabled>반출신청</button>
-	  </div>
 	</div>
+
+	<div class="cart">
+	<button class="cart-btn" type="button" disabled>반출신청</button>
+	</div>
+	
 
 
     <script src="./assets/js/app.js?t=1672042800"></script>
@@ -298,6 +300,49 @@
 
 			selectElement.append($('<option>').attr('value', value).text(text));
 		});
+
+		var selectElement = $("#test_op");
+		var listContainer = $(".list");
+
+		// 기본 선택 옵션 추가
+		selectElement.append($('<option>').attr('value', '').text('선택하세요'));
+
+		// 데이터를 기반으로 옵션 추가
+		data.forEach(function(option) {
+			var value = option.symbol;
+			var text = option.name + ' / ' + option.confirmed;
+
+			selectElement.append($('<option>').attr('value', value).text(text));
+		});
+
+		// select 요소 변경 시 이벤트 핸들러
+		selectElement.on('change', function() {
+			var selectedValue = $(this).val();
+
+			// 선택된 값이 data에 존재하는 경우
+			var selectedOption = data.find(function(option) {
+			return option.symbol === selectedValue;
+			});
+
+			if (selectedOption) {
+			var optionHtml = `
+				<div class="options">
+				<label for="option1">${selectedOption.name}</label>
+				<div class="input-group">
+					<button class="minus-btn" type="button" name="button" disabled>-</button>
+					<input type="text" name="quantity" value="0" min="0" max="${selectedOption.confirmed}" pattern="[0-9]*" inputmode="numeric">
+					<button class="plus-btn" type="button" name="button">+</button>
+					<button class="remove-btn" type="button" name="button">x</button>
+				</div>
+				</div>
+			`;
+
+			listContainer.html(optionHtml);
+			} else {
+			listContainer.empty();
+			}
+		});
+
 	});
 	document.querySelectorAll('.input-group').forEach(function(inputGroup) {
 	const minusBtn = inputGroup.querySelector('.minus-btn');
