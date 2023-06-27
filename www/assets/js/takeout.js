@@ -7,8 +7,18 @@ $(document).ready(function(){
     $("#confirm-btn").click(function(){
         $("input[name='chk[]']:checked").each(function(){
             var name = $(this).closest("tr").find("td:eq(1)").text();
-            var qty = $(this).closest("tr").find("input[name='qty[]']").val();
-            console.log(name + " / " + qty);
+            var maxQty = $(this).closest("tr").find("td:eq(7)").text();
+            var qtyInput = $(this).closest("tr").find("input[name='qty[]']");
+            var qty = qtyInput.val();
+
+            if (Number(qty) > Number(maxQty)) {
+                alert(name + "의 수량 입력 값이 보유 수량을 초과합니다.");
+                //return;
+            }
+
+            console.log(name + " / " + qty + " (최대값: " + maxQty + ")");
+            qtyInput.val(maxQty);
+            
         });
     });
 
@@ -20,6 +30,7 @@ $(document).ready(function(){
             input_qty.prop("disabled", false);
         } else {
             input_qty.prop("disabled", true);
+            input_qty.val('');
         }
     });
 });
