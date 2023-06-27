@@ -35,3 +35,26 @@ $(document).ready(function(){
         }
     });
 });
+
+const fn_wallet = function () {
+    check_login();
+    force_rander('user_info', Model.user_info);
+
+    // set default exchange currency symbol
+    const exchange = 'KRW';
+
+    const withdrawable_symbols = ['KRW']; // , 'USD', 'ETH'
+
+    API.getBalance('ALL', '', (resp) => {
+        resp.payload.filter(function(item) {
+            if (item.crypto_currency === 'N') {
+                return false; // skip
+            }
+            return true;
+        }).map((item) => {
+            item.forEach((value) => {
+                console.log(value);
+              });
+        });
+    });
+}
