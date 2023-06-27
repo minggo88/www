@@ -289,19 +289,6 @@
 		];
 
 		var selectElement = $("#test_op");
-
-		// 기본 선택 옵션 추가
-		selectElement.append($('<option>').attr('value', '').text('선택하세요'));
-
-		// 데이터를 기반으로 옵션 추가
-		data.forEach(function(option) {
-			var value = option.symbol;
-			var text = option.name + ' / ' + option.confirmed;
-
-			selectElement.append($('<option>').attr('value', value).text(text));
-		});
-
-		var selectElement = $("#test_op");
 		var listContainer = $(".list");
 
 		// 기본 선택 옵션 추가
@@ -319,27 +306,32 @@
 		selectElement.on('change', function() {
 			var selectedValue = $(this).val();
 
+			// 이미 추가된 경우 경고 표시
+			if (listContainer.find(`[value="${selectedValue}"]`).length > 0) {
+			alert('이미 추가된 옵션입니다.');
+			return;
+			}
+
 			// 선택된 값이 data에 존재하는 경우
 			var selectedOption = data.find(function(option) {
-			return option.symbol === selectedValue;
+				return option.symbol === selectedValue;
 			});
 
-			if (selectedOption) {
-			var optionHtml = `
-				<div class="options">
-				<label for="option1">${selectedOption.name}</label>
-				<div class="input-group">
-					<button class="minus-btn" type="button" name="button" disabled>-</button>
-					<input type="text" name="quantity" value="0" min="0" max="${selectedOption.confirmed}" pattern="[0-9]*" inputmode="numeric">
-					<button class="plus-btn" type="button" name="button">+</button>
-					<button class="remove-btn" type="button" name="button">x</button>
-				</div>
-				</div>
-			`;
 
-			listContainer.html(optionHtml);
-			} else {
-			listContainer.empty();
+			if (selectedOption) {
+				var optionHtml = `
+					<div class="options">
+					<label for="option1">${selectedOption.name}</label>
+					<div class="input-group">
+						<button class="minus-btn" type="button" name="button" disabled>-</button>
+						<input type="text" name="quantity" value="0" min="0" max="${selectedOption.confirmed}" pattern="[0-9]*" inputmode="numeric">
+						<button class="plus-btn" type="button" name="button">+</button>
+						<button class="remove-btn" type="button" name="button">x</button>
+					</div>
+					</div>
+				`;
+
+				listContainer.append(optionHtml);
 			}
 		});
 
