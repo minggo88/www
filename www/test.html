@@ -238,9 +238,9 @@
 		</div>
 	</aside>
 
-	<div id="options1">
-		<!-- 드롭다운 리스트를 동적으로 생성할 부분 -->
-	</div>
+	<select id = "test_op">
+		<option value="">선택하세요</option>
+	</select>
     
 	<div class="options">
 		<label for="option1">천년고수 제일병1 - 수량: 1.0000</label>
@@ -279,37 +279,26 @@
 
 </body>
 <script>
-	$(document).ready(function(){
-		var optionsData = [
-			{name: "천년고수 제일병1", confirmed: "1.0000", symbol: "GJ2GNMGZ00", userno: "1016"},
-			{name: "천년고수 제일병2", confirmed: "13.0000", symbol: "GJ2GNMGZ01", userno: "1016"},
-			{name: "천년고수 제일병3", confirmed: "16.0000", symbol: "GJ2GNMGZ02", userno: "1016"}
+	$(document).ready(function() {
+		var data = [
+			{ name: "천년고수 제일병1", confirmed: "1.0000", symbol: "GJ2GNMGZ00", userno: "1016" },
+			{ name: "천년고수 제일병2", confirmed: "13.0000", symbol: "GJ2GNMGZ01", userno: "1016" },
+			{ name: "천년고수 제일병3", confirmed: "16.0000", symbol: "GJ2GNMGZ02", userno: "1016" }
 		];
 
-		var optionsContainer = $("#options1");
+		var selectElement = $("#test_op");
 
-		optionsData.forEach(function(optionData) {
-			var selectContainer = createSelectContainer(optionData);
-			optionsContainer.append(selectContainer);
+		// 기본 선택 옵션 추가
+		selectElement.append($('<option>').attr('value', '').text('선택하세요'));
+
+		// 데이터를 기반으로 옵션 추가
+		data.forEach(function(option) {
+			var value = option.symbol;
+			var text = option.name + ' / ' + option.confirmed;
+
+			selectElement.append($('<option>').attr('value', value).text(text));
 		});
-
-		function createSelectContainer(optionData) {
-			var selectContainer = $("<div>").addClass("select-container");
-			var selectLabel = $("<label>").addClass("select-label").text(optionData.name + " - 수량: " + optionData.confirmed);
-			var select = $("<select>");
-
-			select.append($("<option>").attr("value", "").text("선택하세요"));
-			select.append($("<option>").attr("value", "1").text("1개"));
-			select.append($("<option>").attr("value", "2").text("2개"));
-			select.append($("<option>").attr("value", "3").text("3개"));
-
-			selectContainer.append(selectLabel, select);
-
-			return selectContainer;
-		}
 	});
-
-
 	document.querySelectorAll('.input-group').forEach(function(inputGroup) {
 	const minusBtn = inputGroup.querySelector('.minus-btn');
 	const plusBtn = inputGroup.querySelector('.plus-btn');
