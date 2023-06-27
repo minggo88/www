@@ -238,177 +238,134 @@
 		</div>
 	</aside>
 
-	<select id = "test_op">
-		
-	</select>
-    <div class="list">
-		<div class="options">
-			<label for="option1">천년고수 제일병1 - 수량: 1.0000</label>
-			<div class="input-group">
-			<button class="minus-btn" type="button" name="button" disabled>-</button>
-			<input type="text" name="quantity" value="0" min="0" max="1000" pattern="[0-9]*" inputmode="numeric" />
-			<button class="plus-btn" type="button" name="button">+</button>
-			<button class="remove-btn" type="button" name="button">x</button>
-			</div>
-		</div>
-		<div class="options">
-			<label for="option2">천년고수 제일병2 - 수량: 13.0000</label>
-			<div class="input-group">
-			<button class="minus-btn" type="button" name="button" disabled>-</button>
-			<input type="text" name="quantity" value="0" min="0" max="1000" pattern="[0-9]*" inputmode="numeric" />
-			<button class="plus-btn" type="button" name="button">+</button>
-			<button class="remove-btn" type="button" name="button">x</button>
-			</div>
-		</div>
-		<div class="options">
-			<label for="option3">천년고수 제일병3 - 수량: 16.0000</label>
-			<div class="input-group">
-			<button class="minus-btn" type="button" name="button" disabled>-</button>
-			<input type="text" name="quantity" value="0" min="0" max="1000" pattern="[0-9]*" inputmode="numeric" />
-			<button class="plus-btn" type="button" name="button">+</button>
-			<button class="remove-btn" type="button" name="button">x</button>
-			</div>
-		</div>
-	</div>
+	<select id="test_op"></select>
+    <div class="list"></div>
 
-	<div class="cart">
-	<button class="cart-btn" type="button" disabled>반출신청</button>
-	</div>
-	
+    <div class="cart">
+        <button class="cart-btn" type="button" disabled>반출신청</button>
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var data = [
+                { name: "천년고수 제일병1", confirmed: "1.0000", symbol: "GJ2GNMGZ00", userno: "1016" },
+                { name: "천년고수 제일병2", confirmed: "13.0000", symbol: "GJ2GNMGZ01", userno: "1016" },
+                { name: "천년고수 제일병3", confirmed: "16.0000", symbol: "GJ2GNMGZ02", userno: "1016" }
+            ];
 
-    <script src="./assets/js/app.js?t=1672042800"></script>
+            var selectElement = $("#test_op");
+            var listContainer = $(".list");
+            var selected_list = [];
 
-</body>
-<script>
-	$(document).ready(function() {
-		var data = [
-			{ name: "천년고수 제일병1", confirmed: "1.0000", symbol: "GJ2GNMGZ00", userno: "1016" },
-			{ name: "천년고수 제일병2", confirmed: "13.0000", symbol: "GJ2GNMGZ01", userno: "1016" },
-			{ name: "천년고수 제일병3", confirmed: "16.0000", symbol: "GJ2GNMGZ02", userno: "1016" }
-		];
+            // 기본 선택 옵션 추가
+            selectElement.append($('<option>').attr('value', '').text('선택하세요'));
 
-		var selectElement = $("#test_op");
-		var listContainer = $(".list");
+            // 데이터를 기반으로 옵션 추가
+            data.forEach(function(option) {
+                var value = option.symbol;
+                var text = option.name + ' / ' + option.confirmed;
 
-		// 기본 선택 옵션 추가
-		selectElement.append($('<option>').attr('value', '').text('선택하세요'));
+                selectElement.append($('<option>').attr('value', value).text(text));
+            });
 
-		// 데이터를 기반으로 옵션 추가
-		data.forEach(function(option) {
-			var value = option.symbol;
-			var text = option.name + ' / ' + option.confirmed;
+            // select 요소 변경 시 이벤트 핸들러
+            selectElement.on('change', function() {
+                var selectedValue = $(this).val();
 
-			selectElement.append($('<option>').attr('value', value).text(text));
-		});
+                // 이미 추가된 경우 경고 표시
+                if (selected_list.includes(selectedValue)) {
+                    alert('이미 추가된 옵션입니다.');
+                    return;
+                } else {
+                    selected_list.push(selectedValue); // 선택한 옵션의 symbol 값을 배열에 추가
+                }
 
-		// select 요소 변경 시 이벤트 핸들러
-		selectElement.on('change', function() {
-			var selectedValue = $(this).val();
+                // 선택된 값이 data에 존재하는 경우
+                var selectedOption = data.find(function(option) {
+                    return option.symbol === selectedValue;
+                });
 
-			// 이미 추가된 경우 경고 표시
-			if (listContainer.find(`[value="${selectedValue}"]`).length > 0) {
-			alert('이미 추가된 옵션입니다.');
-			return;
-			}
+                if (selectedOption) {
+                    var optionHtml = `
+                        <div class="options">
+                            <label for="option1">${selectedOption.name}</label>
+                            <div class="input-group">
+                                <button class="minus-btn" type="button" name="button" disabled>-</button>
+                                <input type="text" name="quantity" value="0" min="0" max="${selectedOption.confirmed}" pattern="[0-9]*" inputmode="numeric">
+                                <button class="plus-btn" type="button" name="button">+</button>
+                                <button class="remove-btn" type="button" name="button">x</button>
+                            </div>
+                        </div>
+                    `;
 
-			// 선택된 값이 data에 존재하는 경우
-			var selectedOption = data.find(function(option) {
-				return option.symbol === selectedValue;
-			});
+                    listContainer.append(optionHtml);
+                }
+            });
 
+            // + 버튼 클릭 시 이벤트 핸들러
+            listContainer.on('click', '.plus-btn', function() {
+                var inputElement = $(this).siblings('input[name="quantity"]');
+                var currentValue = parseInt(inputElement.val(), 10);
 
-			if (selectedOption) {
-				var optionHtml = `
-					<div class="options">
-					<label for="option1">${selectedOption.name}</label>
-					<div class="input-group">
-						<button class="minus-btn" type="button" name="button" disabled>-</button>
-						<input type="text" name="quantity" value="0" min="0" max="${selectedOption.confirmed}" pattern="[0-9]*" inputmode="numeric">
-						<button class="plus-btn" type="button" name="button">+</button>
-						<button class="remove-btn" type="button" name="button">x</button>
-					</div>
-					</div>
-				`;
+                if (!isNaN(currentValue)) {
+                    var maxValue = parseFloat(inputElement.attr('max'));
 
-				listContainer.append(optionHtml);
-			}
-		});
+                    if (currentValue < maxValue) {
+                        inputElement.val(currentValue + 1);
+                        $(this).siblings('.minus-btn').prop('disabled', false);
+                    }
+                }
+            });
 
-	});
-	document.querySelectorAll('.input-group').forEach(function(inputGroup) {
-	const minusBtn = inputGroup.querySelector('.minus-btn');
-	const plusBtn = inputGroup.querySelector('.plus-btn');
-	const quantity = inputGroup.querySelector('input[name=quantity]');
-	const removeBtn = inputGroup.querySelector('.remove-btn');
-	
-	minusBtn.addEventListener('click', function() {
-		const currentValue = parseInt(quantity.value);
-		if (currentValue > 0) {
-		quantity.value = currentValue - 1;
-		if (quantity.value == 0) {
-			minusBtn.disabled = true;
-		}
-		}
-		if (plusBtn.disabled) {
-		plusBtn.disabled = false;
-		}
-	});
+            // - 버튼 클릭 시 이벤트 핸들러
+            listContainer.on('click', '.minus-btn', function() {
+                var inputElement = $(this).siblings('input[name="quantity"]');
+                var currentValue = parseInt(inputElement.val(), 10);
 
-	plusBtn.addEventListener('click', function() {
-		const currentValue = parseInt(quantity.value);
-		if (!isNaN(currentValue) && currentValue < 1000) {
-		quantity.value = currentValue + 1;
-		if (quantity.value > 0) {
-			minusBtn.disabled = false;
-		}
-		}
-		if (quantity.value == 1000) {
-		plusBtn.disabled = true;
-		}
-	});
-	
-	quantity.addEventListener('input', function() {
-		if (this.value == '' || parseInt(this.value) < 0) {
-		this.value = 0;
-		} else if (parseInt(this.value) > 1000) {
-		this.value = 1000;
-		}
-		if (this.value == 0) {
-		minusBtn.disabled = true;
-		} else if (!minusBtn.disabled) {
-		minusBtn.disabled = false;
-		}
-		if (this.value == 1000) {
-		plusBtn.disabled = true;
-		} else if (!plusBtn.disabled) {
-		plusBtn.disabled = false;
-		}
-	});
-	
-	removeBtn.addEventListener('click', function() {
-		quantity.value = 0;
-		minusBtn.disabled = true;
-		plusBtn.disabled = false;
-	});
-	
-	quantity.dispatchEvent(new Event('input'));
-	});
+                if (!isNaN(currentValue)) {
+                    var minValue = parseFloat(inputElement.attr('min'));
 
-	const cartBtn = document.querySelector('.cart-btn');
-	cartBtn.addEventListener('click', function() {
-	let message = '';
-	document.querySelectorAll('.options input[type=text]').forEach(function(input) {
-		const name = input.parentElement.previousElementSibling.textContent.trim();
-		const quantity = parseInt(input.value);
-		if (!isNaN(quantity) && quantity > 0) {
-		message += `${name}-${quantity}\n`;
-		}
-	});
-	if (message != '') {
-		alert(`반출신청\n${message}`);
-	}
-	});
-</script>
+                    if (currentValue > minValue) {
+                        inputElement.val(currentValue - 1);
+                    }
+
+                    if (currentValue - 1 === minValue) {
+                        $(this).prop('disabled', true);
+                    }
+                }
+            });
+
+            // x 버튼 클릭 시 이벤트 핸들러
+            listContainer.on('click', '.remove-btn', function() {
+                var optionDiv = $(this).closest('.options');
+                var optionLabel = optionDiv.find('label');
+                var optionName = optionLabel.text();
+
+                // 선택된 옵션 배열에서 삭제
+                selected_list = selected_list.filter(function(value) {
+                    return value !== optionName;
+                });
+
+                // 해당 옵션 div 삭제
+                optionDiv.remove();
+            });
+
+            const cartBtn = document.querySelector('.cart-btn');
+            cartBtn.addEventListener('click', function() {
+                let message = '';
+                document.querySelectorAll('.options input[type=text]').forEach(function(input) {
+                    const name = input.parentElement.previousElementSibling.textContent.trim();
+                    const quantity = parseInt(input.value);
+                    if (!isNaN(quantity) && quantity > 0) {
+                        message += `${name}-${quantity}\n`;
+                    }
+                });
+                if (message != '') {
+                    alert(`반출신청\n${message}`);
+                }
+            });
+        });
+    </script>
 
 </html>
