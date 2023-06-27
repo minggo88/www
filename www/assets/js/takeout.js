@@ -14,10 +14,11 @@ $(document).ready(function(){
             if (Number(qty) > Number(maxQty)) {
                 alert(name + "의 수량 입력 값이 보유 수량을 초과합니다.");
                 //return;
+                qtyInput.val(maxQty);
             }
 
             console.log(name + " / " + qty + " (최대값: " + maxQty + ")");
-            qtyInput.val(maxQty);
+            
             
         });
     });
