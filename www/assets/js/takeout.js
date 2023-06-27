@@ -7,7 +7,7 @@ $(document).ready(function(){
     $("#confirm-btn").click(function(){
         $("input[name='chk[]']:checked").each(function(){
             var name = $(this).closest("tr").find("td:eq(1)").text();
-            var qty = $(this).closest("tr").find("td:eq(7)").text();
+            var qty = $(this).closest("tr").find("td:eq(8)").text();
             console.log(name + " / " + qty);
         });
     });
