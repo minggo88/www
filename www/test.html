@@ -347,6 +347,20 @@
                     return value !== optionName;
                 });
 
+				// 선택한 옵션의 symbol 값을 찾습니다.
+				var selectedOption = data.find(function(option) {
+					return option.name === optionName;
+				});
+				
+				if (selectedOption) {
+					var selectedSymbol = selectedOption.symbol;
+				
+					// selected_list 배열에서 선택한 옵션의 symbol 값을 제거합니다.
+					selected_list = selected_list.filter(function(value) {
+					return value !== selectedSymbol;
+					});
+				}
+
                 // 해당 옵션 div 삭제
                 optionDiv.remove();
             });
