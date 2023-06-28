@@ -1,0 +1,56 @@
+.options {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .options > label {
+    margin-right: 10px;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-group > button,
+  .input-group > input {
+    margin: 0 5px;
+    padding: 5px 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .input-group > button:hover,
+  .input-group > input:hover {
+    border-color: #333;
+  }
+  
+  .input-group > button:focus,
+  .input-group > input:focus {
+    outline: none;
+  }
+  
+  .input-group > input {
+    text-align: center;
+    width: 70px;
+  }
+  
+  .cart {
+    margin-top: 10px;
+  }
+  
+  .cart > button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ccc;
+  }
+  
+  .cart > button:hover {
+    cursor: pointer;
+    background-color: #333;
+    color: #fff;
+  }
