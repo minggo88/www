@@ -242,7 +242,7 @@
     <div class="list"></div>
 
     <div class="cart">
-        <button class="cart-btn" type="button" disabled>반출신청</button>
+        <button class="cart-btn" type="button">반출신청</button>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -257,6 +257,7 @@
             var selectElement = $("#test_op");
             var listContainer = $(".list");
             var selected_list = [];
+			var cartBtn = document.querySelector('.cart-btn');
 
             // 기본 선택 옵션 추가
             selectElement.append($('<option>').attr('value', '').text('선택하세요'));
@@ -316,6 +317,7 @@
                         inputElement.val(currentValue + 1);
                     }
 					$(this).siblings('.minus-btn').prop('disabled', false);
+					$(cartBtn).prop('disabled', false);
                 }
             });
 
@@ -333,6 +335,7 @@
 
                     if (currentValue - 1 === minValue) {
                         $(this).prop('disabled', true);
+						$(cartBtn).prop('disabled', true);
                     }
                 }
             });
@@ -366,7 +369,7 @@
                 optionDiv.remove();
             });
 
-            const cartBtn = document.querySelector('.cart-btn');
+            
             cartBtn.addEventListener('click', function() {
                 let message = '';
                 document.querySelectorAll('.options input[type=text]').forEach(function(input) {
