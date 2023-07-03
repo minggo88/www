@@ -39,11 +39,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/takeout.js?t=1671775853"></script>
 <script src="./assets/js/wallet.js"></script>
 <script src="./assets/js/api.js?t=1671775853"></script>
 <script src="./assets/js/components.js?t=1672721419"></script>
 <script src="./assets/js/qrcode.min.js?t=1667735148"></script>
-<script src="./assets/js/takeout.js?t=1671775853"></script>
 
 <script src="//cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
 <script src="//cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
@@ -186,7 +186,7 @@
 				<h1 data-i18n>입출금</h1>
 				<nav class="side--snb">
 					<ul>
-						<li class="snb--active">
+						<li >
 							<a href="wallet.html" data-login data-i18n>보유 품목</a>
 						</li>
 						<li>
@@ -198,7 +198,7 @@
 						<li>
 							<a href="wallet-withdrawal.html" data-login data-i18n>출금</a>
 						</li>
-						<li>
+						<li class="snb--active">
 							<a href="wallet-take-out.html" data-login data-i18n>반출신청</a>
 						</li>
 					</ul>
@@ -214,22 +214,27 @@
 				<div class="contents--header2">
 					<p style="height: 48px;">반출 신청</p>
 				</div>
-				<!--<h2 class="mobile-only" style="margin-bottom: 32px !important"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></h2>-->
-				<section class="d-grid wallet-summary">
-					<div class="grid">
-						<label data-i18n>반출 품목 선택</label>
-						
-					</div>
+								
+				<table style="width: 1073px;margin-top: 40px;height: 42px;" class="wallet-table">
+					<tbody>
+						<tr>
+							<th style="	width: 100%;">반출 품목 선택</th>
+							
+						</tr>
+					</tbody>
 					
-				</section>
+				</table>
 				
-				<select id="test_op"></select>
-				<div class="list"></div>
+				<select id="test_op">
+
+				</select>
+				<div class="list">
+
+				</div>
 
 				<div class="cart">
 					<button class="cart-btn" type="button">반출신청</button>
 				</div>
-				
 			</div>
 		</main>
 	</div>
@@ -253,12 +258,8 @@
 		</ul>
 	</nav>-->
 
-	
     <script src="./assets/js/app.js?t=1672042800"></script>
 
 </body>
-<script>
-	
-</script>
 
 </html>
