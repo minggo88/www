@@ -205,6 +205,22 @@ $(document).ready(function() {
         });
         if (message != '') {
             alert(`반출신청\n${message}`);
+
+            API.takeOutEmailConfirmCode("flyminggo@naver.com", (resp) => {
+                if (resp.success) {
+                    sended_email = email.val();
+                    //	$('#create-account-info').hide()
+                    $('#create-account-info').parent("section").hide()
+                    $('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
+    
+                    $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
+                    //$('#create-account-password-confirm').parent("section").show()
+                } else {
+                    $('#create-account-info input[type=submit]').prop('disabled', false)
+    
+                    alert(resp.error.message)
+                }
+            })
         }
     });
 });
