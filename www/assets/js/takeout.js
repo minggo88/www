@@ -78,7 +78,7 @@ $(document).ready(function() {
         { name: "천년고수 제일병3", confirmed: "16.0000", symbol: "GJ2GNMGZ02", userno: "1016" }
     ];
 
-    var selectElement = $("#test_op");
+    var selectElement = $(".custom-select-box");
     var listContainer = $(".list");
     var selected_list = [];
     var cartBtn = document.querySelector('.cart-btn');
