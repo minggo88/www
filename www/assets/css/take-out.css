@@ -64,5 +64,9 @@
     height: 40px;
     top: 318px;
     left: 495px;
-    border: 1px solid;
+    border: 1px solid #999999;
+  }
+
+  #takeout_p{
+    size:12px;
   }
