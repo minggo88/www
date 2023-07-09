@@ -49,8 +49,8 @@
     border: 0px;
     background-color: #E21A32; 
     color: #fff;
-    margin-bottom: 20px;
-    margin-top: 30px;
+    margin-bottom: 0px;
+    margin-top: 10px;
   }
   
   .cart > button:hover {
@@ -65,9 +65,69 @@
     height: 40px;
     top: 318px;
     left: 495px;
+    position: absolute;
     border: 1px solid #999999;
   }
 
   #takeout_p{
     size:12px;
+  }
+
+  .area-custom-select {
+    position: relative;
+    width: 400px;
+    height: 150px;
+    margin: 50px auto;
+  }
+  
+  .custom-select {
+    display: inline-block;
+    width: 260px;
+    height: 48px;
+    border: solid 1px #c4ccd8;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+    outline: 0px;
+  }
+
+  .custom-select-text {
+    position: absolute;
+    top: 14px;
+    left: 15px;
+  }
+  
+  .custom-select-arrow {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+  }
+  
+  .custom-select-list {
+    position: absolute;
+    font-size: 18px;
+    width: 260px;
+    height: 96px;
+    z-index: 15;
+    border: solid 1px #c4ccd8;
+    background-color: #ffffff;
+    text-align: left;
+    margin-top: -3px;
+    box-sizing: border-box;
+  }
+  
+  .custom-select-option {
+    height: 48px;
+    line-height: 48px;
+    padding-left: 15px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  
+  .custom-select-option:hover {
+    color: #ffffff;
+    background-color: #1172c4;
+    box-sizing: border-box;
   }
