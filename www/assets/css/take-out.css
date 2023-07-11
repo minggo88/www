@@ -1,133 +1,129 @@
 .options {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .options > label {
-    margin-right: 10px;
-  }
-  
-  .input-group {
-    display: flex;
-    align-items: center;
-  }
-  
-  .input-group > button,
-  .input-group > input {
-    margin: 0 5px;
-    padding: 5px 10px;
-    font-size: 18px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .input-group > button:hover,
-  .input-group > input:hover {
-    border-color: #333;
-  }
-  
-  .input-group > button:focus,
-  .input-group > input:focus {
-    outline: none;
-  }
-  
-  .input-group > input {
-    text-align: center;
-    width: 70px;
-  }
-  
-  .cart {
-    margin-top: 10px;
-  }
-  
-  .cart > button {
-    width: 450px;
-    height: 50px;
-    top: 382px;
-    left: 495px;
-    border: 0px;
-    background-color: #E21A32; 
-    color: #fff;
-    margin-bottom: 0px;
-    margin-top: 10px;
-  }
-  
-  .cart > button:hover {
-    cursor: pointer;
-    background-color: #E21A32; 
-    color: #fff;
-    border: 0px;
-  }
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-  #test_op {
-    width: 450px;
-    height: 40px;
-    top: 318px;
-    left: 495px;
-    position: absolute;
-    border: 1px solid #999999;
-  }
+.options > label {
+  margin-right: 10px;
+}
 
-  #takeout_p{
-    size:12px;
-  }
+.input-group {
+  display: flex;
+  align-items: center;
+}
 
-  .area-custom-select {
-    position: relative;
-    width: 400px;
-    height: 150px;
-    margin: 50px auto;
-  }
-  
-  .custom-select {
-    display: inline-block;
-    width: 260px;
-    height: 48px;
-    border: solid 1px #c4ccd8;
-    background-color: #ffffff;
-    box-sizing: border-box;
-    font-size: 18px;
-    cursor: pointer;
-    position: relative;
-    outline: 0px;
-  }
+.input-group > button,
+.input-group > input {
+  margin: 0 5px;
+  padding: 5px 10px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
-  .custom-select-text {
-    position: absolute;
-    top: 14px;
-    left: 15px;
-  }
-  
-  .custom-select-arrow {
-    position: absolute;
-    top: 20px;
-    right: 15px;
-  }
-  
-  .custom-select-list {
-    position: absolute;
-    font-size: 18px;
-    width: 260px;
-    height: 96px;
-    z-index: 15;
-    border: solid 1px #c4ccd8;
-    background-color: #ffffff;
-    text-align: left;
-    margin-top: -3px;
-    box-sizing: border-box;
-  }
-  
-  .custom-select-option {
-    height: 48px;
-    line-height: 48px;
-    padding-left: 15px;
-    cursor: pointer;
-    box-sizing: border-box;
-  }
-  
-  .custom-select-option:hover {
-    color: #ffffff;
-    background-color: #1172c4;
-    box-sizing: border-box;
-  }
+.input-group > button:hover,
+.input-group > input:hover {
+  border-color: #333;
+}
+
+.input-group > button:focus,
+.input-group > input:focus {
+  outline: none;
+}
+
+.input-group > input {
+  text-align: center;
+  width: 70px;
+}
+
+.cart {
+  margin-top: 10px;
+}
+
+.cart > button {
+  width: 450px;
+  height: 50px;
+  top: 382px;
+  left: 495px;
+  border: 0px;
+  background-color: #E21A32; 
+  color: #fff;
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+
+.cart > button:hover {
+  cursor: pointer;
+  background-color: #E21A32; 
+  color: #fff;
+  border: 0px;
+}
+
+#test_op {
+  width: 450px;
+  height: 40px;
+  top: 318px;
+  left: 495px;
+  /*position: absolute;*/
+  border: 1px solid #999999;
+}
+
+#takeout_p{
+  size:12px;
+}
+
+.area-custom-select {
+  position: relative;
+  width: 400px;
+  height: 150px;
+  margin: 50px auto;
+}
+
+.custom-select {
+  width: 450px;
+  height: 40px;
+  top: 318px;
+  left: 495px;
+  /*position: absolute;*/
+  border: 1px solid #999999;
+}
+
+.custom-select-text {
+  /*position: absolute;*/
+  top: 14px;
+  left: 15px;
+}
+
+.custom-select-arrow {
+  /*position: absolute;*/
+  top: 20px;
+  right: 15px;
+}
+
+.custom-select-list {
+  /*position: absolute;*/
+  font-size: 18px;
+  width: 452px;
+  height: 50px auto;
+  z-index: 15;
+  border: solid 1px #c4ccd8;
+  background-color: #ffffff;
+  text-align: left;
+  margin-top: -3px;
+  box-sizing: border-box;
+}
+
+.custom-select-option {
+  height: 48px;
+  line-height: 48px;
+  padding-left: 15px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.custom-select-option:hover {
+  color: black;
+  background-color: #F0F0F0;
+   box-sizing: border-box;
+}
