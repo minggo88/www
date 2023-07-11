@@ -51,6 +51,7 @@
   color: #fff;
   margin-bottom: 0px;
   margin-top: 10px;
+  size:16px;
 }
 
 .cart > button:hover {
@@ -70,7 +71,7 @@
 }
 
 #takeout_p{
-  size:16px;
+  size:14px;
 }
 
 .area-custom-select {
