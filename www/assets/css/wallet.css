@@ -195,6 +195,10 @@
 	list-style: none;
 }
 
+.deposit_text{
+	color: #707070;
+}
+
 .wallet-summary {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 30px;
