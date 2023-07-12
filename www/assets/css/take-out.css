@@ -94,6 +94,8 @@
 }
 
 .custom-select > span {
+  padding-left: 15px;
+  font-size: 16px;
   flex:1;
 }
 
