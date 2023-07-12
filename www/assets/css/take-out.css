@@ -82,6 +82,8 @@
 }
 
 .custom-select {
+  display:flex; 
+  align-items:center;
   padding: 6px;
   width: 436px;
   height: 28px;
@@ -89,6 +91,14 @@
   left: 495px;
   /*position: absolute;*/
   border: 1px solid #c4ccd8;
+}
+
+.custom-select > span {
+  flex:1;
+}
+
+.custom-select > img {
+  margin-left:auto;
 }
 
 .custom-select-text {
