@@ -4,6 +4,8 @@ setTimeout(function() {
 }, 500);
 
 $(document).ready(function(){
+    fn_wallet();
+
     $("#confirm-btn").click(function(){
         $("input[name='chk[]']:checked").each(function(){
             var name = $(this).closest("tr").find("td:eq(1)").text();
@@ -18,7 +20,6 @@ $(document).ready(function(){
             }
 
             console.log(name + " / " + qty + " (최대값: " + maxQty + ")");
-            fn_wallet();
         });
     });
 
@@ -68,6 +69,22 @@ const check_logout = function (msg) {
         window.location.href = "/";
     }
 }
+/*
+//데이터 만들기
+const fn_wallet = function () {
+    check_login();
+    force_rander('user_info', Model.user_info);
+
+    // set default exchange currency symbol
+    const exchange = 'KRW';
+
+    const withdrawable_symbols = ['KRW']; // , 'USD', 'ETH'
+
+    API.getBalance('ALL', '', (resp) => {
+        $('.wallet--grid').removeClass('loading')
+    })
+};
+*/
 
 
 ///-------------------------------------------------------------------------------------------
