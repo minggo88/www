@@ -4,8 +4,6 @@ setTimeout(function() {
 }, 500);
 
 $(document).ready(function(){
-    fn_wallet();
-
     $("#confirm-btn").click(function(){
         $("input[name='chk[]']:checked").each(function(){
             var name = $(this).closest("tr").find("td:eq(1)").text();
@@ -36,6 +34,10 @@ $(document).ready(function(){
     });
 });
 
+window.onload = function() {
+    fn_wallet();
+};
+
 const fn_wallet = function () {
     check_login();
     force_rander('user_info', Model.user_info);
@@ -52,7 +54,13 @@ const fn_wallet = function () {
             }
             return true;
         }).map((item) => {
+            
+
+            if(item.symbol ==='USD' || item.symbol ==='ETH' || item.symbol ==='KRW'|| item.symbol ===''){
+                return;
+            }
             console.log(item);
+
         });
     });
 }
