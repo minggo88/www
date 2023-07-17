@@ -1,11 +1,17 @@
 .options {
+  width: 450px;
+  height: 55px;
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  padding-top: 5px;
+  border-top: #333;
+  justify-content: space-between;
 }
 
 .options > label {
   margin-right: 10px;
+  border-top: #333;
 }
 
 .input-group {
@@ -13,13 +19,20 @@
   align-items: center;
 }
 
-.input-group > button,
+.minus-btn,
+.plus-btn,
 .input-group > input {
-  margin: 0 5px;
+  margin: 0 1px;
   padding: 5px 10px;
   font-size: 18px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+}
+.remove-btn {
+	border: 0px;
+	margin: 0 1px;
+	padding: 5px 10px;
+	font-size: 18px;
+	background:none;
 }
 
 .input-group > button:hover,
@@ -91,6 +104,7 @@
   left: 495px;
   /*position: absolute;*/
   border: 1px solid #c4ccd8;
+  margin-bottom:15px;
 }
 
 .custom-select > span {
@@ -156,6 +170,6 @@
 		display: none;
 	}
 	#test_op{
-		display: show;
+		display: block;
 	}
 }
