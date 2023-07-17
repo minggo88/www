@@ -143,3 +143,19 @@
   background-color: #F0F0F0;
    box-sizing: border-box;
 }
+
+.custom-select{
+  display: show;
+}
+#test_op{
+  display: none;
+}
+
+@media (max-width: 800px) {
+	.custom-select{
+		display: none;
+	}
+	#test_op{
+		display: show;
+	}
+}
