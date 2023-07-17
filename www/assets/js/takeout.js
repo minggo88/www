@@ -14,6 +14,7 @@ window.onload = function() {
 };
 var data = [];
 var selected_list = [];
+var total_num = 0;
 const fn_wallet = function () {
     check_login();
     force_rander('user_info', Model.user_info);
@@ -253,6 +254,8 @@ $(document).ready(function() {
 
             if (currentValue < maxValue) {
                 inputElement.val(currentValue + 1);
+                total_num = total_num + 1;
+                $('.total_cnt').text(total_num);
             }
             $(this).siblings('.minus-btn').prop('disabled', false);
             $(cartBtn).prop('disabled', false);
@@ -269,6 +272,8 @@ $(document).ready(function() {
 
             if (currentValue > minValue) {
                 inputElement.val(currentValue - 1);
+                total_num = total_num - 1;
+                $('.total_cnt').text(total_num);
             }
 
             if (currentValue - 1 === minValue) {
@@ -283,6 +288,7 @@ $(document).ready(function() {
         var optionDiv = $(this).closest('.options');
         var optionLabel = optionDiv.find('label');
         var optionName = optionLabel.text();
+        var inputValue = $(this).siblings('input[name="quantity"]').val();
 
         // 선택된 옵션 배열에서 삭제
         selected_list = selected_list.filter(function(value) {
@@ -302,6 +308,10 @@ $(document).ready(function() {
             return value !== selectedSymbol;
             });
         }
+
+        //총 반출량 빼기
+        total_num = total_num - inputValue;
+        $('.total_cnt').text(total_num);
 
         // 해당 옵션 div 삭제
         optionDiv.remove();
