@@ -13,6 +13,7 @@ window.onload = function() {
     //fn_li_click();
 };
 var data = [];
+var selected_list = [];
 const fn_wallet = function () {
     check_login();
     force_rander('user_info', Model.user_info);
@@ -71,7 +72,6 @@ const fn_wallet = function () {
         var selectElement = $("#test_op");
         var selectWebElement = document.querySelector(".custom-select-list");
         var listContainer = $(".list");
-        var selected_list = [];
         var cartBtn = document.querySelector('.cart-btn');
 
         //Web------------------------------------------------------------------------
@@ -241,7 +241,6 @@ $(document).ready(function() {
 
     var selectElement = $("#test_op");
     var listContainer = $(".list");
-    var selected_list = [];
     var cartBtn = document.querySelector('.cart-btn');   
 
     // + 버튼 클릭 시 이벤트 핸들러
