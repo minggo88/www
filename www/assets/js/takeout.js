@@ -361,10 +361,12 @@ $(document).ready(function() {
                         }
 					} else {
 						alert(resp.error.message);
-                        
 					}
-                    var inputElement = document.querySelector('input[name="pincode"]');
+                    
+                    var inputElements = document.querySelectorAll('input[name="pincode"]');
+                    inputElements.forEach(function(inputElement) {
                         inputElement.value = '';
+                    });
 				})
 			}
 			return false
