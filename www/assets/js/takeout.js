@@ -232,6 +232,8 @@ $(document).ready(function() {
     var listContainer = $(".list");
     var cartBtn = document.querySelector('.cart-btn');   
 
+    $(cartBtn).prop('disabled', true);
+
     // + 버튼 클릭 시 이벤트 핸들러
     listContainer.on('click', '.plus-btn', function() {
         var inputElement = $(this).siblings('input[name="quantity"]');
