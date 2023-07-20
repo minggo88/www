@@ -370,6 +370,7 @@ $(document).ready(function() {
                                     alert(resp.error.message)
                                 }
                             })*/
+                            $('#pin_number2').addClass('modal--open');
                         }
 					} else {
 						alert(resp.error.message);
@@ -380,7 +381,6 @@ $(document).ready(function() {
                         inputElement.value = '';
                     });
                     $('#pin_number').removeClass('modal--open'); //모달 창 닫아주기
-                    
 				})
 			}
 			return false
