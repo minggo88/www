@@ -209,20 +209,30 @@ const fn_li_click = function () {
 ///-------------------------------------------------------------------------------------------
 $(document).ready(function() {
     $("#confirm-btn").click(function(){
-        $("input[name='chk[]']:checked").each(function(){
-            var name = $(this).closest("tr").find("td:eq(1)").text();
-            var maxQty = $(this).closest("tr").find("td:eq(7)").text();
-            var qtyInput = $(this).closest("tr").find("input[name='qty[]']");
-            var qty = qtyInput.val();
+        let cookie_check = $.cookie(Model.user_info.userid);
 
-            if (Number(qty) > Number(maxQty)) {
-                alert(name + "의 수량 입력 값이 보유 수량을 초과합니다.");
-                //return;
-                qtyInput.val(maxQty);
-            }
-
-            //console.log(name + " / " + qty + " (최대값: " + maxQty + ")");
-        });
+        if(PIN_NUMBER_ON <1) {
+            
+                $('#modal-buy-button').attr('data-target','#modal-buy-pin');
+                //console.log('3333333 : ' + PIN_NUMBER_ON);
+           
+        }else{
+            $("input[name='chk[]']:checked").each(function(){
+                var name = $(this).closest("tr").find("td:eq(1)").text();
+                var maxQty = $(this).closest("tr").find("td:eq(7)").text();
+                var qtyInput = $(this).closest("tr").find("input[name='qty[]']");
+                var qty = qtyInput.val();
+    
+                if (Number(qty) > Number(maxQty)) {
+                    alert(name + "의 수량 입력 값이 보유 수량을 초과합니다.");
+                    //return;
+                    qtyInput.val(maxQty);
+                }
+    
+                //console.log(name + " / " + qty + " (최대값: " + maxQty + ")");
+            });
+        }
+        
     });
 
     $("input[name='chk[]']").change(function(){
@@ -387,7 +397,10 @@ $(document).ready(function() {
 
     });
 
-    
+    // pin Number popup 띄우기
+    $('[name="btn-withdraw"]').on('click', function () { 
+        $('#pin_number').addClass('modal--open');
+    })
 });
 
 

@@ -172,3 +172,49 @@
 		display: block;
 	}
 }
+
+#pin_number.modal .modal--header{
+	background: transparent;
+	justify-content: flex-end;
+}
+#pin_number.modal .modal--content .title{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 20px;
+}
+#pin_number.modal .modal--content .title h3{
+	color:var(--blue-dn);
+	margin: 0;
+	font-size: 24px;
+}
+#pin_number.modal .modal--content .title p{
+	margin: 0;
+	padding: 10px;
+	font-size: 16px;
+}
+#pin_number.modal .modal--content .pin_area{
+	margin-top: 50px;
+}
+
+#pin_number.modal .modal--content .pin_area .forget_pin{
+	margin: 0;
+	text-align: center;
+	padding: 20px;
+	word-break: keep-all;
+}
+
+#pin_number.modal .modal--content .pin_area .forget_pin a{
+	vertical-align: unset;
+}
+
+#pin_number.modal .modal--content .pin_area .text--center{
+	margin-top: 50px;
+}
+#pin_number.modal .modal--content .pin_area .text--center .btn {
+	width: 80%;
+}
+
+#pin_number.modal .modal--content .pin_area input[type=number] {
+    -webkit-text-security: disc;
+}
