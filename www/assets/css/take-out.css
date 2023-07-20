@@ -271,6 +271,5 @@
 	margin-top: 40px;
 }
 #btn_modal_end{
-	height: 40px; 
-	line-height: 40px;
+	width: 80%;
 }
