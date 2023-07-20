@@ -360,8 +360,11 @@ $(document).ready(function() {
                             })*/
                         }
 					} else {
-						alert(resp.error.message)
+						alert(resp.error.message);
+                        
 					}
+                    var inputElement = document.querySelector('input[name="pincode"]');
+                        inputElement.value = '';
 				})
 			}
 			return false
