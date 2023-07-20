@@ -247,6 +247,7 @@ $(document).ready(function() {
             }
             $(this).siblings('.minus-btn').prop('disabled', false);
             $(cartBtn).prop('disabled', false);
+            buttonElement.style.backgroundColor = '#E21A32';
         }
     });
 
@@ -262,6 +263,11 @@ $(document).ready(function() {
                 inputElement.val(currentValue - 1);
                 total_num = total_num - 1;
                 $('.total_cnt').text(total_num);
+
+                if(total_num<1){
+                    $(cartBtn).prop('disabled', true);
+                    buttonElement.style.backgroundColor = '#999999';
+                }
             }
 
             if (currentValue - 1 === minValue) {
@@ -300,6 +306,10 @@ $(document).ready(function() {
         //총 반출량 빼기
         total_num = total_num - inputValue;
         $('.total_cnt').text(total_num);
+        if(total_num<1){
+            $(cartBtn).prop('disabled', true);
+            buttonElement.style.backgroundColor = '#999999';
+        }
 
         // 해당 옵션 div 삭제
         optionDiv.remove();
@@ -367,6 +377,8 @@ $(document).ready(function() {
                     inputElements.forEach(function(inputElement) {
                         inputElement.value = '';
                     });
+                    $('#pin_number').removeClass('modal--open'); //모달 창 닫아주기
+                    
 				})
 			}
 			return false
