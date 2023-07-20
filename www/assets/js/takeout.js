@@ -314,7 +314,6 @@ $(document).ready(function() {
         //modal 작업
         $('#pin_number').submit((e) =>  { 
 			e.preventDefault();
-			console.log("a"+ Model.user_info.userno);
 			let check = true;
 			let pin = '';
 
@@ -325,9 +324,7 @@ $(document).ready(function() {
 					return false;
 				}
 				pin += $(elem).val();
-			})
-			
-			console.log(pin);
+			});
 
 			if(check) {
 				//최종
@@ -359,10 +356,13 @@ $(document).ready(function() {
                         }
                     })*/
                 }
-			}
-
-
-        
+			}else{
+                alert('pin번호가 틀립니다.');
+                var inputElement = document.querySelector('input[name="pincode"]');
+                inputElement.value = '';
+            }
+            return false
+        });        
     });
 
     $('.custom-select').on('click', function() {
