@@ -204,36 +204,7 @@
 					</ul>
 				</nav>
 			</aside>
-			<form id="pin_number" class="modal modal--tiny modal--open" tabindex="-1">
-				<div class="modal--dialog">
-					<div class="modal--header">
-						<button type="button" class="btn btn--close"></button>
-					</div>
-					<div class="modal--content">
-						<div class="title">
-							<h3>반출신청</h3>
-							<p>PIN 번호를 입력해주세요</p>
-						</div>
-						<div class="pin_area">
-							<div class="d-flex flex-center">
-								<div class="d-grid  grid--code">
-									<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
-									<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-									<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-									<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-									<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-									<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
-								</div>
-							</div>
-							
-							<div class="text--center">
-								<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-
+			
 			<div class="contents">
 				<header class="contents--header">
 					<a href="index.html" style="height: 48px;">ASSETTEA</a>
@@ -293,23 +264,35 @@
 	</div>
 	
 	
-	<!--<nav class="mobile-bottom mobile-only">
-		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
-			<li class="exchange">
-				<a href="exchange.html" data-i18n>거래소</a>
-			</li>
-			<li class="area" >
-				<a href="" data-i18n>티드로우</a>
-			</li>
-			<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> 
-			<li class="transaction" style="flex: 1 1 auto">
-				<a href="transaction.html" data-login data-i18n>거래내역</a>
-			</li>
-			<li class="more">
-				<a href="" data-i18n>더보기</a>
-			</li>
-		</ul>
-	</nav>-->
+	<form id="pin_number" class="modal modal--tiny" tabindex="-1">
+		<div class="modal--dialog">
+			<div class="modal--header">
+				<button type="button" class="btn btn--close"></button>
+			</div>
+			<div class="modal--content">
+				<div class="title">
+					<h3>반출신청</h3>
+					<p>PIN 번호를 입력해주세요</p>
+				</div>
+				<div class="pin_area">
+					<div class="d-flex flex-center">
+						<div class="d-grid  grid--code">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+						</div>
+					</div>
+					
+					<div class="text--center">
+						<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 
     <script src="./assets/js/app.js?t=1672042800"></script>
 

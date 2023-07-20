@@ -10,7 +10,6 @@ $(document).ready(function(){
 
 window.onload = function() {
     fn_wallet();
-    //fn_li_click();
 };
 var data = [];
 var selected_list = [];
@@ -156,7 +155,6 @@ const fn_wallet = function () {
 }
 
 const check_login = function (msg) {
-    closeModal();
     if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
         if (msg) alert(msg);
         window.location.href = LOGIN_PAGE;
@@ -185,28 +183,7 @@ const fn_wallet = function () {
 };
 */
 
-const fn_li_click = function () {
-    /*$('.custom-select-list').on('click', 'li.custom-select-option', function() {
-        var selectedValue = $(this).attr('value');
-        alert('선택된 옵션: ' + selectedValue);
-    }); */
     
-    /*$('.custom-select-list').on('click', 'li.custom-select-option', function() {
-        let value = $(this).attr('value');
-
-        console.log('3333333');
-    });
-    $('li.custom-select-option').on('click', function() {
-        var selectedValue = $(this).attr('value');
-        alert('선택된 옵션: ' + selectedValue);
-      });
-    //$this.closest('.custom-select-container').find('.custom-select-trigger span').text($this.text()).end().find('select').val($this.attr('value')).trigger('change');
-    $('li.custom-select-option').on('click', function() {
-        console.log('11111111');
-        $this.closest('.custom-select-container').find('.custom-select-trigger span').text($this.text()).end().find('select').val($this.attr('value')).trigger('change');
-    });*/
-}
-            
 ///-------------------------------------------------------------------------------------------
 $(document).ready(function() {
     $("#confirm-btn").click(function(){
@@ -330,6 +307,12 @@ $(document).ready(function() {
 
     
     cartBtn.addEventListener('click', function() {
+        
+        // pin Number popup 띄우기
+        $('#pin_number').addClass('modal--open');
+       
+
+        //최종
         let message = '';
         document.querySelectorAll('.options input[type=text]').forEach(function(input) {
             const name = input.parentElement.previousElementSibling.textContent.trim();
@@ -338,15 +321,11 @@ $(document).ready(function() {
                 message += `${name}-${quantity}\n`;
             }
         });
-        // pin Number popup 띄우기
-        $('#pin_number').addClass('modal--open');
-       
-
-        //최종
         if (message != '') {
             alert(`반출신청\n${message}`);
-
-            API.takeOutEmailConfirmCode("flyminggo@naver.com", (resp) => {
+            
+            //메일보내기
+            /*API.takeOutEmailConfirmCode("flyminggo@naver.com", (resp) => {
                 if (resp.success) {
                     sended_email = email.val();
                     //	$('#create-account-info').hide()
@@ -360,11 +339,10 @@ $(document).ready(function() {
     
                     alert(resp.error.message)
                 }
-            })
+            })*/
         }
     });
 
-    let selectFlag;
     $('.custom-select').on('click', function() {
       $(this).toggleClass('selected');
       if($(this).hasClass('selected')) {
@@ -372,27 +350,7 @@ $(document).ready(function() {
       } else {
         $('.custom-select-list').hide();
       }
-    })
-    /*
-    $('.custom-select').on('focusin', function() {
-      $('.custom-select-list').show();
-    });
-    
-    $('.custom-select').on('focusout', function() {
-      if(!selectFlag) {
-        $('.custom-select-list').hide();
-      }
-      $(this).removeClass('selected');
-    });
-    */
-    
-    $('.custom-select-option').on('mouseenter', function() {
-      selectFlag = true;
-    });
-    
-    $('.custom-select-option').on('mouseout', function() {
-      selectFlag = false;
-    });
+    })  
     
     $('.custom-select-option').on('click', function() {
         let value = $(this).attr('value');
