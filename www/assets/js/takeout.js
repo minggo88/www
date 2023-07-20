@@ -347,21 +347,20 @@ $(document).ready(function() {
                         var scrollableDiv = document.querySelector('.scrollable-div');
                         var newOption = document.createElement('div');
                         newOption.classList.add('s_options');
-
+                        
                         document.querySelectorAll('.options input[type=text]').forEach(function(input) {
                             const name = input.parentElement.previousElementSibling.textContent.trim();
                             const quantity = parseInt(input.value);
                             if (!isNaN(quantity) && quantity > 0) {
                                 message += `${name}-${quantity}\n`;
-                            }
 
-                            newOption.innerHTML = `<label for="s_option1">`+name+`</label>
+                                
+                                newOption.innerHTML = `<label for="s_option1">`+name+`</label>
                                 <div class="input-group">
                                     <label>`+quantity+`개</label>
                                 </div>`;
-
-                            // scrollableDiv에 새로운 옵션을 추가합니다.
-                            scrollableDiv.appendChild(newOption);
+                                scrollableDiv.appendChild(newOption);
+                            }                            
                         });
                         if (message != '') {
                             alert(`반출신청\n${message}`);
