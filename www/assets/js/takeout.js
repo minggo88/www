@@ -247,7 +247,7 @@ $(document).ready(function() {
             }
             $(this).siblings('.minus-btn').prop('disabled', false);
             $(cartBtn).prop('disabled', false);
-            buttonElement.style.backgroundColor = '#E21A32';
+            cartBtn.style.backgroundColor = '#E21A32';
         }
     });
 
@@ -266,7 +266,7 @@ $(document).ready(function() {
 
                 if(total_num<1){
                     $(cartBtn).prop('disabled', true);
-                    buttonElement.style.backgroundColor = '#999999';
+                    cartBtn.style.backgroundColor = '#999999';
                 }
             }
 
@@ -308,7 +308,7 @@ $(document).ready(function() {
         $('.total_cnt').text(total_num);
         if(total_num<1){
             $(cartBtn).prop('disabled', true);
-            buttonElement.style.backgroundColor = '#999999';
+            cartBtn.style.backgroundColor = '#999999';
         }
 
         // 해당 옵션 div 삭제
