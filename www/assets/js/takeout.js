@@ -346,7 +346,7 @@ $(document).ready(function() {
                         let message = '';
                         var scrollableDiv = document.querySelector('.scrollable-div');
                         var newOption = document.createElement('div');
-                        newOption.classList.add('s_options');
+                        
                         
                         document.querySelectorAll('.options input[type=text]').forEach(function(input) {
                             const name = input.parentElement.previousElementSibling.textContent.trim();
@@ -354,7 +354,7 @@ $(document).ready(function() {
                             if (!isNaN(quantity) && quantity > 0) {
                                 message += `${name}-${quantity}\n`;
 
-                                
+                                newOption.classList.add('s_options');
                                 newOption.innerHTML = `<label for="s_option1">`+name+`</label>
                                 <div class="input-group">
                                     <label>`+quantity+`개</label>
