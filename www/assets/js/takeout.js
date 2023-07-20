@@ -156,6 +156,7 @@ const fn_wallet = function () {
 }
 
 const check_login = function (msg) {
+    closeModal();
     if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
         if (msg) alert(msg);
         window.location.href = LOGIN_PAGE;
