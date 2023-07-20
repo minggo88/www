@@ -337,6 +337,11 @@ $(document).ready(function() {
                 message += `${name}-${quantity}\n`;
             }
         });
+        // pin Number popup 띄우기
+        $('#pin_number').addClass('modal--open');
+       
+
+        //최종
         if (message != '') {
             alert(`반출신청\n${message}`);
 
@@ -396,11 +401,6 @@ $(document).ready(function() {
         $('.custom-select-list').hide();
 
     });
-
-    // pin Number popup 띄우기
-    $('[name="btn-withdraw"]').on('click', function () { 
-        $('#pin_number').addClass('modal--open');
-    })
 });
 
 
