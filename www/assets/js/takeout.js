@@ -326,42 +326,45 @@ $(document).ready(function() {
 				pin += $(elem).val();
 			});
 
-			if(check) {
-				//최종
-                let message = '';
-                document.querySelectorAll('.options input[type=text]').forEach(function(input) {
-                    const name = input.parentElement.previousElementSibling.textContent.trim();
-                    const quantity = parseInt(input.value);
-                    if (!isNaN(quantity) && quantity > 0) {
-                        message += `${name}-${quantity}\n`;
-                    }
-                });
-                if (message != '') {
-                    alert(`반출신청\n${message}`);
+
+            if(check) {
+				API.checkPin(pin, (resp) => {
+					if(resp.success) {
+						//최종
+                        let message = '';
+                        document.querySelectorAll('.options input[type=text]').forEach(function(input) {
+                            const name = input.parentElement.previousElementSibling.textContent.trim();
+                            const quantity = parseInt(input.value);
+                            if (!isNaN(quantity) && quantity > 0) {
+                                message += `${name}-${quantity}\n`;
+                            }
+                        });
+                        if (message != '') {
+                            alert(`반출신청\n${message}`);
+                            
+                            //메일보내기
+                            /*API.takeOutEmailConfirmCode("flyminggo@naver.com", (resp) => {
+                                if (resp.success) {
+                                    sended_email = email.val();
+                                    //	$('#create-account-info').hide()
+                                    $('#create-account-info').parent("section").hide()
+                                    $('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
                     
-                    //메일보내기
-                    /*API.takeOutEmailConfirmCode("flyminggo@naver.com", (resp) => {
-                        if (resp.success) {
-                            sended_email = email.val();
-                            //	$('#create-account-info').hide()
-                            $('#create-account-info').parent("section").hide()
-                            $('#create-account-mail-auth').show().find('.grid--code>input:eq(0)').focus()
-            
-                            $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
-                            //$('#create-account-password-confirm').parent("section").show()
-                        } else {
-                            $('#create-account-info input[type=submit]').prop('disabled', false)
-            
-                            alert(resp.error.message)
+                                    $('#create-account-mail-auth').parent("section").show().find('.grid--code>input:eq(0)').focus()
+                                    //$('#create-account-password-confirm').parent("section").show()
+                                } else {
+                                    $('#create-account-info input[type=submit]').prop('disabled', false)
+                    
+                                    alert(resp.error.message)
+                                }
+                            })*/
                         }
-                    })*/
-                }
-			}else{
-                alert('pin번호가 틀립니다.');
-                var inputElement = document.querySelector('input[name="pincode"]');
-                inputElement.value = '';
-            }
-            return false
+					} else {
+						alert(resp.error.message)
+					}
+				})
+			}
+			return false
         });        
     });
 
