@@ -13,6 +13,16 @@
   margin-right: 10px;
 }
 
+.total_title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.total_cnt {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .input-group {
   display: flex;
   align-items: center;
@@ -59,7 +69,7 @@
   top: 382px;
   left: 495px;
   border: 0px;
-  background-color: #E21A32; 
+  background-color: #999999; 
   color: #fff;
   margin-bottom: 0px;
   margin-top: 10px;
