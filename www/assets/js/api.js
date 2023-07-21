@@ -866,7 +866,7 @@ const API = {
         })
     },
     //상품반출
-    takeOutItem: (data, callback = null) => {
+    takeOutItem: (data, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/takeOutItem/`,
             type: 'POST',
