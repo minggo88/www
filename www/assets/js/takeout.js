@@ -364,7 +364,7 @@ $(document).ready(function() {
                             }                            
                         });
                         if (message != '') {
-                            alert(`반출신청\n${message}`);
+                            //alert(`반출신청\n${message}`);
                             
                             //메일보내기
                             /*API.takeOutEmailConfirmCode("flyminggo@naver.com", (resp) => {
