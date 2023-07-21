@@ -133,7 +133,6 @@ const fn_wallet = function () {
             if (selectedOption) {
                 var optionHtml = `
                     <div class="options">
-                    <label for="option2" style="display:none;">${selectedOption.symbol}</label>    
                         <label for="option1">${selectedOption.name}</label>
                         <div class="input-group">
                             <button class="minus-btn" type="button" name="button" disabled>-</button>
@@ -166,6 +165,14 @@ const check_logout = function (msg) {
         if (msg) alert(msg);
         window.location.href = "/";
     }
+}
+function getSymbolByName(nameToFind) {
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].name === nameToFind) {
+            return data[i].symbol;
+        }
+    }
+    return null;
 }
 /*
 //데이터 만들기
@@ -351,10 +358,7 @@ $(document).ready(function() {
                         const sendArray = [];
                         document.querySelectorAll('.options input[type=text]').forEach(function(input) {
                             const name = input.parentElement.previousElementSibling.textContent.trim();
-                            const option2Label = document.querySelector('.options label[for="option2"]');
-							option2Label.style.display = 'inline'; // option2 라벨을 보이게 변경
-							const symbol = option2Label.textContent.trim(); // option2 라벨의 내용 가져오기
-							option2Label.style.display = 'none'; // option2 라벨을 다시 숨기기
+                            const symbol = getSymbolByName(name);
                             const quantity = parseInt(input.value);
                             if (!isNaN(quantity) && quantity > 0) {
                                 message += `${name}-${quantity}\n`;
