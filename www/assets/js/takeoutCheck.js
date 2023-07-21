@@ -28,10 +28,10 @@ const fn_takeout = function () {
                     const grid = $(`<table class="takeout_list" />`)
                     grid.append(`
 							<tr class="takeout_list_left">
-								<td style="	width: 22%; text-align: center; border-right: 1px solid #DDDDDD;" class='item_name'>${t_name}</td>
-								<td style="	width: 10%; text-align: center; border-right: 1px solid #DDDDDD;" class='item_grade'>${t_pdate}</td>
-								<td style="	width: 22%; text-align: center; border-right: 1px solid #DDDDDD;" class="rdate">`+dateChange(t_rdate)+`</td>
-								<td style="	width: 22%; text-align: center; border-right: 1px solid #DDDDDD;" class="tcnt">${t_cnt}개</td>
+								<td style="	width: 22%; text-align: left; padding-left:5px !important;" class='item_name'>${t_name}</td>
+								<td style="	width: 10%; text-align: center; " class='item_grade'>${t_pdate}</td>
+								<td style="	width: 22%; text-align: center; " class="rdate">`+dateChange(t_rdate)+`</td>
+								<td style="	width: 22%; text-align: center; " class="tcnt">${t_cnt}개</td>
                                 <td style="	width: 24%; text-align: center;" class="tstate">`+stateChage(t_state)+`</td>
                             </tr>`);
                     $('.wallet--grid').append(grid)
