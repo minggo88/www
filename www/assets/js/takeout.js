@@ -399,7 +399,7 @@ $(document).ready(function() {
                             API.takeOutItem(sendArray, (resp) => {
                                 if (resp.success) {
                                     console.log(sendArray);
-                                    console.log(resp.success);
+                                    console.log(resp);
                                 } else {
                                     alert(resp.error.message)
                                 }
