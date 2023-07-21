@@ -347,7 +347,7 @@ $(document).ready(function() {
                         let message = '';
                         var scrollableDiv = document.querySelector('.scrollable-div');
                         
-                        scrollableDiv.empty();
+                        scrollableDiv.innerHTML = '';
                         const sendArray = [];
                         document.querySelectorAll('.options input[type=text]').forEach(function(input) {
                             const name = input.parentElement.previousElementSibling.textContent.trim();
