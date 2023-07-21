@@ -14,7 +14,7 @@
 	text-align: center !important;
 }
 
-.grid grid--empty{
+.grid.grid--empty{
 	width: 598px;
 	padding-left: 0px;
 	padding-right: 0px;
@@ -22,6 +22,7 @@
 
 .d-grid.wallet--grid{
 	margin-top: 0px !important;	
+	row-gap: 1px !important;
 }
 
 /* 빈 그리드 스타일 */
