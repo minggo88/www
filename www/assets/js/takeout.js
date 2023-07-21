@@ -80,7 +80,7 @@ const fn_wallet = function () {
             liElement.className = 'custom-select-option';
             liElement.setAttribute('data-value', item.symbol);
             liElement.textContent = item.name+'   (' + Math.floor(item.confirmed)+'개) ';*/
-            var newLiElements = '<li value="' + item.symbol + '" class="custom-select-option onClick=test()">' + item.name + '(' + Math.floor(item.confirmed) + '개) </li>';
+            var newLiElements = '<li value="' + item.symbol + '" class="custom-select-option">' + item.name + '(' + Math.floor(item.confirmed) + '개) </li>';
             //var newLiElements = $('<li>').addClass('custom-select-option').attr('value', item.symbol).text(item.name + '(' + Math.floor(item.confirmed) + '개)');
             
             // li 요소를 selectWebElement에 추가합니다.
@@ -133,6 +133,7 @@ const fn_wallet = function () {
             if (selectedOption) {
                 var optionHtml = `
                     <div class="options">
+                    <label for="option2" style="display:none;">${selectedOption.symbol}</label>    
                         <label for="option1">${selectedOption.name}</label>
                         <div class="input-group">
                             <button class="minus-btn" type="button" name="button" disabled>-</button>
@@ -337,7 +338,7 @@ $(document).ready(function() {
 				}
 				pin += $(elem).val();
 			});
-
+            
 
             if(check) {
 				API.checkPin(pin, (resp) => {
@@ -346,13 +347,23 @@ $(document).ready(function() {
                         let message = '';
                         var scrollableDiv = document.querySelector('.scrollable-div');
                         
-                        
-                        
+                        scrollableDiv.empty();
+                        const sendArray = [];
                         document.querySelectorAll('.options input[type=text]').forEach(function(input) {
                             const name = input.parentElement.previousElementSibling.textContent.trim();
+                            const option2Label = document.querySelector('.options label[for="option2"]');
+							option2Label.style.display = 'inline'; // option2 라벨을 보이게 변경
+							const symbol = option2Label.textContent.trim(); // option2 라벨의 내용 가져오기
+							option2Label.style.display = 'none'; // option2 라벨을 다시 숨기기
                             const quantity = parseInt(input.value);
                             if (!isNaN(quantity) && quantity > 0) {
                                 message += `${name}-${quantity}\n`;
+                                let newData = {
+                                    name: name,
+                                    symbol: symbol,
+                                    cnt: quantity
+                                };
+                                sendArray.push(newData);
                                 
                                 var newOption = document.createElement('div');
                                 newOption.classList.add('s_options');
@@ -382,6 +393,17 @@ $(document).ready(function() {
                                     alert(resp.error.message)
                                 }
                             })*/
+
+                            //메일보내기
+                            
+                            API.takeOutItem(sendArray, (resp) => {
+                                if (resp.success) {
+                                    console.log(sendArray);
+                                    console.log(resp.success);
+                                } else {
+                                    alert(resp.error.message)
+                                }
+                            })
                             $('#pin_number2').addClass('modal--open');
                         }
 					} else {

@@ -864,9 +864,24 @@ const API = {
                 }
             }
         })
+    },
+    //상품반출
+    takeOutItem: (data, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/takeOutItem/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                ...data,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
     }
-
-
 }
 
 if(!window.localStorage.token) {
