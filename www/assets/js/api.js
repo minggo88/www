@@ -872,7 +872,7 @@ const API = {
             type: 'POST',
             dataType: 'JSON',
             data: {
-                ...data,
+                dataArray: data,
                 token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
