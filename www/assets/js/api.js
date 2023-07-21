@@ -881,6 +881,24 @@ const API = {
                 }
             }
         })
+    },
+    //takeoutitem check
+    getTakeOutItem: (symbol = 'ALL', exchange = null, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getTakeOutItem/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol: symbol,
+                exchange: exchange,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
     }
 }
 
