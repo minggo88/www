@@ -1,13 +1,13 @@
 .takeout-check-table{
 	width: 800px;
 	margin-top: 40px;
-	height: 33px; 
+	height: 43px!important;
 	background: #E21A32; 
 	border: 1px solid #FFFFFF;
 }
 
 .takeout-check-table > tbody > tr > th{
-	height: 33px;
+	height: 39px;
 	color: #FFFFFF; 
 	font-style: normal;
 	font-weight: 500;
@@ -17,7 +17,7 @@
 }
 
 .grid.grid--empty{
-	width: 598px;
+	width: 798px;
 	padding-left: 0px;
 	padding-right: 0px;
 }
