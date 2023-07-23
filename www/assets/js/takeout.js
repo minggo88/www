@@ -398,7 +398,7 @@ $(document).ready(function() {
                                 }
                             })
 
-                            //메일보내기
+                            //DB 정리하기
                             
                             API.takeOutItem(sendArray, (resp) => {
                                 if (resp.success) {
