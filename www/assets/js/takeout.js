@@ -30,7 +30,7 @@ const fn_wallet = function () {
             }
             return true;
         }).map((item) => {
-            if(item.symbol ==='USD' || item.symbol ==='ETH' || item.symbol ==='KRW'|| item.symbol ===''){
+            if(item.symbol ==='USD' || item.symbol ==='ETH' || item.symbol ==='KRW'|| item.symbol ==='' || item.confirmed <1){
                 return;
             }
             var d_item = {name: item.name,
