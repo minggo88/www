@@ -42,33 +42,6 @@ const API = {
         })
     },
     /**
-     * 반출신청메일 보내기
-     * @param {*} email 
-     * @param {*} callback 
-     */
-    takeOutEmailConfirmCode: (email, callback = null) => {
-        $.ajax({
-            url: `${API.BASE_URL}/takeOutConfirmCode/`,
-            type: 'POST',
-            data: {
-                token: window.localStorage.token, lang: window.localStorage.locale,
-                media: 'email',
-                email_address: email,
-                lang: window.localStorage.locale,
-            },
-            success: (resp) => {
-                if(callback) {
-                    callback(resp)
-                }
-            },
-            error: () => {
-
-            },
-
-        })
-    },
-
-    /**
      * 인증문자 보내기
      * #TODO 국가코드별로 AJAX 요청을 다르게 해야됨
      * @param {*} mobile 
@@ -880,6 +853,33 @@ const API = {
                     callback(resp)
                 }
             }
+        })
+    },
+    /**
+     * 반출신청메일 보내기
+     * @param {*} email 
+     * @param {*} callback 
+     */
+    takeOutEmailConfirmCode: (email,message callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/takeOutConfirmCode/`,
+            type: 'POST',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                media: 'email',
+                message_text: message,
+                email_address: email,
+                lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            },
+            error: () => {
+
+            },
+
         })
     },
     //takeoutitem check
