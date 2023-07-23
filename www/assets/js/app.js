@@ -2938,8 +2938,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 											${item.confirmed_str}
 										</td>
 										<td class="pcenter text-right numberDiv">
-											<div class="number_div">${item_price}</div>
-											<div class="symbol_div">${avg_price_one}</div>
+										<div class="number_div">`+real_number_format(item_price,0) + `</div>
+										<div class="symbol_div">`+real_number_format(avg_price_one,0) + `</div>
 										</td>
 										<td class="pcenter text-right numberDiv">
 											${item.symbol !== exchange ? '<div class="number_div"> '+real_number_format(item_total,0)+'</div>' : ''}
@@ -3008,8 +3008,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						grid.append(`
 							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item_price} </div>
-									<div class="item--avg--price">${avg_price_one}</div>
+								<div class="wallet--price">`+ real_number_format(item_price,0)+`</div>
+								<div class="item--avg--price">` +real_number_format(avg_price_one,0) + `</div>
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									
