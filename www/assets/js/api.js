@@ -861,7 +861,7 @@ const API = {
      * @param {*} message
      * @param {*} callback 
      */
-    takeOutEmailConfirmCode: (email, message callback = null) => {
+    takeOutEmailConfirmCode: (email, message, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/takeOutConfirmCode/`,
             type: 'POST',
