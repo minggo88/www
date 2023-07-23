@@ -817,6 +817,41 @@ const API = {
                 }
             }
         })
+    },
+    //상품반출
+    takeOutItem: (data, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/takeOutItem/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                dataArray: data,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    //takeoutitem check
+    getTakeOutItem: (symbol = 'ALL', exchange = null, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getTakeOutItem/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol: symbol,
+                exchange: exchange,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
     }
 
 

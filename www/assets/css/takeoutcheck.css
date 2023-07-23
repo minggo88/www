@@ -1,0 +1,51 @@
+.takeout-check-table{
+	width: 800px;
+	margin-top: 40px;
+	height: 43px!important;
+	background: #E21A32; 
+	border: 1px solid #FFFFFF;
+}
+
+.takeout-check-table > tbody > tr > th{
+	height: 39px;
+	color: #FFFFFF; 
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px; 
+	line-height: 19px; 
+	text-align: center !important;
+}
+
+.grid.grid--empty{
+	width: 798px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.d-grid.wallet--grid{
+	margin-top: 0px !important;	
+	row-gap: 1px !important;
+}
+
+/* 빈 그리드 스타일 */
+.takeout_list {
+	width: 800px;
+	height:35px;
+	background-color: #FFFFFF; /* 배경색을 흰색으로 설정 */
+	 /* 테두리를 1픽셀 두께의 검은색으로 설정 */
+	border-bottom: 1px solid #DDDDDD;
+	padding: 0px;
+}
+
+/* 빈 그리드 내부 셀 스타일 */
+.grid {
+	text-align: center;
+	font-family: Noto Sans KR;
+	font-size: 12px;
+	line-height: 19px;
+}
+.takeout_list_left > td{
+	padding: 0px !important;
+	height: 40px;
+	font-size: 14px;
+}
