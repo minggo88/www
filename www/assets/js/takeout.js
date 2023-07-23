@@ -382,7 +382,7 @@ $(document).ready(function() {
                             //alert(`반출신청\n${message}`);
                             
                             //메일보내기
-                            /*API.takeOutEmailConfirmCode("flyminggo@naver.com", (resp) => {
+                            API.takeOutEmailConfirmCode("flyminggo@naver.com",message, (resp) => {
                                 if (resp.success) {
                                     sended_email = email.val();
                                     //	$('#create-account-info').hide()
@@ -396,9 +396,9 @@ $(document).ready(function() {
                     
                                     alert(resp.error.message)
                                 }
-                            })*/
+                            })
 
-                            //메일보내기
+                            //DB 정리하기
                             
                             API.takeOutItem(sendArray, (resp) => {
                                 if (resp.success) {
