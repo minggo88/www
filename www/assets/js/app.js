@@ -2841,6 +2841,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					// 원은 목록에서 제거
 					if (item.symbol==='KRW') {
 						total_buyable_balance = item.confirmed;
+						$('.d-grid.wallet-summary #totalBuyableBalance').text(real_number_format(item.confirmed,0))
+						$('.d-grid.wallet-summary2 #totalBuyableBalance').text(real_number_format(item.confirmed,0))
 						return ;
 					}
 					// 다른 화폐 제거
@@ -2865,6 +2867,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
 						total_available_evaluated_balance += item.eval_tadable; 	// 총 사용 가능 자산
 						frozen_money = item.withdrawing + item.wait_buy;                //동결자산(출금 금액 + 물품 구매금액)
+						frozen_money = item.withdrawing;                //동결자산 강제입력(출금금액만)230724 수정해야함
 						total_locked_evaluated_balance = frozen_money;	// 총 동결 평가 자산
 
 						// 잔액 230206 mk 지갑내 수량 (거래중일때 감소되는 현상) 수정
@@ -2880,15 +2883,18 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
 						//const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
 						const item_name = item.name;
-						const item_price = real_number_format(item.currency_price,0);
+						const item_price = item.currency_price*1;
 						//const item_income = real_number_format(item.eval_income,1); //DB에서 가져오지만 잘못된 정보를 갖고와 수입 다시 계산
 						const item_total = item.currency_price * item.valuation;
 						const item_grade = item.goods_grade;
 						//const avg_price_one = real_number_format(item.avg_buy_price,1);
 						//const avg_price = item.avg_buy_price*item.confirmed_str;
 						
-						const avg_price_tot = item.sum_buy_goods * item.valuation;
-						const avg_price_one = real_number_format(item.sum_buy_goods,0);
+						//const avg_price_tot = item.sum_buy_goods * item.valuation;
+						//const avg_price_one = real_number_format(item.sum_buy_goods,0);
+						//230724 값을 다시계산해야하므로 강제로 같은값 주기 
+						const avg_price_tot = item_total;
+						const avg_price_one = item_price;
 						const avg_price_num = real_number_format(avg_price_tot,0);
 						const income = item_total - avg_price_tot;
 						const item_income = real_number_format(income,0);
@@ -2927,8 +2933,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 											${item.confirmed_str}
 										</td>
 										<td class="pcenter text-right numberDiv">
-											<div class="number_div">${item_price}</div>
-											<div class="symbol_div">${avg_price_one}</div>
+										<div class="number_div">`+real_number_format(item_price,0) + `</div>
+										<div class="symbol_div">`+real_number_format(avg_price_one,0) + `</div>
 										</td>
 										<td class="pcenter text-right numberDiv">
 											${item.symbol !== exchange ? '<div class="number_div"> '+real_number_format(item_total,0)+'</div>' : ''}
@@ -2992,12 +2998,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						`)
 						/* mk 참조 변수 변경 
 						}else if(item.eval_income == 0){*/
-						}else if(income == 0){
+						//}else if(income == 0){
+						}else{
 						grid.append(`
 							
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item_price} </div>
-									<div class="item--avg--price">${avg_price_one}</div>
+								<div class="wallet--price">`+ real_number_format(item_price,0)+`</div>
+								<div class="item--avg--price">` +real_number_format(avg_price_one,0) + `</div>
 								</div>
 								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
 									
@@ -3046,7 +3053,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				
 				//---------------------------------------------------
 				//총보유자산
-				let num = (total_evaluated_balance*1) + (total_money*1);
+				let num = total_evaluated_balance*1 + total_buyable_balance*1;
 				$('#totalBalance').text(real_number_format(num,0))
 				//평가손익
 				$('#totalAvailableBalance').text(real_number_format(total_income,0))
@@ -3054,8 +3061,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				$('.d-grid.wallet-summary #totalLockedBalance').text(real_number_format(total_evaluated_balance,0))
 				$('.d-grid.wallet-summary2 #totalLockedBalance').text(real_number_format(total_evaluated_balance,0))
 				//보유금액
-				$('.d-grid.wallet-summary #totalBuyableBalance').text(real_number_format(total_money,0))
-				$('.d-grid.wallet-summary2 #totalBuyableBalance').text(real_number_format(total_money,0))
+				//$('.d-grid.wallet-summary #totalBuyableBalance').text(real_number_format(total_money,0))
+				//$('.d-grid.wallet-summary2 #totalBuyableBalance').text(real_number_format(total_money,0))
 				//주문 및 동결 금액
 				$('.d-grid.wallet-summary #totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
 				$('.d-grid.wallet-summary2 #totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
