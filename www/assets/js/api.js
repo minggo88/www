@@ -858,9 +858,10 @@ const API = {
     /**
      * 반출신청메일 보내기
      * @param {*} email 
+     * @param {*} message
      * @param {*} callback 
      */
-    takeOutEmailConfirmCode: (email,message callback = null) => {
+    takeOutEmailConfirmCode: (email, message callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/takeOutConfirmCode/`,
             type: 'POST',
