@@ -12,6 +12,7 @@ const fn_takeout = function () {
     API.getTakeOutItem('ALL', '', (resp) => {
         if(resp.success) {
             if(resp.payload.length > 0) {
+                
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
 				$('[name="grid--empty"]').hide();
                 resp.payload.filter(function(item) {
@@ -39,6 +40,8 @@ const fn_takeout = function () {
                 });
             }
         }else{
+            $('#loading_text').hide();
+            $('#empty_text').show();
             console.log('fail');
         } 
     });
