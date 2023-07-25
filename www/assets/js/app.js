@@ -3733,4 +3733,12 @@ function getIP(callback) {
 		callback(ip);
 	  }
 	};
-  }
+}
+
+function log_out(){
+	console.log('로그아웃 체크');
+}
+
+function log_in(){
+	console.log('로그인 체크');
+}
