@@ -76,7 +76,7 @@ const check_logout = function (msg) {
 }
 ///-------------------------------------------------------------------------------------------
 $(document).ready(function() {
-    
+    console.log(''); 
 });
 
 
