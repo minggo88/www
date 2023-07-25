@@ -3736,7 +3736,17 @@ function getIP(callback) {
 }
 
 function log_out(){
-	fn_logout();
+	API.logout((resp) => {
+		if(resp.success) {
+			Model.user_info = {};
+			Model.auto_login = false;
+			Model.visited_notice = false;
+			setCookie('token', '', -1);
+			location.reload();
+		} else {
+			alert(__('로그아웃하지 못했습니다.')+' '+msg);
+		}
+	});
 }
 
 function log_in(){
