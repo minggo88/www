@@ -1,6 +1,8 @@
 
 window.onload = function() {
-    fn_takeout();
+    setTimeout(function() {
+        fn_takeout();    
+    }, 300);
 };
 
 const fn_takeout = function () {
@@ -37,6 +39,8 @@ const fn_takeout = function () {
                 });
             }
         }else{
+            $('#loading_text').hide();
+            $('#empty_text').show();
             console.log('fail');
         } 
     });
@@ -76,7 +80,7 @@ const check_logout = function (msg) {
 }
 ///-------------------------------------------------------------------------------------------
 $(document).ready(function() {
-    console.log(''); 
+       
 });
 
 
