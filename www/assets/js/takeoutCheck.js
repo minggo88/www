@@ -1,6 +1,9 @@
 
 window.onload = function() {
-    fn_takeout();
+    setTimeout(function() {
+        fn_takeout();    
+    }, 500);
+    
 };
 
 const fn_takeout = function () {
