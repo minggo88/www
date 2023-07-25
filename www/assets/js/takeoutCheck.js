@@ -5,11 +5,9 @@ window.onload = function() {
 
 const fn_takeout = function () {
     check_login();
-    force_rander('user_info', Model.user_info);
-
+    
     API.getTakeOutItem('ALL', '', (resp) => {
         if(resp.success) {
-            console.log(resp);
             if(resp.payload.length > 0) {
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
 				$('[name="grid--empty"]').hide();
