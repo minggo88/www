@@ -34,6 +34,24 @@ $(document).ready( function() {
     
 });
 
+$(document)
+		.on('click', 'a[data-login]', function (e) {
+			if (!Model.user_info || !Model.user_info.userid || !Model.user_info.userno) {
+				e.preventDefault();
+				ret_url = $(this).attr('href');
+				window.location.href = 'login.html?ret_url=' + base64_encode(ret_url);
+				return false;
+			}
+		})
+		.on('click', 'a[data-logout]', function (e) {
+			if (Model.user_info && (Model.user_info.userid || Model.user_info.userno)) {
+				e.preventDefault();
+				window.location.href = '/';
+				return false;
+			}
+		})
+		;
+
 $.fn.serializeObject = function() {
     var obj = null;
     
