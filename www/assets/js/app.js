@@ -3736,9 +3736,9 @@ function getIP(callback) {
 }
 
 function log_out(){
-	console.log('로그아웃 체크');
+	fn_logout();
 }
 
 function log_in(){
-	console.log('로그인 체크');
+	window.location.href = 'login.html';
 }
