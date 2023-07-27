@@ -2342,7 +2342,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		check_login();
 		request_user_info();
 		Model.form = clone(Model.user_info);
-		document.getElementById("join_type").value = Model.user_info.user_join_type;
+		
+		if (Model.user_info.user_join_type === "B") {
+			document.getElementById("join_type").selectedIndex = 1; // 두 번째 option을 선택 (인덱스는 0부터 시작하므로 1은 두 번째 option을 의미)
+		}else{
+			document.getElementById("join_type").selectedIndex = 2;
+		}
+		
 		//자료깨짐으로 인한 생략
 		//document.getElementById("join_user_passport").value = Model.user_info.user_info_A;
 		//document.getElementById("join_user_number_A").value = Model.user_info.user_info_A + '' + Model.user_info.user_info_B;
