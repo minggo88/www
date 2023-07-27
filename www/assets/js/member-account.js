@@ -11,9 +11,7 @@ $(document).ready(function() {
 });
 
 const fn_member_account = function () {
-    check_login();
-    request_user_info();
-    Model.form = clone(Model.user_info);
+   
     
     if (Model.user_info.user_join_type === "B") {
         document.getElementById("join_type").selectedIndex = 1; // 두 번째 option을 선택 (인덱스는 0부터 시작하므로 1은 두 번째 option을 의미)
@@ -148,65 +146,6 @@ const fn_member_account = function () {
         $('#country').dropdown('select', firstItem).dropdown('add_search')
         // 국가 선택
         select_country(Model.user_info.mobile_country_code);
-    })
-
-    $('#change_password_btn').on('click', function (e) {
-        e.preventDefault()
-        let password = $('[name=password]');
-        let new_password = $('[name=new_password]');
-        let new_password2 = $('[name=new_password2]');
-
-        if(!password.val()) {
-            password.focus()
-            return false
-        }
-
-        if(!new_password.val()) {
-            new_password.focus()
-            return false
-        }
-
-        if(!new_password2.val()) {
-            new_password2.focus()
-            return false
-        }
-
-        if (/^.{8,}$/.test(new_password.val()) === false) {
-            alert('비밀번호는 8 자리 이상 입력 해주세요.');
-            return false;
-        }
-
-        if (/^(?=.*[a-z]).*$/.test(new_password.val()) === false) {
-            alert('비밀번호는 영문자 포함해서 입력 해주세요.');
-            return false;
-        }
-
-        if (/^(?=.*[0-9]).*$/.test(new_password.val()) === false) {
-            alert('비밀번호는 숫자 포함해서 입력 해주세요.');
-            return false;
-        }
-
-        if (/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(new_password.val()) === false) {
-            alert('비밀번호는 특수문자 포함해서 입력 해주세요.');
-            return false;
-        }
-
-
-        if (new_password.val() != new_password2.val()) {
-            alert('비밀번호가 다릅니다.');
-            return false;
-        }
-
-        add_request_item('changePW', $('#change-password').serializeObject(), function (r) {
-            if (r && r.success) {
-                alert("변경 되었습니다.");
-                $('#change-password').hide();
-            } else {
-                alert(r.error.message)
-            }
-        });
-
-        return false;
     })
 
 }
