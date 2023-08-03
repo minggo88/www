@@ -98,6 +98,7 @@ div.dts div.dataTables_scrollBody {
 
 .details .details--header .tea--name{
 	font-size: 16px;
+	width: 350px;
 }
 
 .details--header small {
@@ -176,6 +177,7 @@ div.dts div.dataTables_scrollBody {
     padding-top: 10px;
     column-gap: 11px;
 	width: 800px;
+	height: 400px;
 	display: flex;
 	flex-direction: column;
 }
