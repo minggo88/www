@@ -60,6 +60,60 @@
 	<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
 	<script src="./i18n/i18n.js?t=1667796157"></script>
 
+	<style>
+    /* 스타일링을 위한 CSS */
+	.search_item{
+		width: 532px;
+		height: 45px;
+		padding-left:15px;
+		
+	}
+    .search-container {
+	    border-bottom: 2px solid #E21A32;      
+    }
+	.search-box:focus {
+      background-color: rgba(255, 255, 255, 0.6); /* 검색창이 선택되었을 때 투명한 백그라운드 색상 */
+    }
+    .search-box {
+      padding: 10px;
+      border: 0px solid #ccc;
+      width: 532px;
+      max-width: 100%;
+      font-size: 16px;
+      padding-left: 35px; /* 돋보기 아이콘과 텍스트 간 간격 조정 */
+      background-image: url('https://s3.ap-northeast-2.amazonaws.com/testcdn.cexstock.com/tmp/202303/a8cc9660c7be611004cb388da94945d8c0dde21ce1a94d702d14b8a03352fd1d.png'); /* 돋보기 아이콘 이미지 URL */
+      background-repeat: no-repeat;
+      background-position: 5px center; /* 아이콘의 위치를 조정 */
+      background-size: 20px 20px; /* 아이콘 크기 조정 */
+      transition: background-color 0.3s ease; /* 스타일 변화를 부드럽게 처리 */
+      outline: none; /* 포커스 효과 제거 */
+    }
+    .search-button {
+      display: none;
+	}
+	.krw{
+		position: relative;
+		width : 70%;
+		top: 35%; /* 현재 위치에서 아래쪽으로 이동 */
+		border-bottom: 0 none !important;
+		font-size: 14px !important;
+		text-align: right;
+		font-weight: 700;
+		color:#333;
+	}
+	.tea--name{
+		width:70%;
+	}
+	.details--header .btn_tab {
+      padding: 8px 16px;
+      background-color: #4285F4;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+	
 </head>
 <!-- BODY -->
 
@@ -210,6 +264,12 @@
 				</div>
 				<div class="side--panel"> <!--     -->
 					<div class="tab-wrapper">
+						<div class="search-container">
+						    <form class = "search_item" onsubmit="return performSearch()">
+						      <input type="text" id="searchInput" class="search-box" name="q" placeholder="검색하기">
+						      <button type="submit" class="search-button">검색</button>
+						    </form>
+						  </div>
 						<div style="border-bottom: 1px solid var(--linegray)">
 							<ul class="tabs">
 								<li class="tab--active">
@@ -224,6 +284,7 @@
 									<button type="button" id="tab_wish_item" name="tab_item" data-target="wish"
 										data-i18n>관심</button>
 								</li>
+								<span class="krw">KRW</span>
 							</ul>
 						</div>
 						<div class="tab--content">
@@ -265,8 +326,52 @@
 						<button type="button" class="btn btn--star" name="btn_view_stat"></button>
 						<span class="tea--name"><!-- 상품명 --></span>
 						<small><!-- BING DO RAW PUER TEA CAKE --></small>
+						<button type="button" class="btn_tab" name="btn_view_detail">상세정보</button>
+					    <button type="button" class="btn_tab" name="btn_view_chart">차트</button>
 					</div>
-					<div class="tab_chart">
+					<div class="tab-content" id="tab-info" >
+						<div class="info">
+							<div class="thumb">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/testcdn.cexstock.com/tmp/202303/f22eb88b4e88e7a49c21a351601abd79236d19ca994ed6fc7f535810c8412455.png" alt="">
+							</div>
+							<div class="info_p">
+								<table class="table">
+									<tbody><tr>
+										<th data-i18n="">구분</th>
+										<td data-i18n="" name="meta_division">보이반생반숙</td>
+									</tr>
+									<tr>
+										<th data-i18n="">타입</th>
+										<td data-i18n="" name="meta_type">병차</td>
+									</tr>
+									<tr>
+										<th data-i18n="">생산</th>
+										<td>
+											<span name="meta_produce">중국 운남성 서쌍판납주</span>
+										</td>
+									</tr>
+									<tr>
+										<th data-i18n="">인증</th>
+										<td>
+											<div name="meta_certification_mark_name">끽다거</div>
+											<!--<div class="d-flex" style="column-gap: 10px">
+												<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
+												<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
+												<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
+											</div>-->
+										</td>
+									</tr>
+									<tr>
+										<th data-i18n="">소개</th>
+										<td>
+											<div style="height: 90px" class="meta_wp_teamaster_note">1993년에 맹해다창에서 생차 70%와 숙차 30%를 병배하여 만든 음용하기에 좋은 보이병차이다. 생차의 오미와 숙차의 부드러운 맛이 조화를 이루어서 남녀노소 시간불문하고 편하기 즐길 수 있는 보이병차이다.</div>
+										</td>
+									</tr>
+								</tbody></table>
+							</div>
+						</div>
+					</div>
+					<div class="chart" style="display:none">
 						<div class="details--body">
 							<div class="d-flex"> <!-- style="flex-direction: column" -->
 								<span class="details--price">0 <span>KRW</span></span>
@@ -312,7 +417,7 @@
 						</div>
 						<div class="d-flex" style="justify-content: space-between;">
 							<!-- //mk 시간 범위 삭제 -->
-							<!-- <div id="period" class="dropdown-wrapper" style="width: 100px">
+	 						<!-- <div id="period" class="dropdown-wrapper" style="width: 100px">
 								<button type="button" class="dropdown" data-i18n>
 									시간단위
 								</button>
@@ -348,6 +453,10 @@
 						</div>
 						<div id="tvchart"></div>
 					</div>
+					<!------------------>
+					<!------------------>
+					<!------------------>
+					
 					<div class="tab-container">
 						<div class="tab-wrapper">
 							<div class="" style="border-bottom: 1px solid var(--linegray)">
@@ -1309,6 +1418,15 @@
 		</div>
 	</footer> -->
 	<script src="./assets/js/exchange.js?t=1672721688" defer></script>
+	<script>
+        function performSearch() {
+          const query = searchInput.value.trim();
+          if (query !== '') {
+			console.log('검색 : ' + query);
+          }
+          return false; // Prevent form submission
+        }
+	</script>
 	<script src="./assets/js/app.js?t=1672042800"></script>
 </body>
 
