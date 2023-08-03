@@ -326,8 +326,8 @@
 						<button type="button" class="btn btn--star" name="btn_view_stat"></button>
 						<span class="tea--name"><!-- 상품명 --></span>
 						<small><!-- BING DO RAW PUER TEA CAKE --></small>
-						<button type="button" class="btn_tab" name="btn_view_detail">상세정보</button>
-					    <button type="button" class="btn_tab" name="btn_view_chart">차트</button>
+						<button type="button" class="btn_tab" id="tea_info_tab" name="btn_view_detail">상세정보</button>
+					    <button type="button" class="btn_tab" id="tea_chart_tab" name="btn_view_chart">차트</button>
 					</div>
 					<div class="tab-content" id="tab-info" >
 						<div class="info">
@@ -1426,6 +1426,15 @@
           }
           return false; // Prevent form submission
         }
+
+		document.getElementById("tea_info_tab").addEventListener("click", function() {
+			$("#tab-info").show();
+			$(".chart").hide();
+		});
+		document.getElementById("tea_chart_tab").addEventListener("click", function() {
+			$("#tab-info").hide();
+			$(".chart").show();R
+		});
 	</script>
 	<script src="./assets/js/app.js?t=1672042800"></script>
 </body>
