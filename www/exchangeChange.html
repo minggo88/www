@@ -61,59 +61,172 @@
 	<script src="./i18n/i18n.js?t=1667796157"></script>
 
 	<style>
-    /* 스타일링을 위한 CSS */
-	.search_item{
-		width: 532px;
-		height: 45px;
-		padding-left:15px;
-		
-	}
-    .search-container {
-	    border-bottom: 2px solid #E21A32;      
-    }
-	.search-box:focus {
-      background-color: rgba(255, 255, 255, 0.6); /* 검색창이 선택되었을 때 투명한 백그라운드 색상 */
-    }
-    .search-box {
-      padding: 10px;
-      border: 0px solid #ccc;
-      width: 532px;
-      max-width: 100%;
-      font-size: 16px;
-      padding-left: 35px; /* 돋보기 아이콘과 텍스트 간 간격 조정 */
-      background-image: url('https://s3.ap-northeast-2.amazonaws.com/testcdn.cexstock.com/tmp/202303/a8cc9660c7be611004cb388da94945d8c0dde21ce1a94d702d14b8a03352fd1d.png'); /* 돋보기 아이콘 이미지 URL */
-      background-repeat: no-repeat;
-      background-position: 5px center; /* 아이콘의 위치를 조정 */
-      background-size: 20px 20px; /* 아이콘 크기 조정 */
-      transition: background-color 0.3s ease; /* 스타일 변화를 부드럽게 처리 */
-      outline: none; /* 포커스 효과 제거 */
-    }
-    .search-button {
-      display: none;
-	}
-	.krw{
-		position: relative;
-		width : 70%;
-		top: 35%; /* 현재 위치에서 아래쪽으로 이동 */
-		border-bottom: 0 none !important;
-		font-size: 14px !important;
-		text-align: right;
-		font-weight: 700;
-		color:#333;
-	}
-	.tea--name{
-		width:70%;
-	}
-	.details--header .btn_tab {
-      padding: 8px 16px;
-      background-color: #4285F4;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-  </style>
-	
+		/* 스타일링을 위한 CSS */
+		.search_item {
+			width: 532px;
+			height: 45px;
+			padding-left: 15px;
+
+		}
+
+		.search-container {
+			border-bottom: 2px solid #E21A32;
+		}
+
+		.search-box:focus {
+			background-color: rgba(255, 255, 255, 0.6);
+			/* 검색창이 선택되었을 때 투명한 백그라운드 색상 */
+		}
+
+		.search-box {
+			padding: 10px;
+			border: 0px solid #ccc;
+			width: 532px;
+			max-width: 100%;
+			font-size: 16px;
+			padding-left: 35px;
+			/* 돋보기 아이콘과 텍스트 간 간격 조정 */
+			background-image: url('https://s3.ap-northeast-2.amazonaws.com/testcdn.cexstock.com/tmp/202303/a8cc9660c7be611004cb388da94945d8c0dde21ce1a94d702d14b8a03352fd1d.png');
+			/* 돋보기 아이콘 이미지 URL */
+			background-repeat: no-repeat;
+			background-position: 5px center;
+			/* 아이콘의 위치를 조정 */
+			background-size: 20px 20px;
+			/* 아이콘 크기 조정 */
+			transition: background-color 0.3s ease;
+			/* 스타일 변화를 부드럽게 처리 */
+			outline: none;
+			/* 포커스 효과 제거 */
+		}
+
+		.search-button {
+			display: none;
+		}
+
+		.krw {
+			position: relative;
+			width: 70%;
+			top: 35%;
+			/* 현재 위치에서 아래쪽으로 이동 */
+			border-bottom: 0 none !important;
+			font-size: 14px !important;
+			text-align: right;
+			font-weight: 700;
+			color: #333;
+		}
+
+		.tea--name {
+			width: 70%;
+		}
+
+		.details--header .btn_tab {
+			padding: 8px 16px;
+			background-color: #4285F4;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		/*하단부css*/
+		/* 왼쪽 화면 스타일 */
+		.left {
+			flex: 1;
+			border: 2px solid black;
+			padding: 10px;
+		}
+
+		.table-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 5px 0;
+			cursor: pointer;
+			color: blue;
+			text-align: center;
+		}
+
+		.table-row:hover {
+			background-color: #f0f0f0;
+		}
+
+		.table-header {
+			font-weight: bold;
+		}
+
+		/* 오른쪽 화면 스타일 */
+		.right {
+			flex: 1;
+			border: 2px solid black;
+			padding: 10px;
+		}
+
+		.menu-item {
+			padding: 10px;
+			cursor: pointer;
+			color: black;
+			text-align: center;
+		}
+
+		.menu-item:hover {
+			background-color: #f0f0f0;
+		}
+
+		/* 매수, 매도, 주문관리 창 스타일 */
+		.order-content {
+			display: none;
+			padding: 20px;
+		}
+
+		.active {
+			display: block;
+		}
+
+		.order-button {
+			background-color: blue;
+			color: white;
+			padding: 10px;
+			cursor: pointer;
+			text-align: center;
+			margin-top: 10px;
+		}
+
+		/* 매수, 매도 내용 스타일 */
+		.order-input {
+			margin-bottom: 10px;
+		}
+
+		.order-btn {
+			background-color: blue;
+			color: white;
+			padding: 5px 10px;
+			cursor: pointer;
+			border: none;
+		}
+
+		.order-btn:hover {
+			background-color: darkblue;
+		}
+
+		/* 주문 취소 창 스타일 */
+		.cancel-order-content {
+			display: none;
+			padding: 20px;
+			height: 440px;
+			overflow-y: scroll;
+		}
+
+		.cancel-order-button {
+			background-color: red;
+			color: white;
+			padding: 10px;
+			cursor: pointer;
+			text-align: center;
+			width: 378px;
+			margin: 10px auto;
+		}
+	</style>
+
 </head>
 <!-- BODY -->
 
@@ -265,11 +378,11 @@
 				<div class="side--panel"> <!--     -->
 					<div class="tab-wrapper">
 						<div class="search-container">
-						    <form class = "search_item" onsubmit="return performSearch()">
-						      <input type="text" id="searchInput" class="search-box" name="q" placeholder="검색하기">
-						      <button type="submit" class="search-button">검색</button>
-						    </form>
-						  </div>
+							<form class="search_item" onsubmit="return performSearch()">
+								<input type="text" id="searchInput" class="search-box" name="q" placeholder="검색하기">
+								<button type="submit" class="search-button">검색</button>
+							</form>
+						</div>
 						<div style="border-bottom: 1px solid var(--linegray)">
 							<ul class="tabs">
 								<li class="tab--active">
@@ -327,47 +440,52 @@
 						<span class="tea--name"><!-- 상품명 --></span>
 						<small><!-- BING DO RAW PUER TEA CAKE --></small>
 						<button type="button" class="btn_tab" id="tea_info_tab" name="btn_view_detail">상세정보</button>
-					    <button type="button" class="btn_tab" id="tea_chart_tab" name="btn_view_chart">차트</button>
+						<button type="button" class="btn_tab" id="tea_chart_tab" name="btn_view_chart">차트</button>
 					</div>
-					<div class="tab-content" id="tab-info" >
+					<div class="tab-content" id="tab-info">
 						<div class="info">
 							<div class="thumb">
-								<img src="https://s3.ap-northeast-2.amazonaws.com/testcdn.cexstock.com/tmp/202303/f22eb88b4e88e7a49c21a351601abd79236d19ca994ed6fc7f535810c8412455.png" alt="">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/testcdn.cexstock.com/tmp/202303/f22eb88b4e88e7a49c21a351601abd79236d19ca994ed6fc7f535810c8412455.png"
+									alt="">
 							</div>
 							<div class="info_p">
 								<table class="table">
-									<tbody><tr>
-										<th data-i18n="">구분</th>
-										<td data-i18n="" name="meta_division">보이반생반숙</td>
-									</tr>
-									<tr>
-										<th data-i18n="">타입</th>
-										<td data-i18n="" name="meta_type">병차</td>
-									</tr>
-									<tr>
-										<th data-i18n="">생산</th>
-										<td>
-											<span name="meta_produce">중국 운남성 서쌍판납주</span>
-										</td>
-									</tr>
-									<tr>
-										<th data-i18n="">인증</th>
-										<td>
-											<div name="meta_certification_mark_name">끽다거</div>
-											<!--<div class="d-flex" style="column-gap: 10px">
+									<tbody>
+										<tr>
+											<th data-i18n="">구분</th>
+											<td data-i18n="" name="meta_division">보이반생반숙</td>
+										</tr>
+										<tr>
+											<th data-i18n="">타입</th>
+											<td data-i18n="" name="meta_type">병차</td>
+										</tr>
+										<tr>
+											<th data-i18n="">생산</th>
+											<td>
+												<span name="meta_produce">중국 운남성 서쌍판납주</span>
+											</td>
+										</tr>
+										<tr>
+											<th data-i18n="">인증</th>
+											<td>
+												<div name="meta_certification_mark_name">끽다거</div>
+												<!--<div class="d-flex" style="column-gap: 10px">
 												<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
 												<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
 												<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
 											</div>-->
-										</td>
-									</tr>
-									<tr>
-										<th data-i18n="">소개</th>
-										<td>
-											<div style="height: 90px" class="meta_wp_teamaster_note">1993년에 맹해다창에서 생차 70%와 숙차 30%를 병배하여 만든 음용하기에 좋은 보이병차이다. 생차의 오미와 숙차의 부드러운 맛이 조화를 이루어서 남녀노소 시간불문하고 편하기 즐길 수 있는 보이병차이다.</div>
-										</td>
-									</tr>
-								</tbody></table>
+											</td>
+										</tr>
+										<tr>
+											<th data-i18n="">소개</th>
+											<td>
+												<div style="height: 90px" class="meta_wp_teamaster_note">1993년에 맹해다창에서
+													생차 70%와 숙차 30%를 병배하여 만든 음용하기에 좋은 보이병차이다. 생차의 오미와 숙차의 부드러운 맛이 조화를
+													이루어서 남녀노소 시간불문하고 편하기 즐길 수 있는 보이병차이다.</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -378,12 +496,14 @@
 								<span class="d-flex text-bold" style="margin-left: 10px; align-items: flex-end"><span
 										style="line-height: 22px;" data-i18n>전일대비</span></span>
 								<div>
-									<span class="details--diffPercent text--medium text--bold " style="margin-left: 25px">0%
+									<span class="details--diffPercent text--medium text--bold "
+										style="margin-left: 25px">0%
 									</span>
 									<span class="details--diff text--bold d-flex"
 										style="margin-left: 12px; align-items: flex-end;margin-right: 14px;">
 										<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg=="
-											alt="" width="9" height="8.22" style="margin-right: 4px; margin-bottom: 6px">
+											alt="" width="9" height="8.22"
+											style="margin-right: 4px; margin-bottom: 6px">
 										<span id="spot-diff" class="text--bold">0</span>
 									</span>
 								</div>
@@ -417,7 +537,7 @@
 						</div>
 						<div class="d-flex" style="justify-content: space-between;">
 							<!-- //mk 시간 범위 삭제 -->
-	 						<!-- <div id="period" class="dropdown-wrapper" style="width: 100px">
+							<!-- <div id="period" class="dropdown-wrapper" style="width: 100px">
 								<button type="button" class="dropdown" data-i18n>
 									시간단위
 								</button>
@@ -456,135 +576,93 @@
 					<!------------------>
 					<!------------------>
 					<!------------------>
-					
-					<div class="tab-container">
-						<div class="tab-wrapper">
-							<div class="" style="border-bottom: 1px solid var(--linegray)">
-								<ul class="tabs">
-									<li class="tab--active tab--sell" data-target="#tab-sell">
-										<button type="button" data-i18n>팝니다</button>
-									</li>
-									<li data-target="#tab-buy" class="tab--buy">
-										<button type="button" data-i18n>삽니다</button>
-									</li>
-									<li data-target="#tab-info" class="tab--info">
-										<button type="button" data-i18n>정보</button>
-									</li>
-								</ul>
-							</div>
-							<!-- { label: '번호', name: 'Num', width: detailsWidth * 99 / 834, align: 'center', resizable: false },
-							{ label: '구분', name: 'Category', width: detailsWidth * 96 / 834, align: 'center', resizable: false },
-							{ label: '등록일', name: 'CreatedAt', width: detailsWidth * 68 / 834, align: 'center', formatter: 'date', formatoptions: {
-								srcformat: 'Y/m/d',
-								newformat: 'Y/m/d',
-							}, resizable: false },
-							{ label: '가격', name: 'Price', width: detailsWidth * 92 / 834, formatter: Exchange.Price, align: 'right', sorttype:'number', resizable: false },
-							{ label: '수량', name: 'Quantity', width: detailsWidth * 123 / 834, sorttype:'number', align: 'center', resizable: false },
-							{ label: '총액', name: 'TotalPrice', width: detailsWidth * 92 / 834, sorttype:'integer', align: 'right', formatter: Exchange.TotalPrice, resizable: false },
-							{ label: '상태', name: 'Status', width: detailsWidth * 148 / 834, align: 'center', resizable: false },
-							{ label: '거래버튼', width: detailsWidth * 70 / 834, formatter: (_cellValue) => {
-								return '<button type="button" class="btn btn--blue btn--rounded" data-toggle="modal" data-target="#modal-sell" style="width: 100%; height: 25px; line-height: 25px">판매</button>'
-							}}-->
-							<div class="tab-content" id="tab-buy">
-								<table id="buyGrid" class="grid-table">
-									<thead>
-										<tr>
-											<th data-i18n style="width: 120px;">주문번호</th>
-											<!-- <th data-i18n class="category">구분</th> -->
-											<th data-i18n style="width: 170px;">등록일</th>
-											<th data-i18n style="width: 100px;">등급</th>
-											<th data-i18n style="width: 170px;">가격</th>
-											<th data-i18n style="width: 100px;">수량</th>
-											<!-- <th data-i18n>총액</th> -->
-											<!-- <th data-i18n>상태</th> -->
-											<th data-i18n style="width: 180px;">거래버튼</th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-								<div class="text--right" style="margin-top: 20px">
-									<a href="/transaction.html" class="btn btn--white" data-i18n>거래 내역</a>
-									
-									<a href="" id="modal-buy-button" class="btn btn--white" data-toggle="modal"
-										data-target="#modal-buy-pin" data-i18n>구매 등록</a>
-								</div>
-							</div>
-							<div class="tab-content" id="tab-sell" style="display: block">
-								<table id="sellGrid" class="grid-table">
-									<thead>
-										<tr>
-											<th data-i18n style="width: 120px;">주문번호</th>
-											<!-- <th data-i18n class="category">구분</th> -->
-											<th data-i18n style="width: 170px;">등록일</th>
-											<th data-i18n style="width: 100px;">등급</th>
-											<th data-i18n style="width: 170px;">가격</th>
-											<th data-i18n style="width: 100px;">수량</th>
-											<!-- <th data-i18n>총액</th> -->
-											<!-- <th data-i18n class="status">상태</th> -->
-											<th data-i18n class="trade" style="width: 180px;">거래버튼</th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
 
-								<div class="text--right" style="margin-top: 20px">
-									<a href="/transaction.html" class="btn btn--white" data-i18n>거래 내역</a>
+					<div class="left">
+						<div class="table-header">
+							<div>주문번호</div>
+							<div>주문상태</div>
+							<div>상품가격</div>
+							<div>수량</div>
+						</div>
+						<div class="table-row">
+							<div class="order-details">1001</div>
+							<div class="order-details" style="color: blue;">매도</div>
+							<div class="order-details">1,600,000</div>
+							<div class="order-details">2</div>
+						</div>
+						<!-- 여러 줄의 데이터 추가 -->
+						<!-- ... -->
+						<div class="table-row">
+							<div class="order-details">1010</div>
+							<div class="order-details" style="color: red;">매수</div>
+							<div class="order-details">1,350,000</div>
+							<div class="order-details">1</div>
+						</div>
+					</div>
 
-									<a href="" id="modal-sell-button" class="btn btn--white" data-toggle="modal"
-										data-target="#modal-sell-pin" data-i18n>판매 등록</a>
+					<div class="right">
+						<div class="menu-item" onclick="showOrder('buy')">매수</div>
+						<div class="menu-item" onclick="showOrder('sell')">매도</div>
+						<div class="menu-item" onclick="showOrder('manage')">주문관리</div>
 
-								</div>
+						<!-- 매수 창 -->
+						<div class="order-content" id="buy-order">
+							<div class="order-input">
+								<label>주문번호:</label>
+								<input type="text" value="10003">
 							</div>
-							<div class="tab-content" id="tab-info" style="display: none">
-								<div class="info">
-									<div class="thumb">
-										<img src="./assets/img/dummy/정보.png" alt="">
-									</div>
-									<div class="info_p">
-										<table class="table">
-											<tr>
-												<th data-i18n>구분</th>
-												<td data-i18n name="meta_division"></td>
-											</tr>
-											<tr>
-												<th data-i18n>타입</th>
-												<td data-i18n name="meta_type"></td>
-											</tr>
-											<tr>
-												<th data-i18n>생산</th>
-												<td>
-													<span name="meta_produce"></span>
-												</td>
-											</tr>
-											<tr>
-												<th data-i18n>인증</th>
-												<td>
-													<div name="meta_certification_mark_name"></div>
-													<!--<div class="d-flex" style="column-gap: 10px">
-														<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
-														<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
-														<div style="width: 25px; height: 25px; background: #C4C4C4"></div>
-													</div>-->
-												</td>
-											</tr>
-											<tr>
-												<th data-i18n>소개</th>
-												<td>
-													<div style="height: 90px" class="meta_wp_teamaster_note"></div>
-												</td>
-											</tr>
-										</table>
-									</div>
-								</div>
-								<!--<div class="btns">
-									<button type="button" class="btn btn--white" data-toggle="modal"
-										data-target="#white-paper" data-i18n>백서</button>
-								</div>-->
+							<div class="order-input">
+								<label>수량:</label>
+								<input type="number" value="1" min="1" max="10">
+								<button class="order-btn">-</button>
+								<button class="order-btn">+</button>
+							</div>
+							<p></p>
+							<input type="checkbox" id="buy-checkbox">
+							<label for="buy-checkbox">여기를 체크해 주세요</label>
+							<button class="order-button">매수하기</button>
+						</div>
+
+						<!-- 매도 창 -->
+						<div class="order-content" id="sell-order">
+							<div class="order-input">
+								<label>주문번호:</label>
+								<input type="text" value="10003">
+							</div>
+							<div class="order-input">
+								<label>수량:</label>
+								<input type="number" value="1" min="1" max="10">
+								<button class="order-btn">-</button>
+								<button class="order-btn">+</button>
+							</div>
+							<p></p>
+							<input type="checkbox" id="sell-checkbox">
+							<label for="sell-checkbox">여기를 체크해 주세요</label>
+							<button class="order-button">매도하기</button>
+						</div>
+
+						<!-- 주문관리 창 -->
+						<div class="order-content" id="manage-order">
+							<div style="width: 50%; display: inline-block;">
+								<button class="order-button">미체결</button>
+							</div>
+							<div style="width: 50%; display: inline-block;">
+								<button class="order-button">체결</button>
+							</div>
+						</div>
+
+						<!-- 주문 취소 창 -->
+						<div class="cancel-order-content">
+							<!-- 주문번호 리스트를 스크롤로 나열 -->
+							<!-- ... -->
+							<div>
+								<p>거래수수료 : 5%</p>
+								<p>부가 가치세 : 10%</p>
+								<button class="cancel-order-button" onclick="alert('클릭한번호')">주문 취소</button>
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</main>
 		</div>
@@ -669,7 +747,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- 로그인Pin -->
 		<form id="modal-pin" class="modal modal--tiny form-order" tabindex="-1">
 			<div class="modal--dialog">
@@ -779,9 +857,9 @@
 						<dd style="width: 220px">
 							<div class="input_select">
 								<div class="input text--center">
-								<input type="text" name="goods_grade" readonly="readonly">
-							</div>
-							<!--<div class="input_select" style="display:none;">
+									<input type="text" name="goods_grade" readonly="readonly">
+								</div>
+								<!--<div class="input_select" style="display:none;">
 									<option value="S">S</option>
 									<option value="A">A</option>
 									<option value="B">B</option>
@@ -802,10 +880,11 @@
 						</dd>
 					</dl>
 					<dl id="dl_agree">
-					    <label>
-							<input type="checkbox" name="use_agreement" value="use_agreement" style="width: 17px;height: 17px;"> 이용약관 및 위탁보관 동의
+						<label>
+							<input type="checkbox" name="use_agreement" value="use_agreement"
+								style="width: 17px;height: 17px;"> 이용약관 및 위탁보관 동의
 						</label>
-					    <a href="#" onClick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
+						<a href="#" onClick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
 					</dl>
 					<div class="text--center" style="margin-top: 7px"><button type="submit"
 							class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"
@@ -906,10 +985,11 @@
 						</dd>
 					</dl>
 					<dl id="dl_agree">
-					    <label>
-							<input type="checkbox" name="use_agreement" value="use_agreement" style="width: 17px;height: 17px;"> 이용약관 및 위탁보관 동의
+						<label>
+							<input type="checkbox" name="use_agreement" value="use_agreement"
+								style="width: 17px;height: 17px;"> 이용약관 및 위탁보관 동의
 						</label>
-					    <a href="#" onClick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
+						<a href="#" onClick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
 					</dl>
 					<div class="text--center" style="margin-top: 7px"><button type="submit"
 							class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px"
@@ -995,9 +1075,9 @@
 						<dd style="width: 220px">
 							<div class="input_select">
 								<div class="input text--center">
-								<input type="text" name="goods_grade" readonly="readonly">
-							</div>
-							<!--<div class="input_select" style="display:none;">
+									<input type="text" name="goods_grade" readonly="readonly">
+								</div>
+								<!--<div class="input_select" style="display:none;">
 								<select name="goods_grade" class="text--center">
 									<option value="S">S</option>
 									<option value="A">A</option>
@@ -1019,10 +1099,11 @@
 						</dd>
 					</dl>
 					<dl id="dl_agree">
-					    <label>
-							<input type="checkbox" name="use_agreement" value="use_agreement" style="width: 17px;height: 17px;"> 이용약관 및 위탁보관 동의
+						<label>
+							<input type="checkbox" name="use_agreement" value="use_agreement"
+								style="width: 17px;height: 17px;"> 이용약관 및 위탁보관 동의
 						</label>
-					    <a href="#" onClick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
+						<a href="#" onClick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
 					</dl>
 					<div class="text--center" style="margin-top: 7px"><button type="submit"
 							class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px"
@@ -1123,10 +1204,11 @@
 						</dd>
 					</dl>
 					<dl id="dl_agree">
-					    <label>
-							<input type="checkbox" name="use_agreement" value="use_agreement" style="width: 17px;height: 17px;"> 이용약관 및 위탁보관 동의
+						<label>
+							<input type="checkbox" name="use_agreement" value="use_agreement"
+								style="width: 17px;height: 17px;"> 이용약관 및 위탁보관 동의
 						</label>
-					    <a href="#" onClick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
+						<a href="#" onClick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
 					</dl>
 					<div class="text--center" style="margin-top: 7px"><button type="submit"
 							class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px"
@@ -1419,22 +1501,105 @@
 	</footer> -->
 	<script src="./assets/js/exchange.js?t=1672721688" defer></script>
 	<script>
-        function performSearch() {
-          const query = searchInput.value.trim();
-          if (query !== '') {
-			console.log('검색 : ' + query);
-          }
-          return false; // Prevent form submission
-        }
+		function performSearch() {
+			const query = searchInput.value.trim();
+			if (query !== '') {
+				console.log('검색 : ' + query);
+			}
+			return false; // Prevent form submission
+		}
 
-		document.getElementById("tea_info_tab").addEventListener("click", function() {
+		document.getElementById("tea_info_tab").addEventListener("click", function () {
 			$("#tab-info").show();
 			$(".chart").hide();
 		});
-		document.getElementById("tea_chart_tab").addEventListener("click", function() {
+		document.getElementById("tea_chart_tab").addEventListener("click", function () {
 			$("#tab-info").hide();
-			$(".chart").show();R
+			$(".chart").show(); R
 		});
+
+		//하단 스크립트
+		const data = [
+			{ orderNumber: 1001, orderStatus: '매도', productPrice: 1600000, quantity: 2 },
+			{ orderNumber: 1002, orderStatus: '매도', productPrice: 1550000, quantity: 3 },
+			{ orderNumber: 1004, orderStatus: '매도', productPrice: 1530000, quantity: 1 },
+			{ orderNumber: 1003, orderStatus: '매도', productPrice: 1500000, quantity: 2 },
+			{ orderNumber: 1009, orderStatus: '매수', productPrice: 1490000, quantity: 2 },
+			{ orderNumber: 1007, orderStatus: '매수', productPrice: 1480000, quantity: 3 },
+			{ orderNumber: 1006, orderStatus: '매수', productPrice: 1400000, quantity: 3 },
+			{ orderNumber: 1010, orderStatus: '매수', productPrice: 1350000, quantity: 1 }
+		];
+
+		// 주문목록을 생성하는 함수
+		function createOrderList() {
+			const table = document.querySelector('.left');
+			table.innerHTML = '';
+			const tableHeader = document.createElement('div');
+			tableHeader.className = 'table-header';
+			tableHeader.innerHTML = `
+        <div>주문번호</div>
+        <div>주문상태</div>
+        <div>상품가격</div>
+        <div>수량</div>
+      `;
+			table.appendChild(tableHeader);
+
+			for (const item of data) {
+				const tableRow = document.createElement('div');
+				tableRow.className = 'table-row';
+				tableRow.innerHTML = `
+          <div class="order-details">${item.orderNumber}</div>
+          <div class="order-details" style="color: ${item.orderStatus === '매도' ? 'blue' : 'red'};">${item.orderStatus}</div>
+          <div class="order-details">${item.productPrice.toLocaleString()}</div>
+          <div class="order-details">${item.quantity}</div>
+        `;
+				table.appendChild(tableRow);
+			}
+		}
+
+		// 초기화 함수 실행
+		createOrderList();
+
+		// 매수, 매도, 주문관리 창을 토글하는 함수
+		function toggleOrderContent(orderType) {
+			const orderContents = document.querySelectorAll('.order-content');
+			for (const orderContent of orderContents) {
+				orderContent.style.display = 'none';
+			}
+			document.getElementById(`${orderType}-order`).style.display = 'block';
+		}
+
+		// 주문취소 창의 주문번호 리스트를 생성하는 함수
+		function createCancelOrderList() {
+			const cancelOrderContent = document.getElementById('cancel-order-content');
+			cancelOrderContent.innerHTML = '';
+			const cancelOrderList = document.createElement('div');
+			cancelOrderList.style.height = '440px';
+			cancelOrderList.style.overflowY = 'scroll';
+			for (const item of data) {
+				const orderCheckbox = document.createElement('input');
+				orderCheckbox.type = 'checkbox';
+				orderCheckbox.value = item.orderNumber;
+				orderCheckbox.id = `order-${item.orderNumber}`;
+				const orderLabel = document.createElement('label');
+				orderLabel.htmlFor = `order-${item.orderNumber}`;
+				orderLabel.innerText = `주문번호 ${item.orderNumber}`;
+				const orderRow = document.createElement('div');
+				orderRow.appendChild(orderCheckbox);
+				orderRow.appendChild(orderLabel);
+				cancelOrderList.appendChild(orderRow);
+			}
+			cancelOrderContent.appendChild(cancelOrderList);
+		}
+
+		// 매수, 매도, 주문관리 클릭 이벤트 추가
+		document.querySelector('.menu-item:nth-child(1)').addEventListener('click', () => toggleOrderContent('buy'));
+		document.querySelector('.menu-item:nth-child(2)').addEventListener('click', () => toggleOrderContent('sell'));
+		document.querySelector('.menu-item:nth-child(3)').addEventListener('click', () => toggleOrderContent('manage'));
+
+		// 주문취소 창의 주문번호 리스트를 생성하고 숨깁니다.
+		createCancelOrderList();
+		document.getElementById('cancel-order-content').style.display = 'none';
 	</script>
 	<script src="./assets/js/app.js?t=1672042800"></script>
 </body>
