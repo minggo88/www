@@ -137,7 +137,7 @@
 		.left {
 			flex: 1;
 			border: 2px solid black;
-			padding: 10px;
+			padding: 0px 10px 10px 10px;
 		}
 
 		.table-row {
@@ -162,7 +162,7 @@
 		.right {
 			flex: 1;
 			border: 2px solid black;
-			padding: 10px;
+			padding: 0px 10px 10px 10px;
 		}
 
 		.menu-item {
@@ -583,10 +583,10 @@
 					<div class="check_div">
 						<div class="left">
 							<div class="table-header">
-								<div>주문번호</div>
-								<div>주문상태</div>
-								<div>상품가격</div>
-								<div>수량</div>
+								<span>주문번호</span>
+								<span>주문상태</span>
+								<span>상품가격</span>
+								<span>수량</span>
 							</div>
 							<div class="table-row">
 								<div class="order-details">1001</div>
@@ -605,9 +605,9 @@
 						</div>
 
 						<div class="right">
-							<div class="menu-item" onclick="showOrder('buy')">매수</div>
-							<div class="menu-item" onclick="showOrder('sell')">매도</div>
-							<div class="menu-item" onclick="showOrder('manage')">주문관리</div>
+							<span class="menu-item" onclick="showOrder('buy')">매수</span>
+							<span class="menu-item" onclick="showOrder('sell')">매도</span>
+							<span class="menu-item" onclick="showOrder('manage')">주문관리</span>
 
 							<!-- 매수 창 -->
 							<div class="order-content" id="buy-order">
