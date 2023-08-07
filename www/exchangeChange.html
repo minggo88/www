@@ -129,6 +129,10 @@
 		}
 
 		/*하단부css*/
+		.check_div {
+			display: flex;
+			width: 100%;
+		}
 		/* 왼쪽 화면 스타일 */
 		.left {
 			flex: 1;
@@ -576,93 +580,93 @@
 					<!------------------>
 					<!------------------>
 					<!------------------>
-
-					<div class="left">
-						<div class="table-header">
-							<div>주문번호</div>
-							<div>주문상태</div>
-							<div>상품가격</div>
-							<div>수량</div>
-						</div>
-						<div class="table-row">
-							<div class="order-details">1001</div>
-							<div class="order-details" style="color: blue;">매도</div>
-							<div class="order-details">1,600,000</div>
-							<div class="order-details">2</div>
-						</div>
-						<!-- 여러 줄의 데이터 추가 -->
-						<!-- ... -->
-						<div class="table-row">
-							<div class="order-details">1010</div>
-							<div class="order-details" style="color: red;">매수</div>
-							<div class="order-details">1,350,000</div>
-							<div class="order-details">1</div>
-						</div>
-					</div>
-
-					<div class="right">
-						<div class="menu-item" onclick="showOrder('buy')">매수</div>
-						<div class="menu-item" onclick="showOrder('sell')">매도</div>
-						<div class="menu-item" onclick="showOrder('manage')">주문관리</div>
-
-						<!-- 매수 창 -->
-						<div class="order-content" id="buy-order">
-							<div class="order-input">
-								<label>주문번호:</label>
-								<input type="text" value="10003">
+					<div class="check_div">
+						<div class="left">
+							<div class="table-header">
+								<div>주문번호</div>
+								<div>주문상태</div>
+								<div>상품가격</div>
+								<div>수량</div>
 							</div>
-							<div class="order-input">
-								<label>수량:</label>
-								<input type="number" value="1" min="1" max="10">
-								<button class="order-btn">-</button>
-								<button class="order-btn">+</button>
+							<div class="table-row">
+								<div class="order-details">1001</div>
+								<div class="order-details" style="color: blue;">매도</div>
+								<div class="order-details">1,600,000</div>
+								<div class="order-details">2</div>
 							</div>
-							<p></p>
-							<input type="checkbox" id="buy-checkbox">
-							<label for="buy-checkbox">여기를 체크해 주세요</label>
-							<button class="order-button">매수하기</button>
-						</div>
-
-						<!-- 매도 창 -->
-						<div class="order-content" id="sell-order">
-							<div class="order-input">
-								<label>주문번호:</label>
-								<input type="text" value="10003">
-							</div>
-							<div class="order-input">
-								<label>수량:</label>
-								<input type="number" value="1" min="1" max="10">
-								<button class="order-btn">-</button>
-								<button class="order-btn">+</button>
-							</div>
-							<p></p>
-							<input type="checkbox" id="sell-checkbox">
-							<label for="sell-checkbox">여기를 체크해 주세요</label>
-							<button class="order-button">매도하기</button>
-						</div>
-
-						<!-- 주문관리 창 -->
-						<div class="order-content" id="manage-order">
-							<div style="width: 50%; display: inline-block;">
-								<button class="order-button">미체결</button>
-							</div>
-							<div style="width: 50%; display: inline-block;">
-								<button class="order-button">체결</button>
-							</div>
-						</div>
-
-						<!-- 주문 취소 창 -->
-						<div class="cancel-order-content">
-							<!-- 주문번호 리스트를 스크롤로 나열 -->
+							<!-- 여러 줄의 데이터 추가 -->
 							<!-- ... -->
-							<div>
-								<p>거래수수료 : 5%</p>
-								<p>부가 가치세 : 10%</p>
-								<button class="cancel-order-button" onclick="alert('클릭한번호')">주문 취소</button>
+							<div class="table-row">
+								<div class="order-details">1010</div>
+								<div class="order-details" style="color: red;">매수</div>
+								<div class="order-details">1,350,000</div>
+								<div class="order-details">1</div>
+							</div>
+						</div>
+
+						<div class="right">
+							<div class="menu-item" onclick="showOrder('buy')">매수</div>
+							<div class="menu-item" onclick="showOrder('sell')">매도</div>
+							<div class="menu-item" onclick="showOrder('manage')">주문관리</div>
+
+							<!-- 매수 창 -->
+							<div class="order-content" id="buy-order">
+								<div class="order-input">
+									<label>주문번호:</label>
+									<input type="text" value="10003">
+								</div>
+								<div class="order-input">
+									<label>수량:</label>
+									<input type="number" value="1" min="1" max="10">
+									<button class="order-btn">-</button>
+									<button class="order-btn">+</button>
+								</div>
+								<p></p>
+								<input type="checkbox" id="buy-checkbox">
+								<label for="buy-checkbox">여기를 체크해 주세요</label>
+								<button class="order-button">매수하기</button>
+							</div>
+
+							<!-- 매도 창 -->
+							<div class="order-content" id="sell-order">
+								<div class="order-input">
+									<label>주문번호:</label>
+									<input type="text" value="10003">
+								</div>
+								<div class="order-input">
+									<label>수량:</label>
+									<input type="number" value="1" min="1" max="10">
+									<button class="order-btn">-</button>
+									<button class="order-btn">+</button>
+								</div>
+								<p></p>
+								<input type="checkbox" id="sell-checkbox">
+								<label for="sell-checkbox">여기를 체크해 주세요</label>
+								<button class="order-button">매도하기</button>
+							</div>
+
+							<!-- 주문관리 창 -->
+							<div class="order-content" id="manage-order">
+								<div style="width: 50%; display: inline-block;">
+									<button class="order-button">미체결</button>
+								</div>
+								<div style="width: 50%; display: inline-block;">
+									<button class="order-button">체결</button>
+								</div>
+							</div>
+
+							<!-- 주문 취소 창 -->
+							<div class="cancel-order-content">
+								<!-- 주문번호 리스트를 스크롤로 나열 -->
+								<!-- ... -->
+								<div>
+									<p>거래수수료 : 5%</p>
+									<p>부가 가치세 : 10%</p>
+									<button class="cancel-order-button" onclick="alert('클릭한번호')">주문 취소</button>
+								</div>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</main>
 		</div>
