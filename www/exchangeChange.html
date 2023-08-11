@@ -654,7 +654,7 @@
 
 						<div class="right">
 							<div class="right_title">
-								<span class="menu-item" id="right_buy" >매수</span>
+								<span class="menu-item" id="right_buy" style="color: var(--red-up);">매수</span>
 								<span class="menu-item" id="right_sell" >매도</span>
 								<span class="menu-item" id="right_mange" >주문관리</span>
 							</div>
@@ -1708,14 +1708,32 @@
 
 		// 초기화 함수 실행
 		createOrderList();
-
+ 
 		// 매수, 매도, 주문관리 창을 토글하는 함수
-		function toggleOrderContent(orderType) {
+		function toggleOrderContent(orderType) { 
 			const orderContents = document.querySelectorAll('.order-content');
 			for (const orderContent of orderContents) {
 				orderContent.style.display = 'none';
 			}
 			document.getElementById(`${orderType}-order`).style.display = 'block';
+			
+			if(`${orderType}` ==="sell"){
+				document.getElementById(`right_sell`).style.color = '#0B2871';	
+				document.getElementById(`right_buy`).style.color = 'black';	
+				document.getElementById(`right_mange`).style.color = 'black';
+			}else if(`${orderType}` ==="buy"){
+				document.getElementById(`right_sell`).style.color = 'black';	
+				document.getElementById(`right_buy`).style.color = 'var(--red-up)';	
+				document.getElementById(`right_mange`).style.color = 'black';
+			}else{
+				document.getElementById(`right_sell`).style.color = 'black';	
+				document.getElementById(`right_buy`).style.color = 'black';	
+				document.getElementById(`right_mange`).style.color = 'var(--red-up)';
+			}
+			
+			console.log(`right_${orderType}`);
+			
+			
 		}
 
 		// 주문취소 창의 주문번호 리스트를 생성하는 함수
