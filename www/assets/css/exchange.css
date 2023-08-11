@@ -94,6 +94,9 @@ div.dts div.dataTables_scrollBody {
     letter-spacing: -0.02em;
     border-bottom: 1px solid var(--linegray);
     box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .details .details--header .tea--name{
@@ -177,7 +180,7 @@ div.dts div.dataTables_scrollBody {
     padding-top: 10px;
     column-gap: 11px;
 	width: 800px;
-	height: 500px;
+	height: 450px;
 	display: flex;
 	flex-direction: column;
 }
