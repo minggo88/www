@@ -132,37 +132,73 @@
 		.check_div {
 			display: flex;
 			width: 100%;
+			border-top: 2px solid black;
 		}
 		/* 왼쪽 화면 스타일 */
 		.left {
 			flex: 1;
-			border: 2px solid black;
-			padding: 0px 10px 10px 10px;
+			border-right: 1px solid black;
 		}
 
 		.table-row {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			padding: 5px 0;
 			cursor: pointer;
-			color: blue;
+			color: #0B2871;
+			text-align: center;
+			border-bottom: 1px solid #ccc;
+		}
+
+		.table-row .order-details{
+			flex-basis: 25%;
+			padding: 7px 0;
 			text-align: center;
 		}
 
 		.table-row:hover {
 			background-color: #f0f0f0;
 		}
+		
+		/* 주문 추가창 */
+		.order-details-minus {
+		  text-align: center;
+			padding: 7px 0;
+			border-bottom: 1px solid #ccc;
+		}
+
+		.order-details-minus:hover {
+			background-color: #f0f0f0;
+			cursor: pointer;
+		}
 
 		.table-header {
 			font-weight: bold;
+			display: flex;
+			padding: 7px 0;
+			border-bottom: 1px solid #ccc;
+		}
+		.table-header span {
+			flex-basis: 25%;
+			padding: 1px;
+			text-align: center;
 		}
 
 		/* 오른쪽 화면 스타일 */
 		.right {
 			flex: 1;
-			border: 2px solid black;
-			padding: 0px 10px 10px 10px;
+		}
+		
+		.right_title {
+			font-weight: bold;
+			display: flex;
+			border-bottom: 1px solid #ccc;
+			padding: 7px 0;
+		}
+		.right_title span {
+			flex-basis: 33%;
+			padding: 1px;
+			text-align: center;
 		}
 
 		.menu-item {
@@ -187,7 +223,7 @@
 		}
 
 		.order-button {
-			background-color: blue;
+			background-color: #0B2871;
 			color: white;
 			padding: 10px;
 			cursor: pointer;
@@ -201,7 +237,7 @@
 		}
 
 		.order-btn {
-			background-color: blue;
+			background-color: #0B2871;
 			color: white;
 			padding: 5px 10px;
 			cursor: pointer;
@@ -229,6 +265,8 @@
 			width: 378px;
 			margin: 10px auto;
 		}
+
+		
 	</style>
 
 </head>
@@ -588,9 +626,12 @@
 								<span>상품가격</span>
 								<span>수량</span>
 							</div>
+							<div class="table-row-add">
+								  <div class="order-details-minus" style="color: #0B2871;">매도 주문 더보기</div>
+							</div>
 							<div class="table-row">
 								<div class="order-details">1001</div>
-								<div class="order-details" style="color: blue;">매도</div>
+								<div class="order-details" style="color: #0B2871;">매도</div>
 								<div class="order-details">1,600,000</div>
 								<div class="order-details">2</div>
 							</div>
@@ -598,51 +639,130 @@
 							<!-- ... -->
 							<div class="table-row">
 								<div class="order-details">1010</div>
-								<div class="order-details" style="color: red;">매수</div>
+								<div class="order-details" style="color: var(--red-up);">매수</div>
 								<div class="order-details">1,350,000</div>
 								<div class="order-details">1</div>
+							</div>
+
+							<div class="table-row-add">
+								  <div class="order-details-plus" style="color: var(--red-up);">매수 주문 더보기</div>
 							</div>
 						</div>
 
 						<div class="right">
-							<span class="menu-item" onclick="showOrder('buy')">매수</span>
-							<span class="menu-item" onclick="showOrder('sell')">매도</span>
-							<span class="menu-item" onclick="showOrder('manage')">주문관리</span>
+							<div class="right_title">
+								<span class="menu-item" id="right_buy" >매수</span>
+								<span class="menu-item" id="right_sell" >매도</span>
+								<span class="menu-item" id="right_mange" >주문관리</span>
+							</div>
 
 							<!-- 매수 창 -->
-							<div class="order-content" id="buy-order">
-								<div class="order-input">
-									<label>주문번호:</label>
-									<input type="text" value="10003">
+							<div class="order-content" id="buy-order" style="display: block;">
+								<div class="modal--content">
+									<div class="text--blue-gray" style="display:none; padding-left: 4px;margin-top: 6px;margin-bottom: 10px" name="orderid"></div>
+									<dl style="margin-bottom: 10px">
+										<dt data-i18n="">등급</dt>
+										<dd class="input_select" type="text" name="goods_grade" readonly="readonly" style="display: block;">S등급</dd>
+									</dl>
+									<dl class="tea--" style="margin-bottom: 13px;">
+										<dt data-i18n="">구매가능금액</dt>
+										<dd class="tea--available" style="display: block;">26,000 KRW</dd>
+									</dl>
+									<dl>
+										<dt data-i18n="">가격</dt>
+										<dd style="width: 220px">
+											<div class="input">
+												<input type="text" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
+											</div>
+										</dd>
+									</dl>															
+									<dl style="margin-bottom: 10px">
+										<dt data-i18n="">수량</dt>
+										<dd style="width: 220px">
+											<div class="input--spiner">
+												<input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
+												<div class="d-flex">
+													<button type="button" class="spiner-minus"></button>
+													<button type="button" class="spiner-plus"></button>
+												</div>
+											</div>
+										</dd>
+									</dl>
+									
+									<dl class="tea--price">
+										<dt data-i18n="">총액</dt>
+										<dd style="width: 220px">
+											<div class="input">
+												<input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
+											</div>
+										</dd>
+									</dl>
+									<p style="margin: 0px; font-size:12px; text-align: right;">거래수수료 : 5%</p>
+									
+									<dl id="dl_agree" style="margin-top: 0px;">
+										<label>
+											<input type="checkbox" name="use_agreement" value="use_agreement" style="width: 17px;height: 17px;"><span>이용약관 및 위탁보관 동의</span> 
+											<a href="#" name="use_agreement" onclick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
+										</label>
+										<span style="font-size:12px">부가가치세 : 10%</span>
+									</dl>
+									<div class="text--center" style="margin-top: 7px"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">구매하기</button></div>
 								</div>
-								<div class="order-input">
-									<label>수량:</label>
-									<input type="number" value="1" min="1" max="10">
-									<button class="order-btn">-</button>
-									<button class="order-btn">+</button>
-								</div>
-								<p></p>
-								<input type="checkbox" id="buy-checkbox">
-								<label for="buy-checkbox">여기를 체크해 주세요</label>
-								<button class="order-button">매수하기</button>
 							</div>
 
 							<!-- 매도 창 -->
-							<div class="order-content" id="sell-order">
-								<div class="order-input">
-									<label>주문번호:</label>
-									<input type="text" value="10003">
+							<div class="order-content" id="sell-order" >
+								<div class="modal--content">
+									<!--<i class="btn btn--star--on"></i>-->
+									<div class="text--blue-gray" style="display:none; padding-left: 4px;margin-top: 6px;margin-bottom: 10px" name="orderid"></div>
+									<dl style="margin-bottom: 10px">
+										<dt data-i18n="">등급</dt>
+										<dd class="input_select" type="text" name="goods_grade" readonly="readonly" style="display: block;">S등급</dd>
+									</dl>
+									<dl style="margin-bottom: 13px">
+										<dt data-i18n="">판매가능수량</dt>
+										<dd class="tea--available" style="display: block;">0</dd>
+									</dl>
+									<dl>
+										<dt data-i18n="">가격</dt>
+										<dd style="width: 220px">
+											<div class="input">
+												<input type="text" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
+											</div>
+										</dd>
+									</dl>
+									<dl style="margin-bottom: 10px">
+										<dt data-i18n="">수량</dt>
+										<dd style="width: 220px">
+											<div class="input--spiner">
+												<input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
+												<div class="d-flex">
+													<button type="button" class="spiner-minus"></button>
+													<button type="button" class="spiner-plus"></button>
+												</div>
+											</div>
+										</dd>
+									</dl>
+		
+									<dl>
+										<dt data-i18n="">총액</dt>
+										<dd style="width: 220px">
+											<div class="input">
+												<input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
+											</div>
+										</dd>
+									</dl>
+									<p style="margin: 0px; font-size:12px; text-align: right;">거래수수료 : 5%</p>
+									
+									<dl id="dl_agree" style="margin-top: 0px;">
+										<label>
+											<input type="checkbox" name="use_agreement" value="use_agreement" style="width: 17px;height: 17px;"><span>이용약관 및 위탁보관 동의</span> 
+											<a href="#" name="use_agreement" onclick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
+										</label>
+										<span style="font-size:12px">부가가치세 : 10%</span>
+									</dl>
+									<div class="text--center" style="margin-top: 7px"><button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">판매하기</button></div>
 								</div>
-								<div class="order-input">
-									<label>수량:</label>
-									<input type="number" value="1" min="1" max="10">
-									<button class="order-btn">-</button>
-									<button class="order-btn">+</button>
-								</div>
-								<p></p>
-								<input type="checkbox" id="sell-checkbox">
-								<label for="sell-checkbox">여기를 체크해 주세요</label>
-								<button class="order-button">매도하기</button>
 							</div>
 
 							<!-- 주문관리 창 -->
@@ -1524,14 +1644,14 @@
 
 		//하단 스크립트
 		const data = [
-			{ orderNumber: 1001, orderStatus: '매도', productPrice: 1600000, quantity: 2 },
+			{ orderNumber: 1001, orderStatus: '매도', productPrice: 16000000, quantity: 2 },
 			{ orderNumber: 1002, orderStatus: '매도', productPrice: 1550000, quantity: 3 },
 			{ orderNumber: 1004, orderStatus: '매도', productPrice: 1530000, quantity: 1 },
 			{ orderNumber: 1003, orderStatus: '매도', productPrice: 1500000, quantity: 2 },
 			{ orderNumber: 1009, orderStatus: '매수', productPrice: 1490000, quantity: 2 },
 			{ orderNumber: 1007, orderStatus: '매수', productPrice: 1480000, quantity: 3 },
 			{ orderNumber: 1006, orderStatus: '매수', productPrice: 1400000, quantity: 3 },
-			{ orderNumber: 1010, orderStatus: '매수', productPrice: 1350000, quantity: 1 }
+			{ orderNumber: 1010, orderStatus: '매수', productPrice: 1350000, quantity: 11 }
 		];
 
 		// 주문목록을 생성하는 함수
@@ -1548,17 +1668,35 @@
       `;
 			table.appendChild(tableHeader);
 
+			const tableRowAdd = document.createElement('div');
+			tableRowAdd.className = 'table-row-add';
+			tableRowAdd.innerHTML = `
+			  <div class="order-details-minus" style="color: #0B2871;" onclick="showDivPlus('1')">매도 주문 더보기</div>
+			`;
+			table.appendChild(tableRowAdd);
+
+			const orderList = document.createElement('div');
+			orderList.className = 'order-list';
+			table.appendChild(orderList);
+
 			for (const item of data) {
 				const tableRow = document.createElement('div');
 				tableRow.className = 'table-row';
 				tableRow.innerHTML = `
-          <div class="order-details">${item.orderNumber}</div>
-          <div class="order-details" style="color: ${item.orderStatus === '매도' ? 'blue' : 'red'};">${item.orderStatus}</div>
-          <div class="order-details">${item.productPrice.toLocaleString()}</div>
-          <div class="order-details">${item.quantity}</div>
-        `;
-				table.appendChild(tableRow);
+		          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.orderNumber}</div>
+		          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.orderStatus}</div>
+		          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.productPrice.toLocaleString()}</div>
+		          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.quantity}</div>
+		        `;
+				orderList.appendChild(tableRow);
 			}
+
+			const tableRowAdd2 = document.createElement('div');
+			tableRowAdd2.className = 'table-row-add';
+			tableRowAdd2.innerHTML = `
+			  <div class="order-details-minus" style="color: var(--red-up);" onclick="showDivPlus('2')">매수 주문 더보기</div>
+			`;
+			table.appendChild(tableRowAdd2);
 		}
 
 		// 초기화 함수 실행
@@ -1604,6 +1742,16 @@
 		// 주문취소 창의 주문번호 리스트를 생성하고 숨깁니다.
 		createCancelOrderList();
 		document.getElementById('cancel-order-content').style.display = 'none';
+
+		//주문 더보기
+		function showDivPlus(checkNum) {
+		    if (checkNum === '1') {
+			      alert('안녕하세요');
+			    } else if (checkNum === '2') {
+			      console.log('안녕하세요');
+			    }
+		  }
+
 	</script>
 	<script src="./assets/js/app.js?t=1672042800"></script>
 </body>
