@@ -542,6 +542,24 @@ const API = {
             }
         })
     },
+    getSearchCurrency: (symbol = null, callback) => {
+        // console.log( `${API.BASE_URL}/getCurrency/`)
+        $.ajax({
+            url: `${API.BASE_URL}/getSearchCurrency/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol: symbol
+            },
+            success: (resp) => {
+                callback(resp)
+            },
+            error: (jqXHR) => {
+                console.error(jqXHR)
+            }
+        })
+    },
     /**
      * 거래소 차트데이터
      * @param {*} symbol 
