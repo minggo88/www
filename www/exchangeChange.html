@@ -1631,26 +1631,7 @@
 	</footer> -->
 	<script src="./assets/js/exchange.js?t=1672721688" defer></script>
 	<script>
-		function performSearch() {
-			const query = searchInput.value.trim();
-			if (query !== '') {
-				console.log('검색 : ' + query);
-				API.getSearchCurrency(query, (resp) => {
-		            if (resp.success) {
-		                CURRENCY_INFO = resp.payload;
-				//이름순으로 순서 변경
-				CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
-				CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
-		                setItemGrid(CURRENCY_INFO);
-		            } else {
-		                setItemGrid(null);
-		            }
-		        });
-				window.getTradeItems = getTradeItems;
-			}
-			return false; // Prevent form submission
-		}
-
+		
 		document.getElementById("tea_info_tab").addEventListener("click", function () {
 			document.getElementById("tea_info_tab").style.color = "var(--red-up)";
 			document.getElementById("tea_chart_tab").style.color = "black";
