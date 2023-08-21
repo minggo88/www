@@ -261,12 +261,11 @@
 		}
 
 		/* 소팅 화살표 제거*/
-		table.dataTable thead>tr>th.sorting_desc:before {
+		table.dataTable thead>tr>th.sorting_desc:before,
+		table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_asc:after,
+		table.dataTable thead>tr>th.sorting_desc:after,
+		table.dataTable thead>tr>th.sorting_asc:before {
 		    display: none;
-		}
-		
-		table.dataTable thead>tr>th.sorting_desc:after {
-			display: none;
 		}
 		
 	</style>
@@ -1636,6 +1635,18 @@
 			const query = searchInput.value.trim();
 			if (query !== '') {
 				console.log('검색 : ' + query);
+				API.getSearchCurrency(query, (resp) => {
+		            if (resp.success) {
+		                CURRENCY_INFO = resp.payload;
+				//이름순으로 순서 변경
+				CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
+				CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
+		                setItemGrid(CURRENCY_INFO);
+		            } else {
+		                setItemGrid(null);
+		            }
+		        });
+				window.getTradeItems = getTradeItems;
 			}
 			return false; // Prevent form submission
 		}
