@@ -1385,24 +1385,6 @@ $(function() {
     }
     window.getTradeItems = getTradeItems;
 
-    //검색기능 추가
-    function performSearch() {
-        const query = searchInput.value.trim();
-        if (query !== '') {
-            console.log('검색 : ' + query);
-            API.getSearchCurrency(query, (resp) => {
-                if (resp.success) {
-                    CURRENCY_INFO = resp.payload;
-                    setItemGrid(CURRENCY_INFO);
-                } else {
-                    setItemGrid(null);
-                }
-            });
-            window.getTradeItems = getTradeItems;
-        }
-        return false; // Prevent form submission
-    }
-
     // 종목 구분 탭 클릭시 종목목록 조회
     $('[name=tab_item]').on('click', function () { 
         if ($(this).parent().hasClass('tab--active')) { return false; } // active 에서 중지
