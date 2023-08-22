@@ -1374,16 +1374,38 @@ $(function() {
         API.getCurrency(symbol, (resp) => {
             if (resp.success) {
                 CURRENCY_INFO = resp.payload;
-		//이름순으로 순서 변경
-		CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
-		CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
-                setItemGrid(CURRENCY_INFO);
+            //이름순으로 순서 변경
+            //CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
+            //CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
+                    setItemGrid(CURRENCY_INFO);
             } else {
                 setItemGrid(null);
             }
         });
     }
     window.getTradeItems = getTradeItems;
+
+    ////230822
+    const performSearch = function () {
+        const query = searchInput.value.trim();
+        if (query !== '') {
+            console.log('검색 : ' + query);
+            API.getSearchCurrency(query, (resp) => {
+                if (resp.success) {
+                    CURRENCY_INFO = resp.payload;
+                    itemGrid.clear().draw();
+                   
+                    itemGrid.rows.add(data);
+			        itemGrid.order([1, 'asc']).draw();
+                   
+                } else {
+                    setItemGrid(null);
+                }
+            });
+            window.getTradeItems = getTradeItems;
+        }
+        return false; // Prevent form submission
+    }
 
     // 종목 구분 탭 클릭시 종목목록 조회
     $('[name=tab_item]').on('click', function () { 
@@ -1901,3 +1923,147 @@ window.onload = function() {
         document.body.style.transform = "rotate(0deg)";
     }
 };
+
+///// 230822 추가
+
+
+document.getElementById("tea_info_tab").addEventListener("click", function () {
+    document.getElementById("tea_info_tab").style.color = "var(--red-up)";
+    document.getElementById("tea_chart_tab").style.color = "black";
+    $("#tab-info").show();
+    $(".chart").hide();
+});
+document.getElementById("tea_chart_tab").addEventListener("click", function () {
+    document.getElementById("tea_chart_tab").style.color = "var(--red-up)";
+    document.getElementById("tea_info_tab").style.color = "black";
+    $("#tab-info").hide();
+    $(".chart").show(); R
+});
+
+//하단 스크립트
+const data = [
+    { orderNumber: 1001, orderStatus: '매도', productPrice: 16000000, quantity: 2 },
+    { orderNumber: 1002, orderStatus: '매도', productPrice: 1550000, quantity: 3 },
+    { orderNumber: 1004, orderStatus: '매도', productPrice: 1530000, quantity: 1 },
+    { orderNumber: 1003, orderStatus: '매도', productPrice: 1500000, quantity: 2 },
+    { orderNumber: 1009, orderStatus: '매수', productPrice: 1490000, quantity: 2 },
+    { orderNumber: 1007, orderStatus: '매수', productPrice: 1480000, quantity: 3 },
+    { orderNumber: 1006, orderStatus: '매수', productPrice: 1400000, quantity: 3 },
+    { orderNumber: 1010, orderStatus: '매수', productPrice: 1350000, quantity: 11 }
+];
+
+// 주문목록을 생성하는 함수
+function createOrderList() {
+    const table = document.querySelector('.left');
+    table.innerHTML = '';
+    const tableHeader = document.createElement('div');
+    tableHeader.className = 'table-header';
+    tableHeader.innerHTML = `
+    <span>주문번호</span>
+    <span>주문상태</span>
+    <span>상품가격</span>
+    <span>수량</span>
+`;
+    table.appendChild(tableHeader);
+
+    const tableRowAdd = document.createElement('div');
+    tableRowAdd.className = 'table-row-add';
+    tableRowAdd.innerHTML = `
+      <div class="order-details-minus" style="color: #0B2871;" onclick="showDivPlus('1')">매도 주문 더보기</div>
+    `;
+    table.appendChild(tableRowAdd);
+
+    const orderList = document.createElement('div');
+    orderList.className = 'order-list';
+    table.appendChild(orderList);
+
+    for (const item of data) {
+        const tableRow = document.createElement('div');
+        tableRow.className = 'table-row';
+        tableRow.innerHTML = `
+          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.orderNumber}</div>
+          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.orderStatus}</div>
+          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.productPrice.toLocaleString()}</div>
+          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.quantity}</div>
+        `;
+        orderList.appendChild(tableRow);
+    }
+
+    const tableRowAdd2 = document.createElement('div');
+    tableRowAdd2.className = 'table-row-add';
+    tableRowAdd2.innerHTML = `
+      <div class="order-details-minus" style="color: var(--red-up);" onclick="showDivPlus('2')">매수 주문 더보기</div>
+    `;
+    table.appendChild(tableRowAdd2);
+}
+
+// 초기화 함수 실행
+createOrderList();
+
+// 매수, 매도, 주문관리 창을 토글하는 함수
+function toggleOrderContent(orderType) { 
+    const orderContents = document.querySelectorAll('.order-content');
+    for (const orderContent of orderContents) {
+        orderContent.style.display = 'none';
+    }
+    document.getElementById(`${orderType}-order`).style.display = 'block';
+    
+    if(`${orderType}` ==="sell"){
+        document.getElementById(`right_sell`).style.color = '#0B2871';	
+        document.getElementById(`right_buy`).style.color = 'black';	
+        document.getElementById(`right_mange`).style.color = 'black';
+    }else if(`${orderType}` ==="buy"){
+        document.getElementById(`right_sell`).style.color = 'black';	
+        document.getElementById(`right_buy`).style.color = 'var(--red-up)';	
+        document.getElementById(`right_mange`).style.color = 'black';
+    }else{
+        document.getElementById(`right_sell`).style.color = 'black';	
+        document.getElementById(`right_buy`).style.color = 'black';	
+        document.getElementById(`right_mange`).style.color = 'var(--red-up)';
+    }
+    
+    console.log(`right_${orderType}`);
+    
+    
+}
+
+// 주문취소 창의 주문번호 리스트를 생성하는 함수
+function createCancelOrderList() {
+    const cancelOrderContent = document.getElementById('cancel-order-content');
+    cancelOrderContent.innerHTML = '';
+    const cancelOrderList = document.createElement('div');
+    cancelOrderList.style.height = '440px';
+    cancelOrderList.style.overflowY = 'scroll';
+    for (const item of data) {
+        const orderCheckbox = document.createElement('input');
+        orderCheckbox.type = 'checkbox';
+        orderCheckbox.value = item.orderNumber;
+        orderCheckbox.id = `order-${item.orderNumber}`;
+        const orderLabel = document.createElement('label');
+        orderLabel.htmlFor = `order-${item.orderNumber}`;
+        orderLabel.innerText = `주문번호 ${item.orderNumber}`;
+        const orderRow = document.createElement('div');
+        orderRow.appendChild(orderCheckbox);
+        orderRow.appendChild(orderLabel);
+        cancelOrderList.appendChild(orderRow);
+    }
+    cancelOrderContent.appendChild(cancelOrderList);
+}
+
+// 매수, 매도, 주문관리 클릭 이벤트 추가
+document.querySelector('.menu-item:nth-child(1)').addEventListener('click', () => toggleOrderContent('buy'));
+document.querySelector('.menu-item:nth-child(2)').addEventListener('click', () => toggleOrderContent('sell'));
+document.querySelector('.menu-item:nth-child(3)').addEventListener('click', () => toggleOrderContent('manage'));
+
+// 주문취소 창의 주문번호 리스트를 생성하고 숨깁니다.
+createCancelOrderList();
+document.getElementById('cancel-order-content').style.display = 'none';
+
+//주문 더보기
+function showDivPlus(checkNum) {
+    if (checkNum === '1') {
+        alert('안녕하세요');
+    } else if (checkNum === '2') {
+        console.log('안녕하세요');
+    }
+}
