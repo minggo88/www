@@ -58,6 +58,7 @@ let SELECTED_GOODS_GRADE = 'A';
 let PIN_NUMBER_ON = 0;
 let sort_num = 0;
 let desc_data = [];
+let select_price = 0;
 
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -1051,6 +1052,10 @@ $(function() {
             SELECTED_GRADE = data.goods_grade
 	        SELECTED_GOODS_GRADE = SELECTED_GRADE
             // console.log('SELECTED_GRADE:', SELECTED_GRADE);
+            $("#buy_price").val(data.price);
+            $("#buy_val").val(1);
+            $("#sell_price").val(data.price);
+            $("#buy_val").val(1);
 
             // 로딩 애니메이션 출력
             //$('.details').addClass('loading')
@@ -1134,8 +1139,6 @@ $(function() {
                     const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==');
 
                     $('.details--price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
-                    $('#buy_price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
-                    $('#sell_price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
                     $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').siblings('img').attr('src', diff_icon)
