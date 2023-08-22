@@ -57,6 +57,7 @@ let CHART_TIMER
 let SELECTED_GOODS_GRADE = 'A';
 let PIN_NUMBER_ON = 0;
 let sort_num = 0;
+let desc_data = [];
 
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -1133,6 +1134,8 @@ $(function() {
                     const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==');
 
                     $('.details--price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
+                    $('#buy_price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
+                    $('#sell_price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
                     $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
                     $('#spot-diff').siblings('img').attr('src', diff_icon)
@@ -1191,7 +1194,7 @@ $(function() {
             }
         }
     })
-    /*.on('draw.dt', () => {
+    .on('draw.dt', () => {
     
         const api = new $.fn.dataTable.Api( '#jqGrid' );
         const REQUEST_SYMBOL = getURLParameter('symbol')
@@ -1217,7 +1220,7 @@ $(function() {
             }
         }
     
-    })*/
+    })
     .DataTable({
         data: [],
         scrollY: 820,
@@ -1230,7 +1233,6 @@ $(function() {
                 render: (data, _type, row) => {
                     const classOn = row.like == 'Y' ? 'btn--star--on' : 'btn--star'
                     // 버튼
-					console.log(data)
                     if (isMobile) {
                         return `<button type="button" class="btn ${classOn}" data-star-idx="${row.idx}"></button><span id="item_name" onclick="mobile_title_click()">${data}</span>`
                     }else{
@@ -1348,13 +1350,12 @@ $(function() {
         lengthChange: false,
         select: true,
         info: false,
-        paging: false,
-        order: [[1, 'desc']],
+        paging: false
     })
 
     const setItemGrid = function (data) {
         // console.log('setItemGrid START');
-        itemGrid.clear().draw();
+        itemGrid.clear();
         if (data) {
             //itemGrid.rows.add(data).draw();
 			itemGrid.rows.add(data);
@@ -1364,9 +1365,8 @@ $(function() {
 
 	$(".name:eq(0)").click(function() {
 		if(sort_num<1){
-			console.log(CURRENCY_INFO);
 			itemGrid.clear().draw();
-			itemGrid.rows.add(CURRENCY_INFO);
+			itemGrid.rows.add(desc_data);
 			itemGrid.order([4, 'desc']).draw();	
 			sort_num = 1;
 		}else{
@@ -1396,7 +1396,10 @@ $(function() {
             //이름순으로 순서 변경
             //CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
             //CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
-                    setItemGrid(CURRENCY_INFO);
+				for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
+				    desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
+				}
+				setItemGrid(CURRENCY_INFO);
             } else {
                 setItemGrid(null);
             }
