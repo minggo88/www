@@ -642,3 +642,7 @@ div.dts div.dataTables_scrollBody {
 #dl_agree label input{
 	margin-right:10px;
 }
+
+.name.dt-body-left.dt-head-center:hover {
+	cursor: pointer;
+}

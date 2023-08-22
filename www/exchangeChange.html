@@ -682,7 +682,7 @@
 										<dt data-i18n="">가격</dt>
 										<dd style="width: 220px">
 											<div class="input">
-												<input type="text" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
+												<input type="text" id="buy_price" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
 											</div>
 										</dd>
 									</dl>															
@@ -690,7 +690,7 @@
 										<dt data-i18n="">수량</dt>
 										<dd style="width: 220px">
 											<div class="input--spiner">
-												<input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
+												<input type="number" id="buy_val" name="volume" class="onlynum" value="0" min="0" step="any">
 												<div class="d-flex">
 													<button type="button" class="spiner-minus"></button>
 													<button type="button" class="spiner-plus"></button>
@@ -703,7 +703,7 @@
 										<dt data-i18n="">총액</dt>
 										<dd style="width: 220px">
 											<div class="input">
-												<input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
+												<input type="text" id="buy_total" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
 											</div>
 										</dd>
 									</dl>
@@ -737,7 +737,7 @@
 										<dt data-i18n="">가격</dt>
 										<dd style="width: 220px">
 											<div class="input">
-												<input type="text" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
+												<input type="text" id="sell_price" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
 											</div>
 										</dd>
 									</dl>
@@ -745,7 +745,7 @@
 										<dt data-i18n="">수량</dt>
 										<dd style="width: 220px">
 											<div class="input--spiner">
-												<input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
+												<input type="number" id="sell_val" name="volume" class="onlynum" value="0" min="0" step="any">
 												<div class="d-flex">
 													<button type="button" class="spiner-minus"></button>
 													<button type="button" class="spiner-plus"></button>
@@ -758,7 +758,7 @@
 										<dt data-i18n="">총액</dt>
 										<dd style="width: 220px">
 											<div class="input">
-												<input type="text" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
+												<input type="text" id="sell_total" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
 											</div>
 										</dd>
 									</dl>
