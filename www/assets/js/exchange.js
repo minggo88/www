@@ -1354,7 +1354,9 @@ $(function() {
         // console.log('setItemGrid START');
         itemGrid.clear().draw();
         if (data) {
-            itemGrid.rows.add(data).draw();
+            //itemGrid.rows.add(data).draw();
+			itemGrid.rows.add(data);
+			itemGrid.order([1, 'asc']).draw();
         }
     }
 
