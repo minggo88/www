@@ -1,7 +1,7 @@
 setTimeout(function() {
-	$("#title_1").hide()
-	$("#title_1_on").show()
-}, 500);
+	$("#title_1_on").show();
+	$("#title_1").hide();
+}, 190);
 
 let USER_INFO = {}
 API.getMyInfo((resp) => {
@@ -56,6 +56,7 @@ let SELECTED_EXCHANGE = getURLParameter('exchange') || 'KRW'
 let CHART_TIMER
 let SELECTED_GOODS_GRADE = 'A';
 let PIN_NUMBER_ON = 0;
+let sort_num = 0;
 
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -1190,7 +1191,7 @@ $(function() {
             }
         }
     })
-    .on('draw.dt', () => {
+    /*.on('draw.dt', () => {
     
         const api = new $.fn.dataTable.Api( '#jqGrid' );
         const REQUEST_SYMBOL = getURLParameter('symbol')
@@ -1216,7 +1217,7 @@ $(function() {
             }
         }
     
-    })
+    })*/
     .DataTable({
         data: [],
         scrollY: 820,
@@ -1229,6 +1230,7 @@ $(function() {
                 render: (data, _type, row) => {
                     const classOn = row.like == 'Y' ? 'btn--star--on' : 'btn--star'
                     // 버튼
+					console.log(data)
                     if (isMobile) {
                         return `<button type="button" class="btn ${classOn}" data-star-idx="${row.idx}"></button><span id="item_name" onclick="mobile_title_click()">${data}</span>`
                     }else{
@@ -1315,7 +1317,7 @@ $(function() {
                 targets: 'name',
                 className: 'dt-body-left',
                 type: 'title-string',
-                "orderable": true,
+                "orderable": false,
                 responsivePriority: 1
             },
             {
@@ -1347,7 +1349,7 @@ $(function() {
         select: true,
         info: false,
         paging: false,
-        order: [[0, 'desc']],
+        order: [[1, 'desc']],
     })
 
     const setItemGrid = function (data) {
@@ -1356,9 +1358,24 @@ $(function() {
         if (data) {
             //itemGrid.rows.add(data).draw();
 			itemGrid.rows.add(data);
-			itemGrid.order([1, 'asc']).draw();
+			itemGrid.order([4, 'asc']).draw();
         }
     }
+
+	$(".name:eq(0)").click(function() {
+		if(sort_num<1){
+			console.log(CURRENCY_INFO);
+			itemGrid.clear().draw();
+			itemGrid.rows.add(CURRENCY_INFO);
+			itemGrid.order([4, 'desc']).draw();	
+			sort_num = 1;
+		}else{
+			itemGrid.clear().draw();
+			itemGrid.rows.add(CURRENCY_INFO);
+			itemGrid.order([4, 'asc']).draw();
+			sort_num = 0;
+		}
+	});
 
     const getTradeItems = function (type) {
         let symbol = 'ALL';
