@@ -1410,27 +1410,39 @@ $(function() {
     }
     window.getTradeItems = getTradeItems;
 
+    // Get references to the input element and the search button
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.querySelector('.search-button');
+
+    // Add a keydown event listener to the input element
+    searchInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            performSearch(); // Call the performSearch function when Enter key is pressed
+        }
+    });
+	
     ////230822
     const performSearch = function () {
-        const query = searchInput.value.trim();
-        if (query !== '') {
-            console.log('검색 : ' + query);
-            API.getSearchCurrency(query, (resp) => {
-                if (resp.success) {
-                    CURRENCY_INFO = resp.payload;
-                    itemGrid.clear().draw();
-                   
-                    itemGrid.rows.add(data);
+	    const query = searchInput.value.trim();
+	    if (query !== '') {
+	        console.log('검색 : ' + query);
+	        API.getSearchCurrency(query, (resp) => {
+	            if (resp.success) {
+	                CURRENCY_INFO = resp.payload;
+	                itemGrid.clear().draw();
+	               
+	                itemGrid.rows.add(CURRENCY_INFO);
 			        itemGrid.order([1, 'asc']).draw();
-                   
-                } else {
-                    setItemGrid(null);
-                }
-            });
-            window.getTradeItems = getTradeItems;
-        }
-        return false; // Prevent form submission
-    }
+	               
+	            } else {
+	                setItemGrid(null);
+	            }
+	        });
+	        window.getTradeItems = getTradeItems;
+	    }
+		
+	    return false; // Prevent form submission
+	}
 
     // 종목 구분 탭 클릭시 종목목록 조회
     $('[name=tab_item]').on('click', function () { 
