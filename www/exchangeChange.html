@@ -425,10 +425,10 @@
 				<div class="side--panel"> <!--     -->
 					<div class="tab-wrapper">
 						<div class="search-container">
-							<form class="search_item" onsubmit="return performSearch()">
-								<input type="text" id="searchInput" class="search-box" name="q" placeholder="검색하기">
-								<button type="submit" class="search-button">검색</button>
-							</form>
+							<div class="search_item">
+							    <input type="text" id="searchInput" class="search-box" name="q" placeholder="검색하기">
+							    <button type="button" class="search-button" onclick="performSearch()">검색</button>
+							</div>
 						</div>
 						<div style="border-bottom: 1px solid var(--linegray)">
 							<ul class="tabs">
