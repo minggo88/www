@@ -1399,6 +1399,7 @@ $(function() {
             //이름순으로 순서 변경
             //CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
             //CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
+                desc_data = new Array();
 				for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
 				    desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
 				}
@@ -1429,10 +1430,14 @@ $(function() {
 	        API.getSearchCurrency(query, (resp) => {
 	            if (resp.success) {
 	                CURRENCY_INFO = resp.payload;
+                    desc_data = new Array();
+                    for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
+                        desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
+                    }
 	                itemGrid.clear().draw();
 	               
 	                itemGrid.rows.add(CURRENCY_INFO);
-			        itemGrid.order([1, 'asc']).draw();
+			        itemGrid.order([4, 'asc']).draw();
 	               
 	            } else {
 	                setItemGrid(null);
