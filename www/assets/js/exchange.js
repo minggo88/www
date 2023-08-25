@@ -1399,7 +1399,7 @@ $(function() {
             //이름순으로 순서 변경
             //CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
             //CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
-                desc_data = new Array();
+				desc_data = new Array();
 				for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
 				    desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
 				}
@@ -1411,7 +1411,7 @@ $(function() {
     }
     window.getTradeItems = getTradeItems;
 
-    // Get references to the input element and the search button
+	// Get references to the input element and the search button
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.querySelector('.search-button');
 
@@ -1430,14 +1430,14 @@ $(function() {
 	        API.getSearchCurrency(query, (resp) => {
 	            if (resp.success) {
 	                CURRENCY_INFO = resp.payload;
-                    desc_data = new Array();
-                    for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
-                        desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
-                    }
+					desc_data = new Array();
+					for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
+					    desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
+					}
 	                itemGrid.clear().draw();
 	               
 	                itemGrid.rows.add(CURRENCY_INFO);
-			        itemGrid.order([4, 'asc']).draw();
+			        itemGrid.order([1, 'asc']).draw();
 	               
 	            } else {
 	                setItemGrid(null);
@@ -1983,16 +1983,15 @@ document.getElementById("tea_chart_tab").addEventListener("click", function () {
 });
 
 //하단 스크립트
-const data = [
-    { orderNumber: 1001, orderStatus: '매도', productPrice: 16000000, quantity: 2 },
-    { orderNumber: 1002, orderStatus: '매도', productPrice: 1550000, quantity: 3 },
-    { orderNumber: 1004, orderStatus: '매도', productPrice: 1530000, quantity: 1 },
-    { orderNumber: 1003, orderStatus: '매도', productPrice: 1500000, quantity: 2 },
-    { orderNumber: 1009, orderStatus: '매수', productPrice: 1490000, quantity: 2 },
+const buy_list = [ { orderNumber: 1009, orderStatus: '매수', productPrice: 1490000, quantity: 2 },
     { orderNumber: 1007, orderStatus: '매수', productPrice: 1480000, quantity: 3 },
     { orderNumber: 1006, orderStatus: '매수', productPrice: 1400000, quantity: 3 },
-    { orderNumber: 1010, orderStatus: '매수', productPrice: 1350000, quantity: 11 }
-];
+    { orderNumber: 1010, orderStatus: '매수', productPrice: 1350000, quantity: 11 }];
+const sell_list = [{ orderNumber: 1001, orderStatus: '매도', productPrice: 16000000, quantity: 2 },
+    { orderNumber: 1002, orderStatus: '매도', productPrice: 1550000, quantity: 3 },
+    { orderNumber: 1004, orderStatus: '매도', productPrice: 1530000, quantity: 1 },
+    { orderNumber: 1003, orderStatus: '매도', productPrice: 1500000, quantity: 2 }];
+const order_list = [];
 
 // 주문목록을 생성하는 함수
 function createOrderList() {
@@ -2019,14 +2018,21 @@ function createOrderList() {
     orderList.className = 'order-list';
     table.appendChild(orderList);
 
-    for (const item of data) {
+	order_list.push(...sell_list);
+	order_list.push(...buy_list);
+
+    for (const item of order_list) {
         const tableRow = document.createElement('div');
         tableRow.className = 'table-row';
         tableRow.innerHTML = `
-          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.orderNumber}</div>
-          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.orderStatus}</div>
-          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.productPrice.toLocaleString()}</div>
-          <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};">${item.quantity}</div>
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+            ${item.orderNumber} </div>
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+            ${item.orderStatus}</div>
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+            ${item.productPrice.toLocaleString()}</div>
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+            ${item.quantity}</div>
         `;
         orderList.appendChild(tableRow);
     }
@@ -2037,6 +2043,46 @@ function createOrderList() {
       <div class="order-details-minus" style="color: var(--red-up);" onclick="showDivPlus('2')">매수 주문 더보기</div>
     `;
     table.appendChild(tableRowAdd2);
+}
+
+// 테이블 업데이트 함수
+function updateTable(newData, text) {
+    const orderList = document.querySelector('.order-list');
+
+	if(text === "매도"){
+		console.log('11111111');
+		orderList.innerHTML = "";
+		console.log(newData);
+		
+	}
+	
+	
+    for (const item of newData) {
+		
+		const tableRow = document.createElement('div');
+        tableRow.className = 'table-row';
+        tableRow.innerHTML = `
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+            ${item.orderNumber} </div>
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+            ${item.orderStatus}</div>
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+            ${item.productPrice.toLocaleString()}</div>
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+            ${item.quantity}</div>
+        `;
+		
+		if (item.orderStatus === '매수') {
+            // 매도 주문인 경우, 테이블 하단에 추가
+            orderList.appendChild(tableRow);
+        } else if (item.orderStatus === '매도') {
+            // 매수 주문인 경우, 테이블 상단에 추가
+            orderList.insertBefore(tableRow, orderList.firstChild);
+        }
+		
+        orderList.appendChild(tableRow);
+    }
+
 }
 
 // 초기화 함수 실행
@@ -2103,9 +2149,110 @@ document.getElementById('cancel-order-content').style.display = 'none';
 
 //주문 더보기
 function showDivPlus(checkNum) {
+	//매도 주문 더보기
     if (checkNum === '1') {
-        alert('안녕하세요');
-    } else if (checkNum === '2') {
-        console.log('안녕하세요');
+		const newData = [
+		    { orderNumber: 1011, orderStatus: '매도', productPrice: 17000000, quantity: 2 },
+		    { orderNumber: 1012, orderStatus: '매도', productPrice: 1650000, quantity: 3 },
+		    { orderNumber: 1014, orderStatus: '매도', productPrice: 1630000, quantity: 1 },
+		    { orderNumber: 1013, orderStatus: '매도', productPrice: 1610000, quantity: 2 }
+		];
+
+		const mergedResult = mergeUniqueData(sell_list, newData);
+		const sell_list_copy = [];
+		sell_list_copy.push(...mergedResult);
+		sell_list_copy.push(...sell_list);
+
+		sell_list.length = 0;
+		sell_list.push(...sell_list_copy);
+
+		order_list.length = 0;
+		order_list.push(...sell_list);
+		order_list.push(...buy_list);
+		
+        updateTable(order_list, '매도');
+
+    } else if (checkNum === '2') {//매수 주문 더보기
+        const newData = [
+		    { orderNumber: 1021, orderStatus: '매수', productPrice: 170000, quantity: 2 },
+		    { orderNumber: 1022, orderStatus: '매수', productPrice: 16500, quantity: 3 },
+		    { orderNumber: 1024, orderStatus: '매수', productPrice: 16300, quantity: 1 },
+			{ orderNumber: 1026, orderStatus: '매수', productPrice: 16150, quantity: 5 },
+		    { orderNumber: 1023, orderStatus: '매수', productPrice: 16100, quantity: 2 }
+		];
+
+		const mergedResult = mergeUniqueData(buy_list, newData);
+		const buy_list_copy = [];
+		buy_list_copy.push(...buy_list);
+		buy_list_copy.push(...mergedResult);
+
+		buy_list.length = 0;
+		buy_list.push(...buy_list_copy);
+
+		order_list.length = 0;
+		order_list.push(...sell_list);
+		order_list.push(...buy_list);
+		
+        // 새 데이터를 테이블에 추가하고 스크롤을 위로 이동시킴
+        updateTable(mergedResult, '');
     }
+}
+
+//자료 합치기
+function mergeUniqueData(existingData, newData) {
+    const mergedData = [];
+
+    for (const item of newData) {
+        // 이미 existingData에 orderNumber가 존재하는지 확인
+        const orderNumberExists = existingData.some(existingItem => existingItem.orderNumber === item.orderNumber);
+
+        if (!orderNumberExists) {
+            mergedData.push(item);
+        }
+    }
+
+    return mergedData;
+}
+
+function showOrderDetails(orderNumber, orderStatus, productPrice, quantity) {
+	if(orderStatus === "매도"){
+		$('#right_sell').click();
+		$('#sell_price').val(productPrice);
+		const sell_ea = $('#sell_val').val();
+		const sell_price = $('#sell_price').val();
+		$('#sell_total').val(addCommas(rmCommas(sell_price)*sell_ea));
+	}else if(orderStatus === "매수"){
+		$('#right_buy').click();
+		$('#buy_price').val(productPrice);
+		const buy_ea = $('#buy_val').val();
+		const buy_price = $('#buy_price').val();
+		$('#buy_total').val(addCommas(rmCommas(buy_price)*buy_ea));
+	}
+}
+
+function rmCommas(value) {
+    return value.replace(/,/g, '');
+}
+
+function addCommas(value) {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function order_chnage(text){
+	const rightIng = document.getElementById('right_ing');
+	const rightC = document.getElementById('right_c');
+	
+	if(text === 'c'){
+		console.log("완료");
+		rightIng.style.color = 'black';
+	    rightIng.style.background = 'white';
+	    rightC.style.color = 'white';
+	    rightC.style.background = 'var(--red-up)';
+	}else{
+		console.log("미체결");
+		rightC.style.color = 'black';
+	    rightC.style.background = 'white';
+	    rightIng.style.color = 'white';
+	    rightIng.style.background = 'var(--red-up)';
+	}
 }

@@ -132,6 +132,7 @@
 			width: 100%;
 			border-top: 2px solid black;
 		}
+
 		/* 왼쪽 화면 스타일 */
 		.left {
 			flex: 1;
@@ -148,7 +149,12 @@
 			border-bottom: 1px solid #ccc;
 		}
 
-		.table-row .order-details{
+		.order-list {
+			overflow-y: auto;
+			max-height: 300px;
+		}
+
+		.table-row .order-details {
 			flex-basis: 25%;
 			padding: 7px 0;
 			text-align: center;
@@ -157,10 +163,10 @@
 		.table-row:hover {
 			background-color: #f0f0f0;
 		}
-		
+
 		/* 주문 추가창 */
 		.order-details-minus {
-		  text-align: center;
+			text-align: center;
 			padding: 7px 0;
 			border-bottom: 1px solid #ccc;
 		}
@@ -176,6 +182,7 @@
 			padding: 7px 0;
 			border-bottom: 1px solid #ccc;
 		}
+
 		.table-header span {
 			flex-basis: 25%;
 			padding: 1px;
@@ -186,13 +193,14 @@
 		.right {
 			flex: 1;
 		}
-		
+
 		.right_title {
 			font-weight: bold;
 			display: flex;
 			border-bottom: 1px solid #ccc;
 			padding: 7px 0;
 		}
+
 		.right_title span {
 			flex-basis: 33%;
 			padding: 1px;
@@ -203,6 +211,56 @@
 			padding: 10px;
 			cursor: pointer;
 			color: black;
+			text-align: center;
+		}
+
+		/*주문관리 탭*/
+		.menu-order-item {
+			cursor: pointer;
+			color: black;
+			text-align: center;
+
+		}
+
+		.order-content {
+			flex: 1;
+		}
+
+		#manage-order {
+			padding: 0px !important;
+		}
+
+		.right_order_title {
+			font-weight: bold;
+			display: flex;
+			border-bottom: 1px solid #ccc;
+			justify-content: space-around;
+		}
+
+		#right_ing {
+			color: white;
+			background: var(--red-up);
+			cursor: pointer;
+		}
+
+		#right_c {
+			color: black;
+			background: white;
+			cursor: pointer;
+		}
+
+		.clicked {
+			color: white;
+			background: var(--red-up);
+		}
+
+		.clickable {
+			cursor: pointer;
+		}
+
+		#manage-order span {
+			flex-basis: 50%;
+			padding: 6px 0;
 			text-align: center;
 		}
 
@@ -244,10 +302,9 @@
 
 		/* 주문 취소 창 스타일 */
 		.cancel-order-content {
-			display: none;
-			padding: 20px;
-			height: 440px;
-			overflow-y: scroll;
+			position: fixed;
+		    bottom: 20px;
+		    
 		}
 
 		.cancel-order-button {
@@ -260,18 +317,62 @@
 			margin: 10px auto;
 		}
 
-		/* 소팅 화살표 제거*/
-		table.dataTable thead>tr>th.sorting_desc:before,
-		table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_asc:after,
-		table.dataTable thead>tr>th.sorting_desc:after,
-		table.dataTable thead>tr>th.sorting_asc:before {
-		    display: none;
+		.list-container {
+			height: 315px;
+		    max-height: 315px;
+		    overflow-y: scroll;
+			position: relative;
 		}
 
-		table.dataTable tbody th.dt-body-left, table.dataTable tbody td.dt-body-left {
-		    text-align: left !important;
+.list-item {
+    display: flex;
+    padding-left:10px;
+	
+}
+.manage-checkbox{
+	width: 17px;
+	height: 120px;
+	background-color: blue;
+	border-radius: 50%;
+	cursor: pointer;
+	vertical-align: middle;
+	padding-left: 15px;
+}
+.order-list-item {
+    display: flex;
+    width:100%;
+    padding-left: 30px;
+	padding-right: 10px;
+    justify-content: space-between;
+}
+
+.manage-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.manage-right > * {
+    text-align: right;
+}
+
+
+
+
+
+		/* 소팅 화살표 제거*/
+		table.dataTable thead>tr>th.sorting_desc:before,
+		table.dataTable thead>tr>th.sorting:after,
+		table.dataTable thead>tr>th.sorting_asc:after,
+		table.dataTable thead>tr>th.sorting_desc:after,
+		table.dataTable thead>tr>th.sorting_asc:before {
+			display: none;
 		}
-		
+
+		table.dataTable tbody th.dt-body-left,
+		table.dataTable tbody td.dt-body-left {
+			text-align: left !important;
+		}
 	</style>
 
 </head>
@@ -426,9 +527,10 @@
 					<div class="tab-wrapper">
 						<div class="search-container">
 							<div class="search_item">
-							    <input type="text" id="searchInput" class="search-box" name="q" placeholder="검색하기">
-							    <button type="button" class="search-button" onclick="performSearch()">검색</button>
+								<input type="text" id="searchInput" class="search-box" name="q" placeholder="검색하기">
+								<button type="button" class="search-button" onclick="performSearch()">검색</button>
 							</div>
+
 						</div>
 						<div style="border-bottom: 1px solid var(--linegray)">
 							<ul class="tabs">
@@ -482,14 +584,15 @@
 				<div class="details">
 					<div class="details--header">
 						<!-- btn--star--on -->
-						<div class = "detail_group">
+						<div class="detail_group">
 							<button type="button" class="navigation--back mobile-only" name="btn_view_list"></button>
 							<button type="button" class="btn btn--star" name="btn_view_stat"></button>
 							<span class="tea--name">8892후기홍인</span>
 							<small><!-- BING DO RAW PUER TEA CAKE --></small>
 						</div>
-						<div class = "btn_group">
-							<button type="button" class="btn_tab" id="tea_info_tab" name="btn_view_detail" style="color: var(--red-up);">상세정보</button>
+						<div class="btn_group">
+							<button type="button" class="btn_tab" id="tea_info_tab" name="btn_view_detail"
+								style="color: var(--red-up);">상세정보</button>
 							<span>&nbsp;&nbsp;&nbsp;</span>
 							<button type="button" class="btn_tab" id="tea_chart_tab" name="btn_view_chart">차트</button>
 						</div>
@@ -637,7 +740,7 @@
 								<span>수량</span>
 							</div>
 							<div class="table-row-add">
-								  <div class="order-details-minus" style="color: #0B2871;">매도 주문 더보기</div>
+								<div class="order-details-minus" style="color: #0B2871;">매도 주문 더보기</div>
 							</div>
 							<div class="table-row">
 								<div class="order-details">1001</div>
@@ -655,24 +758,27 @@
 							</div>
 
 							<div class="table-row-add">
-								  <div class="order-details-plus" style="color: var(--red-up);">매수 주문 더보기</div>
+								<div class="order-details-plus" style="color: var(--red-up);">매수 주문 더보기</div>
 							</div>
 						</div>
 
 						<div class="right">
 							<div class="right_title">
 								<span class="menu-item" id="right_buy" style="color: var(--red-up);">매수</span>
-								<span class="menu-item" id="right_sell" >매도</span>
-								<span class="menu-item" id="right_mange" >주문관리</span>
+								<span class="menu-item" id="right_sell">매도</span>
+								<span class="menu-item" id="right_mange">주문관리</span>
 							</div>
 
 							<!-- 매수 창 -->
 							<div class="order-content" id="buy-order" style="display: block;">
 								<div class="modal--content">
-									<div class="text--blue-gray" style="display:none; padding-left: 4px;margin-top: 6px;margin-bottom: 10px" name="orderid"></div>
+									<div class="text--blue-gray"
+										style="display:none; padding-left: 4px;margin-top: 6px;margin-bottom: 10px"
+										name="orderid"></div>
 									<dl style="margin-bottom: 10px">
 										<dt data-i18n="">등급</dt>
-										<dd class="input_select" type="text" name="goods_grade" readonly="readonly" style="display: block;">S등급</dd>
+										<dd class="input_select" type="text" name="goods_grade" readonly="readonly"
+											style="display: block;">S등급</dd>
 									</dl>
 									<dl class="tea--" style="margin-bottom: 13px;">
 										<dt data-i18n="">구매가능금액</dt>
@@ -682,15 +788,17 @@
 										<dt data-i18n="">가격</dt>
 										<dd style="width: 220px">
 											<div class="input">
-												<input type="text" id="buy_price" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
+												<input type="text" id="buy_price" name="price" value="0.0" min="0"
+													step="0.1" oninput="this.parentNode.dataset.value = this.value">
 											</div>
 										</dd>
-									</dl>															
+									</dl>
 									<dl style="margin-bottom: 10px">
 										<dt data-i18n="">수량</dt>
 										<dd style="width: 220px">
 											<div class="input--spiner">
-												<input type="number" id="buy_val" name="volume" class="onlynum" value="0" min="0" step="any">
+												<input type="number" id="buy_val" name="volume" class="onlynum"
+													value="0" min="0" step="any">
 												<div class="d-flex">
 													<button type="button" class="spiner-minus"></button>
 													<button type="button" class="spiner-plus"></button>
@@ -698,36 +806,45 @@
 											</div>
 										</dd>
 									</dl>
-									
+
 									<dl class="tea--price">
 										<dt data-i18n="">총액</dt>
 										<dd style="width: 220px">
 											<div class="input">
-												<input type="text" id="buy_total" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
+												<input type="text" id="buy_total" name="total" value="0"
+													readonly="readonly"
+													oninput="this.parentNode.dataset.value = this.value">
 											</div>
 										</dd>
 									</dl>
 									<p style="margin: 0px; font-size:12px; text-align: right;">거래수수료 : 5%</p>
-									
+
 									<dl id="dl_agree" style="margin-top: 0px;">
 										<label>
-											<input type="checkbox" name="use_agreement" value="use_agreement" style="width: 17px;height: 17px;"><span>이용약관 및 위탁보관 동의</span> 
-											<a href="#" name="use_agreement" onclick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
+											<input type="checkbox" name="use_agreement" value="use_agreement"
+												style="width: 17px;height: 17px;"><span>이용약관 및 위탁보관 동의</span>
+											<a href="#" name="use_agreement" onclick="open_use_agreement()"
+												style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
 										</label>
 										<span style="font-size:12px">부가가치세 : 10%</span>
 									</dl>
-									<div class="text--center" style="margin-top: 7px"><button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">구매하기</button></div>
+									<div class="text--center" style="margin-top: 7px"><button type="submit"
+											class="btn btn--red flex-self-center"
+											style="height: 40px; line-height: 40px" data-i18n="">구매하기</button></div>
 								</div>
 							</div>
 
 							<!-- 매도 창 -->
-							<div class="order-content" id="sell-order" >
+							<div class="order-content" id="sell-order">
 								<div class="modal--content">
 									<!--<i class="btn btn--star--on"></i>-->
-									<div class="text--blue-gray" style="display:none; padding-left: 4px;margin-top: 6px;margin-bottom: 10px" name="orderid"></div>
+									<div class="text--blue-gray"
+										style="display:none; padding-left: 4px;margin-top: 6px;margin-bottom: 10px"
+										name="orderid"></div>
 									<dl style="margin-bottom: 10px">
 										<dt data-i18n="">등급</dt>
-										<dd class="input_select" type="text" name="goods_grade" readonly="readonly" style="display: block;">S등급</dd>
+										<dd class="input_select" type="text" name="goods_grade" readonly="readonly"
+											style="display: block;">S등급</dd>
 									</dl>
 									<dl style="margin-bottom: 13px">
 										<dt data-i18n="">판매가능수량</dt>
@@ -737,7 +854,8 @@
 										<dt data-i18n="">가격</dt>
 										<dd style="width: 220px">
 											<div class="input">
-												<input type="text" id="sell_price" name="price" value="0.0" min="0" step="0.1" oninput="this.parentNode.dataset.value = this.value">
+												<input type="text" id="sell_price" name="price" value="0.0" min="0"
+													step="0.1" oninput="this.parentNode.dataset.value = this.value">
 											</div>
 										</dd>
 									</dl>
@@ -745,7 +863,8 @@
 										<dt data-i18n="">수량</dt>
 										<dd style="width: 220px">
 											<div class="input--spiner">
-												<input type="number" id="sell_val" name="volume" class="onlynum" value="0" min="0" step="any">
+												<input type="number" id="sell_val" name="volume" class="onlynum"
+													value="0" min="0" step="any">
 												<div class="d-flex">
 													<button type="button" class="spiner-minus"></button>
 													<button type="button" class="spiner-plus"></button>
@@ -753,48 +872,90 @@
 											</div>
 										</dd>
 									</dl>
-		
+
 									<dl>
 										<dt data-i18n="">총액</dt>
 										<dd style="width: 220px">
 											<div class="input">
-												<input type="text" id="sell_total" name="total" value="0" readonly="readonly" oninput="this.parentNode.dataset.value = this.value">
+												<input type="text" id="sell_total" name="total" value="0"
+													readonly="readonly"
+													oninput="this.parentNode.dataset.value = this.value">
 											</div>
 										</dd>
 									</dl>
 									<p style="margin: 0px; font-size:12px; text-align: right;">거래수수료 : 5%</p>
-									
+
 									<dl id="dl_agree" style="margin-top: 0px;">
 										<label>
-											<input type="checkbox" name="use_agreement" value="use_agreement" style="width: 17px;height: 17px;"><span>이용약관 및 위탁보관 동의</span> 
-											<a href="#" name="use_agreement" onclick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
+											<input type="checkbox" name="use_agreement" value="use_agreement"
+												style="width: 17px;height: 17px;"><span>이용약관 및 위탁보관 동의</span>
+											<a href="#" name="use_agreement" onclick="open_use_agreement()"
+												style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
 										</label>
 										<span style="font-size:12px">부가가치세 : 10%</span>
 									</dl>
-									<div class="text--center" style="margin-top: 7px"><button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">판매하기</button></div>
+									<div class="text--center" style="margin-top: 7px"><button type="submit"
+											class="btn btn--blue flex-self-center"
+											style="height: 40px; line-height: 40px" data-i18n="">판매하기</button></div>
 								</div>
 							</div>
 
 							<!-- 주문관리 창 -->
 							<div class="order-content" id="manage-order">
-								<div style="width: 50%; display: inline-block;">
-									<button class="order-button">미체결</button>
+								<div class="right_order_title">
+									<span class="menu-order-item" onclick="order_chnage()" id="right_ing"
+										style="">미체결</span>
+									<span class="menu-order-item" onclick="order_chnage('c')" id="right_c"
+										style="">체결</span>
 								</div>
-								<div style="width: 50%; display: inline-block;">
-									<button class="order-button">체결</button>
+								<!--찾기버튼9999999999999999999999--->
+								<div class="list-container">
+									<div class="list-item">
+										<input class="manage-checkbox" type="checkbox" name="use_agreement" value="use_agreement"/>
+										<div class="order-list-item">
+										<div class="manage-left">
+											<div class="input-box">
+												<div class="input-text">
+													<div class="order-type">
+														<span>매도</span>
+														<span></span>
+													</div>
+													<div class="product-name">상품명</div>
+													<div class="product-grade">등급</div>
+													<div class="order-price">주문가격</div>
+													<div class="order-quantity">주문수량</div>
+													<div class="order-amount">주문금액</div>
+												</div>
+											</div>
+										</div>
+										<div class="manage-right">
+											<div class="date">2023년 8월 25일 12:23</div>
+											<div class="product-name">상품명</div>
+											<div class="product-grade">등급</div>
+											<div class="order-price">1,000,000</div>
+											<div class="order-quantity">20</div>
+											<div class="order-amount">20,000,000</div>
+										
+										</div>
+									</div>
+									<!-- 다른 리스트 아이템들 -->
+									<!-- 주문 취소 창 -->
+									<div class="cancel-order-content">
+										<!-- 주문번호 리스트를 스크롤로 나열 -->
+										<!-- ... -->
+										<div>
+											<p>
+											<span>거래수수료 : 5%</span>
+											<span>부가 가치세 : 10%</span>
+												</p>
+											<button class="cancel-order-button" onclick="alert('클릭한번호')">주문 취소</button>
+										</div>
+									</div>
 								</div>
+								
 							</div>
 
-							<!-- 주문 취소 창 -->
-							<div class="cancel-order-content">
-								<!-- 주문번호 리스트를 스크롤로 나열 -->
-								<!-- ... -->
-								<div>
-									<p>거래수수료 : 5%</p>
-									<p>부가 가치세 : 10%</p>
-									<button class="cancel-order-button" onclick="alert('클릭한번호')">주문 취소</button>
-								</div>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -1635,7 +1796,7 @@
 	</footer> -->
 	<script src="./assets/js/exchange.js?t=1672721688" defer></script>
 	<script>
-		
+
 	</script>
 	<script src="./assets/js/app.js?t=1672042800"></script>
 </body>
