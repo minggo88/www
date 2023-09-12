@@ -53,29 +53,6 @@
 
 <!-- mk 230901 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-	/* 탭 버튼 스타일 */
-	.tab-button {
-		width: 225px;
-		border: 1px solid #000;
-		padding: 10px;
-		cursor: pointer;
-		margin-right: 5px;
-	}
-
-	/* 탭 내용 스타일 */
-	.tab-content {
-		width: 225px;
-		display: none;
-		padding: 10px;
-		border: 1px solid #000;
-	}
-
-	/* 전체 화면 스타일 */
-	.container {
-		width: 681px;
-	}
-</style>
 
 </head>
 <!-- BODY -->
@@ -248,13 +225,83 @@
 				<!-- mk make 230901-->
 				<!-- 전체 화면을 감싸는 컨테이너 -->
 				<div class="container">
+					<div class = "wallet_tab">
 					<!-- 탭 버튼들 -->
-					<div class="tab-button" onclick="showTab(1)">버튼 1</div>
-					<div class="tab-button" onclick="showTab(2)">버튼 2</div>
-					<div class="tab-button" onclick="showTab(3)">버튼 3</div>
-			
+						<div class="tab-button selected" onclick="showTab(1)">보유자산</div>
+						<div class="tab-button" onclick="showTab(2)">거래내역</div>
+						<div class="tab-button" onclick="showTab(3)">미체결</div>
+					</div>
 					<!-- 탭 내용 -->
-					<div class="tab-content" id="tab1">안녕</div>
+					<div class="tab-content" id="tab1" style="display:block">
+						<div class="con1">
+							<div class = "first_title">
+								<div class = "firsth_title_1">
+									<span>보유금액</span>
+									<p>1000000</p>
+								</div>
+								<div class = "firsth_title_2">
+									<span>총보유자산</span>
+									<p>1000000</p>
+								</div>
+							</div>
+							<div class = "second_title">
+								<div class = "second_title_1">
+									<span>총매수</span>
+									<p>1000000</p>
+								</div>
+								<div class = "second_title_2">
+									<span>평가손익</span>
+									<p>1000000</p>
+								</div>
+							</div>
+							<div class = "second_title">
+								<div class = "second_title_1">
+									<span>총평가</span>
+									<p>1000000</p>
+								</div>
+								<div class = "second_title_2">
+									<span>수익률</span>
+									<p>1000000<span>%</span></p>
+								</div>
+							</div>
+							<div class="third_title"></div>
+						</div>
+							
+						<div class="con2">
+					        <!-- 각 값과 타이틀 -->
+							<div class=title_tbody>
+								<table class="title_tbody_1">
+							        <tbody>
+										<tr>
+											<th class="wallet_title" style="width: 22%;">차이름</th>
+											<th class="wallet_title" style="width: 10%;">생산년도</th>
+											<th class="wallet_title" style="width: 20%;">평가손익</th>
+											<th class="wallet_title" style="width: 28%;">평가금액</th>
+											<th class="wallet_title_end" style="width: 20%;">현재가</th>
+										</tr>
+									</tbody>
+								</table>
+								<table class="title_tbody_2">
+							        <tbody>
+										<tr>
+											<th class="wallet_title" style="width: 22%;">
+												<div class="wallet_title2">
+													<p class="p1">보관상태</p>
+													<p>주문가능</p>
+												</div>
+											</th>
+									        <th class="wallet_title" style="width: 10%;">보유량</th>
+									        <th class="wallet_title" style="width: 20%;">수익률(%)</th>
+									        <th class="wallet_title" style="width: 28%;">총매입금액</th>
+									        <th class="wallet_title_end" style="width: 20%;">평균단가</th>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+					    </div>
+						
+					</div>
+					
 					<div class="tab-content" id="tab2">안녕하</div>
 					<div class="tab-content" id="tab3">안녕하세요</div>
 				</div>
