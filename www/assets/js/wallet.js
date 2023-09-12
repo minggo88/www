@@ -11,7 +11,12 @@ function showTab(tabNumber) {
 
     // 선택한 탭 내용을 표시
     document.getElementById(`tab${tabNumber}`).style.display = 'block';
-}
 
-// 초기에 첫 번째 탭을 표시
-showTab(1);
+    // 모든 탭 버튼의 선택 상태를 초기화
+    const tabButtons = document.querySelectorAll(".tab-button");
+    tabButtons.forEach(button => button.classList.remove("selected"));
+
+    // 선택한 탭 버튼에 선택 상태를 추가
+    const selectedTabButton = document.querySelector(`.tab-button:nth-child(${tabNumber})`);
+    selectedTabButton.classList.add("selected");
+}

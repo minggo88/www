@@ -1932,3 +1932,152 @@
 #hidden_title{
 	display:none;
 }
+
+
+/*230901*/
+/* 탭 내용 스타일 */
+/* 전체 화면 스타일 */
+.container {
+	width: 681px;	
+}
+.wallet_tab {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #333333;
+	font-weight: bold;
+	width: 681px; /* 총 길이를 681로 설정 */
+	display: flex; /* 자식 요소들을 가로로 나열하기 위해 Flexbox를 사용합니다. */
+	justify-content: space-between; /* 각 탭 버튼을 균등하게 배치합니다. */
+}
+
+.tab-button {
+	flex: 1; /* 균등한 너비를 가지도록 설정 */
+	padding: 14px 0; /* 상하 여백을 14px로 설정 */
+	cursor: pointer;
+	display: inline-block; /* 탭 버튼을 수평으로 나열 */
+	text-align: center; /* 글자 가운데 정렬 */
+	font-size: 16px; /* 글자 크기를 16px로 설정 */
+}
+.tab-button.selected {
+	background-color: var(--red-up); /* 선택된 탭 버튼 배경색을 붉은색으로 변경 */
+	color: white;
+}
+	
+.con1{
+	background-color: var(--red-up);
+	font-family: 'Noto Sans KR', sans-serif;
+	margin-bottom:10px;
+	width: 681px;
+	color:white;
+}
+.first_title{
+	display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 Flexbox를 사용합니다. */
+    justify-content: space-between; /* 양쪽 끝으로 요소를 정렬합니다. */
+}
+
+.firsth_title_1{
+    border-right: 1px solid white; /* 테두리 추가 (선택적) */
+}
+	
+.firsth_title_1,
+.firsth_title_2{
+	width: 49%; /* 화면 너비의 49%를 차지하도록 설정합니다. */
+    padding: 0 30px; /* 여백 설정 (선택적) */
+	margin: 50px 0;
+	
+}
+
+.firsth_title_1 span,
+.firsth_title_2 span{
+	font-size: 16px;
+}
+
+.firsth_title_1 p,
+.firsth_title_2 p{
+	font-size: 20px;
+}
+
+.second_title{
+	height:22px;
+	display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 Flexbox를 사용합니다. */
+    justify-content: space-between; /* 양쪽 끝으로 요소를 정렬합니다. */
+}
+.second_title_1,
+.second_title_2{
+	display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 Flexbox를 사용합니다. */
+    justify-content: space-between; /* 양쪽 끝으로 요소를 정렬합니다. */
+	width : 49%;
+}
+.second_title_1 span{
+	padding: 0 30px;
+	width: 30%;
+	margin: 0;
+	font-size: 16px;
+}
+.second_title_2 span{
+	padding: 0 30px;
+	width: 30%;
+	margin: 0;
+	font-size: 16px;
+}
+.second_title_1 p{
+	padding: 0 10px;
+	width: 70%;
+	text-align: right;
+	margin: 0;
+	font-size: 16px;
+}
+.second_title_2 p{
+	padding: 0 10px;
+	width: 70%;
+	text-align: right;
+	margin: 0;
+	font-size: 16px;
+}
+.second_title_2 p span{
+	padding: 0px;
+	font-size: 16px;
+}
+.third_title{
+	height: 30px;
+}
+
+.con2{
+	width: 681px;
+}
+.title_tbody{
+	background-color: var(--red-up);
+    color: #FFFFFF;
+}
+.title_tbody_1,
+.title_tbody_2{
+	width:100%;
+	text-align: center;
+	font-size:13px;
+	border-bottom: 1px solid #FFFFFF;; /* 값 사이에 border-right 추가 */
+}
+
+.wallet_title {
+	height:27px;
+	border-right: 1px solid #FFFFFF;; /* 값 사이에 border-right 추가 */
+	font-weight: 500;
+	font-weight: normal;
+	
+}
+.wallet_title_end{
+	height:27px;
+	font-weight: normal;
+}
+
+.wallet_title2 {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.wallet_title2 p {
+	width:50%;
+	height:27px;
+	margin:0px;
+}
+.wallet_title2 .p1 {
+	border-right: 1px solid #FFFFFF; /* 값 사이에 border-right 추가 */
+}
