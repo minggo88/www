@@ -245,21 +245,21 @@
 								</div>
 							</div>
 							<div class = "second_title">
-								<div class = "second_title_1">
+								<div class = "second_title_1_1">
 									<span>총매수</span>
 									<p>1000000</p>
 								</div>
-								<div class = "second_title_2">
+								<div class = "second_title_1_2">
 									<span>평가손익</span>
 									<p>1000000</p>
 								</div>
 							</div>
 							<div class = "second_title">
-								<div class = "second_title_1">
+								<div class = "second_title_2_1">
 									<span>총평가</span>
 									<p>1000000</p>
 								</div>
-								<div class = "second_title_2">
+								<div class = "second_title_2_2">
 									<span>수익률</span>
 									<p>1000000<span>%</span></p>
 								</div>
@@ -273,7 +273,7 @@
 								<table class="title_tbody_1">
 							        <tbody>
 										<tr>
-											<th class="wallet_title" style="width: 22%;">차이름</th>
+											<th class="wallet_title" style="width: 22%;">상품명</th>
 											<th class="wallet_title" style="width: 10%;">생산년도</th>
 											<th class="wallet_title" style="width: 20%;">평가손익</th>
 											<th class="wallet_title" style="width: 28%;">평가금액</th>
@@ -286,19 +286,27 @@
 										<tr>
 											<th class="wallet_title" style="width: 22%;">
 												<div class="wallet_title2">
-													<p class="p1">보관상태</p>
+													<p class="p1">등급</p>
 													<p>주문가능</p>
 												</div>
 											</th>
 									        <th class="wallet_title" style="width: 10%;">보유량</th>
 									        <th class="wallet_title" style="width: 20%;">수익률(%)</th>
-									        <th class="wallet_title" style="width: 28%;">총매입금액</th>
-									        <th class="wallet_title_end" style="width: 20%;">평균단가</th>
+									        <th class="wallet_title" style="width: 28%;">총 매입금액</th>
+									        <th class="wallet_title_end" style="width: 20%;">평균 매입금액</th>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 					    </div>
+						<div class="d-grid d-grid--empty wallet--tab1--grid loading" name="d-grid--empty">
+							<div class="grid grid--empty" name="grid--empty">
+								<div>
+									보유중인 상품이 없습니다.
+								</div>
+							</div>
+						</div>
+
 						
 					</div>
 					
@@ -306,303 +314,11 @@
 					<div class="tab-content" id="tab3">안녕하세요</div>
 				</div>
 
-				<!--<h2 class="mobile-only" style="margin-bottom: 32px !important"><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></h2>-->
-				<section class="d-grid wallet-summary">
-					<div class="grid">
-						<label data-i18n>총 보유 자산</label>
-						<div class="input pr-0">
-							<div id="totalBalance" class="text- text-red">0</div>
-							<div class="totalBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<label for="" data-i18n>평가 손익</label>
-						<div class="input pr-0">
-							<div id="totalAvailableBalance" class="text-">0</div>
-							<div class="availableBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-				</section>
-				<!--230306 모바일용 summary 추가 -->
-				<section class="d-grid wallet-summary" id = "hidden_title">
-					<div class="grid">
-						<label for="" data-i18n="">자산 평가 금액</label>
-						<div class="input pr-0">
-							<div id="totalLockedBalance" class="text-">0</div>
-							<div class="availableBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<label for="" data-i18n="">보유 금액</label>
-						<div class="input pr-0">
-							<div id="totalBuyableBalance" class="text-">0</div>
-							<div class="unconfirmedBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<label for="" data-i18n="">주문 및 동결 금액</label>
-						<div class="input pr-0">
-							<div id="totalBuingBalance" class="text-">0</div>
-							<div class="buingBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-				</section>
-				<section class="d-grid wallet-summary2">
-					<div class="grid">
-						<label for="" data-i18n>자산 평가 금액</label>
-						<div class="input pr-0">
-							<div id="totalLockedBalance" class="text-">0</div>
-							<div class="availableBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<label for="" data-i18n>보유 금액</label>
-						<div class="input pr-0">
-							<div id="totalBuyableBalance" class="text-">0</div>
-							<div class="unconfirmedBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<label for="" data-i18n>주문 및 동결 금액</label>
-						<div class="input pr-0">
-							<div id="totalBuingBalance" class="text-">0</div>
-							<div class="buingBalance currency dropdown-wrapper">
-								<button type="button" style="width: 100%;height: 100%;border-left: 0.35px solid var(--blue-gray2) !important;border: 0;">
-									KRW
-								</button>
-							</div>
-						</div>
-					</div>
-				</section>
-				
-				<table style="width: 1073px;margin-top: 40px;height: 42px;" class="wallet-table">
-					<tbody>
-						<tr>
-							<th style="	width: 8.387%;">상품명</th>
-							<th style=" width: 17.427%;">등급</th>
-							<th style="	width: 13.793%;">수량</th>
-							<th style="	width: 23.67%;">현재가</th>
-							<th style="width: 21.435%;">평가금액</th>
-							<th style="width: 14.911%; padding-left:30px" >평가손익</th>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<th style="	width: 8.387%;"></th>
-							<th style=" width: 17.427%;"></th>
-							<th style="	width: 13.793%;"></th>
-							<th style="	width: 23.67%;">평균 매입금액</th>
-							<th style="width: 21.435%;">총 매입금액</th>
-							<th style="width: 14.911%; padding-left:30px" >수익률</th>
-						</tr>
-					</tbody>
-				</table>
-				
-				<div class="d-grid d-grid--empty wallet--grid loading" name="d-grid--empty">
-					<div class="grid grid--empty" name="grid--empty">
-						<div>
-							보유중인 상품이 없습니다.
-						</div>
-					</div>
-				</div>
-				<!--230306 mk 모바일전용 grid 추가 -->
-				<div class="table-responsive historyTb" style="display:none">
-					<table class="table table-bordered">
-						<colgroup>
-							<col>
-							<col>
-							<col>
-							<col>
-							<col>
-							<col>
-							<col>
-						</colgroup>
-						<thead>
-							<tr>
-								<th class="pcenter text-left mergeTd symbol light" data-i18n="">차이름</th>
-								<th class="text-center" data-i18n="">등급</th>
-								<th class="text-center" data-i18n="">수량</th>
-								<th class="text-center" data-i18n="">현재가<br>평균 매입금액</th>
-								<th class="text-center" data-i18n="">평가금액<br>총 매입금액</th>
-								<th class="text-center" data-i18n="">평가손익</th>
-								<th class="text-center" data-i18n="">수익률</th>
-							</tr>
-						</thead>
-						<tbody name="table_profit">
-							<tr name="empty" style="display:none">
-								<td colspan="7" class="text-center" data-i18n="">조회내용이 없습니다.</td>
-							</tr>
-							<tr name="search" style="display: none;">
-								<td colspan="7" class="text-center" data-i18n="">조회중입니다.</td>
-							</tr>
-							<tr name="tpl" style="display:none">
-								<td class="pcenter text-left mergeTd symbol light">
-									<!-- <span class="icon-24 icon-24-{coin.symbol} mr-5" style="margin-bottom: -5px;"></span> -->
-									<!-- <img src="{coin.icon_url}" style="height:24px;width:24px;"> -->
-									{coin.name}
-								</td>
-								<td class="pcenter text-center mergeTd cord">
-									{coin.basic_balance}
-								</td>
-								<td class="pcenter text-right numberDiv">
-									<div class="number_div">{coin.basic_balance}</div>
-									<div class="number_div">{coin.basic_evaluation_amount}</div>
-								</td>
-								<td class="pcenter text-right numberDiv">
-									<div class="number_div">{coin.final_balance}</div>
-									<div class="number_div">≈{coin.final_evaluation_amount}</div>
-								</td>
-								<td class="pcenter text-right mergeTd light">
-									<div class="number_div text-center">{coin.deposit_evaluation_amount}</div>
-								</td>
-								<td class="pcenter text-right mergeTd light">
-									<div class="number_div text-center">{coin.withdraw_evaluation_amount}</div>
-								</td>
-								<td class="pcenter text-center mergeTd light">
-									<div class="number_div text-center">{coin.withdraw_evaluation_amount}</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				
-			</div>
-		</main>
-	</div>
-	
-	
-	<!--<nav class="mobile-bottom mobile-only">
-		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
-			<li class="exchange">
-				<a href="exchange.html" data-i18n>거래소</a>
-			</li>
-			<li class="area" >
-				<a href="" data-i18n>티드로우</a>
-			</li>
-			<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> 
-			<li class="transaction" style="flex: 1 1 auto">
-				<a href="transaction.html" data-login data-i18n>거래내역</a>
-			</li>
-			<li class="more">
-				<a href="" data-i18n>더보기</a>
-			</li>
-		</ul>
-	</nav>-->
-
-	<div id="goods-desc" class="modal modal--middle" tabindex="-1">
-		<div class="modal--dialog">
-			<div class="modal--header">
-				<div>
-					<span class="text--bbold tea--name" style="font-size: 18px">상품이름</span>
-					<span style="font-size: 18px;">
-						<span style="vertical-align: initial;" class="text--bbold tea--grade"></span>등급</span>
-				</div>
-				<button type="button" class="btn btn--close"></button>
-			</div>
-			<div class="modal--content">
-				<div class="info">
-					<div class="thumb">
-						<img src="./assets/img/dummy/noimage.gif" alt="상품이미지">
-					</div>
-					<div>
-						<table class="table">
-							<tr>
-								<th data-i18n>구분</th>
-								<td>
-									<div data-i18n name="meta_division"></div>
-								</td>
-							</tr>
-							<tr>
-								<th data-i18n>타입</th>
-								<td>
-									<div data-i18n name="meta_type"></div>
-								</td>
-							</tr>
-							<tr>
-								<th data-i18n>생산</th>
-								<td>
-									<div name="meta_produce"></div>
-								</td>
-							</tr>
-							<tr>
-								<th data-i18n>인증</th>
-								<td>
-									<div name="meta_certification_mark_name"></div>
-								</td>
-							</tr>
-							<tr>
-								<th data-i18n>차 소개</th>
-								<td>
-									<div name="meta_wp_teamaster_note">
-									</div>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="desc_table" id="desc_table">
-					<table class="transaction--list board--list table_desc" style="width:100%">
-						<colgroup>
-							<col />
-							<col />
-							<col />
-							<col />
-							<col />
-						</colgroup>
-						<thead>
-							<th data-i18n>idx</th>
-							<th data-i18n>블록체인</th>
-							<th data-i18n>토큰 ID</th>
-							<th data-i18n>NFT 토큰 주소</th>
-							<th data-i18n>NFT 생성 TXID</th>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
 			</div>
 		</div>
 	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
-
 </body>
-<script>
-	var clipboard = new ClipboardJS('.copyBtn');
-	clipboard.on('success', function(e) {
-		alert("클립보드로 복사되었습니다.");
-		// console.log(e);
-	});
-	clipboard.on('error', function(e) {
-		alert("다시 시도해 주세요.")
-	});
-</script>
+
 
 </html>
