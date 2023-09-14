@@ -1882,7 +1882,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name, 'icon_url':row.icon_url };
 			};
 
-			let first_dropdown_value = '';
+			let first_dropdown_value = 'all';
+			$('[name="symbol"]').dropdown('add', { value: 'all', text: '전체' })	
 			for(i in wallet_symbols) {
 				row = wallet_symbols[i];
 				//console.log(i, row);
@@ -1966,7 +1967,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					columns : [
 						{data: 'time_traded', render: (time_traded) => {
 							if(time_traded != ''){
-								return date('Y-m-d H:i', time_traded) 
+								return date('Y.m.d H:i', time_traded) 
 							}else{
 								return ''
 							} ;}
@@ -2013,13 +2014,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						{targets: 1,className: 'dt-body-center',type: 'title-string',orderable: false,},  // 상품명
 						//{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 등급
 						{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: false,"responsivePriority": 1},  // 생산년도
-						{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1},   // 거래종류
-						{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
-						{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
-						{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
-						{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
-						{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
-						{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
+						{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1},   // 거래종류
+						{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래종류
+						{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래수량
+						{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래단가
+						{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래금액
+						{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},  // 수수료
+						{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},  // 정산금액
 					],
 					"order": [ [0, 'desc'] ]
 				})
@@ -2115,13 +2116,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						{targets: 1,className: 'dt-body-center',type: 'title-string',orderable: false,},  // 상품명
 						//{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 등급
 						{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: false,"responsivePriority": 1},  // 생산년도
-						{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1},   // 거래종류
-						{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
-						{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
-						{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
-						{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
-						{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
-						{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
+						{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1},   // 거래종류
+						{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래종류
+						{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래수량
+						{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래단가
+						{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래금액
+						{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},  // 수수료
+						{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},  // 정산금액
 					],
 					"order": [ [0, 'desc'] ]
 				})
