@@ -113,6 +113,7 @@ function wallet_tab1(tabNumber) {
 						const income = item_total - avg_price_tot;
 						const item_income = real_number_format(income,0);
 						const income_rate = income / avg_price_tot * 100;
+						const make_year = item.make_year;
 						let style_text = '';
 						total_income += income;
 												
