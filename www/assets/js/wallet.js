@@ -266,7 +266,7 @@ function wallet_tab1(tabNumber) {
 				var divElement = document.querySelector('.second_title_2_1');
 				var pElement = divElement.querySelector('p');
 				//pElement.textContent = real_number_format(total_plat_money,0);
-				pElement.textContent = real_number_format(total_buy,0);
+				pElement.textContent = real_number_format(total_buy + total_income,0);
 				//수익률
 				var total_per = total_income / total_plat_money * 100;
 				
