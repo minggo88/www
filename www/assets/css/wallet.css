@@ -2019,7 +2019,8 @@
 }
 .second_title_1_1 p,
 .second_title_1_2 p{
-	padding: 0 10px;
+	padding-left : 10px;
+	padding-right : 30px;
 	width: 70%;
 	text-align: right;
 	margin: 0;
@@ -2027,7 +2028,8 @@
 }
 .second_title_2_1 p,
 .second_title_2_2 p{
-	padding: 0 10px;
+	padding-left : 10px;
+	padding-right : 30px;
 	width: 70%;
 	text-align: right;
 	margin: 0;

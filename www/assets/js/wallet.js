@@ -172,7 +172,7 @@ function wallet_tab1(tabNumber) {
 									<tbody>
 										<tr>
 											<th class="wallet_list" style="width: 22%;">${item_name}</th>
-											<th class="wallet_list" style="width: 10%;">${confirmed}</th>
+											<th class="wallet_list" style="width: 10%;">${make_year}</th>
 											<th class="wallet_list" style="width: 20%; ${style_text}">${item_income}</th>
 											<th class="wallet_list" style="width: 28%;">`+real_number_format(item_total,0)+`</th>
 											<th class="wallet_list_end" style="width: 20%;">`+real_number_format(item_total,0)+`</th>
