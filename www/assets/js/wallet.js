@@ -104,11 +104,11 @@ function wallet_tab1(tabNumber) {
 						//const avg_price_one = real_number_format(item.avg_buy_price,1);
 						//const avg_price = item.avg_buy_price*item.confirmed_str;
 						
-						//const avg_price_tot = item.sum_buy_goods * item.valuation;
-						//const avg_price_one = real_number_format(item.sum_buy_goods,0);
+						const avg_price_tot = item.sum_buy_goods * item.valuation;
+						const avg_price_one = real_number_format(item.sum_buy_goods,0);
 						//230724 값을 다시계산해야하므로 강제로 같은값 주기 
-						const avg_price_tot = item_total;
-						const avg_price_one = item_price;
+						//const avg_price_tot = item_total;
+						//const avg_price_one = item_price;
 						const avg_price_num = real_number_format(avg_price_tot,0);
 						const income = item_total - avg_price_tot;
 						const item_income = real_number_format(income,0);
