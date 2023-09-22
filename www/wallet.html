@@ -33,7 +33,6 @@
 <link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
 <link rel="stylesheet" href="./assets/css/sub.css?t=1672721419">
 <link rel="stylesheet" href="./assets/css/wallet.css?t=1671513804">
-<link rel="stylesheet" href="./assets/css/transaction.css?t=1671513804">
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -312,8 +311,102 @@
 					</div>
 					
 					<div class="tab-content" id="tab2">
-						
-						<div class="d-flex desktop-only pc_period" style="margin-bottom: 49px">
+						<div class="d-flex mobile-only period" style="margin-bottom: 16px">
+							<div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+								<div name="symbol" class="dropdown-wrapper m-symbol-select">
+									<button type="button" class="dropdown"></button>
+									<div class="dropdown--item">
+										<input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
+										<ul class="mt-0">
+										</ul>
+									</div>
+								</div>
+								<div class="dropdown-wrapper" style="display:none">
+									<button type="button" class="dropdown" data-i18n>기간</button>
+									<div class="dropdown--item">
+										<ul>
+											<li>
+												<button type="button" name="btn-reset-1w" data-i18n>1주일</button>
+											</li>
+											<li>
+												<button type="button" name="btn-reset-1m" data-i18n>1개월</button>
+											</li>
+											<li>
+												<button type="button" name="btn-reset-6m" data-i18n>6개월</button>
+											</li>
+											<li>
+												<button type="button" name="btn-reset-1y" data-i18n>1년</button>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div style="display: flex; justify-content: space-between;" class="range_btn">
+								<div class="mdatepicker">
+									<label for="mstart" class="blind">Start date:</label>
+									<input type="date" id="mstart" name="mstart" required pattern="\d{4}-\d{2}-\d{2}" />
+									<span>~</span>
+									<label for="mend" class="blind">End date:</label>
+									<input type="date" id="mend" name="mend" required pattern="\d{4}-\d{2}-\d{2}" />
+								</div>
+								<!-- <input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px"> -->
+								<button type="button" name="btn-search2" class="btn btn--red" data-i18n>조회하기</button>
+							</div>
+						</div>
+						<div class="d-flex desktop-only pc_period" style="margin-bottom: 15px; padding-top: 15px;">
+							<!--<div class="datepicker" style="margin-right: 10px">
+								<label for="start" class="blind">Start date:</label>
+								<input type="date" id="start" name="start" required pattern="\d{4}-\d{2}-\d{2}" />
+								<span>~</span>
+								<label for="end" class="blind">End date:</label>
+								<input type="date" id="end" name="end" required pattern="\d{4}-\d{2}-\d{2}" />
+							</div>
+							<div class="datepicker" style="margin-right: 10px">
+								<label for="start" class="blind">Start date:</label>
+								<input type="date" id="start" name="start" required pattern="\d{4}-\d{2}-\d{2}" />
+								<span>~</span>
+								<label for="end" class="blind">End date:</label>
+								<input type="date" id="end" name="end" required pattern="\d{4}-\d{2}-\d{2}" />
+							</div>
+							<button type="button" name="btn-search" class="btn btn--red" data-i18n>조회하기</button>-->
+							<div class="dropdown-wrapper" name="dropdown_date" id="div_dropdown_date_selected">
+								<button type="button" class="dropdown" id="dropdown_date_selected" data-i18n>1개월</button>
+								<div class="dropdown--item">
+									<ul>
+										<li>
+											<button type="button" name="btn-reset-1w" data-i18n>1주일</button>
+										</li>
+										<li>
+											<button type="button" name="btn-reset-1m" data-i18n>1개월</button>
+										</li>
+										<li>
+											<button type="button" name="btn-reset-6m" data-i18n>6개월</button>
+										</li>
+										<li>
+											<button type="button" name="btn-reset-1y" data-i18n>1년</button>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="dropdown-wrapper" name="dropdown_type" id="div_dropdown_type_selected">
+								<button type="button" class="dropdown" id="dropdown_type_selected" data-i18n>거래 전체</button>
+								<div class="dropdown--item">
+									<ul>
+										<li>
+											<button type="button" name="btn-reset-1w" data-i18n>전체</button>
+										</li>
+										<li>
+											<button type="button" name="btn-reset-1m" data-i18n>매수</button>
+										</li>
+										<li>
+											<button type="button" name="btn-reset-6m" data-i18n>매도</button>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<button type="button" name="btn-search" id="btn_popup" class="btn_popup" data-i18n="">검색</button>
+							<space id="space_width"></space>
 							<div class="top_area">
 								<div name="symbol" class="dropdown-wrapper symbol-select">
 									<button type="button" class="dropdown" id="dropdown_selected"></button>
@@ -323,25 +416,18 @@
 										</ul>
 									</div>
 								</div>
-								<div class="period_btnArea">
-									<div class="period_text" data-i18n>기간</div>
+								<div class="period_btnArea" style="display:none;">
+									<div class="period_text"  style="display:none" data-i18n>기간</div>
 									<button type="button" name="btn-reset-1w" class="period_btn btn btn--blue-gray" data-i18n>1주일</button>
 									<button type="button" name="btn-reset-1m" class="period_btn btn btn--blue-gray" data-i18n>1개월</button>
 									<button type="button" name="btn-reset-6m" class="period_btn btn btn--blue-gray" data-i18n>6개월</button>
 									<button type="button" name="btn-reset-1y" class="period_btn btn btn--blue-gray" data-i18n>1년</button>
 								</div>
 							</div>
-							<div class="datepicker" style="margin-right: 10px">
-								<label for="start" class="blind">Start date:</label>
-								<input type="date" id="start" name="start" required pattern="\d{4}-\d{2}-\d{2}" />
-								<span>~</span>
-								<label for="end" class="blind">End date:</label>
-								<input type="date" id="end" name="end" required pattern="\d{4}-\d{2}-\d{2}" />
-							</div>
-							<button type="button" name="btn-search" class="btn btn--red" data-i18n>조회하기</button>
+							
 						</div>
-		
-		
+						
+						
 						<div class="board--body p-0">
 							<div class="tab_bar mobile-only">
 								<div class="background"></div>
@@ -363,7 +449,7 @@
 												<li>
 													<button type="button" data-i18n="" data-category="B">구매</button>
 												</li>
-		
+						
 											</ul>
 										</div>
 									</div>
@@ -372,60 +458,21 @@
 									</div>
 								</div>
 							</div>
-		
-							<table id="transactionGrid" class="transaction--list board--list" style="width:100%">
-								<colgroup class="">
-									<col style="width:10%"/><!--체결시간-->
-									<col style="width:15%"/><!--상품명-->
-									<col style="width:4%"/><!--생산년도-->
-									<col style="width:6%"/><!--거래종류-->
-									<col style="width:4%"/><!--상태-->
-									<col style="width:4%"/><!--거래수량-->
-									<col style="width:15%"/><!--거래단가-->
-									<col style="width:15%"/><!--거래금액-->
-									<col style="width:12%"/><!--수수료-->
-									<col style="width:15%"/><!--정산금액-->
-									<!-- <col style="width: calc(100% * (220 / 919))">
-									<col style="width: calc(100% * (80 / 919))">
-									<col style="width: calc(100% * (70 / 919))">
-									<col style="width: calc(100% * (110 / 919))">
-									<col style="width: calc(100% * (130 / 919))">
-									<col style="width: calc(100% * (130 / 919))">
-									<col style="width: calc(100% * (84 / 919))"> -->
-								</colgroup>
-								<thead class="">
-									<tr>
-										<th data-i18n>체결시간</th>
-										<th data-i18n>상품명</th>
-										<th data-i18n>생산년도</th>
-										<!-- <th data-i18n>생산년도</th> -->
-										<th data-i18n>거래종류</th>
-										<th data-i18n>상태</th>
-										<th data-i18n>거래수량</th>
-										<th data-i18n>거래단가</th>
-										<th data-i18n>거래금액</th>
-										<th data-i18n>수수료</th>
-										<th data-i18n>정산금액</th>
-									</tr>
-								</thead>
-								<tbody>
-		
-								</tbody>
-							</table>
+						
 							<!--230309 mk 모바일전용 grid 추가 -->
 							<div class="table-responsive historyTb">
 								<table id="transactionGrid2" class="transaction--list board--list" >
 									<colgroup class="">
 										<col style="width:10%"/><!--체결시간-->
-										<col style="width:15%"/><!--상품명-->
-										<col style="width:4%"/><!--생산년도-->
-										<col style="width:6%"/><!--거래종류-->
-										<col style="width:4%"/><!--상태-->
-										<col style="width:4%"/><!--거래수량-->
-										<col style="width:15%"/><!--거래단가-->
-										<col style="width:15%"/><!--거래금액-->
-										<col style="width:12%"/><!--수수료-->
-										<col style="width:15%"/><!--정산금액-->
+										<col style="width:12%"/><!--상품명-->
+										<col style="width:8%"/><!--생산년도-->
+										<col style="width:8%"/><!--거래종류-->
+										<col style="width:6%"/><!--상태-->
+										<col style="width:8%"/><!--거래수량-->
+										<col style="width:12%"/><!--거래단가-->
+										<col style="width:12%"/><!--거래금액-->
+										<col style="width:10%"/><!--수수료-->
+										<col style="width:12%"/><!--정산금액-->
 										<!-- <col style="width: calc(100% * (220 / 919))">
 										<col style="width: calc(100% * (80 / 919))">
 										<col style="width: calc(100% * (70 / 919))">
@@ -436,10 +483,10 @@
 									</colgroup>
 									<thead class="">
 										<tr>
-											<th data-i18n>체결시간</th>
-											<th data-i18n>상품명</th>
+											<th data-i18n id = "tab2_fix_title">체결시간</th>
+											<th data-i18n id = "tab2_fix_title">상품명</th>
 											<!--<th data-i18n>등급</th>-->
-											<th data-i18n>생산년도</th> 
+											<th data-i18n id = "tab2_fix_title">생산년도</th> 
 											<th data-i18n>거래종류</th>
 											<th data-i18n>상태</th>
 											<th data-i18n>거래수량</th>
@@ -453,7 +500,7 @@
 							</div>
 											
 							<div class="m-transaction--list mobile-only accordion">
-		
+						
 							</div>
 							<nav class="board--pagination desktop-only" style="display: none;">
 								<ul>
@@ -471,7 +518,6 @@
 							<ul class="notification--list mobile-only">
 							</ul>
 						</div>
-
 					</div>
 					<div class="tab-content" id="tab3">안녕하세요</div>
 				</div>

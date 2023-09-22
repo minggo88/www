@@ -1223,7 +1223,7 @@
 
 /*230306 내지갑 CSS 가로스크롤 및 고정 변경 */
 .historyTb{
-	margin-top : 30px;
+	margin-top : 20px;
 	overflow-x: auto;
     max-width: 100%;
 }
@@ -1321,9 +1321,8 @@
 }
 
 .historyTb thead tr th {
-	background-color: #f1f1f1;
 	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 14px;
+	font-size: 11px;
 	font-weight: 500 !important;
 	font-style: normal;
 	font-stretch: normal;
@@ -1341,7 +1340,7 @@
 
 .historyTb tbody > tr > td {
 	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 13px;
+	font-size: 10px;
 	font-weight: normal;
 	font-style: normal;
 	font-stretch: normal;
@@ -2119,3 +2118,41 @@
 .wallet_list2 .p1 {
 	border-right: 1px solid #DDD; /* 값 사이에 border-right 추가 */
 }
+
+#tab2_fix_title{
+	background-color: var(--red-up);
+	color: #fff;	
+	border: 0px;
+}
+
+#transactionGrid2{
+	width : 100% !important;
+}
+
+.d-flex.desktop-only.pc_period{
+	display: flex;
+	justify-content: flex-start;
+}
+	
+#div_dropdown_date_selected{
+	max-width: 15%;
+	width : 15%;
+}
+
+#div_dropdown_type_selected{
+	max-width: 15%;
+	width : 15%;
+}
+#space_width{
+	width:50%;
+}
+.top_area{
+	width:25%;
+}
+	
+.btn_popup{
+	width:10%;
+	border : 0px;
+	background : #ffffff;
+}
+
