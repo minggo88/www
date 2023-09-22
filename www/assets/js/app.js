@@ -2802,7 +2802,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	const fn_wallet = function () {
 	    check_login();
 	    force_rander('user_info', Model.user_info);
-		wallet_tab1();
+		wallet_tab(1);
 	};
 
 	const fn_wallet_withdrawal = function () {
