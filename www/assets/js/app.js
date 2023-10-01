@@ -2883,7 +2883,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
 						//const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
 						const item_name = item.name;
-						const item_price = item.currency_price*1;
+						const item_price =  real_number_format(item.currency_price*1);
 						//const item_income = real_number_format(item.eval_income,1); //DB에서 가져오지만 잘못된 정보를 갖고와 수입 다시 계산
 						const item_total = item.currency_price * item.valuation;
 						const item_grade = item.goods_grade;
@@ -2893,9 +2893,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						//const avg_price_tot = item.sum_buy_goods * item.valuation;
 						//const avg_price_one = real_number_format(item.sum_buy_goods,0);
 						//230724 값을 다시계산해야하므로 강제로 같은값 주기 
-						const avg_price_tot = item_total;
-						const avg_price_one = item_price;
-						const avg_price_num = real_number_format(avg_price_tot,0);
+						const avg_price = item.sum_buy_amount;
+						const avg_price_tot = item.sum_buy_amount;
+						const avg_price_one = real_number_format(avg_price/item.confirmed,0);
+						const avg_price_num = real_number_format(avg_price,0);
+						//const avg_price_one = item_price;
+						//const avg_price_num = real_number_format(avg_price_tot,0);
 						const income = item_total - avg_price_tot;
 						const item_income = real_number_format(income,0);
 						const income_rate = income / avg_price_tot * 100;
