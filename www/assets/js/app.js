@@ -36,16 +36,16 @@ $(document).ready(function() {
 
 
 // F12 버튼 방지
-$(document).ready(function() {
+/*$(document).ready(function() {
 	$(document).bind('keydown', function(evt) {
 		let keyCode = get_keycode(evt);
-		if (evt.keyCode == 123 /* F12 */ ) {
-			evt.preventDefault();
+		if (evt.keyCode == 123 /* F12 */ //) {
+			/*evt.preventDefault();
 			evt.returnValue = false;
 			return false;
 		}
 	});
-});
+});*/
 
 String.prototype.trim = function() {
 	var str = this;
@@ -363,19 +363,19 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	}
 	if (window.location.host.indexOf('dev.') !== -1) {
 		APP_RUNMODE = "dev";
-		API_URL = "//api.dev.kkikda.com/v1.0"
+		API_URL = "//api.dev.assettea.com/v1.0"
 		// SERVICE_DOMAIN = window.location.host.replace('www.','');
 		// API_WALLET_URL = 'http://dev.wallet.smart-talk.io/api/v1.0';
 	}
 	if (window.location.host.indexOf('stage.') !== -1) {
 		APP_RUNMODE = "stage";
-		API_URL = "//api.dev.kkikda.com/v1.0"
+		API_URL = "//api.dev.assettea.com/v1.0"
 		// SERVICE_DOMAIN = window.location.host.replace('www.','');
 		// API_WALLET_URL = 'http://stage.wallet.smart-talk.io/api/v1.0';
 	}
 	if (window.location.host.indexOf('127.0.0.1') !== -1) {
 		APP_RUNMODE = "loc";
-		API_URL = "//api.dev.kkikda.com/v1.0";
+		API_URL = "//api.dev.assettea.com/v1.0";
 		// SERVICE_DOMAIN = window.location.host.replace('www.','');
 		// API_WALLET_URL = 'http://loc.wallet.smart-talk.io/api/v1.0';
 	}
@@ -1760,13 +1760,28 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$('.preview').on('click', function(){   $('#'+$(this).attr('for')).trigger('click'); })
 
 		$('[name="btn_check"]').on('click', function () {
-			$('#bank_name').attr("disabled", false);
+			/*$('#bank_name').attr("disabled", false);
 			$('#bank_owner').attr("disabled", false);
 			$('#bank_account_p').hide();
 			$('#bank_account').show();
 			//$('#file_bank_url').attr("disabled", false);
 			$('[name="btn_check"]').hide();
-			$('[name="btn_save"]').show();
+			$('[name="btn_save"]').show();*/
+
+			console.log('checkAccount');
+			console.log(unserialize($('#change-account-number').serialize()));
+			console.log(location.origin);
+			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
+				if (r?.success) {
+					for (var key in r) {
+						console.log(key + ": " + r[key]);
+					}
+					
+				}else{
+					console.log(r);
+				} 
+			})
+
 			return false;
 		});
 		
@@ -1796,7 +1811,11 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 			add_request_item('putMyInfo', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
-					alert(__('저장했습니다.'));
+					alert(__('저장했습니다.' + r));
+					for (var key in r) {
+						console.log(key + ": " + r[key]);
+					}
+					
 					$('[name=status_waiting]').show().siblings().hide();
 					$('[name=btn_save]').hide();
 					request_user_info();
@@ -2328,7 +2347,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		//document.getElementById("join_user_passport").value = Model.user_info.user_info_A;
 		//document.getElementById("join_user_number_A").value = Model.user_info.user_info_A + '' + Model.user_info.user_info_B;
 		if(Model.user_info.user_join_type == "B"){
-			document.getElementById("join_type").selectedIndex = 1;
 			document.getElementById("join_user_number_A").style.display = 'none';
 			//document.getElementById("join_user_number_B").style.display = 'none';
 			document.getElementById("join_user_passport").style.display = 'block';
@@ -2337,7 +2355,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$("#join_user_passport").show();
 			$("#join_user_number_A").hide();
 		}else{
-			document.getElementById("join_type").selectedIndex = 0;
 			document.getElementById("join_user_number_A").style.display = 'block';
 			//document.getElementById("join_user_number_B").style.display = 'none';
 			document.getElementById("join_user_passport").style.display = 'none';
@@ -2411,9 +2428,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				add_request_item('putMyInfo', text, function (r) {
 					if (r?.success) {
 						alert(__('등록 했습니다.'));
-						document.getElementById("check_off").style.display = 'none';
-						document.getElementById("check_on").style.display = 'none';
-						document.getElementById("wait_on").style.display = 'inline-block';
 					} else {
 						alert(__('등록하지 못했습니다.') + r?.error?.message||'')
 					}
@@ -2425,25 +2439,16 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		// 신분증 인증 완료
 		if (Model.user_info.permission.substr(3, 1) == '1') {
 			document.getElementById("join_user_number_A").value = '';
-			document.getElementById("join_user_passport").value = '';
-			//document.getElementById("join_user_number_B").value = '';
+			document.getElementById("join_user_number_B").value = '';
 			document.getElementById("join_user_number_A").style.display = 'none';
-			//document.getElementById("join_user_number_B").style.display = 'none';
+			document.getElementById("join_user_number_B").style.display = 'none';
 			document.getElementById("join_user_passport").style.display = 'none';
 			document.getElementById("check_off").style.display = 'none';
 			document.getElementById("check_on").style.display = 'inline-block';
 			document.getElementById("join_type").style.display = 'none';
 			document.getElementById("btn-info_num-save").style.display = 'none';
-			$('.boxed').height(555);
-		}else if(Model.user_info.user_join_type == 'A' || Model.user_info.user_join_type == 'B'){
-			document.getElementById("check_off").style.display = 'none';
-			document.getElementById("check_on").style.display = 'none';
-			document.getElementById("wait_on").style.display = 'inline-block';	
-		}else{
-			document.getElementById("check_off").style.display = 'inline-block';
-			document.getElementById("check_on").style.display = 'none';
-			document.getElementById("wait_on").style.display = 'none';	
-		}
+			$('.boxed').height(575);
+		} 
 
 		// 국가 선택 
 		function select_country(code) {
@@ -3706,4 +3711,47 @@ function mobile_login_config(){
 		$('.mobile_side_login').hide();
 	}
 	
+}
+
+// 클라이언트의 IP 주소 가져오기
+function getIP(callback) {
+	const RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+	const pc = new RTCPeerConnection({ iceServers: [] });
+	const noop = () => {};
+  
+	// 더미 오디오 트랙 추가
+	pc.createDataChannel('');
+  
+	// IP 주소 가져오기
+	pc.createOffer(pc.setLocalDescription.bind(pc), noop);
+  
+	pc.onicecandidate = (ice) => {
+	  if (ice && ice.candidate && ice.candidate.candidate) {
+		const ipRegex = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/;
+		const ipMatches = ice.candidate.candidate.match(ipRegex);
+		const ip = ipMatches ? ipMatches[0] : 'unknown';
+  
+		pc.onicecandidate = noop;
+		console.log(ip);
+		callback(ip);
+	  }
+	};
+}
+
+function log_out(){
+	API.logout((resp) => {
+		if(resp.success) {
+			Model.user_info = {};
+			Model.auto_login = false;
+			Model.visited_notice = false;
+			setCookie('token', '', -1);
+			location.reload();
+		} else {
+			alert(__('로그아웃하지 못했습니다.')+' '+msg);
+		}
+	});
+}
+
+function log_in(){
+	window.location.href = 'login.html';
 }
