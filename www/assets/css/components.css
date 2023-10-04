@@ -2213,6 +2213,15 @@ input[type=file].image-selector::after{
     background: var(--white)
 }
 
+#modal--dialog-wallet-option {
+    /* width: 420px; */
+	width: 100%;
+	max-width: 402px;
+    height: 508px;
+    background: var(--white);
+    padding : 19px 33px 0px 33px;
+}
+
 .modal .modal--header {
     font-weight: 700;
     font-size: 21px;

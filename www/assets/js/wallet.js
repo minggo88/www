@@ -373,7 +373,8 @@ function wallet_tab(tabNumber) {
 			})
 			break;	
 	
-		case 2:
+		case 2: //거래내역페이지
+			let search_type = 0;//0: 전체, 1: 매수, 2: 매도
 			// 거래내역 검색
 			let sdate = date('Y-m-d', time()-60*60*24*365);
 			let edate = date('Y-m-d');
@@ -666,3 +667,19 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+//option 버튼 이벤트
+function changeStyle(button) {
+	// 모든 버튼을 기본 스타일로 초기화
+	var buttons = document.querySelectorAll(".option_div");
+	const value = button.getAttribute('value');
+	  console.log('클릭한 버튼의 value 값:', value);
+	for (var i = 0; i < buttons.length; i++) {
+	  buttons[i].style.border = "1px solid #999999";
+	  buttons[i].style.color = "#999999";
+	}
+  
+	// 클릭된 버튼에 새로운 스타일 적용
+	button.style.border = "1px solid var(--red-up)";
+	button.style.color = "var(--red-up)";
+}
