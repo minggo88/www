@@ -405,7 +405,8 @@
 									</ul>
 								</div>
 							</div>
-							<button type="button" name="btn-search" id="btn_popup" class="btn_popup" data-i18n="">검색</button>
+							<button type="button" id="btn_popup" class="btn_popup" data-i18n="">검색</button>
+							<button type="button" name="btn-search" id="btn_popup" class="btn_popup" data-i18n="" style="display: none;">검색</button>
 							<space id="space_width"></space>
 							<div class="top_area">
 								<div name="symbol" class="dropdown-wrapper symbol-select">
@@ -524,6 +525,38 @@
 
 			</div>
 		</div>
+		
+		<form id="modal-wallet-option" class="modal modal--tiny form-order modal--open" tabindex="-1">
+			<div id= "modal--dialog-wallet-option" class="modal--dialog">
+				<div class="modal--content">	
+					<div class="modal--container">
+						<label class="transaction-label" for="transaction">거래종류</label>
+						<div class="transaction-select" id="transaction">
+							<div class="option_div" onclick="changeStyle(this)" value="0" style="border:1px solid var(--red-up); color:var(--red-up);">전체</div>
+							<div class="option_div" onclick="changeStyle(this)" value="1">매수</div>
+							<div class="option_div" onclick="changeStyle(this)" value="2">매도</div>
+						</div>
+						<label class="period-label" for="period">조회기간</label>
+						<select class="period-select" id="period">
+							<option>1주일</option>
+							<option>1개월</option>
+							<option>3개월</option>
+							<option>6개월</option>
+						</select>
+						<div>
+							<input class="input-box" type="text" id="startDate" placeholder="시작 날짜">
+							<span>~</span>
+							<input class="input-box" type="text" id="endDate" placeholder="종료 날짜">
+						</div>
+					</div>
+					
+					<div class="text--center">
+						<button class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">초기화</button>
+						<button class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
+					</div>
+				</div>
+			</div>
+		</form>
 	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
 </body>
