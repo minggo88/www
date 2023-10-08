@@ -537,16 +537,19 @@
 							<div class="option_div" onclick="changeStyle(this)" value="2">매도</div>
 						</div>
 						<label class="period-label" for="period">조회기간</label>
-						<select class="period-select" id="period">
-							<option>1주일</option>
-							<option>1개월</option>
-							<option>3개월</option>
-							<option>6개월</option>
-						</select>
-						<div>
-							<input class="input-box" type="text" id="startDate" placeholder="시작 날짜">
+						<div class="transaction-select" id="transaction">
+							<div class="option_div2" onclick="changeStyle2(this)" value="0" style="border:1px solid var(--red-up); color:var(--red-up);">일주일</div>
+							<div class="option_div2" onclick="changeStyle2(this)" value="1">1개월</div>
+							<div class="option_div2" onclick="changeStyle2(this)" value="2">3개월</div>
+							<div class="option_div2" onclick="changeStyle2(this)" value="2">6개월</div>
+							<div class="option_div2" onclick="changeStyle2(this)" value="2">직접입력</div>
+						</div>
+						<div class="datepicker" style="margin-right: 10px">
+							<label for="start" class="blind">Start date:</label>
+							<input type="date" id="start" name="start" required="" pattern="\d{4}-\d{2}-\d{2}">
 							<span>~</span>
-							<input class="input-box" type="text" id="endDate" placeholder="종료 날짜">
+							<label for="end" class="blind">End date:</label>
+							<input type="date" id="end" name="end" required="" pattern="\d{4}-\d{2}-\d{2}">
 						</div>
 					</div>
 					
