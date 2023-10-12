@@ -1510,9 +1510,10 @@
 }
 
 .wallet-analysis .datepicker{
-	width: 72%;
+	width: 100%;
 	display: flex;
 	align-items: center;
+	margint-bottom : 22px;
 }
 .wallet-analysis .datepicker span{
 	font-size: 16px;
@@ -2186,4 +2187,56 @@
     display: flex;
     justify-content: center; /* 텍스트를 수직으로 가운데 정렬 */
     align-items: center;
+}
+	
+#wallet-option-datepicker{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+#wallet-option-datepicker #start,
+#wallet-option-datepicker #end{
+	height: 27px;
+	border: 1px solid #999999;
+	width:43% !important;
+	margin-bottom: 30px;
+	
+}
+	
+#wallet-option-datepicker span{
+	width:10% !important;
+	margin-bottom: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.dropdown-wrapper.symbol-select .dropdown{
+	margin-top : 8px;
+	margin-bottom : 22px;
+	border: 1px solid #999999;
+	height: 27px;
+}
+
+.dropdown+.dropdown--item input[name=search] {
+    height: 25px;
+    line-height: 25px;
+    margin: 0px !important;
+    font-size: 12px;
+	width : 100%;
+}
+
+.dropdown+.dropdown--item ul {
+    margin: 0px !important;
+    padding: 0px !important;
+    list-style: none;
+}
+#modal--dialog-wallet-option{
+	height : 380px;
+}
+#wallet-option-clear{
+	background : #000000;
+	margin-right: 15px;
 }

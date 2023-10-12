@@ -697,4 +697,66 @@ function changeStyle2(button) {
 	// 클릭된 버튼에 새로운 스타일 적용
 	button.style.border = "1px solid var(--red-up)";
 	button.style.color = "var(--red-up)";
+
+	//날자 변경
+	var startInput = document.getElementById('start');
+	var endInput = document.getElementById('end');
+	
+	if(value<1){
+		startInput.value = getOneWeekAgoDate();
+	}else if(value>99){
+		
+	}else{
+		startInput.value = getNDaysAgo(value);
+	}
+	 // 오늘 날짜 설정
+	if(value<99){
+		endInput.value = getTodayDate();	
+	}
+	
 }
+
+function changeStyle3(button){
+	const directInputOption = document.querySelector('.transaction-select .option_div2[value="100"]');
+	if (directInputOption) {
+		directInputOption.click();
+		console.log(`Clicked: ${directInputOption.textContent}`);
+	}
+}
+
+// 오늘 날짜를 가져오는 함수
+function getTodayDate() {
+	const today = new Date();
+	const year = today.getFullYear();
+	const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+	const day = String(today.getDate()).padStart(2, '0');
+	return `${year}-${month}-${day}`;
+}
+
+// 일주일 전 날짜를 가져오는 함수
+function getOneWeekAgoDate() {
+	const today = new Date();
+	today.setDate(today.getDate() - 7);
+	const year = today.getFullYear();
+	const month = String(today.getMonth() + 1).padStart(2, '0');
+	const day = String(today.getDate()).padStart(2, '0');
+	return `${year}-${month}-${day}`;
+}
+
+function getNDaysAgo(n) {
+  const today = new Date();
+  today.setMonth(today.getMonth() - n);
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+window.addEventListener('load', function() {
+  // 'start'와 'end' 입력 필드에 날짜 설정
+  const startInput = document.getElementById('start');
+  const endInput = document.getElementById('end');
+
+  startInput.value = getOneWeekAgoDate(); // 일주일 전 날짜 설정
+  endInput.value = getTodayDate(); // 오늘 날짜 설정
+});

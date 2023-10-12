@@ -536,25 +536,34 @@
 							<div class="option_div" onclick="changeStyle(this)" value="1">매수</div>
 							<div class="option_div" onclick="changeStyle(this)" value="2">매도</div>
 						</div>
+						<label class="period-label" for="period">검색품목</label>
+						<div name="symbol" class="dropdown-wrapper symbol-select">
+							<button type="button" class="dropdown" id="dropdown_selected"></button>
+							<div class="dropdown--item">
+								<input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
+								<ul class="mt-0">
+								</ul>
+							</div>
+						</div>
 						<label class="period-label" for="period">조회기간</label>
 						<div class="transaction-select" id="transaction">
 							<div class="option_div2" onclick="changeStyle2(this)" value="0" style="border:1px solid var(--red-up); color:var(--red-up);">일주일</div>
 							<div class="option_div2" onclick="changeStyle2(this)" value="1">1개월</div>
-							<div class="option_div2" onclick="changeStyle2(this)" value="2">3개월</div>
-							<div class="option_div2" onclick="changeStyle2(this)" value="2">6개월</div>
-							<div class="option_div2" onclick="changeStyle2(this)" value="2">직접입력</div>
+							<div class="option_div2" onclick="changeStyle2(this)" value="3">3개월</div>
+							<div class="option_div2" onclick="changeStyle2(this)" value="12">1년</div>
+							<div class="option_div2" onclick="changeStyle2(this)" value="100">직접입력</div>
 						</div>
-						<div class="datepicker" style="margin-right: 10px">
+						<div class="datepicker" id ="wallet-option-datepicker">
 							<label for="start" class="blind">Start date:</label>
-							<input type="date" id="start" name="start" required="" pattern="\d{4}-\d{2}-\d{2}">
+							<input type="date" id="start" name="start" onclick="changeStyle3(this)" required="" pattern="\d{4}-\d{2}-\d{2}">
 							<span>~</span>
 							<label for="end" class="blind">End date:</label>
-							<input type="date" id="end" name="end" required="" pattern="\d{4}-\d{2}-\d{2}">
+							<input type="date" id="end" name="end" onclick="changeStyle3(this)" required="" pattern="\d{4}-\d{2}-\d{2}">
 						</div>
 					</div>
 					
 					<div class="text--center">
-						<button class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">초기화</button>
+						<button class="btn btn--red flex-self-center" id = "wallet-option-clear" style="height: 40px; line-height: 40px" data-i18n="">초기화</button>
 						<button class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
 					</div>
 				</div>
