@@ -1941,6 +1941,7 @@
 	width: 681px; /* 총 길이를 681로 설정 */
 	display: flex; /* 자식 요소들을 가로로 나열하기 위해 Flexbox를 사용합니다. */
 	justify-content: space-between; /* 각 탭 버튼을 균등하게 배치합니다. */
+	border-bottom: 2px solid var(--red-up);
 }
 
 .tab-button {
@@ -2051,12 +2052,12 @@
 	width:100%;
 	text-align: center;
 	font-size:13px;
-	border-bottom: 1px solid #FFFFFF;; /* 값 사이에 border-right 추가 */
+	border-bottom: 1px solid #FFFFFF; /* 값 사이에 border-right 추가 */
 }
 
 .wallet_title {
 	height:27px;
-	border-right: 1px solid #FFFFFF;; /* 값 사이에 border-right 추가 */
+	border-right: 1px solid #FFFFFF; /* 값 사이에 border-right 추가 */
 	font-weight: 500;
 	font-weight: normal;
 	
@@ -2154,7 +2155,8 @@
 .btn_popup{
 	width:10%;
 	border : 0px;
-	background : #ffffff;
+	background: url('../img/icon/filter.png') no-repeat center center;
+	
 }
 
 .transaction-select{
