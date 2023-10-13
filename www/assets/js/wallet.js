@@ -441,7 +441,6 @@ function wallet_tab(tabNumber) {
 					//23039 mk 모바일용 주문내역 
 					$('#transactionGrid2').DataTable().destroy();
 					let select_symbol = $('.modal--content [name=symbol]').dropdown('selected');
-					console.log($('#trade_type').val(''));
 					const transactionGrid2 = $('#transactionGrid2').DataTable({
 						"lengthChange": false,
 						"responsive": true,
@@ -616,7 +615,10 @@ function wallet_tab(tabNumber) {
 			});
 			
 			$("#wallet-option-clear").click(function() {
-			  $("#modal-wallet-option").hide(); // 모달을 가림
+				$("#option_btn1").click();
+				$("#option_btn2").click();
+				$('.dropdown--item:eq(6) li:first').click();
+			  //$("#modal-wallet-option").hide(); // 모달을 가림
 			});
 
 			$("#modal-wallet-option").click(function(e) {
