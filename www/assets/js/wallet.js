@@ -546,10 +546,10 @@ function wallet_tab(tabNumber) {
 								},type: 'title-string',orderable: false,"responsivePriority": 1},  // 생산년도
 							{targets: 3,
 							 createdCell: function (td, cellData, rowData, row, col) {
-						             $(td).css('color', 'blue');
-									 if (cellData === 'sell') {
-										$(td).css('color', 'red'); // '매수'인 경우 글자를 빨간색으로 스타일링
-									 }
+									$(td).css('color', '#E21A32');
+									if (cellData === 'sell') {
+									$(td).css('color', '#114FAC'); // '매수'인 경우 글자를 빨간색으로 스타일링
+									}
 						        },
 							},
 							{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
