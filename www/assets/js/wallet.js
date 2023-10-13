@@ -376,53 +376,20 @@ function wallet_tab(tabNumber) {
 		case 2: //거래내역페이지
 			let search_type = 0;//0: 전체, 1: 매수, 2: 매도
 			// 거래내역 검색
-			let sdate = date('Y-m-d', time()-60*60*24*365);
+			let sdate = date('Y-m-d', time()-60*60*24*7);
 			let edate = date('Y-m-d');
 			$('[name="start"]').val(sdate);
 			$('[name="end"]').val(edate);
 			$('[name="mstart"]').val(sdate);
 			$('[name="mend"]').val(edate);
-	
-			$('[name="btn-reset-1w"]').on('click', function() {
-				sdate = date('Y-m-d', time()-60*60*24*7);
-				edate = date('Y-m-d');
-				$('[name="start"]').val(sdate);
-				$('[name="end"]').val(edate);
-				$('[name="mstart"]').val(sdate);
-				$('[name="mend"]').val(edate);
-			});
-			$('[name="btn-reset-1m"]').on('click', function() {
-				sdate = date('Y-m-d', time()-60*60*24*30);
-				edate = date('Y-m-d');
-				$('[name="start"]').val(sdate);
-				$('[name="end"]').val(edate);
-				$('[name="mstart"]').val(sdate);
-				$('[name="mend"]').val(edate);
-			});
-			$('[name="btn-reset-6m"]').on('click', function() {
-				sdate = date('Y-m-d', time()-60*60*24*30*6);
-				edate = date('Y-m-d');
-				$('[name="start"]').val(sdate);
-				$('[name="end"]').val(edate);
-				$('[name="mstart"]').val(sdate);
-				$('[name="mend"]').val(edate);
-			});
-			$('[name="btn-reset-1y"]').on('click', function() {
-				sdate = date('Y-m-d', time()-60*60*24*365);
-				edate = date('Y-m-d');
-				$('[name="start"]').val(sdate);
-				$('[name="end"]').val(edate);
-				$('[name="mstart"]').val(sdate);
-				$('[name="mend"]').val(edate);
-			});
-	
+			
 			let wallet_symbols = {};
 	
 			if (Object.values(Model.user_wallet).length > 1) {
 				wallet_symbols['all'] = { 'symbol': 'all', 'name': '상품 전체 검색', 'icon_url':'' }
 	
 				for (row of Object.values(Model.user_wallet)) {
-					wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name, 'icon_url':row.icon_url };
+					wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name};
 				};
 	
 				let first_dropdown_value = 'all';
@@ -464,6 +431,8 @@ function wallet_tab(tabNumber) {
 					}
 				});
 
+				console.log($('#start2').val());
+
 				if(selected_symbol != ''){
 					//23039 mk 모바일용 주문내역 
 					$('#transactionGrid2').DataTable().destroy();
@@ -486,11 +455,10 @@ function wallet_tab(tabNumber) {
 								d.exchange = 'KRW';
 								d.return_type = 'datatable';
 								d.status = 'all';
-								d.start_date = $('[name="start"]').val();
+								d.start_date = $('#start2').val();
 								d.end_date = $('[name="end"]').val();
-								d.trading_type = selected_category
-							},
-	
+								d.trading_type = selected_category;
+							}							
 						},
 	
 						"language": {
@@ -590,17 +558,19 @@ function wallet_tab(tabNumber) {
 					})
 	
 					$('[name="btn-search"]').on('click', function() {
-						selected_symbol = $('[name=symbol]:visible').dropdown('selected');
+						console.log('서치서치')
+						selected_symbol = $('.modal--container [name=symbol]:visible').dropdown('selected');
 						category = '';
-						sdate = $('[name="start"]').val();
+						sdate = $('#start2').val();
 						edate = $('[name="etart"]').val();
+						console.log(sdate);
 						//transactionGrid.ajax.reload(null, !!'reset page');
 						transactionGrid2.ajax.reload(null, !!'reset page');
 					});
 					$('[name="btn-search2"]').on('click', function() {
 						selected_symbol = $('[name=symbol]:visible').dropdown('selected');
 						category = '';
-						sdate = $('[name="start"]').val();
+						sdate = $('#start2').val();
 						edate = $('[name="etart"]').val();
 						//transactionGrid.ajax.reload(null, !!'reset page');
 						transactionGrid2.ajax.reload(null, !!'reset page');
@@ -633,7 +603,29 @@ function wallet_tab(tabNumber) {
 					})
 				}
 			}
-	
+			
+			//검색버튼 클릭 이벤트
+			$(document).on('click', "#btn_popup", function() {
+			  $("#modal-wallet-option").show(); // 모달을 표시
+			});
+			
+			$("#wallet-option-clear").click(function() {
+			  $("#modal-wallet-option").hide(); // 모달을 가림
+			});
+
+			$("#modal-wallet-option").click(function(e) {
+				if (!$(e.target).closest("#modal--dialog-wallet-option").length) {
+		          $("#modal-wallet-option").hide();
+					console.log('2222');
+		        }
+				console.log('1111');
+			});
+
+			
+
+			
+						
+
 			break;
 		case 3:
 			break;
@@ -678,6 +670,14 @@ function changeStyle(button) {
 	  buttons[i].style.border = "1px solid #999999";
 	  buttons[i].style.color = "#999999";
 	}
+
+	if(value ==0){
+		$('#search_type').val('전체');
+	}else if(value ==1){
+		$('#search_type').val('매수');
+	}else{
+		$('#search_type').val('매도');
+	}
   
 	// 클릭된 버튼에 새로운 스타일 적용
 	button.style.border = "1px solid var(--red-up)";
@@ -701,17 +701,29 @@ function changeStyle2(button) {
 	//날자 변경
 	var startInput = document.getElementById('start');
 	var endInput = document.getElementById('end');
+	var startInput2 = document.getElementById('start2');
+	var endInput2 = document.getElementById('end2');
 	
 	if(value<1){
 		startInput.value = getOneWeekAgoDate();
+		startInput2.value = getOneWeekAgoDate();
+		$('#search_date').val('일주일');
 	}else if(value>99){
-		
+		$('#search_date').val('임의입력');
 	}else{
 		startInput.value = getNDaysAgo(value);
+		startInput2.value = getNDaysAgo(value);
+		if(value==12){
+			$('#search_date').val('1년');
+		}else{
+			const date_text = value + '개월';
+			$('#search_date').val(date_text);
+		}
 	}
 	 // 오늘 날짜 설정
 	if(value<99){
 		endInput.value = getTodayDate();	
+		endInput2.value = getTodayDate();	
 	}
 	
 }
@@ -754,9 +766,13 @@ function getNDaysAgo(n) {
 
 window.addEventListener('load', function() {
   // 'start'와 'end' 입력 필드에 날짜 설정
-  const startInput = document.getElementById('start');
-  const endInput = document.getElementById('end');
+	const startInput = document.getElementById('start');
+	const endInput = document.getElementById('end');
+	const startInput2 = document.getElementById('start2');
+	const endInput2 = document.getElementById('end2');
 
-  startInput.value = getOneWeekAgoDate(); // 일주일 전 날짜 설정
-  endInput.value = getTodayDate(); // 오늘 날짜 설정
+	startInput.value = getOneWeekAgoDate(); // 일주일 전 날짜 설정
+	startInput2.value = getOneWeekAgoDate(); // 일주일 전 날짜 설정
+	endInput.value = getTodayDate(); // 오늘 날짜 설정
+	endInput2.value = getTodayDate(); // 오늘 날짜 설정
 });
