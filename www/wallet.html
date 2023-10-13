@@ -353,14 +353,7 @@
 								<button type="button" name="btn-search2" class="btn btn--red" data-i18n>조회하기</button>
 							</div>
 						</div>
-						<div class="d-flex desktop-only pc_period" style="margin-bottom: 15px; padding-top: 15px;">
-							<!--<div class="datepicker" style="margin-right: 10px">
-								<label for="start" class="blind">Start date:</label>
-								<input type="date" id="start" name="start" required pattern="\d{4}-\d{2}-\d{2}" />
-								<span>~</span>
-								<label for="end" class="blind">End date:</label>
-								<input type="date" id="end" name="end" required pattern="\d{4}-\d{2}-\d{2}" />
-							</div>
+						<div class="pc_period2" style="">
 							<div class="datepicker" style="margin-right: 10px">
 								<label for="start" class="blind">Start date:</label>
 								<input type="date" id="start" name="start" required pattern="\d{4}-\d{2}-\d{2}" />
@@ -368,44 +361,7 @@
 								<label for="end" class="blind">End date:</label>
 								<input type="date" id="end" name="end" required pattern="\d{4}-\d{2}-\d{2}" />
 							</div>
-							<button type="button" name="btn-search" class="btn btn--red" data-i18n>조회하기</button>-->
-							<div class="dropdown-wrapper" name="dropdown_date" id="div_dropdown_date_selected">
-								<button type="button" class="dropdown" id="dropdown_date_selected" data-i18n>1개월</button>
-								<div class="dropdown--item">
-									<ul>
-										<li>
-											<button type="button" name="btn-reset-1w" data-i18n>1주일</button>
-										</li>
-										<li>
-											<button type="button" name="btn-reset-1m" data-i18n>1개월</button>
-										</li>
-										<li>
-											<button type="button" name="btn-reset-6m" data-i18n>6개월</button>
-										</li>
-										<li>
-											<button type="button" name="btn-reset-1y" data-i18n>1년</button>
-										</li>
-									</ul>
-								</div>
-							</div>
-
-							<div class="dropdown-wrapper" name="dropdown_type" id="div_dropdown_type_selected">
-								<button type="button" class="dropdown" id="dropdown_type_selected" data-i18n>거래 전체</button>
-								<div class="dropdown--item">
-									<ul>
-										<li>
-											<button type="button" name="btn-reset-1w" data-i18n>전체</button>
-										</li>
-										<li>
-											<button type="button" name="btn-reset-1m" data-i18n>매수</button>
-										</li>
-										<li>
-											<button type="button" name="btn-reset-6m" data-i18n>매도</button>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<button type="button" id="btn_popup" class="btn_popup" data-i18n="">검색</button>
+							<button type="button" name="btn-search" class="btn btn--red" data-i18n>조회하기</button>
 							<button type="button" name="btn-search" id="btn_popup" class="btn_popup" data-i18n="" style="display: none;">검색</button>
 							<space id="space_width"></space>
 							<div class="top_area">
@@ -424,6 +380,22 @@
 									<button type="button" name="btn-reset-6m" class="period_btn btn btn--blue-gray" data-i18n>6개월</button>
 									<button type="button" name="btn-reset-1y" class="period_btn btn btn--blue-gray" data-i18n>1년</button>
 								</div>
+							</div>
+							
+						</div>
+						<div class="d-flex desktop-only pc_period" style="margin-bottom: 15px; padding-top: 15px;">
+							<div class="dropdown-wrapper2" name="dropdown_date" id="div_dropdown_date_selected">
+								<input id="search_type" value="전체" disabled/>
+							</div>
+
+							<div class="dropdown-wrapper2" name="dropdown_type" id="div_dropdown_type_selected">
+								<input id="search_date" value="일주일" disabled/>
+							</div>
+							<button type="button" id="btn_popup" class="btn_popup" data-i18n="">검색</button>
+							<button type="button" name="btn-search" id="btn_popup" class="btn_popup" data-i18n="" style="display: none;">검색</button>
+							<space id="space_width"></space>
+							<div class="top_area">
+								<input id="search_item" value="전체" disabled/>
 							</div>
 							
 						</div>
@@ -555,16 +527,16 @@
 						</div>
 						<div class="datepicker" id ="wallet-option-datepicker">
 							<label for="start" class="blind">Start date:</label>
-							<input type="date" id="start" name="start" onclick="changeStyle3(this)" required="" pattern="\d{4}-\d{2}-\d{2}">
+							<input type="date" id="start2" name="start" onclick="changeStyle3(this)" required="" pattern="\d{4}-\d{2}-\d{2}">
 							<span>~</span>
 							<label for="end" class="blind">End date:</label>
-							<input type="date" id="end" name="end" onclick="changeStyle3(this)" required="" pattern="\d{4}-\d{2}-\d{2}">
+							<input type="date" id="end2" name="end" onclick="changeStyle3(this)" required="" pattern="\d{4}-\d{2}-\d{2}">
 						</div>
 					</div>
 					
 					<div class="text--center">
 						<button class="btn btn--red flex-self-center" id = "wallet-option-clear" style="height: 40px; line-height: 40px" data-i18n="">초기화</button>
-						<button class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
+						<button type="button" name="btn-search" class="btn btn--red" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
 					</div>
 				</div>
 			</div>
