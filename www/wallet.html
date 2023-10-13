@@ -373,13 +373,7 @@
 										</ul>
 									</div>
 								</div>
-								<div class="period_btnArea" style="display:none;">
-									<div class="period_text"  style="display:none" data-i18n>기간</div>
-									<button type="button" name="btn-reset-1w" class="period_btn btn btn--blue-gray" data-i18n>1주일</button>
-									<button type="button" name="btn-reset-1m" class="period_btn btn btn--blue-gray" data-i18n>1개월</button>
-									<button type="button" name="btn-reset-6m" class="period_btn btn btn--blue-gray" data-i18n>6개월</button>
-									<button type="button" name="btn-reset-1y" class="period_btn btn btn--blue-gray" data-i18n>1년</button>
-								</div>
+								<input id="trade_type" value=""/>
 							</div>
 							
 						</div>
@@ -503,9 +497,9 @@
 					<div class="modal--container">
 						<label class="transaction-label" for="transaction">거래종류</label>
 						<div class="transaction-select" id="transaction">
-							<div class="option_div" onclick="changeStyle(this)" value="0" style="border:1px solid var(--red-up); color:var(--red-up);">전체</div>
-							<div class="option_div" onclick="changeStyle(this)" value="1">매수</div>
-							<div class="option_div" onclick="changeStyle(this)" value="2">매도</div>
+							<div class="option_div" onclick="changeStyle(this)" value="" style="border:1px solid var(--red-up); color:var(--red-up);">전체</div>
+							<div class="option_div" onclick="changeStyle(this)" value="buy">매수</div>
+							<div class="option_div" onclick="changeStyle(this)" value="sell">매도</div>
 						</div>
 						<label class="period-label" for="period">검색품목</label>
 						<div name="symbol" class="dropdown-wrapper symbol-select">
