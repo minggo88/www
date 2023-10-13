@@ -434,10 +434,14 @@ function wallet_tab(tabNumber) {
 					}
 				});
 
+				
+				//const value = document.querySelectorAll(".option_div").getAttribute('value');
+
 				if(selected_symbol != ''){
 					//23039 mk 모바일용 주문내역 
 					$('#transactionGrid2').DataTable().destroy();
 					let select_symbol = $('.modal--content [name=symbol]').dropdown('selected');
+					console.log($('#trade_type').val(''));
 					const transactionGrid2 = $('#transactionGrid2').DataTable({
 						"lengthChange": false,
 						"responsive": true,
@@ -459,7 +463,7 @@ function wallet_tab(tabNumber) {
 								d.status = 'all';
 								d.start_date = $('#start2').val();
 								d.end_date = $('[name="end"]').val();
-								d.trading_type = selected_category;
+								d.trading_type = $('#trade_type').val();
 							}							
 						},
 	
@@ -667,12 +671,18 @@ function changeStyle(button) {
 	  buttons[i].style.color = "#999999";
 	}
 
-	if(value ==0){
+	if(value ==''){
 		$('#search_type').val('전체');
-	}else if(value ==1){
+		$('#trade_type').val('');
+		selected_category = '';
+	}else if(value =='buy'){
 		$('#search_type').val('매수');
+		$('#trade_type').val('b');
+		selected_category = 'buy';
 	}else{
 		$('#search_type').val('매도');
+		$('#trade_type').val('s');
+		selected_category = 'sell';
 	}
   
 	// 클릭된 버튼에 새로운 스타일 적용
