@@ -422,13 +422,15 @@ function wallet_tab(tabNumber) {
 				let wallet_name = wallet?.name;
 	
 				$('.modal--content [name=symbol]').on('change', function () {
-					console.log('detect changed2')
+					console.log('detect changed2');
+					
 					if ($(this).is(':visible')) {
 						selected_symbol = $(this).dropdown('selected');
 						selected_symbol = $('.top_area [name=symbol]');
 						wallet = Model.user_wallet[selected_symbol];
-						wallet_icon_url = wallet?.icon_url;
-						wallet_name = wallet?.name;
+						const buttonElement = $('.modal--content #dropdown_selected')[0];
+						const buttonText = buttonElement.innerText;
+						$('#search_item').val(buttonText);
 					}
 				});
 
