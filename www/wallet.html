@@ -497,7 +497,7 @@
 					<div class="modal--container">
 						<label class="transaction-label" for="transaction">거래종류</label>
 						<div class="transaction-select" id="transaction">
-							<div class="option_div" onclick="changeStyle(this)" value="" style="border:1px solid var(--red-up); color:var(--red-up);">전체</div>
+							<div class="option_div" id="option_btn1" onclick="changeStyle(this)" value="" style="border:1px solid var(--red-up); color:var(--red-up);">전체</div>
 							<div class="option_div" onclick="changeStyle(this)" value="buy">매수</div>
 							<div class="option_div" onclick="changeStyle(this)" value="sell">매도</div>
 						</div>
@@ -512,7 +512,7 @@
 						</div>
 						<label class="period-label" for="period">조회기간</label>
 						<div class="transaction-select" id="transaction">
-							<div class="option_div2" onclick="changeStyle2(this)" value="0" style="border:1px solid var(--red-up); color:var(--red-up);">일주일</div>
+							<div class="option_div2" id="option_btn2" onclick="changeStyle2(this)" value="0" style="border:1px solid var(--red-up); color:var(--red-up);">일주일</div>
 							<div class="option_div2" onclick="changeStyle2(this)" value="1">1개월</div>
 							<div class="option_div2" onclick="changeStyle2(this)" value="3">3개월</div>
 							<div class="option_div2" onclick="changeStyle2(this)" value="12">1년</div>
@@ -528,7 +528,7 @@
 					</div>
 					
 					<div class="text--center">
-						<button class="btn btn--red flex-self-center" id = "wallet-option-clear" style="height: 40px; line-height: 40px" data-i18n="">초기화</button>
+						<button type="button" id="wallet-option-clear" class="btn btn--red" style="height: 40px; line-height: 40px" data-i18n="">초기화</button>
 						<button type="button" name="btn-search" class="btn btn--red" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
 					</div>
 				</div>
