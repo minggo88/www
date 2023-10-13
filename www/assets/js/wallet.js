@@ -421,21 +421,21 @@ function wallet_tab(tabNumber) {
 				let wallet_icon_url = wallet?.icon_url;
 				let wallet_name = wallet?.name;
 	
-				$('[name=symbol]').on('change', function () {
-					console.log('detect changed')
+				$('.modal--content [name=symbol]').on('change', function () {
+					console.log('detect changed2')
 					if ($(this).is(':visible')) {
 						selected_symbol = $(this).dropdown('selected');
+						selected_symbol = $('.top_area [name=symbol]');
 						wallet = Model.user_wallet[selected_symbol];
 						wallet_icon_url = wallet?.icon_url;
 						wallet_name = wallet?.name;
 					}
 				});
 
-				console.log($('#start2').val());
-
 				if(selected_symbol != ''){
 					//23039 mk 모바일용 주문내역 
 					$('#transactionGrid2').DataTable().destroy();
+					let select_symbol = $('.modal--content [name=symbol]').dropdown('selected');
 					const transactionGrid2 = $('#transactionGrid2').DataTable({
 						"lengthChange": false,
 						"responsive": true,
@@ -451,7 +451,7 @@ function wallet_tab(tabNumber) {
 							// dataSrc: 'payload.data',
 							data:  function ( d ) {
 								d.token = getCookie('token');
-								d.symbol = $('[name=symbol]:visible').dropdown('selected');
+								d.symbol = $('.modal--content [name=symbol]').dropdown('selected');
 								d.exchange = 'KRW';
 								d.return_type = 'datatable';
 								d.status = 'all';
@@ -558,7 +558,7 @@ function wallet_tab(tabNumber) {
 					})
 	
 					$('[name="btn-search"]').on('click', function() {
-						console.log('서치서치')
+						$("#modal-wallet-option").hide(); 
 						selected_symbol = $('.modal--container [name=symbol]:visible').dropdown('selected');
 						category = '';
 						sdate = $('#start2').val();
@@ -616,16 +616,10 @@ function wallet_tab(tabNumber) {
 			$("#modal-wallet-option").click(function(e) {
 				if (!$(e.target).closest("#modal--dialog-wallet-option").length) {
 		          $("#modal-wallet-option").hide();
-					console.log('2222');
-		        }
-				console.log('1111');
+				}
 			});
 
 			
-
-			
-						
-
 			break;
 		case 3:
 			break;
