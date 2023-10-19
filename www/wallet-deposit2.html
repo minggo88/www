@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- META -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="ASSETTEA">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://assettea.com">
+<meta property="og:title" content="ASSETTEA">
+<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="ASSETTEA">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
+<title>ASSETTEA</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://code.jquery.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
+<link rel="stylesheet" href="./assets/css/common.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/header.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/wallet.css?t=1671513804">
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/wallet.js"></script>
+<script src="./assets/js/api.js?t=1671775853"></script>
+<script src="./assets/js/components.js?t=1672721419"></script>
+<script src="./assets/js/qrcode.min.js?t=1667735148"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
+
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+<script src="./i18n/i18n.js?t=1667796157"></script>
+
+</head>
+<!-- BODY -->
+<body class="sub deposit">
+	<header>
+		<div class="header_inner">
+			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
+			<nav class="nav">
+				<ul>
+					<li>
+						<a href="exchange.html" data-i18n>MARKET</a>
+					</li>
+					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
+					<li class="active">
+						<a href="wallet.html" data-login data-i18n>입출금</a>
+					</li>
+					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+					<li>
+						<a href="notice.html" data-i18n>고객센터</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="nav--side">
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
+						<ul>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
+						</ul>
+					</div>
+				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+				<div class="language dropdown-wrapper">
+					<button type="button" class="dropdown">한국어</button>
+					<div class="dropdown--item" style="width: 81px">
+						<span>한국어</span>
+						<ul></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-mobile-menu">
+			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
+		</div>
+		<ul class="gnb box-menu" name="box-menu">
+			<li>
+				<a href="exchange.html" data-i18n>MARKET</a>
+			</li>
+			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
+			<li>
+				<a href="wallet.html" data-login data-i18n>입출금</a>
+			</li>
+			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+			<li>
+				<a href="notice.html" data-i18n>고객센터</a>
+			</li>
+		</ul>
+	</header>
+	<aside class="mobile-panel">
+		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
+		<h1 class="size--20" data-i18n>마이페이지</h1>
+		<ul>
+			<li>
+				<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
+			</li>
+			<li>
+				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
+			</li>
+			<li>
+				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
+			</li>
+			<li>
+				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
+			</li>
+			<li>
+				<a href="wallet-take-out.html" data-login data-i18n>반출 신청</a>
+			</li>
+			<li>
+				<a href="wallet-take-out-check.html" data-login data-i18n>반출 신청 현황</a>
+			</li>
+			<li>
+				<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>입출금</h1>
+		<ul>
+			<li>
+				<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
+			</li>
+			<li>
+				<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+			</li>
+			<li>
+				<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+			</li>
+			<li>
+				<a href="wallet-take-out.html" data-login data-i18n>반출신청</a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
+		<ul>
+			<li>
+				<a href="notice.html"><i class="icon-alarm"></i> <span data-i18n>공지사항</span></a>
+			</li>
+			<li>
+				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n>자주하는 질문</span></a>
+			</li>
+			<li>
+				<a href="inquiry.html" data-login><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
+			</li>
+		</ul>
+		<div class="nav--side mobile">
+			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+			<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+			<div class="language dropdown-wrapper">
+				<button type="button" class="dropdown">한국어</button>
+				<div class="dropdown--item" style="width: 81px">
+					<span>한국어</span>
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</aside>
+    <div class="content_wrap">
+		<main class="d-flex d-justify">
+			<aside class="side">
+				<h1 data-i18n>입출금</h1>
+				<nav class="side--snb">
+					<ul>
+						<li>
+							<a href="wallet.html" data-login data-i18n>보유 품목</a>
+						</li>
+						<li>
+							<a href="transaction.html" data-login data-i18n>주문 및 거래내역</a>
+						</li>
+						<li class="snb--active">
+							<a href="wallet-deposit.html" data-login data-i18n>입금</a>
+						</li>
+						<li>
+							<a href="wallet-withdrawal.html" data-login data-i18n>출금</a>
+						</li>
+						<li>
+							<a href="wallet-take-out.html" data-login data-i18n>반출 신청</a>
+						</li>
+						<li>
+							<a href="wallet-take-out-check.html" data-login data-i18n>반출 신청 현황</a>
+						</li>
+					</ul>
+				</nav>
+			</aside>
+			<div class="contents">
+				<header class="contents--header">
+					<a href="index.html" style="height: 48px;">ASSETTEA</a>
+					<span class=""></span>
+					<button type="button" class="navigation"></button>
+				</header>
+				<!-- 모바일 side 타이틀 변경 -->
+				<div class="contents--header2">
+					<p style="height: 48px;">입금</p>
+					<button type="button" class="deposit--guide-btn" onclick="location.href = 'wallet-deposit-guide.html'" data-i18n>입금 안내 </button>
+				</div>
+				<!--<div class="deposit--header mobile-only">
+					<h2><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></h2>
+					<button type="button" class="deposit--guide-btn" onclick="location.href = 'wallet-deposit-guide.html'" data-i18n>입금 안내 </button>
+				</div>-->
+				<!-- <div class="dropdown-wrapper" style="display:block">
+					<button type="button" class="dropdown" name="symbol" data-i18n>KRW</button>
+					<div class="dropdown--item">
+						<ul>
+							<li>
+								<button type="button" data-i18n>KRW</button>
+							</li>
+						</ul>
+					</div>
+				</div> -->
+				<div id="qrcode2" class="mobile-only" style="display:none !important">
+					<div class="size--14 text--center" style="margin-top: 36px; font-weight: 500; font-family: Inter;margin-bottom: 7px" data-i18n>QR Code</div>
+				</div>
+				<div class="text--center mobile-only" style="display:none !important;margin-top: 15px"><button type="button" class="btn btn-create-address btn--red" style="width: 196px; align-self: center" data-i18n>Create Address</button></div>
+				<div class="d-grid deposit">
+					<section class="grid deposit--guid">
+						<h1 data-i18n>입금안내</h1>
+						<ul>
+							<li data-i18n>MARKET 내 상품의 구매는 입금 후 진행 하실 수 있습니다.</li>
+							<li data-i18n>입금액을 입력 후 입금 계좌로 이체하시면 담당자 확인 후 입금처리 됩니다.</li>
+							<li data-i18n>입금하신 금액은 입출금 >보유품목 > 보유금액에 표시됩니다.</li>
+							<li data-i18n>영업일 09시부터 순차적으로 처리됩니다.</li>
+							<li data-i18n>법정 공휴일은 입출금 서비스를 지원하지 않습니다.</li>
+							<li data-i18n>토,일 및 공휴일 입출금건은 평일 영업일에 진행됩니다.</li>
+						</ul>
+					</section>
+					<section class="grid" ><!-- style="height: auto !important" unset -->
+						<div class="address form--controls" style="margin-bottom: 18px">
+							<label for="address" class="form--label" style="margin-bottom: 7px" data-i18n>입금 계좌</label>
+							<div class="input--group">
+								<input type="text" name="address" readonly value="" data-bind="site_info.bank_full_info" disabled style="text-align:left">
+								<!--<div type="button" class="btn btn--gray btn--copy" data-clipboard-target="[name=address]" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</div>-->
+							</div>
+						</div>
+						<div class="eth form--controls" style="margin-bottom: 18px">
+							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>잔액</label>
+							<div class="input--group">
+								<input type="text" disabled class="text-right text-black" value="0" data-bind="user_wallet.KRW.total_money" data-format="comma">
+								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
+							</div>
+						</div>
+						<div class="eth form--controls" style="margin-bottom: 18px">
+							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>입금액</label>
+							<div class="input--group">
+								<input type="text" name="deposit_amount" class="text-right text-black blurrealnumber onlynum" value="0">
+								<div type="button" class="btn btn--gray" data-clipboard-target="#address" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>KRW</div>
+							</div>
+						</div>
+						<div class="eth form--controls" style="margin-bottom: 18px">
+							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>입금자 이름</label>
+							<div class="input--group">
+								<input type="text" name="deposit_name" class="text-left text-black" value="" data-bind="user_info.name">
+							</div>
+						</div>
+						<div class="d-flex flex-center btn-area">
+							<button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 196px; align-self: center" data-i18n>입금하기</button>
+						</div>
+						<div class="form--controls desktop-only" style="display:none">
+							<!-- QR Code는 블록체인용입니다. -->
+							<label for="eth" class="form--label" style="margin-bottom: 7px" data-i18n>QR Code</label>
+							<div id="qrcode">
+							</div>
+							<div class="d-flex flex-center" style="margin-top: 15px"><button type="button" class="btn btn--red" style="width: 196px; align-self: center" data-i18n>Create BCH Address</button></div>
+						</div>
+					</section>
+				</div>
+				<div class="guide desktop-only">
+					<ul>
+						<li data-i18n>이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다.</li>
+						<li data-i18n>통장입금내역과 입금예약사항이 정확히 일치하는 경우, 입금 후 고객님의 계정에 반영되는데 10분정도 소요될 수 있습니다.</li>
+						<li data-i18n>신청 후 30분 내 미입금 시 관리자 확인 후 입금신청이 취소됩니다.</li>
+						<li data-i18n>서버 점검 시간 또는 은행거래 처리가 많은 월말에는 평소보다 입금처리가 지연될 수 있습니다.</li>
+						<li data-i18n>은행 공통 점검 시간(매일 23:30~00:30)에는 입금이 불가능하거나 지연될 수 있습니다.</li>
+						<li data-i18n>반드시 ‘입금’에서 입금요청한 금액만큼 계좌로부터 한번에 입금 해야 합니다.</li>
+						<li data-i18n>다음의 경우에는 입금처리가 되지 않습니다.
+							<span class="deposit_text"><br>&nbsp- 예약한 금액과 다른 금액을 입금 <br>&nbsp;&nbsp;&nbsp;&nbsp;ex) 1,000,000원을 예약하고 100,000원을 입금
+							<br>&nbsp- 예약한 금액을 분할해 입금 <br>&nbsp;&nbsp;&nbsp;&nbsp;ex) 1,000,000원을 500,000원 두 번으로 나누어 입금
+							<br>&nbsp* 금액 상이로 인한 입금 지연 문의 시에는 입금여부 확인이 가능한 증빙자료를 제출해야 합니다. <br>&nbsp;&nbsp;&nbsp;&nbsp;(이 때, 제출하시는 증빙자료는 예금주명, 계좌번호, 입금액, 입금시간을 정확히 확인할 수 있는 자료여야 합니다.)</span></li>
+						<li data-i18n> 입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다.</li>
+					</ul>
+				</div>
+				<script>
+					// new QRCode("qrcode", "http://jindo.dev.naver.com/collie");
+					// new QRCode("qrcode2", "http://jindo.dev.naver.com/collie");
+				</script>
+			</div>
+		</main>
+	</div>
+	<!--<nav class="mobile-bottom mobile-only">
+		<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
+			<li class="exchange">
+				<a href="exchange.html" data-i18n>거래소</a>
+			</li>
+			<li class="area" >
+				<a href="" data-i18n>티드로우</a>
+			</li>
+			<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> 
+			<li class="transaction" style="flex: 1 1 auto">
+				<a href="transaction.html" data-login data-i18n>거래내역</a>
+			</li>
+			<li class="more">
+				<a href="" data-i18n>더보기</a>
+			</li>
+		</ul>
+	</nav>-->
+    <!-- <footer class="desktop-only">
+		<div class="logo">ASSETTEA</div>
+		<nav class="fnb">
+			<ul>
+				<li>
+					<a href="" data-i18n>회사소개</a>
+				</li>
+				<li>
+					<a href="" data-i18n>이용약관</a>
+				</li>
+				<li>
+					<a href="" data-i18n>개인정보보호정책</a>
+				</li>
+				<li>
+					<a href="faq.html" data-i18n>자주묻는질문</a>
+				</li>
+			</ul>
+			<div class="copyright">
+				<address>
+					<span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
+					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
+					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
+					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
+					<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
+					<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
+					<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
+				</address>
+				<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
+			</div>
+		</nav>
+		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
+		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
+		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
+	</footer> -->
+
+    <script src="./assets/js/app.js?t=1672042800"></script>
+
+</body>
+</html>
