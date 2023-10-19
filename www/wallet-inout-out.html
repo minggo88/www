@@ -219,38 +219,58 @@
 				</header>
 				<!-- 모바일 side 타이틀 변경 -->
 				<div class="contents--header2">
-					<p style="height: 48px;">입금신청</p>
+					<p style="height: 48px;">출금신청</p>
 				</div>
 
 				<!-- mk make 230901-->
-				<div class="wallet_in_main" style="width : 500px; height: 110px; background:var(--red-up);">
+				<div class="wallet_out_main" style="width : 500px; height: 160px; background:var(--blue-dn);">
 					<div>
-						<sapn>입금 신청 금액</sapn>
+						<sapn>출금가능</sapn>
+						<span>4000000</sapn>
+						<sapn>KRW</sapn>
 					</div>
 					<div>
-						<div class="input--group">
-							<input class = "input_money" type="text" name="deposit_amount" class="text-right text-black blurrealnumber onlynum" value="0">
-							<input class = "input_unit" type="text" disabled value = "KRW">
+						<sapn>출금한도</sapn>
+						<span>2000000</sapn>
+						<sapn>KRW</sapn>
+					</div>
+					<div>
+						<div class="output--group">
+							<sapn>출금금액</sapn>
+							<button id="btn_max">최대</button>
+							<input class = "output_money" type="text" name="deposit_amount" class="text-right text-black blurrealnumber onlynum" value="0">
+							<input class = "output_unit" type="text" disabled value = "KRW">
 						</div>
 					</div>
 				</div>
-
+				
 				<div class="input--group">
+					<span>내 실명계좌</span>
+					<input type="text" id="address" name="address" readonly="" data-bind="user_info.bank_full" style="text-align:left">
+				</div>
+				<div class="input--group">
+					<span>수수료</span>
+					<p type="text" id="fee" name="address" readonly="" style="text-align:left">1,000 KRW</p>
+				</div>
+				<div class="input--group">
+					<span>출금 예정금액</span>
+					<input type="text" id="out_money_t" name="address" readonly=""  style="text-align:left">
+				</div>
+
+				<div class="output--group">
 					<input type="text" name="address" readonly="" value="" data-bind="site_info.bank_full_info" disabled="" style="text-align:left">하나은행
 					<!--<div type="button" class="btn btn--gray btn--copy" data-clipboard-target="[name=address]" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</div>-->
 				</div>
-
-				<div class="input--group">
+				
+				<div class="output--group">
 					<ul>
-						<span>입금 전 꼭 알아두세요!</span><br>
-						<li>1111</li>
-						<li>1111</li>
+						<span>출금 주의사항 안내</span><br>
 						<li>1111</li>
 						<li>1111</li>
 					</ul>
 				</div>
 				<div class="d-flex flex-center btn-area">
-					<button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 196px; align-self: center" data-i18n="">입금하기</button>
+					<button type="button" name="btn-save-widthdraw" class="btn btn--blue" style="width: 196px; align-self: center" data-i18n="">출금신청</button>
 				</div>
 			</div>
 		</div>
