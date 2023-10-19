@@ -2296,3 +2296,73 @@
 #transactionGrid2_next{
 	margin-left : 20px;
 }
+
+/*미체결 css*/
+.cancel-check-table{
+	width: 800px;
+	margin-top: 40px;
+	height: 43px!important;
+	background: #E21A32; 
+	border: 1px solid #FFFFFF;
+	display: none;
+}
+
+.cancel-check-table > tbody > tr > th{
+	height: 39px;
+	color: #FFFFFF; 
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px; 
+	line-height: 19px; 
+	text-align: center !important;
+}
+
+.grid.grid--empty{
+	width: 798px;
+	padding-left: 0px;
+	padding-right: 0px;
+	background: #FFFFFF !important; 
+	border: 1px solid #FFFFFF !important;
+}
+
+.d-grid.wallet--grid{
+	margin-top: 0px !important;	
+	row-gap: 1px !important;
+}
+
+/* 빈 그리드 스타일 */
+.cancel_list {
+	width: 681px;
+	height:35px;
+	background-color: #FFFFFF; /* 배경색을 흰색으로 설정 */
+	 /* 테두리를 1픽셀 두께의 검은색으로 설정 */
+	border-bottom: 1px solid #DDDDDD;
+	padding: 0px;
+}
+
+/* 빈 그리드 내부 셀 스타일 */
+.grid {
+	text-align: center;
+	font-family: Noto Sans KR;
+	font-size: 12px;
+	line-height: 19px;
+}
+.cancel_list_left > td{
+	padding: 0px !important;
+	height: 40px;
+	font-size: 14px;
+}
+
+#cancel_table_check,
+#cancel_table_right2{
+	border-right: 1px solid #DDDDDD;
+}
+
+#cancel_table_right1{
+	border-bottom: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+}
+
+#cancel_table_nond{
+	display: none;
+}
