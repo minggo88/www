@@ -784,3 +784,100 @@ window.addEventListener('load', function() {
 	endInput.value = getTodayDate(); // 오늘 날짜 설정
 	endInput2.value = getTodayDate(); // 오늘 날짜 설정
 });
+
+//미체결 js
+window.onload = function() {
+    setTimeout(function() {
+        fn_takeout();    
+    }, 500);
+    
+};
+
+const fn_takeout = function () {
+    check_login();
+    
+    API.getTakeOutItem('ALL', '', (resp) => {
+        if(resp.success) {
+            if(resp.payload.length > 0) {
+                
+				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
+				$('[name="grid--empty"]').hide();
+                resp.payload.filter(function(item) {
+					if (item.crypto_currency === 'N') {
+						return false; // skip
+					}
+					return true;
+				}).map((item) => {
+                    /*
+					const item2 = [{t_name: '천년고수 왕중왕2', t_cnt: '1', t_pdate: '2018', t_rdate: '2023-07-25 12:25:05', t_state: 'C'}
+					,{t_name: '천년고수 왕중왕2', t_cnt: '1', t_pdate: '2008', t_rdate: '2023-07-25 12:25:05', t_state: 'C'}
+					,{t_name: '천년고수 왕중왕3', t_cnt: '1', t_pdate: '2108', t_rdate: '2023-07-25 12:25:05', t_state: 'C'}];
+
+					for (const d_item of item2) {*/
+
+					const itme2 = [item];
+					for (const d_item of itme2) {
+					  const t_name = d_item.t_name;
+					  const t_pdate = d_item.t_pdate;
+					  const t_cnt = d_item.t_cnt;
+					  const t_rdate = d_item.t_rdate;
+					  const t_state = d_item.t_state;
+					
+					  const grid = $(`<table class="cancel_list" />`);
+					  grid.append(`
+					    <tr class="cancel_list_left">
+					      <td rowspan="2" id="cancel_table_check" style="width: 14%; text-align: center; padding-left:5px !important;" class='item_name'><input type="checkbox" class="checkbox" value="${t_name}"></td>
+					      <td id="cancel_table_right1" style="width: 23%; text-align: center;" class='item_grade'>${t_pdate}</td>
+					      <td id="cancel_table_right1" style="width: 23%; text-align: center;" class="rdate">${dateChange(t_rdate)}</td>
+					      <td rowspan="2" style="width: 39%; text-align: center;" class="tcnt">${t_cnt}개</td>
+					      <td id="cancel_table_nond" rowspan="2" style="width: 1%; text-align: center;" class="tstate">${stateChage(t_state)}</td>
+					    </tr>
+					    <tr class="cancel_list_left">
+					      <td id="cancel_table_right2" style="width: 23%; text-align: center;" class='item_grade'>${t_pdate}</td>
+					      <td id="cancel_table_right2" style="width: 23%; text-align: center;" class="rdate">${dateChange(t_rdate)}</td>
+					    </tr>
+					  `);
+					  $('.wallet--grid').append(grid);
+					}
+                });
+            }
+        }else{
+            $('#loading_text').hide();
+            $('#empty_text').show();
+            console.log('fail');
+        } 
+    });
+}
+
+const dateChange = function(dateTime){
+    var dateObj = new Date(dateTime);
+    // 년, 월, 일 추출
+    var year = dateObj.getFullYear();
+    var month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+    var day = ('0' + dateObj.getDate()).slice(-2);
+    
+    // 'yyyy-mm-dd' 형식으로 결과 출력
+    var formattedDate = year + '-' + month + '-' + day;
+    return formattedDate;
+}
+const stateChage = function(text){
+    if(text == 'R'){
+        return "배달 준비중"
+    }else if(text == 'C'){
+        return "취소"
+    }else if(text == 'D'){
+        return "배달 완료"
+    }
+}
+const check_login = function (msg) {
+    if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+        if (msg) alert(msg);
+        window.location.href = LOGIN_PAGE;
+    }
+}
+const check_logout = function (msg) {
+    if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
+        if (msg) alert(msg);
+        window.location.href = "/";
+    }
+}
