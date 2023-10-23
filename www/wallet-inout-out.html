@@ -226,21 +226,21 @@
 				<div class="wallet_out_main">
 					<div class = "wallet_out_main_div1">
 						<sapn>출금가능</sapn>
-						<input disabled value="4,000,000">
+						<input id = "max_money" disabled value="4,000,000">
 						<sapn>KRW</sapn>
 					</div>
 					<div class = "wallet_out_main_div2">
 						<sapn>출금한도</sapn>
-						<input disabled value="4,000,000" >
+						<input id = "able_out_max_money" disabled value="4,000,000" >
 						<sapn>KRW</sapn>
 					</div>
 					<div>
 						<div class = "wallet_out_main_div3">
 							<sapn>출금금액</sapn>
 							<input class ="main_blank" disabled>
-							<button id="btn_max">최대</button>
-							<input class = "output_money" type="text" name="deposit_amount" class="text-right text-black blurrealnumber onlynum" value="0">
-							<input value="KRW" style="width: 35px; height:40px; background-color: #ffffff;" disabled>
+							<button id="btn_max" onclick="transferMaxAmount()">최대</button>
+							<input class = "output_money" type="text" name="deposit_amount" class="text-right text-black blurrealnumber onlynum" oninput="updateValue(this)">
+							<input class = "main_unit" value="KRW" disabled>
 						</div>
 					</div>
 				</div>
@@ -257,11 +257,6 @@
 				<div class="input--group" >
 					<span>출금 예정금액</span>
 					<input type="text" id="out_money_t" name="address" readonly="" >
-				</div>
-
-				<div class="output--group">
-					<input type="text" name="address" readonly="" value="" data-bind="site_info.bank_full_info" disabled="" value="100000">
-					<!--<div type="button" class="btn btn--gray btn--copy" data-clipboard-target="[name=address]" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</div>-->
 				</div>
 
 
@@ -324,6 +319,55 @@
 		</form>
 	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
+	<script> 
+		function updateValue(input) {
+		  // 입력된 값에서 숫자만 추출
+		  const newValue = input.value.replace(/\D/g, '');
+
+			if(newValue.length > 4){
+			  // -1000 한 값을 출력
+			  const decreasedValue = parseInt(newValue, 10) - 1000;
+
+						  
+			  // 숫자 형식으로 변경하여 입력 상자의 값 업데이트
+			  input.value = numberWithCommas(newValue);
+			   const text = numberWithCommas(decreasedValue);
+			  console.log(text);
+			  const outMoneyT = document.getElementById('out_money_t');
+			  outMoneyT.value = text;
+			}else if(newValue.length <= 4){
+			  const text = "최소가격은 10,000원 이상입니다.";
+				const outMoneyT = document.getElementById('out_money_t');
+				outMoneyT.value = text;
+			}
+				
+		}
+		
+		// 천 단위 쉼표를 포함한 문자열로 변환하는 함수
+		function numberWithCommas(x) {
+		  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+
+		function transferMaxAmount() {
+		  const sourceInput = document.getElementById("max_money");
+		  const amount = sourceInput.value;
+		
+		  // "deposit_amount"에 값을 설정
+		  const depositAmountInput = document.querySelector("input[name=deposit_amount]");
+		  depositAmountInput.value = amount;
+			const text = "최소가격은 10,000원 이상입니다.";
+			if(amount.length>5){
+				const newValue2 = amount.replace(/\D/g, '');
+				const decreasedValue2 = parseInt(newValue2, 10) - 1000;			  
+			  // 숫자 형식으로 변경하여 입력 상자의 값 업데이트
+			  
+			   text = decreasedValue2;
+			}
+			
+			const outMoneyT = document.getElementById('out_money_t');
+			outMoneyT.value = text;
+		}
+	</script>
 </body>
 
 

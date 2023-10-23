@@ -2355,8 +2355,7 @@
 }
 
 .wallet_out_main_div1 input,
-.wallet_out_main_div2 input,
-.wallet_out_main_div3 input{
+.wallet_out_main_div2 input{
 	width: 80%; 
 	background: #0B2871; 
 	border: none; 
@@ -2388,9 +2387,16 @@
 }
 
 .input--group{
-	padding-left:15px; margin-top : 24px; width: 500px;
+	padding-left:15px;
+	margin-top : 24px;
+	width: 500px;
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-
+.input--group span{
+	width : 19%;
+}
 #address,
 #out_money_t,
 #fee{
