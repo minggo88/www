@@ -264,7 +264,7 @@
 					<ul>
 						<p>출금 주의사항 안내</p>
 						<li>등록된 출금 계좌로 출금 신청이 진행됩니다.</li>
-						<li>출금 계좌 변경을 원하시는 경우 <a href="#">출금계좌 변경신청</a>을 이용해 주세요</li>
+						<li>출금 계좌 변경을 원하시는 경우 <a href="change-pin-number.html">출금 계좌 변경신청</a>을 이용해 주세요</li>
 					</ul>
 				</div>
 
@@ -274,7 +274,7 @@
 			</div>
 		</div>
 		
-		<form id="pin_number" class="modal modal--tiny modal--open" tabindex="-1">
+		<form id="pin_number" class="modal modal--tiny" tabindex="-1">
 			<div class="modal--dialog">
 				<div class="modal--header">
 					<button type="button" class="btn btn--close"></button>
@@ -308,54 +308,6 @@
 		</form>
 	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
-	<script> 
-		function updateValue(input) {
-		  // 입력된 값에서 숫자만 추출
-		  const newValue = input.value.replace(/\D/g, '');
-
-			if(newValue.length > 4){
-			  // -1000 한 값을 출력
-			  const decreasedValue = parseInt(newValue, 10) - 1000;
-
-						  
-			  // 숫자 형식으로 변경하여 입력 상자의 값 업데이트
-			  input.value = numberWithCommas(newValue);
-			   const text = numberWithCommas(decreasedValue);
-			  console.log(text);
-			  const outMoneyT = document.getElementById('out_money_t');
-			  outMoneyT.value = text;
-			}else if(newValue.length <= 4){
-			  const text = "최소가격은 10,000원 이상입니다.";
-				const outMoneyT = document.getElementById('out_money_t');
-				outMoneyT.value = text;
-			}
-		}
-		
-		// 천 단위 쉼표를 포함한 문자열로 변환하는 함수
-		function numberWithCommas(x) {
-		  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
-
-		function transferMaxAmount() {
-		  const sourceInput = document.getElementById("max_money");
-		  const amount = sourceInput.value;
-		
-		  // "deposit_amount"에 값을 설정
-		  const depositAmountInput = document.querySelector("input[name=deposit_amount]");
-		  depositAmountInput.value = amount;
-			const text = "최소가격은 10,000원 이상입니다.";
-			if(amount.length>5){
-				const newValue2 = amount.replace(/\D/g, '');
-				const decreasedValue2 = parseInt(newValue2, 10) - 1000;			  
-			  // 숫자 형식으로 변경하여 입력 상자의 값 업데이트
-			  
-			   text = decreasedValue2;
-			}
-			
-			const outMoneyT = document.getElementById('out_money_t');
-			outMoneyT.value = text;
-		}
-	</script>
 </body>
 
 
