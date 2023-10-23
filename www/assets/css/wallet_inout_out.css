@@ -2443,3 +2443,7 @@
 	list-style-type: disc; 
 	padding-left:8px;
 }
+
+.output--group3--text ul li a{
+	vertical-align : top;
+}
