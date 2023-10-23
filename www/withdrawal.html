@@ -4,19 +4,18 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="title" content="Teaplat">
+<meta name="title" content="ASSETTEA">
 <meta name="description" content="">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://assettea.com">
-<meta property="og:title" content="Teaplat">
+<meta property="og:title" content="ASSETTEA">
 <meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
 <meta property="og:description" content="">
-<meta property="og:site_name" content="Teaplat">
+<meta property="og:site_name" content="ASSETTEA">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image:width" content="200">
 <meta property="og:image:height" content="100">
-<title>Teaplat</title>
+<title>ASSETTEA</title>
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 <link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 <link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
@@ -25,7 +24,7 @@
 <link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://code.jquery.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
 <link rel="stylesheet" href="./assets/css/common.css?t=1672721419">
@@ -33,51 +32,38 @@
 <link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
 <link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
 <link rel="stylesheet" href="./assets/css/sub.css?t=1672721419">
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
-<style>
-	@media screen and (max-width: 900px) {
-		.withdrawal .btn{width: 100%!important;}
-		.withdrawal--btn {
-			flex-direction: column;
-			row-gap: 0px;
-			align-self: flex-end;
-		}
-		.withdrawal--btn  .checkbox {
-			align-self: flex-end;
-		}
-    }
-	@media screen and (max-width: 800px) {
-		.withdrawal--btn {
-			flex-direction: column;
-			row-gap: 50px;
-			align-self: flex-end;
-		}
-	}
-</style> 
+<link rel="stylesheet" href="./assets/css/wallet_inout_out.css?t=1671513804">
+
 <!-- JS -->
-<script>
-    let USER_INFO = {}
-</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/wallet-withdrawal.js"></script>
 <script src="./assets/js/api.js?t=1671775853"></script>
 <script src="./assets/js/components.js?t=1672721419"></script>
+<script src="./assets/js/qrcode.min.js?t=1667735148"></script>
+
+<script src="//cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
+<script src="//cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 
 <script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
 <script src="./assets/js/lib/security.min.js?t=1667735148"></script>
 <script src="./i18n/i18n.js?t=1667796157"></script>
 
+<!-- mk 230901 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 <!-- BODY -->
-<body class="sub notice withdrawal">
+<body class="sub wallet notice">
 	<header>
 		<div class="header_inner">
-			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
+			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
-						<a href="exchange.html" data-i18n>거래소</a>
+						<a href="exchange.html" data-i18n>MARKET</a>
 					</li>
 					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
 					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
@@ -104,7 +90,7 @@
 						</ul>
 					</div>
 				</div>
-				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
 				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
@@ -120,7 +106,7 @@
 		</div>
 		<ul class="gnb box-menu" name="box-menu">
 			<li>
-				<a href="exchange.html" data-i18n>거래소</a>
+				<a href="exchange.html" data-i18n>MARKET</a>
 			</li>
 			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
 			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
@@ -133,120 +119,196 @@
 			</li>
 		</ul>
 	</header>
-	<div class="content_wrap">
+	<aside class="mobile-panel">
+		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
+		<h1 class="size--20" data-i18n>마이페이지</h1>
+		<ul>
+			<li>
+				<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
+			</li>
+			<li>
+				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
+			</li>
+			<li>
+				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
+			</li>
+			<li>
+				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
+			</li>
+			<!-- <li>
+				<a href="transaction.html" data-login data-i18n><i class="icon-transaction-black"></i><span data-i18n>거래내역</span></a>
+			</li> -->
+			<li>
+				<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>입출금</h1>
+		<ul>
+			<li>
+				<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
+			</li>
+			<li>
+				<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+			</li>
+			<li>
+				<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+			</li>
+			<li>
+				<a href="wallet-take-out.html" data-login data-i18n>반출 신청</a>
+			</li>
+			<li>
+				<a href="wallet-take-out-check.html" data-login data-i18n>반출 신청 현황</a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
+		<ul>
+			<li>
+				<a href="notice.html"><i class="icon-alarm"></i> <span data-i18n>공지사항</span></a>
+			</li>
+			<li>
+				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n>자주하는 질문</span></a>
+			</li>
+			<li>
+				<a href="inquiry.html" data-login><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
+			</li>
+		</ul>
+		<div class="nav--side mobile">
+			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+			<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+			<div class="language dropdown-wrapper">
+				<button type="button" class="dropdown">한국어</button>
+				<div class="dropdown--item" style="width: 81px">
+					<span>한국어</span>
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</aside>
+    <div class="content_wrap">
 		<main class="d-flex d-justify">
 			<aside class="side">
-				<h1 data-i18n>계정 관리</h1>
+				<h1 data-i18n>입출금</h1>
 				<nav class="side--snb">
 					<ul>
-						<li>
-							<a href="member-account.html" data-login data-i18n>정보 수정</a>
+						<li class="snb--active">
+							<a href="wallet.html" data-login data-i18n>보유 품목</a>
 						</li>
 						<li>
-							<a href="my-verification.html" data-login data-i18n>ID 인증 관리</a>
+							<a href="transaction.html" data-login data-i18n>주문 및 거래내역</a>
 						</li>
 						<li>
-							<a href="change-pin-number.html" data-login data-i18n>보안비밀번호 변경</a>
+							<a href="wallet-deposit.html" data-login data-i18n>입금</a>
 						</li>
 						<li>
-							<a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a>
+							<a href="wallet-withdrawal.html" data-login data-i18n>출금</a>
 						</li>
 						<li>
-
+							<a href="wallet-take-out.html" data-login data-i18n>반출 신청</a>
 						</li>
 						<li>
-							<a href="notification.html" data-login data-i18n>알림</a>
+							<a href="wallet-take-out-check.html" data-login data-i18n>반출 신청 현황</a>
 						</li>
-						<!-- <li class="snb--active">
-							<a href="withdrawal.html" data-i18n>회원 탈퇴</a>
-						</li> -->
 					</ul>
 				</nav>
 			</aside>
 			<div class="contents">
 				<header class="contents--header">
-					<button type="button" class="navigation--back"></button>
-					<h1 data-i18n>Teaplat 회원탈퇴</h1>
+					<a href="index.html" style="height: 48px;">ASSETTEA</a>
+					<span class=""></span>
+					<button type="button" class="navigation"></button>
 				</header>
-				<h2 class="mobile-only"><i class="icon-user-fill-add"></i> <span data-i18n>회원 탈퇴</span></h2>
-				<p class="text--medium text-bold" data-i18n>
-					회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>보유 자산을 매도해야 합니다.
-				</p>
-				<p class="text--medium text-bold" data-i18n>다음의 약관을 반드시 숙지한 후에 탈퇴를 진행해 주세요.</p>
-				<div class="boxed">
+				<!-- 모바일 side 타이틀 변경 -->
+				<div class="contents--header2">
+					<p style="height: 48px;">출금신청</p>
+				</div>
+
+				<!-- mk make 230901-->
+				<div class="wallet_out_main">
+					<div class = "wallet_out_main_div1">
+						<sapn>출금가능</sapn>
+						<input id = "max_money" disabled value="4,000,000">
+						<sapn>KRW</sapn>
+					</div>
+					<div class = "wallet_out_main_div2">
+						<sapn>출금한도</sapn>
+						<input id = "able_out_max_money" disabled value="4,000,000" >
+						<sapn>KRW</sapn>
+					</div>
+					<div>
+						<div class = "wallet_out_main_div3">
+							<sapn>출금금액</sapn>
+							<input class ="main_blank" disabled>
+							<button id="btn_max" onclick="transferMaxAmount()">최대</button>
+							<input class = "output_money" type="text" name="deposit_amount" class="text-right text-black blurrealnumber onlynum" oninput="updateValue(this)">
+							<input class = "main_unit" value="KRW" disabled>
+						</div>
+					</div>
+				</div>
+
+				
+				<div class="input--group">
+					<span>내 실명계좌</span>
+					<input type="text" id="address" name="address" readonly="" data-bind="user_info.bank_full">
+				</div>
+				<div class="input--group" >
+					<span>수수료</span>
+					<p type="text" id="fee" name="address" readonly="" style="">1,000 KRW</p>
+				</div>
+				<div class="input--group" >
+					<span>출금 예정금액</span>
+					<input type="text" id="out_money_t" name="address" readonly="" >
+				</div>
+
+
+				<div class="output--group3--text">
 					<ul>
-						<li data-i18n>이전에 입금 이력이 있더라도, 매번 동일한 입금절차를 거치셔야 합니다.</li>
-						<li data-i18n>통장입금내역과 입금예약사항이 정확히 일치하는 경우, 입금 후 고객님의 계정에 반영되기까지 약 10분 정도 소요됩니다.</li>
-						<li data-i18n>신청 후 30분 내 미입금시 관리자 확인 후 입금신청이 취소됩니다.</li>
-						<li data-i18n>서버 점검 시간 또는 은행거래 처리가 많은 월말에는 평소보다 입금처리가 지연될 수 있습니다.</li>
-						<li data-i18n>은행 공통 점검 시간(매일 23:30~00:30)에는 입금이 불가능하거나 지연될 수 있습니다.</li>
-						<li data-i18n>반드시 ‘입금’에서 입금요청한 금액만큼 계좌로부터 한번에 입금 해야 합니다.</li>
-						<li data-i18n>다음의 경우에는 입금처리가 되지 않습니다.</li>
-						<li data-i18n>예약한 금액과 다른 금액을 입금 예)1,000,000원을 예약하고 100,000원을 입금</li>
-						<li data-i18n>예약한 금액을 분할해 입금 예)1,000,000원을 500,000원 두 번으로 나누어 입금</li>
-						<li data-i18n>금액 상이로 인한 입금 지연 문의 시에는 입금여부 확인이 가능한 증빙자료를 제출해야 합니다. (이 때, 제출하시는 증빙자료는 예금주명, 계좌번호, 입금액, 입금시간을 정확히 확인할 수 있는 자료여야 합니다.)</li>
-						<li data-i18n>입금액이 계정에 반영되지 않거나 지연되는 경우 사이트 하단 고객지원센터 이메일로 문의해주시기 바랍니다.</li>
+						<p>출금 주의사항 안내</p>
+						<li>등록된 출금 계좌로 출금 신청이 진행됩니다.</li>
+						<li>출금 계좌 변경을 원하시는 경우 <a href="change-pin-number.html">출금 계좌 변경신청</a>을 이용해 주세요</li>
 					</ul>
 				</div>
-				<div class="withdrawal--btn d-flex" style="margin-top: 13px; justify-content: space-between">
-					<div class="checkbox checkbox--rounded"><input type="checkbox" name="" id="agree"><label for="agree" data-i18n>회원 탈퇴 약관에 동의합니다.</label></div>
-					<button class="btn btn--red" style="width: 340px" data-i18n>약관에 동의하고 회원 탈퇴하기</button>
+
+				<div class="d-flex flex-center btn-area" style="width:500px;margin-top:100px;">
+					<button type="button" name="btn-save-widthdraw" class="btn btn--blue" style="width: 196px; align-self: center; background: #0B2871;" data-i18n="">출금신청</button>
 				</div>
 			</div>
-		</main>
-		<nav class="mobile-bottom mobile-only">
-			<ul class="unstyled" style="width: 100%; display: flex; flex-direction: row">
-				<li class="exchange">
-					<a href="" data-i18n>거래소</a>
-				</li>
-				<li class="area" >
-					<a href="" data-i18n>티드로우</a>
-				</li>
-				<!-- <li class="auction" style="flex: 1 1 auto"><a href="" data-i18n>경매</a></li> -->
-				<li class="transaction" style="flex: 1 1 auto">
-					<a href="" data-i18n>거래내역</a>
-				</li>
-				<li class="more">
-					<a href="" data-i18n>더보기</a>
-				</li>
-			</ul>
-		</nav>
-	</div>
-    <!-- <footer class="desktop-only">
-		<div class="logo">Teaplat</div>
-		<nav class="fnb">
-			<ul>
-				<li>
-					<a href="" data-i18n>회사소개</a>
-				</li>
-				<li>
-					<a href="" data-i18n>이용약관</a>
-				</li>
-				<li>
-					<a href="" data-i18n>개인정보보호정책</a>
-				</li>
-				<li>
-					<a href="faq.html" data-i18n>자주묻는질문</a>
-				</li>
-			</ul>
-			<div class="copyright">
-				<address>
-					<span class="company--name" data-bind="company_info.license_company">(주)끽다거</span>
-					<span class="company--ceo"><span data-i18n>대표이사</span> : <span data-bind="company_info.license_ceo">안성희</span></span>
-					<span class="company--number"><span data-i18n>사업자등록번호</span> : <span data-bind="company_info.license_no">824-87-00881</span></span>
-					<span class="company--address"><span data-i18n>주소</span> : <span data-bind="company_info.license_address">서울특별시 종로구 계동 126번지 1호</span></span>
-					<span><span data-i18n>전화</span> : <span data-bind="company_info.shop_phone">02-733-9746</span></span>
-					<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제 2021-서울종로-0444호</span></span>
-					<span><span data-i18n>이메일</span> : <span data-bind="company_info.shop_admin_email">kkikdageo@naver.com</span></span>
-				</address>
-				<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다거</span>. All rights reserved. </div>
+		</div>
+		
+		<form id="pin_number" class="modal modal--tiny" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="title">
+						<h3>출금신청</h3>
+						<p>PIN 번호를 입력해주세요</p>
+					</div>
+					<div class="pin_area">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+						<p class="forget_pin text--blue-gray" data-i18n="">
+							보안비밀번호는 마이페이지 &gt; 	
+							<a href="change-pin-number.html" data-login="">보안비밀번호 변경</a>에서 바꾸실수 있습니다.
+						</p>
+						<div class="text--center">
+							<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
+						</div>
+					</div>
+				</div>
 			</div>
-		</nav>
-		<span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
-		<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
-		<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
-	</footer> -->
+		</form>
+	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
-
 </body>
+
+
 </html>
