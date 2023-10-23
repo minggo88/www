@@ -2384,10 +2384,10 @@
 .input--group3--text ul p{ 
 	font-weight:500;
 	padding-left: 10px; 
-	color=#444444 !important;
+	color : #444444 !important;
 }
 
 .input--group3--text ul li{
 	list-style-type: disc; 
-	padding-left:8px;
+	padding-left:8px; 
 }
