@@ -815,29 +815,40 @@ const fn_takeout = function () {
 
 					for (const d_item of item2) {*/
 
-					const itme2 = [item];
-					for (const d_item of itme2) {
-					  const t_name = d_item.t_name;
-					  const t_pdate = d_item.t_pdate;
-					  const t_cnt = d_item.t_cnt;
-					  const t_rdate = d_item.t_rdate;
-					  const t_state = d_item.t_state;
-					
-					  const grid = $(`<table class="cancel_list" />`);
-					  grid.append(`
-					    <tr class="cancel_list_left">
-					      <td rowspan="2" id="cancel_table_check" style="width: 14%; text-align: center; padding-left:5px !important;" class='item_name'><input type="checkbox" class="checkbox" value="${t_name}"></td>
-					      <td id="cancel_table_right1" style="width: 23%; text-align: center;" class='item_grade'>${t_pdate}</td>
-					      <td id="cancel_table_right1" style="width: 23%; text-align: center;" class="rdate">${dateChange(t_rdate)}</td>
-					      <td rowspan="2" style="width: 39%; text-align: center;" class="tcnt">${t_cnt}개</td>
-					      <td id="cancel_table_nond" rowspan="2" style="width: 1%; text-align: center;" class="tstate">${stateChage(t_state)}</td>
-					    </tr>
-					    <tr class="cancel_list_left">
-					      <td id="cancel_table_right2" style="width: 23%; text-align: center;" class='item_grade'>${t_pdate}</td>
-					      <td id="cancel_table_right2" style="width: 23%; text-align: center;" class="rdate">${dateChange(t_rdate)}</td>
-					    </tr>
-					  `);
-					  $('.wallet--grid').append(grid);
+					const item2 = [item];
+					for (const d_item of item2) {
+						const t_name = d_item.t_name;
+						const t_pdate = d_item.t_pdate;
+						const t_cnt = d_item.t_cnt;
+						const t_rdate = d_item.t_rdate;
+						const t_state = d_item.t_state;
+						var font_c = "var(--red-up)";
+
+						if(d_item.t_pdate < 2000){
+							font_c = "var(--blue-dn)";
+						}
+
+
+						const grid = $(`<table class="cancel_list" />`);
+						grid.append(`
+							<tr class="cancel_list_left">
+								<td rowspan="2" id="cancel_table_check" style="width: 14%; text-align: center; padding-left:5px !important; " class='item_name'><input type="checkbox" class="checkbox" value="${t_name}"></td>
+								<td id="cancel_table_right1" style="width: 23%; text-align: center; color: ${font_c};" class='item_grade'>${t_pdate}</td>
+								<td id="cancel_table_right1" style="width: 23%; text-align: center;" class="rdate">${t_name}</td>
+								<td rowspan="2" style="width: 39%; text-align: center;" class="tcnt">
+									<span>${t_cnt}개</span><br>
+									<span>${t_cnt}개</span><br>
+									<span>${t_cnt}개</span><br>
+									<span>${stateChage(t_state)}</span>
+								</td>
+								<td id="cancel_table_nond" rowspan="2" style="width: 1%; text-align: center;" class="tstate">${stateChage(t_state)}</td>
+							</tr>
+							<tr class="cancel_list_left">
+								<td id="cancel_table_right2" style="width: 23%; text-align: center;" class='item_grade'>${t_rdate}</td>
+								<td id="cancel_table_right2" style="width: 23%; text-align: center;" class="rdate">${t_pdate}</td>
+							</tr>
+						`);
+						$('.wallet--grid').append(grid);
 					}
                 });
             }

@@ -395,37 +395,6 @@
 						
 						
 						<div class="board--body p-0">
-							<div class="tab_bar mobile-only">
-								<div class="background"></div>
-								<div class="tab_header">
-									<div class="select dropdown--wrapper">
-										<button type="button" class="dropdown" name="m_category_label" data-i18n="">전체</button>
-										<div class="dropdown--item" name="m_dropdown">
-											<div class="title">
-												내역선택
-												<button type="button" class="navigation--close" onclick="$('.tab_bar .dropdown').removeClass('dropdown--open'); return false"></button>
-											</div>
-											<ul>
-												<li>
-													<button type="button" data-i18n="" data-category="" >전체</button>
-												</li>
-												<li>
-													<button type="button" data-i18n="" data-category="S">판매</button>
-												</li>
-												<li>
-													<button type="button" data-i18n="" data-category="B">구매</button>
-												</li>
-						
-											</ul>
-										</div>
-									</div>
-									<div class="refresh">
-										<button type="button" class="refresh-btn" name="btn-reload">방금전</button>
-									</div>
-								</div>
-							</div>
-						
-							<!--230309 mk 모바일전용 grid 추가 -->
 							<div class="table-responsive historyTb">
 								<table id="transactionGrid2" class="transaction--list board--list" >
 									<colgroup class="">
@@ -507,7 +476,11 @@
 									반출 신청한 상품이 없습니다.
 								</div>
 							</div>
-						</div>	
+						</div>
+						
+						<div class="text--center">
+							<button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">취소하기</button>
+						</div>
 					</div>
 				</div>
 
