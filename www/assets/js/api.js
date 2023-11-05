@@ -807,6 +807,29 @@ const API = {
             }
         })
     },
+
+    getMyOrderList: (symbol, sdate, edate, tradingType, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getMyOrderList/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+                lang: window.localStorage.locale,
+                symbol : symbol,
+                exchange : 'KRW',
+                return_type : 'datatable',
+                status : 'all',
+                start_date : sdate,
+                end_date : edate,
+			    trading_type : '',
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+
     getAuctionGoodsInfo: (goods_idx, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getAuction/auction_goods_info.php`,

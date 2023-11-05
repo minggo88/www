@@ -384,14 +384,14 @@ function wallet_tab(tabNumber) {
 			$('[name="mend"]').val(edate);
 			
 			let wallet_symbols = {};
-	
+
 			if (Object.values(Model.user_wallet).length > 1) {
 				wallet_symbols['all'] = { 'symbol': 'all', 'name': '상품 전체 검색', 'icon_url':'' }
-	
+
 				for (row of Object.values(Model.user_wallet)) {
 					wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name};
 				};
-	
+
 				let first_dropdown_value = 'all';
 			$('[name="symbol"]').dropdown('add', { value: 'all', text: '전체' })	
 			for(i in wallet_symbols) {
@@ -414,13 +414,13 @@ function wallet_tab(tabNumber) {
 				}
 				$('[name="symbol"]').dropdown('select', first_dropdown_value)
 					
-	
+
 				let selected_symbol = $('[name=symbol]:visible').dropdown('selected');
 				let selected_category = '';
 				let wallet = Model.user_wallet[selected_symbol];
 				let wallet_icon_url = wallet?.icon_url;
 				let wallet_name = wallet?.name;
-	
+
 				$('.modal--content [name=symbol]').on('change', function () {
 					console.log('detect changed2');
 					
@@ -435,8 +435,6 @@ function wallet_tab(tabNumber) {
 				});
 
 				
-				//const value = document.querySelectorAll(".option_div").getAttribute('value');
-
 				if(selected_symbol != ''){
 					//23039 mk 모바일용 주문내역 
 					$('#transactionGrid2').DataTable().destroy();
@@ -465,7 +463,7 @@ function wallet_tab(tabNumber) {
 								d.trading_type = $('#trade_type').val();
 							}							
 						},
-	
+
 						"language": {
 							"emptyTable": "데이터가 없음.",
 							"lengthMenu": "페이지당 _MENU_ 개씩 보기",
@@ -532,25 +530,25 @@ function wallet_tab(tabNumber) {
 						],
 						columnDefs: [
 							{searchable: false,
-							 createdCell: function (td) {
+							createdCell: function (td) {
 									$(td).attr('id', 'tab2_fix_title'); // '상품명' 열에 id 'aa' 추가
 								},orderable: true,targets: 0, "responsivePriority": 1,},  // 체결시간
 							{targets: 1,className: 'dt-body-center',
-							 createdCell: function (td) {
+							createdCell: function (td) {
 									$(td).attr('id', 'tab2_fix_title'); // '상품명' 열에 id 'aa' 추가
 								}, type: 'title-string',orderable: false,},  // 상품명
 							//{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 등급
 							{targets: 2,className: 'dt-body-center',
-							 createdCell: function (td) {
+							createdCell: function (td) {
 									$(td).attr('id', 'tab2_fix_title'); // '상품명' 열에 id 'aa' 추가
 								},type: 'title-string',orderable: false,"responsivePriority": 1},  // 생산년도
 							{targets: 3,
-							 createdCell: function (td, cellData, rowData, row, col) {
+							createdCell: function (td, cellData, rowData, row, col) {
 									$(td).css('color', '#E21A32');
 									if (cellData === 'sell') {
 									$(td).css('color', '#114FAC'); // '매수'인 경우 글자를 빨간색으로 스타일링
 									}
-						        },
+								},
 							},
 							{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
 							{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
@@ -561,7 +559,7 @@ function wallet_tab(tabNumber) {
 						],
 						"order": [ [0, 'desc'] ]
 					})
-	
+
 					$('[name="btn-search"]').on('click', function() {
 						$("#modal-wallet-option").hide(); 
 						selected_symbol = $('.modal--container [name=symbol]:visible').dropdown('selected');
@@ -584,7 +582,7 @@ function wallet_tab(tabNumber) {
 						//transactionGrid.ajax.reload(null, !!'reset page');
 						transactionGrid2.ajax.reload(null, !!'reset page');
 					});
-	
+
 					$('[name="m_dropdown"]').on('click', 'button', (e) => {
 						e.preventDefault()
 						let selected_text = $(e.target).text();
@@ -594,9 +592,9 @@ function wallet_tab(tabNumber) {
 							//transactionGrid.ajax.reload(null, !!'reset page');
 							transactionGrid2.ajax.reload(null, !!'reset page');
 						}
-	
+
 					})
-	
+
 					$(document).on('click', ".btn--cancal", function() {
 						// alert($(this).data('order_id'));
 						add_request_item('cancel', {'symbol':$(this).data('symbol'), 'orderid':$(this).data('order_id'),  'goods_grade':$(this).data('goods_grade') }, function(r) {
@@ -611,25 +609,26 @@ function wallet_tab(tabNumber) {
 			
 			//검색버튼 클릭 이벤트
 			$(document).on('click', "#btn_popup", function() {
-			  $("#modal-wallet-option").show(); // 모달을 표시
+			$("#modal-wallet-option").show(); // 모달을 표시
 			});
 			
 			$("#wallet-option-clear").click(function() {
 				$("#option_btn1").click();
 				$("#option_btn2").click();
 				$('.dropdown--item:eq(6) li:first').click();
-			  //$("#modal-wallet-option").hide(); // 모달을 가림
+			//$("#modal-wallet-option").hide(); // 모달을 가림
 			});
 
 			$("#modal-wallet-option").click(function(e) {
 				if (!$(e.target).closest("#modal--dialog-wallet-option").length) {
-		          $("#modal-wallet-option").hide();
+				$("#modal-wallet-option").hide();
 				}
 			});
 
-			
 			break;
 		case 3:
+			fn_takeout();
+			
 			break;
 		default:
 			break;
@@ -785,19 +784,20 @@ window.addEventListener('load', function() {
 	endInput2.value = getTodayDate(); // 오늘 날짜 설정
 });
 
-//미체결 js
-window.onload = function() {
-    setTimeout(function() {
-        fn_takeout();    
-    }, 500);
-    
-};
-
 const fn_takeout = function () {
     check_login();
-    
-    API.getTakeOutItem('ALL', '', (resp) => {
-        if(resp.success) {
+
+	//231103
+	let search_type = 0;//0: 전체, 1: 매수, 2: 매도
+	// 거래내역 검색
+	let sdate = date('Y-m-d', time()-60*60*24*365*1);
+	let edate = date('Y-m-d');
+
+	console.log(sdate);
+
+	API.getMyOrderList('TRADE', sdate, edate, '', (resp) => {
+		console.log(resp);
+		if(resp.success) {
             if(resp.payload.length > 0) {
                 
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
@@ -857,7 +857,71 @@ const fn_takeout = function () {
             $('#empty_text').show();
             console.log('fail');
         } 
-    });
+    });	
+
+/*
+    API.getTakeOutItem('ALL', '', (resp) => {
+        if(resp.success) {
+            if(resp.payload.length > 0) {
+                
+				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
+				$('[name="grid--empty"]').hide();
+                resp.payload.filter(function(item) {
+					if (item.crypto_currency === 'N') {
+						return false; // skip
+					}
+					return true;
+				}).map((item) => {
+                    /*
+					const item2 = [{t_name: '천년고수 왕중왕2', t_cnt: '1', t_pdate: '2018', t_rdate: '2023-07-25 12:25:05', t_state: 'C'}
+					,{t_name: '천년고수 왕중왕2', t_cnt: '1', t_pdate: '2008', t_rdate: '2023-07-25 12:25:05', t_state: 'C'}
+					,{t_name: '천년고수 왕중왕3', t_cnt: '1', t_pdate: '2108', t_rdate: '2023-07-25 12:25:05', t_state: 'C'}];
+
+					for (const d_item of item2) {
+
+					const item2 = [item];
+					for (const d_item of item2) {
+						const t_name = d_item.t_name;
+						const t_pdate = d_item.t_pdate;
+						const t_cnt = d_item.t_cnt;
+						const t_rdate = d_item.t_rdate;
+						const t_state = d_item.t_state;
+						var font_c = "var(--red-up)";
+
+						if(d_item.t_pdate < 2000){
+							font_c = "var(--blue-dn)";
+						}
+
+
+						const grid = $(`<table class="cancel_list" />`);
+						grid.append(`
+							<tr class="cancel_list_left">
+								<td rowspan="2" id="cancel_table_check" style="width: 14%; text-align: center; padding-left:5px !important; " class='item_name'><input type="checkbox" class="checkbox" value="${t_name}"></td>
+								<td id="cancel_table_right1" style="width: 23%; text-align: center; color: ${font_c};" class='item_grade'>${t_pdate}</td>
+								<td id="cancel_table_right1" style="width: 23%; text-align: center;" class="rdate">${t_name}</td>
+								<td rowspan="2" style="width: 39%; text-align: center;" class="tcnt">
+									<span>${t_cnt}개</span><br>
+									<span>${t_cnt}개</span><br>
+									<span>${t_cnt}개</span><br>
+									<span>${stateChage(t_state)}</span>
+								</td>
+								<td id="cancel_table_nond" rowspan="2" style="width: 1%; text-align: center;" class="tstate">${stateChage(t_state)}</td>
+							</tr>
+							<tr class="cancel_list_left">
+								<td id="cancel_table_right2" style="width: 23%; text-align: center;" class='item_grade'>${t_rdate}</td>
+								<td id="cancel_table_right2" style="width: 23%; text-align: center;" class="rdate">${t_pdate}</td>
+							</tr>
+						`);
+						$('.wallet--grid').append(grid);
+					}
+                });
+            }
+        }else{
+            $('#loading_text').hide();
+            $('#empty_text').show();
+            console.log('fail');
+        } 
+    });*/
 }
 
 const dateChange = function(dateTime){
