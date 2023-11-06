@@ -272,30 +272,30 @@
 							<div class="option_div" onclick="changeStyle(this)" value="buy">매수</div>
 							<div class="option_div" onclick="changeStyle(this)" value="sell">매도</div>
 						</div>
-						<label class="period-label" for="period">검색품목</label>
-						<div name="symbol" class="dropdown-wrapper symbol-select">
-							<button type="button" class="dropdown" id="dropdown_selected"></button>
-							<div class="dropdown--item">
-								<input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
-								<ul class="mt-0">
-								</ul>
+						
+						<div class="con2">
+					        <table class="inout-check-table">
+								<tbody>
+									<tr>
+										<th style="	width: 10%; size: 16px;">상태</th>
+										<th style="	width: 60%; size: 16px;">날자</th>
+										<th style="	width: 30%; size: 16px;">가격</th>
+									</tr>
+								</tbody>
+							</table>
+							
+							<div class="d-grid d-grid--empty wallet--grid" name="d-grid--empty">
+								<div class="grid grid--empty" name="grid--empty">
+									<div id = "loading_text">
+										로딩 중 입니다.
+									</div>
+									<div id = "empty_text" style="display: none;">
+										입출금 금액이 없습니다.
+									</div>
+								</div>
 							</div>
-						</div>
-						<label class="period-label" for="period">조회기간</label>
-						<div class="transaction-select" id="transaction">
-							<div class="option_div2" id="option_btn2" onclick="changeStyle2(this)" value="0" style="border:1px solid var(--red-up); color:var(--red-up);">일주일</div>
-							<div class="option_div2" onclick="changeStyle2(this)" value="1">1개월</div>
-							<div class="option_div2" onclick="changeStyle2(this)" value="3">3개월</div>
-							<div class="option_div2" onclick="changeStyle2(this)" value="12">1년</div>
-							<div class="option_div2" onclick="changeStyle2(this)" value="100">직접입력</div>
-						</div>
-						<div class="datepicker" id ="wallet-option-datepicker">
-							<label for="start" class="blind">Start date:</label>
-							<input type="date" id="start2" name="start" onclick="changeStyle3(this)" required="" pattern="\d{4}-\d{2}-\d{2}">
-							<span>~</span>
-							<label for="end" class="blind">End date:</label>
-							<input type="date" id="end2" name="end" onclick="changeStyle3(this)" required="" pattern="\d{4}-\d{2}-\d{2}">
-						</div>
+					    </div>
+						
 					</div>
 					
 					<div class="text--center">
@@ -307,22 +307,6 @@
 		</form>
 	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
-	<script>
-        // 선택 상자 엘리먼트를 가져옵니다.
-        var selectBox = document.getElementById("menuSelect");
-
-        // 선택 상자의 값이 변경될 때 알림을 표시하는 이벤트 핸들러를 추가합니다.
-        selectBox.addEventListener("change", function() {
-            var selectedValue = selectBox.value;
-            if (selectedValue === "all") {
-                alert("전체를 선택했습니다.");
-            } else if (selectedValue === "deposit") {
-                alert("입금을 선택했습니다.");
-            } else if (selectedValue === "withdraw") {
-                alert("출금을 선택했습니다.");
-            }
-        });
-    </script>
 </body>
 
 
