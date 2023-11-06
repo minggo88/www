@@ -247,64 +247,28 @@
 					<!--<div type="button" class="btn btn--gray btn--copy" data-clipboard-target="[name=address]" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</div>-->
 				</div>
 
-				<div class="input--group3--text">
-					<ul>
-						<p>입금 전 꼭 알아두세요!</p>
-						<li>입금 신청 금액을 정확하게 입력하셔야 정상적으로 입금처리가 완료됩니다.</li>
-						<li>계좌 이체 시 계정 소유자 본인 명의로 입금을 진행하여 주십시오</li>
-						<li>보이스피싱 등 금융사고 예방을 위해 KRW 첫 입금 후 72시간 동안 출금이 제한 됩니다.</li>
-						<li>은행 점검 시간에는 입금 서비스 이용이 원활하지 않을 수 있습니다.</li>
-					</ul>
-				</div>
-				<div class="d-flex flex-center btn-area" style="width:500px;margin-top:100px;">
-					<button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 196px; align-self: center" data-i18n="">입금하기</button>
-				</div>
-			</div>
-		</div>
-		
-		<form id="modal-wallet-option" class="modal modal--tiny form-order modal--open" tabindex="-1">
-			<div id= "modal--dialog-wallet-option" class="modal--dialog">
-				<div class="modal--content">	
-					<div class="modal--container">
-						<label class="transaction-label" for="transaction">거래종류</label>
-						<div class="transaction-select" id="transaction">
-							<div class="option_div" id="option_btn1" onclick="changeStyle(this)" value="" style="border:1px solid var(--red-up); color:var(--red-up);">전체</div>
-							<div class="option_div" onclick="changeStyle(this)" value="buy">매수</div>
-							<div class="option_div" onclick="changeStyle(this)" value="sell">매도</div>
+				<table class="cancel-check-table">
+					<tbody>
+						<tr>
+							<th style="	width: 10%; size: 16px;">상태</th>
+							<th style="	width: 30%; size: 16px;">체결시간</th>
+							<th style="	width: 60%; size: 16px;">금액</th>
+						</tr>
+					</tbody>
+				</table>
+				
+				<div class="d-grid d-grid--empty wallet--grid" name="d-grid--empty">
+					<div class="grid grid--empty" name="grid--empty">
+						<div id = "loading_text">
+							로딩 중 입니다.
 						</div>
-						
-						<div class="con2">
-					        <table class="inout-check-table">
-								<tbody>
-									<tr>
-										<th style="	width: 10%; size: 16px;">상태</th>
-										<th style="	width: 60%; size: 16px;">날자</th>
-										<th style="	width: 30%; size: 16px;">가격</th>
-									</tr>
-								</tbody>
-							</table>
-							
-							<div class="d-grid d-grid--empty wallet--grid" name="d-grid--empty">
-								<div class="grid grid--empty" name="grid--empty">
-									<div id = "loading_text">
-										로딩 중 입니다.
-									</div>
-									<div id = "empty_text" style="display: none;">
-										입출금 금액이 없습니다.
-									</div>
-								</div>
-							</div>
-					    </div>
-						
-					</div>
-					
-					<div class="text--center">
-						<button type="button" id="wallet-option-clear" class="btn btn--red" style="height: 40px; line-height: 40px" data-i18n="">초기화</button>
-						<button type="button" name="btn-search" class="btn btn--red" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
+						<div id = "empty_text" style="display: none;">
+							입출금기록이 없습니다.
+						</div>
 					</div>
 				</div>
-			</div>
-		</form>
+
+		</div>
 	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
 </body>
