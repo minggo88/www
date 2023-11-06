@@ -65,6 +65,7 @@ const fn_total = function () {
             console.log('fail');
         } 
     });
+}
 
 //dropdown 버튼 이벤트
 document.addEventListener("DOMContentLoaded", function() {
