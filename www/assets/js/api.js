@@ -830,6 +830,23 @@ const API = {
         })
     },
 
+    getMyInoutList: (search_type, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getMyInoutList/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+                lang: window.localStorage.locale,
+                symbol : search_type,
+                return_type : 'datatable',
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+
     getAuctionGoodsInfo: (goods_idx, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getAuction/auction_goods_info.php`,
