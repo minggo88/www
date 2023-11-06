@@ -8,7 +8,7 @@ var search_type = 0;
 const fn_total = function () {
     check_login();
 
-	API.getMyOrderList(search_type, (resp) => {
+	API.getMyInoutList(search_type, (resp) => {
 		console.log(resp);
 		if(resp.success) {
             if(resp.payload.length > 0) {
