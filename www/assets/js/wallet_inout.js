@@ -3,6 +3,8 @@ setTimeout(function() {
     $("#title_2_on").show()
 }, 500);
 
+var search_type = 0;
+
 const fn_total = function () {
     check_login();
 
@@ -203,7 +205,7 @@ function getNDaysAgo(n) {
 window.addEventListener('load', function() {
 	// 선택 상자 엘리먼트를 가져옵니다.
 	var selectBox = document.getElementById("menuSelect");
-	var search_type = 0;
+	
 	// 선택 상자의 값이 변경될 때 알림을 표시하는 이벤트 핸들러를 추가합니다.
 	selectBox.addEventListener("change", function() {
 		var selectedValue = selectBox.value;
