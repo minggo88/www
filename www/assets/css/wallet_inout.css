@@ -100,13 +100,18 @@
     color: #ffffff; /* 상위 요소의 글자색을 상속받음 */
 }
 
+.btn_in:active,
+.btn_out:active {
+    color: #ffffff; /* 클릭 시에 글자색을 흰색으로 설정 */
+}
+
 .btn_in{
 	width : 30%;
 	height: 35px;
 	padding-left : 15px;
 	border-right:1px solid #ffffff;
 	text-align: left;
-	color: white;
+	color: #ffffff !important;
 	line-height: 35px;
 }
 
@@ -116,8 +121,7 @@
 	padding-left : 15px;
 	text-align: left;
 	line-height: 35px;
-	color: white;
-	
+	color: #ffffff !important;	
 }
 
 .btn_in_img{
