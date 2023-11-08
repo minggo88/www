@@ -3,14 +3,17 @@
 }
 
 .wallet_in_main{
-	width : 500px;height: 93px;
-	background:var(--red-up); 
-	padding-top: 17px;
+	width : 500px;
+	height: 205px;
+	background:var(--red-up);
+	padding-top: 23px;
 }
 
 .wallet_in_main_div1{
-	margin-bottom:10px;
+	padding-top: 23px;
+	margin-bottom:25px;
 	text-align: center;
+	
 }
 
 .wallet_in_main_div1 span{
@@ -57,13 +60,11 @@
 }
 	
 .myinout_list{
-	border-bottom:1px solid #777777 !important;
+	border-bottom: 1px solid #777777 !important;
 }
-.myinout_list_left2{
-	border-top:1px solid #999999 !important;
-	border-border:1px solid #777777 !important;
+.myinout_list_left{
+	border-bottom:1px solid #999999 !important;
 }
-
 
 #total_money_line{
 	text-align: center;
@@ -80,4 +81,28 @@
 	color: white;
     font-weight: 400;
     font-size: 20px;
+}
+
+.wallet_in_main_btn{
+	width : 100%;
+	height: 59px;
+	padding-left: 5%;
+	padding-right: 5%;
+	border-top:1px solid #ffffff;
+	text-align: center;
+	color: white;
+	font-size: 16px;
+}
+
+.btn_in{
+	width:50%;
+	border-right:1px solid #ffffff;
+	padding-top : 10px;
+	padding-bottom : 13px;
+}
+
+.btn_out{
+	width:50%;
+	padding-top : 10px;
+	padding-bottom : 13px;
 }
