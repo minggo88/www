@@ -95,21 +95,43 @@
 	font-size: 16px;
 }
 
+.btn_in:hover,
+.btn_out:hover {
+    color: #ffffff; /* 상위 요소의 글자색을 상속받음 */
+}
+
 .btn_in{
-	width : 50%;
+	width : 30%;
 	height: 35px;
+	padding-left : 15px;
 	border-right:1px solid #ffffff;
-	text-align: center;
-	line-height: 35px;
+	text-align: left;
 	color: white;
-	background: url('../img/icon/inout_in.png') no-repeat center center;
+	line-height: 35px;
 }
 
 .btn_out{
-	width : 50%;
+	width : 30%;
 	height: 35px;
+	padding-left : 15px;
+	text-align: left;
+	line-height: 35px;
 	color: white;
+	
+}
+
+.btn_in_img{
+	width : 20%;
+	height: 35px;
 	text-align: center;
 	line-height: 35px;
-	background: url('../img/icon/inout_out.png') no-repeat center center;
+	background: url('../img/icon/inout_in.png') no-repeat center right;
+}
+
+.btn_out_img{
+	width : 20%;
+	height: 35px;
+	text-align: center;
+	line-height: 35px;
+	background: url('../img/icon/inout_out.png') no-repeat right center;
 }
