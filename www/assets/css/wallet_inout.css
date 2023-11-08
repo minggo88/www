@@ -2392,9 +2392,19 @@
 	padding-left:8px; 
 }
 
+#total_money_line{
+	text-align: center;
+}
+
 #total_money {
-    text-align: center;
     color: white;
     font-weight: 400;
     font-size: 24px;
+}
+
+
+#total_unit{
+	color: white;
+    font-weight: 400;
+    font-size: 20px;
 }
