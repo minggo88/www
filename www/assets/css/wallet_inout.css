@@ -68,6 +68,7 @@
 
 #total_money_line{
 	text-align: center;
+	padding-bottom:40px
 }
 
 #total_money {
@@ -86,23 +87,29 @@
 .wallet_in_main_btn{
 	width : 100%;
 	height: 59px;
-	padding-left: 5%;
-	padding-right: 5%;
+	padding-top : 10px;
+	padding-bottom : 13px;
+	display:flex;
 	border-top:1px solid #ffffff;
-	text-align: center;
-	color: white;
+	
 	font-size: 16px;
 }
 
 .btn_in{
-	width:50%;
+	width : 50%;
+	height: 35px;
 	border-right:1px solid #ffffff;
-	padding-top : 10px;
-	padding-bottom : 13px;
+	text-align: center;
+	line-height: 35px;
+	color: white;
+	background: url('../img/icon/inout_in.png') no-repeat center center;
 }
 
 .btn_out{
-	width:50%;
-	padding-top : 10px;
-	padding-bottom : 13px;
+	width : 50%;
+	height: 35px;
+	color: white;
+	text-align: center;
+	line-height: 35px;
+	background: url('../img/icon/inout_out.png') no-repeat center center;
 }
