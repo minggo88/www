@@ -42,7 +42,6 @@ function fn_wallet_deposit (){
 		
 		//api.js로 넘기는 로직 통일
 		API.deposit(symbol,deposit_amount, deposit_name, address, (resp) => {
-			console.log(resp);
 			if(resp.success) {
 				alert(__('입금 신청을 완료했습니다.'))
                 $('[name=deposit_amount]').val('0');
