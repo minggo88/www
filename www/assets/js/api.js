@@ -333,6 +333,30 @@ const API = {
             }
         })
     },
+    /***
+     * 입금
+     */
+    deposit: (symbol,deposit_amount, deposit_name, address, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/deposit/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data:  {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol : symbol, 
+                deposit_amount : deposit_amount,
+                deposit_name : deposit_name,
+                address : address,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            },error: (jqXHR) => {
+                console.error(jqXHR)
+            }
+        })
+    },
     getTradingList: (symbol, exchange = null, page = 1, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getTradingList/`,

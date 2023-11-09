@@ -1,18 +1,23 @@
-const fn_wallet_deposit = function () {
-    check_login();
+setTimeout(function() {
+    fn_wallet_deposit();
+}, 500);
+
+function fn_wallet_deposit (){
+	//로그인 체크 필요
+    //check_login();
     // access level 3
     // request_user_info();
     force_rander('user_info', Model.user_info);
     // 사이트 정보
     force_rander('site_info', Model.site_info);
-    add_request_item('getConfig', {}, function (r) {
+    /*add_request_item('getConfig', {}, function (r) {
         if (r && r.success) {
             Model.site_info = r.payload;
         }
-    });
+    });*/
     // 지갑 정보
     force_rander('user_wallet', Model.user_wallet); // 화면에 잔액 표시 후
-    get_user_wallet(); // DB 값으로 다시 잔액 표시
+    //get_user_wallet(); // DB 값으로 다시 잔액 표시
 
     const clipboard = new ClipboardJS('.btn--copy');
     clipboard.on('success', function (e) {
@@ -22,12 +27,11 @@ const fn_wallet_deposit = function () {
 
     // 입금하기
     $('[name="btn-save-deposit"]').on('click', function () { 
-        console.log('11111');
         const symbol = "KRW";
         const $deposit_amount = $('[name=deposit_amount]');
         const deposit_amount = $.trim($deposit_amount.val()).replace(/[^0-9.]/g, "");
-        if (deposit_amount <= 0) {
-            alert(__('입금액을 입력해주세요.')); $deposit_amount.select(); return false;
+        if (deposit_amount <= 9999) {
+            alert(__('입금액을 확인해주세요.')); $deposit_amount.select(); return false;
         }
         const $deposit_name = $('[name=deposit_name]');
         const deposit_name = $.trim($deposit_name.val());
@@ -35,6 +39,20 @@ const fn_wallet_deposit = function () {
             alert(__('입금자 이름을 입력해주세요.')); $deposit_name.select(); return false;
         }
         const address = $.trim($('[name=address]').val());
+		
+		//api.js로 넘기는 로직 통일
+		API.deposit(symbol,deposit_amount, deposit_name, address, (resp) => {
+			console.log(resp);
+			if(resp.success) {
+				alert(__('입금 신청을 완료했습니다.'))
+                $('[name=deposit_amount]').val('0');
+                $('[name=deposit_name]').val('');
+            } else {
+                alert(__('입금 신청을 완료하지 못했습니다.'))
+            }
+		});
+
+/*
         add_request_item('deposit', { 'symbol': symbol, 'deposit_amount': deposit_amount, 'deposit_name': deposit_name, 'address': address }, function (r) {
             if (r && r.success) {
                 alert(__('입금 신청을 완료했습니다.'))
@@ -43,11 +61,11 @@ const fn_wallet_deposit = function () {
             } else {
                 alert(__('입금 신청을 완료하지 못했습니다.'))
             }
-        })
+        })*/
     })
 
 }
-
+/*
 const check_login = function (msg) {
     if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
         if (msg) alert(msg);
@@ -60,7 +78,7 @@ const check_logout = function (msg) {
         window.location.href = "/";
     }
 }
-
+*/
 
 (jQuery(function ($) {
 	const force_rander = function (name, value) {
@@ -225,27 +243,5 @@ const check_logout = function (msg) {
 		}
 	}
     
-    /**
-	 * 회원지갑(잔액)정보 가져오기
-	 */
-	const get_user_wallet = function () {
-		// add_request_item('getBalance', { 'token': getCookie('token') }, function (r) {
-		$.post(API_URL + '/getBalance/', { 'token': getCookie('token') }, function (r) {
-			if (r && r.success && !r.error) {
-				let user_wallet = {};
-				// console.log(r.payload);
-				for (i in r.payload) {
-					let row = r.payload[i];
-					row.confirmed = row.confirmed * 1;
-					row.unconfirmed = row.unconfirmed * 1;
-					let key = gen_user_wallet_key(row.symbol, row.goods_grade);
-					user_wallet[key] = row;
-				}
-				// console.log(user_wallet);
-				Model.user_wallet = user_wallet;
-			}
-		});
-	}
-	get_user_wallet();
-
+   
 }));
