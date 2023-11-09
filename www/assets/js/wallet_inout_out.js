@@ -60,8 +60,7 @@ const fn_wallet_withdrawal = function () {
         const depositAmountInput = document.querySelector("input[name=deposit_amount]");
         // 값을 가져옵니다.
         const value = depositAmountInput.value;
-        
-        if(amount <= value ){
+        if(amount < value ){
             alert("출금은 출금 가능 금액에서 진행해 주세요.")
         }else if(value < 10000){
             alert("출금 최소 금액은 10,000원 이상입니다.")
@@ -87,8 +86,6 @@ const fn_wallet_withdrawal = function () {
             pin += $(elem).val();
         })
         
-        console.log(pin)
-
         if(check) {
             API.checkPin(pin, (resp) => {
                 if(resp.success) {
@@ -106,15 +103,17 @@ const fn_wallet_withdrawal = function () {
                     const symbol = Model.withdraw_currency.symbol;
                     const symbol_addres = Model.withdraw_currency.symbol+'/A';
 
-                    // console.log(to_address)
-                    add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol_addres].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
-                        if (r?.success) {
+                    //api.js로 넘기는 로직 통일
+                    API.deposit(symbol,Model.user_wallet[symbol_addres].address, to_address, amount, pin, (resp) => {
+                        if(resp.success) {
                             alert(__('출금신청을 완료했습니다.'));
+                            fn_current_money();
+                            $('[name=deposit_amount]').val('');
                         } else {
                             const msg = r?.error?.message || '';
                             alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
                         }
-                    })
+                    });
 
                     $('#pin_number').removeClass('modal--open'); //모달 창 닫아주기
                     $('[name="pincode"]').val(""); //팝업창 비밀번호 초기화
@@ -256,10 +255,10 @@ const fn_current_money = function(){
 			// 원래의 값을 가져와서 쉼표로 구분하여 표시
             //총출금금액
 			let formattedValue = numberWithCommas(total_money);
-			document.getElementById("max_money").textContent = formattedValue;
+			document.getElementById("max_money").value = formattedValue;
             //출금가능금액
             let formattedValue2 = numberWithCommas(total_money);
-			document.getElementById("able_out_max_money").textContent = formattedValue2;
+			document.getElementById("able_out_max_money").value = formattedValue2;
 		}
 	})
 }
