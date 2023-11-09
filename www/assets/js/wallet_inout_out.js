@@ -119,6 +119,7 @@ const fn_wallet_withdrawal = function () {
                             alert(__('출금신청을 완료했습니다.'));
                             fn_current_money();
                             $('[name=deposit_amount]').val('');
+                            $('#out_money_t').val('최소가격은 10,000원 이상입니다.');
                         } else {				
                             const msg = r?.error?.message || '';
                             alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
