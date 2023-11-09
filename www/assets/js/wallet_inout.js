@@ -86,7 +86,6 @@ const fn_total = function () {
 
 					//item2 = [item];
 					for (const d_item of item3) {
-						const t_type = d_item.txn_type;
 						const t_time = d_item.regdate;
 						const t_cnt = numberWithCommas(d_item.amount);
 						const t_status = d_item.status;
@@ -99,7 +98,7 @@ const fn_total = function () {
 							grid_type ="출금";
 						}
 
-						const txt_status = " 완료";
+						var txt_status = " 완료";
 						
 						if(t_status == "O"){
 							txt_status = " 준비 중";
