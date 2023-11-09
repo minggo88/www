@@ -91,7 +91,7 @@ const fn_total = function () {
 						const t_status = d_item.status;
 						
 						var font_c = "var(--red-up)";
-						const grid_type ="입금";
+						var grid_type ="입금";
 
 						if(d_item.txn_type != 'R'){
 							font_c = "var(--blue-dn)";

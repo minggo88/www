@@ -359,7 +359,7 @@ const API = {
     },
     withdraw: (symbol,from_address, to_address, amount, pin, callback = null) => {
         $.ajax({
-            url: `${API.BASE_URL}/deposit/`,
+            url: `${API.BASE_URL}/withdraw/`,
             type: 'POST',
             dataType: 'JSON',
             data:  {

@@ -73,7 +73,6 @@ const fn_wallet_withdrawal = function () {
     // 출금신청
     $('#pin_number').submit((e) =>  { 
         e.preventDefault();
-        console.log("a"+ Model.user_info.userno)
         let check = true
         let pin = ''
 
@@ -91,25 +90,36 @@ const fn_wallet_withdrawal = function () {
                 if(resp.success) {
                     // 출금액
                     //const amount = $('[name=amount]').val().replace(/[^0-9.]/g, "");
+					let inputValue = $('#address').val(); 
+
+					// '/'를 기준으로 문자열을 나누기
+					let splitValues = inputValue.split('/');
+					
+					// 공백을 제거하고 결과를 정리
+					let text1 = splitValues[0].trim() + ' / ' + splitValues[1].trim();
+					let text2 = splitValues[2].trim();
+
+					
                     // <input> 요소의 name 속성을 사용하여 요소를 찾습니다.
                     const depositAmountInput = document.querySelector("input[name=deposit_amount]");
                     // 값을 가져옵니다.
                     const value = depositAmountInput.value;
-                    
+					const symbol = 'KRW';
+					
                     const newValue2 = value.replace(/\D/g, '');
                     const amount = parseInt(newValue2, 10) - 1000;
-                    
-                    const to_address = $('[name="address"]').val();
-                    const symbol = Model.withdraw_currency.symbol;
-                    const symbol_addres = Model.withdraw_currency.symbol+'/A';
-
-                    //api.js로 넘기는 로직 통일
-                    API.deposit(symbol,Model.user_wallet[symbol_addres].address, to_address, amount, pin, (resp) => {
+                    //나라별 화폐 입력 필요
+					const from_address = text1;//받을통장주소
+                    const to_address = text2;//사용자이름
+                    //const symbol = Model.withdraw_currency.symbol;
+					
+				    //api.js로 넘기는 로직 통일
+                    API.withdraw(symbol, from_address, to_address, amount, pin, (resp) => {
                         if(resp.success) {
                             alert(__('출금신청을 완료했습니다.'));
                             fn_current_money();
                             $('[name=deposit_amount]').val('');
-                        } else {
+                        } else {				
                             const msg = r?.error?.message || '';
                             alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
                         }
@@ -180,8 +190,8 @@ function updateValue(input) {
                     
         // 숫자 형식으로 변경하여 입력 상자의 값 업데이트
         input.value = numberWithCommas(newValue);
-         const text = numberWithCommas(decreasedValue);
-        console.log(text);
+        const text = numberWithCommas(decreasedValue);
+        
         const outMoneyT = document.getElementById('out_money_t');
         outMoneyT.value = text + " KRW";
       }else if(newValue.length <= 4){
@@ -225,7 +235,6 @@ const fn_current_money = function(){
 		let total_buyable_balance = 0; // 총 구매 가능 자산
 		let total_money = 0;
 
-		// console.log('getBalance resp:', resp);
 		if(resp.payload.length > 0) {
 			resp.payload.filter(function(item) {
 				if (item.crypto_currency === 'N') {
@@ -243,15 +252,12 @@ const fn_current_money = function(){
 					return;
 				}
 
-				//console.log(item);
-				
 				if (item.valuation > 0 || item.symbol=='KRW' ) {
 					total_money = item.total_money;                        // 현금보유
 				}
 
 			})
 
-			console.log("총금액 : " + total_money);
 			// 원래의 값을 가져와서 쉼표로 구분하여 표시
             //총출금금액
 			let formattedValue = numberWithCommas(total_money);
