@@ -357,6 +357,28 @@ const API = {
             }
         })
     },
+    withdraw: (symbol,from_address, to_address, amount, pin, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/deposit/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data:  {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol : symbol, 
+                from_address : from_address,
+                to_address : to_address,
+                amount : amount,
+                pin : pin,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            },error: (jqXHR) => {
+                console.error(jqXHR)
+            }
+        })
+    },
     getTradingList: (symbol, exchange = null, page = 1, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getTradingList/`,
