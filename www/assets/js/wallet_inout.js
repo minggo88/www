@@ -88,7 +88,7 @@ const fn_total = function () {
 					for (const d_item of item3) {
 						const t_type = d_item.txn_type;
 						const t_time = d_item.regdate;
-						const t_cnt = d_item.amount;
+						const t_cnt = numberWithCommas(d_item.amount);
 						
 						var font_c = "var(--red-up)";
 						const grid_type ="입금";
