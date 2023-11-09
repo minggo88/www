@@ -88,7 +88,8 @@ const fn_total = function () {
 					for (const d_item of item3) {
 						const t_type = d_item.txn_type;
 						const t_time = d_item.regdate;
-						const t_cnt = d_item.amount;
+						const t_cnt = numberWithCommas(d_item.amount);
+						const t_status = d_item.status;
 						
 						var font_c = "var(--red-up)";
 						const grid_type ="입금";
@@ -98,7 +99,17 @@ const fn_total = function () {
 							grid_type ="출금";
 						}
 
-						const grid_type2 = grid_type + " 완료";
+						const txt_status = " 완료";
+						
+						if(t_status == "O"){
+							txt_status = " 준비 중";
+						} else if(t_status == "C"){
+							txt_status = " 취소";
+						} else if(t_status == "P"){
+							txt_status = " 처리 중";
+						}
+
+						const grid_type2 = grid_type + txt_status;
 
 						const grid = $(`<table class="myinout_list" />`);
 						grid.append(`
