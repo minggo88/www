@@ -1196,6 +1196,7 @@ $(function() {
                 $("[name='btn_view_stat']").addClass("btn--star").removeClass("btn--star--on")
             }
         }
+		$('#right_buy').click();
     })
     .on('draw.dt', () => {
     
@@ -1765,6 +1766,7 @@ $(function() {
             modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
             modal.find('.tea--name').text(name)
             modal.find('[name=goods_grade]').val(goods_grade)
+			
 	    $('[name=use_agreement]').prop('checked', false);
 	    
 	    //mk 물품 구매시 total가격, 수량 수정
@@ -1964,6 +1966,7 @@ window.onload = function() {
     if (window.orientation == 90 || window.orientation == -90) {
         document.body.style.transform = "rotate(0deg)";
     }
+	
 };
 
 ///// 230822 추가
@@ -2050,10 +2053,8 @@ function updateTable(newData, text) {
     const orderList = document.querySelector('.order-list');
 
 	if(text === "매도"){
-		console.log('11111111');
 		orderList.innerHTML = "";
 		console.log(newData);
-		
 	}
 	
 	
@@ -2100,10 +2101,15 @@ function toggleOrderContent(orderType) {
         document.getElementById(`right_sell`).style.color = '#0B2871';	
         document.getElementById(`right_buy`).style.color = 'black';	
         document.getElementById(`right_mange`).style.color = 'black';
+		const cnt_sellable = USER_WALLET[gen_user_wallet_key(SELECTED_SYMBOL,SELECTED_GOODS_GRADE)]?.confirmed || 0;
+		document.getElementsByClassName('tea--available')[1].textContent = real_number_format(cnt_sellable) + '개';
+		document.getElementsByName('goods_grade')[1].textContent = SELECTED_GOODS_GRADE + '등급';
+		calc_sell();
     }else if(`${orderType}` ==="buy"){
         document.getElementById(`right_sell`).style.color = 'black';	
         document.getElementById(`right_buy`).style.color = 'var(--red-up)';	
         document.getElementById(`right_mange`).style.color = 'black';
+        document.getElementsByName('goods_grade')[0].textContent = SELECTED_GOODS_GRADE + '등급';
     }else{
         document.getElementById(`right_sell`).style.color = 'black';	
         document.getElementById(`right_buy`).style.color = 'black';	
@@ -2117,7 +2123,7 @@ function toggleOrderContent(orderType) {
 
 // 주문취소 창의 주문번호 리스트를 생성하는 함수
 function createCancelOrderList() {
-    const cancelOrderContent = document.getElementById('cancel-order-content');
+    /*const cancelOrderContent = document.getElementById('cancel-order-content');
     cancelOrderContent.innerHTML = '';
     const cancelOrderList = document.createElement('div');
     cancelOrderList.style.height = '440px';
@@ -2135,7 +2141,7 @@ function createCancelOrderList() {
         orderRow.appendChild(orderLabel);
         cancelOrderList.appendChild(orderRow);
     }
-    cancelOrderContent.appendChild(cancelOrderList);
+    cancelOrderContent.appendChild(cancelOrderList);*/
 }
 
 // 매수, 매도, 주문관리 클릭 이벤트 추가
@@ -2145,7 +2151,7 @@ document.querySelector('.menu-item:nth-child(3)').addEventListener('click', () =
 
 // 주문취소 창의 주문번호 리스트를 생성하고 숨깁니다.
 createCancelOrderList();
-document.getElementById('cancel-order-content').style.display = 'none';
+//document.getElementById('cancel-order-content').style.display = 'none';
 
 //주문 더보기
 function showDivPlus(checkNum) {
@@ -2230,6 +2236,56 @@ function showOrderDetails(orderNumber, orderStatus, productPrice, quantity) {
 	}
 }
 
+//가격 리스너 
+document.getElementById('buy_val').addEventListener('input', function() {
+  // 입력 요소의 값이 변경될 때마다 실행될 코드
+	var inputValue = this.value;
+	const buy_price = $('#buy_price').val();
+	$('#buy_total').val(addCommas(rmCommas(buy_price)*inputValue));
+	console.log('111');
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var sellValInput = document.getElementById('sell_price');
+	var sp_sell_p = document.getElementById('spiner-plus-sell');
+	var sp_sell_m = document.getElementById('spiner-minus-sell');
+
+	var buyValInput = document.getElementById('buy_price');
+
+	var spinerPlusButton = document.querySelector('.spiner-plus');
+	var spinerMinusButton = document.querySelector('.spiner-minus');
+
+    if (sellValInput) {
+        sellValInput.addEventListener('input', function() {
+            calc_sell();
+        });
+    }
+
+	sp_sell_p.addEventListener('click', function() {
+		calc_sell();
+	});
+
+	sp_sell_m.addEventListener('click', function() {
+		calc_sell();
+	});
+
+	spinerPlusButton.addEventListener('click', function() {
+		calc_buy();
+	});
+
+	spinerMinusButton.addEventListener('click', function() {
+		calc_buy();
+	});
+
+	if (buyValInput) {
+        buyValInput.addEventListener('input', function() {
+            calc_buy();
+        });
+    }
+
+});
+
 function rmCommas(value) {
     return value.replace(/,/g, '');
 }
@@ -2255,4 +2311,16 @@ function order_chnage(text){
 	    rightIng.style.color = 'white';
 	    rightIng.style.background = 'var(--red-up)';
 	}
+}
+
+function calc_sell(){
+	const sell_ea = $('#sell_val').val();
+	const sell_price = $('#sell_price').val();
+	$('#sell_total').val(addCommas(rmCommas(sell_price)*sell_ea));
+}
+
+function calc_buy(){
+	const buy_ea = $('#buy_val').val();
+	const buy_price = $('#buy_price').val();
+	$('#buy_total').val(addCommas(rmCommas(buy_price)*buy_ea));
 }

@@ -777,8 +777,7 @@
 										name="orderid"></div>
 									<dl style="margin-bottom: 10px">
 										<dt data-i18n="">등급</dt>
-										<dd class="input_select" type="text" name="goods_grade" readonly="readonly"
-											style="display: block;">S등급</dd>
+										<dd class="input_select" type="text" name="goods_grade" readonly="readonly" style="display: block;"></dd>
 									</dl>
 									<dl class="tea--" style="margin-bottom: 13px;">
 										<dt data-i18n="">구매가능금액</dt>
@@ -844,7 +843,7 @@
 									<dl style="margin-bottom: 10px">
 										<dt data-i18n="">등급</dt>
 										<dd class="input_select" type="text" name="goods_grade" readonly="readonly"
-											style="display: block;">S등급</dd>
+											style="display: block;"></dd>
 									</dl>
 									<dl style="margin-bottom: 13px">
 										<dt data-i18n="">판매가능수량</dt>
@@ -894,9 +893,10 @@
 										</label>
 										<span style="font-size:12px">부가가치세 : 10%</span>
 									</dl>
-									<div class="text--center" style="margin-top: 7px"><button type="submit"
-											class="btn btn--blue flex-self-center"
-											style="height: 40px; line-height: 40px" data-i18n="">판매하기</button></div>
+									<div class="text--center" style="margin-top: 7px">
+										<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n>판매하기</button>
+										<a href="" id="modal-sell-button" class="btn btn--white" data-toggle="modal" data-target="#modal-sell-pin" data-i18n="">판매 등록</a>
+									</div>
 								</div>
 							</div>
 
@@ -1400,9 +1400,10 @@
 						</label>
 						<a href="#" onClick="open_use_agreement()" style="color:var(--red-up)">&nbsp;&nbsp;전문보기</a>
 					</dl>
-					<div class="text--center" style="margin-top: 7px"><button type="submit"
-							class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px"
-							data-i18n>판매하기</button></div>
+					<div class="text--center" style="margin-top: 7px">
+						<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n>판매하기</button>
+						<a href="" id="modal-sell-button" class="btn btn--white" data-toggle="modal" data-target="#modal-sell-pin" data-i18n="">판매 등록</a>
+					</div>
 				</div>
 			</div>
 		</form>
