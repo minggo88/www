@@ -764,8 +764,8 @@
 
 						<div class="right">
 							<div class="right_title">
-								<span class="menu-item" id="right_buy" style="color: var(--red-up);">매수</span>
-								<span class="menu-item" id="right_sell">매도</span>
+								<span class="menu-item" id="right_buy" style="color: var(--red-up);" onclick="calc_buy()">매수</span>
+								<span class="menu-item" id="right_sell" onclick="calc_sell()">매도</span>
 								<span class="menu-item" id="right_mange">주문관리</span>
 							</div>
 
@@ -781,7 +781,7 @@
 									</dl>
 									<dl class="tea--" style="margin-bottom: 13px;">
 										<dt data-i18n="">구매가능금액</dt>
-										<dd class="tea--available" style="display: block;">26,000 KRW</dd>
+										<dd class="tea--available" style="display: block;"></dd>
 									</dl>
 									<dl>
 										<dt data-i18n="">가격</dt>
@@ -827,9 +827,10 @@
 										</label>
 										<span style="font-size:12px">부가가치세 : 10%</span>
 									</dl>
-									<div class="text--center" style="margin-top: 7px"><button type="submit"
-											class="btn btn--red flex-self-center"
-											style="height: 40px; line-height: 40px" data-i18n="">구매하기</button></div>
+									<div class="text--center" style="margin-top: 7px">
+										<a href="" id="modal-buy-button" class="btn btn--white" style="height: 40px; line-height: 40px; background: var(--red-up); color: var(--white) !important;" data-toggle="modal" data-target="#modal-buy" data-i18n="">구매 등록</a>
+									</div>
+
 								</div>
 							</div>
 
@@ -894,8 +895,7 @@
 										<span style="font-size:12px">부가가치세 : 10%</span>
 									</dl>
 									<div class="text--center" style="margin-top: 7px">
-										<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n>판매하기</button>
-										<a href="" id="modal-sell-button" class="btn btn--white" data-toggle="modal" data-target="#modal-sell-pin" data-i18n="">판매 등록</a>
+										<a href="" id="modal-sell-button" class="btn btn--white" style="height: 40px; line-height: 40px; background: var(--blue-dn); color: var(--white) !important" data-toggle="modal" data-target="#modal-sell" data-i18n="">판매 등록</a>
 									</div>
 								</div>
 							</div>
@@ -1128,7 +1128,7 @@
 						<dd>
 							<div class="input">
 								<input type="text" name="price" value="0.0" min="0" step="0.1"
-									oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px">
+									oninput="this.parentNode.dataset.value = this.value" style="padding-right:35px" readonly="readonly">
 								<div type="button" class="btn btn--gray"
 									style="height: 33px;line-height: 33px;width: 35px;position: absolute;right: 0;"
 									data-i18n>원</div>
@@ -1139,11 +1139,11 @@
 						<dt data-i18n>수량</dt>
 						<dd>
 							<div class="input--spiner">
-								<input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
-								<div class="d-flex">
+								<input type="number" name="volume" class="onlynum" value="0" min="0" step="any" readonly="readonly">
+								<!--<div class="d-flex">
 									<button type="button" class="spiner-minus"></button>
 									<button type="button" class="spiner-plus"></button>
-								</div>
+								</div>-->
 							</div>
 						</dd>
 					</dl>
@@ -1349,7 +1349,7 @@
 						<dd style="width: 220px">
 							<div class="input">
 								<input type="text" name="price" value="0.0" min="0" step="0.1"
-									oninput="this.parentNode.dataset.value = this.value">
+									oninput="this.parentNode.dataset.value = this.value" readonly="readonly">
 							</div>
 						</dd>
 					</dl>
@@ -1357,11 +1357,11 @@
 						<dt data-i18n>수량</dt>
 						<dd style="width: 220px">
 							<div class="input--spiner">
-								<input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
-								<div class="d-flex">
+								<input type="number" name="volume" class="onlynum" value="0" min="0" step="any" readonly="readonly">
+								<!--<div class="d-flex">
 									<button type="button" class="spiner-minus"></button>
 									<button type="button" class="spiner-plus"></button>
-								</div>
+								</div>-->
 							</div>
 						</dd>
 					</dl>
@@ -1402,7 +1402,6 @@
 					</dl>
 					<div class="text--center" style="margin-top: 7px">
 						<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n>판매하기</button>
-						<a href="" id="modal-sell-button" class="btn btn--white" data-toggle="modal" data-target="#modal-sell-pin" data-i18n="">판매 등록</a>
 					</div>
 				</div>
 			</div>
@@ -1463,19 +1462,19 @@
 						<dd style="width: 220px">
 							<div class="input">
 								<input type="text" name="price" value="0.0" min="0" step="0.1"
-									oninput="this.parentNode.dataset.value = this.value" readonly>
+									oninput="this.parentNode.dataset.value = this.value" readonly="readonly">
 							</div>
 						</dd>
 					</dl>
 					<dl style="margin-bottom: 10px">
 						<dt data-i18n>수량</dt>
 						<dd style="width: 220px">
-							<div class="input--spiner">
+							<div class="input--spiner" readonly="readonly">
 								<input type="number" name="volume" class="onlynum" value="0" min="0" step="any">
-								<div class="d-flex">
+								<!--<div class="d-flex">
 									<button type="button" class="spiner-minus"></button>
 									<button type="button" class="spiner-plus"></button>
-								</div>
+								</div>-->
 							</div>
 						</dd>
 					</dl>

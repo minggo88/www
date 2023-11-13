@@ -1655,15 +1655,16 @@ $(function() {
         .myModal('beforeOpen', _e => {
             const modal = $('#modal-buy')
             //const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE,'')]?.confirmed || 0;
-	    const cnt_buyable = Model.user_wallet.KRW.total_money;
+	        const cnt_buyable = Model.user_wallet.KRW.total_money;
 
             modal.find('.tea--available').text(real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
             modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
             modal.find('[name=orderid]').text('')
-            modal.find('[name=price]').val(real_number_format(SELECTED_SYMBOL_PRICE))
-            modal.find('[name=volume]').val('')
-            modal.find('[name=total]').val('0')
+            modal.find('[name=price]').val(real_number_format($('#buy_price').val()));
+            modal.find('[name=volume]').val(real_number_format($('#buy_val').val()));
+            const t_buy_money = $('#buy_price').val() * $('#buy_val').val();
+            modal.find('[name=total]').val(real_number_format(t_buy_money));
             modal.find('.tea--name').text(SELECTED_NAME)
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
 	    $('[name=use_agreement]').prop('checked', false);
@@ -2107,11 +2108,17 @@ function toggleOrderContent(orderType) {
 		document.getElementsByClassName('tea--available')[1].textContent = real_number_format(cnt_sellable) + '개';
 		document.getElementsByName('goods_grade')[1].textContent = SELECTED_GOODS_GRADE + '등급';
 		calc_sell();
+		trade_list_load();
     }else if(`${orderType}` ==="buy"){
         document.getElementById(`right_sell`).style.color = 'black';	
         document.getElementById(`right_buy`).style.color = 'var(--red-up)';	
         document.getElementById(`right_mange`).style.color = 'black';
+		const cnt_buyable = Model.user_wallet.KRW.total_money;
+		document.getElementsByClassName('tea--available')[0].textContent = real_number_format(cnt_buyable) + SELECTED_EXCHANGE;
+		//modal.find('.tea--available').text(real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
         document.getElementsByName('goods_grade')[0].textContent = SELECTED_GOODS_GRADE + '등급';
+		calc_buy();
+		trade_list_load();
     }else{
         document.getElementById(`right_sell`).style.color = 'black';	
         document.getElementById(`right_buy`).style.color = 'black';	
@@ -2313,4 +2320,10 @@ function calc_buy(){
 		const buy_price = $('#buy_price').val();
 		$('#buy_total').val(addCommas(rmCommas(buy_price)*buy_ea));
 	}, 50);	
+}
+
+function trade_list_load(){
+    console.log("symbole : " + SELECTED_SYMBOL);
+    console.log("exchange : " + SELECTED_EXCHANGE);
+    //buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
 }
