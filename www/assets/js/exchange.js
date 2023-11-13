@@ -2264,22 +2264,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-	sp_sell_p.addEventListener('click', function() {
-		calc_sell();
-	});
-
-	sp_sell_m.addEventListener('click', function() {
-		calc_sell();
-	});
-
-	spinerPlusButton.addEventListener('click', function() {
-		calc_buy();
-	});
-
-	spinerMinusButton.addEventListener('click', function() {
-		calc_buy();
-	});
-
 	if (buyValInput) {
         buyValInput.addEventListener('input', function() {
             calc_buy();
@@ -2316,13 +2300,17 @@ function order_chnage(text){
 }
 
 function calc_sell(){
-	const sell_ea = $('#sell_val').val();
-	const sell_price = $('#sell_price').val();
-	$('#sell_total').val(addCommas(rmCommas(sell_price)*sell_ea));
+	setTimeout(function() {
+		const sell_ea = $('#sell_val').val();
+		const sell_price = $('#sell_price').val();
+		$('#sell_total').val(addCommas(rmCommas(sell_price)*sell_ea));
+	}, 50);
 }
 
 function calc_buy(){
-	const buy_ea = $('#buy_val').val();
-	const buy_price = $('#buy_price').val();
-	$('#buy_total').val(addCommas(rmCommas(buy_price)*buy_ea));
+	setTimeout(function() {
+		const buy_ea = $('#buy_val').val();
+		const buy_price = $('#buy_price').val();
+		$('#buy_total').val(addCommas(rmCommas(buy_price)*buy_ea));
+	}, 50);	
 }
