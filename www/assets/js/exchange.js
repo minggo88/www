@@ -1874,8 +1874,10 @@ $(function() {
             modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
             modal.find('[name=orderid]').text('')
             modal.find('[name=price]').val(real_number_format(SELECTED_SYMBOL_PRICE))
-            modal.find('[name=volume]').val('')
-            modal.find('[name=total]').val('0')
+            modal.find('[name=price]').val(real_number_format($('#sell_price').val()));
+            modal.find('[name=volume]').val(real_number_format($('#sell_val').val()));
+            const t_sell_money = $('#sell_price').val() * $('#sell_val').val();
+            modal.find('[name=total]').val(real_number_format(t_sell_money));
             modal.find('.tea--name').text(SELECTED_NAME)
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
 	    $('[name=use_agreement]').prop('checked', false);
