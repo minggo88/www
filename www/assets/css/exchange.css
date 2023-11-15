@@ -888,10 +888,15 @@ div.dts div.dataTables_scrollBody {
 
 /* 주문 취소 창 스타일 */
 .cancel-order-content {
-	position: fixed;
-	bottom: 20px;
-	
+	background:white;
 }
+.cancel-order-content #last-text{
+	display: flex;
+    justify-content: space-between;
+	margin-bottom: 5px;
+	width:393px;
+}
+
 
 .cancel-order-button {
 	background-color: red;
@@ -901,6 +906,7 @@ div.dts div.dataTables_scrollBody {
 	text-align: center;
 	width: 378px;
 	margin: 10px auto;
+	margin-top: 0px;
 }
 
 .list-container {
@@ -911,8 +917,11 @@ div.dts div.dataTables_scrollBody {
 }
 
 .list-item {
-display: flex;
-padding-left:10px;
+	display: flex;
+	padding-left:10px;
+	padding-bottom : 5px;
+	margin-bottom: 5px;
+	border-bottom : 1px solid #333333;
 
 }
 .manage-checkbox{
@@ -933,13 +942,15 @@ justify-content: space-between;
 }
 
 .manage-right {
-display: flex;
-flex-direction: column;
-align-items: flex-end;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	padding-right:10px;
 }
 
 .manage-right > * {
-text-align: right;
+	text-align: right;
+	width : 130px;
 }
 
 /* 소팅 화살표 제거*/
