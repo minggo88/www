@@ -878,7 +878,7 @@ const API = {
             data: {
                 token: window.localStorage.token,
                 lang: window.localStorage.locale,
-                symbol : symbol,
+                symbol : 'trade',
                 exchange : 'KRW',
                 return_type : 'datatable',
                 status : 'all',

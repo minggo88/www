@@ -460,7 +460,7 @@ function wallet_tab(tabNumber) {
 								d.status = 'all';
 								d.start_date = $('#start2').val();
 								d.end_date = $('[name="end"]').val();
-								d.trading_type = $('#trade_type').val();
+								
 							}							
 						},
 
@@ -797,12 +797,10 @@ const fn_takeout = function () {
 
 	API.getMyOrderList('TRADE', sdate, edate, '', (resp) => {
 		console.log(resp);
-		if(resp.success) {
-            if(resp.payload.length > 0) {
-                
+		if(resp.data.length>0) { 
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
 				$('[name="grid--empty"]').hide();
-                resp.payload.filter(function(item) {
+                resp.data.filter(function(item) {
 					if (item.crypto_currency === 'N') {
 						return false; // skip
 					}
@@ -814,17 +812,26 @@ const fn_takeout = function () {
 					,{t_name: '천년고수 왕중왕3', t_cnt: '1', t_pdate: '2108', t_rdate: '2023-07-25 12:25:05', t_state: 'C'}];
 
 					for (const d_item of item2) {*/
-
+					console.log(item);
 					const item2 = [item];
 					for (const d_item of item2) {
-						const t_name = d_item.t_name;
-						const t_pdate = d_item.t_pdate;
-						const t_cnt = d_item.t_cnt;
-						const t_rdate = d_item.t_rdate;
-						const t_state = d_item.t_state;
+						if(d_item.tstatus != "O"){
+							continue;
+						}
+						var t_type = "매수 주문";
+						const t_name = d_item.currency_name;
+						const t_pdate = d_item.production_date;
+						const t_cnt = d_item.volume;
+						const t_rdate = d_item.time_order;
+						const t_state = d_item.tstatus;
+						const t_grade = d_item.goods_grade;
+						const t_price = d_item.amount;
+						const t_total_price = t_cnt *  t_price;
+						const order_id = d_item.orderid + "/" + d_item.symbol;
 						var font_c = "var(--red-up)";
 
-						if(d_item.t_pdate < 2000){
+						if(d_item.trading_type == "sell"){
+							t_type = "매도 주문";
 							font_c = "var(--blue-dn)";
 						}
 
@@ -832,14 +839,26 @@ const fn_takeout = function () {
 						const grid = $(`<table class="cancel_list" />`);
 						grid.append(`
 							<tr class="cancel_list_left">
-								<td rowspan="2" id="cancel_table_check" style="width: 14%; text-align: center; padding-left:5px !important; " class='item_name'><input type="checkbox" class="checkbox" value="${t_name}"></td>
-								<td id="cancel_table_right1" style="width: 23%; text-align: center; color: ${font_c};" class='item_grade'>${t_pdate}</td>
+								<td rowspan="2" id="cancel_table_check" style="width: 14%; text-align: center; padding-left:5px !important; " class='item_name'><input type="checkbox" class="checkbox" value="${order_id}"></td>
+								<td id="cancel_table_right1" style="width: 23%; text-align: center; color: ${font_c};" class='item_grade'>${t_type}</td>
 								<td id="cancel_table_right1" style="width: 23%; text-align: center;" class="rdate">${t_name}</td>
 								<td rowspan="2" style="width: 39%; text-align: center;" class="tcnt">
-									<span>${t_cnt}개</span><br>
-									<span>${t_cnt}개</span><br>
-									<span>${t_cnt}개</span><br>
-									<span>${stateChage(t_state)}</span>
+									<p>
+										<span>등급</span>
+										<span>${t_grade}개</span>
+									</p>
+									<p>
+										<span>주문단가</span>
+										<span>${real_number_format(t_price)} 원</span>
+									</p>
+									<p>
+										<span>주문수량</span>
+										<span>${real_number_format(t_cnt)} 개</span>
+									</p>
+									<p>
+										<span>주문금액</span>
+										<span>${real_number_format(t_total_price)} 원</span>
+									</p>
 								</td>
 								<td id="cancel_table_nond" rowspan="2" style="width: 1%; text-align: center;" class="tstate">${stateChage(t_state)}</td>
 							</tr>
@@ -851,7 +870,7 @@ const fn_takeout = function () {
 						$('.wallet--grid').append(grid);
 					}
                 });
-            }
+            
         }else{
             $('#loading_text').hide();
             $('#empty_text').show();

@@ -2366,3 +2366,9 @@
 #cancel_table_nond{
 	display: none;
 }
+
+.tcnt p{
+	margin:0px;
+	display: flex;
+	justify-content: space-between;
+}
