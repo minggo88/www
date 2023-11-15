@@ -1198,6 +1198,7 @@ $(function() {
         }
 		$('#right_buy').click();
 		trade_list();
+		order_chnage('A');
     })
     .on('draw.dt', () => {
     
@@ -2025,7 +2026,7 @@ function createOrderList() {
         return a.productPrice - b.productPrice;
     });
 
-    sell_list.sort(function(a, b) {
+    sell_list.sort(function(b, a) {
         return a.productPrice - b.productPrice;
     });
 
@@ -2299,6 +2300,7 @@ function order_chnage(text){
 	    rightC.style.background = 'var(--red-up)';
 	}else{
 		console.log("미체결");
+        fn_takeout();
 		rightC.style.color = 'black';
 	    rightC.style.background = 'white';
 	    rightIng.style.color = 'white';
@@ -2328,8 +2330,9 @@ function trade_list(){
 	order_list = [];
 	createOrderList();
 	
-	API.getOrderListTrading(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
-        //console.log('trade_list:', resp);
+	API.getOrderListTrading(SELECTED_SYMBOL, '', (resp) => {
+		console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
+        console.log('trade_list:', resp);
          if(resp.payload.length > 0) {
             resp.payload.filter(function(item) {
                 if (item.crypto_currency === 'N') {
@@ -2339,7 +2342,7 @@ function trade_list(){
             }).map((item) => {
                 const orderNumber = item.orderid;
                 let orderStatus = "매수";
-                if(item.tradeing_type != "sell"){
+                if(item.trading_type == "sell"){
                     orderStatus = "매도";
                 };
                 const productPrice = item.price;
@@ -2350,7 +2353,7 @@ function trade_list(){
                 item.productPrice = productPrice;
                 item.quantity = quantity;
 
-				if(item.tradeing_type != "sell"){
+				if(item.trading_type != "sell"){
 					buy_list.push(item);
 				}else{
 					sell_list.push(item);
@@ -2379,4 +2382,179 @@ function cancelOrder(){
 		var unclearOrderNo = checkbox.closest('.list-item').querySelector('#unclear_order_no').textContent;
 		console.log('Selected Order Number:', unclearOrderNo);
 	});
-}    
+}
+
+const fn_takeout = function () {
+	//231103
+	let search_type = 0;//0: 전체, 1: 매수, 2: 매도
+	// 거래내역 검색
+	let sdate = date('Y-m-d', time()-60*60*24*365*3);
+	let edate = date('Y-m-d');
+
+	console.log(sdate);
+
+	API.getMyOrderList('TRADE', sdate, edate, '', (resp) => {
+		//console.log(resp);
+        document.getElementById("list-item-space").innerHTML = "";
+		if(resp.data.length>0) {  
+				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
+				$('[name="grid--empty"]').hide();
+                resp.data.filter(function(item) {
+					if (item.crypto_currency === 'N') {
+						return false; // skip
+					}
+					return true;
+				}).map((item) => {					
+					const item2 = [item];
+					for (const d_item of item2) {
+                        //거리중인것만 넣어야함
+						if(d_item.tstatus != "O"){
+							continue;
+						}
+                        //같은 심볼만 넣어야함
+                        if(d_item.symbol != SELECTED_SYMBOL){
+							continue;
+						}
+                        
+                        let listItem = document.createElement("div");
+                        listItem.classList.add("list-item");
+
+                        // 체크박스 생성
+                        let checkbox = document.createElement("input");
+                        checkbox.classList.add("manage-checkbox");
+                        checkbox.type = "checkbox";
+                        checkbox.value = d_item.orderid + "/" + d_item.symbol;
+
+                        // order-list-item 생성
+                        let orderListItem = document.createElement("div");
+                        orderListItem.classList.add("order-list-item");
+
+                        // manage-left 생성
+                        let manageLeft = document.createElement("div");
+                        manageLeft.classList.add("manage-left");
+
+                        // input-box 생성
+                        let inputBox = document.createElement("div");
+                        inputBox.classList.add("input-box");
+
+                        // input-text 생성
+                        let inputText = document.createElement("div");
+                        inputText.classList.add("input-text");
+
+                        // order-type 생성
+                        let orderType = document.createElement("div");
+                        orderType.classList.add("order-type");
+
+                        // 매도/매수 텍스트 생성
+                        let orderTypeText = document.createElement("span");
+                        var t_type = "매수";
+                        var font_c = "var(--red-up)";
+
+						if(d_item.trading_type == "sell"){
+							t_type = "매도 주문";
+							font_c = "var(--blue-dn)";
+						}
+                        orderTypeText.textContent = t_type;
+                        orderTypeText.style.color = font_c;
+
+
+                        // unclear_order_no 생성
+                        let unclearOrderNo = document.createElement("span");
+                        unclearOrderNo.id = "unclear_order_no";
+                        unclearOrderNo.textContent = d_item.orderid;
+
+                        // product-name, product-grade, order-price, order-quantity, order-amount 생성
+                        let productName = document.createElement("div");
+                        productName.classList.add("product-name");
+                        productName.textContent = "상품명";
+
+                        let productGrade = document.createElement("div");
+                        productGrade.classList.add("product-grade");
+                        productGrade.textContent = "등급";
+
+                        let orderPrice = document.createElement("div");
+                        orderPrice.classList.add("order-price");
+                        orderPrice.textContent = "주문가격";
+
+                        let orderQuantity = document.createElement("div");
+                        orderQuantity.classList.add("order-quantity");
+                        orderQuantity.textContent = "주문수량";
+
+                        let orderAmount = document.createElement("div");
+                        orderAmount.classList.add("order-amount");
+                        orderAmount.textContent = "주문금액";
+
+                        // order-type에 매도/매수 텍스트, unclear_order_no 추가
+                        orderType.appendChild(orderTypeText);
+                        orderType.appendChild(unclearOrderNo);
+
+                        // input-text에 order-type, product-name, product-grade, order-price, order-quantity, order-amount 추가
+                        inputText.appendChild(orderType);
+                        inputText.appendChild(productName);
+                        inputText.appendChild(productGrade);
+                        inputText.appendChild(orderPrice);
+                        inputText.appendChild(orderQuantity);
+                        inputText.appendChild(orderAmount);
+
+                        // input-box에 input-text 추가
+                        inputBox.appendChild(inputText);
+
+                        // manage-left에 input-box 추가
+                        manageLeft.appendChild(inputBox);
+
+                        // order-list-item에 manage-left 추가
+                        orderListItem.appendChild(manageLeft);
+
+                        // manage-right 생성
+                        let manageRight = document.createElement("div");
+                        manageRight.classList.add("manage-right");
+
+                        // date, product-name, product-grade, order-price, order-quantity, order-amount 생성
+                        let date = document.createElement("div");
+                        date.classList.add("date");
+                        date.textContent = d_item.production_date;
+
+                        let productNameRight = document.createElement("div");
+                        productNameRight.classList.add("product-name");
+                        productNameRight.textContent = d_item.currency_name;
+
+                        let productGradeRight = document.createElement("div");
+                        productGradeRight.classList.add("product-grade");
+                        productGradeRight.textContent = d_item.goods_grade;
+
+                        let orderPriceRight = document.createElement("div");
+                        orderPriceRight.classList.add("order-price");
+                        orderPriceRight.textContent = real_number_format(d_item.amount);
+
+                        let orderQuantityRight = document.createElement("div");
+                        orderQuantityRight.classList.add("order-quantity");
+                        orderQuantityRight.textContent = real_number_format(d_item.volume);
+
+                        let orderAmountRight = document.createElement("div");
+                        orderAmountRight.classList.add("order-amount");
+                        orderAmountRight.textContent = real_number_format(d_item.amount *  d_item.volume);
+
+                        // manage-right에 date, product-name, product-grade, order-price, order-quantity, order-amount 추가
+                        manageRight.appendChild(date);
+                        manageRight.appendChild(productNameRight);
+                        manageRight.appendChild(productGradeRight);
+                        manageRight.appendChild(orderPriceRight);
+                        manageRight.appendChild(orderQuantityRight);
+                        manageRight.appendChild(orderAmountRight);
+
+                        // list-item에 checkbox, order-list-item, manage-right 추가
+                        listItem.appendChild(checkbox);
+                        listItem.appendChild(orderListItem);
+                        listItem.appendChild(manageRight);
+
+                        // list-item-space에 list-item 추가
+                        document.getElementById("list-item-space").appendChild(listItem);
+					}
+                });
+        }else{
+            $('#loading_text').hide();
+            $('#empty_text').show();
+            console.log('fail');
+        } 
+    });	
+}
