@@ -1197,6 +1197,7 @@ $(function() {
             }
         }
 		$('#right_buy').click();
+		trade_list();
     })
     .on('draw.dt', () => {
     
@@ -1989,28 +1990,23 @@ document.getElementById("tea_chart_tab").addEventListener("click", function () {
 });
 
 //하단 스크립트
-const buy_list = [ { orderNumber: 1009, orderStatus: '매수', productPrice: 1490000, quantity: 2 },
-    { orderNumber: 1007, orderStatus: '매수', productPrice: 1480000, quantity: 3 },
-    { orderNumber: 1006, orderStatus: '매수', productPrice: 1400000, quantity: 3 },
-    { orderNumber: 1010, orderStatus: '매수', productPrice: 1350000, quantity: 11 }];
-const sell_list = [{ orderNumber: 1001, orderStatus: '매도', productPrice: 16000000, quantity: 2 },
-    { orderNumber: 1002, orderStatus: '매도', productPrice: 1550000, quantity: 3 },
-    { orderNumber: 1004, orderStatus: '매도', productPrice: 1530000, quantity: 1 },
-    { orderNumber: 1003, orderStatus: '매도', productPrice: 1500000, quantity: 2 }];
-const order_list = [];
+var buy_list = [];
+var sell_list = [];
+var order_list = [];
 
 // 주문목록을 생성하는 함수
 function createOrderList() {
+    order_list = [];
     const table = document.querySelector('.left');
     table.innerHTML = '';
     const tableHeader = document.createElement('div');
     tableHeader.className = 'table-header';
     tableHeader.innerHTML = `
-    <span>주문번호</span>
-    <span>주문상태</span>
-    <span>상품가격</span>
-    <span>수량</span>
-`;
+	    <span>주문번호</span>
+	    <span>주문상태</span>
+	    <span>상품가격</span>
+	    <span>수량</span>
+	`;
     table.appendChild(tableHeader);
 
     const tableRowAdd = document.createElement('div');
@@ -2023,6 +2019,15 @@ function createOrderList() {
     const orderList = document.createElement('div');
     orderList.className = 'order-list';
     table.appendChild(orderList);
+	
+	//소팅
+    buy_list.sort(function(a, b) {
+        return a.productPrice - b.productPrice;
+    });
+
+    sell_list.sort(function(a, b) {
+        return a.productPrice - b.productPrice;
+    });
 
 	order_list.push(...sell_list);
 	order_list.push(...buy_list);
@@ -2036,9 +2041,9 @@ function createOrderList() {
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
             ${item.orderStatus}</div>
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${item.productPrice.toLocaleString()}</div>
+            ${real_number_format(item.productPrice)}</div>
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${item.quantity}</div>
+            ${real_number_format(item.quantity)}</div>
         `;
         orderList.appendChild(tableRow);
     }
@@ -2108,7 +2113,6 @@ function toggleOrderContent(orderType) {
 		document.getElementsByClassName('tea--available')[1].textContent = real_number_format(cnt_sellable) + '개';
 		document.getElementsByName('goods_grade')[1].textContent = SELECTED_GOODS_GRADE + '등급';
 		calc_sell();
-		trade_list_load();
     }else if(`${orderType}` ==="buy"){
         document.getElementById(`right_sell`).style.color = 'black';	
         document.getElementById(`right_buy`).style.color = 'var(--red-up)';	
@@ -2118,14 +2122,11 @@ function toggleOrderContent(orderType) {
 		//modal.find('.tea--available').text(real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
         document.getElementsByName('goods_grade')[0].textContent = SELECTED_GOODS_GRADE + '등급';
 		calc_buy();
-		trade_list_load();
     }else{
         document.getElementById(`right_sell`).style.color = 'black';	
         document.getElementById(`right_buy`).style.color = 'black';	
         document.getElementById(`right_mange`).style.color = 'var(--red-up)';
     }
-    
-    console.log(`right_${orderType}`);
     
     
 }
@@ -2251,7 +2252,6 @@ document.getElementById('buy_val').addEventListener('input', function() {
 	var inputValue = this.value;
 	const buy_price = $('#buy_price').val();
 	$('#buy_total').val(addCommas(rmCommas(buy_price)*inputValue));
-	console.log('111');
 });
 
 
@@ -2322,16 +2322,14 @@ function calc_buy(){
 	}, 50);	
 }
 
-function trade_list_load(){
-    console.log("symbole : " + SELECTED_SYMBOL);
-    console.log("exchange : " + SELECTED_EXCHANGE);
-    trade_list();
-    //buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
-}
-
 function trade_list(){
+	buy_list = [];
+	sell_list = [];
+	order_list = [];
+	createOrderList();
+	
 	API.getOrderListTrading(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
-        console.log('trade_list:', resp);
+        //console.log('trade_list:', resp);
          if(resp.payload.length > 0) {
             resp.payload.filter(function(item) {
                 if (item.crypto_currency === 'N') {
@@ -2339,46 +2337,32 @@ function trade_list(){
                 }
                 return true;
             }).map((item) => {
-    /*
-                // 원은 목록에서 제거
-                if (item.symbol==='KRW') {
-                    total_buyable_balance = item.confirmed;
-                }
-                // 다른 화폐 제거
-                if(item.symbol ==='USD' || item.symbol ==='ETH'){
-                    return;
-                }
+                const orderNumber = item.orderid;
+                let orderStatus = "매수";
+                if(item.tradeing_type != "sell"){
+                    orderStatus = "매도";
+                };
+                const productPrice = item.price;
+                const quantity = item.volume;
+				
+                item.orderNumber = orderNumber;
+                item.orderStatus = orderStatus;
+                item.productPrice = productPrice;
+                item.quantity = quantity;
 
-                //console.log(item);
-                //console.log("평가수익 : "+item.eval_income);
-
-                //기존 item.confirmed > 0 -> 기준 오류(모둔 상품이 거래가 있을시 0으로 계산 됨)
-                if (item.valuation > 0 || item.symbol=='KRW' ) {
-                    item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
-                    if(typeof item.eval_income != typeof undefined){
-                        //total_income += item.eval_income;                   // 총 수입
-                    }
-                    total_money = item.total_money;                        // 현금보유
-
-                    total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
-                }
-*/
+				if(item.tradeing_type != "sell"){
+					buy_list.push(item);
+				}else{
+					sell_list.push(item);
+				}
+				
+    
             })
-/*
-                //총보유자산
-                let num = total_evaluated_balance*1 + total_buyable_balance*1;
-                //var divElement = document.querySelector('.firsth_title_2');
-                //var pElement = divElement.querySelector('p');
-                //pElement.textContent = real_number_format(num,0);
-                console.log("총금액 : " + num);
-                fn_total();
-                // 원래의 값을 가져와서 쉼표로 구분하여 표시
-                let originalValue = document.getElementById("total_money").textContent;
-                let formattedValue = numberWithCommas(num);
-                document.getElementById("total_money").textContent = formattedValue;
-                */
-        }
+
+			createOrderList();
+		 }
     })
+	
 }
 
 
