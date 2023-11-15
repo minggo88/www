@@ -1,3 +1,8 @@
+setTimeout(function() {
+    $("#title_4").hide()
+    $("#title_4_on").show()
+}, 500);
+
 const fn_wallet_withdrawal = function () {
     /*
     $('.number').autotab({ tabOnSelect: true },'filter', 'number');
