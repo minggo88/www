@@ -853,6 +853,22 @@ const API = {
             }
         })
     },
+    //exchage전용(거래중)
+    getOrderListTrading: (symbol, tradingType, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getOrderList/?symbol=${symbol}&trading_type=${tradingType}&status=unclose`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol: symbol,
+                trading_type: tradingType,
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
 
     getMyOrderList: (symbol, sdate, edate, tradingType, callback) => {
         $.ajax({
