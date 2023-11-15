@@ -646,3 +646,312 @@ div.dts div.dataTables_scrollBody {
 .name.dt-body-left.dt-head-center:hover {
 	cursor: pointer;
 }
+
+/* 스타일링을 위한 CSS */
+.search_item {
+	width: 532px;
+	height: 45px;
+	padding-left: 15px;
+
+}
+
+.search-container {
+	border-bottom: 2px solid #E21A32;
+}
+
+.search-box:focus {
+	background-color: rgba(255, 255, 255, 0.6);
+	/* 검색창이 선택되었을 때 투명한 백그라운드 색상 */
+}
+
+.search-box {
+	padding: 10px;
+	border: 0px solid #ccc;
+	width: 532px;
+	max-width: 100%;
+	font-size: 16px;
+	padding-left: 35px;
+	/* 돋보기 아이콘과 텍스트 간 간격 조정 */
+	background-image: url('https://github.com/minggo88/www/blob/dev/www/assets/img/Search.png?raw=true');
+	/* 돋보기 아이콘 이미지 URL */
+	background-repeat: no-repeat;
+	background-position: 5px center;
+	/* 아이콘의 위치를 조정 */
+	background-size: 20px 20px;
+	/* 아이콘 크기 조정 */
+	transition: background-color 0.3s ease;
+	/* 스타일 변화를 부드럽게 처리 */
+	outline: none;
+	/* 포커스 효과 제거 */
+}
+
+.search-button {
+	display: none;
+}
+
+.krw {
+	position: relative;
+	width: 70%;
+	top: 35%;
+	/* 현재 위치에서 아래쪽으로 이동 */
+	border-bottom: 0 none !important;
+	font-size: 14px !important;
+	text-align: right;
+	font-weight: 700;
+	color: #333;
+}
+
+.tea--name {
+	width: 70%;
+}
+
+.details--header .btn_tab {
+	background-color: transparent;
+	border: none;
+	color: black;
+	cursor: pointer;
+}
+
+/*하단부css*/
+.check_div {
+	display: flex;
+	width: 100%;
+	border-top: 2px solid black;
+}
+
+/* 왼쪽 화면 스타일 */
+.left {
+	flex: 1;
+	border-right: 1px solid black;
+}
+
+.table-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+	color: #0B2871;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+}
+
+.order-list {
+	overflow-y: auto;
+	max-height: 300px;
+}
+
+.table-row .order-details {
+	flex-basis: 25%;
+	padding: 7px 0;
+	text-align: center;
+}
+
+.table-row:hover {
+	background-color: #f0f0f0;
+}
+
+/* 주문 추가창 */
+.order-details-minus {
+	text-align: center;
+	padding: 7px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.order-details-minus:hover {
+	background-color: #f0f0f0;
+	cursor: pointer;
+}
+
+.table-header {
+	font-weight: bold;
+	display: flex;
+	padding: 7px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.table-header span {
+	flex-basis: 25%;
+	padding: 1px;
+	text-align: center;
+}
+
+/* 오른쪽 화면 스타일 */
+.right {
+	flex: 1;
+}
+
+.right_title {
+	font-weight: bold;
+	display: flex;
+	border-bottom: 1px solid #ccc;
+	padding: 7px 0;
+}
+
+.right_title span {
+	flex-basis: 33%;
+	padding: 1px;
+	text-align: center;
+}
+
+.menu-item {
+	padding: 10px;
+	cursor: pointer;
+	color: black;
+	text-align: center;
+}
+
+/*주문관리 탭*/
+.menu-order-item {
+	cursor: pointer;
+	color: black;
+	text-align: center;
+
+}
+
+.order-content {
+	flex: 1;
+}
+
+#manage-order {
+	padding: 0px !important;
+}
+
+.right_order_title {
+	font-weight: bold;
+	display: flex;
+	border-bottom: 1px solid #ccc;
+	justify-content: space-around;
+}
+
+#right_ing {
+	color: white;
+	background: var(--red-up);
+	cursor: pointer;
+}
+
+#right_c {
+	color: black;
+	background: white;
+	cursor: pointer;
+}
+
+.clicked {
+	color: white;
+	background: var(--red-up);
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+#manage-order span {
+	flex-basis: 50%;
+	padding: 6px 0;
+	text-align: center;
+}
+
+/* 매수, 매도, 주문관리 창 스타일 */
+.order-content {
+	display: none;
+	padding: 20px;
+}
+
+.active {
+	display: block;
+}
+
+.order-button {
+	background-color: #0B2871;
+	color: white;
+	padding: 10px;
+	cursor: pointer;
+	text-align: center;
+	margin-top: 10px;
+}
+
+/* 매수, 매도 내용 스타일 */
+.order-input {
+	margin-bottom: 10px;
+}
+
+.order-btn {
+	background-color: #0B2871;
+	color: white;
+	padding: 5px 10px;
+	cursor: pointer;
+	border: none;
+}
+
+.order-btn:hover {
+	background-color: darkblue;
+}
+
+/* 주문 취소 창 스타일 */
+.cancel-order-content {
+	position: fixed;
+	bottom: 20px;
+	
+}
+
+.cancel-order-button {
+	background-color: red;
+	color: white;
+	padding: 10px;
+	cursor: pointer;
+	text-align: center;
+	width: 378px;
+	margin: 10px auto;
+}
+
+.list-container {
+	height: 315px;
+	max-height: 315px;
+	overflow-y: scroll;
+	position: relative;
+}
+
+.list-item {
+display: flex;
+padding-left:10px;
+
+}
+.manage-checkbox{
+width: 17px;
+height: 120px;
+background-color: blue;
+border-radius: 50%;
+cursor: pointer;
+vertical-align: middle;
+padding-left: 15px;
+}
+.order-list-item {
+display: flex;
+width:100%;
+padding-left: 30px;
+padding-right: 10px;
+justify-content: space-between;
+}
+
+.manage-right {
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+}
+
+.manage-right > * {
+text-align: right;
+}
+
+/* 소팅 화살표 제거*/
+table.dataTable thead>tr>th.sorting_desc:before,
+table.dataTable thead>tr>th.sorting:after,
+table.dataTable thead>tr>th.sorting_asc:after,
+table.dataTable thead>tr>th.sorting_desc:after,
+table.dataTable thead>tr>th.sorting_asc:before {
+	display: none;
+}
+
+table.dataTable tbody th.dt-body-left,
+table.dataTable tbody td.dt-body-left {
+	text-align: left !important;
+}
