@@ -946,11 +946,15 @@ justify-content: space-between;
 	flex-direction: column;
 	align-items: flex-end;
 	padding-right:10px;
+	width : 100%;
 }
 
 .manage-right > * {
 	text-align: right;
-	width : 130px;
+}
+
+#unclear_order_no{
+	color: #999999;
 }
 
 /* 소팅 화살표 제거*/
