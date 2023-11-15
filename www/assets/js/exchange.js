@@ -2362,8 +2362,21 @@ function trade_list(){
 			createOrderList();
 		 }
     })
-	
 }
 
+function cancelOrder(){
+    // Find all checked checkboxes
+	var checkedCheckboxes = document.querySelectorAll('.manage-checkbox:checked');
 
-    
+	// If no checkboxes are checked, show an alert and exit
+	if (checkedCheckboxes.length === 0) {
+		alert('No orders selected for cancellation.');
+		return;
+	}
+
+	// Display the unclear_order_no values for each checked checkbox
+	checkedCheckboxes.forEach(function(checkbox) {
+		var unclearOrderNo = checkbox.closest('.list-item').querySelector('#unclear_order_no').textContent;
+		console.log('Selected Order Number:', unclearOrderNo);
+	});
+}    
