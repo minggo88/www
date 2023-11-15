@@ -59,7 +59,9 @@ let PIN_NUMBER_ON = 0;
 let sort_num = 0;
 let desc_data = [];
 let select_price = 0;
-
+let newData = [];
+let newData2 = [];
+		   
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
 
@@ -2029,10 +2031,13 @@ function createOrderList() {
     sell_list.sort(function(b, a) {
         return a.productPrice - b.productPrice;
     });
+	
+	order_list.push(...sell_list.reverse().slice(0, Math.min(5, sell_list.length)));
+	order_list.push(...buy_list.slice(0, Math.min(5, buy_list.length)));
 
-	order_list.push(...sell_list);
-	order_list.push(...buy_list);
-
+	newData.push(...sell_list.reverse().slice(0, Math.min(5, sell_list.length)));
+	newData2.push(...buy_list.slice(0, Math.min(5, buy_list.length)));
+	
     for (const item of order_list) {
         const tableRow = document.createElement('div');
         tableRow.className = 'table-row';
@@ -2077,9 +2082,9 @@ function updateTable(newData, text) {
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
             ${item.orderStatus}</div>
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${item.productPrice.toLocaleString()}</div>
+            ${real_number_format(item.productPrice)}</div>
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${item.quantity}</div>
+            ${real_number_format(item.quantity)}</div>
         `;
 		
 		if (item.orderStatus === '매수') {
@@ -2168,12 +2173,6 @@ createCancelOrderList();
 function showDivPlus(checkNum) {
 	//매도 주문 더보기
     if (checkNum === '1') {
-		const newData = [
-		    { orderNumber: 1011, orderStatus: '매도', productPrice: 17000000, quantity: 2 },
-		    { orderNumber: 1012, orderStatus: '매도', productPrice: 1650000, quantity: 3 },
-		    { orderNumber: 1014, orderStatus: '매도', productPrice: 1630000, quantity: 1 },
-		    { orderNumber: 1013, orderStatus: '매도', productPrice: 1610000, quantity: 2 }
-		];
 
 		const mergedResult = mergeUniqueData(sell_list, newData);
 		const sell_list_copy = [];
@@ -2190,15 +2189,8 @@ function showDivPlus(checkNum) {
         updateTable(order_list, '매도');
 
     } else if (checkNum === '2') {//매수 주문 더보기
-        const newData = [
-		    { orderNumber: 1021, orderStatus: '매수', productPrice: 170000, quantity: 2 },
-		    { orderNumber: 1022, orderStatus: '매수', productPrice: 16500, quantity: 3 },
-		    { orderNumber: 1024, orderStatus: '매수', productPrice: 16300, quantity: 1 },
-			{ orderNumber: 1026, orderStatus: '매수', productPrice: 16150, quantity: 5 },
-		    { orderNumber: 1023, orderStatus: '매수', productPrice: 16100, quantity: 2 }
-		];
 
-		const mergedResult = mergeUniqueData(buy_list, newData);
+		const mergedResult = mergeUniqueData(buy_list, newData2);
 		const buy_list_copy = [];
 		buy_list_copy.push(...buy_list);
 		buy_list_copy.push(...mergedResult);
@@ -2333,6 +2325,8 @@ function trade_list(){
 	API.getOrderListTrading(SELECTED_SYMBOL, '', (resp) => {
 		console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
         console.log('trade_list:', resp);
+		let b_num = 0;
+		let s_num = 0;
          if(resp.payload.length > 0) {
             resp.payload.filter(function(item) {
                 if (item.crypto_currency === 'N') {
@@ -2354,11 +2348,15 @@ function trade_list(){
                 item.quantity = quantity;
 
 				if(item.trading_type != "sell"){
-					buy_list.push(item);
+					b_num += 1;
+					if(b_num <5){
+						buy_list.push(item);	
+					}else{
+						newData2.push(item);
+					}
 				}else{
 					sell_list.push(item);
 				}
-				
     
             })
 
@@ -2380,7 +2378,14 @@ function cancelOrder(){
 	// Display the unclear_order_no values for each checked checkbox
 	checkedCheckboxes.forEach(function(checkbox) {
 		var unclearOrderNo = checkbox.closest('.list-item').querySelector('#unclear_order_no').textContent;
-		console.log('Selected Order Number:', unclearOrderNo);
+        API.orderCancel(SELECTED_SYMBOL, unclearOrderNo, SELECTED_GOODS_GRADE, (resp) => {
+            if (resp.success) {
+                $('#right_buy').click();
+                trade_list();
+				toggleOrderContent('manage');
+                order_chnage('A');
+            }
+        })
 	});
 }
 
