@@ -625,7 +625,7 @@ $(function() {
         scrollY: 308,
         deferRender: true,
         scroller: true,
-	autoWidth: false,
+	    autoWidth: false,
         ajax: {
             url: `${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`,
             type: 'POST',
@@ -2325,5 +2325,61 @@ function calc_buy(){
 function trade_list_load(){
     console.log("symbole : " + SELECTED_SYMBOL);
     console.log("exchange : " + SELECTED_EXCHANGE);
+    trade_list();
     //buyGrid.ajax.url(`${API.BASE_URL}/getOrderList/?symbol=${SELECTED_SYMBOL}&exchange=${SELECTED_EXCHANGE}&trading_type=buy&status=unclose`)
 }
+
+function trade_list(){
+	API.getOrderListTrading(SELECTED_SYMBOL, SELECTED_EXCHANGE, (resp) => {
+        console.log('trade_list:', resp);
+         if(resp.payload.length > 0) {
+            resp.payload.filter(function(item) {
+                if (item.crypto_currency === 'N') {
+                    return false; // skip
+                }
+                return true;
+            }).map((item) => {
+    /*
+                // 원은 목록에서 제거
+                if (item.symbol==='KRW') {
+                    total_buyable_balance = item.confirmed;
+                }
+                // 다른 화폐 제거
+                if(item.symbol ==='USD' || item.symbol ==='ETH'){
+                    return;
+                }
+
+                //console.log(item);
+                //console.log("평가수익 : "+item.eval_income);
+
+                //기존 item.confirmed > 0 -> 기준 오류(모둔 상품이 거래가 있을시 0으로 계산 됨)
+                if (item.valuation > 0 || item.symbol=='KRW' ) {
+                    item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
+                    if(typeof item.eval_income != typeof undefined){
+                        //total_income += item.eval_income;                   // 총 수입
+                    }
+                    total_money = item.total_money;                        // 현금보유
+
+                    total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
+                }
+*/
+            })
+/*
+                //총보유자산
+                let num = total_evaluated_balance*1 + total_buyable_balance*1;
+                //var divElement = document.querySelector('.firsth_title_2');
+                //var pElement = divElement.querySelector('p');
+                //pElement.textContent = real_number_format(num,0);
+                console.log("총금액 : " + num);
+                fn_total();
+                // 원래의 값을 가져와서 쉼표로 구분하여 표시
+                let originalValue = document.getElementById("total_money").textContent;
+                let formattedValue = numberWithCommas(num);
+                document.getElementById("total_money").textContent = formattedValue;
+                */
+        }
+    })
+}
+
+
+    
