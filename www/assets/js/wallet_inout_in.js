@@ -1,4 +1,6 @@
 setTimeout(function() {
+	$("#title_4").hide()
+    $("#title_4_on").show()
     fn_wallet_deposit();
 }, 500);
 

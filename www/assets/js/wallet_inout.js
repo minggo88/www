@@ -1,6 +1,6 @@
 setTimeout(function() {
-    $("#title_2").hide()
-    $("#title_2_on").show()
+    $("#title_4").hide()
+    $("#title_4_on").show()
 }, 500);
 
 var search_type = 0;
