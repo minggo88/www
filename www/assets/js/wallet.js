@@ -376,7 +376,7 @@ function wallet_tab(tabNumber) {
 		case 2: //거래내역페이지
 			let search_type = 0;//0: 전체, 1: 매수, 2: 매도
 			// 거래내역 검색
-			let sdate = date('Y-m-d', time()-60*60*24*7);
+			let sdate = date('Y-m-d', time()-60*60*24*365);
 			let edate = date('Y-m-d');
 			$('[name="start"]').val(sdate);
 			$('[name="end"]').val(edate);
@@ -794,6 +794,8 @@ const fn_takeout = function () {
 	let edate = date('Y-m-d');
 
 	console.log(sdate);
+	var parentElement = document.querySelector('.d-grid.wallet--grid[name="d-grid--empty"]');
+	parentElement.innerHTML = '';
 
 	API.getMyOrderList('TRADE', sdate, edate, '', (resp) => {
 		console.log(resp);
@@ -827,7 +829,7 @@ const fn_takeout = function () {
 						const t_grade = d_item.goods_grade;
 						const t_price = d_item.amount;
 						const t_total_price = t_cnt *  t_price;
-						const order_id = d_item.orderid + "/" + d_item.symbol;
+						const order_id = d_item.orderid + "/" + d_item.symbol + "/" + d_item.goods_grade;
 						var font_c = "var(--red-up)";
 
 						if(d_item.trading_type == "sell"){
@@ -974,4 +976,20 @@ const check_logout = function (msg) {
         if (msg) alert(msg);
         window.location.href = "/";
     }
+}
+
+function cancelSelectedItems() {
+	// Get all checkboxes with class 'checkbox'
+	var checkboxes = document.querySelectorAll('.checkbox:checked');
+
+	// Log the value of each checked checkbox
+	checkboxes.forEach(function (checkbox) {
+		var items = checkbox.value.split('/');
+
+		API.orderCancel(items[1], items[0], items[2], (resp) => {
+			if (resp.success) {
+				fn_takeout();
+			}
+		})
+	});
 }
