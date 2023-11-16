@@ -2369,7 +2369,9 @@
 	font-weight: 500;
 	font-size: 16px;
 	text-align: center;
-	background: #ffffff;
+	background:var(--red-up); 
+	color:white;
+	border:0px;
 }
 
 .input--group2--bank{

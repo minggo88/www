@@ -1949,7 +1949,7 @@
 	width: 681px; /* 총 길이를 681로 설정 */
 	display: flex; /* 자식 요소들을 가로로 나열하기 위해 Flexbox를 사용합니다. */
 	justify-content: space-between; /* 각 탭 버튼을 균등하게 배치합니다. */
-	border-bottom: 2px solid var(--red-up);
+	border-bottom: 1px solid var(--red-up);
 }
 
 .tab-button {
