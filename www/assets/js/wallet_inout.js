@@ -101,14 +101,14 @@ const fn_total = function () {
 						var txt_status = " 완료";
 						
 						if(t_status == "O"){
-							txt_status = " 준비 중";
+							txt_status = " 진행 중";
 						} else if(t_status == "C"){
 							txt_status = " 취소";
 						} else if(t_status == "P"){
 							txt_status = " 처리 중";
 						}
 
-						const grid_type2 = grid_type + txt_status;
+						const grid_type2 = txt_status;
 
 						const grid = $(`<table class="myinout_list" />`);
 						grid.append(`
