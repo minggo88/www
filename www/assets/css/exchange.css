@@ -892,7 +892,7 @@ div.dts div.dataTables_scrollBody {
 }
 .cancel-order-content #last-text{
 	display: flex;
-    justify-content: space-between;
+    justify-content: center;
 	margin-bottom: 5px;
 	width:393px;
 }

@@ -2396,6 +2396,7 @@ const fn_takeout = function () {
 	// 거래내역 검색
 	let sdate = date('Y-m-d', time()-60*60*24*365*3);
 	let edate = date('Y-m-d');
+	$('.cancel-order-content').show();
 
 	API.getMyOrderList('TRADE', sdate, edate, '', (resp) => {
 		//console.log(resp);
@@ -2455,7 +2456,7 @@ const fn_takeout = function () {
                         var font_c = "var(--red-up)";
 
 						if(d_item.trading_type == "sell"){
-							t_type = "매도 주문";
+							t_type = "매도";
 							font_c = "var(--blue-dn)";
 						}
                         orderTypeText.textContent = t_type;
@@ -2467,6 +2468,7 @@ const fn_takeout = function () {
                         let unclearOrderNo = document.createElement("span");
                         unclearOrderNo.id = "unclear_order_no";
                         unclearOrderNo.textContent = d_item.orderid;
+						unclearOrderNo.style.paddingLeft = '5px';
 
                         // product-name, product-grade, order-price, order-quantity, order-amount 생성
                         let productName = document.createElement("div");
@@ -2535,8 +2537,9 @@ const fn_takeout = function () {
 
                         let productNameRight = document.createElement("div");
                         productNameRight.classList.add("product-name");
-                        productNameRight.textContent = d_item.currency_name;
-
+						productNameRight.textContent = d_item.currency_name;
+						
+							
                         let productGradeRight = document.createElement("div");
                         productGradeRight.classList.add("product-grade");
                         productGradeRight.textContent = d_item.goods_grade;
@@ -2584,6 +2587,7 @@ const fn_takeout2 = function () {
 	// 거래내역 검색
 	let sdate = date('Y-m-d', time()-60*60*24*365*3);
 	let edate = date('Y-m-d');
+	$('.cancel-order-content').hide();
 
 	API.getMyOrderList('all', sdate, edate, '', (resp) => {
 		console.log(resp);
@@ -2620,7 +2624,7 @@ const fn_takeout2 = function () {
                         // order-list-item 생성
                         let orderListItem = document.createElement("div");
                         orderListItem.classList.add("order-list-item");
-						orderListItem.style.paddingLeft = '20px';
+						orderListItem.style.paddingLeft = '43px';
 
                         // manage-left 생성
                         let manageLeft = document.createElement("div");
@@ -2644,7 +2648,7 @@ const fn_takeout2 = function () {
                         var font_c = "var(--red-up)";
 
 						if(d_item.trading_type == "sell"){
-							t_type = "매도 주문";
+							t_type = "매도";
 							font_c = "var(--blue-dn)";
 						}
                         orderTypeText.textContent = t_type;
@@ -2655,12 +2659,15 @@ const fn_takeout2 = function () {
                         // unclear_order_no 생성
                         let unclearOrderNo = document.createElement("span");
                         unclearOrderNo.id = "unclear_order_no";
-                        unclearOrderNo.textContent = d_item.orderid;
+						unclearOrderNo.style.paddingLeft = '5px';
+						unclearOrderNo.textContent = d_item.orderid;
+						
+                        
 
                         // product-name, product-grade, order-price, order-quantity, order-amount 생성
                         let productName = document.createElement("div");
                         productName.classList.add("product-name");
-                        productName.textContent = "상품명";
+                        productName.textContent = "상태";
 
                         let productGrade = document.createElement("div");
                         productGrade.classList.add("product-grade");
@@ -2723,7 +2730,12 @@ const fn_takeout2 = function () {
 
                         let productNameRight = document.createElement("div");
                         productNameRight.classList.add("product-name");
-                        productNameRight.textContent = d_item.currency_name;
+						if(d_item.status == "cancel"){
+							productNameRight.textContent = "취소";	
+						}else{
+							productNameRight.textContent = "체결";
+						}
+                        
 
                         let productGradeRight = document.createElement("div");
                         productGradeRight.classList.add("product-grade");
