@@ -817,6 +817,7 @@ div.dts div.dataTables_scrollBody {
 }
 
 .right_order_title {
+	height: 34px;
 	font-weight: bold;
 	display: flex;
 	border-bottom: 1px solid #ccc;
