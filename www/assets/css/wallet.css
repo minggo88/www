@@ -1,3 +1,7 @@
+.d-justify {
+    justify-content: center !important;
+}
+
 #goods-desc.modal.modal--middle .modal--dialog{
 	background: var(--white);
 	/* width: calc(100% * (880 / 1440)); */
@@ -582,6 +586,7 @@
 }
 
 /* deposit */
+
 /* 입금 */
 .deposit .contents a {vertical-align: unset;} /*    vertical-align: middle 인데 P 태그의 글자와 P > a 가 줄이 안맞아서 unset 으로 변경함.*/
 
@@ -1931,6 +1936,9 @@
 /*230901*/
 /* 탭 내용 스타일 */
 /* 전체 화면 스타일 */
+.contents{
+	width:700px !important;
+}
 .container {
 	width: 681px;	
 }
