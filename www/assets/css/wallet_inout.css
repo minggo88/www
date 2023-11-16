@@ -1,3 +1,11 @@
+.d-justify {
+    justify-content: center !important;
+}
+
+.contents{
+	width:500px !important;
+}
+
 .cancel-check-table{
 	display : none;
 }

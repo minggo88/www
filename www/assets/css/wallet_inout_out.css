@@ -1,3 +1,11 @@
+.d-justify {
+    justify-content: center !important;
+}
+
+.contents{
+	width:500px !important;
+}
+
 #goods-desc.modal.modal--middle .modal--dialog{
 	background: var(--white);
 	/* width: calc(100% * (880 / 1440)); */
