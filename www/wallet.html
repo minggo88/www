@@ -383,7 +383,7 @@
 							</div>
 
 							<div class="dropdown-wrapper2" name="dropdown_type" id="div_dropdown_type_selected">
-								<input id="search_date" value="일주일" disabled/>
+								<input id="search_date" value="1년" disabled/>
 							</div>
 							<button type="button" id="btn_popup" class="btn_popup" data-i18n=""></button>
 							<space id="space_width"></space>
@@ -479,7 +479,7 @@
 						</div>
 						
 						<div class="text--center">
-							<button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">취소하기</button>
+							<button type="submit" class="btn btn--red flex-self-center" style="height: 40px; line-height: 40px" onclick="cancelSelectedItems()" data-i18n="">취소하기</button>
 						</div>
 					</div>
 				</div>
@@ -508,10 +508,10 @@
 						</div>
 						<label class="period-label" for="period">조회기간</label>
 						<div class="transaction-select" id="transaction">
-							<div class="option_div2" id="option_btn2" onclick="changeStyle2(this)" value="0" style="border:1px solid var(--red-up); color:var(--red-up);">일주일</div>
+							<div class="option_div2" onclick="changeStyle2(this)" >일주일</div>
 							<div class="option_div2" onclick="changeStyle2(this)" value="1">1개월</div>
 							<div class="option_div2" onclick="changeStyle2(this)" value="3">3개월</div>
-							<div class="option_div2" onclick="changeStyle2(this)" value="12">1년</div>
+							<div class="option_div2" id="option_btn2" onclick="changeStyle2(this)" value="12" style="border:1px solid var(--red-up); color:var(--red-up);" value="12">1년</div>
 							<div class="option_div2" onclick="changeStyle2(this)" value="100">직접입력</div>
 						</div>
 						<div class="datepicker" id ="wallet-option-datepicker">
