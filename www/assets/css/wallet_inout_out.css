@@ -2340,7 +2340,7 @@
 
 /* 출금신청 css 추후 필요없는내용 삭제 필요*/
 .wallet_out_main{
-	width : 500px; 
+	width : 475px; 
 	height: 160px; 
 	background: #0B2871; 
 	padding-left:25px;
@@ -2400,6 +2400,11 @@
 #btn_max{
 	width :12%; 
 	height:40px;
+	background: #0B2871;
+	color: #ffffff; 
+	padding: 0px;
+	border : 1px solid #ffffff;
+	font-size:16px;
 }
 
 .output_money{
@@ -2419,7 +2424,7 @@
 .input--group{
 	padding-left:15px;
 	margin-top : 24px;
-	width: 500px;
+	width: 475px;
 	display: flex;
     align-items: center;
     justify-content: space-between;
