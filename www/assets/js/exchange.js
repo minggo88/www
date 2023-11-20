@@ -2033,8 +2033,8 @@ function createOrderList() {
     sell_list.sort(function(b, a) {
         return a.productPrice - b.productPrice;
     });
-	
-	order_list.push(...sell_list.slice(0, Math.min(selllistNum, sell_list.length)));
+
+	order_list.push(...sell_list.slice(Math.max(0, sell_list.length-5), sell_list.length));
 	order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
 	
     for (const item of order_list) {
@@ -2180,7 +2180,7 @@ function showDivPlus(checkNum) {
 
 		order_list.length = 0;
 		
-		order_list.push(...sell_list.slice(0, Math.min(selllistNum, sell_list.length)));
+		order_list.push(...sell_list.slice(Math.max(0, sell_list.length-selllistNum), sell_list.length));
 		order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
 		
         updateTable(order_list, '매도');
@@ -2194,7 +2194,7 @@ function showDivPlus(checkNum) {
 
 		order_list.length = 0;
 
-		order_list.push(...sell_list.slice(0, Math.min(selllistNum, sell_list.length)));
+		order_list.push(...sell_list.slice(Math.max(0, sell_list.length-selllistNum), sell_list.length));
 		order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
 		
         // 새 데이터를 테이블에 추가하고 스크롤을 위로 이동시킴
