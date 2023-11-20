@@ -2118,6 +2118,7 @@ function toggleOrderContent(orderType) {
 		const cnt_sellable = USER_WALLET[gen_user_wallet_key(SELECTED_SYMBOL,SELECTED_GOODS_GRADE)]?.confirmed || 0;
 		document.getElementsByClassName('tea--available')[1].textContent = real_number_format(cnt_sellable) + '개';
 		document.getElementsByName('goods_grade')[1].textContent = SELECTED_GOODS_GRADE + '등급';
+        $('#sell_val').val(0);
 		calc_sell();
     }else if(`${orderType}` ==="buy"){
         document.getElementById(`right_sell`).style.color = 'black';	
@@ -2127,6 +2128,7 @@ function toggleOrderContent(orderType) {
 		document.getElementsByClassName('tea--available')[0].textContent = real_number_format(cnt_buyable) + SELECTED_EXCHANGE;
 		//modal.find('.tea--available').text(real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
         document.getElementsByName('goods_grade')[0].textContent = SELECTED_GOODS_GRADE + '등급';
+        $('#buy_val').val(0);
 		calc_buy();
     }else{
         document.getElementById(`right_sell`).style.color = 'black';	
@@ -2224,7 +2226,7 @@ function mergeUniqueData(existingData, newData) {
 }
 
 function showOrderDetails(orderNumber, orderStatus, productPrice, quantity) {
-	if(orderStatus === "매도"){
+	/*if(orderStatus === "매도"){
 		$('#right_sell').click();
 		$('#sell_price').val(productPrice);
 		const sell_ea = $('#sell_val').val();
@@ -2236,7 +2238,15 @@ function showOrderDetails(orderNumber, orderStatus, productPrice, quantity) {
 		const buy_ea = $('#buy_val').val();
 		const buy_price = $('#buy_price').val();
 		$('#buy_total').val(addCommas(rmCommas(buy_price)*buy_ea));
-	}
+	}*/
+    $('#sell_price').val(productPrice); 
+    const sell_ea = $('#sell_val').val();
+    const sell_price = $('#sell_price').val();
+    $('#sell_total').val(addCommas(rmCommas(sell_price)*sell_ea));
+    $('#buy_price').val(productPrice);
+    const buy_ea = $('#buy_val').val();
+    const buy_price = $('#buy_price').val();
+    $('#buy_total').val(addCommas(rmCommas(buy_price)*buy_ea));
 }
 
 //가격 리스너 
