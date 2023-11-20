@@ -61,6 +61,8 @@ let desc_data = [];
 let select_price = 0;
 let newData = [];
 let newData2 = [];
+let buylistNum = 5;
+let selllistNum = 5;
 		   
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -2024,7 +2026,7 @@ function createOrderList() {
     table.appendChild(orderList);
 	
 	//소팅
-    buy_list.sort(function(a, b) {
+    buy_list.sort(function(b, a) {
         return a.productPrice - b.productPrice;
     });
 
@@ -2032,11 +2034,8 @@ function createOrderList() {
         return a.productPrice - b.productPrice;
     });
 	
-	order_list.push(...sell_list.reverse().slice(0, Math.min(5, sell_list.length)));
-	order_list.push(...buy_list.slice(0, Math.min(5, buy_list.length)));
-
-	newData.push(...sell_list.reverse().slice(0, Math.min(5, sell_list.length)));
-	newData2.push(...buy_list.slice(0, Math.min(5, buy_list.length)));
+	order_list.push(...sell_list.slice(0, Math.min(selllistNum, sell_list.length)));
+	order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
 	
     for (const item of order_list) {
         const tableRow = document.createElement('div');
@@ -2065,11 +2064,11 @@ function createOrderList() {
 // 테이블 업데이트 함수
 function updateTable(newData, text) {
     const orderList = document.querySelector('.order-list');
-
-	if(text === "매도"){
+	orderList.innerHTML = "";
+	/*if(text === "매도"){
 		orderList.innerHTML = "";
-		console.log(newData);
-	}
+		//console.log(newData);
+	}*/
 	
 	
     for (const item of newData) {
@@ -2175,37 +2174,32 @@ createCancelOrderList();
 function showDivPlus(checkNum) {
 	//매도 주문 더보기
     if (checkNum === '1') {
+		//console.log('1111111111');
 
-		const mergedResult = mergeUniqueData(sell_list, newData);
-		const sell_list_copy = [];
-		sell_list_copy.push(...mergedResult);
-		sell_list_copy.push(...sell_list);
-
-		sell_list.length = 0;
-		sell_list.push(...sell_list_copy);
+		selllistNum += 5;
 
 		order_list.length = 0;
-		order_list.push(...sell_list);
-		order_list.push(...buy_list);
+		
+		order_list.push(...sell_list.slice(0, Math.min(selllistNum, sell_list.length)));
+		order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
 		
         updateTable(order_list, '매도');
 
     } else if (checkNum === '2') {//매수 주문 더보기
-
+		
 		const mergedResult = mergeUniqueData(buy_list, newData2);
-		const buy_list_copy = [];
-		buy_list_copy.push(...buy_list);
-		buy_list_copy.push(...mergedResult);
 
-		buy_list.length = 0;
-		buy_list.push(...buy_list_copy);
+		buylistNum += 5;
+		//console.log('222222222' + buylistNum);
 
 		order_list.length = 0;
-		order_list.push(...sell_list);
-		order_list.push(...buy_list);
+
+		order_list.push(...sell_list.slice(0, Math.min(selllistNum, sell_list.length)));
+		order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
 		
         // 새 데이터를 테이블에 추가하고 스크롤을 위로 이동시킴
-        updateTable(mergedResult, '');
+        //updateTable(mergedResult, '');
+		updateTable(order_list, '매수');
     }
 }
 
@@ -2332,6 +2326,7 @@ function trade_list(){
 	sell_list = [];
 	order_list = [];
 	createOrderList();
+    const check_list = [];
 	
 	API.getOrderListTrading(SELECTED_SYMBOL, '', (resp) => {
 		console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
@@ -2358,17 +2353,16 @@ function trade_list(){
                 item.productPrice = productPrice;
                 item.quantity = quantity;
 
-				if(item.trading_type != "sell"){
-					b_num += 1;
-					if(b_num <5){
-						buy_list.push(item);	
+				if (!check_list.includes(item.orderid)) {
+				    // check_list 없으면 추가
+				    check_list.push(item.orderid);
+					if(item.trading_type != "sell"){
+						b_num += 1;
+						buy_list.push(item);
 					}else{
-						newData2.push(item);
+						sell_list.push(item);
 					}
-				}else{
-					sell_list.push(item);
-				}
-    
+				} 
             })
 
 			createOrderList();
