@@ -2049,7 +2049,7 @@ function createOrderList() {
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
             ${real_number_format(item.productPrice)}</div>
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${real_number_format(item.quantity)}</div>
+            ${real_number_format(item.volume_remain)}</div>
         `;
         orderList.appendChild(tableRow);
     }
@@ -2084,7 +2084,7 @@ function updateTable(newData, text) {
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
             ${real_number_format(item.productPrice)}</div>
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${real_number_format(item.quantity)}</div>
+            ${real_number_format(item.volume_remain)}</div>
         `;
 		
 		if (item.orderStatus === '매수') {
