@@ -2034,7 +2034,7 @@ function createOrderList() {
         return a.productPrice - b.productPrice;
     });
 
-	order_list.push(...sell_list.slice(Math.max(0, sell_list.length-5), sell_list.length));
+	order_list.push(...sell_list.slice(Math.max(0, sell_list.length-4), sell_list.length));
 	order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
 	
     for (const item of order_list) {
@@ -2176,7 +2176,7 @@ function showDivPlus(checkNum) {
     if (checkNum === '1') {
 		//console.log('1111111111');
 
-		selllistNum += 5;
+		selllistNum += 4;
 
 		order_list.length = 0;
 		
@@ -2189,7 +2189,7 @@ function showDivPlus(checkNum) {
 		
 		const mergedResult = mergeUniqueData(buy_list, newData2);
 
-		buylistNum += 5;
+		buylistNum += 4;
 		//console.log('222222222' + buylistNum);
 
 		order_list.length = 0;
