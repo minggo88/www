@@ -1444,7 +1444,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			if (r && r.success && !r.error) {
 				let user_info = r.payload;
 				Model.user_info = user_info;
-				user_info.bank_full = user_info.bank_name +' / '+ user_info.bank_account +' / '+ user_info.bank_owner;
+				user_info.bank_full = user_info.bank_name +' / '+ text_hidden() +' / '+ user_info.bank_owner;
 				//계좌정보 없을시 정보등록 요구
 				if(user_info.bank_name == ''){
 					user_info.bank_full = "계좌정보를 등록해 주세요";
@@ -3243,4 +3243,22 @@ function log_out(){
 
 function log_in(){
 	window.location.href = 'login.html';
+}
+
+function text_hidden(){
+	//계좌번호 숨김
+	var bank_ac = Model.user_info.bank_account;
+	if(bank_ac != ''){
+		if(bank_ac.length > 7){
+			var tt='';
+			for (var i = 3; i < bank_ac.length-4; i++) {
+			  tt = tt + "*";
+			}
+			bank_ac_text = bank_ac.substr(0,3) + tt +
+			bank_ac.substr(-4);
+		}else{
+			bank_ac_text = bank_ac;
+		}
+		return bank_ac_text;
+	}
 }
