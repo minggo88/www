@@ -650,10 +650,23 @@ div.dts div.dataTables_scrollBody {
 
 /* 스타일링을 위한 CSS */
 .search_item {
-	width: 532px;
-	height: 45px;
-	padding-left: 15px;
+    display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    width: 532px;
+    height: 45px;
+    padding-left: 15px;
+}
 
+.cancel-button {
+    margin-left: 10px; /* 취소 버튼과 검색 상자 사이의 간격 조정 */
+	margin-right: 11px;
+    padding: 9px;
+    width: 5%;
+    cursor: pointer;
+    font-size: 12px;
+    border: none;
+    outline: none;
+	background-color: #ffffff;
 }
 
 .search-container {
@@ -965,7 +978,7 @@ table.dataTable thead>tr>th.sorting:after,
 table.dataTable thead>tr>th.sorting_asc:after,
 table.dataTable thead>tr>th.sorting_desc:after,
 table.dataTable thead>tr>th.sorting_asc:before {
-	display: none;
+	display: none !important;
 }
 
 table.dataTable tbody th.dt-body-left,

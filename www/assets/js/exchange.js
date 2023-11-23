@@ -2783,3 +2783,28 @@ const fn_takeout2 = function () {
         } 
     });	
 }
+
+function cancelSearch() {
+    // 취소 동작 수행
+    document.getElementById('searchInput').value = ''
+    const query = searchInput.value.trim();
+    if (query !== '') {
+        API.getSearchCurrency(query, (resp) => {
+            if (resp.success) {
+                CURRENCY_INFO = resp.payload;
+                desc_data = new Array();
+                for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
+                    desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
+                }
+                itemGrid.clear().draw();
+               
+                itemGrid.rows.add(CURRENCY_INFO);
+                itemGrid.order([1, 'asc']).draw();
+               
+            } else {
+                setItemGrid(null);
+            }
+        });
+        window.getTradeItems = getTradeItems;
+    }  
+}
