@@ -61,8 +61,8 @@ let desc_data = [];
 let select_price = 0;
 let newData = [];
 let newData2 = [];
-let buylistNum = 5;
-let selllistNum = 5;
+let buylistNum = 4;
+let selllistNum = 4;
 		   
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -1995,7 +1995,7 @@ document.getElementById("tea_chart_tab").addEventListener("click", function () {
 });
 
 //하단 스크립트
-var buy_list = [];
+var buy_list = []; 
 var sell_list = [];
 var order_list = [];
 
@@ -2033,6 +2033,7 @@ function createOrderList() {
     sell_list.sort(function(b, a) {
         return a.productPrice - b.productPrice;
     });
+	
 
 	order_list.push(...sell_list.slice(Math.max(0, sell_list.length-4), sell_list.length));
 	order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
@@ -2174,8 +2175,6 @@ createCancelOrderList();
 function showDivPlus(checkNum) {
 	//매도 주문 더보기
     if (checkNum === '1') {
-		//console.log('1111111111');
-
 		selllistNum += 4;
 
 		order_list.length = 0;
@@ -2326,11 +2325,13 @@ function trade_list(){
 	sell_list = [];
 	order_list = [];
 	createOrderList();
+	buylistNum = 4;
+	selllistNum = 4;
     const check_list = [];
 	
 	API.getOrderListTrading(SELECTED_SYMBOL, '', (resp) => {
-		console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
-        console.log('trade_list:', resp);
+		//console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
+        //console.log('trade_list:', resp);
 		let b_num = 0;
 		let s_num = 0;
          if(resp.payload.length > 0) {
