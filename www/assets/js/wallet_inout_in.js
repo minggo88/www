@@ -4,6 +4,10 @@ setTimeout(function() {
     fn_wallet_deposit();
 }, 500);
 
+setTimeout(function() {
+	check_login();
+}, 100);
+
 function fn_wallet_deposit (){
 	//로그인 체크 필요
     //check_login();

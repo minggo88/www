@@ -3,6 +3,10 @@ setTimeout(function() {
     $("#title_2_on").show()
 }, 500);
 
+setTimeout(function() {
+	check_login();
+}, 100);
+
 function showTab(tabNumber) {
     // 모든 탭 내용을 숨김
     for (let i = 1; i <= 3; i++) {
