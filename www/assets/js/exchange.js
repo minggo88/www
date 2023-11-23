@@ -1203,6 +1203,7 @@ $(function() {
 		$('#right_buy').click();
 		trade_list();
 		order_chnage('A');
+        $('.details').show();
     })
     .on('draw.dt', () => {
     
