@@ -3248,7 +3248,7 @@ function log_in(){
 function text_hidden(){
 	//계좌번호 숨김
 	var bank_ac = Model.user_info.bank_account;
-	if(bank_ac != ''){
+	if(bank_ac != '' && Model.user_info.permission != 0){
 		if(bank_ac.length > 7){
 			var tt='';
 			for (var i = 3; i < bank_ac.length-4; i++) {
