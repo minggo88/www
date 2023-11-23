@@ -3,6 +3,10 @@ setTimeout(function() {
     $("#title_3_on").show()
 }, 500);
 
+setTimeout(function() {
+	check_login();
+}, 100);
+
 var search_type = 0;
 
 const fn_total_money = function(){

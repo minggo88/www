@@ -3,6 +3,10 @@ setTimeout(function() {
     $("#title_3_on").show()
 }, 500);
 
+setTimeout(function() {
+	check_login();
+}, 100);
+
 const fn_wallet_withdrawal = function () {
     fn_current_money();
     
