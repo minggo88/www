@@ -660,7 +660,7 @@ div.dts div.dataTables_scrollBody {
 .cancel-button {
     margin-left: 10px; /* 취소 버튼과 검색 상자 사이의 간격 조정 */
 	margin-right: 11px;
-    padding: 9px;
+    padding: 12px 9px 6px 9px; /* 위 12px, 아래 6px, 오른쪽 9px, 왼쪽 9px */
     width: 5%;
     cursor: pointer;
     font-size: 12px;
