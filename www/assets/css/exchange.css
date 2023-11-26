@@ -294,7 +294,8 @@ div.dts div.dataTables_scrollBody {
 }
 
 /* 구매하기 */
-#modal-buy{
+#modal-buy,
+#modal-sell {
 	display : none;
 }
 #modal-buy .modal--content ,

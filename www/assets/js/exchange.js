@@ -702,7 +702,7 @@ $(function() {
 				const price = d.price
 				const exchange = d.exchange
 				// const volume = d.volume
-				const volume_remain = d.volume_remain
+				const quantity = d.quantity
 				const orderid = d.orderid
 				const goods_grade = d.goods_grade
 
@@ -713,10 +713,10 @@ $(function() {
                     btn = '<button type="button" class="btn btn btn--cancal" data-symbol="' + SELECTED_SYMBOL + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px" >'+__('취소')+'</button>'
 
                 } else if (Model.user_info.userno !== d.userno && cookie_check === Model.user_info.userno) {
-                    btn = '<button type="button" class="btn btn--blue btn" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
+                    btn = '<button type="button" class="btn btn--blue btn" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + quantity + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
                 }
                 else {
-                    btn = '<button type="button" class="btn btn--blue btn" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + volume_remain + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct-pin" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
+                    btn = '<button type="button" class="btn btn--blue btn" data-toggle="modal" data-symbol="' + SELECTED_SYMBOL + '" data-exchange="' + exchange + '" data-volume="' + quantity + '" data-price="' + price + '" data-orderid="' + orderid + '" data-goods_grade="' + goods_grade + '" data-target="#modal-sell-direct-pin" style="width: 90px; height: 35px; line-height: 25px; font-size: 13px">'+__('판매')+'</button>'
 
                 }
 
@@ -1870,9 +1870,9 @@ $(function() {
                 $('#modal-sell-pin').hide();
                 $('#modal-sell-button').attr('data-target','#modal-sell');
                 $('#modal-sell-button').trigger('click');
-		$("#modal-sell").myModal('show');
+		        $("#modal-sell").myModal('show');
             } else {
-            return false
+                return false
             }
         })
 
@@ -1901,8 +1901,8 @@ $(function() {
                             })
                         $("#modal-sell-pin").myModal('hide')
                         //$("#modal-sell").myModal('show')
-			$('#modal-buy-button').attr('data-target','#modal-buy-pin');
-			PIN_NUMBER_ON = 1;
+                        $('#modal-buy-button').attr('data-target','#modal-buy-pin');
+                        PIN_NUMBER_ON = 1;
                     } else {
                         alert(resp.error.message)
                     }
@@ -1923,13 +1923,50 @@ $(function() {
             modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
             modal.find('[name=orderid]').text('')
             modal.find('[name=price]').val(real_number_format(SELECTED_SYMBOL_PRICE))
-            modal.find('[name=price]').val(real_number_format($('#sell_price').val()));
-            modal.find('[name=volume]').val(real_number_format($('#sell_val').val()));
+            modal.find('[name=price]').val($('#sell_price').val());
+            modal.find('[name=volume]').val($('#sell_val').val());
             const t_sell_money = $('#sell_price').val() * $('#sell_val').val();
-            modal.find('[name=total]').val(real_number_format(t_sell_money));
+            modal.find('[name=total]').val(t_sell_money);
             modal.find('.tea--name').text(SELECTED_NAME)
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
-	    $('[name=use_agreement]').prop('checked', false);
+	        //$('[name=use_agreement]').prop('checked', false);
+
+            if($('[name=use_sell_agreement]').prop('checked') == false) {
+				alert('이용약관 동의에 체크해 주세요.');
+				$('#modal-sell-pin').myModal('stopEvent');
+				return false
+			}else{
+				API.sell($('#modal-sell').serializeObject(), (resp) => {
+                    $('#modal-sell').find('button[type=submit]').attr('disabled', false);
+                    if (resp.success) {
+	                    //set_user_wallet();
+                        $('#modal-sell').myModal('hide')
+                        // $('#alert-sell').myModal('show')
+                        const price = parseFloat($('#modal-sell [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
+                        const volume = parseFloat($('#modal-sell [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
+                        const exchange = parseFloat($('#modal-sell [name=exchange]').val())
+                        const goods_grade = ($('#modal-sell [name=goods_grade]')).val()
+                        $('#modal-sell-success .tea--name').text(SELECTED_NAME)
+                        $('#modal-sell-success .volume').text(volume.format())
+                        $('#modal-sell-success .total').text(real_number_format(price * volume))
+                        //$('#modal-sell-success .exchange').text(exchange)
+                        $('#modal-sell-success .goods_grade').text(goods_grade)
+                        $('#modal-sell-success').myModal('show')
+                        // 판매목록 갱신
+                        $('#sellGrid').DataTable().ajax.reload(null, false);
+                        // 상품목록 갱신
+                        getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
+
+						//상태 재시작
+						request_user_info();
+						set_user_wallet();
+						toggleOrderContent('sell');
+	                } else {
+	                    alert(resp.error.message)
+	                }
+	            })
+			}
+
         })
         .submit(e => {
             $('#modal-sell').find('button[type=submit]').attr('disabled', true);
@@ -2076,8 +2113,8 @@ function createOrderList() {
         return a.productPrice - b.productPrice;
     });
 	
-    console.log('----------------------------');
-    console.log(buy_list);
+    //console.log('----------------------------');
+    //console.log(buy_list);
 
 	order_list.push(...sell_list.slice(Math.max(0, sell_list.length-4), sell_list.length));
 	order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
@@ -2093,7 +2130,7 @@ function createOrderList() {
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
             ${real_number_format(item.productPrice)}</div>
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${real_number_format(item.volume_remain)}</div>
+            ${real_number_format(item.quantity)}</div>
         `;
         orderList.appendChild(tableRow);
     }
@@ -2128,7 +2165,7 @@ function updateTable(newData, text) {
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
             ${real_number_format(item.productPrice)}</div>
         <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${real_number_format(item.volume_remain)}</div>
+            ${real_number_format(item.quantity)}</div>
         `;
 		
 		if (item.orderStatus === '매수') {
@@ -2376,7 +2413,7 @@ function trade_list(){
 	API.getOrderListTrading(SELECTED_SYMBOL, '', (resp) => {
 		//console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
         //console.log('trade_list:', resp);
-		console.log(resp);
+		//console.log(resp);
 		let b_num = 0;
 		let s_num = 0;
          if(resp.payload.length > 0) {
@@ -2835,10 +2872,29 @@ function cancelSearch() {
 }
 
 function request_user_info() {
-	API.getMyInfo((resp) => {
+	API.getBalance('ALL','',(resp) => {
 	    if(resp.success) {
-	        let user_info = resp.payload;
-            Model.user_info = user_info; 
+	        let user_wallet = {};
+				console.log(resp);
+				for (i in resp.payload) {
+					let row = resp.payload[i];
+					row.confirmed = row.confirmed * 1;
+					row.unconfirmed = row.unconfirmed * 1;
+					const key = gen_user_wallet_key(row.symbol, row.goods_grade);
+					if(row.symbol == "KRW"){
+						if(key == "KRW/"){
+							user_wallet["KRW"] = row;		
+						}else{
+							user_wallet[key] = row;
+						}
+					}else{
+						user_wallet[key] = row;	
+					}
+				}
+				console.log(user_wallet);
+				Model.user_wallet = user_wallet;
+				const cnt_buyable = Model.user_wallet.KRW.total_money;
+				document.getElementsByClassName('tea--available')[0].textContent = real_number_format(cnt_buyable) + SELECTED_EXCHANGE;
 	    }
 	})
 }
