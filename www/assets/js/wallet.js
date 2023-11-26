@@ -241,7 +241,8 @@ function wallet_tab(tabNumber) {
 					
 					//---------------------------------------------------
 					//총보유자산
-					let num = total_evaluated_balance*1 + total_buyable_balance*1;
+					//let num = total_evaluated_balance*1 + total_buyable_balance*1;
+					let num = total_evaluated_balance*1 + total_money*1;
 					$('#totalBalance').text(real_number_format(num,0));
 					var divElement = document.querySelector('.firsth_title_2');
 					var pElement = divElement.querySelector('p');
