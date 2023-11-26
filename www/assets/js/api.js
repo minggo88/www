@@ -856,7 +856,7 @@ const API = {
     //exchage전용(거래중)
     getOrderListTrading: (symbol, tradingType, callback) => {
         $.ajax({
-            url: `${API.BASE_URL}/getOrderList/?symbol=${symbol}&trading_type=${tradingType}&status=unclose`,
+            url: `${API.BASE_URL}/getOrderList/`,
             type: 'POST',
             dataType: 'JSON',
             data: {

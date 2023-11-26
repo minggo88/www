@@ -1597,8 +1597,7 @@ $(function() {
         })
     
     $('#modal-buy-pin')
-        .myModal('beforeOpen', _e => {
-            
+        .myModal('beforeOpen', _e => {			
             let cookie_check = $.cookie(Model.user_info.userid)
 
             if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
@@ -1609,10 +1608,15 @@ $(function() {
                 $('#modal-buy-pin').hide();
                 $('#modal-buy-button').attr('data-target','#modal-buy');
                 $('#modal-buy-button').trigger('click');
-		$("#modal-buy").myModal('show');
-            } else {
-            return false
-            }
+		        $("#modal-buy").myModal('show');
+			}
+			console.log('내용을 채워주세요. 항목을 입력해 주세요.');
+			if($('[name=use_buy_agreement]').prop('checked') == false) {
+				alert('내용을 채워주세요. 항목을 입력해 주세요.');
+				console.log('내용을 채워주세요. 항목을 입력해 주세요.');
+				$('#modal-buy-pin').myModal('stopEvent');
+				return false
+			}
         })
         $('[name=tab_item]').on('click', function () { 
             //$("#modal-buy-pin").myModal('hide')
@@ -1635,7 +1639,7 @@ $(function() {
                 }
                 pin += $(elem).val()
             })
-
+			
             if(check) {
                 API.checkPin(pin, (resp) => {
                     if(resp.success) {
@@ -1652,7 +1656,7 @@ $(function() {
                         alert(resp.error.message)
                     }
                 })
-            } else {
+            }else {
                 alert('내용을 채워주세요. 항목을 입력해 주세요.')
             }
             
@@ -1668,19 +1672,56 @@ $(function() {
             modal.find('input[name=symbol]').val(SELECTED_SYMBOL)
             modal.find('input[name=exchange]').val(SELECTED_EXCHANGE)
             modal.find('[name=orderid]').text('')
-            modal.find('[name=price]').val(real_number_format($('#buy_price').val()));
-            modal.find('[name=volume]').val(real_number_format($('#buy_val').val()));
+            modal.find('[name=price]').val($('#buy_price').val());
+            modal.find('[name=volume]').val($('#buy_val').val());
             const t_buy_money = $('#buy_price').val() * $('#buy_val').val();
-            modal.find('[name=total]').val(real_number_format(t_buy_money));
+            modal.find('[name=total]').val(t_buy_money);
             modal.find('.tea--name').text(SELECTED_NAME)
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
-	    $('[name=use_agreement]').prop('checked', false);
+	        //$('[name=use_agreement]').prop('checked', true);
+
+			if($('[name=use_buy_agreement]').prop('checked') == false) {
+				alert('이용약관 동의에 체크해 주세요.');
+				$('#modal-buy-pin').myModal('stopEvent');
+				return false
+			}else{
+				API.buy($('#modal-buy').serializeObject(), (resp) => {
+	                $('#modal-buy').find('button[type=submit]').attr('disabled', false);
+	                if(resp.success) {
+	                    //set_user_wallet();
+	                    $('#modal-buy').myModal('hide')
+	                    const price = parseFloat($('#modal-buy [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
+	                    const volume = parseFloat($('#modal-buy [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
+	                    const exchange = parseFloat($('#modal-buy [name=exchange]').val())
+	                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
+	                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
+	                    $('#modal-buy-success .volume').text(volume.format())
+	                    $('#modal-buy-success .total').text(real_number_format(price * volume))
+	                    //$('#modal-buy-success .exchange').text(exchange)
+	                    $('#modal-buy-success .goods_grade').text(goods_grade)
+	                    $('#modal-buy-success').myModal('show')
+	                    // 구매목록 갱신
+	                    $('#buyGrid').DataTable().ajax.reload(null, false);
+	                    // 상품목록 갱신
+	                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
+						//상태 재시작
+						request_user_info();
+						set_user_wallet();
+						toggleOrderContent('buy');
+	                } else {
+	                    alert(resp.error.message)
+	                }
+	            })
+			}
+	
+            
         })
+		/*
         .submit(e => {
             $('#modal-buy').find('button[type=submit]').attr('disabled', true);
             e.preventDefault()
-	    const price_num2 =parseFloat($('#modal-buy').find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''));
-	    $('#modal-buy [name=price]').val(price_num2);	
+            const price_num2 =parseFloat($('#modal-buy').find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''));
+            $('#modal-buy [name=price]').val(price_num2);	 
             API.buy($('#modal-buy').serializeObject(), (resp) => {
                 $('#modal-buy').find('button[type=submit]').attr('disabled', false);
                 if(resp.success) {
@@ -1705,7 +1746,7 @@ $(function() {
                 }
             })
             return false
-        })
+        })*/
     
     $('#modal-sell-direct-pin')
         .myModal('beforeOpen', _e => {
@@ -2035,6 +2076,8 @@ function createOrderList() {
         return a.productPrice - b.productPrice;
     });
 	
+    console.log('----------------------------');
+    console.log(buy_list);
 
 	order_list.push(...sell_list.slice(Math.max(0, sell_list.length-4), sell_list.length));
 	order_list.push(...buy_list.slice(0, Math.min(buylistNum, buy_list.length)));
@@ -2333,6 +2376,7 @@ function trade_list(){
 	API.getOrderListTrading(SELECTED_SYMBOL, '', (resp) => {
 		//console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
         //console.log('trade_list:', resp);
+		console.log(resp);
 		let b_num = 0;
 		let s_num = 0;
          if(resp.payload.length > 0) {
@@ -2788,4 +2832,13 @@ function cancelSearch() {
     // 취소 동작 수행
     document.getElementById('searchInput').value = ''
     getTradeItems(grid_symbol);
+}
+
+function request_user_info() {
+	API.getMyInfo((resp) => {
+	    if(resp.success) {
+	        let user_info = resp.payload;
+            Model.user_info = user_info; 
+	    }
+	})
 }
