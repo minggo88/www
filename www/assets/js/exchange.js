@@ -2875,7 +2875,7 @@ function request_user_info() {
 	API.getBalance('ALL','',(resp) => {
 	    if(resp.success) {
 	        let user_wallet = {};
-				console.log(resp);
+				//console.log(resp);
 				for (i in resp.payload) {
 					let row = resp.payload[i];
 					row.confirmed = row.confirmed * 1;
@@ -2891,7 +2891,7 @@ function request_user_info() {
 						user_wallet[key] = row;	
 					}
 				}
-				console.log(user_wallet);
+				//console.log(user_wallet);
 				Model.user_wallet = user_wallet;
 				const cnt_buyable = Model.user_wallet.KRW.total_money;
 				document.getElementsByClassName('tea--available')[0].textContent = real_number_format(cnt_buyable) + SELECTED_EXCHANGE;
