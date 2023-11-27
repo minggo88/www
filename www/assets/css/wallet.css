@@ -1436,6 +1436,7 @@
 .historyTb thead tr th:first-child,
 .historyTb tbody tr td:first-child {
 	border-left: 1px solid #cacaca;
+	height: 40px;
 }
 
 
@@ -2144,15 +2145,15 @@
 	
 #div_dropdown_date_selected{
 	max-width: 15%;
-	width : 15%;
+	width : 5%;
 }
 
 #div_dropdown_type_selected{
 	max-width: 15%;
-	width : 15%;
+	width : 5%;
 }
 #space_width{
-	width:50%;
+	width:65%;
 }
 .top_area{
 	width:25%;
