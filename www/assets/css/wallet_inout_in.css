@@ -2361,6 +2361,7 @@
 	font-weight: 500;
 	padding-left:5%;
 	font-size: 16px;
+	border : 0px;
 }
 
 .input--group .input_unit{
