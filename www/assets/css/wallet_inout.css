@@ -149,3 +149,7 @@
 	line-height: 35px;
 	background: url('../img/icon/inout_out.png') no-repeat right center;
 }
+
+.contents--header2{
+	display:none;
+}
