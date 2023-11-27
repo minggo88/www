@@ -798,7 +798,7 @@ const fn_takeout = function () {
 	let sdate = date('Y-m-d', time()-60*60*24*365*1);
 	let edate = date('Y-m-d');
 
-	console.log(sdate);
+	//console.log(sdate);
 	var parentElement = document.querySelector('.d-grid.wallet--grid[name="d-grid--empty"]');
 	parentElement.innerHTML = '';
 
@@ -850,10 +850,6 @@ const fn_takeout = function () {
 								<td id="cancel_table_right1" style="width: 23%; text-align: center; color: ${font_c};" class='item_grade'>${t_type}</td>
 								<td id="cancel_table_right1" style="width: 23%; text-align: center;" class="rdate">${t_name}</td>
 								<td rowspan="2" style="width: 39%; text-align: center;" class="tcnt">
-									<p>
-										<span>등급</span>
-										<span>${t_grade}개</span>
-									</p>
 									<p>
 										<span>주문단가</span>
 										<span>${real_number_format(t_price)} 원</span>
