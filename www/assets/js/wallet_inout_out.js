@@ -4,7 +4,7 @@ setTimeout(function() {
 }, 500);
 
 setTimeout(function() {
-	check_login();
+	//check_login();
 }, 100);
 
 const fn_wallet_withdrawal = function () {
@@ -18,7 +18,7 @@ const fn_wallet_withdrawal = function () {
 
     // pin Number popup 띄우기
     $('[name="btn-save-widthdraw"]').on('click', function () { 
-        const sourceInput = document.getElementById("able_out_max_money");
+        const sourceInput = document.getElementById("max_money");
         const amount = sourceInput.value;
         
         // <input> 요소의 name 속성을 사용하여 요소를 찾습니다.
@@ -223,4 +223,11 @@ const fn_current_money = function(){
 	})
 }
 
+/**나가기버튼 이벤트**/
+function page_exit(){
+	// 새로운 페이지의 URL
+	var newPageUrl = "wallet-inout.html"; // 실제로 이동하고자 하는 페이지의 URL로 변경해주세요.
 
+	// 페이지 이동
+	window.location.href = newPageUrl;
+}
