@@ -1327,15 +1327,15 @@
 
 .historyTb thead tr th {
 	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 11px;
+	font-size: 13px;
 	font-weight: 500 !important;
 	font-style: normal;
 	font-stretch: normal;
 	letter-spacing: normal;
 	text-align: center;
 	color: #000000;
-	border: 1px solid #cacaca;
-	border-top: 1px solid #cacaca;
+	border: 1px solid #ffffff;
+	background-color : #f5f5f5;
 }
 
 .historyTb .table > thead > tr > th{
@@ -1345,14 +1345,15 @@
 
 .historyTb tbody > tr > td {
 	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 10px;
+	font-size: 13px;
 	font-weight: normal;
 	font-style: normal;
 	font-stretch: normal;
 	letter-spacing: normal;
 	text-align: center;
 	color: #3a3c41;
-	border-bottom: 1px solid #cacaca;
+	border: 1px solid #ffffff;
+	background-color : #f5f5f5;
 }
 
 .historyTb tbody tr.firstTr td {
@@ -1437,10 +1438,7 @@
 	border-left: 1px solid #cacaca;
 }
 
-.historyTb thead tr th:last-child,
-.historyTb tbody tr td:last-child {
-	border-right: 1px solid #cacaca;
-}
+
 
 .historyTb tbody tr td.mergeTd .btnArea{
 	display: flex;
@@ -1937,16 +1935,16 @@
 /* 탭 내용 스타일 */
 /* 전체 화면 스타일 */
 .contents{
-	width:700px !important;
+	width:900px !important;
 }
 .container {
-	width: 681px;	
+	width: 881px;	
 }
 .wallet_tab {
 	font-family: 'Noto Sans KR', sans-serif;
 	color: #333333;
 	font-weight: bold;
-	width: 681px; /* 총 길이를 681로 설정 */
+	width: 881px; /* 총 길이를 681로 설정 */
 	display: flex; /* 자식 요소들을 가로로 나열하기 위해 Flexbox를 사용합니다. */
 	justify-content: space-between; /* 각 탭 버튼을 균등하게 배치합니다. */
 	border-bottom: 1px solid var(--red-up);
@@ -1969,7 +1967,7 @@
 	background-color: var(--red-up);
 	font-family: 'Noto Sans KR', sans-serif;
 	margin-bottom:10px;
-	width: 681px;
+	width: 881px;
 	color:white;
 }
 .first_title{
@@ -1991,16 +1989,16 @@
 
 .firsth_title_1 span,
 .firsth_title_2 span{
-	font-size: 16px;
+	font-size: 20px;
 }
 
 .firsth_title_1 p,
 .firsth_title_2 p{
-	font-size: 24px;
+	font-size: 28px;
 }
 
 .second_title{
-	height:22px;
+	height:30px;
 	display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 Flexbox를 사용합니다. */
     justify-content: space-between; /* 양쪽 끝으로 요소를 정렬합니다. */
 }
@@ -2017,14 +2015,14 @@
 	padding: 0 30px;
 	width: 30%;
 	margin: 0;
-	font-size: 16px;
+	font-size: 20px;
 }
 .second_title_2_1 span,
 .second_title_2_2 span{
 	padding: 0 30px;
 	width: 30%;
 	margin: 0;
-	font-size: 16px;
+	font-size: 20px;
 }
 .second_title_1_1 p,
 .second_title_1_2 p{
@@ -2033,7 +2031,7 @@
 	width: 70%;
 	text-align: right;
 	margin: 0;
-	font-size: 16px;
+	font-size: 20px;
 }
 .second_title_2_1 p,
 .second_title_2_2 p{
@@ -2042,10 +2040,10 @@
 	width: 70%;
 	text-align: right;
 	margin: 0;
-	font-size: 16px;
+	font-size: 20px;
 }
 .third_title{
-	height: 30px;
+	height: 20px;
 }
 
 .con2{
@@ -2059,12 +2057,12 @@
 .title_tbody_2{
 	width:100%;
 	text-align: center;
-	font-size:13px;
+	font-size:16px;
 	border-bottom: 1px solid #FFFFFF; /* 값 사이에 border-right 추가 */
 }
 
 .wallet_title {
-	height:27px;
+	height:31px;
 	border-right: 1px solid #FFFFFF; /* 값 사이에 border-right 추가 */
 	font-weight: 500;
 	font-weight: normal;
@@ -2082,7 +2080,7 @@
 }
 .wallet_title2 p {
 	width:50%;
-	height:27px;
+	height:31px;
 	margin:0px;
 }
 .wallet_title2 .p1 {
@@ -2090,7 +2088,7 @@
 }
 
 .con2{
-	width: 681px;
+	width: 881px;
 }
 .list_tbody{
 	
@@ -2099,7 +2097,7 @@
 .list_tbody_2{
 	width:100%;
 	text-align: center;
-	font-size:13px;
+	font-size:16px;
 	border-bottom: 1px solid #DDD;; /* 값 사이에 border-right 추가 */
 }
 

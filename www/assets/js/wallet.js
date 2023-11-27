@@ -183,8 +183,8 @@ function wallet_tab(tabNumber) {
 												<th class="wallet_list" style="width: 22%;">${item_name}</th>
 												<th class="wallet_list" style="width: 10%;">${make_year}</th>
 												<th class="wallet_list" style="width: 20%; ${style_text}">${item_income}</th>
-												<th class="wallet_list" style="width: 28%;">`+real_number_format(item_total,0)+`</th>
-												<th class="wallet_list_end" style="width: 20%;">`+real_number_format(item_total,0)+`</th>
+												<th class="wallet_list" style="width: 24%;">`+real_number_format(item_total,0)+`</th>
+												<th class="wallet_list_end" style="width: 24%;">`+real_number_format(item_total,0)+`</th>
 											</tr>
 										</tbody>
 									</table>
@@ -199,8 +199,8 @@ function wallet_tab(tabNumber) {
 												</th>
 												<th class="wallet_list" style="width: 10%;">${item.confirmed_str}</th>
 												<th class="wallet_list" style="width: 20%; ${style_text}">${income_rate.toFixed(2) +'%'}</th>
-												<th class="wallet_list" style="width: 28%;">`+ real_number_format(avg_price_num,0) +`</th>
-												<th class="wallet_list_end" style="width: 20%;">`+ real_number_format(avg_price_one) +`</th>
+												<th class="wallet_list" style="width: 24%;">`+ real_number_format(avg_price_num,0) +`</th>
+												<th class="wallet_list_end" style="width: 24%;">`+ real_number_format(avg_price_one) +`</th>
 											</tr>
 										</tbody>
 									</table>
@@ -798,7 +798,7 @@ const fn_takeout = function () {
 	let sdate = date('Y-m-d', time()-60*60*24*365*1);
 	let edate = date('Y-m-d');
 
-	//console.log(sdate);
+	console.log(sdate);
 	var parentElement = document.querySelector('.d-grid.wallet--grid[name="d-grid--empty"]');
 	parentElement.innerHTML = '';
 
