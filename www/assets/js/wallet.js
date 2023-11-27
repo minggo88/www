@@ -866,7 +866,7 @@ const fn_takeout = function () {
 								<td id="cancel_table_nond" rowspan="2" style="width: 1%; text-align: center;" class="tstate">${stateChage(t_state)}</td>
 							</tr>
 							<tr class="cancel_list_left">
-								<td id="cancel_table_right2" style="width: 23%; text-align: center;" class='item_grade'>${t_rdate}</td>
+								<td id="cancel_table_right2" style="width: 23%; text-align: center;" class='item_grade'>${format_time(t_rdate)}</td>
 								<td id="cancel_table_right2" style="width: 23%; text-align: center;" class="rdate">${t_pdate}</td>
 							</tr>
 						`);
@@ -993,4 +993,22 @@ function cancelSelectedItems() {
 			}
 		})
 	});
+}
+
+function format_time(timestamp) {
+    // Unix 타임스탬프를 밀리초로 변환
+    const milliseconds = timestamp * 1000;
+
+    // Unix 타임스탬프를 가지고 Date 객체 생성
+    const dateObject = new Date(milliseconds);
+
+    // 년, 월, 일, 시, 분을 가져오기
+    const year = dateObject.getUTCFullYear().toString().slice(-2);
+    const month = ('0' + (dateObject.getUTCMonth() + 1)).slice(-2);
+    const day = ('0' + dateObject.getUTCDate()).slice(-2);
+    const hours = ('0' + dateObject.getUTCHours()).slice(-2);
+    const minutes = ('0' + dateObject.getUTCMinutes()).slice(-2);
+
+    // 포맷팅된 문자열 반환
+    return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
 }
