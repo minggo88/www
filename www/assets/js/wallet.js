@@ -719,9 +719,9 @@ function changeStyle2(button) {
 	if(value<1){
 		startInput.value = getOneWeekAgoDate();
 		startInput2.value = getOneWeekAgoDate();
-		$('#search_date').val('일주일');
+		$('#search_date').val('1주일');
 	}else if(value>99){
-		$('#search_date').val('임의입력');
+		$('#search_date').val('지정');
 	}else{
 		startInput.value = getNDaysAgo(value);
 		startInput2.value = getNDaysAgo(value);
