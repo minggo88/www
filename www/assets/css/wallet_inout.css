@@ -19,15 +19,13 @@
 
 .wallet_in_main_div1{
 	padding-top: 23px;
-	margin-bottom:25px;
+	margin-bottom:5px;
 	text-align: center;
-	
 }
 
 .wallet_in_main_div1 span{
-	font-size : 16px;
+	font-size : 21px;
 	font-weight : 700;
-	
 	color:#ffffff;
 }
 
@@ -76,20 +74,22 @@
 
 #total_money_line{
 	text-align: center;
-	padding-bottom:40px
+	padding-bottom:35px
 }
 
 #total_money {
     color: white;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 36px;
 }
 
 
 #total_unit{
 	color: white;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 28px;
+	padding-top: 10px;
+	
 }
 
 .wallet_in_main_btn{
@@ -105,12 +105,12 @@
 
 .btn_in:hover,
 .btn_out:hover {
-    color: #ffffff; /* 상위 요소의 글자색을 상속받음 */
+    color: #ffffff; /* ìƒìœ„ ìš”ì†Œì˜ ê¸€ìžìƒ‰ì„ ìƒì†ë°›ìŒ */
 }
 
 .btn_in:active,
 .btn_out:active {
-    color: #ffffff; /* 클릭 시에 글자색을 흰색으로 설정 */
+    color: #ffffff; /* í´ë¦­ ì‹œì— ê¸€ìžìƒ‰ì„ í°ìƒ‰ìœ¼ë¡œ ì„¤ì • */
 }
 
 .btn_in{
@@ -121,6 +121,7 @@
 	text-align: left;
 	color: #ffffff !important;
 	line-height: 35px;
+	font-weight : 500;
 }
 
 .btn_out{
@@ -129,7 +130,8 @@
 	padding-left : 15px;
 	text-align: left;
 	line-height: 35px;
-	color: #ffffff !important;	
+	color: #ffffff !important;
+	font-weight : 500;
 }
 
 .btn_in_img{
