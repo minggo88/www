@@ -187,7 +187,7 @@
 
 
 
-/* wallet 보유자산 */
+/* wallet ë³´ìœ ìžì‚° */
 @media screen and (max-width:1440px) {
 	.sub.wallet main{
 		height: 100%;
@@ -367,7 +367,7 @@
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	box-sizing: border-box;
-	display:none;/* 사진을 깨끗하게 찍지 못해 아이콘을 숨겨달라고 함. */
+	display:none;/* ì‚¬ì§„ì„ ê¹¨ë—í•˜ê²Œ ì°ì§€ ëª»í•´ ì•„ì´ì½˜ì„ ìˆ¨ê²¨ë‹¬ë¼ê³  í•¨. */
 }
 
 @media screen and (max-width: 600px) {
@@ -587,8 +587,8 @@
 
 /* deposit */
 
-/* 입금 */
-.deposit .contents a {vertical-align: unset;} /*    vertical-align: middle 인데 P 태그의 글자와 P > a 가 줄이 안맞아서 unset 으로 변경함.*/
+/* ìž…ê¸ˆ */
+.deposit .contents a {vertical-align: unset;} /*    vertical-align: middle ì¸ë° P íƒœê·¸ì˜ ê¸€ìžì™€ P > a ê°€ ì¤„ì´ ì•ˆë§žì•„ì„œ unset ìœ¼ë¡œ ë³€ê²½í•¨.*/
 
 .deposit .contents .d-grid{
     grid-template-columns: repeat(2, 1fr);
@@ -874,7 +874,7 @@
 
 
 /* deposit-guide */
-/* 입금 안내 */
+/* ìž…ê¸ˆ ì•ˆë‚´ */
 .deposit-guide.deposit .guide{
 	overflow-y: initial;
 	max-height: initial;
@@ -906,7 +906,7 @@
 
 
 /* deposit-withdrawal */
-/* 출금 */
+/* ì¶œê¸ˆ */
 .deposit-withdrawal .grid ul{
 	list-style-type: disc;
 	padding-left: 10px;
@@ -1104,7 +1104,7 @@
 
 
 /* wallet-analysis */
-/* 종합분석 */
+/* ì¢…í•©ë¶„ì„ */
 .wallet-analysis .content_wrap{
 	height: initial;
 }
@@ -1226,7 +1226,7 @@
 	overflow-x: auto;
 }
 
-/*230306 내지갑 CSS 가로스크롤 및 고정 변경 */
+/*230306 ë‚´ì§€ê°‘ CSS ê°€ë¡œìŠ¤í¬ë¡¤ ë° ê³ ì • ë³€ê²½ */
 .historyTb{
 	margin-top : 20px;
 	overflow-x: auto;
@@ -1335,7 +1335,7 @@
 	text-align: center;
 	color: #000000;
 	border: 1px solid #ffffff;
-	background-color: #fafafa;
+	background-color: #f5f5f5;
 }
 
 .historyTb .table > thead > tr > th{
@@ -1558,7 +1558,7 @@
 }
 
 @media screen and (max-width: 800px) { 
-	/* 230306 mk summary 생략 */
+	/* 230306 mk summary ìƒëžµ */
 	.d-grid.wallet-summary{
 		padding-bottom: 10px !important;
 	}
@@ -1808,7 +1808,7 @@
 }
 
 /* deposit-withdrawal-address */
-/* 출금 (비트코인) 주소 */
+/* ì¶œê¸ˆ (ë¹„íŠ¸ì½”ì¸) ì£¼ì†Œ */
 .address main{
 	padding: 0;
 	flex-direction: column;
@@ -1901,7 +1901,7 @@
 
 
 /* withdrawal-guide */
-/* 출금 안내 */
+/* ì¶œê¸ˆ ì•ˆë‚´ */
 .withdrawal-guide .deposit--guid ul li{
 	list-style-type: disc;
 }
@@ -1933,8 +1933,8 @@
 
 
 /*230901*/
-/* 탭 내용 스타일 */
-/* 전체 화면 스타일 */
+/* íƒ­ ë‚´ìš© ìŠ¤íƒ€ì¼ */
+/* ì „ì²´ í™”ë©´ ìŠ¤íƒ€ì¼ */
 .contents{
 	width:900px !important;
 }
@@ -1945,22 +1945,22 @@
 	font-family: 'Noto Sans KR', sans-serif;
 	color: #333333;
 	font-weight: bold;
-	width: 881px; /* 총 길이를 681로 설정 */
-	display: flex; /* 자식 요소들을 가로로 나열하기 위해 Flexbox를 사용합니다. */
-	justify-content: space-between; /* 각 탭 버튼을 균등하게 배치합니다. */
+	width: 881px; /* ì´ ê¸¸ì´ë¥¼ 681ë¡œ ì„¤ì • */
+	display: flex; /* ìžì‹ ìš”ì†Œë“¤ì„ ê°€ë¡œë¡œ ë‚˜ì—´í•˜ê¸° ìœ„í•´ Flexboxë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. */
+	justify-content: space-between; /* ê° íƒ­ ë²„íŠ¼ì„ ê· ë“±í•˜ê²Œ ë°°ì¹˜í•©ë‹ˆë‹¤. */
 	border-bottom: 1px solid var(--red-up);
 }
 
 .tab-button {
-	flex: 1; /* 균등한 너비를 가지도록 설정 */
-	padding: 14px 0; /* 상하 여백을 14px로 설정 */
+	flex: 1; /* ê· ë“±í•œ ë„ˆë¹„ë¥¼ ê°€ì§€ë„ë¡ ì„¤ì • */
+	padding: 14px 0; /* ìƒí•˜ ì—¬ë°±ì„ 14pxë¡œ ì„¤ì • */
 	cursor: pointer;
-	display: inline-block; /* 탭 버튼을 수평으로 나열 */
-	text-align: center; /* 글자 가운데 정렬 */
-	font-size: 16px; /* 글자 크기를 16px로 설정 */
+	display: inline-block; /* íƒ­ ë²„íŠ¼ì„ ìˆ˜í‰ìœ¼ë¡œ ë‚˜ì—´ */
+	text-align: center; /* ê¸€ìž ê°€ìš´ë° ì •ë ¬ */
+	font-size: 16px; /* ê¸€ìž í¬ê¸°ë¥¼ 16pxë¡œ ì„¤ì • */
 }
 .tab-button.selected {
-	background-color: var(--red-up); /* 선택된 탭 버튼 배경색을 붉은색으로 변경 */
+	background-color: var(--red-up); /* ì„ íƒëœ íƒ­ ë²„íŠ¼ ë°°ê²½ìƒ‰ì„ ë¶‰ì€ìƒ‰ìœ¼ë¡œ ë³€ê²½ */
 	color: white;
 }
 	
@@ -1972,18 +1972,18 @@
 	color:white;
 }
 .first_title{
-	display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 Flexbox를 사용합니다. */
-    justify-content: space-between; /* 양쪽 끝으로 요소를 정렬합니다. */
+	display: flex; /* ìžì‹ ìš”ì†Œë“¤ì„ ê°€ë¡œë¡œ ë‚˜ëž€ížˆ ë°°ì¹˜í•˜ê¸° ìœ„í•´ Flexboxë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. */
+    justify-content: space-between; /* ì–‘ìª½ ëìœ¼ë¡œ ìš”ì†Œë¥¼ ì •ë ¬í•©ë‹ˆë‹¤. */
 }
 
 .firsth_title_1{
-    border-right: 1px solid white; /* 테두리 추가 (선택적) */
+    border-right: 1px solid white; /* í…Œë‘ë¦¬ ì¶”ê°€ (ì„ íƒì ) */
 }
 	
 .firsth_title_1,
 .firsth_title_2{
-	width: 49%; /* 화면 너비의 49%를 차지하도록 설정합니다. */
-    padding: 0 30px; /* 여백 설정 (선택적) */
+	width: 49%; /* í™”ë©´ ë„ˆë¹„ì˜ 49%ë¥¼ ì°¨ì§€í•˜ë„ë¡ ì„¤ì •í•©ë‹ˆë‹¤. */
+    padding: 0 30px; /* ì—¬ë°± ì„¤ì • (ì„ íƒì ) */
 	margin: 50px 0;
 	
 }
@@ -2000,15 +2000,15 @@
 
 .second_title{
 	height:30px;
-	display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 Flexbox를 사용합니다. */
-    justify-content: space-between; /* 양쪽 끝으로 요소를 정렬합니다. */
+	display: flex; /* ìžì‹ ìš”ì†Œë“¤ì„ ê°€ë¡œë¡œ ë‚˜ëž€ížˆ ë°°ì¹˜í•˜ê¸° ìœ„í•´ Flexboxë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. */
+    justify-content: space-between; /* ì–‘ìª½ ëìœ¼ë¡œ ìš”ì†Œë¥¼ ì •ë ¬í•©ë‹ˆë‹¤. */
 }
 .second_title_1_1,
 .second_title_1_2,
 .second_title_2_1,
 .second_title_2_2{
-	display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 Flexbox를 사용합니다. */
-    justify-content: space-between; /* 양쪽 끝으로 요소를 정렬합니다. */
+	display: flex; /* ìžì‹ ìš”ì†Œë“¤ì„ ê°€ë¡œë¡œ ë‚˜ëž€ížˆ ë°°ì¹˜í•˜ê¸° ìœ„í•´ Flexboxë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. */
+    justify-content: space-between; /* ì–‘ìª½ ëìœ¼ë¡œ ìš”ì†Œë¥¼ ì •ë ¬í•©ë‹ˆë‹¤. */
 	width : 49%;
 }
 .second_title_1_1 span,
@@ -2059,12 +2059,12 @@
 	width:100%;
 	text-align: center;
 	font-size:16px;
-	border-bottom: 1px solid #FFFFFF; /* 값 사이에 border-right 추가 */
+	border-bottom: 1px solid #FFFFFF; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
 }
 
 .wallet_title {
 	height:31px;
-	border-right: 1px solid #FFFFFF; /* 값 사이에 border-right 추가 */
+	border-right: 1px solid #FFFFFF; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
 	font-weight: 500;
 	font-weight: normal;
 	
@@ -2084,7 +2084,7 @@
 	margin:0px;
 }
 .wallet_title2 .p1 {
-	border-right: 1px solid #FFFFFF; /* 값 사이에 border-right 추가 */
+	border-right: 1px solid #FFFFFF; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
 }
 
 .con2{
@@ -2098,12 +2098,12 @@
 	width:100%;
 	text-align: center;
 	font-size:16px;
-	border-bottom: 1px solid #DDD;; /* 값 사이에 border-right 추가 */
+	border-bottom: 1px solid #DDD;; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
 }
 
 .wallet_list {
 	height:27px;
-	border-right: 1px solid #DDD;; /* 값 사이에 border-right 추가 */
+	border-right: 1px solid #DDD;; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
 	font-weight: 500;
 	font-weight: normal;
 	
@@ -2124,7 +2124,7 @@
 	margin:0px;
 }
 .wallet_list2 .p1 {
-	border-right: 1px solid #DDD; /* 값 사이에 border-right 추가 */
+	border-right: 1px solid #DDD; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
 }
 
 #tab2_fix_title{
@@ -2177,9 +2177,9 @@
 	height: 25px;
     color: #999999;
     cursor: pointer;
-    text-align: center; /* 텍스트를 수평으로 가운데 정렬 */
+    text-align: center; /* í…ìŠ¤íŠ¸ë¥¼ ìˆ˜í‰ìœ¼ë¡œ ê°€ìš´ë° ì •ë ¬ */
     display: flex;
-    justify-content: center; /* 텍스트를 수직으로 가운데 정렬 */
+    justify-content: center; /* í…ìŠ¤íŠ¸ë¥¼ ìˆ˜ì§ìœ¼ë¡œ ê°€ìš´ë° ì •ë ¬ */
     align-items: center;
 }
 
@@ -2191,9 +2191,9 @@
 	height: 25px;
     color: #999999;
     cursor: pointer;
-    text-align: center; /* 텍스트를 수평으로 가운데 정렬 */
+    text-align: center; /* í…ìŠ¤íŠ¸ë¥¼ ìˆ˜í‰ìœ¼ë¡œ ê°€ìš´ë° ì •ë ¬ */
     display: flex;
-    justify-content: center; /* 텍스트를 수직으로 가운데 정렬 */
+    justify-content: center; /* í…ìŠ¤íŠ¸ë¥¼ ìˆ˜ì§ìœ¼ë¡œ ê°€ìš´ë° ì •ë ¬ */
     align-items: center;
 }
 	
@@ -2271,8 +2271,8 @@
     max-width: 60px;
 	border:0px;
 	text-align: center;
-	background-color: #ffffff; /* 배경색 변경 */
-    cursor: not-allowed !important; /* 커서 스타일 변경 */
+	background-color: #ffffff; /* ë°°ê²½ìƒ‰ ë³€ê²½ */
+    cursor: not-allowed !important; /* ì»¤ì„œ ìŠ¤íƒ€ì¼ ë³€ê²½ */
 	font-weight: bold;
 }
 	
@@ -2282,8 +2282,8 @@
 	border:0px;
 	text-align: right;
 	padding-right:20px;
-	background-color: #ffffff; /* 배경색 변경 */
-    cursor: not-allowed !important; /* 커서 스타일 변경 */
+	background-color: #ffffff; /* ë°°ê²½ìƒ‰ ë³€ê²½ */
+    cursor: not-allowed !important; /* ì»¤ì„œ ìŠ¤íƒ€ì¼ ë³€ê²½ */
 	font-weight: bold;
 }
 .pc_period2{
@@ -2303,7 +2303,7 @@
 	margin-left : 20px;
 }
 
-/*미체결 css*/
+/*ë¯¸ì²´ê²° css*/
 .cancel-check-table{
 	width: 800px;
 	margin-top: 40px;
@@ -2336,17 +2336,17 @@
 	row-gap: 1px !important;
 }
 
-/* 빈 그리드 스타일 */
+/* ë¹ˆ ê·¸ë¦¬ë“œ ìŠ¤íƒ€ì¼ */
 .cancel_list {
 	width: 881px;
 	height:35px;
-	background-color: #FFFFFF; /* 배경색을 흰색으로 설정 */
-	 /* 테두리를 1픽셀 두께의 검은색으로 설정 */
+	background-color: #FFFFFF; /* ë°°ê²½ìƒ‰ì„ í°ìƒ‰ìœ¼ë¡œ ì„¤ì • */
+	 /* í…Œë‘ë¦¬ë¥¼ 1í”½ì…€ ë‘ê»˜ì˜ ê²€ì€ìƒ‰ìœ¼ë¡œ ì„¤ì • */
 	border-bottom: 1px solid #DDDDDD;
 	padding: 0px;
 }
 
-/* 빈 그리드 내부 셀 스타일 */
+/* ë¹ˆ ê·¸ë¦¬ë“œ ë‚´ë¶€ ì…€ ìŠ¤íƒ€ì¼ */
 .grid {
 	text-align: center;
 	font-family: Noto Sans KR;
@@ -2359,14 +2359,27 @@
 	font-size: 14px;
 }
 
+#cancel_table_check .checkbox{
+	width: 25px;
+	height: 25px;
+}
+	
 #cancel_table_check,
 #cancel_table_right2{
 	border-right: 1px solid #DDDDDD;
+	
 }
 
 #cancel_table_right1{
 	border-bottom: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
+	text-align: left !important;
+	padding-left : 20px !important;
+}
+
+#cancel_table_right2{
+	text-align: left !important;
+	padding-left : 20px !important;
 }
 
 #cancel_table_nond{
@@ -2377,4 +2390,5 @@
 	margin:0px;
 	display: flex;
 	justify-content: space-between;
+	padding-left:20px;
 }
