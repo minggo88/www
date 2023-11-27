@@ -221,7 +221,7 @@
 				<div class="input--group3--text">
 					<ul>
 						<p>입금 전 꼭 알아두세요!</p>
-						<li>- 입금 신청 금액을 정확하게 입력하셔야 정상적으로 입금처리가 완료됩니다.</li>
+						<li>- 입금액과 신청 금액이 일치해야 정상적으로 입금처리가 완료됩니다.</li>
 						<li>- 계좌 이체 시 계정 소유자 본인 명의로 입금을 진행하여 주십시오</li>
 						<li>- 금융사고 예방을 위해 KRW 첫 입금 후 72시간 동안 출금이 제한 됩니다.</li>
 						<li>- 은행 점검 시간에는 입금 서비스 이용이 원활하지 않을 수 있습니다.</li>
@@ -231,7 +231,8 @@
 					<input type="text" name="deposit_name" class="text-left text-black" value="" data-bind="user_info.name">
 				</div>
 				<div class="d-flex flex-center btn-area" style="width:500px;margin-top:100px;">
-					<button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 196px; align-self: center" data-i18n="">입금하기</button>
+                    <button type="button" class="btn btn--red" id="btn_exit" style="width: 45%; align-self: center" data-i18n="">나가기</button>
+					<button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 45%; align-self: center" data-i18n="">입금신청</button>
 				</div>
 			</div>
 		</div>
@@ -273,7 +274,7 @@
 					</div>
 					
 					<div class="text--center">
-						<button type="button" id="wallet-option-clear" class="btn btn--red" style="height: 40px; line-height: 40px" data-i18n="">초기화</button>
+						<button type="button" class="btn btn--red" id="btn_exit" style="width: 45%; align-self: center" onclick="page_exit();" data-i18n="">나가기</button>
 						<button type="button" name="btn-search" class="btn btn--red" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
 					</div>
 				</div>

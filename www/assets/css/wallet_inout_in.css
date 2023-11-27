@@ -939,7 +939,9 @@
 }
 
 
-.deposit-withdrawal .input--group input{text-align: right;}
+.deposit-withdrawal .input--group input{
+	text-align: right;
+}
 
 .deposit-withdrawal .form--controls .d-flex .btn{
 	width: 196px;
@@ -2357,11 +2359,15 @@
 .input--group .input_money{
 	margin-left:5%;
 	height: 44.2px;
-	width: 80%;
+	width: 84%;
 	font-weight: 500;
 	padding-left:5%;
 	font-size: 16px;
 	border : 0px;
+}
+
+.input--group .input_money::placeholder {
+    color: #cacaca; /* 원하는 색상으로 변경 */
 }
 
 .input--group .input_unit{
@@ -2377,10 +2383,12 @@
 
 .input--group2--bank{
 	padding-left:15px; margin-top : 24px; width: 500px;
+	font-size:16px;
 }
 
 .input--group2--bank input{
 	text-align: right;
+	font-size:16px;
 	width: 80%;
 	border:0px;
 	background-color: #ffffff;
@@ -2393,11 +2401,28 @@
 }
 
 .input--group3--text ul p{ 
+	font-size:16px;
 	font-weight:500;
 	padding-left: 10px; 
 	color : #444444 !important;
 }
 
 .input--group3--text ul li{
+	font-size:16px;
 	padding-left:8px; 
+	padding-bottom:5px;
+}
+
+.d-flex.flex-center.btn-area{
+	align-items: center;
+    justify-content: space-around;
+}
+
+#btn_exit{
+	background-color:#cacaca;
+	
+}
+
+.contents--header2{
+	display:none;
 }

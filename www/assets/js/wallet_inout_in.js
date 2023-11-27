@@ -5,7 +5,7 @@ setTimeout(function() {
 }, 500);
 
 setTimeout(function() {
-	check_login();
+	//check_login();
 }, 100);
 
 function fn_wallet_deposit (){
@@ -247,6 +247,13 @@ const check_logout = function (msg) {
 			}
 		}
 	}
-    
-   
 }));
+
+/**나가기버튼 이벤트**/
+function page_exit(){
+	// 새로운 페이지의 URL
+	var newPageUrl = "wallet-inout.html"; // 실제로 이동하고자 하는 페이지의 URL로 변경해주세요.
+
+	// 페이지 이동
+	window.location.href = newPageUrl;
+}
