@@ -2057,6 +2057,7 @@
 .title_tbody_1,
 .title_tbody_2{
 	width:100%;
+	height: 42px;
 	text-align: center;
 	font-size:16px;
 	border-bottom: 1px solid #FFFFFF; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
@@ -2096,6 +2097,7 @@
 .list_tbody_1,
 .list_tbody_2{
 	width:100%;
+	height:44px;
 	text-align: center;
 	font-size:16px;
 	border-bottom: 1px solid #DDD;; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
@@ -2356,7 +2358,7 @@
 .cancel_list_left > td{
 	padding: 0px !important;
 	height: 40px;
-	font-size: 14px;
+	font-size: 16px;
 }
 
 #cancel_table_check .checkbox{
