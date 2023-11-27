@@ -2470,6 +2470,11 @@
 	vertical-align : top;
 }
 
+.d-flex.flex-center.btn-area{
+	align-items: center;
+    justify-content: space-around;
+}
+
 #btn_exit{
 	background-color:#cacaca;
 	
