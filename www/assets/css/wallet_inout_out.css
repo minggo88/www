@@ -2341,30 +2341,31 @@
 /* 출금신청 css 추후 필요없는내용 삭제 필요*/
 .wallet_out_main{
 	width : 475px; 
-	height: 160px; 
+	height: 124px; 
 	background: #0B2871; 
 	padding-left:25px;
+	margin-bottom:20px
 }
 
 .wallet_out_main_div1{
 	padding-top:20px;
 	margin-bottom:10px;
 	color:#ffffff;
-	font-weight: 700;
+	font-weight: 500;
 	font-size : 16px;
 }
 
 .wallet_out_main_div2{
 	margin-bottom:10px;
 	color:#ffffff;
-	font-weight: 700;
+	font-weight: 400;
 	font-size : 16px;
 }
 
 .wallet_out_main_div3{
 	margin-bottom:15px;
 	color:#ffffff;
-	font-weight: 700;
+	font-weight: 500;
 	font-size : 16px;
 }
 
@@ -2422,19 +2423,20 @@
 	background-color: #ffffff;
 }
 .input--group{
+	font-size : 16px;
 	padding-left:15px;
-	margin-top : 24px;
 	width: 475px;
 	display: flex;
     align-items: center;
     justify-content: space-between;
 }
 .input--group span{
-	width : 19%;
+	width : 23%;
 }
 #address,
 #out_money_t,
 #fee{
+	font-size : 16px;
 	text-align: right;
 	width: 80%;
 	border:0px;
@@ -2445,6 +2447,7 @@
 	margin-top:65px;
 	margin-left: 5px;
 	padding:0px;
+	font-size: 16px;
 }
 
 .output--group3--text ul p{ 
@@ -2454,10 +2457,14 @@
 }
 
 .output--group3--text ul li{
-	list-style-type: disc; 
 	padding-left:8px;
+	padding-bottom:5px;
 }
 
+.output--group3--text ul li a{
+	color : var(--red-up);
+	font-weight: 500;
+}
 .output--group3--text ul li a{
 	vertical-align : top;
 }
