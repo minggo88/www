@@ -218,7 +218,7 @@ const fn_current_money = function(){
 			document.getElementById("max_money").value = formattedValue;
             //출금가능금액
             let formattedValue2 = numberWithCommas(total_money);
-			document.getElementById("able_out_max_money").value = formattedValue2;
+			//document.getElementById("able_out_max_money").value = formattedValue2;
 		}
 	})
 }
