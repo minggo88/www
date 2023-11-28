@@ -916,16 +916,43 @@ div.dts div.dataTables_scrollBody {
 	width:393px;
 }
 
+#modal-buy-button{
+	width: 95%;
+	margin: 0px auto;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+	border:0px;
+}
+
+#modal-sell-button{
+	width: 95%;
+	margin: 0px auto;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+	border:0px;
+}
 
 .cancel-order-button {
-	background-color: red;
+	background-color: var(--red-up);
 	color: white;
-	padding: 10px;
+	padding: 10px 20px 10px 20px;
 	cursor: pointer;
-	text-align: center;
-	width: 378px;
-	margin: 10px auto;
-	margin-top: 0px;
+	width: 85%;
+	margin: 20px auto;
+	border:0px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+	font-size : 15px;
+	font-weight : 700;
 }
 
 .list-container {
@@ -953,18 +980,20 @@ vertical-align: middle;
 padding-left: 15px;
 }
 .order-list-item {
-display: flex;
-width:100%;
-padding-left: 30px;
-padding-right: 10px;
-justify-content: space-between;
+	display: flex;
+	width:100%;
+	padding-top: 5px;
+	padding-left: 30px;
+	padding-right: 10px;
+	justify-content: space-between;
 }
 
 .manage-right {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
-	padding-right:10px;
+	padding-top: 5px;
+	padding-right: 30px;
 	width : 100%;
 }
 
@@ -972,6 +1001,10 @@ justify-content: space-between;
 	text-align: right;
 }
 
+.manage-right > .date {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
 #unclear_order_no{
 	color: #999999;
 }
@@ -988,4 +1021,8 @@ table.dataTable thead>tr>th.sorting_asc:before {
 table.dataTable tbody th.dt-body-left,
 table.dataTable tbody td.dt-body-left {
 	text-align: left !important;
+}
+
+.product-grade{
+	display : none; 
 }

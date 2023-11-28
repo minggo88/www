@@ -2712,6 +2712,7 @@ const fn_takeout2 = function () {
                         let orderListItem = document.createElement("div");
                         orderListItem.classList.add("order-list-item");
 						orderListItem.style.paddingLeft = '43px';
+                        orderListItem.style.paddingBottom = '11px';
 
                         // manage-left 생성
                         let manageLeft = document.createElement("div");
