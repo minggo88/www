@@ -249,7 +249,7 @@
 	height: 38px;
 	justify-content: center;
 }
-.wallet-summary .grid .dropdown-wrapper .dropdown--item {
+.wallet-summary .grid .dropdown-wrapper .dropdown--item2 {
     min-width: auto;
     top: 48px;
 }
@@ -302,7 +302,7 @@
 	height: 38px;
 	justify-content: center;
 }
-.wallet-summary2 .grid .dropdown-wrapper .dropdown--item {
+.wallet-summary2 .grid .dropdown-wrapper .dropdown--item2 {
     min-width: auto;
     top: 48px;
 }
@@ -2234,7 +2234,7 @@
 	height: 27px;
 }
 
-.dropdown+.dropdown--item input[name=search] {
+.dropdown+.dropdown--item2 input[name=search] {
     height: 25px;
     line-height: 25px;
     margin: 0px !important;
@@ -2242,7 +2242,7 @@
 	width : 100%;
 }
 
-.dropdown+.dropdown--item ul {
+.dropdown+.dropdown--item2 ul {
     margin: 0px !important;
     padding: 0px !important;
     list-style: none;

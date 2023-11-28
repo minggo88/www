@@ -628,7 +628,7 @@ function wallet_tab(tabNumber) {
 			$("#wallet-option-clear").click(function() {
 				$("#option_btn1").click();
 				$("#option_btn2").click();
-				$('.dropdown--item:eq(6) li:first').click();
+				$('.dropdown--item2:eq(6) li:first').click();
 			//$("#modal-wallet-option").hide(); // 모달을 가림
 			});
 
