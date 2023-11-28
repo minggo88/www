@@ -30,7 +30,7 @@ const fn_wallet_withdrawal = function () {
         //const value = depositAmountInput.value;
 		
         if(Math.max(value, amount) == value ){
-            alert("출금은 출금 가능 금액에서 진행해 주세요z.")
+            alert("출금은 출금 가능 금액에서 진행해 주세요.")
         }else if(value < 10000){
             alert("출금 최소 금액은 10,000원 이상입니다.")
         }else{
