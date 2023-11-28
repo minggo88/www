@@ -2502,8 +2502,8 @@ const fn_takeout = function () {
 				}).map((item) => {					
 					const item2 = [item];
 					for (const d_item of item2) {
-                        //거리중인것만 넣어야함
-						if(d_item.tstatus != "O"){
+                        //거리중인것만 넣어야함 매매 상태. O: 대기중, C: 완료, T: 매매중, D: 삭제(취소)
+						if ((d_item.tstatus == "C") || (d_item.tstatus == "D")) {
 							continue;
 						}
                         //같은 심볼만 넣어야함
@@ -2640,7 +2640,12 @@ const fn_takeout = function () {
 
                         let orderQuantityRight = document.createElement("div");
                         orderQuantityRight.classList.add("order-quantity");
-                        orderQuantityRight.textContent = real_number_format(d_item.volume);
+						if(d_item.tstatus == "T"){
+							orderQuantityRight.textContent = real_number_format(d_item.volume_remain);
+						}else{
+							orderQuantityRight.textContent = real_number_format(d_item.volume);	
+						}
+                        
 
                         let orderAmountRight = document.createElement("div");
                         orderAmountRight.classList.add("order-amount");
@@ -2693,7 +2698,7 @@ const fn_takeout2 = function () {
 				}).map((item) => {					
 					const item2 = [item];
 					for (const d_item of item2) {
-                        //거리중인것만 넣어야함
+                        //거리중인것만 넣어야함 매매 상태. O: 대기중, C: 완료, T: 매매중, D: 삭제(취소)
 						if(d_item.tstatus == "O"){
 							continue;
 						}
@@ -2838,7 +2843,13 @@ const fn_takeout2 = function () {
 
                         let orderQuantityRight = document.createElement("div");
                         orderQuantityRight.classList.add("order-quantity");
-                        orderQuantityRight.textContent = real_number_format(d_item.volume);
+						if(d_item.tstatus == "T"){
+							const num = d_item.volume - d_item.volume_remain;
+							orderQuantityRight.textContent = real_number_format(num);
+						}else{
+							orderQuantityRight.textContent = real_number_format(d_item.volume);	
+						}
+                        
 
                         let orderAmountRight = document.createElement("div");
                         orderAmountRight.classList.add("order-amount");
