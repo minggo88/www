@@ -188,7 +188,7 @@
       $('#chartToolTip [name=dateStr]').text(dateStr)
       $('#chartToolTip [name=point]').text(data[data.length - 1].value)
       // toolTip.innerHTML = '<div style="font-size: 24px; margin: 4px 0px; color: #20262E">' + __('지수') + '<i class="icon--help" style="width: 16px;height: 18px;background: url(\'/assets/img/icon/btn_help.svg\') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i></div>'
-      //   + '<div class="pop_up"><div class="pop_content">'+__('지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다.')+'</div></div>'
+      //   + '<div class="pop_up"><div class="pop_content">'+__('지수란 ASSETTEA의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다.')+'</div></div>'
       //   + '<div style="font-size: 22px; margin: 4px 0px; color: #20262E">' + data[data.length - 1].value + '</div>' +
       //   '<div>' + dateStr + '</div>';
     }

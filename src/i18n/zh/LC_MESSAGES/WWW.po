@@ -186,8 +186,8 @@ msgstr "再次输入 PIN 码。"
 msgid "보안비밀번호(Pin Number)가 변경되었습니다."
 msgstr "安全密码（Pin Number）已更改。"
 
-msgid "TEAPLAT은 전 세계에서 생산되는 차들의 인증과<br>기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다."
-msgstr "TEAPLAT 是一个创建标准的平台，这些标准可以成为世界各地生产的汽车的标准和认证。"
+msgid "ASSETTEA은 전 세계에서 생산되는 차들의 인증과<br>기준이 될 수 있는 표준을 만들어 가는 플랫폼입니다."
+msgstr "ASSETTEA 是一个创建标准的平台，这些标准可以成为世界各地生产的汽车的标准和认证。"
 
 msgid "ID 생성"
 msgstr "身份生成"
@@ -231,8 +231,8 @@ msgstr "电子邮件"
 msgid "Password"
 msgstr "密码"
 
-msgid "I agree to receive email updates from Teaplat"
-msgstr "我同意接收来自 Teaplat 的电子邮件更新"
+msgid "I agree to receive email updates from ASSETTEA"
+msgstr "我同意接收来自 ASSETTEA 的电子邮件更新"
 
 msgid "I agree to share data for marketing purposes"
 msgstr "我同意出于营销目的共享数据"
@@ -336,7 +336,7 @@ msgstr "查看全部"
 msgid "모바일 APP에서 누리는 더 편리하고 안전한 거래"
 msgstr "手机APP交易更方便更安全"
 
-msgid "Download Teaplat APP"
+msgid "Download ASSETTEA APP"
 msgstr "下载茶盘APP"
 
 msgid "Android"
@@ -381,8 +381,8 @@ msgstr "联合购买和拍卖"
 msgid "소액으로 고급차에 투자할 수 있도록 공동구매와 경매를 지원하여 합리적인 거래를 추구합니다"
 msgstr "我们通过支持团购和拍卖来追求合理的交易，以便小额资金可以投资豪车。"
 
-msgid "Teaplat"
-msgstr "Teaplat"
+msgid "ASSETTEA"
+msgstr "ASSETTEA"
 
 msgid "Direct Inquiry"
 msgstr "直接查询"
@@ -768,8 +768,8 @@ msgstr "提款（比特币现金）地址"
 msgid "검사"
 msgstr "测试"
 
-msgid "Teaplat Membership Withdrawal"
-msgstr "Teaplat 会员退出"
+msgid "ASSETTEA Membership Withdrawal"
+msgstr "ASSETTEA 会员退出"
 
 msgid "회원을 탈퇴하기 전에 예치금을 모두 출금하고 <br>보유 자산을 매도해야 합니다."
 msgstr "在您取消会员资格之前，您必须提取所有存款并出售您的资产。"
@@ -1266,8 +1266,8 @@ msgstr "正在查看。"
 msgid "등록"
 msgstr "登记"
 
-msgid "지수란 Teaplat의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
-msgstr "该指数是指Teaplat的交易指数，是一个表示交易是否活跃的数字。"
+msgid "지수란 ASSETTEA의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다."
+msgstr "该指数是指ASSETTEA的交易指数，是一个表示交易是否活跃的数字。"
 
 msgid "Tea"
 msgstr "茶"

@@ -1,7 +1,7 @@
 <?
 echo '<header>
 		<div class="header_inner">
-			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
+			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
