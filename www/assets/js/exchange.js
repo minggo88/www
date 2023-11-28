@@ -1688,6 +1688,7 @@ $(function() {
 				API.buy($('#modal-buy').serializeObject(), (resp) => {
 	                $('#modal-buy').find('button[type=submit]').attr('disabled', false);
 	                if(resp.success) {
+						console.log(resp);
 	                    //set_user_wallet();
 	                    $('#modal-buy').myModal('hide')
 	                    const price = parseFloat($('#modal-buy [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
@@ -2123,14 +2124,14 @@ function createOrderList() {
         const tableRow = document.createElement('div');
         tableRow.className = 'table-row';
         tableRow.innerHTML = `
-        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.volume_remain}')">
             ${item.orderNumber} </div>
-        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.volume_remain}')">
             ${item.orderStatus}</div>
-        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.volume_remain}')">
             ${real_number_format(item.productPrice)}</div>
-        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${real_number_format(item.quantity)}</div>
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.volume_remain}')">
+            ${real_number_format(item.volume_remain)}</div>
         `;
         orderList.appendChild(tableRow);
     }
@@ -2158,14 +2159,14 @@ function updateTable(newData, text) {
 		const tableRow = document.createElement('div');
         tableRow.className = 'table-row';
         tableRow.innerHTML = `
-        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.volume_remain}')">
             ${item.orderNumber} </div>
-        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.volume_remain}')">
             ${item.orderStatus}</div>
-        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.volume_remain}')">
             ${real_number_format(item.productPrice)}</div>
-        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.quantity}')">
-            ${real_number_format(item.quantity)}</div>
+        <div class="order-details" style="color: ${item.orderStatus === '매도' ? '#0B2871' : 'var(--red-up)'};" onclick="showOrderDetails('${item.orderNumber}', '${item.orderStatus}', '${item.productPrice.toLocaleString()}', '${item.volume_remain}')">
+            ${real_number_format(item.volume_remain)}</div>
         `;
 		
 		if (item.orderStatus === '매수') {
@@ -2413,7 +2414,7 @@ function trade_list(){
 	API.getOrderListTrading(SELECTED_SYMBOL, '', (resp) => {
 		//console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
         //console.log('trade_list:', resp);
-		//console.log(resp);
+		console.log(resp);
 		let b_num = 0;
 		let s_num = 0;
          if(resp.payload.length > 0) {
@@ -2423,29 +2424,31 @@ function trade_list(){
                 }
                 return true;
             }).map((item) => {
-                const orderNumber = item.orderid;
-                let orderStatus = "매수";
-                if(item.trading_type == "sell"){
-                    orderStatus = "매도";
-                };
-                const productPrice = item.price;
-                const quantity = item.volume;
-				
-                item.orderNumber = orderNumber;
-                item.orderStatus = orderStatus;
-                item.productPrice = productPrice;
-                item.quantity = quantity;
-
-				if (!check_list.includes(item.orderid)) {
-				    // check_list 없으면 추가
-				    check_list.push(item.orderid);
-					if(item.trading_type != "sell"){
-						b_num += 1;
-						buy_list.push(item);
-					}else{
-						sell_list.push(item);
-					}
-				} 
+				if(item.status == 'O' || item.status == 'T' ){
+					const orderNumber = item.orderid;
+	                let orderStatus = "매수";
+	                if(item.trading_type == "sell"){
+	                    orderStatus = "매도";
+	                };
+	                const productPrice = item.price;
+	                const quantity = item.volume;
+					
+	                item.orderNumber = orderNumber;
+	                item.orderStatus = orderStatus;
+	                item.productPrice = productPrice;
+	                item.quantity = quantity;
+	
+					if (!check_list.includes(item.orderid)) {
+					    // check_list 없으면 추가
+					    check_list.push(item.orderid);
+						if(item.trading_type != "sell"){
+							b_num += 1;
+							buy_list.push(item);
+						}else{
+							sell_list.push(item);
+						}
+					} 
+				}
             })
 
 			createOrderList();
@@ -2868,8 +2871,9 @@ const fn_takeout2 = function () {
 
 function cancelSearch() {
     // 취소 동작 수행
-    document.getElementById('searchInput').value = ''
-    getTradeItems(grid_symbol);
+    document.getElementById('searchInput').value = '';
+	$('#tab_all_item').click();
+    getTradeItems('ALL');
 }
 
 function request_user_info() {
