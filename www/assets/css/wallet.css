@@ -1990,7 +1990,7 @@
 
 .firsth_title_1 span,
 .firsth_title_2 span{
-	font-size: 20px;
+	font-size: 16px;
 }
 
 .firsth_title_1 p,
@@ -2016,14 +2016,14 @@
 	padding: 0 30px;
 	width: 30%;
 	margin: 0;
-	font-size: 20px;
+	font-size: 16px;
 }
 .second_title_2_1 span,
 .second_title_2_2 span{
 	padding: 0 30px;
 	width: 30%;
 	margin: 0;
-	font-size: 20px;
+	font-size: 16px;
 }
 .second_title_1_1 p,
 .second_title_1_2 p{
@@ -2032,7 +2032,7 @@
 	width: 70%;
 	text-align: right;
 	margin: 0;
-	font-size: 20px;
+	font-size: 16px;
 }
 .second_title_2_1 p,
 .second_title_2_2 p{
@@ -2041,7 +2041,7 @@
 	width: 70%;
 	text-align: right;
 	margin: 0;
-	font-size: 20px;
+	font-size: 16px;
 }
 .third_title{
 	height: 20px;
