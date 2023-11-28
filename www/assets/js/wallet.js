@@ -507,10 +507,11 @@ function wallet_tab(tabNumber) {
 									trading_type_str2 = '매도';
 								}
 								return trading_type_str2;}},  // 거래종류
-							{data: 'status', render: (status, type, row, meta) => {
+							{data: 'tstatus', render: (status, type, row, meta) => {
 									// '매매 상태. O: 대기중, C: 완료, T: 매매중, D: 삭제(취소)'
 									//mk수정필요 : 강제값 적용(DB호출시 C와 D만 불러와야함)
 									let status_str = "취소"
+									
 									if (status == "O") {
 										status_str = "대기중"
 									} else if (status == "C") {
@@ -975,10 +976,10 @@ const stateChage = function(text){
     }
 }
 const check_login = function (msg) {
-    if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+    /*if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
         if (msg) alert(msg);
         window.location.href = LOGIN_PAGE;
-    }
+    }*/
 }
 const check_logout = function (msg) {
     if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
