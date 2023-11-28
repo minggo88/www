@@ -535,20 +535,20 @@ function wallet_tab(tabNumber) {
 						],
 						columnDefs: [
 							{searchable: false,
-							createdCell: function (td) {
+								createdCell: function (td) {
 									$(td).attr('id', 'tab2_fix_title'); // '상품명' 열에 id 'aa' 추가
 								},orderable: true,targets: 0, "responsivePriority": 1,},  // 체결시간
 							{targets: 1,className: 'dt-body-center',
-							createdCell: function (td) {
+								createdCell: function (td) {
 									$(td).attr('id', 'tab2_fix_title'); // '상품명' 열에 id 'aa' 추가
 								}, type: 'title-string',orderable: false,},  // 상품명
 							//{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 등급
 							{targets: 2,className: 'dt-body-center',
-							createdCell: function (td) {
+								createdCell: function (td) {
 									$(td).attr('id', 'tab2_fix_title'); // '상품명' 열에 id 'aa' 추가
 								},type: 'title-string',orderable: false,"responsivePriority": 1},  // 생산년도
 							{targets: 3,
-							createdCell: function (td, cellData, rowData, row, col) {
+								createdCell: function (td, cellData, rowData, row, col) {
 									$(td).css('color', '#E21A32');
 									if (cellData === 'sell') {
 									$(td).css('color', '#114FAC'); // '매수'인 경우 글자를 빨간색으로 스타일링
@@ -559,18 +559,18 @@ function wallet_tab(tabNumber) {
 							{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
 							{targets: 6,className: 'dt-body-right', createdCell: function (td) {
 								$(td).attr('id', 'wallet_list_num'); // '상품명' 열에 id 'aa' 추가
-							}, type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
+								}, type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
 							{targets: 7,className: 'dt-body-right', createdCell: function (td) {
 								$(td).attr('id', 'wallet_list_num'); // '상품명' 열에 id 'aa' 추가
-							}, type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
+								}, type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
 							{targets: 8,className: 'dt-body-right', createdCell: function (td) {
 								$(td).attr('id', 'wallet_list_num'); // '상품명' 열에 id 'aa' 추가
-							}, type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
+								}, type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
 							{targets: 9,className: 'dt-body-right', createdCell: function (td) {
 								$(td).attr('id', 'wallet_list_num'); // '상품명' 열에 id 'aa' 추가
-							}, type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
+								}, type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
 						],
-						"order": [ [0, 'desc'] ]
+							"order": [ [0, 'desc'] ]
 					})
 
 					$('[name="btn-search"]').on('click', function() {
