@@ -2242,11 +2242,13 @@
 	width : 100%;
 }
 
-.dropdown+.dropdown--item ul {
-    margin: 0px !important;
-    padding: 0px !important;
+.dropdown-wrapper.symbol-select .dropdown+.dropdown--item ul {
+    height: 130px;
+    overflow-y: auto;
     list-style: none;
+	font-weight : 400;
 }
+
 #modal--dialog-wallet-option{
 	position: absolute;
 	top: 50%;
