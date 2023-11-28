@@ -14,7 +14,7 @@ echo '<header>
 					</li>
 					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 					<li>
-						<a href="notice.html" data-i18n>고객센터</a>
+						<a href="notice.html" data-i18n>공지사항</a>
 					</li>
 				</ul>
 			</nav>
@@ -57,7 +57,7 @@ echo '<header>
 			</li>
 			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 			<li>
-				<a href="notice.html" data-i18n>고객센터</a>
+				<a href="notice.html" data-i18n>공지사항</a>
 			</li>
 		</ul>
 	</header>';
