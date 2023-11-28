@@ -2108,8 +2108,12 @@
 	border-right: 1px solid #DDD;; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
 	font-weight: 500;
 	font-weight: normal;
-	
 }
+#wallet_list_num{
+	text-align: right;
+	padding-right: 10px;
+}
+	
 .wallet_list_end{
 	height:27px;
 	font-weight: normal;

@@ -182,9 +182,9 @@ function wallet_tab(tabNumber) {
 											<tr>
 												<th class="wallet_list" style="width: 22%;">${item_name}</th>
 												<th class="wallet_list" style="width: 10%;">${make_year}</th>
-												<th class="wallet_list" style="width: 20%; ${style_text}">${item_income}</th>
-												<th class="wallet_list" style="width: 24%;">`+real_number_format(item_total,0)+`</th>
-												<th class="wallet_list_end" style="width: 24%;">`+real_number_format(item_total,0)+`</th>
+												<th class="wallet_list" id="wallet_list_num" style="width: 20%; ${style_text}">${item_income}</th>
+												<th class="wallet_list" id="wallet_list_num" style="width: 24%;">`+real_number_format(item_total,0)+`</th>
+												<th class="wallet_list_end" id="wallet_list_num" style="width: 24%;">`+real_number_format(item_total,0)+`</th>
 											</tr>
 										</tbody>
 									</table>
@@ -198,9 +198,9 @@ function wallet_tab(tabNumber) {
 													</div>
 												</th>
 												<th class="wallet_list" style="width: 10%;">${item.confirmed_str}</th>
-												<th class="wallet_list" style="width: 20%; ${style_text}">${income_rate.toFixed(2) +'%'}</th>
-												<th class="wallet_list" style="width: 24%;">`+ real_number_format(avg_price_num,0) +`</th>
-												<th class="wallet_list_end" style="width: 24%;">`+ real_number_format(avg_price_one) +`</th>
+												<th class="wallet_list" id="wallet_list_num" style="width: 20%; ${style_text}">${income_rate.toFixed(2) +'%'}</th>
+												<th class="wallet_list" id="wallet_list_num" style="width: 24%;">`+ real_number_format(avg_price_num,0) +`</th>
+												<th class="wallet_list_end" id="wallet_list_num" style="width: 24%;">`+ real_number_format(avg_price_one) +`</th>
 											</tr>
 										</tbody>
 									</table>
@@ -557,10 +557,18 @@ function wallet_tab(tabNumber) {
 							},
 							{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
 							{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
-							{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
-							{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
-							{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
-							{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
+							{targets: 6,className: 'dt-body-right', createdCell: function (td) {
+								$(td).attr('id', 'wallet_list_num'); // '상품명' 열에 id 'aa' 추가
+							}, type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
+							{targets: 7,className: 'dt-body-right', createdCell: function (td) {
+								$(td).attr('id', 'wallet_list_num'); // '상품명' 열에 id 'aa' 추가
+							}, type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
+							{targets: 8,className: 'dt-body-right', createdCell: function (td) {
+								$(td).attr('id', 'wallet_list_num'); // '상품명' 열에 id 'aa' 추가
+							}, type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
+							{targets: 9,className: 'dt-body-right', createdCell: function (td) {
+								$(td).attr('id', 'wallet_list_num'); // '상품명' 열에 id 'aa' 추가
+							}, type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
 						],
 						"order": [ [0, 'desc'] ]
 					})
