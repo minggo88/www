@@ -24,8 +24,8 @@
 }
 
 .wallet_in_main_div1 span{
-	font-size : 18px;
-	font-weight : 700;
+	font-size : 16px;
+	font-weight : 400;
 	color:#ffffff;
 }
 
@@ -80,14 +80,14 @@
 #total_money {
     color: white;
     font-weight: 400;
-    font-size: 36px;
+    font-size: 28px;
 }
 
 
 #total_unit{
 	color: white;
     font-weight: 400;
-    font-size: 28px;
+    font-size: 24px;
 	padding-top: 10px;
 	
 }
