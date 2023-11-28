@@ -1327,7 +1327,7 @@
 
 .historyTb thead tr th {
 	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: 500 !important;
 	font-style: normal;
 	font-stretch: normal;
@@ -1345,7 +1345,7 @@
 
 .historyTb tbody > tr > td {
 	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: normal;
 	font-style: normal;
 	font-stretch: normal;
