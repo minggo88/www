@@ -2,6 +2,10 @@
     --SIDE-WIDTH: calc(100% * (546 / 1440));
 }
 
+.d-justify {
+    justify-content: center !important;
+}
+
 .content_wrap{
 	/* background-color: #fafbfc; */
 	background-color: #fff;
