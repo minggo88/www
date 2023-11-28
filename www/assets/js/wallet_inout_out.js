@@ -1,11 +1,14 @@
 setTimeout(function() {
     $("#title_3").hide()
     $("#title_3_on").show()
+	$('#out_money_t').val('최소가격은 10,000원 이상입니다.');
 }, 500);
 
 setTimeout(function() {
 	//check_login();
 }, 100);
+
+var value = 0;
 
 const fn_wallet_withdrawal = function () {
     fn_current_money();
@@ -19,14 +22,15 @@ const fn_wallet_withdrawal = function () {
     // pin Number popup 띄우기
     $('[name="btn-save-widthdraw"]').on('click', function () { 
         const sourceInput = document.getElementById("max_money");
-        const amount = sourceInput.value;
+        const amount = sourceInput.value.replace(/\D/g, '');
         
         // <input> 요소의 name 속성을 사용하여 요소를 찾습니다.
         const depositAmountInput = document.querySelector("input[name=deposit_amount]");
         // 값을 가져옵니다.
-        const value = depositAmountInput.value;
-        if(amount < value ){
-            alert("출금은 출금 가능 금액에서 진행해 주세요.")
+        //const value = depositAmountInput.value;
+		
+        if(Math.max(value, amount) == value ){
+            alert("출금은 출금 가능 금액에서 진행해 주세요z.")
         }else if(value < 10000){
             alert("출금 최소 금액은 10,000원 이상입니다.")
         }else{
@@ -77,8 +81,11 @@ const fn_wallet_withdrawal = function () {
 						const from_address = text1;//받을통장주소
 	                    const to_address = text2;//사용자이름
 	                    //const symbol = Model.withdraw_currency.symbol;
+
+						console.log(amount);
 						
 					    //api.js로 넘기는 로직 통일
+						
 	                    API.withdraw(symbol, from_address, to_address, amount, pin, (resp) => {
 	                        if(resp.success) {
 	                            alert(__('출금신청을 완료했습니다.'));
@@ -90,6 +97,7 @@ const fn_wallet_withdrawal = function () {
 	                            alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
 	                        }
 	                    });
+						
 	
 	                    $('#pin_number').removeClass('modal--open'); //모달 창 닫아주기
 	                    $('[name="pincode"]').val(""); //팝업창 비밀번호 초기화
@@ -135,25 +143,25 @@ const fn_wallet_withdrawal_guide = function () {
 
 function updateValue(input) {
     // 입력된 값에서 숫자만 추출
-    const newValue = input.value.replace(/\D/g, '');
-
-      if(newValue.length > 4){
-        // -1000 한 값을 출력
-        const decreasedValue = parseInt(newValue, 10) - 1000;
-
-                    
-        // 숫자 형식으로 변경하여 입력 상자의 값 업데이트
-        input.value = numberWithCommas(newValue);
-        const text = numberWithCommas(decreasedValue);
-        
-        const outMoneyT = document.getElementById('out_money_t');
-        outMoneyT.value = text + " KRW";
-      }else if(newValue.length <= 4){
-        const text = "최소가격은 10,000원 이상입니다.";
-          const outMoneyT = document.getElementById('out_money_t');
-          outMoneyT.value = text;
-      }
-  }
+	const newValue = input.value.replace(/\D/g, '');
+	
+	if(newValue.length > 4){
+		// -1000 한 값을 출력
+		const decreasedValue = parseInt(newValue, 10) - 1000;
+							
+		// 숫자 형식으로 변경하여 입력 상자의 값 업데이트
+		input.value = numberWithCommas(newValue);
+		const text = numberWithCommas(decreasedValue);
+	
+		const outMoneyT = document.getElementById('out_money_t');
+		outMoneyT.value = text + " KRW";
+		value = newValue;
+	}else if(newValue.length <= 4){
+		const text = "최소가격은 10,000원 이상입니다.";
+		const outMoneyT = document.getElementById('out_money_t');
+		outMoneyT.value = text;
+	}
+}
   
   // 천 단위 쉼표를 포함한 문자열로 변환하는 함수
   function numberWithCommas(x) {
