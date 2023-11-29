@@ -454,7 +454,7 @@
     height: 8px;
 }
 .dataTables_scrollBody::-webkit-scrollbar-thumb{
-    background: rgba(131, 137, 158, .8);
+    background: var(--red-up);
     border-radius: 5px;
 }
 .dataTables_scrollBody::-webkit-scrollbar-track{
