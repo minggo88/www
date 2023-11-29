@@ -383,6 +383,8 @@ function wallet_tab(tabNumber) {
 			// 거래내역 검색
 			let sdate = date('Y-m-d', time()-60*60*24*365);
 			let edate = date('Y-m-d');
+			let trade_t = '';
+			let calc_fee = 0;
 			$('[name="start"]').val(sdate);
 			$('[name="end"]').val(edate);
 			$('[name="mstart"]').val(sdate);
@@ -466,7 +468,7 @@ function wallet_tab(tabNumber) {
 								d.start_date = $('#start2').val();
 								d.end_date = $('[name="end"]').val();
 								
-							}							
+							}
 						},
 
 						"language": {
@@ -503,8 +505,10 @@ function wallet_tab(tabNumber) {
 							{data: 'production_date', render: (production_date) => {return production_date;}},  // 생산년도
 							{data: 'trading_type', render: (trading_type_str, type, row, meta) => {
 								let trading_type_str2 = '매수';
+								trade_t = "b";
 								if(trading_type_str == "sell"){
 									trading_type_str2 = '매도';
+									trade_t = "s";
 								}
 								return trading_type_str2;}},  // 거래종류
 							{data: 'tstatus', render: (status, type, row, meta) => {
@@ -531,8 +535,16 @@ function wallet_tab(tabNumber) {
 							{data: 'volume', render: (volume) => {return real_number_format(volume);}},  // 거래수량
 							{data: 'price', render: (price) => {return real_number_format(price);}},  // 거래단가
 							{data: 'amount', render: (amount) => {return real_number_format(amount);}},  // 거래금액
-							{data: 'fee', render: (fee) => {return real_number_format(fee);}},  // 수수료
-							{data: 'settl_price', render: (settl_price) => {return real_number_format(settl_price);}},  // 정산금액
+							{data: 'fee', render: (fee) => {
+								if(trade_t =="b"){
+									calc_fee = 0;
+								}else{
+									calc_fee = fee;
+								}
+								return real_number_format(calc_fee);}},  // 수수료
+							{data: 'settl_price', render: (settl_price) => {
+								let total = settl_price + calc_fee;
+								return real_number_format(total);}},  // 정산금액
 						],
 						columnDefs: [
 							{searchable: false,
