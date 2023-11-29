@@ -385,6 +385,7 @@ function wallet_tab(tabNumber) {
 			let edate = date('Y-m-d');
 			let trade_t = '';
 			let calc_fee = 0;
+			let total = 0;
 			$('[name="start"]').val(sdate);
 			$('[name="end"]').val(edate);
 			$('[name="mstart"]').val(sdate);
@@ -536,15 +537,16 @@ function wallet_tab(tabNumber) {
 							{data: 'price', render: (price) => {return real_number_format(price);}},  // 거래단가
 							{data: 'amount', render: (amount) => {return real_number_format(amount);}},  // 거래금액
 							{data: 'fee', render: (fee) => {
+								calc_fee = fee;
 								if(trade_t =="b"){
-									calc_fee = 0;
+									return real_number_format(0);
 								}else{
-									calc_fee = fee;
+									return real_number_format(fee);
 								}
-								return real_number_format(calc_fee);}},  // 수수료
+								}},  // 수수료
 							{data: 'settl_price', render: (settl_price) => {
-								let total = settl_price + calc_fee;
-								return real_number_format(total);}},  // 정산금액
+								total = settl_price*1 + calc_fee*1;
+								return real_number_format(total)}},  // 정산금액
 						],
 						columnDefs: [
 							{searchable: false,
