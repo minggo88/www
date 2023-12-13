@@ -447,6 +447,9 @@ function wallet_tab(tabNumber) {
 					//23039 mk 모바일용 주문내역 
 					$('#transactionGrid2').DataTable().destroy();
 					let select_symbol = $('.modal--content [name=symbol]').dropdown('selected');
+					let t_vol = 0;
+					let t_price = 0;
+					let t_fee = 0;
 					const transactionGrid2 = $('#transactionGrid2').DataTable({
 						"lengthChange": false,
 						"responsive": true,
@@ -468,7 +471,7 @@ function wallet_tab(tabNumber) {
 								d.status = 'all';
 								d.start_date = $('#start2').val();
 								d.end_date = $('[name="end"]').val();
-								
+								console.log(d);
 							}
 						},
 
@@ -533,20 +536,33 @@ function wallet_tab(tabNumber) {
 									return status_str;
 								}
 							},  // 거래종류
-							{data: 'volume', render: (volume) => {return real_number_format(volume);}},  // 거래수량
-							{data: 'price', render: (price) => {return real_number_format(price);}},  // 거래단가
+							{data: 'volume', render: (volume) => {
+								t_vol = real_number_format(volume);
+								return real_number_format(volume);}},  // 거래수량
+							{data: 'price', render: (price) => {
+								t_price = real_number_format(price);
+								return real_number_format(price);}},  // 거래단가
 							{data: 'amount', render: (amount) => {return real_number_format(amount);}},  // 거래금액
 							{data: 'fee', render: (fee) => {
-								calc_fee = fee;
 								if(trade_t =="b"){
+									t_fee = real_number_format(0);
 									return real_number_format(0);
 								}else{
-									return real_number_format(fee);
+									t_fee = real_number_format(fee);
+									return real_number_format(t_fee * t_vol);
 								}
 								}},  // 수수료
 							{data: 'settl_price', render: (settl_price) => {
 								total = settl_price*1 + calc_fee*1;
-								return real_number_format(total)}},  // 정산금액
+								//total = (t_price*t_vol) - (t_fee*t_vol);
+								if(trade_t =="b"){
+									total = t_price;
+									return real_number_format(total);
+								}else{
+									total = (t_price*t_vol) - (t_fee*t_vol);
+									return real_number_format(total);
+								}
+								}},  // 정산금액
 						],
 						columnDefs: [
 							{searchable: false,
