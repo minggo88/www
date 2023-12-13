@@ -441,15 +441,15 @@ function wallet_tab(tabNumber) {
 						$('#search_item').val(buttonText);
 					}
 				});
-
 				
+				let t_vol = 1;
+				let t_price = 0;
+				let t_fee = 0;
 				if(selected_symbol != ''){
 					//23039 mk 모바일용 주문내역 
 					$('#transactionGrid2').DataTable().destroy();
 					let select_symbol = $('.modal--content [name=symbol]').dropdown('selected');
-					let t_vol = 0;
-					let t_price = 0;
-					let t_fee = 0;
+					
 					const transactionGrid2 = $('#transactionGrid2').DataTable({
 						"lengthChange": false,
 						"responsive": true,
@@ -537,19 +537,22 @@ function wallet_tab(tabNumber) {
 								}
 							},  // 거래종류
 							{data: 'volume', render: (volume) => {
-								t_vol = real_number_format(volume);
+								t_vol = volume;
 								return real_number_format(volume);}},  // 거래수량
 							{data: 'price', render: (price) => {
-								t_price = real_number_format(price);
+								
 								return real_number_format(price);}},  // 거래단가
-							{data: 'amount', render: (amount) => {return real_number_format(amount);}},  // 거래금액
+							{data: 'amount', render: (amount) => {
+								t_price = amount;
+								return real_number_format(amount);}},  // 거래금액
 							{data: 'fee', render: (fee) => {
 								if(trade_t =="b"){
 									t_fee = real_number_format(0);
 									return real_number_format(0);
 								}else{
-									t_fee = real_number_format(fee);
-									return real_number_format(t_fee * t_vol);
+									t_fee = fee * t_vol;
+									//return real_number_format(t_fee * t_vol);
+									return real_number_format(t_fee);
 								}
 								}},  // 수수료
 							{data: 'settl_price', render: (settl_price) => {
@@ -559,7 +562,7 @@ function wallet_tab(tabNumber) {
 									total = t_price;
 									return real_number_format(total);
 								}else{
-									total = (t_price*t_vol) - (t_fee*t_vol);
+									total = t_price - t_fee;
 									return real_number_format(total);
 								}
 								}},  // 정산금액
