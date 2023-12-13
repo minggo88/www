@@ -63,6 +63,7 @@ let newData = [];
 let newData2 = [];
 let buylistNum = 4;
 let selllistNum = 4;
+let pin_check = false;
 		   
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -1486,116 +1487,7 @@ $(function() {
     //     const volume = parseFloat($('#modal-sell [name=volume]').val())
     //     $('#modal-sell [name=total]').val('' + real_number(price * volume) + '')
     // })
-
-    $('#modal-buy-direct-pin')
-        .myModal('beforeOpen', _e => {
-            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-                $('#modal-buy-direct-pin').myModal('stopEvent');
-                alert('로그인 해주세요');
-                return false;
-            } 
-        })
-        
-        .submit((e) => {
-            $('#modal-buy-direct-pin').find('button[type=submit]').attr('disabled', false)
-            e.preventDefault()
-
-            let check = true
-            let pin = ''
-            $('#modal-buy-direct-pin').find('input[name=pin]').each((_index, elem) => {
-                if(!$(elem).val()) {
-                    check = false
-                    $(elem).focus()
-                    return false
-                }
-                pin += $(elem).val()
-            })
-
-            if(check) {
-                API.checkPin(pin, (resp) => {
-                    if(resp.success) {
-                        $.cookie(Model.user_info.userid,Model.user_info.userno,{
-                            "expires": 0.5,
-                            // "domain": "loc.kkikda.com",
-                            "path": "/"
-                            })
-                        $("#modal-buy-direct-pin").myModal('hide')
-                        $("#modal-buy-direct").myModal('show')
-                    } else {
-                        alert(resp.error.message)
-                    }
-                })
-            } else {
-                alert('내용을 채워주세요. 항목을 입력해 주세요.')
-            }
-            
-            return false
-        })
-    $('#modal-buy-direct')
-        .myModal('beforeOpen', (_event, btn) => {
-            const orderid = btn.data('orderid')
-            const symbol = btn.data('symbol')
-            const exchange = btn.data('exchange')
-            const price = btn.data('price')*1
-            const volume = btn.data('volume')*1
-            const goods_grade = btn.data('goods_grade')
-            const name = SELECTED_NAME
-            const modal = $('#modal-buy-direct')
-            //const cnt_buyable = USER_WALLET[gen_user_wallet_key(SELECTED_EXCHANGE, '')]?.confirmed || 0;
-	    const cnt_buyable = Model.user_wallet.KRW.total_money;
-            modal.find('.tea--available').text('' + real_number_format(cnt_buyable) + ' ' + SELECTED_EXCHANGE)
-            modal.find('[name=orderid]').val(orderid)
-            modal.find('[name=symbol]').val(symbol)
-            modal.find('[name=exchange]').val(exchange)
-            modal.find('[name=orderid]').text('#'+orderid)
-            modal.find('[name=price]').val(real_number_format(price))
-            modal.find('[name=volume]').val(volume)
-            modal.find('[name=volume]').prop('max',volume)
-            modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
-            modal.find('.tea--name').text(name)
-            modal.find('[name=goods_grade]').val(goods_grade)
-	    $('[name=use_agreement]').prop('checked', false);
-	    
-	    //mk 물품 구매시 total가격, 수량 수정
-	    modal.find('[name=volume]').val(1)
-            modal.find('[name=volume]').prop('min',1)
-            modal.find('[name=total]').val('' + real_number_format(price * 1) + '')
-        })
-        .submit(e => {
-            $('#modal-buy-direct').find('button[type=submit]').attr('disabled', true);
-            e.preventDefault()
-            let data = $('#modal-buy-direct').serializeObject()
-            data.price = data.price.replace(/[^\d]+/g, '');
-            data.total = data.total.replace(/[^\d]+/g, '');
-            API.buyDirect(data, (resp) => {
-                $('#modal-buy-direct').find('button[type=submit]').attr('disabled', false);
-                if (resp.success) {
-                    set_user_wallet();
-                    $('#modal-buy-direct').myModal('hide')
-                    const payload = resp.payload;
-                    const price = payload.order_price;
-                    const volume = payload.volume;
-                    // const price = parseFloat($('#modal-buy-direct [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
-                    // const volume = parseFloat($('#modal-buy-direct [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
-                    const exchange = parseFloat($('#modal-buy-direct [name=exchange]').val())
-                    const goods_grade = ($('#modal-buy-direct [name=goods_grade]')).val()
-                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
-                    $('#modal-buy-success .volume').text(volume.format())
-                    $('#modal-buy-success .total').text(real_number_format(price * volume))
-                    // $('#modal-buy-success .exchange').text(exchange)
-                    $('#modal-buy-success .goods_grade').text(goods_grade)
-                    $('#modal-buy-success').myModal('show')
-                    // 판매목록 갱신
-                    $('#sellGrid').DataTable().ajax.reload(null, false);
-                    // 상품목록 갱신
-                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
-                } else {
-                    alert(resp.error.message)
-                }
-            })
-            return false
-        })
-    
+   
     $('#modal-buy-pin')
         .myModal('beforeOpen', _e => {			
             let cookie_check = $.cookie(Model.user_info.userid)
@@ -1604,64 +1496,48 @@ $(function() {
                 $('#modal-buy-pin').myModal('stopEvent');
                 alert('로그인 해주세요');
                 return false;
-            } else if (cookie_check === Model.user_info.userno) {
-                $('#modal-buy-pin').hide();
-                $('#modal-buy-button').attr('data-target','#modal-buy');
-                $('#modal-buy-button').trigger('click');
-		        $("#modal-buy").myModal('show');
-			}
-			console.log('내용을 채워주세요. 항목을 입력해 주세요.');
-			if($('[name=use_buy_agreement]').prop('checked') == false) {
-				alert('내용을 채워주세요. 항목을 입력해 주세요.');
-				console.log('내용을 채워주세요. 항목을 입력해 주세요.');
-				$('#modal-buy-pin').myModal('stopEvent');
-				return false
-			}
-        })
-        $('[name=tab_item]').on('click', function () { 
-            //$("#modal-buy-pin").myModal('hide')
-            //$("#modal-buy").myModal('show')
-        })
-
-        .submit((e) => {
-            
-            e.preventDefault()
-		
-	    $('#modal-buy-pin').find('button[type=submit]').attr('disabled', false)
-
-            let check = true
-            let pin = ''
-            $('#modal-buy-pin').find('input[name=pin]').each((_index, elem) => {
-                if(!$(elem).val()) {
-                    check = false
-                    $(elem).focus()
-                    return false
-                }
-                pin += $(elem).val()
-            })
-			
-            if(check) {
-                API.checkPin(pin, (resp) => {
-                    if(resp.success) {
-                        $.cookie(Model.user_info.userid,Model.user_info.userno,{
-                            "expires": 0.5,
-                            // "domain": "loc.kkikda.com",
-                            "path": "/"
-                            })
-                        $("#modal-buy-pin").myModal('hide')
-                        //$("#modal-buy").myModal('show')
-			    
-			    return false
-                    } else {
-                        alert(resp.error.message)
-                    }
-                })
-            }else {
-                alert('내용을 채워주세요. 항목을 입력해 주세요.')
             }
-            
-            return false
+			// 버튼 요소를 가져옵니다.
+		    var btnBuyPin = document.getElementById("btn_buy_pin");
+			
+		    // 클릭 이벤트를 추가합니다.
+		    btnBuyPin.addEventListener("click", function() {
+		        let check = true
+	            let pin = ''
+	            $('#modal-buy-pin').find('input[name=pin]').each((_index, elem) => {
+	                if(!$(elem).val()) {
+	                    check = false
+	                    $(elem).focus()
+	                    //return false
+	                }
+	                pin += $(elem).val()
+	            })
+				
+				
+	            if(check) {
+	                API.checkPin(pin, (resp) => {
+	                    if(resp.success) {
+	                        $.cookie(Model.user_info.userid,Model.user_info.userno,{
+	                            "expires": 0.5,
+	                            // "domain": "loc.kkikda.com",
+	                            "path": "/"
+	                            })
+	                        //$("#modal-buy-pin").myModal('hide');
+							
+							$("#modal-buy-pin").hide();
+							pin_check = true;
+							$("#modal-buy").myModal('show');
+							
+	                    } else {
+	                        alert(resp.error.message)
+	                    }
+	                })
+	            }else {
+	                alert('내용을 채워주세요. 항목을 입력해 주세요.')
+	            }
+		    })
         })
+        
     $('#modal-buy')
         .myModal('beforeOpen', _e => {
             const modal = $('#modal-buy')
@@ -1678,187 +1554,58 @@ $(function() {
             modal.find('[name=total]').val(t_buy_money);
             modal.find('.tea--name').text(SELECTED_NAME)
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
-	        //$('[name=use_agreement]').prop('checked', true);
+	       
 
-			if($('[name=use_buy_agreement]').prop('checked') == false) {
-				alert('이용약관 동의에 체크해 주세요.');
-				$('#modal-buy-pin').myModal('stopEvent');
-				return false
-			}else{
-				API.buy($('#modal-buy').serializeObject(), (resp) => {
-	                $('#modal-buy').find('button[type=submit]').attr('disabled', false);
-	                if(resp.success) {
-						console.log(resp);
-	                    //set_user_wallet();
-	                    $('#modal-buy').myModal('hide')
-	                    const price = parseFloat($('#modal-buy [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
-	                    const volume = parseFloat($('#modal-buy [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
-	                    const exchange = parseFloat($('#modal-buy [name=exchange]').val())
-	                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
-	                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
-	                    $('#modal-buy-success .volume').text(volume.format())
-	                    $('#modal-buy-success .total').text(real_number_format(price * volume))
-	                    //$('#modal-buy-success .exchange').text(exchange)
-	                    $('#modal-buy-success .goods_grade').text(goods_grade)
-	                    $('#modal-buy-success').myModal('show')
-	                    // 구매목록 갱신
-	                    $('#buyGrid').DataTable().ajax.reload(null, false);
-	                    // 상품목록 갱신
-	                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
-						//상태 재시작
-						request_user_info();
-						set_user_wallet();
-						toggleOrderContent('buy');
-	                } else {
-	                    alert(resp.error.message)
-	                }
-	            })
+			////-------------
+			if(t_buy_money > cnt_buyable) {
+				alert('보유 금액보다 구매 금액이 큽니다.');
+				$('#modal-buy').myModal('stopEvent');
+				return false;
 			}
-	
-            
+            		
+			if (pin_check == false) {
+				$('#modal-buy-pin').myModal('show');				
+			}else{
+				if($('[name=use_buy_agreement]').prop('checked') == false) {
+					alert('이용약관 동의에 체크해 주세요.');
+					$('#modal-buy-pin').myModal('stopEvent');
+					return false
+				}else{
+					API.buy($('#modal-buy').serializeObject(), (resp) => {
+		                $('#modal-buy').find('button[type=submit]').attr('disabled', false);
+		                if(resp.success) {
+							console.log(resp);
+		                    //set_user_wallet();
+		                    $('#modal-buy').myModal('hide')
+		                    const price = parseFloat($('#modal-buy [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
+		                    const volume = parseFloat($('#modal-buy [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
+		                    const exchange = parseFloat($('#modal-buy [name=exchange]').val())
+		                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
+		                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
+		                    $('#modal-buy-success .volume').text(volume.format())
+		                    $('#modal-buy-success .total').text(real_number_format(price * volume))
+		                    //$('#modal-buy-success .exchange').text(exchange)
+		                    $('#modal-buy-success .goods_grade').text(goods_grade)
+		                    $('#modal-buy-success').myModal('show')
+		                    // 구매목록 갱신
+		                    $('#buyGrid').DataTable().ajax.reload(null, false);
+		                    // 상품목록 갱신
+		                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
+							//상태 재시작
+							request_user_info();
+							set_user_wallet();
+							toggleOrderContent('buy');
+		                } else {
+		                    alert(resp.error.message)
+							return false;
+		                }
+		            })
+				}  
+			}
         })
-		/*
-        .submit(e => {
-            $('#modal-buy').find('button[type=submit]').attr('disabled', true);
-            e.preventDefault()
-            const price_num2 =parseFloat($('#modal-buy').find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''));
-            $('#modal-buy [name=price]').val(price_num2);	 
-            API.buy($('#modal-buy').serializeObject(), (resp) => {
-                $('#modal-buy').find('button[type=submit]').attr('disabled', false);
-                if(resp.success) {
-                    set_user_wallet();
-                    $('#modal-buy').myModal('hide')
-                    const price = parseFloat($('#modal-buy [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
-                    const volume = parseFloat($('#modal-buy [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
-                    const exchange = parseFloat($('#modal-buy [name=exchange]').val())
-                    const goods_grade = ($('#modal-buy [name=goods_grade]')).val()
-                    $('#modal-buy-success .tea--name').text(SELECTED_NAME)
-                    $('#modal-buy-success .volume').text(volume.format())
-                    $('#modal-buy-success .total').text(real_number_format(price * volume))
-                    //$('#modal-buy-success .exchange').text(exchange)
-                    $('#modal-buy-success .goods_grade').text(goods_grade)
-                    $('#modal-buy-success').myModal('show')
-                    // 구매목록 갱신
-                    $('#buyGrid').DataTable().ajax.reload(null, false);
-                    // 상품목록 갱신
-                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
-                } else {
-                    alert(resp.error.message)
-                }
-            })
-            return false
-        })*/
     
-    $('#modal-sell-direct-pin')
-        .myModal('beforeOpen', _e => {
-            if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-                $('#modal-sell-direct-pin').myModal('stopEvent');
-                alert('로그인 해주세요');
-                return false;
-            }
-        })
-        
-        .submit((e) => {
-            $('#modal-sell-direct-pin').find('button[type=submit]').attr('disabled', false)
-            e.preventDefault()
-
-            let check = true
-            let pin = ''
-            $('#modal-sell-direct-pin').find('input[name=pin]').each((_index, elem) => {
-                if(!$(elem).val()) {
-                    check = false
-                    $(elem).focus()
-                    return false
-                }
-                pin += $(elem).val()
-            })
-
-            if(check) {
-                API.checkPin(pin, (resp) => {
-                    if(resp.success) {
-                        $.cookie(Model.user_info.userid,Model.user_info.userno,{
-                            "expires": 0.5,
-                            // "domain": "loc.kkikda.com",
-                            "path": "/"
-                            })
-                        $("#modal-sell-direct-pin").myModal('hide')
-                        $("#modal-sell-direct").myModal('show')
-                    } else {
-                        alert(resp.error.message)
-                    }
-                })
-            } else {
-                alert('내용을 채워주세요. 항목을 입력해 주세요.')
-            }
-            
-            return false
-        })
-    $('#modal-sell-direct')
-        .myModal('beforeOpen', (_event, btn) => {
-            
-            const orderid = btn.data('orderid')
-            const symbol = btn.data('symbol')
-            const exchange = btn.data('exchange')
-            const price = btn.data('price')*1
-            const volume = btn.data('volume')*1
-            const goods_grade = btn.data('goods_grade')
-            const name = SELECTED_NAME
-            const modal = $('#modal-sell-direct')
-            const cnt_sellable = USER_WALLET[gen_user_wallet_key(symbol,goods_grade)]?.confirmed || 0;
-
-            modal.find('.tea--available').text(real_number_format(cnt_sellable)+__('개'))
-            modal.find('[name=orderid]').val(orderid)
-            modal.find('input[name=symbol]').val(symbol)
-            modal.find('[name=orderid]').text('#'+orderid)
-            modal.find('[name=price]').val(real_number_format(price))
-            modal.find('[name=volume]').val(volume)
-            modal.find('[name=volume]').prop('max',volume)
-            modal.find('[name=total]').val('' + real_number_format(price * volume) + '')
-            modal.find('.tea--name').text(name)
-            modal.find('[name=goods_grade]').val(goods_grade)
-			
-	    $('[name=use_agreement]').prop('checked', false);
-	    
-	    //mk 물품 구매시 total가격, 수량 수정
-	    modal.find('[name=volume]').val(1)
-            modal.find('[name=volume]').prop('min',1)
-            modal.find('[name=total]').val('' + real_number_format(price * 1) + '')
-        })
-        .submit(e => {
-            $('#modal-sell-direct').find('button[type=submit]').attr('disabled', true);
-            e.preventDefault()
-            let data = $('#modal-sell-direct').serializeObject()
-            data.price = data.price.replace(/[^\d]+/g, '');
-            data.total = data.total.replace(/[^\d]+/g, '');
-            API.sellDirect(data, (resp) => {
-                $('#modal-sell-direct').find('button[type=submit]').attr('disabled', false);
-                if (resp.success) {
-                    const payload = resp.payload;
-                    set_user_wallet();
-                    $('#modal-sell-direct').myModal('hide')
-                    const price = payload.order_price
-                    const volume = payload.volume
-                    const exchange = parseFloat($('#modal-sell-direct [name=exchange]').val())
-                    const goods_grade = ($('#modal-sell-direct [name=goods_grade]')).val()
-                    $('#modal-sell-success .tea--name').text(SELECTED_NAME)
-                    $('#modal-sell-success .volume').text(volume.format())
-                    $('#modal-sell-success .total').text(real_number_format(price * volume))
-                    // $('#modal-sell-success .exchange').text(exchange)
-                    $('#modal-sell-success .goods_grade').text(goods_grade)
-                    $('#modal-sell-success').myModal('show')
-                    // 구매목록 갱신
-                    $('#buyGrid').DataTable().ajax.reload(null, false);
-                    // 상품목록 갱신
-                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
-                } else {
-                    alert(resp.error.message)
-                }
-            })
-            return false
-        })
-        
-        
-        $('#modal-sell-pin')
+    
+	$('#modal-sell-pin')
         .myModal('beforeOpen', _e => {
             
             let cookie_check = $.cookie(Model.user_info.userid)
@@ -1867,52 +1614,49 @@ $(function() {
                 $('#modal-sell-pin').myModal('stopEvent');
                 alert('로그인 해주세요');
                 return false;
-            } else if (cookie_check === Model.user_info.userno) {
-                $('#modal-sell-pin').hide();
-                $('#modal-sell-button').attr('data-target','#modal-sell');
-                $('#modal-sell-button').trigger('click');
-		        $("#modal-sell").myModal('show');
-            } else {
-                return false
             }
-        })
 
-        
-        .submit((e) => {
-            e.preventDefault()
-
-            let check = true
-            let pin = ''
-            $('#modal-sell-pin').find('input[name=pin]').each((_index, elem) => {
-                if(!$(elem).val()) {
-                    check = false
-                    $(elem).focus()
-                    return false
-                }
-                pin += $(elem).val()
-            })
-
-            if(check) {
-                API.checkPin(pin, (resp) => {
-                    if(resp.success) {
-                        $.cookie(Model.user_info.userid,Model.user_info.userno,{
-                            "expires": 0.5,
-                            // "domain": "loc.kkikda.com",
-                            "path": "/"
-                            })
-                        $("#modal-sell-pin").myModal('hide')
-                        //$("#modal-sell").myModal('show')
-                        $('#modal-buy-button').attr('data-target','#modal-buy-pin');
-                        PIN_NUMBER_ON = 1;
-                    } else {
-                        alert(resp.error.message)
-                    }
-                }) 
-            } else {
-                alert('내용을 채워주세요. 항목을 입력해 주세요.')
-            }
-            
-            return false
+			// 버튼 요소를 가져옵니다.
+		    var btnSellPin = document.getElementById("btn_sell_pin");
+			
+		    // 클릭 이벤트를 추가합니다.
+		    btnSellPin.addEventListener("click", function() {
+				let check = true;
+				let pin = '';
+				$('#modal-sell-pin').find('input[name=pin]').each((_index, elem) => {
+					if(!$(elem).val()) {
+						check = false
+						$(elem).focus()
+						//return false
+					}
+					pin += $(elem).val()
+				})
+				console.log(pin);
+				console.log(check);
+				
+				if(check) {
+					API.checkPin(pin, (resp) => {
+						if(resp.success) {
+							$.cookie(Model.user_info.userid,Model.user_info.userno,{
+								"expires": 0.5,
+								// "domain": "loc.kkikda.com",
+								"path": "/"
+								})
+							//PIN_NUMBER_ON = 1;
+							$("#modal-sell-pin").hide();
+							pin_check = true;
+							$("#modal-sell").myModal('show');
+							
+						} else {
+							alert(resp.error.message);
+							pin_check = false;
+						}
+					})
+				}else {
+					alert('내용을 채워주세요. 항목을 입력해 주세요.');
+					pin_check = false;
+				}
+			})
         })
 
     $('#modal-sell')
@@ -1932,84 +1676,53 @@ $(function() {
             modal.find('[name=goods_grade]').val(SELECTED_GOODS_GRADE)
 	        //$('[name=use_agreement]').prop('checked', false);
 
-            if($('[name=use_sell_agreement]').prop('checked') == false) {
-				alert('이용약관 동의에 체크해 주세요.');
-				$('#modal-sell-pin').myModal('stopEvent');
-				return false
+			if (pin_check == false) {
+				$('#modal-sell-pin').myModal('show');				
 			}else{
-				API.sell($('#modal-sell').serializeObject(), (resp) => {
-                    $('#modal-sell').find('button[type=submit]').attr('disabled', false);
-                    if (resp.success) {
-	                    //set_user_wallet();
-                        $('#modal-sell').myModal('hide')
-                        // $('#alert-sell').myModal('show')
-                        const price = parseFloat($('#modal-sell [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
-                        const volume = parseFloat($('#modal-sell [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
-                        const exchange = parseFloat($('#modal-sell [name=exchange]').val())
-                        const goods_grade = ($('#modal-sell [name=goods_grade]')).val()
-                        $('#modal-sell-success .tea--name').text(SELECTED_NAME)
-                        $('#modal-sell-success .volume').text(volume.format())
-                        $('#modal-sell-success .total').text(real_number_format(price * volume))
-                        //$('#modal-sell-success .exchange').text(exchange)
-                        $('#modal-sell-success .goods_grade').text(goods_grade)
-                        $('#modal-sell-success').myModal('show')
-                        // 판매목록 갱신
-                        $('#sellGrid').DataTable().ajax.reload(null, false);
-                        // 상품목록 갱신
-                        getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
-
-						//상태 재시작
-						request_user_info();
-						set_user_wallet();
-						toggleOrderContent('sell');
-	                } else {
-	                    alert(resp.error.message)
-	                }
-	            })
+				if($('[name=use_sell_agreement]').prop('checked') == false) {
+					alert('이용약관 동의에 체크해 주세요.');
+					$('#modal-sell-pin').myModal('stopEvent');
+					return false
+				}else{
+					API.sell($('#modal-sell').serializeObject(), (resp) => {
+	                    if (resp.success) {
+							 // payload = {
+		                    //     order_price: 주문가격
+		                    //     remain_volume: 거래후 남은 수량
+		                    //     orderid : 주문번호(DB저장된값)
+		                    //     price: 거래된 평균가격
+		                    //     volume: 거래된 수량
+		                    //     amount: 거래된 금액
+		                    // }
+	                        $('#modal-sell').myModal('hide')
+	                        // $('#alert-sell').myModal('show')
+	                        const price = parseFloat($('#modal-sell [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
+	                        const volume = parseFloat($('#modal-sell [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
+	                        const exchange = parseFloat($('#modal-sell [name=exchange]').val())
+	                        const goods_grade = ($('#modal-sell [name=goods_grade]')).val()
+	                        $('#modal-sell-success .tea--name').text(SELECTED_NAME)
+	                        $('#modal-sell-success .volume').text(volume.format())
+	                        $('#modal-sell-success .total').text(real_number_format(price * volume))
+	                        //$('#modal-sell-success .exchange').text(exchange)
+	                        $('#modal-sell-success .goods_grade').text(goods_grade)
+	                        $('#modal-sell-success').myModal('show')
+	                        // 판매목록 갱신
+	                        $('#sellGrid').DataTable().ajax.reload(null, false);
+	                        // 상품목록 갱신
+	                        getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
+	
+							//상태 재시작
+							request_user_info();
+							set_user_wallet();
+							toggleOrderContent('sell');
+		                } else {
+		                    alert(resp.error.message)
+		                }
+		            })
+				}
 			}
-
-        })
-        .submit(e => {
-            $('#modal-sell').find('button[type=submit]').attr('disabled', true);
-            e.preventDefault()
-	    const price_num2 =parseFloat( $('#modal-sell').find('[name=price]').val().replace(/[^0-9.\-\+]/g, ''));
-	    $('#modal-sell [name=price]').val(price_num2);	
-            API.sell($('#modal-sell').serializeObject(), (resp) => {
-                $('#modal-sell').find('button[type=submit]').attr('disabled', false);
-                if (resp.success) {
-                    
-                    // payload = {
-                    //     order_price: 주문가격
-                    //     remain_volume: 거래후 남은 수량
-                    //     orderid : 주문번호(DB저장된값)
-                    //     price: 거래된 평균가격
-                    //     volume: 거래된 수량
-                    //     amount: 거래된 금액
-                    // }
-
-                    set_user_wallet();
-                    $('#modal-sell').myModal('hide')
-                    // $('#alert-sell').myModal('show')
-                    const price = parseFloat($('#modal-sell [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
-                    const volume = parseFloat($('#modal-sell [name=volume]').val().replace(/[^0-9.\-\+]/g, ''))
-                    const exchange = parseFloat($('#modal-sell [name=exchange]').val())
-                    const goods_grade = ($('#modal-sell [name=goods_grade]')).val()
-                    $('#modal-sell-success .tea--name').text(SELECTED_NAME)
-                    $('#modal-sell-success .volume').text(volume.format())
-                    $('#modal-sell-success .total').text(real_number_format(price * volume))
-                    //$('#modal-sell-success .exchange').text(exchange)
-                    $('#modal-sell-success .goods_grade').text(goods_grade)
-                    $('#modal-sell-success').myModal('show')
-                    // 판매목록 갱신
-                    $('#sellGrid').DataTable().ajax.reload(null, false);
-                    // 상품목록 갱신
-                    getTradeItems($('.tabs li.tab--active [name=tab_item]').attr('data-target'));
-                } else {
-                    alert(resp.error.message)
-                }
-            })
-            return false
-        })
+		})
+        
     $('#modal-sell').find('[name="goods_grade"]').on('change', function () { 
         let goods_grade = $(this).val();
         let cnt_sellable = USER_WALLET[gen_user_wallet_key(SELECTED_SYMBOL, goods_grade)]?.confirmed || 0;
@@ -2021,7 +1734,7 @@ $(function() {
         .myModal('beforeClose', _e => {
             $('#scan .modal--body').find('img,iframe').attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==')
         })
-})
+	})
 
 function open_use_agreement() {
 	window.open('https://www.assettea.com/use_agreement.html', '_blank');
