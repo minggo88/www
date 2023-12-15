@@ -2483,3 +2483,213 @@
 .contents--header2{
 	display:none;
 }
+
+@media screen and (max-width: 800px) {
+	.content_wrap{
+		width: 100% !important;
+	}
+	.contents{
+		width:100% !important;
+		
+	}
+	.address.deposit .contents--header{
+		height: 48px;
+		align-self: flex-start;
+		margin-bottom: 20px;
+		padding-left: 0;
+		display: flex;
+	}
+	.address main .contents--header h1{
+		margin: 0;
+		line-height: 48px;
+		color: var(--red-up);
+		font-size: 16px;
+	}
+	.address main .contents--header .navigation--back{
+		height: 48px;
+		line-height:48px;
+		margin-right: 30px;
+	}
+
+	.address form{
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		height: 100%;
+		align-self: center;
+		width: 100%;
+		position: relative;
+	}
+	.address .form--btns{
+		position: absolute;
+		left: 0;
+		bottom: 0;
+	}
+	.d-flex.flex-center.btn-area{
+		width:500px;
+		margin-top:100px;	
+	}
+	
+}
+
+
+@media screen and (max-width: 450px) { 
+	.content_wrap{
+		width: 100% !important;
+	}
+	.contents{
+		width:100% !important;
+	}
+	.d-justify {
+	    width:100%;
+		justify-content: center !important;
+	}
+	/* .wallet-analysis .daterange{font-size: 12px;} */
+	.sub.wallet-analysis .period .mobdatepicker{
+		flex-direction: column;
+	}
+	.sub.wallet-analysis .period .mdatepicker{
+		width: 100%;
+		margin-right: 0;
+		margin-bottom: 10px;
+	}
+	.sub.wallet-analysis .period .btn_area{
+		width: 100%;
+	}
+
+	.wallet-analysis .middle_div.big{
+		height: 590px;
+	}
+
+	.wallet-analysis .middle_div.big .total_div span.entry,
+	.wallet-analysis .middle_div.big .total_div span.data{
+		font-size: 16px;
+	}
+	.wallet-analysis .middle_div.big .total_div span{
+		font-size: 20px;
+	}
+	
+	
+	.wallet-analysis .middle_div.big .left_div,
+	.wallet-analysis .middle_div.big .right_div{
+		height: auto;
+	}
+	.wallet-analysis .middle_div.big .right_div{
+		margin-bottom: 15px;
+	}
+
+	.wallet-analysis .middle_div.big .data_div{
+		height: 50px;
+		margin-bottom: 8px;
+	}
+	.wallet-analysis .middle_div.big .data_div .header_div, 
+	.wallet-analysis .middle_div.big .data_div .inner_div{
+		width: 100%;
+	}
+
+	.wallet-analysis .middle_div.big .data_div .inner_div{
+		text-align: left;
+		font-weight: 350;
+	}
+
+	.wallet_out_main{
+		width : 98%;
+		padding-left:10px;
+		
+	}
+	.wallet_out_main_div1{
+		width: 100%;
+	}
+	.wallet_out_main_div1 span{
+		width: 15%;
+	}
+	.wallet_out_main_div1 input{
+		width: 70%;
+	}
+	.wallet_out_main_div3{
+		width: 100%;
+	}
+	.wallet_out_main_div3 span{
+		width: 15%;
+	}
+	.wallet_out_main_div3 .main_blank{
+		width: 5%;
+	}
+
+	.input--group {
+		width : 95%;
+		padding-left: 5px;
+	}
+	.input--group span {
+		width : 30%;
+	}
+	.input--group input {
+		width : 70%;
+	}
+	.input--group p {
+		width : 70%;
+	}
+	
+	.d-flex.flex-center.btn-area{
+		width : 98%;
+		margin-top:100px;
+	}
+	
+}
+
+@media screen and (max-width:380px) { 
+	.content_wrap{
+		width: 100% !important;
+	}
+	.contents{
+		width:100% !important;
+	}
+	.d-justify {
+	    width:100%;
+		justify-content: center;
+	}
+	.wallet-analysis .period .dropdown-wrapper + div{
+		flex-wrap: wrap;
+	}
+	.sub.wallet-analysis .period .daterange{
+		width: 100%;
+		margin-bottom: 10px;
+		margin-right: 0!important;
+	}
+	.sub.wallet-analysis .period .btn{
+		width: 48%;
+	}
+	.wallet-analysis .middle_div.big {
+		height: 596px;
+	}
+	.wallet_out_main{
+		width : 98%;
+	}
+	.wallet_out_main_div1{
+		width: 100%;
+		font-size:14px;
+	}
+	.wallet_out_main_div1 span{
+		width: 15%;
+	}
+	.wallet_out_main_div1 input{
+		width: 70%;
+	}
+	.input--group2--bank input{
+		width: 100%;
+	}
+	.d-flex.flex-center.btn-area{
+		width : 98%;
+		margin-top:100px;
+	}
+}
+
+/* Mobile */
+@media (max-width: 800px) {
+	.wallet > header,
+    .deposit > header,
+	.wallet-analysis > header {
+        display: none;
+    }
+	
+}
