@@ -1,11 +1,11 @@
 setTimeout(function() {
-    $("#title_3").hide()
-    $("#title_3_on").show()
+    $("#title_3").hide();
+    $("#title_3_on").show();
 }, 500);
 
 setTimeout(function() {
 	check_login();
-}, 100);
+}, 300);
 
 var search_type = 0;
 
@@ -120,7 +120,7 @@ const fn_total = function () {
 							<tr class="myinout_list_left">
 								<td id="myinout_table_check" style="color: ${font_c};" class='item_name'>${grid_type}</td>
 								<td id="myinout_table_right1" class='item_grade'>${t_time}</td>
-								<td id="myinout_table_right1_2" style="color: ${font_c};" class="rdate">${t_cnt}</td>
+								<td id="myinout_table_right1_2" style="text-align: right; color: ${font_c};" class="rdate">${t_cnt}</td>
 							</tr>
 							<tr class="myinout_list_left2">
 								<td id="myinout_table_right2_1" class='item_grade'>상태</td>
@@ -164,9 +164,10 @@ window.addEventListener('load', function() {
 	fn_total_money();
 });
 
-const check_login = function (msg) {
+const check_login = function () {
     if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-        if (msg) alert(msg);
+        alert('로그인 해주세요');
+		const LOGIN_PAGE = '/login.html';
         window.location.href = LOGIN_PAGE;
     }
 }
