@@ -118,13 +118,13 @@ const fn_total = function () {
 						const grid = $(`<table class="myinout_list" />`);
 						grid.append(`
 							<tr class="myinout_list_left">
-								<td id="myinout_table_check" style="width: 10%; text-align: center; padding-left: 15px !important; color: ${font_c};" class='item_name'>${grid_type}</td>
-								<td id="myinout_table_right1" style="width: 60%; padding-left: 15px; text-align: left;" class='item_grade'>${t_time}</td>
-								<td id="myinout_table_right1_2" style="width: 30%; text-align: right; padding-right: 15px; color: ${font_c};" class="rdate">${t_cnt}</td>
+								<td id="myinout_table_check" style="color: ${font_c};" class='item_name'>${grid_type}</td>
+								<td id="myinout_table_right1" class='item_grade'>${t_time}</td>
+								<td id="myinout_table_right1_2" style="color: ${font_c};" class="rdate">${t_cnt}</td>
 							</tr>
 							<tr class="myinout_list_left2">
-								<td id="myinout_table_right2" style="width: 10%; text-align: center; padding-left: 15px !important;" class='item_grade'>상태</td>
-								<td id="myinout_table_right2" style="width: 60%; padding-left: 15px; text-align: left;" class="rdate">${grid_type2}</td>
+								<td id="myinout_table_right2_1" class='item_grade'>상태</td>
+								<td id="myinout_table_right2_2" class="rdate">${grid_type2}</td>
 							</tr>
 						`);
 
