@@ -2400,3 +2400,79 @@
 	justify-content: space-between;
 	padding-left:20px;
 } 
+
+/*
+	231221 mk 수정시작
+*/
+@media screen and (max-width: 450px) { 
+	.content_wrap,
+	.contents,
+	.container {
+		width:100% !important;
+	}
+	.d-justify {
+	    width:100%;
+		justify-content: center !important;
+	}
+	/* tab1 */
+	.wallet_tab{
+		width: 95%;	
+	}
+	.con1{
+		width: 95%;	
+	}
+	.firsth_title_1,
+	.firsth_title_2 {
+		margin-top:30px;
+	    margin-bottom: 30px;
+	}
+	.firsth_title_1 p,
+	.firsth_title_2 p{
+		font-size : 20px;
+	}
+	.second_title_1_1 span,
+	.second_title_1_2 span,
+	.second_title_2_1 span,
+	.second_title_2_2 span{
+		width: 50%;
+		font-size : 13px;
+		padding-right:0px;
+	}
+
+	.second_title_1_1 p,
+	.second_title_1_2 p,
+	.second_title_2_1 p,
+	.second_title_2_2 p{
+		width: 50%;
+		font-size : 13px;
+	}
+	.third_title{
+		height : 3px;
+	}
+	
+	.con2{
+		width:95%;	
+	}
+	.list_tbody{
+		width: 95%;
+	}
+	.title_tbody table tbody tr th{
+		font-size:13px;
+	}
+	.wallet_title{
+		padding-left : 1%;
+		padding-right: 1%;
+	}
+	.wallet_title2 .p1 {
+		padding-right: 6px;
+		display: flex;
+		align-items: center; /* 수직 가운데 정렬 */
+		justify-content: center; /* 수평 가운데 정렬 */
+	}
+	.wallet_title2 .p {
+		padding-right: 6px;
+	}
+	.list_tbody table tbody tr th{
+		font-size:13px;
+	}
+}
