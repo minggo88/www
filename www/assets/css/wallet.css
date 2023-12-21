@@ -2526,7 +2526,7 @@
 		padding-right: 3px;
 	}
 	.list_tbody table tbody tr th{
-		font-size:11px;
+		font-size:10px;
 	}
 }
 	
@@ -2572,24 +2572,17 @@
 		height : 1px;
 	}
 	.title_tbody table tbody tr th{
-		font-size:10px;
+		font-size:9px;
 	}
 	.wallet_title{
 		padding-left : 1%;
 		padding-right: 1%;
 	}
-	.wallet_title2 .p1 {
-		padding-right: 2px;
-		display: flex;
-		align-items: center; /* 수직 가운데 정렬 */
-		justify-content: center; /* 수평 가운데 정렬 */
-	}
 	.wallet_title2 p {
-		padding-left:2px;
-		padding-right: 2px;
+		font-size: 6px;
 	}
 	.list_tbody table tbody tr th{
-		font-size:10px;
+		font-size:9px;
 	}
 	
 }
