@@ -345,8 +345,7 @@
 	.table-responsive.historyTb{
 		display:block!important;
 	}
-	#wallet_title,
-	.d-grid.wallet--grid{
+	#wallet_title{
 		display: none!important;
 	}
 	.wallet-table{
@@ -2476,6 +2475,31 @@
 	.list_tbody table tbody tr th{
 		font-size:13px;
 	}
+
+	/*   tab3   */
+	.d-grid.wallet--grid{
+		display: block;
+	}
+	.cancel_list{
+		width : 95%;
+		
+	}
+	.cancel_list tr td{
+		font-size : 11px;
+	}
+	#cancel_table_right1{
+		padding-left: 2% !important;
+	}
+	#cancel_table_right2{
+		padding-left: 2% !important;
+	}
+	.tcnt p{
+		padding-left: 2% !important;
+	}
+	#cancel_table_check .checkbox{
+		width: 17px;
+		height: 17px;
+	}
 }
 @media screen and (max-width: 433px) {
 	.tab-button{
@@ -2584,6 +2608,14 @@
 	.list_tbody table tbody tr th{
 		font-size:9px;
 	}
-	
+
+	/*   tab3   */
+	.d-grid.wallet--grid{
+		display: block;
+	}
+	.cancel_list{
+		width : 95% !important;
+	}
+		
 }
 
