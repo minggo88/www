@@ -2478,6 +2478,9 @@
 	}
 }
 @media screen and (max-width: 433px) {
+	.tab-button{
+		font-size : 16px;
+	}
 	.firsth_title_1 p,
 	.firsth_title_2 p{
 		font-size : 16px;
@@ -2538,6 +2541,9 @@
 }
 
 @media screen and (max-width:380px) { 
+	.tab-button{
+		font-size : 15px;
+	}
 	.firsth_title_1 p,
 	.firsth_title_2 p{
 		font-size : 15px;
