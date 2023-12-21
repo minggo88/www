@@ -2469,10 +2469,128 @@
 		align-items: center; /* 수직 가운데 정렬 */
 		justify-content: center; /* 수평 가운데 정렬 */
 	}
-	.wallet_title2 .p {
+	.wallet_title2 p {
+		padding-left:6px;
 		padding-right: 6px;
 	}
 	.list_tbody table tbody tr th{
 		font-size:13px;
 	}
 }
+@media screen and (max-width: 433px) {
+	.tab-button{
+		font-size : 16px;
+	}
+	.firsth_title_1 p,
+	.firsth_title_2 p{
+		font-size : 16px;
+	}
+	.firsth_title_1 span,
+	.firsth_title_2 span{
+		font-size : 13px;
+	}
+	.second_title_1_1 span,
+	.second_title_1_2 span,
+	.second_title_2_1 span,
+	.second_title_2_2 span{
+		padding-top: 2px;
+		font-size : 11px;
+	}
+
+	.second_title_1_1 p,
+	.second_title_1_2 p,
+	.second_title_2_1 p,
+	.second_title_2_2 p{
+		font-size : 11px;
+		padding-right:20px;
+		padding-left:5px;
+	}
+	.third_title{
+		height : 1px;
+	}
+	.title_tbody table tbody tr th{
+		font-size:11px;
+	}
+	.wallet_title{
+		padding-left : 1%;
+		padding-right: 1%;
+	}
+	.wallet_title2 .p1 {
+		padding-right: 3px;
+		display: flex;
+		align-items: center; /* 수직 가운데 정렬 */
+		justify-content: center; /* 수평 가운데 정렬 */
+	}
+	.wallet_title2 p {
+		padding-left:3px;
+		padding-right: 3px;
+	}
+	.list_tbody table tbody tr th{
+		font-size:11px;
+	}
+}
+	
+	/* Mobile */
+@media (max-width: 800px) {
+	.wallet > header,
+    .deposit > header,
+	.wallet-analysis > header {
+        display: none;
+    }
+	
+}
+
+@media screen and (max-width:380px) { 
+	.tab-button{
+		font-size : 15px;
+	}
+	.firsth_title_1 p,
+	.firsth_title_2 p{
+		font-size : 15px;
+	}
+	.firsth_title_1 span,
+	.firsth_title_2 span{
+		font-size : 12px;
+	}
+	.second_title_1_1 span,
+	.second_title_1_2 span,
+	.second_title_2_1 span,
+	.second_title_2_2 span{
+		padding-top: 2px;
+		font-size : 10px;
+	}
+
+	.second_title_1_1 p,
+	.second_title_1_2 p,
+	.second_title_2_1 p,
+	.second_title_2_2 p{
+		font-size : 10px;
+		padding-right:20px;
+		padding-left:3px;
+	}
+	.third_title{
+		height : 1px;
+	}
+	.title_tbody table tbody tr th{
+		font-size:10px;
+	}
+	.wallet_title{
+		padding-left : 1%;
+		padding-right: 1%;
+	}
+	.wallet_title2 .p1 {
+		padding-right: 2px;
+		display: flex;
+		align-items: center; /* 수직 가운데 정렬 */
+		justify-content: center; /* 수평 가운데 정렬 */
+	}
+	.wallet_title2 p {
+		padding-left:2px;
+		padding-right: 2px;
+	}
+	.list_tbody table tbody tr th{
+		font-size:10px;
+	}
+	
+}
+
