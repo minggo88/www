@@ -2500,6 +2500,77 @@
 		width: 17px;
 		height: 17px;
 	}
+
+	/*tab2*/
+	#div_dropdown_date_selected{
+		max-width: 15%;
+		width: 15%;
+	}
+	#div_dropdown_type_selected{
+		max-width: 15%;
+		width: 15%;
+	}
+	#btn_popup{
+		padding-left : 5%;
+	}
+	.dataTables_info{
+		width : 60%;
+	}
+	.dataTables_paginate.paging_simple_numbers{
+		width :70%;
+	}
+	/*231222*/
+	#transactionGrid2_wrapper{
+		width : 600px !important;
+	}
+	#transactionGrid2{
+		width : 600px !important;
+		
+	}
+
+	#transactionGrid2 thead tr th,
+	#transactionGrid2 tbody td{
+		font-size : 11px;
+	}
+		
+	#transactionGrid2 thead tr th:nth-child(1),
+	#transactionGrid2 tbody td:nth-child(1)
+	 {
+		position: sticky;
+		left: 2px;
+		z-index: 2;
+	  }
+		
+	#transactionGrid2 thead tr th:nth-child(2),
+	#transactionGrid2 tbody td:nth-child(2)
+	 {
+		position: sticky;
+		left: 63px;
+		z-index: 2;
+		
+	  }
+	#transactionGrid2 thead tr th:nth-child(3),
+	#transactionGrid2 tbody td:nth-child(3)
+	 {
+		position: sticky;
+		left: 147px;
+		z-index: 2;
+	  }
+	
+	
+	/* 나머지 열들은 스크롤 가능하도록 설정 */
+	#transactionGrid2 tbody td:nth-child(4),
+	#transactionGrid2 tbody td:nth-child(5),
+	#transactionGrid2 tbody td:nth-child(6),
+	#transactionGrid2 tbody td:nth-child(7),
+	#transactionGrid2 tbody td:nth-child(8),
+	#transactionGrid2 tbody td:nth-child(9),
+	#transactionGrid2 tbody td:nth-child(10),
+	#transactionGrid2 tbody td:nth-child(11) {
+		overflow-x: auto;
+		white-space: nowrap; /* 텍스트가 길 경우 줄 바꿈 방지 */
+	}
+	
 }
 @media screen and (max-width: 433px) {
 	.tab-button{

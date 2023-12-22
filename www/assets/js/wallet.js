@@ -401,16 +401,16 @@ function wallet_tab(tabNumber) {
 				};
 
 				let first_dropdown_value = 'all';
-			$('[name="symbol"]').dropdown('add', { value: 'all', text: '전체' })	
-			for(i in wallet_symbols) {
-				row = wallet_symbols[i];
-				//console.log(i, row);
-				if (row.symbol.length >= 10 || row.symbol=='all') {
-					if(!first_dropdown_value) {
-						if (row.symbol.length >= 10) {
-							first_dropdown_value = row.symbol;
+				$('[name="symbol"]').dropdown('add', { value: 'all', text: '전체' })	
+				for(i in wallet_symbols) {
+					row = wallet_symbols[i];
+					//console.log(i, row);
+					if (row.symbol.length >= 10 || row.symbol=='all') {
+						if(!first_dropdown_value) {
+							if (row.symbol.length >= 10) {
+								first_dropdown_value = row.symbol;
+							}
 						}
-					}
 						// $('#symbol').dropdown('add', { value: i.symbol, text: i.name })
 						// let goods_grade = i.goods_grade ? i.goods_grade + '등급' : '';
 						if(row.symbol == 'all' || row.name ==''){
@@ -421,7 +421,7 @@ function wallet_tab(tabNumber) {
 					}
 				}
 				$('[name="symbol"]').dropdown('select', first_dropdown_value)
-					
+						
 
 				let selected_symbol = $('[name=symbol]:visible').dropdown('selected');
 				let selected_category = '';
@@ -652,6 +652,11 @@ function wallet_tab(tabNumber) {
 						});
 					})
 				}
+				var gridView = $("#transactionGrid2").gridView();
+				
+				gridView.setFixedOptions({
+					colCount: 2
+				});
 			}
 			
 			//검색버튼 클릭 이벤트
