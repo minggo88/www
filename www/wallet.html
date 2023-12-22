@@ -282,48 +282,6 @@
 					</div>
 					
 					<div class="tab-content" id="tab2">
-						<div class="d-flex mobile-only period" style="margin-bottom: 16px">
-							<div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-								<div name="symbol" class="dropdown-wrapper m-symbol-select">
-									<button type="button" class="dropdown"></button>
-									<div class="dropdown--item">
-										<input type="text" name="search" autocomplete="off" placeholder="검색어를 입력해주세요.">
-										<ul class="mt-0">
-										</ul>
-									</div>
-								</div>
-								<div class="dropdown-wrapper" style="display:none">
-									<button type="button" class="dropdown" data-i18n>기간</button>
-									<div class="dropdown--item">
-										<ul>
-											<li>
-												<button type="button" name="btn-reset-1w" data-i18n>1주일</button>
-											</li>
-											<li>
-												<button type="button" name="btn-reset-1m" data-i18n>1개월</button>
-											</li>
-											<li>
-												<button type="button" name="btn-reset-6m" data-i18n>6개월</button>
-											</li>
-											<li>
-												<button type="button" name="btn-reset-1y" data-i18n>1년</button>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div style="display: flex; justify-content: space-between;" class="range_btn">
-								<div class="mdatepicker">
-									<label for="mstart" class="blind">Start date:</label>
-									<input type="date" id="mstart" name="mstart" required pattern="\d{4}-\d{2}-\d{2}" />
-									<span>~</span>
-									<label for="mend" class="blind">End date:</label>
-									<input type="date" id="mend" name="mend" required pattern="\d{4}-\d{2}-\d{2}" />
-								</div>
-								<!-- <input type="text" name="range" id="range2" readonly class="daterange" style="margin-right: 8px"> -->
-								<button type="button" name="btn-search2" class="btn btn--red" data-i18n>조회하기</button>
-							</div>
-						</div>
 						<div class="pc_period2" style="">
 							<div class="datepicker" style="margin-right: 10px">
 								<label for="start" class="blind">Start date:</label>
@@ -348,7 +306,7 @@
 							</div>
 							
 						</div>
-						<div class="d-flex desktop-only pc_period" style="margin-bottom: 15px; padding-top: 15px;">
+						<div class="d-flex" style="margin-bottom: 15px; padding-top: 15px;">
 							<div class="dropdown-wrapper2" name="dropdown_date" id="div_dropdown_date_selected">
 								<input id="search_type" value="전체" disabled/>
 							</div>
