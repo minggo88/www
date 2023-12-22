@@ -652,11 +652,6 @@ function wallet_tab(tabNumber) {
 						});
 					})
 				}
-				var gridView = $("#transactionGrid2").gridView();
-				
-				gridView.setFixedOptions({
-					colCount: 2
-				});
 			}
 			
 			//검색버튼 클릭 이벤트

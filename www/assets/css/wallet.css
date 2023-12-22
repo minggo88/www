@@ -2514,10 +2514,16 @@
 		padding-left : 5%;
 	}
 	.dataTables_info{
-		width : 60%;
+		width : 55%;
+		position: sticky;
+		left: 2px;
+		z-index: 2;
 	}
 	.dataTables_paginate.paging_simple_numbers{
-		width :70%;
+		width :50%;
+		position: sticky;
+		left: 2px;
+		z-index: 2;
 	}
 	/*231222*/
 	#transactionGrid2_wrapper{
