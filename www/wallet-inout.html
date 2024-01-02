@@ -197,58 +197,66 @@
 					<p style="height: 48px;">입출금</p>
 				</div>
 
+				<div class = "wallet_tab">
+				<!-- 탭 버튼들 -->
+					<div class="tab-button selected" onclick="showTab(1)">입출금</div>
+					<div class="tab-button" onclick="showTab(2)">입금</div>
+					<div class="tab-button" onclick="showTab(3)">출금</div>
+				</div>
+
 				<!-- mk make 230901-->
-				<div class="wallet_in_main">
-					<div class="wallet_in_main_div1">
-						<span>보유금액</span>
-					</div>
-					<div id="total_money_line">
-						<span id="total_money">0</span>
-						<span id="total_unit">KRW</span>
-						<!--<div class="input--group">
-							<input class="input_money" type="text" name="deposit_amount" placeholder="최소 10,000">
-							<input class="input_unit" type="text" disabled="disabled" value="KRW">
-						</div>-->
-					</div>
-					<div class="wallet_in_main_btn">
-						<a class="btn_in_img" href = "wallet-inout-in.html"></a>
-						<a class="btn_in" href = "wallet-inout-in.html">입금신청</a>
-						<a class="btn_out_img" href = "wallet-inout-out.html"></a>
-						<a class="btn_out" href = "wallet-inout-out.html">출금신청</a>
-					</div>
-				</div>
-
-				<div class="input--group2--bank">
-					<span>입출금 내역</span>
-					<select id="menuSelect">
-						<option value="all" selected>전체</option>
-						<option value="deposit">입금</option>
-						<option value="withdraw">출금</option>
-					</select>
-					<!--<div type="button" class="btn btn--gray btn--copy" data-clipboard-target="[name=address]" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</div>-->
-				</div>
-
-				<table class="cancel-check-table">
-					<tbody>
-						<tr>
-							<th style="	width: 10%; size: 16px;">상태</th>
-							<th style="	width: 30%; size: 16px;">체결시간</th>
-							<th style="	width: 60%; size: 16px;">금액</th>
-						</tr>
-					</tbody>
-				</table>
-				
-				<div class="d-grid d-grid--empty wallet--grid" name="d-grid--empty">
-					<div class="grid grid--empty" name="grid--empty">
-						<div id = "loading_text">
-							로딩 중 입니다.
+				<div class = "walle_inout_tab1">
+					<div class="wallet_in_main">
+						<div class="wallet_in_main_div1">
+							<span>보유금액</span>
 						</div>
-						<div id = "empty_text" style="display: none;">
-							입출금기록이 없습니다.
+						<div id="total_money_line">
+							<span id="total_money">0</span>
+							<span id="total_unit">KRW</span>
+							<!--<div class="input--group">
+								<input class="input_money" type="text" name="deposit_amount" placeholder="최소 10,000">
+								<input class="input_unit" type="text" disabled="disabled" value="KRW">
+							</div>-->
+						</div>
+						<div class="wallet_in_main_btn">
+							<a class="btn_in_img" href = "wallet-inout-in.html"></a>
+							<a class="btn_in" href = "wallet-inout-in.html">입금신청</a>
+							<a class="btn_out_img" href = "wallet-inout-out.html"></a>
+							<a class="btn_out" href = "wallet-inout-out.html">출금신청</a>
 						</div>
 					</div>
-				</div>
 
+					<div class="input--group2--bank">
+						<span>입출금 내역</span>
+						<select id="menuSelect">
+							<option value="all" selected>전체</option>
+							<option value="deposit">입금</option>
+							<option value="withdraw">출금</option>
+						</select>
+						<!--<div type="button" class="btn btn--gray btn--copy" data-clipboard-target="[name=address]" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</div>-->
+					</div>
+
+					<table class="cancel-check-table">
+						<tbody>
+							<tr>
+								<th style="	width: 10%; size: 16px;">상태</th>
+								<th style="	width: 30%; size: 16px;">체결시간</th>
+								<th style="	width: 60%; size: 16px;">금액</th>
+							</tr>
+						</tbody>
+					</table>
+					
+					<div class="d-grid d-grid--empty wallet--grid" name="d-grid--empty">
+						<div class="grid grid--empty" name="grid--empty">
+							<div id = "loading_text">
+								로딩 중 입니다.
+							</div>
+							<div id = "empty_text" style="display: none;">
+								입출금기록이 없습니다.
+							</div>
+						</div>
+					</div>
+				</div>
 		</div>
 	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
