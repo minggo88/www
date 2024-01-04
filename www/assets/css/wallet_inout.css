@@ -10,6 +10,29 @@
 	display : none;
 }
 
+.wallet_tab { 
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #333333;
+	font-weight: bold;
+	width: 500px; 
+	display: flex;
+	justify-content: space-between; 
+	border-bottom: 1px solid var(--red-up);
+}
+
+.tab-button {
+	flex: 1; 
+	padding: 14px 0; 
+	cursor: pointer;
+	display: inline-block; 
+	text-align: center; 
+	font-size: 16px; 
+}
+.tab-button.selected {
+	background-color: var(--red-up); 
+	color: white;
+}
+
 .wallet_in_main{
 	width : 500px;
 	height: 205px;
