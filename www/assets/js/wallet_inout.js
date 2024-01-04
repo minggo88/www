@@ -13,11 +13,11 @@ var value = 0;
 function showTab(tabNumber) {
     // 모든 탭 내용을 숨김
     for (let i = 1; i <= 3; i++) {
-        document.getElementById(`walle_inout_tab${i}`).style.display = 'none';
+        document.getElementsByClassName(`tab${i}`).style.display = 'none';
     }
 
     // 선택한 탭 내용을 표시
-    document.getElementById(`walle_inout_tab${tabNumber}`).style.display = 'block';
+    document.getElementsByClassName(`tab${tabNumber}`).style.display = 'block';
 	wallet_tab(tabNumber);
 
     // 모든 탭 버튼의 선택 상태를 초기화
