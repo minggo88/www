@@ -60,7 +60,7 @@ width:800px !important;
 	font-size: 14px;
 }
 
-@media screen and (max-width: 450px) { 
+@media screen and (max-width: 800px) { 
 	.content_wrap{
 		width: 100% !important;
 	}
