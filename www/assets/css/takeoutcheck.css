@@ -59,3 +59,27 @@ width:800px !important;
 	height: 40px;
 	font-size: 14px;
 }
+
+@media screen and (max-width: 450px) { 
+	.content_wrap{
+		width: 100% !important;
+	}
+	.contents{
+		width:100% !important;
+	}
+	.d-justify {
+	    width:100%;
+		justify-content: center !important;
+	}
+
+	.takeout-check-table {
+		width:100%;
+		overflow-x: auto;
+		display: block;
+	  }
+	
+	  .d-grid.wallet--grid {
+		overflow-x: auto;
+		display: block;
+	  }
+}
