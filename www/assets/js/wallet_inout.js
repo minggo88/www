@@ -375,7 +375,7 @@ const fn_wallet_withdrawal = function () {
         const amount = sourceInput.value.replace(/\D/g, '');
         
         // <input> 요소의 name 속성을 사용하여 요소를 찾습니다.
-        const depositAmountInput = document.querySelector("input[name=deposit_amount]");
+        const depositAmountInput = document.querySelector('.output_money');
         // 값을 가져옵니다.
         //const value = depositAmountInput.value;
 		
