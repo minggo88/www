@@ -294,7 +294,97 @@
 						<button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 80%; margin-top :20px; align-self: center" data-i18n="">입금신청</button>
 					</div>
 				</div>
+
+				<div class = "walle_inout_tab3" id="tab3">
+					<div class = "walle_inout_tab3" id="tab3">
+						<div class="wallet_out_main">
+							<div class = "wallet_out_main_div1">
+								<sapn>출금가능</sapn>
+								<input id = "max_money" disabled>
+								<sapn>KRW</sapn>
+							</div>
+							<!--<div class = "wallet_out_main_div2">
+								<sapn>출금한도</sapn>
+								<input id = "able_out_max_money" disabled>
+								<sapn>KRW</sapn>
+							</div>-->
+							<div>
+								<div class = "wallet_out_main_div3">
+									<sapn>출금신청</sapn>
+									<input class ="main_blank" disabled>
+									<button id="btn_max" onclick="transferMaxAmount()">최대</button>
+									<input class = "output_money" type="text" name="deposit_amount" class="text-right text-black blurrealnumber onlynum" oninput="updateValue(this)">
+									<sapn>KRW</sapn>
+								</div>
+							</div>
+						</div>
+		
+						
+						<div class="input--group">
+							<span>내 실명계좌</span>
+							<input type="text" id="address" name="address" readonly="" data-bind="user_info.bank_full">
+						</div>
+						<div class="input--group" >
+							<span>수수료</span>
+							<p type="text" id="fee" name="address" readonly="" style="">1,000 KRW</p>
+						</div>
+						<div class="input--group" id="final_out_money" >
+							<span>출금 예정금액</span>
+							<input type="text" id="out_money_t" name="address" readonly="" >
+						</div>
+		
+		
+						<div class="output--group3--text">
+							<ul>
+								<p>출금 주의사항 안내</p>
+								<li>- 등록된 실명 계좌로 출금 신청이 진행됩니다.</li>
+								<li>- 주문금액은 출금가능 금액에 포함되지 않습니다.</li>
+								<li>- 출금은 신청일로부터 72시간 이내에 진행됩니다.</li>
+								<li>- 출금 계좌 변경을 원하시는 경우 <a href="inquiry.html">1:1문의</a>를 이용해 주세요</li>
+							</ul>
+						</div>
+		
+						<div class="d-flex flex-center btn-area">
+							<button type="button" class="btn btn--red" id="btn_exit" style="width: 45%; align-self: center" onclick="page_exit();" data-i18n="">나가기</button>
+							<button type="button" name="btn-save-widthdraw" class="btn btn--blue" style="width: 45%; align-self: center; background: #0B2871;" data-i18n="">출금신청</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+
+		<form id="pin_number" class="modal modal--tiny" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="title">
+						<h3>출금신청</h3>
+						<p>PIN 번호를 입력해주세요</p>
+					</div>
+					<div class="pin_area">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+						<p class="forget_pin text--blue-gray" data-i18n="">
+							보안비밀번호는 마이페이지 &gt; 	
+							<a href="change-pin-number.html" data-login="">보안비밀번호 변경</a>에서 바꾸실수 있습니다.
+						</p>
+						<div class="text--center">
+							<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
 	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
 </body>
