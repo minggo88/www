@@ -620,11 +620,21 @@
 	}
 	#tab3 .wallet_out_main_div1 span,
 	#tab3 .wallet_out_main_div1 input{
-		font-size: 14px !important;
+		font-size: 12px !important;
 	}
 	#tab3 .wallet_out_main_div3 span,
 	#tab3 .wallet_out_main_div3 input{
-		font-size: 14px !important;
+		font-size: 12px !important;
+	}
+	#tab3 .wallet_out_main_div1{
+		max-width : 98%;
+	}
+			
+	#tab3 #max_money{
+		max-width : 71%;
+	}
+	#tab3 .main_blank{
+		width : 1%;
 	}
 	#tab3 .input--group{
 		width:98%;
