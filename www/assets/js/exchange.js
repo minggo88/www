@@ -1024,187 +1024,181 @@ $(function() {
     // 그리드를 선택하면
     .on('select.dt', function (_e, row, type, indexes) {
         // console.log('select.dt');
-        window.selected_row = indexes;
-        if ( type === 'row' ) {
+        const data = row.data();
+        if(isMobile){
+            window.location.href = 'https://dev.assettea.com';
+        }else{
+            window.selected_row = indexes;
+            if ( type === 'row' ) {
+                // console.log('select.dt === data:', data);
 
-			/*if(isMobile) {
-				$(".side--panel").hide();
-				$(".details").show();
-			} else {
-				$(".side--panel").show();
-				$(".details").show();
-			}*/
+                const { name, symbol, exchange, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
+                // console.log(data);
+                const { weight, story } = data
+                const { keep_method } = data
+                const { teamaster_note, producer_note }= data
+                const { grade } = data
+                const { animation } = data
 
-            const data = row.data()
+                if (!symbol || !exchange) {
+                    return false;
+                }
+
+                SELECTED_SYMBOL = symbol
+                SELECTED_EXCHANGE = exchange
+                SELECTED_NAME = name
+                SELECTED_GRADE = data.goods_grade
+                SELECTED_GOODS_GRADE = SELECTED_GRADE
+                // console.log('SELECTED_GRADE:', SELECTED_GRADE);
+                $("#buy_price").val(data.price);
+                $("#buy_val").val(1);
+                $("#sell_price").val(data.price);
+                $("#buy_val").val(1);
+
+                // 로딩 애니메이션 출력
+                //$('.details').addClass('loading')
+                // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE);
+
+                genChartLine();
+
+                let period = $('#period').dropdown('selected');
+
+                switch (SELECTED_GRADE) {
+                case 'S':
+                    API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+                        $('.details').removeClass('loading')
+                        if (resp.success && resp.payload) {
+                        displayChartLine('S', resp.payload);
+                    }
+                })
+                break;
+                case 'A':
+                    API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+                        $('.details').removeClass('loading')
+                        if (resp.success && resp.payload) {
+                            displayChartLine('A', resp.payload);
+                        }
+                    })
+                break;
+                case 'B':
+                    API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+                        $('.details').removeClass('loading')
+                        if (resp.success && resp.payload) {
+                            displayChartLine('B', resp.payload);
+                        }
+                    })
+                break;
+                }
             
-            // console.log('select.dt === data:', data);
+                //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+                //    $('.details').removeClass('loading')
+                //    if (resp.success && resp.payload) {
+                //        displayChartLine('S', resp.payload);
+                //    }
+                //})
+                //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+                //    $('.details').removeClass('loading')
+                //    if (resp.success && resp.payload) {
+                //        displayChartLine('A', resp.payload);
+                //    }
+                //})
+                //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+                //    $('.details').removeClass('loading')
+                //    if (resp.success && resp.payload) {
+                //        displayChartLine('B', resp.payload);
+                //    }
+                //})
+                
 
-            const { name, symbol, exchange, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
-            // console.log(data);
-            const { weight, story } = data
-            const { keep_method } = data
-            const { teamaster_note, producer_note }= data
-            const { grade } = data
-            const { animation } = data
+                API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
 
-            if (!symbol || !exchange) {
-                return false;
-            }
+                    if(resp.success && resp.payload[0]) {
+                        const spot = resp.payload[0];
+                        spot.price_low = spot.price_low > data.price_open ? data.price_open : spot.price_low;
 
-            SELECTED_SYMBOL = symbol
-            SELECTED_EXCHANGE = exchange
-            SELECTED_NAME = name
-            SELECTED_GRADE = data.goods_grade
-	        SELECTED_GOODS_GRADE = SELECTED_GRADE
-            // console.log('SELECTED_GRADE:', SELECTED_GRADE);
-            $("#buy_price").val(data.price);
-            $("#buy_val").val(1);
-            $("#sell_price").val(data.price);
-            $("#buy_val").val(1);
+                        // 최고가
+                        $('#highest-price').text(real_number_format(spot.price_high))
+                        // 최저가
+                        $('#lowest-price').text(real_number_format(spot.price_low))
+                        
+                        //거래량
+                        $('#spot-volume').text(spot.volume.format())
 
-            // 로딩 애니메이션 출력
-            //$('.details').addClass('loading')
-            // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE);
+                        //거래대금
+                        $('#spot-volume2').text(asianUintNumber((parseFloat(spot.price_close/2) * parseFloat(spot.volume))))
 
-            genChartLine();
+                        SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
+                        // console.log('data:', data);
+                        const diff = (data.price - data.price_open).toFixed(2)
+                        const diffRate = ((data.price - data.price_open) / data.price_open).toFixed(4)
+                        const diffPercent = Math.abs(diffRate * 100).toFixed(2)
+                        const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
+                        const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
+                        const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==');
 
-            let period = $('#period').dropdown('selected');
+                        $('.details--price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
+                        $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
+                        $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
+                        $('#spot-diff').siblings('img').attr('src', diff_icon)
+                    } else {
+                        const msg = resp.error && resp.error.message ? resp.error.message : '';
+                        if(msg) alert(msg)
+                    }
+                })
 
-	    switch (SELECTED_GRADE) {
-		case 'S':
-			API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
-				$('.details').removeClass('loading')
-				if (resp.success && resp.payload) {
-				displayChartLine('S', resp.payload);
-			}
-		})
-		break;
-		case 'A':
-			API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
-				$('.details').removeClass('loading')
-				if (resp.success && resp.payload) {
-					displayChartLine('A', resp.payload);
-				}
-			})
-		break;
-		case 'B':
-			API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
-				$('.details').removeClass('loading')
-				if (resp.success && resp.payload) {
-					displayChartLine('B', resp.payload);
-				}
-			})
-		break;
-	    }
-		
-            //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
-            //    $('.details').removeClass('loading')
-            //    if (resp.success && resp.payload) {
-            //        displayChartLine('S', resp.payload);
-            //    }
-            //})
-            //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
-            //    $('.details').removeClass('loading')
-            //    if (resp.success && resp.payload) {
-            //        displayChartLine('A', resp.payload);
-            //    }
-            //})
-            //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
-            //    $('.details').removeClass('loading')
-            //    if (resp.success && resp.payload) {
-            //        displayChartLine('B', resp.payload);
-            //    }
-            //})
-            
+                // $('.tab--sell').click()
+                $('.details .tabs li.tab--active').click()
 
-            API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
+                $('.tea--name').text(name) // .details--header 
+                $('#tab-info .certificate').text(data.meta_certification_mark_name)
+                $('#tab-info .meta_wp_teamaster_note').text(data.content)
+                $('#tab-info [name=meta_wp_teamaster_note]').text(data.meta_wp_teamaster_note)
+                // 상품사진
+                $('#tab-info img').attr('src', data.main_pic)
+                // 원산지
+                $('#white-paper [name=origin]').val(origin)
+                $('#white-paper [name=producer]').val(producer)
+                //생산
+                $('#white-paper [name=production_date]').val(production_date)
+                // 맛
+                $('#white-paper #taste').html(nl2br(taste))
+                // 향
+                $('#white-paper #scent').val(scent)
+                $('#white-paper #weight').val(weight)
+                $('#white-paper #keep-method').html(nl2br(keep_method))
+                $('#white-paper #story').html(nl2br(story))
+                $('#white-paper #teamaster-note').html(nl2br(teamaster_note))
+                $('#white-paper #producer-note').html(nl2br(producer_note))
+                $('#white-paper #grade').html(nl2br(grade))
 
-                if(resp.success && resp.payload[0]) {
-                    const spot = resp.payload[0];
-                    spot.price_low = spot.price_low > data.price_open ? data.price_open : spot.price_low;
+                // 백서
+                for (i in data) {
+                    if (i.indexOf('meta_') === 0) {
+                        $('#white-paper input[name='+i+'], #tab-info input[name='+i+']').val(data[i])
+                        $('#white-paper [name='+i+'], #tab-info [name='+i+']').html(nl2br(data[i]))
+                    }
+                }
 
-                    // 최고가
-                    $('#highest-price').text(real_number_format(spot.price_high))
-                    // 최저가
-                    $('#lowest-price').text(real_number_format(spot.price_low))
-                    
-					//거래량
-					$('#spot-volume').text(spot.volume.format())
-
-					//거래대금
-					$('#spot-volume2').text(asianUintNumber((parseFloat(spot.price_close/2) * parseFloat(spot.volume))))
-
-                    SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
-                    // console.log('data:', data);
-                    const diff = (data.price - data.price_open).toFixed(2)
-                    const diffRate = ((data.price - data.price_open) / data.price_open).toFixed(4)
-                    const diffPercent = Math.abs(diffRate * 100).toFixed(2)
-                    const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
-                    const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
-                    const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==');
-
-                    $('.details--price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
-                    $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
-                    $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
-                    $('#spot-diff').siblings('img').attr('src', diff_icon)
+                if (animation) {
+                    const isYoutube = animation.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/)
+                    const scanEmbbed = isYoutube ? $('<iframe />').attr('src', animation).attr('frameborder', 0).attr('allowfullscreen', true) : $('<img />').attr('src', animation)
+                    $('button[data-target="#scan"]').attr('disabled', false)
+                    $('#scan .modal--body').empty().append(scanEmbbed)
                 } else {
-                    const msg = resp.error && resp.error.message ? resp.error.message : '';
-                    if(msg) alert(msg)
+                    $('button[data-target="#scan"]').attr('disabled', true)
                 }
-            })
 
-            // $('.tab--sell').click()
-            $('.details .tabs li.tab--active').click()
-
-            $('.tea--name').text(name) // .details--header 
-            $('#tab-info .certificate').text(data.meta_certification_mark_name)
-	    $('#tab-info .meta_wp_teamaster_note').text(data.content)
-            $('#tab-info [name=meta_wp_teamaster_note]').text(data.meta_wp_teamaster_note)
-            // 상품사진
-            $('#tab-info img').attr('src', data.main_pic)
-            // 원산지
-            $('#white-paper [name=origin]').val(origin)
-            $('#white-paper [name=producer]').val(producer)
-            //생산
-            $('#white-paper [name=production_date]').val(production_date)
-            // 맛
-            $('#white-paper #taste').html(nl2br(taste))
-            // 향
-            $('#white-paper #scent').val(scent)
-            $('#white-paper #weight').val(weight)
-            $('#white-paper #keep-method').html(nl2br(keep_method))
-            $('#white-paper #story').html(nl2br(story))
-            $('#white-paper #teamaster-note').html(nl2br(teamaster_note))
-            $('#white-paper #producer-note').html(nl2br(producer_note))
-            $('#white-paper #grade').html(nl2br(grade))
-
-            // 백서
-            for (i in data) {
-                if (i.indexOf('meta_') === 0) {
-                    $('#white-paper input[name='+i+'], #tab-info input[name='+i+']').val(data[i])
-                    $('#white-paper [name='+i+'], #tab-info [name='+i+']').html(nl2br(data[i]))
+                if (data.like == "Y") {
+                    $("[name='btn_view_stat']").addClass("btn--star--on").removeClass("btn--star")
+                } else if (data.like == "N") {
+                    $("[name='btn_view_stat']").addClass("btn--star").removeClass("btn--star--on")
                 }
             }
-
-            if (animation) {
-                const isYoutube = animation.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/)
-                const scanEmbbed = isYoutube ? $('<iframe />').attr('src', animation).attr('frameborder', 0).attr('allowfullscreen', true) : $('<img />').attr('src', animation)
-                $('button[data-target="#scan"]').attr('disabled', false)
-                $('#scan .modal--body').empty().append(scanEmbbed)
-            } else {
-                $('button[data-target="#scan"]').attr('disabled', true)
-            }
-
-            if (data.like == "Y") {
-                $("[name='btn_view_stat']").addClass("btn--star--on").removeClass("btn--star")
-            } else if (data.like == "N") {
-                $("[name='btn_view_stat']").addClass("btn--star").removeClass("btn--star--on")
-            }
+            $('#right_buy').click();
+            trade_list();
+            order_chnage('A');
+            $('.details').show();
         }
-		$('#right_buy').click();
-		trade_list();
-		order_chnage('A');
-        $('.details').show();
     })
     .on('draw.dt', () => {
     
@@ -1744,8 +1738,10 @@ function mobile_title_click(){
 	// 그리드를 선택하면
 	if(isMobile) {
 		$(".side--panel").hide();
-		$(".details").show();
-        $('.tabs .tab--sell button').click();
+        $(".details").hide();
+		//$(".details").show();
+        //$('.tabs .tab--sell button').click();
+        // 모바일
 	} else {
 		$(".side--panel").show();
 		$(".details").show();
