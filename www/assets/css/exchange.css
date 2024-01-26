@@ -549,61 +549,6 @@ div.dts div.dataTables_scrollBody {
 	width:100%;
 }
 
-@media screen and (max-width: 800px) {
-	#white-paper dl{
-		flex-direction: column;
-	}
-
-	#white-paper dl dd{
-		width: 100%;
-		min-width: initial;
-	}
-
-	#white-paper .grid-2-column{
-		grid-template-columns: repeat(1, 1fr);
-		padding: 0 20px 20px!important;
-		overflow: auto;
-	}
-}
-
-/** 230324 크기에따른 정보탭 수정 **/
-@media screen and (max-width: 680px) {
-	/** 230324 정보탭 CSS수정 **/
-	#tab-info .info > div.thumb{
-		width: calc(60%);
-	}
-	#tab-info .info > div.info_p{
-	    width: 60%;
-	}
-	/*.tab-container{
-		padding-bottom: 150px;
-	}*/
-}
-@media screen and (max-width: 520px) {
-	/** 230324 정보탭 CSS수정 **/
-	#tab-info .info > div.thumb{
-		width: calc(50%);
-	}
-	#tab-info .info > div.info_p{
-	    width: 50%;
-	}
-	/*.tab-container{
-		padding-bottom: 190px;
-	}*/
-}
-@media screen and (max-width: 440px) {
-	/** 230324 정보탭 CSS수정 **/
-	#tab-info .info > div.thumb{
-		width: calc(40%);
-	}
-	#tab-info .info > div.info_p{
-		width: calc(40%);
-	}
-	/*.tab-container{
-		padding-bottom: 280px;
-	}*/
-}
-
 #modal-sell-pin .modal--content,
 #modal-buy-pin .modal--content,
 #modal-buy-direct-pin .modal--content,
@@ -1025,4 +970,63 @@ table.dataTable tbody td.dt-body-left {
 
 .product-grade{
 	display : none; 
+}
+
+@media screen and (max-width: 800px) {
+	#white-paper dl{
+		flex-direction: column;
+	}
+
+	#white-paper dl dd{
+		width: 100%;
+		min-width: initial;
+	}
+
+	#white-paper .grid-2-column{
+		grid-template-columns: repeat(1, 1fr);
+		padding: 0 20px 20px!important;
+		overflow: auto;
+	}
+}
+
+/** 230324 크기에따른 정보탭 수정 **/
+@media screen and (max-width: 680px) {
+	/** 230324 정보탭 CSS수정 **/
+	#tab-info .info > div.thumb{
+		width: calc(60%);
+	}
+	#tab-info .info > div.info_p{
+	    width: 60%;
+	}
+	/*.tab-container{
+		padding-bottom: 150px;
+	}*/
+}
+@media screen and (max-width: 520px) {
+	/** 230324 정보탭 CSS수정 **/
+	#tab-info .info > div.thumb{
+		width: calc(50%);
+	}
+	#tab-info .info > div.info_p{
+	    width: 50%;
+	}
+	/*.tab-container{
+		padding-bottom: 190px;
+	}*/
+
+	.manage-checkbox{
+		height: 80px;
+	}
+}
+@media screen and (max-width: 440px) {
+	/** 230324 정보탭 CSS수정 **/
+	#tab-info .info > div.thumb{
+		width: calc(40%);
+	}
+	#tab-info .info > div.info_p{
+		width: calc(40%);
+	}
+	/*.tab-container{
+		padding-bottom: 280px;
+	}*/
 }
