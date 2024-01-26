@@ -1025,175 +1025,258 @@ $(function() {
     .on('select.dt', function (_e, row, type, indexes) {
         // console.log('select.dt');
         const data = row.data();
-        if(isMobile){
-            window.location.href = 'https://dev.assettea.com';
-        }else{
-            window.selected_row = indexes;
-            if ( type === 'row' ) {
-                // console.log('select.dt === data:', data);
 
-                const { name, symbol, exchange, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
-                // console.log(data);
-                const { weight, story } = data
-                const { keep_method } = data
-                const { teamaster_note, producer_note }= data
-                const { grade } = data
-                const { animation } = data
+        window.selected_row = indexes;
+        if ( type === 'row' ) {
+            // console.log('select.dt === data:', data);
 
-                if (!symbol || !exchange) {
-                    return false;
-                }
+            const { name, symbol, exchange, type, meta_division, producer, production_date, origin, icon_url, scent, taste } = data
+            // console.log(data);
+            const { weight, story } = data
+            const { keep_method } = data
+            const { teamaster_note, producer_note }= data
+            const { grade } = data
+            const { animation } = data
 
-                SELECTED_SYMBOL = symbol
-                SELECTED_EXCHANGE = exchange
-                SELECTED_NAME = name
-                SELECTED_GRADE = data.goods_grade
-                SELECTED_GOODS_GRADE = SELECTED_GRADE
-                // console.log('SELECTED_GRADE:', SELECTED_GRADE);
-                $("#buy_price").val(data.price);
-                $("#buy_val").val(1);
-                $("#sell_price").val(data.price);
-                $("#buy_val").val(1);
+            if (!symbol || !exchange) {
+                return false;
+            }
 
-                // 로딩 애니메이션 출력
-                //$('.details').addClass('loading')
-                // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE);
+            SELECTED_SYMBOL = symbol
+            SELECTED_EXCHANGE = exchange
+            SELECTED_NAME = name
+            SELECTED_GRADE = data.goods_grade
+            SELECTED_GOODS_GRADE = SELECTED_GRADE
+            // console.log('SELECTED_GRADE:', SELECTED_GRADE);
+            $("#buy_price").val(data.price);
+            $("#buy_val").val(1);
+            $("#sell_price").val(data.price);
+            $("#buy_val").val(1);
 
-                genChartLine();
-
-                let period = $('#period').dropdown('selected');
-
-                switch (SELECTED_GRADE) {
-                case 'S':
-                    API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
-                        $('.details').removeClass('loading')
-                        if (resp.success && resp.payload) {
-                        displayChartLine('S', resp.payload);
-                    }
-                })
-                break;
-                case 'A':
-                    API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
-                        $('.details').removeClass('loading')
-                        if (resp.success && resp.payload) {
-                            displayChartLine('A', resp.payload);
-                        }
-                    })
-                break;
-                case 'B':
-                    API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
-                        $('.details').removeClass('loading')
-                        if (resp.success && resp.payload) {
-                            displayChartLine('B', resp.payload);
-                        }
-                    })
-                break;
-                }
+            // 로딩 애니메이션 출력
+            //$('.details').addClass('loading')
+            // console.log(SELECTED_SYMBOL, SELECTED_EXCHANGE);
             
-                //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
-                //    $('.details').removeClass('loading')
-                //    if (resp.success && resp.payload) {
-                //        displayChartLine('S', resp.payload);
-                //    }
-                //})
-                //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
-                //    $('.details').removeClass('loading')
-                //    if (resp.success && resp.payload) {
-                //        displayChartLine('A', resp.payload);
-                //    }
-                //})
-                //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
-                //    $('.details').removeClass('loading')
-                //    if (resp.success && resp.payload) {
-                //        displayChartLine('B', resp.payload);
-                //    }
-                //})
-                
+            if(isMobile){
+                /// "order-content" 클래스를 가진 요소들을 모두 가져옵니다.
+				var orderContents2 = document.querySelectorAll('.right');
+			    var orderContents = document.querySelectorAll('.order-content');
 
-                API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
+				
+			    // 모든 order-content 요소들의 글꼴 크기를 10px로 설정합니다.
+			    orderContents.forEach(function(orderContent) {
+			        //orderContent.style.width = '90%';
+					
+					//$('#buy-order').style.padding = '0';
+			    });
+                //window.location.href = 'https://dev.assettea.com';
 
-                    if(resp.success && resp.payload[0]) {
-                        const spot = resp.payload[0];
-                        spot.price_low = spot.price_low > data.price_open ? data.price_open : spot.price_low;
+				document.getElementById(`buy-order`).style.padding = '0px';
+				document.getElementById(`buy-order`).style.paddingLeft = '10px';
+				//document.getElementById(`buy-order`).style.width = '90%';
+				document.getElementById(`sell-order`).style.padding = '0px';
+                document.getElementById(`sell-order`).style.paddingLeft = '10px';
+				document.getElementById(`sell-order`).style.width = '90%';
 
-                        // 최고가
-                        $('#highest-price').text(real_number_format(spot.price_high))
-                        // 최저가
-                        $('#lowest-price').text(real_number_format(spot.price_low))
-                        
-                        //거래량
-                        $('#spot-volume').text(spot.volume.format())
+				var modalContent = document.querySelector('#buy-order .modal--content');
+    
+			    // modalContent가 존재하는 경우에만 실행합니다.
+			    if (modalContent) {
+			        // modalContent 내의 모든 요소들의 글꼴 크기를 10px로 설정합니다.
+			        modalContent.querySelectorAll('*').forEach(function(element) {
+			            element.style.fontSize = '10px';
+						element.style.width = '95%';
+			        });
+			    }
 
-                        //거래대금
-                        $('#spot-volume2').text(asianUintNumber((parseFloat(spot.price_close/2) * parseFloat(spot.volume))))
+				var listContent = document.querySelector('#manage-order .list-container');
+				if (listContent) {
+			        // listContent 내의 모든 요소들의 글꼴 크기를 10px로 설정합니다.
+			        listContent.querySelectorAll('*').forEach(function(element) {
+			            element.style.fontSize = '9px';
+					});
 
-                        SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
-                        // console.log('data:', data);
-                        const diff = (data.price - data.price_open).toFixed(2)
-                        const diffRate = ((data.price - data.price_open) / data.price_open).toFixed(4)
-                        const diffPercent = Math.abs(diffRate * 100).toFixed(2)
-                        const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
-                        const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
-                        const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==');
+					// 클래스가 'date'인 요소를 선택합니다.
+				    var element = document.querySelector('.date');
+				
+				    // 요소의 글꼴 크기를 8px로 설정합니다. CSS와 겹치지 않도록 !important를 사용합니다.
+				    element.style.setProperty('font-size', '8px', 'important');
+									
+			    }
 
-                        $('.details--price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
-                        $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
-                        $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
-                        $('#spot-diff').siblings('img').attr('src', diff_icon)
-                    } else {
-                        const msg = resp.error && resp.error.message ? resp.error.message : '';
-                        if(msg) alert(msg)
+				var dlAgree = document.getElementById('dl_agree');
+
+				if (dlAgree) {
+			        // dlAgree 내의 맨 아래 span 요소를 가져옵니다.
+			        var lastSpan = dlAgree.querySelector('span:last-child');
+			        
+			        // lastSpan이 존재하는 경우에만 실행합니다.
+			        if (lastSpan) {
+			            // lastSpan의 너비를 30%로 설정합니다.
+			            lastSpan.style.width = '30%';
+			        }
+
+					// "use_buy_agreement" 이름을 가진 체크박스를 가져옵니다.
+			        var agreementCheckbox = dlAgree.querySelector('input[name="use_buy_agreement"]');
+			        
+			        // agreementCheckbox가 존재하는 경우에만 실행합니다.
+			        if (agreementCheckbox) {
+			            // 체크박스의 높이를 13px로 설정합니다.
+			            agreementCheckbox.style.height = '13px';
+			        }
+					var allElements = dlAgree.querySelectorAll('*');
+        
+			        // allElements가 존재하는 경우에만 실행합니다.
+			        if (allElements) {
+			            // 모든 요소의 글꼴 크기를 9px로 설정합니다.
+			            allElements.forEach(function(element) {
+			                element.style.fontSize = '9px';
+			            });
+			        }
+
+					var ddElement = document.querySelector('dd.input_select');
+					ddElement.style.paddingTop = '10px';
+
+					var tea_av = document.querySelector('dd.tea--available');
+					tea_av.style.paddingTop = '10px';
+			    }
+            }
+
+            genChartLine();
+
+            let period = $('#period').dropdown('selected');
+
+            switch (SELECTED_GRADE) {
+            case 'S':
+                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+                    $('.details').removeClass('loading')
+                    if (resp.success && resp.payload) {
+                    displayChartLine('S', resp.payload);
+                }
+            })
+            break;
+            case 'A':
+                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+                    $('.details').removeClass('loading')
+                    if (resp.success && resp.payload) {
+                        displayChartLine('A', resp.payload);
                     }
                 })
-
-                // $('.tab--sell').click()
-                $('.details .tabs li.tab--active').click()
-
-                $('.tea--name').text(name) // .details--header 
-                $('#tab-info .certificate').text(data.meta_certification_mark_name)
-                $('#tab-info .meta_wp_teamaster_note').text(data.content)
-                $('#tab-info [name=meta_wp_teamaster_note]').text(data.meta_wp_teamaster_note)
-                // 상품사진
-                $('#tab-info img').attr('src', data.main_pic)
-                // 원산지
-                $('#white-paper [name=origin]').val(origin)
-                $('#white-paper [name=producer]').val(producer)
-                //생산
-                $('#white-paper [name=production_date]').val(production_date)
-                // 맛
-                $('#white-paper #taste').html(nl2br(taste))
-                // 향
-                $('#white-paper #scent').val(scent)
-                $('#white-paper #weight').val(weight)
-                $('#white-paper #keep-method').html(nl2br(keep_method))
-                $('#white-paper #story').html(nl2br(story))
-                $('#white-paper #teamaster-note').html(nl2br(teamaster_note))
-                $('#white-paper #producer-note').html(nl2br(producer_note))
-                $('#white-paper #grade').html(nl2br(grade))
-
-                // 백서
-                for (i in data) {
-                    if (i.indexOf('meta_') === 0) {
-                        $('#white-paper input[name='+i+'], #tab-info input[name='+i+']').val(data[i])
-                        $('#white-paper [name='+i+'], #tab-info [name='+i+']').html(nl2br(data[i]))
+            break;
+            case 'B':
+                API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+                    $('.details').removeClass('loading')
+                    if (resp.success && resp.payload) {
+                        displayChartLine('B', resp.payload);
                     }
-                }
+                })
+            break;
+            }
+        
+            //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'S', (resp) => {
+            //    $('.details').removeClass('loading')
+            //    if (resp.success && resp.payload) {
+            //        displayChartLine('S', resp.payload);
+            //    }
+            //})
+            //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'A', (resp) => {
+            //    $('.details').removeClass('loading')
+            //    if (resp.success && resp.payload) {
+            //        displayChartLine('A', resp.payload);
+            //    }
+            //})
+            //API.getChartData(SELECTED_SYMBOL, SELECTED_EXCHANGE, period, 'B', (resp) => {
+            //    $('.details').removeClass('loading')
+            //    if (resp.success && resp.payload) {
+            //        displayChartLine('B', resp.payload);
+            //    }
+            //})
+            
 
-                if (animation) {
-                    const isYoutube = animation.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/)
-                    const scanEmbbed = isYoutube ? $('<iframe />').attr('src', animation).attr('frameborder', 0).attr('allowfullscreen', true) : $('<img />').attr('src', animation)
-                    $('button[data-target="#scan"]').attr('disabled', false)
-                    $('#scan .modal--body').empty().append(scanEmbbed)
+            API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
+
+                if(resp.success && resp.payload[0]) {
+                    const spot = resp.payload[0];
+                    spot.price_low = spot.price_low > data.price_open ? data.price_open : spot.price_low;
+
+                    // 최고가
+                    $('#highest-price').text(real_number_format(spot.price_high))
+                    // 최저가
+                    $('#lowest-price').text(real_number_format(spot.price_low))
+                    
+                    //거래량
+                    $('#spot-volume').text(spot.volume.format())
+
+                    //거래대금
+                    $('#spot-volume2').text(asianUintNumber((parseFloat(spot.price_close/2) * parseFloat(spot.volume))))
+
+                    SELECTED_SYMBOL_PRICE = parseFloat(spot.price_close).toFixed(2)
+                    // console.log('data:', data);
+                    const diff = (data.price - data.price_open).toFixed(2)
+                    const diffRate = ((data.price - data.price_open) / data.price_open).toFixed(4)
+                    const diffPercent = Math.abs(diffRate * 100).toFixed(2)
+                    const diff_sign = diff > 0 ? '+' : (diff < 0 ? '-' : '');
+                    const diff_text = diff > 0 ? 'text-red' : (diff < 0 ? 'text-blue' : '');
+                    const diff_icon = diff > 0 ? './assets/img/icon/icon-up.svg' : (diff < 0 ? './assets/img/icon/icon-down.svg' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAQAAADa613fAAAAaklEQVR42u3PMREAAAgEID+50TWCuwcNyHS9EBERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERGRywL1OpWdVwPKBwAAAABJRU5ErkJggg==');
+
+                    $('.details--price').html('' + parseFloat(data.price).toFixed(2).format() + ' '+SELECTED_EXCHANGE+'').removeClass('text-red text-blue').addClass(diff_text)
+                    $('.details--diffPercent').text( diff_sign + diffPercent + '%').removeClass('text-red text-blue').addClass(diff_text)
+                    $('#spot-diff').text(diff.format()).removeClass('text-red text-blue').addClass(diff_text)
+                    $('#spot-diff').siblings('img').attr('src', diff_icon)
                 } else {
-                    $('button[data-target="#scan"]').attr('disabled', true)
+                    const msg = resp.error && resp.error.message ? resp.error.message : '';
+                    if(msg) alert(msg)
                 }
+            })
 
-                if (data.like == "Y") {
-                    $("[name='btn_view_stat']").addClass("btn--star--on").removeClass("btn--star")
-                } else if (data.like == "N") {
-                    $("[name='btn_view_stat']").addClass("btn--star").removeClass("btn--star--on")
+            // $('.tab--sell').click()
+            $('.details .tabs li.tab--active').click()
+
+            $('.tea--name').text(name) // .details--header 
+            $('#tab-info .certificate').text(data.meta_certification_mark_name)
+            $('#tab-info .meta_wp_teamaster_note').text(data.content)
+            $('#tab-info [name=meta_wp_teamaster_note]').text(data.meta_wp_teamaster_note)
+            // 상품사진
+            $('#tab-info img').attr('src', data.main_pic)
+            // 원산지
+            $('#white-paper [name=origin]').val(origin)
+            $('#white-paper [name=producer]').val(producer)
+            //생산
+            $('#white-paper [name=production_date]').val(production_date)
+            // 맛
+            $('#white-paper #taste').html(nl2br(taste))
+            // 향
+            $('#white-paper #scent').val(scent)
+            $('#white-paper #weight').val(weight)
+            $('#white-paper #keep-method').html(nl2br(keep_method))
+            $('#white-paper #story').html(nl2br(story))
+            $('#white-paper #teamaster-note').html(nl2br(teamaster_note))
+            $('#white-paper #producer-note').html(nl2br(producer_note))
+            $('#white-paper #grade').html(nl2br(grade))
+
+            // 백서
+            for (i in data) {
+                if (i.indexOf('meta_') === 0) {
+                    $('#white-paper input[name='+i+'], #tab-info input[name='+i+']').val(data[i])
+                    $('#white-paper [name='+i+'], #tab-info [name='+i+']').html(nl2br(data[i]))
                 }
             }
+
+            if (animation) {
+                const isYoutube = animation.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/)
+                const scanEmbbed = isYoutube ? $('<iframe />').attr('src', animation).attr('frameborder', 0).attr('allowfullscreen', true) : $('<img />').attr('src', animation)
+                $('button[data-target="#scan"]').attr('disabled', false)
+                $('#scan .modal--body').empty().append(scanEmbbed)
+            } else {
+                $('button[data-target="#scan"]').attr('disabled', true)
+            }
+
+            if (data.like == "Y") {
+                $("[name='btn_view_stat']").addClass("btn--star--on").removeClass("btn--star")
+            } else if (data.like == "N") {
+                $("[name='btn_view_stat']").addClass("btn--star").removeClass("btn--star--on")
+            }
+            
             $('#right_buy').click();
             trade_list();
             order_chnage('A');
@@ -2260,7 +2343,11 @@ const fn_takeout = function () {
 						}
                         orderTypeText.textContent = t_type;
                         orderTypeText.style.color = font_c;
-						orderTypeText.style.fontSize = "16px";
+						if(isMobile){
+							orderTypeText.style.fontSize = "8px";
+						}else{
+							orderTypeText.style.fontSize = "16px";
+						}
 
 
                         // unclear_order_no 생성
@@ -2321,17 +2408,31 @@ const fn_takeout = function () {
 						// Date 객체 생성
 						var load_date = new Date(d_item.time_order * 1000); // 타임스탬프는 밀리초 단위로 변환되어야 합니다.
 						// 원하는 형식으로 포맷팅
-						var formattedDate = (
-						  ("0" + (load_date.getFullYear() % 100)).slice(-2) + "년" + 
-						  ("0" + (load_date.getMonth() + 1)).slice(-2) + "월" +
-						  ("0" + load_date.getDate()).slice(-2) + "일" +
-						  " " +
-						  ("0" + load_date.getHours()).slice(-2) + "시" +
-						  ("0" + load_date.getMinutes()).slice(-2) + "분"
-						);
-                        date.textContent = formattedDate;
+						if(isMobile){
+							var formattedDate = (
+							  ("0" + (load_date.getFullYear() % 100)).slice(-2) + "/" + 
+							  ("0" + (load_date.getMonth() + 1)).slice(-2) + "/" +
+							  ("0" + load_date.getDate()).slice(-2) + "/" +
+							  ("0" + load_date.getHours()).slice(-2) + "/" +
+							  ("0" + load_date.getMinutes()).slice(-2) + ""
+							);
+	                        date.textContent = formattedDate;
+							date.style.fontSize = "8px";
+						}else{
+							var formattedDate = (
+							  ("0" + (load_date.getFullYear() % 100)).slice(-2) + "년" + 
+							  ("0" + (load_date.getMonth() + 1)).slice(-2) + "월" +
+							  ("0" + load_date.getDate()).slice(-2) + "일" +
+							  " " +
+							  ("0" + load_date.getHours()).slice(-2) + "시" +
+							  ("0" + load_date.getMinutes()).slice(-2) + "분"
+							);
+	                        date.textContent = formattedDate;	
+							date.style.fontSize = "12px";
+						}
+						
 						date.style.color = "#999999";
-						date.style.fontSize = "12px";
+						
 						
 
                         let productNameRight = document.createElement("div");
@@ -2428,7 +2529,12 @@ const fn_takeout2 = function () {
                         // order-list-item 생성
                         let orderListItem = document.createElement("div");
                         orderListItem.classList.add("order-list-item");
-						orderListItem.style.paddingLeft = '43px';
+						if(isMobile){
+							orderListItem.style.paddingLeft = '13px';
+						}else{
+							orderListItem.style.paddingLeft = '43px';
+						}
+						
                         orderListItem.style.paddingBottom = '11px';
 
                         // manage-left 생성
@@ -2458,8 +2564,12 @@ const fn_takeout2 = function () {
 						}
                         orderTypeText.textContent = t_type;
                         orderTypeText.style.color = font_c;
-						orderTypeText.style.fontSize = "16px";
-
+						
+						if(isMobile){
+							orderTypeText.style.fontSize = "8px";
+						}else{
+							orderTypeText.style.fontSize = "16px";
+						}
 
                         // unclear_order_no 생성
                         let unclearOrderNo = document.createElement("span");
@@ -2521,17 +2631,30 @@ const fn_takeout2 = function () {
                         // Date 객체 생성
 						var load_date = new Date(d_item.time_order * 1000); // 타임스탬프는 밀리초 단위로 변환되어야 합니다.
 						// 원하는 형식으로 포맷팅
-						var formattedDate = (
-						  ("0" + (load_date.getFullYear() % 100)).slice(-2) + "년" + 
-						  ("0" + (load_date.getMonth() + 1)).slice(-2) + "월" +
-						  ("0" + load_date.getDate()).slice(-2) + "일" +
-						  " " +
-						  ("0" + load_date.getHours()).slice(-2) + "시" +
-						  ("0" + load_date.getMinutes()).slice(-2) + "분"
-						);
+						if(isMobile){
+							var formattedDate = (
+							  ("0" + (load_date.getFullYear() % 100)).slice(-2) + "/" + 
+							  ("0" + (load_date.getMonth() + 1)).slice(-2) + "/" +
+							  ("0" + load_date.getDate()).slice(-2) + "/" +
+							  ("0" + load_date.getHours()).slice(-2) + "/" +
+							  ("0" + load_date.getMinutes()).slice(-2) + ""
+							);
+	                        date.textContent = formattedDate;
+							date.style.fontSize = "8px";
+						}else{
+							var formattedDate = (
+							  ("0" + (load_date.getFullYear() % 100)).slice(-2) + "년" + 
+							  ("0" + (load_date.getMonth() + 1)).slice(-2) + "월" +
+							  ("0" + load_date.getDate()).slice(-2) + "일" +
+							  " " +
+							  ("0" + load_date.getHours()).slice(-2) + "시" +
+							  ("0" + load_date.getMinutes()).slice(-2) + "분"
+							);
+	                        date.textContent = formattedDate;	
+							date.style.fontSize = "12px";
+						}
                         date.textContent = formattedDate;
 						date.style.color = "#999999";
-						date.style.fontSize = "12px";
 
                         let productNameRight = document.createElement("div");
                         productNameRight.classList.add("product-name");
