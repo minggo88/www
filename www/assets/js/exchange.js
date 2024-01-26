@@ -1071,12 +1071,16 @@ $(function() {
 			    });
                 //window.location.href = 'https://dev.assettea.com';
 
+				const spans = document.querySelectorAll('.table-header span');
+				spans.forEach(span => {
+				  span.style.fontSize = '10px';
+				});
+				
 				document.getElementById(`buy-order`).style.padding = '0px';
 				document.getElementById(`buy-order`).style.paddingLeft = '10px';
 				//document.getElementById(`buy-order`).style.width = '90%';
 				document.getElementById(`sell-order`).style.padding = '0px';
                 document.getElementById(`sell-order`).style.paddingLeft = '10px';
-				document.getElementById(`sell-order`).style.width = '90%';
 
 				var modalContent = document.querySelector('#buy-order .modal--content');
     
@@ -1088,7 +1092,7 @@ $(function() {
 						element.style.width = '95%';
 			        });
 			    }
-
+				
 				var listContent = document.querySelector('#manage-order .list-container');
 				if (listContent) {
 			        // listContent 내의 모든 요소들의 글꼴 크기를 10px로 설정합니다.
@@ -1100,8 +1104,7 @@ $(function() {
 				    var element = document.querySelector('.date');
 				
 				    // 요소의 글꼴 크기를 8px로 설정합니다. CSS와 겹치지 않도록 !important를 사용합니다.
-				    element.style.setProperty('font-size', '8px', 'important');
-									
+				    element.style.setProperty('font-size', '8px', 'important');				
 			    }
 
 				var dlAgree = document.getElementById('dl_agree');
@@ -1134,11 +1137,14 @@ $(function() {
 			            });
 			        }
 
-					var ddElement = document.querySelector('dd.input_select');
+					const ddElement = document.querySelector('dd.input_select');
 					ddElement.style.paddingTop = '10px';
 
-					var tea_av = document.querySelector('dd.tea--available');
+					const tea_av = document.querySelector('dd.tea--available');
 					tea_av.style.paddingTop = '10px';
+
+					const manageL = document.querySelector('.manage-left');
+					manageL.style.height = '80px';
 			    }
             }
 
@@ -2184,6 +2190,7 @@ function calc_sell(){
 		const sell_price = $('#sell_price').val();
 		$('#sell_total').val(addCommas(rmCommas(sell_price)*sell_ea));
 	}, 50);
+	resizeText_sell();
 }
 
 function calc_buy(){
@@ -2745,4 +2752,56 @@ function request_user_info() {
 				document.getElementsByClassName('tea--available')[0].textContent = real_number_format(cnt_buyable) + SELECTED_EXCHANGE;
 	    }
 	})
+}
+
+function resizeText_sell(){
+	document.getElementById(`sell-order`).style.padding = '0px';
+	document.getElementById(`sell-order`).style.paddingLeft = '10px';
+	
+	var sell_modalContent = document.querySelector('#sell-order .modal--content');
+    
+	// sell_modalContent 존재하는 경우에만 실행합니다.
+	if (sell_modalContent) {
+		// modalContent 내의 모든 요소들의 글꼴 크기를 10px로 설정합니다.
+		sell_modalContent.querySelectorAll('*').forEach(function(element) {
+			element.style.fontSize = '10px';
+			element.style.width = '95%';
+		});
+	}
+
+	var dlAgree = document.getElementById('sell-order');
+
+	if (dlAgree) {
+		// dlAgree 내의 맨 아래 span 요소를 가져옵니다.
+		var lastSpan = dlAgree.querySelector('span:last-child');
+		
+		// lastSpan이 존재하는 경우에만 실행합니다.
+		if (lastSpan) {
+			// lastSpan의 너비를 30%로 설정합니다.
+			lastSpan.style.width = '30%';
+		}
+
+		// "use_buy_agreement" 이름을 가진 체크박스를 가져옵니다.
+		var agreementCheckbox = dlAgree.querySelector('input[name="use_sell_agreement"]');
+		
+		// agreementCheckbox가 존재하는 경우에만 실행합니다.
+		if (agreementCheckbox) {
+			// 체크박스의 높이를 13px로 설정합니다.
+			agreementCheckbox.style.height = '13px';
+		}
+		var allElements = dlAgree.querySelectorAll('*');
+
+		// allElements가 존재하는 경우에만 실행합니다.
+		if (allElements) {
+			// 모든 요소의 글꼴 크기를 9px로 설정합니다.
+			allElements.forEach(function(element) {
+				element.style.fontSize = '10px';
+			});
+		}
+
+		$('#sell-order .modal--content dl dd')[0].style.paddingTop = '10px'
+
+		$('#sell-order .modal--content dl dd')[1].style.paddingTop = '10px'
+		
+	}
 }
