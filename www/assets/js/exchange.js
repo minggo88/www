@@ -1493,24 +1493,22 @@ $(function() {
         }
         
         API.getCurrency(symbol, (resp) => {
-			if(!isMobile){
-				if (resp.success) {
-	                CURRENCY_INFO = resp.payload;
-		            //이름순으로 순서 변경
-		            //CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
-		            //CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
-					desc_data = new Array();
-					for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
-					    desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
-					}
-					
-					setItemGrid(CURRENCY_INFO);
-					console.log('999');		
-	            } else {
-	                setItemGrid(null);
-	            }
-			}
-            
+            if (resp.success) {
+                CURRENCY_INFO = resp.payload;
+                //이름순으로 순서 변경
+                //CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
+                //CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
+                desc_data = new Array();
+                for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
+                    desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
+                }
+                
+                setItemGrid(CURRENCY_INFO);
+                console.log('999');		
+            } else {
+                setItemGrid(null);
+            }
+        
         });
     }
     window.getTradeItems = getTradeItems;
