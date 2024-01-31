@@ -84,6 +84,55 @@ $(function() {
 		}
     })
 
+	setTimeout(function() {
+	    const queryString = window.location.search;
+	    const urlParams = new URLSearchParams(queryString);
+	    const checkValue = urlParams.get('check');
+	    const check3Value = urlParams.get('check3');
+	
+	    console.log('check!:', checkValue);
+	    console.log('check3!:', check3Value);
+	
+		var inputElement = document.getElementById('searchInput');
+	
+	    // 값에 '1111'을 설정합니다.
+	    inputElement.value = checkValue;
+	
+		performSearch();
+
+		
+		/*
+		if (checkValue !== '') {
+			console.log('검색! : ' + checkValue);
+			API.getSearchCurrency(checkValue, (resp) => {
+				if (resp.success) {
+					CURRENCY_INFO = resp.payload;
+					desc_data = new Array();
+					for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
+						desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
+					}
+					itemGrid.clear().draw();
+				   
+					itemGrid.rows.add(CURRENCY_INFO);
+					itemGrid.order([1, 'asc']).draw();
+					console.log('검색@@ : ' + checkValue);
+				   
+				} else {
+					setItemGrid(null);
+				}
+			});
+			window.getTradeItems = getTradeItems;
+			$(".side--panel").hide();
+			$(".details").show();
+		}*/
+		//$(".side--panel").hide();
+		//$(".details").show();
+	}, 50);
+
+	setTimeout(function() {
+		//
+	}, 200);
+
     $(document).on('click', ".btn--star, .btn--star--on", function() {
         $.ajax({
             url:`${API.BASE_URL}/putSubscribe/`,
@@ -1075,7 +1124,7 @@ $(function() {
                 console.log("symbol : " + SELECTED_SYMBOL);
                 console.log(data); 
 				console.log('https://dev.assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3=청병3')
-                window.location.href = 'https://dev.assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3=청병3';
+                //window.location.href = 'https://dev.assettea.com/exchange.html?check='+SELECTED_NAME+'&check3=청병3';
 				//찾기!!!!!!!!!!!!!!!!!!!
 
 				const spans = document.querySelectorAll('.table-header span');
