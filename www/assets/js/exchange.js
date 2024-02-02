@@ -84,6 +84,22 @@ $(function() {
 		}
     })
 
+    setTimeout(function() {
+	    const queryString = window.location.search;
+	    const urlParams = new URLSearchParams(queryString);
+	    const checkValue = urlParams.get('search');
+	   
+	    console.log('check!:', checkValue);
+	
+		var inputElement = document.getElementById('searchInput');
+	
+	    
+	    inputElement.value = checkValue;
+	
+		//performSearch();
+
+	}, 30);
+
     $(document).on('click', ".btn--star, .btn--star--on", function() {
         $.ajax({
             url:`${API.BASE_URL}/putSubscribe/`,
@@ -1071,12 +1087,7 @@ $(function() {
 					
 					//$('#buy-order').style.padding = '0';
 			    });
-				console.log("name : " + SELECTED_NAME);
-                console.log("symbol : " + SELECTED_SYMBOL);
-                console.log(data); 
-				console.log('https://dev.assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3=청병3')
                 window.location.href = 'https://dev.assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3=청병3';
-				//찾기!!!!!!!!!!!!!!!!!!!
 
 				const spans = document.querySelectorAll('.table-header span');
 				spans.forEach(span => {

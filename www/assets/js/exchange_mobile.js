@@ -100,38 +100,9 @@ $(function() {
 	
 		performSearch();
 
-		
-		/*
-		if (checkValue !== '') {
-			console.log('검색! : ' + checkValue);
-			API.getSearchCurrency(checkValue, (resp) => {
-				if (resp.success) {
-					CURRENCY_INFO = resp.payload;
-					desc_data = new Array();
-					for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
-						desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
-					}
-					itemGrid.clear().draw();
-				   
-					itemGrid.rows.add(CURRENCY_INFO);
-					itemGrid.order([1, 'asc']).draw();
-					console.log('검색@@ : ' + checkValue);
-				   
-				} else {
-					setItemGrid(null);
-				}
-			});
-			window.getTradeItems = getTradeItems;
-			$(".side--panel").hide();
-			$(".details").show();
-		}*/
-		//$(".side--panel").hide();
-		//$(".details").show();
-	}, 50);
+	}, 30);
 
-	setTimeout(function() {
-		//
-	}, 200);
+	
 
     $(document).on('click', ".btn--star, .btn--star--on", function() {
         $.ajax({
@@ -161,11 +132,7 @@ $(function() {
     })
 
 	$("[name=btn_view_list]").on('click',function(){
-		$(".side--panel").show();
-		$(".details").hide();
-        //너비가 맞지 않아 resize 하는 기능 추가
-        var bodywidth = $('.dataTables_scrollBody').width();
-		$('.dataTables_scrollHeadInner').css('width', bodywidth);
+		window.location.href = 'https://dev.assettea.com/exchange.html?search='+SELECTED_NAME;
 	})
 
     $("[name=bbb]").on('click', function() {

@@ -180,14 +180,17 @@ div.dts div.dataTables_scrollBody {
 #tab-info {
     padding-top: 10px;
     column-gap: 11px;
-	width: 800px;
-	height: 450px;
-	display: flex;
-	flex-direction: column;
+    width: 800px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
 }
 
 #tab-info .info{
 	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: row;
 }
 
 #tab-info .info > div{
@@ -396,26 +399,74 @@ div.dts div.dataTables_scrollBody {
 
 @media screen and (max-width: 800px) {
 	/** 230324 정보탭 CSS수정 **/
+	.search_item{
+		width: 95% !important;
+	}
+	.table-header,
+	.right_title	
+	{
+		font-size: 10px;
+	}
+	.order-details-minus,
+	.table-row
+	{
+		font-size: 11px;
+	}
+	#dl_agree label span,
+	#dl_agree label a{
+		font-size: 7px !important;
+	}
+	
+	#dl_agree input{
+		width: 5% !important;
+		margin-right: 5px !important; 
+	}
+	#dl_agree span{
+		width: 30% !important;
+		font-size: 8px !important;
+	}
+	
+	#tab-info {
+		width: 140%;
+	    overflow-x: auto; 
+		white-space: nowrap;
+		word-wrap: break-word !important;
+	    overflow-wrap: break-word !important;
+	}
 	#tab-info .info > div.thumb{
 		width: calc(80%);
 	}
 	#tab-info .info{
-		display: block;
+		//display: block;
+		//display: inline-block;
+		
 	}
 	#tab-info div img{
-		margin: 0 auto;
+		margin: 10px auto;
 	}
 	#tab-info .info > div.info_p{
-	    width: 80%;
+	    width: 100%;
 	}
 	#tab-info .info > div.info_p table{
 	    margin-top:0px;
 	}
+
+	#tab-info .info .info_p table tbody tr td .meta_wp_teamaster_note{
+		word-wrap: break-word;
+	    overflow-wrap: break-word;
+	}
+	
 	#tab-info .table th,
 	#tab-info .table td {
-	    padding: 0 0 10px;
+	    padding: 25px 10px 10px 10px;
 	    vertical-align: top;
+		
 	}
+	.right_order_title{
+		font-size : 10px;
+		height: 30px !important;
+	}
+	
 	/* 230326 buy, sell의 경우 padding 값이 변경되어야 해서 js 에서 클릭시 조정할수 있도록 변경
 	.tab-container{
 		padding-bottom: 100px;
