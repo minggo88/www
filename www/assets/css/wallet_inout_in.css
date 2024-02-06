@@ -1154,6 +1154,9 @@
 		width : 98%;
 	}
 	
+	.input--group3--text ul{
+		margin-top:30px;
+	}
 }
 
 @media screen and (max-width:380px) { 

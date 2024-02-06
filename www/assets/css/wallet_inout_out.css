@@ -2603,7 +2603,7 @@
 		width: 15%;
 	}
 	.wallet_out_main_div1 input{
-		width: 70%;
+		width: 65%;
 	}
 	.wallet_out_main_div3{
 		width: 100%;
@@ -2631,6 +2631,28 @@
 	
 	.d-flex.flex-center.btn-area{
 		width : 98%;
+	}
+
+	.output--group3--text ul{
+		margin-top:30px;
+	}
+	.main_blank{
+		display: none;
+	}
+
+	.input--group{
+		display: block;
+	    align-items: center;
+		padding-left:15px;
+	}
+	.input--group #address{
+		width : 100%;
+		margin-bottom:10px;
+	}
+	.input--group #fee{
+		width : 100%;
+		margin-top:0px;
+		margin-bottom:10px;
 	}
 	
 }
@@ -2671,7 +2693,7 @@
 		width: 15%;
 	}
 	.wallet_out_main_div1 input{
-		width: 70%;
+		width: 65%;
 	}
 	.input--group2--bank input{
 		width: 100%;
