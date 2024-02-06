@@ -2567,7 +2567,7 @@ const fn_takeout2 = function () {
 						if(isMobile){
 							orderListItem.style.paddingLeft = '13px';
 						}else{
-							orderListItem.style.paddingLeft = '43px';
+							orderListItem.style.paddingLeft = '23px';
 						}
 						
                         orderListItem.style.paddingBottom = '11px';
