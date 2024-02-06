@@ -2349,7 +2349,7 @@
 
 .wallet_out_main_div1{
 	padding-top:20px;
-	margin-bottom:10px;
+	margin-bottom:15px;
 	color:#ffffff;
 	font-weight: 400;
 	font-size : 16px;
@@ -2370,7 +2370,7 @@
 }
 
 .wallet_out_main_div1 input{
-	font-size : 24px;
+	font-size : 20px;
 }
 
 .wallet_out_main_div2 input{
@@ -2654,6 +2654,7 @@
 		margin-top:0px;
 		margin-bottom:10px;
 	}
+			
 	
 }
 
@@ -2687,7 +2688,7 @@
 	}
 	.wallet_out_main_div1{
 		width: 100%;
-		font-size:14px;
+		font-size:16px;
 	}
 	.wallet_out_main_div1 span{
 		width: 15%;
