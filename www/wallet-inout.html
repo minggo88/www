@@ -197,13 +197,6 @@
 					<p style="height: 48px;">입출금</p>
 				</div>
 
-				<div class = "wallet_tab">
-				<!-- 탭 버튼들 -->
-					<div class="tab-button selected" onclick="showTab(1)">입출금</div>
-					<div class="tab-button" onclick="showTab(2)">입금</div>
-					<div class="tab-button" onclick="showTab(3)">출금</div>
-				</div>
-
 				<!-- mk make 230901-->
 				<div class = "walle_inout_tab1" id="tab1" style="display: block;">
 					<div class="wallet_in_main">
@@ -258,7 +251,7 @@
 					</div>
 				</div>
 
-				<div class = "walle_inout_tab2" id="tab2" style="display: none;">
+				<!--<div class = "walle_inout_tab2" id="tab2" style="display: none;">
 					<div class="wallet_in_main">
 						<div class="wallet_in_main_div1">
 							<span>입금 신청 금액</span>
@@ -274,8 +267,6 @@
 					<div class="input--group2--bank">
 						<span>입금 계좌</span>
 						<input type="text" name="address" readonly="" value="하나은행 / 23891002273004 / 주식회사 끽다" disabled="" >
-						<!--<input type="text" name="address" readonly="" value="하나은행 23891002273004 주식회사 끽다" data-bind="site_info.bank_full_info" disabled="" >-->
-						<!--<div type="button" class="btn btn--gray btn--copy" data-clipboard-target="[name=address]" style="min-width: 72px; flex-basis: 72px; height: 40px; line-height: 40px; font-size: 14px" data-i18n>Copy</div>-->
 					</div>
 
 					<div class="input--group3--text">
@@ -293,21 +284,17 @@
 					<div class="d-flex flex-center btn-area">
 						<button type="button" name="btn-save-deposit" class="btn btn--red" style="width: 80%; margin-top :20px; align-self: center" data-i18n="">입금신청</button>
 					</div>
-				</div>
+				</div>-->
 
 
-				<div class = "walle_inout_tab3" id="tab3" style="display: none;">
+				<!--<div class = "walle_inout_tab3" id="tab3" style="display: none;">
 					<div class="wallet_out_main">
 						<div class = "wallet_out_main_div1">
 							<span>출금가능</span>
 							<input id = "max_money" disabled>
 							<span>KRW</span>
 						</div>
-						<!--<div class = "wallet_out_main_div2">
-							<sapn>출금한도</sapn>
-							<input id = "able_out_max_money" disabled>
-							<sapn>KRW</sapn>
-						</div>-->
+					
 						<div>
 							<div class = "wallet_out_main_div3">
 								<span>출금신청</span>
@@ -347,11 +334,11 @@
 					<div class="d-flex flex-center btn-area">
 						<button type="button" name="btn-save-widthdraw" class="btn btn--blue" style="width: 80%; margin-top :20px;align-self: center; background: #0B2871;" data-i18n="">출금신청</button>
 					</div>
-				</div>
+				</div>-->
 			</div>
 		</div>
 
-		<form id="pin_number" class="modal modal--tiny" tabindex="-1">
+		<!--<form id="pin_number" class="modal modal--tiny" tabindex="-1">
 			<div class="modal--dialog">
 				<div class="modal--header">
 					<button type="button" class="btn btn--close"></button>
@@ -382,7 +369,7 @@
 					</div>
 				</div>
 			</div>
-		</form>
+		</form>-->
 	</div>	
     <script src="./assets/js/app.js?t=1672042800"></script>
 </body>

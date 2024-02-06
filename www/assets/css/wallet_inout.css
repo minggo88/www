@@ -10,29 +10,6 @@
 	display : none;
 }
 
-.wallet_tab { 
-	font-family: 'Noto Sans KR', sans-serif;
-	color: #333333;
-	font-weight: bold;
-	width: 500px; 
-	display: flex;
-	justify-content: space-between; 
-	border-bottom: 1px solid var(--red-up);
-}
-
-.tab-button {
-	flex: 1; 
-	padding: 14px 0; 
-	cursor: pointer;
-	display: inline-block; 
-	text-align: center; 
-	font-size: 16px; 
-}
-.tab-button.selected {
-	background-color: var(--red-up); 
-	color: white;
-}
-
 .wallet_in_main{
 	width : 500px;
 	height: 205px;
@@ -40,13 +17,13 @@
 	padding-top: 23px;
 }
 
-#tab1 .wallet_in_main_div1{
+.wallet_in_main_div1{
 	padding-top: 23px;
 	margin-bottom:5px;
 	text-align: center;
 }
 
-#tab1 .wallet_in_main_div1 span{
+.wallet_in_main_div1 span{
 	font-size : 16px;
 	font-weight : 400;
 	color:#ffffff;
@@ -177,276 +154,6 @@
 	display:none;
 }
 
-/** tab2 **/
-/* 입금신청 css 추후 필요없는내용 삭제 필요*/
-#tab2 .wallet_in_main{
-	width : 500px;height: 93px;
-	background:var(--red-up); 
-	padding-top: 23px;
-}
-
-#tab2 .wallet_in_main_div1{
-	margin-left:25px;
-	margin-bottom:10px;
-}
-
-#tab2 .wallet_in_main_div1 span{
-	color:#ffffff;
-}
-
-#tab2 .input--group .input_money{
-	margin-left:5%;
-	height: 44.2px;
-	width: 84%;
-	font-weight: 500;
-	padding-left:5%;
-	font-size: 16px;
-	border : 0px;
-}
-
-#tab2 .input--group .input_money::placeholder {
-    color: #cacaca; /* 원하는 색상으로 변경 */
-}
-
-#tab2 .input--group .input_unit{
-	height: 44.2px;
-	width: 47.2px;
-	font-weight: 500;
-	font-size: 16px;
-	text-align: center;
-	background:var(--red-up); 
-	color:white;
-	border:0px;
-}
-
-#tab2 .input--group2--bank{
-	padding-left:15px; 
-	margin-top : 24px; 
-	width: 500px;
-	font-size:16px;
-	border-bottom: 0px !important;
-}
-
-#tab2 .input--group2--bank input{
-	text-align: right;
-	font-size:16px;
-	width: 80%;
-	border:0px !important;
-	background-color: #ffffff !important;
-}
-
-#tab2 .input--group3--text ul{
-	margin-top:65px;
-	margin-left: 5px;
-	padding:0px;
-	list-style-type: none;
-}
-
-#tab2 .input--group3--text ul p{ 
-	font-size:16px;
-	font-weight:500;
-	padding-left: 10px; 
-	color : #444444 !important;
-}
-
-#tab2 .input--group3--text ul li{
-	font-size:16px;
-	padding-left:8px; 
-	padding-bottom:5px;
-}
-
-#tab2 .d-flex.flex-center.btn-area{
-	align-items: center;
-    justify-content: space-around;
-}
-
-/* 출금신청 css 추후 필요없는내용 삭제 필요*/
-#tab3 .wallet_out_main{
-	width : 475px; 
-	height: 130px; 
-	background: #0B2871; 
-	padding-left:25px;
-	margin-bottom:20px
-}
-
-#tab3 .wallet_out_main_div1{
-	padding-top:20px;
-	margin-bottom:10px;
-	color:#ffffff;
-	font-weight: 400;
-	font-size : 16px;
-}
-
-#tab3 .wallet_out_main_div2{
-	margin-bottom:10px;
-	color:#ffffff;
-	font-weight: 400;
-	font-size : 16px;
-}
-
-#tab3 .wallet_out_main_div3{
-	margin-bottom:15px;
-	color:#ffffff;
-	font-weight: 400;
-	font-size : 16px;
-}
-
-#tab3 .wallet_out_main_div1 input{
-	font-size : 24px;
-}
-
-#tab3 .wallet_out_main_div2 input{
-	font-size : 20px;
-}
-	
-#tab3 .wallet_out_main_div1 input,
-#tab3 .wallet_out_main_div2 input{
-	width: 75%; 
-	background: #0B2871; 
-	border: none; 
-	color: #ffffff;
-	text-align: right; 
-	padding-right: 15px;
-	font-weight : 400;
-}
-
-#tab3 .main_blank{
-	width: 10%;
-	background: #0B2871; 
-	border: none; 
-	color: #ffffff; 
-	text-align: right; 
-	padding-right: 15px; 
-	height:40px;
-}
-
-#tab3 #btn_max{
-	width :12%; 
-	height:40px;
-	background: #0B2871;
-	color: #ffffff; 
-	padding: 0px;
-	border : 1px solid #ffffff;
-	font-size:16px;
-}
-
-#tab3 .output_money{
-	width :51%;
-	height:40px;
-	text-align:right;
-	padding-right:15px;
-	font-size:20px;
-	border: 1px solid #ffffff;
-}
-#tab3 .main_unit{
-	width: 40px;
-	font-size:16px; 
-	font-weight:400; 
-	height:40px; 
-	background-color: #ffffff;
-}
-#tab3 .input--group{
-	font-size : 16px;
-	padding-left:15px;
-	width: 475px;
-	display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-#tab3 .input--group span{
-	width : 23%;
-}
-#tab3 #address,
-#tab3 #out_money_t,
-#tab3 #fee{
-	font-size : 16px;
-	text-align: right;
-	width: 80%;
-	border:0px;
-	background-color: #ffffff;
-}
-
-#tab3 .output--group3--text ul{
-	margin-top:65px;
-	margin-left: 5px;
-	padding:0px;
-	font-size: 16px;
-	list-style-type: none;
-}
-
-#tab3 .output--group3--text ul p{ 
-	font-weight:500;
-	padding-left: 10px; 
-	color : #444444 !important;
-}
-
-#tab3 .output--group3--text ul li{
-	padding-left:8px;
-	padding-bottom:5px;
-}
-
-#tab3 .output--group3--text ul li a{
-	color : var(--red-up);
-	font-weight: 500;
-}
-#tab3 .output--group3--text ul li a{
-	vertical-align : top;
-}
-
-.deposit-withdrawal .form--controls .form--label{
-	font-weight: 700;
-}
-
-.deposit-withdrawal .contents .d-grid .grid .form--controls.input--box .input--group input{
-	border:none
-}
-
-#pin_number.modal .modal--header{
-	background: transparent;
-	justify-content: flex-end;
-}
-#pin_number.modal .modal--content .title{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 20px;
-}
-#pin_number.modal .modal--content .title h3{
-	color:var(--blue-dn);
-	margin: 0;
-	font-size: 24px;
-}
-#pin_number.modal .modal--content .title p{
-	margin: 0;
-	padding: 10px;
-	font-size: 16px;
-}
-#pin_number.modal .modal--content .pin_area{
-	margin-top: 50px;
-}
-
-#pin_number.modal .modal--content .pin_area .forget_pin{
-	margin: 0;
-	text-align: center;
-	padding: 20px;
-	word-break: keep-all;
-}
-
-#pin_number.modal .modal--content .pin_area .forget_pin a{
-	vertical-align: unset;
-}
-
-#pin_number.modal .modal--content .pin_area .text--center{
-	margin-top: 50px;
-}
-#pin_number.modal .modal--content .pin_area .text--center .btn {
-	width: 80%;
-}
-
-#pin_number.modal .modal--content .pin_area input[type=number] {
-    -webkit-text-security: disc;
-}
-
 @media screen and (max-width: 800px) {
 	.content_wrap{
 		width: 100% !important;
@@ -550,9 +257,6 @@
 		font-weight: 350;
 	}
 
-	.wallet_tab{
-		width : 98%;
-	}
 	.wallet_in_main{
 		width : 98%;
 	}
@@ -587,76 +291,7 @@
 	.myinout_table_right2_2{
 		width: 60%; padding-left: 15px; text-align: left;
 	}
-
-	#tab2 .wallet_in_main{
-		width:98%;
-	}
-	#tab2 .input--group2--bank{
-		width:98%;
-		padding-left:5px;
-		padding-right:5px;
-	}
-	#tab2 .input--group2--bank span{
-		width:20%;
-		font-size:12px;
-	}
-	#tab2 .input--group2--bank input{
-		width:80%;
-		font-size:12px;
-	}
-	#tab2 .input--group3--text ul{
-		font-size:12px;
-	}
 	
-	#tab2 .input--group3--text ul p{ 
-		font-size:12px;
-	}
-	
-	#tab2 .input--group3--text ul li{
-		font-size:12px;
-	}
-	#tab3 .wallet_out_main{
-		width:98%;
-	}
-	#tab3 .wallet_out_main_div1 span,
-	#tab3 .wallet_out_main_div1 input{
-		font-size: 12px !important;
-	}
-	#tab3 .wallet_out_main_div3 span,
-	#tab3 .wallet_out_main_div3 input{
-		font-size: 12px !important;
-	}
-	#tab3 .wallet_out_main_div1{
-		max-width : 98%;
-	}
-			
-	#tab3 #max_money{
-		max-width : 71%;
-	}
-	#tab3 .main_blank{
-		width : 1%;
-	}
-	#tab3 .input--group{
-		width:98%;
-	}
-	#tab3 .input--group span,
-	#tab3 #fee{
-		font-size:12px;
-	}
-	#tab3 .input--group input{
-		font-size:12px !important;
-	}
-	#tab3 .output--group3--text ul{
-		font-size:12px;
-	}
-	
-	#tab3 .output--group3--textt ul p{ 
-		font-size:12px;
-	}
-	
-	#tab3 .output--group3--text ul li{
-		font-size:12px;
-	}
 }
 
 @media screen and (max-width:380px) { 
