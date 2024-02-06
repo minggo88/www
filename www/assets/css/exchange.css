@@ -437,8 +437,8 @@ div.dts div.dataTables_scrollBody {
 		width: calc(80%);
 	}
 	#tab-info .info{
-		//display: block;
-		//display: inline-block;
+		/*display: block;
+		display: inline-block;*/
 		
 	}
 	#tab-info div img{
