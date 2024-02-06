@@ -90,8 +90,7 @@ function fn_wallet_deposit (){
 		API.deposit(symbol,deposit_amount, deposit_name, address, (resp) => {
 			if(resp.success) {
 				alert(__('입금 신청을 완료했습니다.'))
-                $('[name=deposit_amount]').val('0');
-                $('[name=deposit_name]').val('');
+                location.reload();
             } else {
                 alert(__('입금 신청을 완료하지 못했습니다.'))
             }
