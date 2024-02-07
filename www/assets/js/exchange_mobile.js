@@ -66,6 +66,7 @@ let newData2 = [];
 let buylistNum = 4;
 let selllistNum = 4;
 let pin_check = false;
+let search_text = '';
 		   
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
@@ -92,6 +93,8 @@ $(function() {
 	
 	    console.log('check!:', checkValue);
 	    console.log('check3!:', check3Value);
+
+		search_text = check3Value;
 	
 		var inputElement = document.getElementById('searchInput');
 	
@@ -130,10 +133,10 @@ $(function() {
             }
         })
     })
-
+	
 	$("[name=btn_view_list]").on('click',function(){
-        if(check3Value != ''){
-            window.location.href = 'https://dev.assettea.com/exchange.html?search='+SELECTED_NAME;
+        if(search_text != ''){
+            window.location.href = 'https://dev.assettea.com/exchange.html?search='+search_text;
         }else{
             window.location.href = 'https://dev.assettea.com/exchange.html';
         }
