@@ -110,15 +110,18 @@ function wallet_tab(tabNumber) {
 							//const item_income = real_number_format(item.eval_income,1); //DB에서 가져오지만 잘못된 정보를 갖고와 수입 다시 계산
 							const item_total = item.currency_price * item.valuation;
 							const item_grade = item.goods_grade;
-							//const avg_price_one = real_number_format(item.avg_buy_price,1);
-							//const avg_price = item.avg_buy_price*item.confirmed_str;
+							//구매 개당 가격
+							const avg_price_one = real_number_format((item.sum_buy_amount/item.valuation),1);
+							const avg_price_num = avg_price_one;
+							//구매 전체 가격
+							const avg_price_tot = item.sum_buy_amount;
 							
-							const avg_price_tot = item.sum_buy_goods * item.valuation;
-							const avg_price_one = real_number_format(item.sum_buy_goods,0);
+							//const avg_price_tot = item.sum_buy_amount * item.valuation;
+							//const avg_price_one = real_number_format(item.sum_buy_goods,0);
 							//230724 값을 다시계산해야하므로 강제로 같은값 주기 
 							//const avg_price_tot = item_total;
 							//const avg_price_one = item_price;
-							const avg_price_num = real_number_format(avg_price_tot,0);
+							//const avg_price_num = real_number_format(avg_price,0);
 							const income = item_total - avg_price_tot;
 							const item_income = real_number_format(income,0);
 							const income_rate = income / avg_price_tot * 100;
@@ -184,7 +187,7 @@ function wallet_tab(tabNumber) {
 												<th class="wallet_list" style="width: 10%;">${make_year}</th>
 												<th class="wallet_list" id="wallet_list_num" style="width: 20%; ${style_text}">${item_income}</th>
 												<th class="wallet_list" id="wallet_list_num" style="width: 24%;">`+real_number_format(item_total,0)+`</th>
-												<th class="wallet_list_end" id="wallet_list_num" style="width: 24%;">`+real_number_format(item_total,0)+`</th>
+												<th class="wallet_list_end" id="wallet_list_num" style="width: 24%;">`+real_number_format(item_price,0)+`</th>
 											</tr>
 										</tbody>
 									</table>
@@ -194,12 +197,12 @@ function wallet_tab(tabNumber) {
 												<th class="wallet_list" style="width: 22%;">
 													<div class="wallet_list2">
 														<p class="p1">${item_grade}</p>
-														<p>${item.confirmed_str}</p>
+														<p>`+real_number_format(confirmed,0)+`</p>
 													</div>
 												</th>
 												<th class="wallet_list" style="width: 10%;">${item.confirmed_str}</th>
 												<th class="wallet_list" id="wallet_list_num" style="width: 20%; ${style_text}">${income_rate.toFixed(2) +'%'}</th>
-												<th class="wallet_list" id="wallet_list_num" style="width: 24%;">`+ real_number_format(avg_price_num,0) +`</th>
+												<th class="wallet_list" id="wallet_list_num" style="width: 24%;">`+ real_number_format(avg_price_tot,0) +`</th>
 												<th class="wallet_list_end" id="wallet_list_num" style="width: 24%;">`+ real_number_format(avg_price_one) +`</th>
 											</tr>
 										</tbody>

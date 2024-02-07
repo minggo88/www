@@ -132,7 +132,12 @@ $(function() {
     })
 
 	$("[name=btn_view_list]").on('click',function(){
-		window.location.href = 'https://dev.assettea.com/exchange.html?search='+SELECTED_NAME;
+        if(check3Value != ''){
+            window.location.href = 'https://dev.assettea.com/exchange.html?search='+SELECTED_NAME;
+        }else{
+            window.location.href = 'https://dev.assettea.com/exchange.html';
+        }
+		
 	})
 
     $("[name=bbb]").on('click', function() {

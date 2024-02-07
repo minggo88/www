@@ -2696,3 +2696,10 @@
 		
 }
 
+.paginate_button{
+	padding-right : 3px;
+}
+.paginate_button.current{
+	font-weight: bold;
+	color : var(--red-up);
+}
