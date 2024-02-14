@@ -448,6 +448,7 @@ function wallet_tab(tabNumber) {
 				let t_vol = 1;
 				let t_price = 0;
 				let t_fee = 0;
+
 				if(selected_symbol != ''){
 					//23039 mk 모바일용 주문내역 
 					$('#transactionGrid2').DataTable().destroy();
@@ -474,6 +475,7 @@ function wallet_tab(tabNumber) {
 								d.status = 'all';
 								d.start_date = $('#start2').val();
 								d.end_date = $('[name="end"]').val();
+								d.trading_type = $('#trade_type').val().toUpperCase();
 								console.log(d);
 							}
 						},
