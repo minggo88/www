@@ -47,7 +47,7 @@ function wallet_tab(tabNumber) {
 				let total_buy = 0;//총매수
 				let total_plat_money = 0;//총평가
 	
-				// console.log('getBalance resp:', resp);
+				//console.log('getBalance resp:', resp);
 				if(resp.payload.length > 0) {
 					$('[name="d-grid--empty"]').removeClass('d-grid--empty');
 					$('[name="grid--empty"]').hide();
@@ -111,10 +111,10 @@ function wallet_tab(tabNumber) {
 							const item_total = item.currency_price * item.valuation;
 							const item_grade = item.goods_grade;
 							//구매 개당 가격
-							const avg_price_one = real_number_format((item.sum_buy_amount/item.valuation),1);
+							const avg_price_one = parseFloat(item.sum_buy_goods);
 							const avg_price_num = avg_price_one;
 							//구매 전체 가격
-							const avg_price_tot = item.sum_buy_amount;
+							const avg_price_tot = avg_price_one * parseFloat(item.confirmed_str);
 							
 							//const avg_price_tot = item.sum_buy_amount * item.valuation;
 							//const avg_price_one = real_number_format(item.sum_buy_goods,0);
@@ -448,7 +448,6 @@ function wallet_tab(tabNumber) {
 				let t_vol = 1;
 				let t_price = 0;
 				let t_fee = 0;
-
 				if(selected_symbol != ''){
 					//23039 mk 모바일용 주문내역 
 					$('#transactionGrid2').DataTable().destroy();
