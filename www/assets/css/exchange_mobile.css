@@ -1,0 +1,1030 @@
+.exchange main{
+	display: grid;
+	padding: 0;
+	grid-template-columns: 2fr 3fr;
+	column-gap: 1%;
+}
+
+.tab-content {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#btn_pre,
+#btn_next {
+    flex: 5;
+    height: 100%;
+}
+
+.info {
+    flex: 90;
+    height: 100%;
+}
+
+.info_p {
+    display: none;
+}
+
+.table {
+    width: 100%;
+    height: 100%;
+}
+
+.exchange .tab-wrapper{
+	width: 100%;
+}
+
+.exchange .tab--content{
+	clear:both;
+	width: 100%;
+}
+
+#jqGrid thead th{
+	white-space: nowrap;
+}
+
+
+#jqGrid tbody{
+	height: auto;
+	box-sizing: border-box;
+}
+
+
+#jqGrid tbody tr td{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	cursor: default;
+}
+
+#sellGrid tbody tr td,
+#buyGrid tbody tr td,
+#tab-info tbody tr th,
+#tab-info tbody tr td{
+	cursor: default;
+}
+
+#jqGrid tbody tr td > ul{
+	width: 100%;
+}
+
+#jqGrid tbody tr td:before{
+	display:none!important;
+}
+#jqGrid tbody .child{
+	display:none!important;
+}
+
+#jqGrid tbody tr td > ul >li:first-child{
+	padding-top: 0.5em;
+}
+
+.exchange table.dataTable.no-footer{
+	width: 100%!important;
+}
+.exchange .table.dataTable.no-footer tbody{
+	position: relative; 
+	overflow: auto; 
+	width: 100%;
+	background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);
+}
+
+/* 태이블 데이터 없을때 배경색 사선 그려지는것 제거 */
+div.dts div.dataTables_scrollBody {
+    background: transparent !important;
+    border-bottom-width: 0px;
+}
+
+.side--panel {
+	width: 100%;
+    overflow:auto;
+	/* min-width: 330px; */
+}
+/* mk 리스트 하단 아랫줄 제거 */
+.side--panel .tab-wrapper div.dataTables_wrapper.no-footer div .dataTables_scrollBody{
+	border-bottom-width: 0px ;
+}
+
+.details {
+	width: 100%;
+    overflow:hidden;/* 차트등 내부 영역이 넘어가면 모바일에서 좌우 스크롤이 생기는 현상 방지위해 hidden사용 */
+	min-width: 320px;
+	display:none;
+}
+
+.details--header {
+    font-weight: 700;
+    font-size: 14px;
+    height: 46px;
+    line-height: 46px;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid var(--linegray);
+    box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.details .details--header .tea--name{
+	font-size: 16px;
+	width: 350px;
+}
+
+.details--header small {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    color: var(--blue-gray);
+}
+
+.details--body {
+    display: flex;
+    /* padding: 12px 0 21px 10px; */
+	padding: 12px 0 12px 10px;
+    justify-content: space-between;
+    border-bottom: 0.5px solid var(--linegray);
+    height: 75px;
+    box-sizing: border-box;
+    /* margin-bottom: 20px; */
+}
+.details--body > div > *{
+	white-space: nowrap;
+}
+
+.details--body > div.d-flex{
+	align-items: center;
+	flex-direction: row;
+}
+
+.details--body .details--price {
+    font-weight: 700;
+    font-size: 26px;
+    /* color: var(--red-up); */
+}
+
+.details--price {
+    display: flex;
+    align-self: center;
+}
+.details--diff {
+    font-size: 16px
+}
+
+#legend_s_grade, #legend_a_grade, #legend_b_grade{line-height: 2rem;}
+#legend_s_grade:before{background: #ea4274;content: "";width: 10px;height: 3px;display: inline-block;margin: 3px 0.5rem;}
+#legend_a_grade:before{background: #58be82;content: "";width: 10px;height: 3px;display: inline-block;margin: 3px 0.5rem;}
+#legend_b_grade:before{background: #4c4c4c;content: "";width: 10px;height: 3px;display: inline-block;margin: 3px 0.5rem;}
+
+
+.details .tabs {
+	width: 100%;
+    margin: 0 auto;
+}
+.details .tabs li {
+    background: var(--white);
+    color: var(--basic-black);
+    border-bottom: 0 none !important;
+}
+
+.details .tabs li.tab--active {
+    border-bottom: 4px solid var(--red-up) !important
+}
+
+.details .d-grid.grid-2-column{width: 50%;}
+
+/* .details .tabs li.tab--sell.tab--active {
+    border-bottom: 4px solid var(--red-up) !important
+}
+.details .tabs li.tab--buy.tab--active {
+    border-bottom: 4px solid var(--blue-dn) !important
+}
+.details .tabs li.tab--info.tab--active {
+    border-bottom: 4px solid var(--basic-black) !important
+} */
+
+/*#tab-info {
+    padding-top: 10px;
+    column-gap: 11px;
+    width: 800px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+}
+
+#tab-info .info{
+	display: flex;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+}
+
+.thumb, .info_p {
+	flex: 0 0 auto;
+	width: 50%; 
+	scroll-snap-align: center;
+}
+#tab-info div img{
+	width: 250px;
+    height: 250px;
+    margin-left: 50px;
+    margin-top: 40px;
+    margin-right: 50px;
+}
+
+#tab-info #info{
+	width: 250px;
+    height: 250px;
+    margin-left: 50px;
+    margin-top: 100px;
+    margin-right: 50px;
+}*/
+
+#tab-info .table {
+    margin-top: 40px;
+}
+#tab-info .table th {
+    width: 60px;
+	text-align: left;
+    padding-right: 17px;
+}
+
+#tab-info .table th,
+#tab-info .table td {
+    padding: 0 0 17px;
+    vertical-align: top;
+}
+
+#tab-info .btns {
+    margin-top: 24px;
+	justify-content: center;
+}
+
+@media screen and (max-width: 352px) {
+	#tab-info{
+		padding-bottom: 95px;
+	}
+	#tab-info .info{
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+	}
+	
+	.thumb, .info_p {
+		flex: 0 0 auto;
+		width: 50%; /* 혹은 다른 비율로 조정 */
+		scroll-snap-align: center;
+	}
+	#tab-info .info > div.thumb{
+		margin-right: 0px;
+		width: 150px;
+		align-self: center;
+	}
+	#tab-info .btns{
+		margin-bottom: 10px;
+	}
+
+}
+
+
+#jqGrid tbody tr td .btn.btn--star--on{
+	margin-bottom: 2px;
+}
+#jqGrid tbody tr td .btn.btn--star{
+	margin-bottom: 2px;
+}
+
+.exchange .btn.btn--star{
+	margin-right: 5px;
+}
+
+.tab-container{
+	height: 509px;
+}
+
+.dtr-control{
+	text-align : center!important;
+}
+.dt-body-right.text-right{
+	text-align : center!important;
+}
+.dt-body-left.dt-head-center.sorting_1.dtr-control{
+	text-align : left!important;
+}
+
+/* 구매하기 */
+#modal-buy,
+#modal-sell {
+	display : none;
+}
+#modal-buy .modal--content ,
+#modal-buy-direct .modal--content 
+{
+    margin-top: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    position: relative; 
+    /*background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;*/
+}
+#modal-buy .tea--name ,
+#modal-buy-direct .tea--name {
+    padding-left: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    padding-left: 0px;	
+}
+
+/* 판매하기 */
+#modal-sell .modal--content,
+#modal-sell-direct .modal--content{
+    margin-top: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    position: relative;
+    /*background: url('../img/logo.svg') no-repeat calc(100% - 20px) top;*/
+}
+#modal-sell .tea--name,
+#modal-sell-direct .tea--name {
+    padding-left: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    padding-left: 0px;
+}
+
+#modal-buy .btn--star--on,
+#modal-buy-direct .btn--star--on,
+#modal-sell .btn--star--on ,
+#modal-sell-direct .btn--star--on 
+{
+    position: absolute;
+    left: 19px;
+    top: 5px;
+}
+
+#modal-buy dd,
+#modal-buy-direct dd,
+#modal-sell dd, 
+#modal-sell-direct dd 
+{
+    width: 220px;
+}
+
+#modal-buy-success .modal--content,
+#modal-sell-success .modal--content{
+    height: auto;
+	padding: 3rem 2rem 0;
+    /*background: url('../img/logo.svg') no-repeat calc(100% - 20px) 17px;*/
+}
+
+.tea--volume {
+    margin-bottom: 40px;
+}
+
+.input_select{
+    width: 90%;
+    box-sizing: border-box;
+    height: 35px;
+	font-size: 16px;
+	color: var(--red-up)
+}
+
+.input_select select{
+	border: 0.5px solid var(--linegray);
+	width: 90%;
+	height: 100%;
+	padding: 0 10px;
+	font-weight: 500;
+    font-size: 16px;
+	color: var(--red-up)
+}
+
+@media screen  and (max-width: 1300px){
+	.details--body{padding: 7px 0 7px 0}
+	.details--body .details--price {
+		font-size: 20px;
+	}
+	
+	.details--body{
+		padding-left: 0;
+		flex-direction: column;
+		height: 125px;
+	}
+
+	/* .details .row.d-flex.under{border-bottom: 0.5px solid var(--linegray)} */
+}
+
+@media screen and (max-width: 800px) {
+	/** 230324 정보탭 CSS수정 **/
+	.search_item{
+		width: 95% !important;
+	}
+	.table-header,
+	.right_title	
+	{
+		font-size: 10px;
+	}
+	.order-details-minus,
+	.table-row
+	{
+		font-size: 11px;
+	}
+	#dl_agree label span,
+	#dl_agree label a{
+		font-size: 7px !important;
+	}
+	
+	#dl_agree input{
+		width: 5% !important;
+		margin-right: 5px !important; 
+	}
+	#dl_agree span{
+		width: 30% !important;
+		font-size: 8px !important;
+	}
+	
+	
+	.right_order_title{
+		font-size : 10px;
+		height: 30px !important;
+	}
+	
+	/* 230326 buy, sell의 경우 padding 값이 변경되어야 해서 js 에서 클릭시 조정할수 있도록 변경
+	.tab-container{
+		padding-bottom: 100px;
+	}*/
+	
+	.sub.exchange > .container >  header{display: none;}
+	.sub.exchange .contents--header{
+		display: flex;
+		justify-content: flex-start;
+	}
+	.sub.exchange .contents--header > div{width: 50%;}
+	.sub.exchange .contents--header > div.mobile-only{
+		display: flex!important;
+		justify-content: flex-end
+	}
+	.sub.exchange .contents--header > div.mobile-only > i:first-child{
+		margin-right: 10px;
+	}
+
+	.sub.exchange .desktop-only{display: none!important;}
+	
+	.sub.exchange .mobile-only{display: block!important;}
+
+	.sub.exchange main{
+		padding:0 16px!important;
+		grid-template-columns: 1fr;
+	}
+	.sub.exchange .contents{
+		height: initial;
+	}
+	.sub.exchange .contents--header{
+		margin-bottom: 0;
+		line-height: 48px;
+	}
+
+	.sub.exchange .mobile-only.navigation--back{
+		display: inline-block!important;
+		margin-right: 15px;
+	}
+
+	.sub.exchange .contents--header .navigation{
+		height: 48px;
+		margin-right: 15px;
+	}
+	.exchange .details{
+		display: none;
+	}
+	/* .side--panel .tabs {
+        border-bottom: 4px solid var(--lightgray);
+        height: 36px;
+        box-sizing: border-box;
+    }
+    .side--panel .tabs li{
+        padding: 0 0 10px;
+        color: var(--gray006);
+        font-size: 18px !important;
+        height: 32px;
+        box-sizing: border-box;
+        border-bottom-width: 0 !important;
+        line-height: 1;
+    }
+    .side--panel .tabs .tab--active{
+        border-bottom: 4px solid var(--red-up) !important;
+    }
+    .side--panel .grid-table thead th {
+        height: 32px !important;
+        border: 1px solid #E5E8EB !important;
+        border-radius: 2px;
+        color: var(--gray005);
+    }
+    .details {
+        display: none;
+    } */
+}
+
+
+
+/* Mobile */
+/* @media screen and (max-width: 600px) {
+    .side--panel .tabs {
+        border-bottom: 4px solid var(--lightgray);
+        height: 36px;
+        box-sizing: border-box;
+    }
+    .side--panel .tabs li{
+        padding: 0 0 10px;
+        color: var(--gray006);
+        font-size: 18px !important;
+        height: 32px;
+        box-sizing: border-box;
+        border-bottom-width: 0 !important;
+        line-height: 1;
+    }
+    .side--panel .tabs .tab--active{
+        border-bottom: 4px solid var(--red-up) !important;
+    }
+    .side--panel .grid-table thead th {
+        height: 32px !important;
+        border: 1px solid #E5E8EB !important;
+        border-radius: 2px;
+        color: var(--gray005);
+    }
+    .details {
+        display: none;
+    }
+} */
+#white-paper .modal--dialog{
+	width: 90%;
+}
+
+#white-paper dl{
+	justify-content: flex-start;
+}
+
+#white-paper dl dt{
+	width: 150px;
+}
+
+#white-paper dl dd{
+	width: calc(100% - 150px);
+	/* min-width: 280px */
+}
+
+#white-paper dl dd .input,
+#white-paper dl dd .textarea{
+	font-weight: 100;
+	font-size: 14px;
+}
+
+#white-paper dl dd .input input{
+	width:100%;
+}
+
+#modal-sell-pin .modal--content,
+#modal-buy-pin .modal--content,
+#modal-buy-direct-pin .modal--content,
+#modal-sell-direct-pin .modal--content{
+	height: calc(100% - 60px);
+}
+
+#modal-sell-pin .margin,
+#modal-buy-pin .margin,
+#modal-buy-direct-pin .margin,
+#modal-sell-direct-pin .margin{
+	margin: 100px 0;
+}
+
+#modal-sell-pin input[type=number],
+#modal-buy-pin input[type=number],
+#modal-buy-direct-pin input[type=number],
+#modal-sell-direct-pin input[type=number] {
+    -webkit-text-security: disc;
+}
+#modal-sell-pin .text--center,
+#modal-buy-pin .text--center,
+#modal-buy-direct-pin .text--center,
+#modal-sell-direct-pin .text--center{
+	margin-top: 80px;
+}
+
+#modal-sell-pin .text--center .btn,
+#modal-buy-pin .text--center .btn,
+#modal-buy-direct-pin .text--center .btn,
+#modal-sell-direct-pin .text--center .btn{
+	width: 80%;
+}
+
+/* 230217 mk 이용약관 추가*/
+#dl_agree{
+	margin-top: 7px;
+    margin-bottom: 8px;
+}
+
+#dl_agree label input{
+	margin-right:10px;
+}
+
+.name.dt-body-left.dt-head-center:hover {
+	cursor: pointer;
+}
+
+/* 스타일링을 위한 CSS */
+.search_item {
+    display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    width: 532px;
+    height: 45px;
+    padding-left: 15px;
+}
+
+.cancel-button {
+    margin-left: 10px; /* 취소 버튼과 검색 상자 사이의 간격 조정 */
+	margin-right: 11px;
+    padding: 12px 9px 6px 9px; /* 위 12px, 아래 6px, 오른쪽 9px, 왼쪽 9px */
+    width: 5%;
+    cursor: pointer;
+    font-size: 12px;
+    border: none;
+    outline: none;
+	background-color: #ffffff;
+}
+
+.search-container {
+	border-bottom: 2px solid #E21A32;
+}
+
+.search-box:focus {
+	background-color: rgba(255, 255, 255, 0.6);
+	/* 검색창이 선택되었을 때 투명한 백그라운드 색상 */
+}
+
+.search-box {
+	padding: 10px;
+	border: 0px solid #ccc;
+	width: 532px;
+	max-width: 100%;
+	font-size: 16px;
+	padding-left: 35px;
+	/* 돋보기 아이콘과 텍스트 간 간격 조정 */
+	background-image: url('https://github.com/minggo88/www/blob/dev/www/assets/img/Search.png?raw=true');
+	/* 돋보기 아이콘 이미지 URL */
+	background-repeat: no-repeat;
+	background-position: 5px center;
+	/* 아이콘의 위치를 조정 */
+	background-size: 20px 20px;
+	/* 아이콘 크기 조정 */
+	transition: background-color 0.3s ease;
+	/* 스타일 변화를 부드럽게 처리 */
+	outline: none;
+	/* 포커스 효과 제거 */
+}
+
+.search-button {
+	display: none;
+}
+
+.krw {
+	position: relative;
+	width: 70%;
+	top: 35%;
+	/* 현재 위치에서 아래쪽으로 이동 */
+	border-bottom: 0 none !important;
+	font-size: 14px !important;
+	text-align: right;
+	font-weight: 700;
+	color: #333;
+}
+
+.tea--name {
+	width: 70%;
+}
+
+.details--header .btn_tab {
+	background-color: transparent;
+	border: none;
+	color: black;
+	cursor: pointer;
+}
+
+/*하단부css*/
+.check_div {
+	display: flex;
+	width: 100%;
+	border-top: 2px solid black;
+}
+
+/* 왼쪽 화면 스타일 */
+.left {
+	flex: 1;
+	border-right: 1px solid black;
+}
+
+.table-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+	color: #0B2871;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+}
+
+.order-list {
+	overflow-y: auto;
+	max-height: 300px;
+}
+
+.table-row .order-details {
+	flex-basis: 25%;
+	padding: 7px 0;
+	text-align: center;
+}
+
+.table-row:hover {
+	background-color: #f0f0f0;
+}
+
+/* 주문 추가창 */
+.order-details-minus {
+	text-align: center;
+	padding: 7px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.order-details-minus:hover {
+	background-color: #f0f0f0;
+	cursor: pointer;
+}
+
+.table-header {
+	font-weight: bold;
+	display: flex;
+	padding: 7px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.table-header span {
+	flex-basis: 25%;
+	padding: 1px;
+	text-align: center;
+}
+
+/* 오른쪽 화면 스타일 */
+.right {
+	flex: 1;
+}
+
+.right_title {
+	font-weight: bold;
+	display: flex;
+	border-bottom: 1px solid #ccc;
+	padding: 7px 0;
+}
+
+.right_title span {
+	flex-basis: 33%;
+	padding: 1px;
+	text-align: center;
+}
+
+.menu-item {
+	padding: 10px;
+	cursor: pointer;
+	color: black;
+	text-align: center;
+}
+
+/*주문관리 탭*/
+.menu-order-item {
+	cursor: pointer;
+	color: black;
+	text-align: center;
+
+}
+
+.order-content {
+	flex: 1;
+}
+
+#manage-order {
+	padding: 0px !important;
+}
+
+.right_order_title {
+	height: 34px;
+	font-weight: bold;
+	display: flex;
+	border-bottom: 1px solid #ccc;
+	justify-content: space-around;
+}
+
+#right_ing {
+	color: white;
+	background: var(--red-up);
+	cursor: pointer;
+}
+
+#right_c {
+	color: black;
+	background: white;
+	cursor: pointer;
+}
+
+.clicked {
+	color: white;
+	background: var(--red-up);
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+#manage-order span {
+	flex-basis: 50%;
+	padding: 6px 0;
+	text-align: center;
+}
+
+/* 매수, 매도, 주문관리 창 스타일 */
+.order-content {
+	display: none;
+	padding: 20px;
+}
+
+.active {
+	display: block;
+}
+
+.order-button {
+	background-color: #0B2871;
+	color: white;
+	padding: 10px;
+	cursor: pointer;
+	text-align: center;
+	margin-top: 10px;
+}
+
+/* 매수, 매도 내용 스타일 */
+.order-input {
+	margin-bottom: 10px;
+}
+
+.order-btn {
+	background-color: #0B2871;
+	color: white;
+	padding: 5px 10px;
+	cursor: pointer;
+	border: none;
+}
+
+.order-btn:hover {
+	background-color: darkblue;
+}
+
+/* 주문 취소 창 스타일 */
+.cancel-order-content {
+	background:white;
+}
+.cancel-order-content #last-text{
+	display: flex;
+    justify-content: center;
+	margin-bottom: 5px;
+	width:393px;
+}
+
+#modal-buy-button{
+	width: 95%;
+	margin: 0px auto;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+	border:0px;
+}
+
+#modal-sell-button{
+	width: 95%;
+	margin: 0px auto;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+	border:0px;
+}
+
+.cancel-order-button {
+	background-color: var(--red-up);
+	color: white;
+	padding: 10px 20px 10px 20px;
+	cursor: pointer;
+	width: 85%;
+	margin: 20px auto;
+	border:0px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+	font-size : 15px;
+	font-weight : 700;
+}
+
+.list-container {
+	height: 315px;
+	max-height: 315px;
+	overflow-y: scroll;
+	position: relative;
+}
+
+.list-item {
+	display: flex;
+	padding-left:10px;
+	padding-bottom : 5px;
+	margin-bottom: 5px;
+	border-bottom : 1px solid #333333;
+
+}
+.manage-checkbox{
+width: 17px;
+height: 120px;
+background-color: blue;
+border-radius: 50%;
+cursor: pointer;
+vertical-align: middle;
+padding-left: 15px;
+}
+.order-list-item {
+	display: flex;
+	width:100%;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	justify-content: space-between;
+}
+
+.manage-right {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	padding-top: 5px;
+	padding-right: 30px;
+	width : 100%;
+}
+
+.manage-right > * {
+	text-align: right;
+}
+
+.manage-right > .date {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+#unclear_order_no{
+	color: #999999;
+}
+
+/* 소팅 화살표 제거*/
+table.dataTable thead>tr>th.sorting_desc:before,
+table.dataTable thead>tr>th.sorting:after,
+table.dataTable thead>tr>th.sorting_asc:after,
+table.dataTable thead>tr>th.sorting_desc:after,
+table.dataTable thead>tr>th.sorting_asc:before {
+	display: none !important;
+}
+
+table.dataTable tbody th.dt-body-left,
+table.dataTable tbody td.dt-body-left {
+	text-align: left !important;
+}
+
+.product-grade{
+	display : none; 
+}
+
+@media screen and (max-width: 800px) {
+	#white-paper dl{
+		flex-direction: column;
+	}
+
+	#white-paper dl dd{
+		width: 100%;
+		min-width: initial;
+	}
+
+	#white-paper .grid-2-column{
+		grid-template-columns: repeat(1, 1fr);
+		padding: 0 20px 20px!important;
+		overflow: auto;
+	}
+}
+
+/** 230324 크기에따른 정보탭 수정 **/
+@media screen and (max-width: 680px) {
+	
+}
+
+
