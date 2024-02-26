@@ -5,34 +5,6 @@
 	column-gap: 1%;
 }
 
-.tab-content {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
-
-#btn_pre,
-#btn_next {
-    flex: 5;
-    height: 100%;
-}
-
-.info {
-    flex: 90;
-    height: 100%;
-}
-
-.info_p {
-    display: none;
-}
-
-.table {
-    width: 100%;
-    height: 100%;
-}
-
 .exchange .tab-wrapper{
 	width: 100%;
 }
@@ -205,25 +177,33 @@ div.dts div.dataTables_scrollBody {
     border-bottom: 4px solid var(--basic-black) !important
 } */
 
-/*#tab-info {
-    padding-top: 10px;
-    column-gap: 11px;
-    width: 800px;
-    height: 450px;
-    display: flex;
-    flex-direction: column;
-}
-
 #tab-info .info{
 	display: flex;
-	overflow-x: auto;
-	scroll-snap-type: x mandatory;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: row;
+	border:0px !important;
 }
 
-.thumb, .info_p {
-	flex: 0 0 auto;
-	width: 50%; 
-	scroll-snap-align: center;
+#tab-info .info > div{
+	flex-grow: 1;
+}
+#tab-info .info > div.thumb{
+	width: calc(44%);
+	/*margin-right:20px;*/
+	display:flex;
+}
+#tab-info .info > div.info_p{
+	width: calc(56%);
+	height:400px;
+	/*margin-right:20px;*/
+	display:flex;
+}
+
+#tab-info .info p {
+    width: 278px;
+    /* height: 267px; */
+	margin-right:20px
 }
 #tab-info div img{
 	width: 250px;
@@ -239,12 +219,13 @@ div.dts div.dataTables_scrollBody {
     margin-left: 50px;
     margin-top: 100px;
     margin-right: 50px;
-}*/
+}
 
 #tab-info .table {
     margin-top: 40px;
 }
 #tab-info .table th {
+    /* width: calc(100% * (53 / 536)); */
     width: 60px;
 	text-align: left;
     padding-right: 17px;
@@ -261,20 +242,26 @@ div.dts div.dataTables_scrollBody {
 	justify-content: center;
 }
 
+#btn_pre{
+    /*background-image: url('https://github.com/minggo88/www/blob/dev/src/assets/img/btn_left.png?raw=true');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 10%;
+    height: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;*/
+}
+
 @media screen and (max-width: 352px) {
 	#tab-info{
 		padding-bottom: 95px;
 	}
 	#tab-info .info{
-		display: flex;
-		overflow-x: auto;
-		scroll-snap-type: x mandatory;
-	}
-	
-	.thumb, .info_p {
-		flex: 0 0 auto;
-		width: 50%; /* 혹은 다른 비율로 조정 */
-		scroll-snap-align: center;
+		flex-direction: column;
 	}
 	#tab-info .info > div.thumb{
 		margin-right: 0px;
@@ -299,6 +286,9 @@ div.dts div.dataTables_scrollBody {
 	margin-right: 5px;
 }
 
+/* #tab-info .info > div{
+	flex-grow: 1;
+} */
 .tab-container{
 	height: 509px;
 }
@@ -444,6 +434,32 @@ div.dts div.dataTables_scrollBody {
 	}
 	
 	
+	#tab-info .info{
+		/*display: block;
+		display: inline-block;*/
+		
+	}
+	#tab-info div img{
+		margin: 10px auto;
+	}
+	#tab-info .info > div.info_p{
+	    width: 100%;
+	}
+	#tab-info .info > div.info_p table{
+	    margin-top:0px;
+	}
+
+	#tab-info .info .info_p table tbody tr td .meta_wp_teamaster_note{
+		word-wrap: break-word;
+	    overflow-wrap: break-word;
+	}
+	
+	#tab-info .table th,
+	#tab-info .table td {
+	    padding: 25px 10px 10px 10px;
+	    vertical-align: top;
+		
+	}
 	.right_order_title{
 		font-size : 10px;
 		height: 30px !important;
@@ -1024,7 +1040,51 @@ table.dataTable tbody td.dt-body-left {
 
 /** 230324 크기에따른 정보탭 수정 **/
 @media screen and (max-width: 680px) {
+	/** 230324 정보탭 CSS수정 **/
+	/*#tab-info .info > div.thumb{
+		width: calc(60%);
+	}
+	#tab-info .info > div.info_p{
+	    width: 60%;
+	}*/
+	#tab-info {
+	    display: flex;
+	    flex-wrap: nowrap;
+	    justify-content: space-between;
+	}
 	
+	#tab-info button {
+	    flex: 0 0 10%;
+	}
+	/*.tab-container{
+		padding-bottom: 150px;
+	}*/
 }
+@media screen and (max-width: 520px) {
+	/** 230324 정보탭 CSS수정 **/
+	#tab-info .info > div.thumb{
+		width: calc(50%);
+	}
+	#tab-info .info > div.info_p{
+	    width: 50%;
+	}
+	/*.tab-container{
+		padding-bottom: 190px;
+	}*/
 
-
+	.manage-checkbox{
+		height: 80px;
+	}
+}
+@media screen and (max-width: 440px) {
+	/** 230324 정보탭 CSS수정 **/
+	#tab-info .info > div.thumb{
+		width: calc(40%);
+	}
+	#tab-info .info > div.info_p{
+		width: calc(40%);
+	}
+	/*.tab-container{
+		padding-bottom: 280px;
+	}*/
+}
