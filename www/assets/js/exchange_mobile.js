@@ -71,6 +71,35 @@ let search_text = '';
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
 
+let currentSlide = 0;
+
+function showSlide(n) {
+    const slides = document.querySelector('.thumb');
+	const infoPElements = document.querySelector('.info_p');
+
+    if (n < 0) {
+        currentSlide = slides.length - 1;
+    } else if (n >= slides.length) {
+        currentSlide = 0;
+    }
+
+    if(slides.style.display === 'none') {
+		slides.style.display = 'block';
+		infoPElements.style.display = 'none';
+	}else{
+		slides.style.display = 'none';
+		infoPElements.style.display = 'block';
+	}
+}
+
+function prevSlide() {
+    showSlide(--currentSlide);
+}
+
+function nextSlide() {
+    showSlide(++currentSlide);
+}
+
 $(function() {
     $('.number').autotab({ tabOnSelect: true },'filter', 'number');
 
