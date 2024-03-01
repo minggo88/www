@@ -1741,6 +1741,7 @@ $(function() {
 							//상태 재시작
 							request_user_info();
 							set_user_wallet();
+							trade_list();
 							toggleOrderContent('buy');
 		                } else {
 		                    alert(resp.error.message)
@@ -1861,6 +1862,7 @@ $(function() {
 							//상태 재시작
 							request_user_info();
 							set_user_wallet();
+							trade_list();
 							toggleOrderContent('sell');
 		                } else {
 		                    alert(resp.error.message)
