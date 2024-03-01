@@ -120,9 +120,6 @@ $(function() {
 	    const checkValue = urlParams.get('check');
 	    const check3Value = urlParams.get('check3');
 	
-	    console.log('check!:', checkValue);
-	    console.log('check3!:', check3Value);
-
 		search_text = check3Value;
 	
 		var inputElement = document.getElementById('searchInput');
@@ -1344,8 +1341,8 @@ $(function() {
             }
             
             $('#right_buy').click();
-            trade_list();
-            order_chnage('A');
+            //trade_list();
+            //order_chnage('A');
             $('.details').show();
         }
     })
@@ -1725,7 +1722,6 @@ $(function() {
 					API.buy($('#modal-buy').serializeObject(), (resp) => {
 		                $('#modal-buy').find('button[type=submit]').attr('disabled', false);
 		                if(resp.success) {
-							console.log(resp);
 		                    //set_user_wallet();
 		                    $('#modal-buy').myModal('hide')
 		                    const price = parseFloat($('#modal-buy [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
@@ -2087,37 +2083,10 @@ function toggleOrderContent(orderType) {
     
 }
 
-// 주문취소 창의 주문번호 리스트를 생성하는 함수
-function createCancelOrderList() {
-    /*const cancelOrderContent = document.getElementById('cancel-order-content');
-    cancelOrderContent.innerHTML = '';
-    const cancelOrderList = document.createElement('div');
-    cancelOrderList.style.height = '440px';
-    cancelOrderList.style.overflowY = 'scroll';
-    for (const item of data) {
-        const orderCheckbox = document.createElement('input');
-        orderCheckbox.type = 'checkbox';
-        orderCheckbox.value = item.orderNumber;
-        orderCheckbox.id = `order-${item.orderNumber}`;
-        const orderLabel = document.createElement('label');
-        orderLabel.htmlFor = `order-${item.orderNumber}`;
-        orderLabel.innerText = `주문번호 ${item.orderNumber}`;
-        const orderRow = document.createElement('div');
-        orderRow.appendChild(orderCheckbox);
-        orderRow.appendChild(orderLabel);
-        cancelOrderList.appendChild(orderRow);
-    }
-    cancelOrderContent.appendChild(cancelOrderList);*/
-}
-
 // 매수, 매도, 주문관리 클릭 이벤트 추가
 document.querySelector('.menu-item:nth-child(1)').addEventListener('click', () => toggleOrderContent('buy'));
 document.querySelector('.menu-item:nth-child(2)').addEventListener('click', () => toggleOrderContent('sell'));
 document.querySelector('.menu-item:nth-child(3)').addEventListener('click', () => toggleOrderContent('manage'));
-
-// 주문취소 창의 주문번호 리스트를 생성하고 숨깁니다.
-createCancelOrderList();
-//document.getElementById('cancel-order-content').style.display = 'none';
 
 //주문 더보기
 function showDivPlus(checkNum) {
@@ -2232,28 +2201,32 @@ function addCommas(value) {
 }
 
 function order_chnage(text){
-	const rightIng = document.getElementById('right_ing');
-	const rightC = document.getElementById('right_c');
-	
-	if(text === 'c'){
-		console.log("완료");
-		fn_takeout2();
-		rightIng.style.color = 'black';
-	    rightIng.style.background = 'white';
-	    rightC.style.color = 'white';
-	    rightC.style.background = 'var(--red-up)';
+	if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+			alert('로그인 해주세요');
+			window.location.href = '../login.html';
 	}else{
+		const rightIng = document.getElementById('right_ing');
+		const rightC = document.getElementById('right_c');
 		
-        try {
-		    fn_takeout();
-		} catch (error) {
-			console.log("미체결");
+		if(text === 'c'){
+			console.log("완료");
+			fn_takeout2();
+			rightIng.style.color = 'black';
+		    rightIng.style.background = 'white';
+		    rightC.style.color = 'white';
+		    rightC.style.background = 'var(--red-up)';
+		}else{
+	        try {
+			    fn_takeout();
+			} catch (error) {
+				console.log("미체결");
+			}
+			
+			rightC.style.color = 'black';
+		    rightC.style.background = 'white';
+		    rightIng.style.color = 'white';
+		    rightIng.style.background = 'var(--red-up)';
 		}
-		
-		rightC.style.color = 'black';
-	    rightC.style.background = 'white';
-	    rightIng.style.color = 'white';
-	    rightIng.style.background = 'var(--red-up)';
 	}
 }
 
@@ -2286,7 +2259,7 @@ function trade_list(){
 	API.getOrderListTrading(SELECTED_SYMBOL, '', (resp) => {
 		//console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
         //console.log('trade_list:', resp);
-		console.log(resp);
+		//console.log(resp);
 		let b_num = 0;
 		let s_num = 0;
          if(resp.payload.length > 0) {
@@ -2575,7 +2548,6 @@ const fn_takeout2 = function () {
 	$('.cancel-order-content').hide();
 
 	API.getMyOrderList('all', sdate, edate, '', (resp) => {
-		console.log(resp);
         document.getElementById("list-item-space").innerHTML = "";
 		if(resp.data.length>0) {  
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
