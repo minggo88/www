@@ -1769,6 +1769,9 @@
 	padding: 15px 16px 15px 16px;
     z-index: 1001;
 	box-sizing: border-box;
+	overflow-y: scroll; /* 세로 스크롤 허용 */
+    padding: 20px; /* 정보와 컨테이너 사이의 여백 */
+    box-sizing: border-box; /* 패딩과 여백을 요소의 너비 및 높이에 포함 */
 }
 
 .mobile-panel .navigation--close + h1.size--20{
