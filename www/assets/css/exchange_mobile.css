@@ -446,7 +446,9 @@ div.dts div.dataTables_scrollBody {
 	#tab-info .info > div.info_p{
 	    width: 100%;
 	}
-
+	#tab-info .info > div.info_p table{
+			    
+	}
 
 	#tab-info .info .info_p table tbody tr td .meta_wp_teamaster_note{
 		word-wrap: break-word;
