@@ -1341,7 +1341,7 @@ $(function() {
             }
             
             $('#right_buy').click();
-            //trade_list();
+            trade_list();
             //order_chnage('A');
             $('.details').show();
         }
@@ -2204,6 +2204,8 @@ function order_chnage(text){
 	if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
 			alert('로그인 해주세요');
 			window.location.href = '../login.html';
+            const element = document.getElementById("list-item-space");
+			element.innerHTML = "";
 	}else{
 		const rightIng = document.getElementById('right_ing');
 		const rightC = document.getElementById('right_c');
@@ -2466,7 +2468,7 @@ const fn_takeout = function () {
 							  ("0" + (load_date.getFullYear() % 100)).slice(-2) + "/" + 
 							  ("0" + (load_date.getMonth() + 1)).slice(-2) + "/" +
 							  ("0" + load_date.getDate()).slice(-2) + "/" +
-							  ("0" + load_date.getHours()).slice(-2) + "/" +
+							  ("0" + load_date.getHours()).slice(-2) + ":" +
 							  ("0" + load_date.getMinutes()).slice(-2) + ""
 							);
 	                        date.textContent = formattedDate;
@@ -2486,33 +2488,25 @@ const fn_takeout = function () {
 						
 						date.style.color = "#999999";
 						
-						
-
                         let productNameRight = document.createElement("div");
                         productNameRight.classList.add("product-name");
 						productNameRight.textContent = d_item.currency_name;
 						
-							
                         let productGradeRight = document.createElement("div");
                         productGradeRight.classList.add("product-grade");
                         productGradeRight.textContent = d_item.goods_grade;
 
                         let orderPriceRight = document.createElement("div");
                         orderPriceRight.classList.add("order-price");
-                        orderPriceRight.textContent = real_number_format(d_item.amount);
+                        orderPriceRight.textContent = real_number_format(d_item.price);
 
                         let orderQuantityRight = document.createElement("div");
                         orderQuantityRight.classList.add("order-quantity");
-						if(d_item.tstatus == "T"){
-							orderQuantityRight.textContent = real_number_format(d_item.volume_remain);
-						}else{
-							orderQuantityRight.textContent = real_number_format(d_item.volume);	
-						}
-                        
+						orderQuantityRight.textContent = real_number_format(d_item.volume_remain);                       
 
                         let orderAmountRight = document.createElement("div");
                         orderAmountRight.classList.add("order-amount");
-                        orderAmountRight.textContent = real_number_format(d_item.amount *  d_item.volume);
+                        orderAmountRight.textContent = real_number_format(d_item.price *  d_item.volume_remain);
 
                         // manage-right에 date, product-name, product-grade, order-price, order-quantity, order-amount 추가
                         manageRight.appendChild(date);
@@ -2688,7 +2682,7 @@ const fn_takeout2 = function () {
 							  ("0" + (load_date.getFullYear() % 100)).slice(-2) + "/" + 
 							  ("0" + (load_date.getMonth() + 1)).slice(-2) + "/" +
 							  ("0" + load_date.getDate()).slice(-2) + "/" +
-							  ("0" + load_date.getHours()).slice(-2) + "/" +
+							  ("0" + load_date.getHours()).slice(-2) + ":" +
 							  ("0" + load_date.getMinutes()).slice(-2) + ""
 							);
 	                        date.textContent = formattedDate;
