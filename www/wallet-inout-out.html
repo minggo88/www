@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- META -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="title" content="ASSETTEA">
+<meta name="description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://assettea.com">
+<meta property="og:title" content="ASSETTEA">
+<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="ASSETTEA">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="100">
+<title>ASSETTEA</title>
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://code.jquery.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
+<link rel="stylesheet" href="./assets/css/common.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/header.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
+<link rel="stylesheet" href="./assets/css/sub.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/wallet_inout_out.css?t=1671513804">
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="./assets/js/common.js?t=1670369703"></script>
+<script src="./assets/js/wallet_inout_out.js"></script>
+<script src="./assets/js/api.js?t=1671775853"></script>
+<script src="./assets/js/components.js?t=1672721419"></script>
+<script src="./assets/js/qrcode.min.js?t=1667735148"></script>
+
+<script src="//cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.js"></script>
+<script src="//cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
+
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+<script src="./i18n/i18n.js?t=1667796157"></script>
+
+<!-- mk 230901 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<!-- BODY -->
+<body class="sub wallet notice">
+	<header>
+		<div class="header_inner">
+			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
+			<nav class="nav">
+				<ul>
+					<li>
+						<a href="exchange.html" data-i18n="">MARKET</a>
+					</li>
+					<li>
+						<a href="wallet.html" data-login="" data-i18n="">보유현황</a>
+					</li>
+					<li id ="title_3_on" class="active">
+						<a href="wallet-inout.html" data-i18n="">입출금</a>
+					</li>
+					<li>
+						<a href="notice.html" data-i18n="">공지사항</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="nav--side">
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
+						<ul>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
+						</ul>
+					</div>
+				</div>
+				<button name="box_logedin" style="display: none;" type="button" class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+				<div class="language dropdown-wrapper">
+					<button type="button" class="dropdown">한국어</button>
+					<div class="dropdown--item" style="width: 81px">
+						<span>한국어</span>
+						<ul></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-mobile-menu">
+			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
+		</div>
+		<ul class="gnb box-menu" name="box-menu">
+			<li>
+				<a href="exchange.html" data-i18n>MARKET</a>
+			</li>
+			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
+			<li>
+				<a href="wallet.html" data-login data-i18n>입출금</a>
+			</li>
+			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+			<li>
+				<a href="notice.html" data-i18n>공지사항</a>
+			</li>
+		</ul>
+	</header>
+	<aside class="mobile-panel">
+		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
+		<h1 class="size--20" data-i18n>마이페이지</h1>
+		<ul>
+			<li>
+				<a href="member-account.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>정보 수정</span></a>
+			</li>
+			<li>
+				<a href="my-verification.html" data-login data-i18n><i class="icon-user-fill"></i><span data-i18n>ID 인증 관리</span></a>
+			</li>
+			<li>
+				<a href="change-pin-number.html" data-login data-i18n><i class="icon-shield"></i><span data-i18n>보안비밀번호 변경</span></a>
+			</li>
+			<li>
+				<a href="change-account-number.html" data-login data-i18n><i class="icon-circle-fill"></i><span data-i18n>출금계좌 변경</span></a>
+			</li>
+			<!-- <li>
+				<a href="transaction.html" data-login data-i18n><i class="icon-transaction-black"></i><span data-i18n>거래내역</span></a>
+			</li> -->
+			<li>
+				<a href="notification.html" data-login data-i18n><i class="icon-alarm"></i><span data-i18n>알림</span></a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>입출금</h1>
+		<ul>
+			<li>
+				<a href="wallet.html" data-login><i class="icon-database-fill"></i> <span data-i18n>보유 자산</span></a>
+			</li>
+			<li>
+				<a href="wallet-deposit.html" data-login><i class="icon-load-circle-fill"></i> <span data-i18n>입금</span></a>
+			</li>
+			<li>
+				<a href="wallet-withdrawal.html" data-login><i class="icon-circle-fill"></i> <span data-i18n>출금</span></a>
+			</li>
+			<li>
+				<a href="wallet-take-out.html" data-login data-i18n>반출 신청</a>
+			</li>
+			<li>
+				<a href="wallet-take-out-check.html" data-login data-i18n>반출 신청 현황</a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n>고객센터</h1>
+		<ul>
+			<li>
+				<a href="notice.html"><i class="icon-alarm"></i> <span data-i18n>공지사항</span></a>
+			</li>
+			<li>
+				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n>자주하는 질문</span></a>
+			</li>
+			<li>
+				<a href="inquiry.html" data-login><i class="icon-inquiry"></i> <span data-i18n>1:1 문의</span></a>
+			</li>
+		</ul>
+		<div class="nav--side mobile">
+			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
+			<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+			<div class="language dropdown-wrapper">
+				<button type="button" class="dropdown">한국어</button>
+				<div class="dropdown--item" style="width: 81px">
+					<span>한국어</span>
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</aside>
+    <div class="content_wrap">
+		<main class="d-flex d-justify">
+			<div class="contents">
+				<header class="contents--header">
+					<a href="index.html" style="height: 48px;">ASSETTEA</a>
+					<span class=""></span>
+					<button type="button" class="navigation"></button>
+				</header>
+				<!-- 모바일 side 타이틀 변경 -->
+				<div class="contents--header2">
+					<a href="wallet-inout.html"><</a>
+					<p style="height: 48px;">출금신청</p>
+				</div>
+
+				<!-- mk make 230901-->
+				<div class = "walle_inout_tab3" id="tab3">
+					<div class="wallet_out_main">
+						<div class = "wallet_out_main_div1">
+							<sapn>출금가능</sapn>
+							<input id = "max_money" disabled>
+							<sapn>KRW</sapn>
+						</div>
+						<!--<div class = "wallet_out_main_div2">
+							<sapn>출금한도</sapn>
+							<input id = "able_out_max_money" disabled>
+							<sapn>KRW</sapn>
+						</div>-->
+						<div>
+							<div class = "wallet_out_main_div3">
+								<sapn>출금신청</sapn>
+								<input class ="main_blank" disabled>
+								<button id="btn_max" onclick="transferMaxAmount()">최대</button>
+								<input class = "output_money" type="text" name="deposit_amount" class="text-right text-black blurrealnumber onlynum" oninput="updateValue(this)">
+								<sapn>KRW</sapn>
+							</div>
+						</div>
+					</div>
+	
+					
+					<div class="input--group">
+						<span>내 실명계좌</span>
+						<input type="text" id="address" name="address" readonly="" data-bind="user_info.bank_full">
+					</div>
+					<div class="input--group" >
+						<span>수수료</span>
+						<p type="text" id="fee" name="address" readonly="" style="">1,000 KRW</p>
+					</div>
+					<div class="input--group" id="final_out_money" >
+						<span>출금 예정금액</span>
+						<input type="text" id="out_money_t" name="address" readonly="" >
+					</div>
+	
+	
+					<div class="output--group3--text">
+						<ul>
+							<p>출금 주의사항 안내</p>
+							<li>- 등록된 실명 계좌로 출금 신청이 진행됩니다.</li>
+							<li>- 주문금액은 출금가능 금액에 포함되지 않습니다.</li>
+							<li>- 출금은 신청일로부터 72시간 이내에 진행됩니다.</li>
+							<li>- 출금 계좌 변경을 원하시는 경우 <a href="inquiry.html">1:1문의</a>를 이용해 주세요</li>
+						</ul>
+					</div>
+	
+					<div class="d-flex flex-center btn-area">
+						<!--<button type="button" class="btn btn--red" id="btn_exit" style="width: 45%; align-self: center" onclick="page_exit();" data-i18n="">나가기</button>-->
+						<button type="button" name="btn-save-widthdraw" class="btn btn--blue" style="margin-top:30px; width: 90%; align-self: center; background: #0B2871;" data-i18n="">출금신청</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<form id="pin_number" class="modal modal--tiny" tabindex="-1">
+			<div class="modal--dialog">
+				<div class="modal--header">
+					<button type="button" class="btn btn--close"></button>
+				</div>
+				<div class="modal--content">
+					<div class="title">
+						<h3>출금신청</h3>
+						<p>PIN 번호를 입력해주세요</p>
+					</div>
+					<div class="pin_area">
+						<div class="d-flex flex-center">
+							<div class="d-grid  grid--code">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric" autofocus="">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+								<input type="number" name="pincode" class="number" min="0" max="9" maxlength="1" inputmode="numeric">
+							</div>
+						</div>
+						<p class="forget_pin text--blue-gray" data-i18n="">
+							보안비밀번호는 마이페이지 &gt; 	
+							<a href="change-pin-number.html" data-login="">보안비밀번호 변경</a>에서 바꾸실수 있습니다.
+						</p>
+						<div class="text--center">
+							<button type="submit" class="btn btn--blue flex-self-center" style="height: 40px; line-height: 40px" data-i18n="">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>	
+    <script src="./assets/js/app.js?t=1672042800"></script>
+</body>
+
+
+</html>
