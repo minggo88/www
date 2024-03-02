@@ -7,12 +7,12 @@ const API = {
             API_URL = "http://api.loc.kkikda.com/v1.0"
         }
         if (window.location.host.indexOf('dev.') !== -1) {
-            API_URL = "https://api.dev.kkikda.com/v1.0"
+            API_URL = "https://api.dev.assettea.com/v1.0"
         }
         if (window.location.host.indexOf('127.0.0.1') !== -1) {
-            API_URL = "https://api.dev.kkikda.com/v1.0"
+            API_URL = "https://api.dev.assettea.com/v1.0"
         }
-        return API_URL; // 'https://api.dev.kkikda.com/v1.0'
+        return API_URL; // 'https://api.dev.assettea.com/v1.0'
     }(),
 
     /**
@@ -313,6 +313,72 @@ const API = {
             }
         })
     },
+    /***
+     * 계좌정보확인
+     */
+    checkAccount: (data, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/checkAccount/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: $.extend({}, data, {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            }),
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            },error: (jqXHR) => {
+                console.error(jqXHR)
+            }
+        })
+    },
+    /***
+     * 입금
+     */
+    deposit: (symbol,deposit_amount, deposit_name, address, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/deposit/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data:  {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol : symbol, 
+                deposit_amount : deposit_amount,
+                deposit_name : deposit_name,
+                address : address,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            },error: (jqXHR) => {
+                console.error(jqXHR)
+            }
+        })
+    },
+    withdraw: (symbol,from_address, to_address, amount, pin, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/withdraw/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data:  {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol : symbol, 
+                from_address : from_address,
+                to_address : to_address,
+                amount : amount,
+                pin : pin,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            },error: (jqXHR) => {
+                console.error(jqXHR)
+            }
+        })
+    },
     getTradingList: (symbol, exchange = null, page = 1, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getTradingList/`,
@@ -508,6 +574,24 @@ const API = {
         // console.log( `${API.BASE_URL}/getCurrency/`)
         $.ajax({
             url: `${API.BASE_URL}/getCurrency/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol: symbol
+            },
+            success: (resp) => {
+                callback(resp)
+            },
+            error: (jqXHR) => {
+                console.error(jqXHR)
+            }
+        })
+    },
+    getSearchCurrency: (symbol = null, callback) => {
+        // console.log( `${API.BASE_URL}/getCurrency/`)
+        $.ajax({
+            url: `${API.BASE_URL}/getSearchCurrency/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -769,6 +853,62 @@ const API = {
             }
         })
     },
+    //exchage전용(거래중)
+    getOrderListTrading: (symbol, tradingType, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getOrderList/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                symbol: symbol,
+                trading_type: tradingType,
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+
+    getMyOrderList: (symbol, sdate, edate, tradingType, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getMyOrderList/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+                lang: window.localStorage.locale,
+                symbol : 'trade',
+                exchange : 'KRW',
+                return_type : 'datatable',
+                status : 'all',
+                start_date : sdate,
+                end_date : edate,
+			    trading_type : '',
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+
+    getMyInoutList: (search_type, callback) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getMyInoutList/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token,
+                lang: window.localStorage.locale,
+                symbol : search_type,
+                return_type : 'datatable',
+            },
+            success: (resp) => {
+                callback(resp)
+            }
+        })
+    },
+
     getAuctionGoodsInfo: (goods_idx, callback) => {
         $.ajax({
             url: `${API.BASE_URL}/getAuction/auction_goods_info.php`,
@@ -881,8 +1021,6 @@ const API = {
             }
         })
     }
-
-
 }
 
 if(!window.localStorage.token) {

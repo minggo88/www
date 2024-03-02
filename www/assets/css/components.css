@@ -454,7 +454,7 @@
     height: 8px;
 }
 .dataTables_scrollBody::-webkit-scrollbar-thumb{
-    background: rgba(131, 137, 158, .8);
+    background: var(--red-up);
     border-radius: 5px;
 }
 .dataTables_scrollBody::-webkit-scrollbar-track{
@@ -2211,6 +2211,15 @@ input[type=file].image-selector::after{
 	max-width: 370px;
     height: 460px;
     background: var(--white)
+}
+
+#modal--dialog-wallet-option {
+    /* width: 420px; */
+	width: 100%;
+	max-width: 402px;
+    height: 508px;
+    background: var(--white);
+    padding : 19px 33px 0px 33px;
 }
 
 .modal .modal--header {
