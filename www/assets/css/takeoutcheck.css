@@ -1,3 +1,11 @@
+.d-justify {
+	justify-content: center !important;
+  }
+  
+.contents{
+width:800px !important;
+}
+
 .takeout-check-table{
 	width: 800px;
 	margin-top: 40px;
@@ -50,4 +58,28 @@
 	padding: 0px !important;
 	height: 40px;
 	font-size: 14px;
+}
+
+@media screen and (max-width: 800px) { 
+	.content_wrap{
+		width: 100% !important;
+	}
+	.contents{
+		width:100% !important;
+	}
+	.d-justify {
+	    width:100%;
+		justify-content: center !important;
+	}
+
+	.takeout-check-table {
+		width:100%;
+		overflow-x: auto;
+		display: block;
+	  }
+	
+	  .d-grid.wallet--grid {
+		overflow-x: auto;
+		display: block;
+	  }
 }

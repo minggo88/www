@@ -1,3 +1,11 @@
+.d-justify {
+  justify-content: center !important;
+}
+
+.contents{
+width:500px !important;
+}
+
 .options {
   width: 450px;
   height: 55px;
@@ -271,4 +279,27 @@
 }
 #btn_modal_end{
 	width: 80%;
+}
+
+@media screen and (max-width: 450px) { 
+	.content_wrap{
+		width: 100% !important;
+	}
+	.contents{
+		width:100% !important;
+	}
+	.d-justify {
+	    width:100%;
+		justify-content: center !important;
+	}
+	#test_op{
+		width:100%;
+	}
+
+	.options{
+		width:100%;
+	}
+	.cart-btn{
+		width:100% !important;
+	}
 }

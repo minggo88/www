@@ -2,16 +2,17 @@
 window.onload = function() {
     setTimeout(function() {
         fn_takeout();    
-    }, 300);
+    }, 500);
+    
 };
 
 const fn_takeout = function () {
     check_login();
-    //force_rander('user_info', Model.user_info);
-
+    
     API.getTakeOutItem('ALL', '', (resp) => {
         if(resp.success) {
             if(resp.payload.length > 0) {
+                
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
 				$('[name="grid--empty"]').hide();
                 resp.payload.filter(function(item) {
@@ -80,7 +81,7 @@ const check_logout = function (msg) {
 }
 ///-------------------------------------------------------------------------------------------
 $(document).ready(function() {
-       
+    
 });
 
 

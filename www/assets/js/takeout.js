@@ -16,7 +16,7 @@ var selected_list = [];
 var total_num = 0;
 const fn_wallet = function () {
     check_login();
-    //force_rander('user_info', Model.user_info);
+    force_rander('user_info', Model.user_info);
 
     // set default exchange currency symbol
     const exchange = 'KRW';
@@ -382,7 +382,7 @@ $(document).ready(function() {
                             //alert(`반출신청\n${message}`);
                             
                             //메일보내기
-                            API.takeOutEmailConfirmCode("INFO@KKIKDA.COM",message, (resp) => {
+                            API.takeOutEmailConfirmCode("flyminggo@naver.com",message, (resp) => {
                                 if (resp.success) {
                                     sended_email = email.val();
                                     //	$('#create-account-info').hide()

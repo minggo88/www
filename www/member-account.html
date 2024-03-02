@@ -64,41 +64,33 @@
 </head>
 <!-- BODY -->
 <body class="sub notice member-account m-bottom">
-    <header class="desktop-only">
+    <header>
 		<div class="header_inner">
-			<h1 class="logo"><a href="index.html">Teaplat</a></h1>
+			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
-						<a href="exchange.html" data-i18n>거래소</a>
+						<a href="exchange.html" data-i18n="">MARKET</a>
 					</li>
-					<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
-					<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 					<li>
-						<a href="wallet.html" data-login data-i18n>입출금</a>
+						<a href="wallet.html" data-login="" data-i18n="">보유현황</a>
 					</li>
-					<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 					<li>
-						<a href="notice.html" data-i18n>고객센터</a>
+						<a href="wallet-inout.html" data-i18n="">입출금</a>
+					</li>
+					<li>
+						<a href="notice.html" data-i18n="">공지사항</a>
 					</li>
 				</ul>
 			</nav>
 			<div class="nav--side">
 				<div name="box_logedin" class="profile dropdown-wrapper">
-					<button type="button" class="dropdown btn btn--mypage" name="btn-papage" data-i18n>마이페이지</button>
-					<div class="dropdown--item" style="width: 134px;left: -32px;">
-						<ul>
-							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
-							<!--<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>-->
-							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
-							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
-							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
-							<li><a href="notification.html" data-login data-i18n>알림</a></li>
-						</ul>
-					</div>
+					
 				</div>
-				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n>로그아웃</button></div>
-				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login" data-i18n>로그인</a></div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout"
+						data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login"
+						data-i18n>로그인</a></div>
 				<div class="language dropdown-wrapper">
 					<button type="button" class="dropdown">한국어</button>
 					<div class="dropdown--item" style="width: 81px">
@@ -113,7 +105,7 @@
 		</div>
 		<ul class="gnb box-menu" name="box-menu">
 			<li>
-				<a href="exchange.html" data-i18n>거래소</a>
+				<a href="exchange.html" data-i18n>MARKET</a>
 			</li>
 			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
 			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
@@ -122,7 +114,7 @@
 			</li>
 			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 			<li>
-				<a href="notice.html" data-i18n>고객센터</a>
+				<a href="notice.html" data-i18n>공지사항</a>
 			</li>
 		</ul>
 	</header>
@@ -190,31 +182,6 @@
 	</aside>
     <div class="content_wrap">
 		<main class="d-flex d-justify">
-			<aside class="side">
-				<h1 data-i18n>입출금</h1>
-				<nav class="side--snb">
-					<ul>
-						<li class="snb--active">
-							<a href="member-account.html" data-login data-i18n>계정 정보</a>
-						</li>
-						<!--<li>
-							<a href="my-verification.html" data-login data-i18n>인증 관리</a>
-						</li>-->
-						<li>
-							<a href="change-pin-number.html" data-login data-i18n>보안 비밀번호 변경</a>
-						</li>
-						<li>
-							<a href="change-account-number.html" data-login data-i18n>출금계좌 관리</a>
-						</li>
-<!--						<li>-->
-<!--							<a href="transaction.html" data-login data-i18n>거래 내역</a>-->
-<!--						</li>-->
-						<li>
-							<a href="notification.html" data-login data-i18n>알림</a>
-						</li>
-					</ul>
-				</nav>
-			</aside>
 			<div class="contents">
 				<header class="contents--header">
 					<a href="index.html">ASSETTEA</a>
@@ -247,7 +214,6 @@
 								<label for="user_info_check" data-i18n="">
 									<span>개인 정보&nbsp;&nbsp;</span>
 									<span id="check_off" style="display:iline-block;">등록 필요</span>
-									<span id="wait_on" style="display:none;">등록 확인 중</span>
 									<span id="check_on" style="display:none;">등록 완료</span>
 								</label>
 								<select id="join_type" name="join_type" onchange="change_select()">
@@ -366,7 +332,7 @@
 	</nav>-->
     <!-- <footer class="desktop-only">
 		<div class="footer_inner">
-			<div class="logo">Teaplat</div>
+			<div class="logo">ASSETTEA</div>
 			<nav class="fnb">
 				<ul>
 					<li>
