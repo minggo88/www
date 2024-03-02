@@ -1,3 +1,7 @@
+.d-justify {
+    justify-content: center !important;
+}
+
 #goods-desc.modal.modal--middle .modal--dialog{
 	background: var(--white);
 	/* width: calc(100% * (880 / 1440)); */
@@ -183,7 +187,7 @@
 
 
 
-/* wallet 보유자산 */
+/* wallet ë³´ìœ ìžì‚° */
 @media screen and (max-width:1440px) {
 	.sub.wallet main{
 		height: 100%;
@@ -193,6 +197,10 @@
 
 .wallet ul, .deposit ul{
 	list-style: none;
+}
+
+.deposit_text{
+	color: #AFAFAF;
 }
 
 .wallet-summary {
@@ -301,35 +309,29 @@
 
 .wallet--grid {
     margin-top: 10px;
-	margin-bottom: 40px;
+    margin-bottom: 40px;
     grid-template-columns: repeat(1, 1fr);
     column-gap: 20px;
     row-gap: 10px;
 }
 
-.wallet--grid .grid {
-    display: flex;
-    padding: 18px 10px 18px 15px;
-    border: 0.35px solid #BDC4CB;
-    align-items: center;
-    justify-content: space-between;
-    border-left: 12px solid;
-    font-family: Inter;
-    font-weight: 500;
-    font-size: 14px;
-    background-color: var(--white);
-    background-repeat: no-repeat;
-    background-position: 12px center;
-	/* overflow: scroll; */
-	overflow-x: auto;
+.wallet--tab1--grid .grid {
+    
 }
 
-.d-grid.d-grid--empty.wallet--grid {
+.wallet--tab1--grid{
+    margin-bottom: 40px;
+    grid-template-columns: repeat(1, 1fr);
+    column-gap: 20px;
+    
+}
+
+.d-grid.d-grid--empty.wallet--tab1--grid {
     grid-template-columns: repeat(1, 1fr);
 }
 
 
-.d-grid.d-grid--empty.wallet--grid .grid.grid--empty{
+.d-grid.d-grid--empty.wallet--tab1--grid .grid.grid--empty{
 	background: #FAFAFA;
 	height: 350px;
 	border-left: 0.35px solid #BDC4CB;
@@ -343,8 +345,7 @@
 	.table-responsive.historyTb{
 		display:block!important;
 	}
-	#wallet_title,
-	.d-grid.wallet--grid{
+	#wallet_title{
 		display: none!important;
 	}
 	.wallet-table{
@@ -365,7 +366,7 @@
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	box-sizing: border-box;
-	display:none;/* 사진을 깨끗하게 찍지 못해 아이콘을 숨겨달라고 함. */
+	display:none;/* ì‚¬ì§„ì„ ê¹¨ë—í•˜ê²Œ ì°ì§€ ëª»í•´ ì•„ì´ì½˜ì„ ìˆ¨ê²¨ë‹¬ë¼ê³  í•¨. */
 }
 
 @media screen and (max-width: 600px) {
@@ -584,8 +585,9 @@
 }
 
 /* deposit */
-/* 입금 */
-.deposit .contents a {vertical-align: unset;} /*    vertical-align: middle 인데 P 태그의 글자와 P > a 가 줄이 안맞아서 unset 으로 변경함.*/
+
+/* ìž…ê¸ˆ */
+.deposit .contents a {vertical-align: unset;} /*    vertical-align: middle ì¸ë° P íƒœê·¸ì˜ ê¸€ìžì™€ P > a ê°€ ì¤„ì´ ì•ˆë§žì•„ì„œ unset ìœ¼ë¡œ ë³€ê²½í•¨.*/
 
 .deposit .contents .d-grid{
     grid-template-columns: repeat(2, 1fr);
@@ -871,7 +873,7 @@
 
 
 /* deposit-guide */
-/* 입금 안내 */
+/* ìž…ê¸ˆ ì•ˆë‚´ */
 .deposit-guide.deposit .guide{
 	overflow-y: initial;
 	max-height: initial;
@@ -903,7 +905,7 @@
 
 
 /* deposit-withdrawal */
-/* 출금 */
+/* ì¶œê¸ˆ */
 .deposit-withdrawal .grid ul{
 	list-style-type: disc;
 	padding-left: 10px;
@@ -1024,7 +1026,7 @@
 		bottom: 0;
 		width: 100%;
 		height: 8px;
-		background-color: #f5f5f5;
+		background-color: #fafafa
 	}
 
 	.deposit-withdrawal .grid .input--group .input--group--text,
@@ -1101,7 +1103,7 @@
 
 
 /* wallet-analysis */
-/* 종합분석 */
+/* ì¢…í•©ë¶„ì„ */
 .wallet-analysis .content_wrap{
 	height: initial;
 }
@@ -1223,9 +1225,9 @@
 	overflow-x: auto;
 }
 
-/*230306 내지갑 CSS 가로스크롤 및 고정 변경 */
+/*230306 ë‚´ì§€ê°‘ CSS ê°€ë¡œìŠ¤í¬ë¡¤ ë° ê³ ì • ë³€ê²½ */
 .historyTb{
-	margin-top : 30px;
+	margin-top : 20px;
 	overflow-x: auto;
     max-width: 100%;
 }
@@ -1323,17 +1325,16 @@
 }
 
 .historyTb thead tr th {
-	background-color: #f1f1f1;
 	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 14px;
+	font-size: 15px;
 	font-weight: 500 !important;
 	font-style: normal;
 	font-stretch: normal;
 	letter-spacing: normal;
 	text-align: center;
 	color: #000000;
-	border: 1px solid #cacaca;
-	border-top: 1px solid #cacaca;
+	border: 1px solid #ffffff;
+	background-color: #f5f5f5;
 }
 
 .historyTb .table > thead > tr > th{
@@ -1343,14 +1344,15 @@
 
 .historyTb tbody > tr > td {
 	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: normal;
 	font-style: normal;
 	font-stretch: normal;
 	letter-spacing: normal;
 	text-align: center;
 	color: #3a3c41;
-	border-bottom: 1px solid #cacaca;
+	border: 1px solid #ffffff;
+	background-color : #fafafa;
 }
 
 .historyTb tbody tr.firstTr td {
@@ -1433,12 +1435,10 @@
 .historyTb thead tr th:first-child,
 .historyTb tbody tr td:first-child {
 	border-left: 1px solid #cacaca;
+	height: 40px;
 }
 
-.historyTb thead tr th:last-child,
-.historyTb tbody tr td:last-child {
-	border-right: 1px solid #cacaca;
-}
+
 
 .historyTb tbody tr td.mergeTd .btnArea{
 	display: flex;
@@ -1513,9 +1513,10 @@
 }
 
 .wallet-analysis .datepicker{
-	width: 72%;
+	width: 100%;
 	display: flex;
 	align-items: center;
+	margint-bottom : 22px;
 }
 .wallet-analysis .datepicker span{
 	font-size: 16px;
@@ -1556,7 +1557,7 @@
 }
 
 @media screen and (max-width: 800px) { 
-	/* 230306 mk summary 생략 */
+	/* 230306 mk summary ìƒëžµ */
 	.d-grid.wallet-summary{
 		padding-bottom: 10px !important;
 	}
@@ -1806,7 +1807,7 @@
 }
 
 /* deposit-withdrawal-address */
-/* 출금 (비트코인) 주소 */
+/* ì¶œê¸ˆ (ë¹„íŠ¸ì½”ì¸) ì£¼ì†Œ */
 .address main{
 	padding: 0;
 	flex-direction: column;
@@ -1899,7 +1900,7 @@
 
 
 /* withdrawal-guide */
-/* 출금 안내 */
+/* ì¶œê¸ˆ ì•ˆë‚´ */
 .withdrawal-guide .deposit--guid ul li{
 	list-style-type: disc;
 }
@@ -1927,4 +1928,778 @@
 
 #hidden_title{
 	display:none;
+}
+
+
+/*230901*/
+/* íƒ­ ë‚´ìš© ìŠ¤íƒ€ì¼ */
+/* ì „ì²´ í™”ë©´ ìŠ¤íƒ€ì¼ */
+.contents{
+	width:900px !important;
+}
+.container {
+	width: 881px;	
+}
+.wallet_tab {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #333333;
+	font-weight: bold;
+	width: 881px; /* ì´ ê¸¸ì´ë¥¼ 681ë¡œ ì„¤ì • */
+	display: flex; /* ìžì‹ ìš”ì†Œë“¤ì„ ê°€ë¡œë¡œ ë‚˜ì—´í•˜ê¸° ìœ„í•´ Flexboxë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. */
+	justify-content: space-between; /* ê° íƒ­ ë²„íŠ¼ì„ ê· ë“±í•˜ê²Œ ë°°ì¹˜í•©ë‹ˆë‹¤. */
+	border-bottom: 1px solid var(--red-up);
+}
+
+.tab-button {
+	flex: 1; /* ê· ë“±í•œ ë„ˆë¹„ë¥¼ ê°€ì§€ë„ë¡ ì„¤ì • */
+	padding: 14px 0; /* ìƒí•˜ ì—¬ë°±ì„ 14pxë¡œ ì„¤ì • */
+	cursor: pointer;
+	display: inline-block; /* íƒ­ ë²„íŠ¼ì„ ìˆ˜í‰ìœ¼ë¡œ ë‚˜ì—´ */
+	text-align: center; /* ê¸€ìž ê°€ìš´ë° ì •ë ¬ */
+	font-size: 16px; /* ê¸€ìž í¬ê¸°ë¥¼ 16pxë¡œ ì„¤ì • */
+}
+.tab-button.selected {
+	background-color: var(--red-up); /* ì„ íƒëœ íƒ­ ë²„íŠ¼ ë°°ê²½ìƒ‰ì„ ë¶‰ì€ìƒ‰ìœ¼ë¡œ ë³€ê²½ */
+	color: white;
+}
+	
+.con1{
+	background-color: var(--red-up);
+	font-family: 'Noto Sans KR', sans-serif;
+	margin-bottom:5px;
+	width: 881px;
+	color:white;
+}
+.first_title{
+	display: flex; /* ìžì‹ ìš”ì†Œë“¤ì„ ê°€ë¡œë¡œ ë‚˜ëž€ížˆ ë°°ì¹˜í•˜ê¸° ìœ„í•´ Flexboxë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. */
+    justify-content: space-between; /* ì–‘ìª½ ëìœ¼ë¡œ ìš”ì†Œë¥¼ ì •ë ¬í•©ë‹ˆë‹¤. */
+}
+
+.firsth_title_1{
+    border-right: 1px solid white; /* í…Œë‘ë¦¬ ì¶”ê°€ (ì„ íƒì ) */
+}
+	
+.firsth_title_1,
+.firsth_title_2{
+	width: 49%; /* í™”ë©´ ë„ˆë¹„ì˜ 49%ë¥¼ ì°¨ì§€í•˜ë„ë¡ ì„¤ì •í•©ë‹ˆë‹¤. */
+    padding: 0 30px; /* ì—¬ë°± ì„¤ì • (ì„ íƒì ) */
+	margin: 50px 0;
+	
+}
+
+.firsth_title_1 span,
+.firsth_title_2 span{
+	font-size: 16px;
+}
+
+.firsth_title_1 p,
+.firsth_title_2 p{
+	font-size: 28px;
+}
+
+.second_title{
+	height:30px;
+	display: flex; /* ìžì‹ ìš”ì†Œë“¤ì„ ê°€ë¡œë¡œ ë‚˜ëž€ížˆ ë°°ì¹˜í•˜ê¸° ìœ„í•´ Flexboxë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. */
+    justify-content: space-between; /* ì–‘ìª½ ëìœ¼ë¡œ ìš”ì†Œë¥¼ ì •ë ¬í•©ë‹ˆë‹¤. */
+}
+.second_title_1_1,
+.second_title_1_2,
+.second_title_2_1,
+.second_title_2_2{
+	display: flex; /* ìžì‹ ìš”ì†Œë“¤ì„ ê°€ë¡œë¡œ ë‚˜ëž€ížˆ ë°°ì¹˜í•˜ê¸° ìœ„í•´ Flexboxë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. */
+    justify-content: space-between; /* ì–‘ìª½ ëìœ¼ë¡œ ìš”ì†Œë¥¼ ì •ë ¬í•©ë‹ˆë‹¤. */
+	width : 49%;
+}
+.second_title_1_1 span,
+.second_title_1_2 span{
+	padding: 0 30px;
+	width: 30%;
+	margin: 0;
+	font-size: 16px;
+}
+.second_title_2_1 span,
+.second_title_2_2 span{
+	padding: 0 30px;
+	width: 30%;
+	margin: 0;
+	font-size: 16px;
+}
+.second_title_1_1 p,
+.second_title_1_2 p{
+	padding-left : 10px;
+	padding-right : 30px;
+	width: 70%;
+	text-align: right;
+	margin: 0;
+	font-size: 16px;
+}
+.second_title_2_1 p,
+.second_title_2_2 p{
+	padding-left : 10px;
+	padding-right : 30px;
+	width: 70%;
+	text-align: right;
+	margin: 0;
+	font-size: 16px;
+}
+.third_title{
+	height: 20px;
+}
+
+.con2{
+	width: 681px;
+}
+.title_tbody{
+	background-color: var(--red-up);
+    color: #FFFFFF;
+}
+.title_tbody_1,
+.title_tbody_2{
+	width:100%;
+	height: 42px;
+	text-align: center;
+	font-size:16px;
+	border-bottom: 1px solid #FFFFFF; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
+}
+
+.wallet_title {
+	height:31px;
+	border-right: 1px solid #FFFFFF; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
+	font-weight: 500;
+	font-weight: normal;
+	
+}
+.wallet_title_end{
+	height:27px;
+	font-weight: normal;
+}
+
+.wallet_title2 {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.wallet_title2 p {
+	width:50%;
+	margin:0px;
+}
+.wallet_title2 .p1 {
+	border-right: 1px solid #FFFFFF; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
+}
+
+.con2{
+	width: 881px;
+}
+.list_tbody{
+	
+}
+.list_tbody_1,
+.list_tbody_2{
+	width:100%;
+	height:44px;
+	text-align: center;
+	font-size:16px;
+	border-bottom: 1px solid #DDD;; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
+}
+
+.wallet_list {
+	height:27px;
+	border-right: 1px solid #DDD;; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
+	font-weight: 500;
+	font-weight: normal;
+}
+#wallet_list_num{
+	text-align: right;
+	padding-right: 10px;
+}
+	
+.wallet_list_end{
+	height:27px;
+	font-weight: normal;
+}
+
+.wallet_list2 {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.wallet_list2 p {
+	width:50%;
+	height:27px;
+	margin:0px;
+}
+.wallet_list2 .p1 {
+	border-right: 1px solid #DDD; /* ê°’ ì‚¬ì´ì— border-right ì¶”ê°€ */
+}
+
+#tab2_fix_title{
+	background-color: var(--red-up);
+	color: #fff;	
+	border: 0px;
+}
+
+#transactionGrid2{
+	width : 100% !important;
+}
+
+.d-flex.desktop-only.pc_period{
+	display: flex;
+	justify-content: flex-start;
+}
+	
+#div_dropdown_date_selected{
+	max-width: 15%;
+	width : 5%;
+}
+
+#div_dropdown_type_selected{
+	max-width: 15%;
+	width : 5%;
+}
+#space_width{
+	width:65%;
+}
+.top_area{
+	width:25%;
+}
+	
+.btn_popup{
+	width:10%;
+	border : 0px;
+	background: url('../img/icon/filter.png') no-repeat center center;
+	
+}
+
+.transaction-select{
+	display: flex;
+	justify-content: space-around;
+}
+.option_div{
+	margin-top : 8px;
+	margin-bottom:22px;
+	width:32%;
+	border: 1px solid #999999;
+	height: 25px;
+    color: #999999;
+    cursor: pointer;
+    text-align: center; /* í…ìŠ¤íŠ¸ë¥¼ ìˆ˜í‰ìœ¼ë¡œ ê°€ìš´ë° ì •ë ¬ */
+    display: flex;
+    justify-content: center; /* í…ìŠ¤íŠ¸ë¥¼ ìˆ˜ì§ìœ¼ë¡œ ê°€ìš´ë° ì •ë ¬ */
+    align-items: center;
+}
+
+.option_div2{
+	margin-top : 8px;
+	margin-bottom:22px;
+	width:32%;
+	border: 1px solid #999999;
+	height: 25px;
+    color: #999999;
+    cursor: pointer;
+    text-align: center; /* í…ìŠ¤íŠ¸ë¥¼ ìˆ˜í‰ìœ¼ë¡œ ê°€ìš´ë° ì •ë ¬ */
+    display: flex;
+    justify-content: center; /* í…ìŠ¤íŠ¸ë¥¼ ìˆ˜ì§ìœ¼ë¡œ ê°€ìš´ë° ì •ë ¬ */
+    align-items: center;
+}
+	
+#wallet-option-datepicker{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+#wallet-option-datepicker #start2,
+#wallet-option-datepicker #end2{
+	height: 27px;
+	border: 1px solid #999999;
+	width:43% !important;
+	margin-bottom: 30px;
+	
+}
+	
+#wallet-option-datepicker span{
+	width:10% !important;
+	margin-bottom: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.dropdown-wrapper.symbol-select .dropdown{
+	margin-top : 8px;
+	margin-bottom : 22px;
+	border: 1px solid #999999;
+	height: 27px;
+}
+
+.dropdown+.dropdown--item input[name=search] {
+    height: 25px;
+    line-height: 25px;
+    margin: 0px !important;
+    font-size: 12px;
+	width : 100%;
+}
+
+.dropdown-wrapper.symbol-select .dropdown+.dropdown--item ul {
+    height: 130px;
+    overflow-y: auto;
+    list-style: none;
+	font-weight : 400;
+}
+
+#modal--dialog-wallet-option{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height : 380px;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 20px;	
+}
+#modal-wallet-option{
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+#wallet-option-clear{
+	background : #000000;
+	margin-right: 15px;
+}
+
+.dropdown-wrapper2 input[disabled]{
+	width: 60px;
+    flex-basis: 60px;
+    max-width: 60px;
+	border:0px;
+	text-align: center;
+	background-color: #ffffff; /* ë°°ê²½ìƒ‰ ë³€ê²½ */
+    cursor: not-allowed !important; /* ì»¤ì„œ ìŠ¤íƒ€ì¼ ë³€ê²½ */
+	font-weight: bold;
+}
+	
+#search_item{
+	width:100%;
+	flex-basis: 60px;
+	border:0px;
+	text-align: right;
+	padding-right:20px;
+	background-color: #ffffff; /* ë°°ê²½ìƒ‰ ë³€ê²½ */
+    cursor: not-allowed !important; /* ì»¤ì„œ ìŠ¤íƒ€ì¼ ë³€ê²½ */
+	font-weight: bold;
+}
+.pc_period2{
+	height:0px !important;
+	visibility : hidden;
+}
+#transactionGrid2_info{
+	text-align: right;
+}
+#transactionGrid2_paginate{
+	text-align: center;
+}
+#transactionGrid2_previous{
+	margin-right : 20px;
+}
+#transactionGrid2_next{
+	margin-left : 20px;
+}
+
+/*ë¯¸ì²´ê²° css*/
+.cancel-check-table{
+	width: 800px;
+	margin-top: 40px;
+	height: 43px!important;
+	background: #E21A32; 
+	border: 1px solid #FFFFFF;
+	display: none;
+}
+
+.cancel-check-table > tbody > tr > th{
+	height: 39px;
+	color: #FFFFFF; 
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px; 
+	line-height: 19px; 
+	text-align: center !important;
+}
+
+.grid.grid--empty{
+	width: 798px;
+	padding-left: 0px;
+	padding-right: 0px;
+	background: #FFFFFF !important; 
+	border: 1px solid #FFFFFF !important;
+}
+
+.d-grid.wallet--grid{
+	margin-top: 0px !important;	
+	row-gap: 1px !important;
+}
+
+/* ë¹ˆ ê·¸ë¦¬ë“œ ìŠ¤íƒ€ì¼ */
+.cancel_list {
+	width: 881px;
+	height:35px;
+	background-color: #FFFFFF; /* ë°°ê²½ìƒ‰ì„ í°ìƒ‰ìœ¼ë¡œ ì„¤ì • */
+	 /* í…Œë‘ë¦¬ë¥¼ 1í”½ì…€ ë‘ê»˜ì˜ ê²€ì€ìƒ‰ìœ¼ë¡œ ì„¤ì • */
+	border-bottom: 1px solid #DDDDDD;
+	padding: 0px;
+}
+
+/* ë¹ˆ ê·¸ë¦¬ë“œ ë‚´ë¶€ ì…€ ìŠ¤íƒ€ì¼ */
+.grid {
+	text-align: center;
+	font-family: Noto Sans KR;
+	font-size: 12px;
+	line-height: 19px;
+}
+.cancel_list_left > td{
+	padding: 0px !important;
+	height: 40px;
+	font-size: 16px;
+}
+
+#cancel_table_check .checkbox{
+	width: 25px;
+	height: 25px;
+}
+	
+#cancel_table_check,
+#cancel_table_right2{
+	border-right: 1px solid #DDDDDD;
+	
+}
+
+#cancel_table_right1{
+	border-bottom: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+	text-align: left !important;
+	padding-left : 20px !important;
+}
+
+#cancel_table_right2{
+	text-align: left !important;
+	padding-left : 20px !important;
+}
+
+#cancel_table_nond{
+	display: none;
+}
+
+.tcnt p{
+	margin:0px;
+	display: flex;
+	justify-content: space-between;
+	padding-left:20px;
+} 
+
+/*
+	231221 mk 수정시작
+*/
+@media screen and (max-width: 450px) { 
+	.content_wrap,
+	.contents,
+	.container {
+		width:100% !important;
+	}
+	.d-justify {
+	    width:100%;
+		justify-content: center !important;
+	}
+	/* tab1 */
+	.wallet_tab{
+		width: 95%;	
+	}
+	.con1{
+		width: 95%;	
+	}
+	.firsth_title_1,
+	.firsth_title_2 {
+		margin-top:30px;
+	    margin-bottom: 30px;
+	}
+	.firsth_title_1 p,
+	.firsth_title_2 p{
+		font-size : 20px;
+	}
+	.second_title_1_1 span,
+	.second_title_1_2 span,
+	.second_title_2_1 span,
+	.second_title_2_2 span{
+		width: 50%;
+		font-size : 13px;
+		padding-right:0px;
+	}
+
+	.second_title_1_1 p,
+	.second_title_1_2 p,
+	.second_title_2_1 p,
+	.second_title_2_2 p{
+		width: 50%;
+		font-size : 13px;
+	}
+	.third_title{
+		height : 3px;
+	}
+	
+	.con2{
+		width:95%;	
+	}
+	.list_tbody{
+		width: 95%;
+	}
+	.title_tbody table tbody tr th{
+		font-size:13px;
+	}
+	.wallet_title{
+		padding-left : 1%;
+		padding-right: 1%;
+	}
+	.wallet_title2 .p1 {
+		padding-right: 6px;
+		display: flex;
+		align-items: center; /* 수직 가운데 정렬 */
+		justify-content: center; /* 수평 가운데 정렬 */
+	}
+	.wallet_title2 p {
+		padding-left:6px;
+		padding-right: 6px;
+	}
+	.list_tbody table tbody tr th{
+		font-size:13px;
+	}
+
+	/*   tab3   */
+	.d-grid.wallet--grid{
+		display: block;
+	}
+	.cancel_list{
+		width : 95%;
+		
+	}
+	.cancel_list tr td{
+		font-size : 11px;
+	}
+	#cancel_table_right1{
+		padding-left: 2% !important;
+	}
+	#cancel_table_right2{
+		padding-left: 2% !important;
+	}
+	.tcnt p{
+		padding-left: 2% !important;
+	}
+	#cancel_table_check .checkbox{
+		width: 17px;
+		height: 17px;
+	}
+
+	/*tab2*/
+	#div_dropdown_date_selected{
+		max-width: 15%;
+		width: 15%;
+	}
+	#div_dropdown_type_selected{
+		max-width: 15%;
+		width: 15%;
+	}
+	#btn_popup{
+		padding-left : 5%;
+	}
+	.dataTables_info{
+		width : 55%;
+		position: sticky;
+		left: 2px;
+		z-index: 2;
+	}
+	.dataTables_paginate.paging_simple_numbers{
+		width :50%;
+		position: sticky;
+		left: 2px;
+		z-index: 2;
+	}
+	/*231222*/
+	#transactionGrid2_wrapper{
+		width : 600px !important;
+	}
+	#transactionGrid2{
+		width : 600px !important;
+		
+	}
+
+	#transactionGrid2 thead tr th,
+	#transactionGrid2 tbody td{
+		font-size : 11px;
+	}
+		
+	#transactionGrid2 thead tr th:nth-child(1),
+	#transactionGrid2 tbody td:nth-child(1)
+	 {
+		position: sticky;
+		left: 2px;
+		z-index: 2;
+	  }
+		
+	#transactionGrid2 thead tr th:nth-child(2),
+	#transactionGrid2 tbody td:nth-child(2)
+	 {
+		position: sticky;
+		left: 63px;
+		z-index: 2;
+		
+	  }
+	#transactionGrid2 thead tr th:nth-child(3),
+	#transactionGrid2 tbody td:nth-child(3)
+	 {
+		position: sticky;
+		left: 147px;
+		z-index: 2;
+	  }
+	
+	
+	/* 나머지 열들은 스크롤 가능하도록 설정 */
+	#transactionGrid2 tbody td:nth-child(4),
+	#transactionGrid2 tbody td:nth-child(5),
+	#transactionGrid2 tbody td:nth-child(6),
+	#transactionGrid2 tbody td:nth-child(7),
+	#transactionGrid2 tbody td:nth-child(8),
+	#transactionGrid2 tbody td:nth-child(9),
+	#transactionGrid2 tbody td:nth-child(10),
+	#transactionGrid2 tbody td:nth-child(11) {
+		overflow-x: auto;
+		white-space: nowrap; /* 텍스트가 길 경우 줄 바꿈 방지 */
+	}
+	
+}
+@media screen and (max-width: 433px) {
+	.tab-button{
+		font-size : 16px;
+	}
+	.firsth_title_1 p,
+	.firsth_title_2 p{
+		font-size : 16px;
+	}
+	.firsth_title_1 span,
+	.firsth_title_2 span{
+		font-size : 13px;
+	}
+	.second_title_1_1 span,
+	.second_title_1_2 span,
+	.second_title_2_1 span,
+	.second_title_2_2 span{
+		padding-top: 2px;
+		font-size : 11px;
+	}
+
+	.second_title_1_1 p,
+	.second_title_1_2 p,
+	.second_title_2_1 p,
+	.second_title_2_2 p{
+		font-size : 11px;
+		padding-right:20px;
+		padding-left:5px;
+	}
+	.third_title{
+		height : 1px;
+	}
+	.title_tbody table tbody tr th{
+		font-size:11px;
+	}
+	.wallet_title{
+		padding-left : 1%;
+		padding-right: 1%;
+	}
+	.wallet_title2 .p1 {
+		padding-right: 3px;
+		display: flex;
+		align-items: center; /* 수직 가운데 정렬 */
+		justify-content: center; /* 수평 가운데 정렬 */
+	}
+	.wallet_title2 p {
+		padding-left:3px;
+		padding-right: 3px;
+	}
+	.list_tbody table tbody tr th{
+		font-size:10px;
+	}
+}
+	
+	/* Mobile */
+@media (max-width: 800px) {
+	.wallet > header,
+    .deposit > header,
+	.wallet-analysis > header {
+        display: none;
+    }
+	
+}
+
+@media screen and (max-width:380px) { 
+	.tab-button{
+		font-size : 15px;
+	}
+	.firsth_title_1 p,
+	.firsth_title_2 p{
+		font-size : 15px;
+	}
+	.firsth_title_1 span,
+	.firsth_title_2 span{
+		font-size : 12px;
+	}
+	.second_title_1_1 span,
+	.second_title_1_2 span,
+	.second_title_2_1 span,
+	.second_title_2_2 span{
+		padding-top: 2px;
+		font-size : 10px;
+	}
+
+	.second_title_1_1 p,
+	.second_title_1_2 p,
+	.second_title_2_1 p,
+	.second_title_2_2 p{
+		font-size : 10px;
+		padding-right:20px;
+		padding-left:3px;
+	}
+	.third_title{
+		height : 1px;
+	}
+	.title_tbody table tbody tr th{
+		font-size:9px;
+	}
+	.wallet_title{
+		padding-left : 1%;
+		padding-right: 1%;
+	}
+	.wallet_title2 p {
+		font-size: 6px;
+	}
+	.list_tbody table tbody tr th{
+		font-size:9px;
+	}
+
+	/*   tab3   */
+	.d-grid.wallet--grid{
+		display: block;
+	}
+	.cancel_list{
+		width : 95% !important;
+	}
+		
+}
+
+.paginate_button{
+	padding-right : 3px;
+}
+.paginate_button.current{
+	font-weight: bold;
+	color : var(--red-up);
 }
