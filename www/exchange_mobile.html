@@ -35,7 +35,7 @@
 	<link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
 	<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
 	<link rel="stylesheet" href="./assets/css/sub.css?t=1672721419">
-	<link rel="stylesheet" href="./assets/css/exchange.css?t=1672042300">
+	<link rel="stylesheet" href="./assets/css/exchange_mobile.css?t=1672042300">
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
 	<link rel="stylesheet"
 		href="https://cdn.datatables.net/v/dt/dt-1.12.1/fh-3.2.4/r-2.3.0/sc-2.0.7/datatables.min.css">
@@ -216,7 +216,7 @@
 						<button type="button" class="navigation"></button>
 					</header>
 				</div>
-				<div class="side--panel"> <!--     -->
+				<div class="side--panel" style="display: none;"> <!--     -->
 					<div class="tab-wrapper">
 						<div class="search-container">
 							<div class="search_item">
@@ -292,12 +292,13 @@
 						</div>
 					</div>
 					<div class="tab-content" id="tab-info">
+						<button id="btn_pre" onclick="prevSlide()"></button>
 						<div class="info">
 							<div class="thumb">
 								<img src=""
 									alt="">
 							</div>
-							<div class="info_p">
+							<div class="info_p" style="display:none">
 								<table class="table">
 									<tbody>
 										<tr>
@@ -335,6 +336,7 @@
 								</table>
 							</div>
 						</div>
+						<button id="btn_next" onclick="nextSlide()"></button>
 					</div>
 					<div class="chart" style="display:none">
 						<div class="details--body">
@@ -458,7 +460,7 @@
 							<div class="right_title">
 								<span class="menu-item" id="right_buy" style="color: var(--red-up);" onclick="calc_buy()">매수</span>
 								<span class="menu-item" id="right_sell" onclick="calc_sell()">매도</span>
-								<span class="menu-item" id="right_mange">주문관리</span>
+								<span class="menu-item" id="right_mange" onclick="order_chnage('A')">주문관리</span>
 							</div>
 
 							<!-- 매수 창 -->
@@ -1544,7 +1546,7 @@
 			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span>
 		</div>
 	</footer> -->
-	<script src="./assets/js/exchange.js?t=1672721688" defer></script>
+	<script src="./assets/js/exchange_mobile.js?t=1672721688" defer></script>
 	<script>
 
 	</script>

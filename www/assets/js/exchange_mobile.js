@@ -66,9 +66,39 @@ let newData2 = [];
 let buylistNum = 4;
 let selllistNum = 4;
 let pin_check = false;
+let search_text = '';
 		   
 // 모바일 접속 여부
 let isMobile = (window.matchMedia('(max-width: 800px)').matches)
+
+let currentSlide = 0;
+
+function showSlide(n) {
+    const slides = document.querySelector('.thumb');
+	const infoPElements = document.querySelector('.info_p');
+
+    if (n < 0) {
+        currentSlide = slides.length - 1;
+    } else if (n >= slides.length) {
+        currentSlide = 0;
+    }
+
+    if(slides.style.display === 'none') {
+		slides.style.display = 'block';
+		infoPElements.style.display = 'none';
+	}else{
+		slides.style.display = 'none';
+		infoPElements.style.display = 'block';
+	}
+}
+
+function prevSlide() {
+    showSlide(--currentSlide);
+}
+
+function nextSlide() {
+    showSlide(++currentSlide);
+}
 
 $(function() {
     $('.number').autotab({ tabOnSelect: true },'filter', 'number');
@@ -84,21 +114,24 @@ $(function() {
 		}
     })
 
-    setTimeout(function() {
+	setTimeout(function() {
 	    const queryString = window.location.search;
 	    const urlParams = new URLSearchParams(queryString);
-	    const checkValue = urlParams.get('search');
-	   
-	    console.log('check!:', checkValue);
+	    const checkValue = urlParams.get('check');
+	    const check3Value = urlParams.get('check3');
+	
+		search_text = check3Value;
 	
 		var inputElement = document.getElementById('searchInput');
 	
-	    
+	    // 값에 '1111'을 설정합니다.
 	    inputElement.value = checkValue;
 	
-		//performSearch();
+		performSearch();
 
 	}, 30);
+
+	
 
     $(document).on('click', ".btn--star, .btn--star--on", function() {
         $.ajax({
@@ -126,13 +159,14 @@ $(function() {
             }
         })
     })
-
+	
 	$("[name=btn_view_list]").on('click',function(){
-		$(".side--panel").show();
-		$(".details").hide();
-        //너비가 맞지 않아 resize 하는 기능 추가
-        var bodywidth = $('.dataTables_scrollBody').width();
-		$('.dataTables_scrollHeadInner').css('width', bodywidth);
+        if(search_text != ''){
+            window.location.href = 'https://dev.assettea.com/exchange.html?search='+search_text;
+        }else{
+            window.location.href = 'https://dev.assettea.com/exchange.html';
+        }
+		
 	})
 
     $("[name=bbb]").on('click', function() {
@@ -1087,8 +1121,12 @@ $(function() {
 					
 					//$('#buy-order').style.padding = '0';
 			    });
-                var search_text = $('#searchInput').val();
-                window.location.href = 'https://dev.assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3='+search_text;
+				console.log("name : " + SELECTED_NAME);
+                console.log("symbol : " + SELECTED_SYMBOL);
+                console.log(data); 
+				console.log('https://dev.assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3=청병3')
+                //window.location.href = 'https://dev.assettea.com/exchange.html?check='+SELECTED_NAME+'&check3=청병3';
+				//찾기!!!!!!!!!!!!!!!!!!!
 
 				const spans = document.querySelectorAll('.table-header span');
 				spans.forEach(span => {
@@ -1304,7 +1342,7 @@ $(function() {
             
             $('#right_buy').click();
             trade_list();
-            order_chnage('A');
+            //order_chnage('A');
             $('.details').show();
         }
     })
@@ -1505,22 +1543,24 @@ $(function() {
         }
         
         API.getCurrency(symbol, (resp) => {
-            if (resp.success) {
-                CURRENCY_INFO = resp.payload;
-                //이름순으로 순서 변경
-                //CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
-                //CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
-                desc_data = new Array();
-                for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
-                    desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
-                }
-                
-                setItemGrid(CURRENCY_INFO);
-                console.log('999');		
-            } else {
-                setItemGrid(null);
-            }
-        
+			if(!isMobile){
+				if (resp.success) {
+	                CURRENCY_INFO = resp.payload;
+		            //이름순으로 순서 변경
+		            //CURRENCY_INFO.sort((a, b) => a.name > b.name ? 1 : -1);
+		            //CURRENCY_INFO.sort((a, b) => a.name.localeCompare(b.name));
+					desc_data = new Array();
+					for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
+					    desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
+					}
+					
+					setItemGrid(CURRENCY_INFO);
+					console.log('999');		
+	            } else {
+	                setItemGrid(null);
+	            }
+			}
+            
         });
     }
     window.getTradeItems = getTradeItems;
@@ -1682,7 +1722,6 @@ $(function() {
 					API.buy($('#modal-buy').serializeObject(), (resp) => {
 		                $('#modal-buy').find('button[type=submit]').attr('disabled', false);
 		                if(resp.success) {
-							console.log(resp);
 		                    //set_user_wallet();
 		                    $('#modal-buy').myModal('hide')
 		                    const price = parseFloat($('#modal-buy [name=price]').val().replace(/[^0-9.\-\+]/g, ''))
@@ -1702,6 +1741,7 @@ $(function() {
 							//상태 재시작
 							request_user_info();
 							set_user_wallet();
+							trade_list();
 							toggleOrderContent('buy');
 		                } else {
 		                    alert(resp.error.message)
@@ -1822,6 +1862,7 @@ $(function() {
 							//상태 재시작
 							request_user_info();
 							set_user_wallet();
+							trade_list();
 							toggleOrderContent('sell');
 		                } else {
 		                    alert(resp.error.message)
@@ -2044,37 +2085,10 @@ function toggleOrderContent(orderType) {
     
 }
 
-// 주문취소 창의 주문번호 리스트를 생성하는 함수
-function createCancelOrderList() {
-    /*const cancelOrderContent = document.getElementById('cancel-order-content');
-    cancelOrderContent.innerHTML = '';
-    const cancelOrderList = document.createElement('div');
-    cancelOrderList.style.height = '440px';
-    cancelOrderList.style.overflowY = 'scroll';
-    for (const item of data) {
-        const orderCheckbox = document.createElement('input');
-        orderCheckbox.type = 'checkbox';
-        orderCheckbox.value = item.orderNumber;
-        orderCheckbox.id = `order-${item.orderNumber}`;
-        const orderLabel = document.createElement('label');
-        orderLabel.htmlFor = `order-${item.orderNumber}`;
-        orderLabel.innerText = `주문번호 ${item.orderNumber}`;
-        const orderRow = document.createElement('div');
-        orderRow.appendChild(orderCheckbox);
-        orderRow.appendChild(orderLabel);
-        cancelOrderList.appendChild(orderRow);
-    }
-    cancelOrderContent.appendChild(cancelOrderList);*/
-}
-
 // 매수, 매도, 주문관리 클릭 이벤트 추가
 document.querySelector('.menu-item:nth-child(1)').addEventListener('click', () => toggleOrderContent('buy'));
 document.querySelector('.menu-item:nth-child(2)').addEventListener('click', () => toggleOrderContent('sell'));
 document.querySelector('.menu-item:nth-child(3)').addEventListener('click', () => toggleOrderContent('manage'));
-
-// 주문취소 창의 주문번호 리스트를 생성하고 숨깁니다.
-createCancelOrderList();
-//document.getElementById('cancel-order-content').style.display = 'none';
 
 //주문 더보기
 function showDivPlus(checkNum) {
@@ -2189,28 +2203,34 @@ function addCommas(value) {
 }
 
 function order_chnage(text){
-	const rightIng = document.getElementById('right_ing');
-	const rightC = document.getElementById('right_c');
-	
-	if(text === 'c'){
-		console.log("완료");
-		fn_takeout2();
-		rightIng.style.color = 'black';
-	    rightIng.style.background = 'white';
-	    rightC.style.color = 'white';
-	    rightC.style.background = 'var(--red-up)';
+	if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+			alert('로그인 해주세요');
+			window.location.href = '../login.html';
+            const element = document.getElementById("list-item-space");
+			element.innerHTML = "";
 	}else{
+		const rightIng = document.getElementById('right_ing');
+		const rightC = document.getElementById('right_c');
 		
-        try {
-		    fn_takeout();
-		} catch (error) {
-			console.log("미체결");
+		if(text === 'c'){
+			console.log("완료");
+			fn_takeout2();
+			rightIng.style.color = 'black';
+		    rightIng.style.background = 'white';
+		    rightC.style.color = 'white';
+		    rightC.style.background = 'var(--red-up)';
+		}else{
+	        try {
+			    fn_takeout();
+			} catch (error) {
+				console.log("미체결");
+			}
+			
+			rightC.style.color = 'black';
+		    rightC.style.background = 'white';
+		    rightIng.style.color = 'white';
+		    rightIng.style.background = 'var(--red-up)';
 		}
-		
-		rightC.style.color = 'black';
-	    rightC.style.background = 'white';
-	    rightIng.style.color = 'white';
-	    rightIng.style.background = 'var(--red-up)';
 	}
 }
 
@@ -2220,6 +2240,7 @@ function calc_sell(){
 		const sell_price = $('#sell_price').val();
 		$('#sell_total').val(addCommas(rmCommas(sell_price)*sell_ea));
 	}, 50);
+	resizeText_sell();
 }
 
 function calc_buy(){
@@ -2242,7 +2263,7 @@ function trade_list(){
 	API.getOrderListTrading(SELECTED_SYMBOL, '', (resp) => {
 		//console.log('SELECTED_SYMBOL:', SELECTED_SYMBOL);
         //console.log('trade_list:', resp);
-		console.log(resp);
+		//console.log(resp);
 		let b_num = 0;
 		let s_num = 0;
          if(resp.payload.length > 0) {
@@ -2449,7 +2470,7 @@ const fn_takeout = function () {
 							  ("0" + (load_date.getFullYear() % 100)).slice(-2) + "/" + 
 							  ("0" + (load_date.getMonth() + 1)).slice(-2) + "/" +
 							  ("0" + load_date.getDate()).slice(-2) + "/" +
-							  ("0" + load_date.getHours()).slice(-2) + "/" +
+							  ("0" + load_date.getHours()).slice(-2) + ":" +
 							  ("0" + load_date.getMinutes()).slice(-2) + ""
 							);
 	                        date.textContent = formattedDate;
@@ -2523,7 +2544,6 @@ const fn_takeout2 = function () {
 	$('.cancel-order-content').hide();
 
 	API.getMyOrderList('all', sdate, edate, '', (resp) => {
-		console.log(resp);
         document.getElementById("list-item-space").innerHTML = "";
 		if(resp.data.length>0) {  
 				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
@@ -2560,7 +2580,7 @@ const fn_takeout2 = function () {
 						if(isMobile){
 							orderListItem.style.paddingLeft = '13px';
 						}else{
-							orderListItem.style.paddingLeft = '23px';
+							orderListItem.style.paddingLeft = '43px';
 						}
 						
                         orderListItem.style.paddingBottom = '11px';
@@ -2773,4 +2793,56 @@ function request_user_info() {
 				document.getElementsByClassName('tea--available')[0].textContent = real_number_format(cnt_buyable) + SELECTED_EXCHANGE;
 	    }
 	})
+}
+
+function resizeText_sell(){
+	document.getElementById(`sell-order`).style.padding = '0px';
+	document.getElementById(`sell-order`).style.paddingLeft = '10px';
+	
+	var sell_modalContent = document.querySelector('#sell-order .modal--content');
+    
+	// sell_modalContent 존재하는 경우에만 실행합니다.
+	if (sell_modalContent) {
+		// modalContent 내의 모든 요소들의 글꼴 크기를 10px로 설정합니다.
+		sell_modalContent.querySelectorAll('*').forEach(function(element) {
+			element.style.fontSize = '10px';
+			element.style.width = '95%';
+		});
+	}
+
+	var dlAgree = document.getElementById('sell-order');
+
+	if (dlAgree) {
+		// dlAgree 내의 맨 아래 span 요소를 가져옵니다.
+		var lastSpan = dlAgree.querySelector('span:last-child');
+		
+		// lastSpan이 존재하는 경우에만 실행합니다.
+		if (lastSpan) {
+			// lastSpan의 너비를 30%로 설정합니다.
+			lastSpan.style.width = '30%';
+		}
+
+		// "use_buy_agreement" 이름을 가진 체크박스를 가져옵니다.
+		var agreementCheckbox = dlAgree.querySelector('input[name="use_sell_agreement"]');
+		
+		// agreementCheckbox가 존재하는 경우에만 실행합니다.
+		if (agreementCheckbox) {
+			// 체크박스의 높이를 13px로 설정합니다.
+			agreementCheckbox.style.height = '13px';
+		}
+		var allElements = dlAgree.querySelectorAll('*');
+
+		// allElements가 존재하는 경우에만 실행합니다.
+		if (allElements) {
+			// 모든 요소의 글꼴 크기를 9px로 설정합니다.
+			allElements.forEach(function(element) {
+				element.style.fontSize = '10px';
+			});
+		}
+
+		$('#sell-order .modal--content dl dd')[0].style.paddingTop = '10px'
+
+		$('#sell-order .modal--content dl dd')[1].style.paddingTop = '10px'
+		
+	}
 }
