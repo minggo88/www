@@ -162,9 +162,9 @@ $(function() {
 	
 	$("[name=btn_view_list]").on('click',function(){
         if(search_text != ''){
-            window.location.href = 'https://dev.assettea.com/exchange.html?search='+search_text;
+            window.location.href = 'https://assettea.com/exchange.html?search='+search_text;
         }else{
-            window.location.href = 'https://dev.assettea.com/exchange.html';
+            window.location.href = 'https://assettea.com/exchange.html';
         }
 		
 	})
@@ -1121,11 +1121,6 @@ $(function() {
 					
 					//$('#buy-order').style.padding = '0';
 			    });
-				console.log("name : " + SELECTED_NAME);
-                console.log("symbol : " + SELECTED_SYMBOL);
-                console.log(data); 
-				console.log('https://dev.assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3=청병3')
-                //window.location.href = 'https://dev.assettea.com/exchange.html?check='+SELECTED_NAME+'&check3=청병3';
 				//찾기!!!!!!!!!!!!!!!!!!!
 
 				const spans = document.querySelectorAll('.table-header span');
