@@ -5,6 +5,7 @@ setTimeout(function() {
 
 setTimeout(function() {
 	check_login();
+	showTab(1);
 }, 100);
 
 function showTab(tabNumber) {
