@@ -1,9 +1,3 @@
-/*setTimeout(function() {
-    $("#title_4").hide()
-    $("#title_4_on").show()
-}, 500);
-*/
-
 $(document).ready(function(){
     
 });
@@ -16,7 +10,7 @@ var selected_list = [];
 var total_num = 0;
 const fn_wallet = function () {
     check_login();
-    force_rander('user_info', Model.user_info);
+    //force_rander('user_info', Model.user_info);
 
     // set default exchange currency symbol
     const exchange = 'KRW';
