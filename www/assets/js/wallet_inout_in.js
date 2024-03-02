@@ -49,22 +49,6 @@ function transferMaxAmount() {
   }
 
 function fn_wallet_deposit (){
-	//로그인 체크 필요
-    //check_login();
-    // access level 3
-    // request_user_info();
-    force_rander('user_info', Model.user_info);
-    // 사이트 정보
-    force_rander('site_info', Model.site_info);
-    /*add_request_item('getConfig', {}, function (r) {
-        if (r && r.success) {
-            Model.site_info = r.payload;
-        }
-    });*/
-    // 지갑 정보
-    force_rander('user_wallet', Model.user_wallet); // 화면에 잔액 표시 후
-    //get_user_wallet(); // DB 값으로 다시 잔액 표시
-
     const clipboard = new ClipboardJS('.btn--copy');
     clipboard.on('success', function (e) {
         alert('클립보드에 복사되었습니다.')
