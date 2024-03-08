@@ -1,14 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="ko-KR">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>버튼 예시</title>
 <style>
-    body {
+    body{
+        background-color: rgb(15, 17, 40);
+    }
+    h1{
+        color:#ffffff;
+        font-size:48px;
+        text-align: center;
+    }
+    body div {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 40vh;
         margin: 0;
-        background-color: rgb(15, 17, 40);
-    }
-    .button-container {
-        text-align: center;
     }
     .button-container button {
         width: 346px;
@@ -18,14 +30,14 @@
     }
 
     #btn_apk{
-        background-image: url("../logo.png");
+        background-image: url("../img/btn_down_apk.png");
         background-size: cover; /* 이미지를 버튼 크기에 맞게 조절 */
         background-repeat: no-repeat; /* 배경 이미지 반복 안 함 */
         background-position: center; /* 배경 이미지 중앙 정렬 */
     }
 
     #btn_home{
-        background-image: url("../imb_1.png");
+        background-image: url("../btn_home_apk.png");
         background-size: cover; /* 이미지를 버튼 크기에 맞게 조절 */
         background-repeat: no-repeat; /* 배경 이미지 반복 안 함 */
         background-position: center; /* 배경 이미지 중앙 정렬 */
@@ -33,15 +45,28 @@
 </style>
 </head>
 <body>
-<h1 style="text-align: center;">제목</h1>
-<div class="button-container">
-    <button id="btn_apk">버튼1</button>
-    <br>
-    <button id="btn_home">버튼2</button>
-    <br>
-    <br>
-    <button>버튼3</button>
-    <button>버튼4</button>
-</div>
+    <h1>제목</h1>
+    <div class="button-container">
+        <button id="btn_apk" onclick="downloadApk()">버튼1</button>
+    </div>
+    <div class="button-container">
+        <button id="btn_home" onclick="redirectToWebsite()">버튼2</button>    
+    </div>
+
+<script>
+    function downloadApk() {
+        // APK 다운로드 기능
+        var link = document.createElement('a');
+        link.href = '../imb_1.apk';
+        link.download = 'imb_1.apk';
+        link.click();
+    }
+
+    function redirectToWebsite() {
+        // 웹사이트로 이동
+        window.location.href = 'https://dev.assettea.com';
+    }
+</script>
+
 </body>
 </html>
