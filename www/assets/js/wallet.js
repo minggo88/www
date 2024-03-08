@@ -186,9 +186,9 @@ function wallet_tab(tabNumber) {
 											<tr>
 												<th class="wallet_list" style="width: 22%;">${item_name}</th>
 												<th class="wallet_list" style="width: 10%;">${make_year}</th>
-												<th class="wallet_list" id="wallet_list_num" style="width: 20%; ${style_text}">${item_income}</th>
+												<th class="wallet_list" id="wallet_list_num" style="width: 24%; ${style_text}">${item_income}</th>
 												<th class="wallet_list" id="wallet_list_num" style="width: 24%;">`+real_number_format(item_total,0)+`</th>
-												<th class="wallet_list_end" id="wallet_list_num" style="width: 24%;">`+real_number_format(item_price,0)+`</th>
+												<th class="wallet_list_end" id="wallet_list_num" style="width: 20%;">`+real_number_format(item_price,0)+`</th>
 											</tr>
 										</tbody>
 									</table>
@@ -202,9 +202,9 @@ function wallet_tab(tabNumber) {
 													</div>
 												</th>
 												<th class="wallet_list" style="width: 10%;">${item.confirmed_str}</th>
-												<th class="wallet_list" id="wallet_list_num" style="width: 20%; ${style_text}">${income_rate.toFixed(2) +'%'}</th>
+												<th class="wallet_list" id="wallet_list_num" style="width: 24%; ${style_text}">${income_rate.toFixed(2) +'%'}</th>
 												<th class="wallet_list" id="wallet_list_num" style="width: 24%;">`+ real_number_format(avg_price_tot,0) +`</th>
-												<th class="wallet_list_end" id="wallet_list_num" style="width: 24%;">`+ real_number_format(avg_price_one) +`</th>
+												<th class="wallet_list_end" id="wallet_list_num" style="width: 20%;">`+ real_number_format(avg_price_one) +`</th>
 											</tr>
 										</tbody>
 									</table>
