@@ -19,43 +19,39 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 30vh;
+        height: 40vh;
         margin: 0;
     }
-    .button-container button {
-        width: 346px;
-        height: 50px;
-        margin: 5px;
+    .button-container a {
+        width: 340px;
+        height: 100px;
         font-size: 16px;
     }
 
     #btn_apk{
-        background: url('../img/btn_down_apk.png') no-repeat center center;
+        background: url('../assets/img/btn_down_apk.png') no-repeat center center;
     }
 
     #btn_home{
-        background-image: url("../img/btn_home_apk.png");
-        background-size: cover; /* 이미지를 버튼 크기에 맞게 조절 */
-        background-repeat: no-repeat; /* 배경 이미지 반복 안 함 */
-        background-position: center; /* 배경 이미지 중앙 정렬 */
+        background: url('../assets/img/btn_home_apk.png') no-repeat center center;
     }
 </style>
 </head>
 <body>
-    <h1>제목</h1>
+    <h1>ASSETTEA APP 다운페이지</h1>
     <div class="button-container">
-        <button id="btn_apk" onclick="downloadApk()">버튼1</button>
+        <a id="btn_apk" onclick="downloadApk()"></a>
     </div>
     <div class="button-container">
-        <button id="btn_home" onclick="redirectToWebsite()">버튼2</button>    
+        <a id="btn_home" onclick="redirectToWebsite()"></a>    
     </div>
 
 <script>
     function downloadApk() {
         // APK 다운로드 기능
         var link = document.createElement('a');
-        link.href = '../etc/assettea.apk';
-        link.download = 'assettea.apk';
+        link.href = '../imb_1.apk';
+        link.download = 'imb_1.apk';
         link.click();
     }
 
