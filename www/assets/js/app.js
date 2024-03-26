@@ -539,8 +539,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								const $target = $(this), $empty = $target.find('[name=empty]'), $search = $target.find('[name=search]');
 								$search.hide().addClass('hide');
 								$empty.hide().addClass('hide');
-								// console.log('target:', $target);
-								// console.log('$tpl:', $tpl);
 								if (!data || data.length < 1) {
 									$empty.show().removeClass('hide');
 									$target.children().not('[name=tpl],[name=search],[name=empty]').remove();
@@ -603,7 +601,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								vt = vn;
 						}
 						// 값 지정
-						// console.log('tagname:', tagname);
 						switch (tagname) {
 							case 'INPUT':
 								let type = ($(this).attr('type') + '').toUpperCase();
@@ -613,8 +610,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 										let same_value = vn == $(this).val(); // 값이 같은가?
 										// 값이 같은데 체크 안되있으면 클릭해서 체크함.
 										// 값이 다른데 체크 되있으면 클릭해서 언체크함.
-										// console.log('same_value:', same_value);
-										// console.log('checked:', $(this).is(':checked'));
 										if (same_value && !$(this).is(':checked') || !same_value && $(this).is(':checked')) {
 											$(this).trigger('click');
 										}
@@ -644,7 +639,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								if ('userid' != i) { // userid는 콤마 미입력
 									vt = (vt && vt.toNumber() == vt && (typeof (vt)).toLowerCase() == 'number' && !(vt + '').match(/[^0-9.]/)) ? real_number_format(vt) : vt;
 								}
-								// console.log('vt:', vt, '$(this):', $(this));
 								$(this).html(vt);
 								break;
 						}
@@ -669,7 +663,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		window.rander = rander;
 	}
 	const force_rander = function (name, value) {
-		// console.log('==force_rander== ', name);
 		rander(name, value, value, true);
 	}
 	if (APP_RUNMODE != 'live') {
@@ -703,8 +696,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				r = JSON.parse(Decrypt(localStorage.getItem(property), key, 256));
 			}
 			if (cookie_item.indexOf(property) > -1) {
-				// console.log(key);
-				// r = JSON.parse(Decrypt(getCookie(property), key, 256));
 				r = getCookie(property);
 			}
 		} catch (e) {
@@ -1034,8 +1025,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				img.onload = function () {
 					imgW = this.naturalWidth;
 					imgH = this.naturalHeight;
-					// console.log(imgW, imgH)
-
 					if (imgW > imgH) { // 이미지 가로 사이즈가 세로 사이즈보다 클 경우 실행
 						$('#photo').addClass('land');
 					} else {
@@ -1218,23 +1207,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				id = id ? id[1] : '';
 			}
 			// jQuery.get('https://www.youtube.com/oembed?format=xml&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DW86o7aLA9ZQ', function(r){console.log('r.thumbnail_url:',$('thumbnail_url',r).text());});
-			/*
-			<oembed>
-				<title>[Ali] 알리 베스트63 연속듣기</title>
-				<author_name>euna4ever</author_name>
-				<author_url>https://www.youtube.com/c/euna4ever</author_url>
-				<type>video</type>
-				<height>113</height>
-				<width>200</width>
-				<version>1.0</version>
-				<provider_name>YouTube</provider_name>
-				<provider_url>https://www.youtube.com/</provider_url>
-				<thumbnail_height>360</thumbnail_height>
-				<thumbnail_width>480</thumbnail_width>
-				<thumbnail_url>https://i.ytimg.com/vi/W86o7aLA9ZQ/hqdefault.jpg</thumbnail_url>
-				<html><iframe width="200" height="113" src="https://www.youtube.com/embed/W86o7aLA9ZQ?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></html>
-			</oembed>
-			*/
+
 			$.get({
 				'url': 'https://www.youtube.com/oembed?format=xml&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D' + id,
 				'async': false,
@@ -1289,7 +1262,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			}
 			for (i = 0; i < data.length; i++) {
 				let row = data[i];
-				// console.log(row);
 				html[i] = tpl_video_item
 					.replace(/\{video_img\}/g, row.file_name || 'about:blank')
 					.replace(/\{user_profile_img\}/g, row.profile_img || '/@resource/images/common/basic_profile.png')
@@ -1440,7 +1412,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	 */
 	const request_user_info = function (callback) {
 		add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
-			//console.log('getMyInfo r:', r);
 			if (r && r.success && !r.error) {
 				let user_info = r.payload;
 				Model.user_info = user_info;
@@ -1476,7 +1447,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$.post(API_URL + '/getBalance/', { 'token': getCookie('token') }, function (r) {
 			if (r && r.success && !r.error) {
 				let user_wallet = {};
-				// console.log(r.payload);
 				for (i in r.payload) {
 					let row = r.payload[i];
 					row.confirmed = row.confirmed * 1;
@@ -1484,7 +1454,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					let key = gen_user_wallet_key(row.symbol, row.goods_grade);
 					user_wallet[key] = row;
 				}
-				// console.log(user_wallet);
 				Model.user_wallet = user_wallet;
 			}
 		});
@@ -1616,7 +1585,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				for (i in spot_prices) {
 					const r = spot_prices[i];
 					if (!r || !r.name) { continue; }
-					// console.log('i:',i)
 					// $.get(API_URL+'/getChartData/', { 'symbol': r.symbol }, function (r) { 
 					// add_request_item('getChartData', { 'symbol': r.symbol }, function (r) { 
 					//     console.log(' r.payload:',  r.payload);
@@ -1740,12 +1708,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 			$('#bank_account_p').val(bank_ac_text);
 		}
-		
-		//console.log('user_info : '+ bank_ac_text);
-		
-		//console.log('user_info : '+ bank_ac_text);
-		
-		
+
 		let image_url = "";
 		$('input[type="file"]').on('change', function () {
 			const name = $(this).attr('title');
@@ -1768,17 +1731,17 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();*/
 
-			console.log('checkAccount');
-			console.log(unserialize($('#change-account-number').serialize()));
-			console.log(location.origin);
+			//console.log('checkAccount');
+			//console.log(unserialize($('#change-account-number').serialize()));
+			//console.log(location.origin);
 			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					for (var key in r) {
-						console.log(key + ": " + r[key]);
+						//console.log(key + ": " + r[key]);
 					}
 					
 				}else{
-					console.log(r);
+					//console.log(r);
 				} 
 			})
 
@@ -1813,7 +1776,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				if (r?.success) {
 					alert(__('저장했습니다.' + r));
 					for (var key in r) {
-						console.log(key + ": " + r[key]);
+						//console.log(key + ": " + r[key]);
 					}
 					
 					$('[name=status_waiting]').show().siblings().hide();
@@ -1912,7 +1875,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			let wallet_name = wallet?.name;
 
 			$('[name=symbol]').on('change', function () {
-				console.log('detect changed')
+				//console.log('detect changed')
 				if ($(this).is(':visible')) {
 					selected_symbol = $(this).dropdown('selected');
 					wallet = Model.user_wallet[selected_symbol];
@@ -2343,31 +2306,29 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		check_login();
 		request_user_info();
 		Model.form = clone(Model.user_info);
-		
-		if (Model.user_info.user_join_type === "B") {
-			document.getElementById("join_type").selectedIndex = 1; // 두 번째 option을 선택 (인덱스는 0부터 시작하므로 1은 두 번째 option을 의미)
-		}else{
-			document.getElementById("join_type").selectedIndex = 2;
-		}
-		
+				
 		//자료깨짐으로 인한 생략
 		//document.getElementById("join_user_passport").value = Model.user_info.user_info_A;
 		//document.getElementById("join_user_number_A").value = Model.user_info.user_info_A + '' + Model.user_info.user_info_B;
 		if(Model.user_info.user_join_type == "B"){
 			document.getElementById("join_user_number_A").style.display = 'none';
-			//document.getElementById("join_user_number_B").style.display = 'none';
 			document.getElementById("join_user_passport").style.display = 'block';
-			document.getElementById("join_user_number_A").value = '';
-			//document.getElementById("join_user_number_B").value = '';
 			$("#join_user_passport").show();
 			$("#join_user_number_A").hide();
 		}else{
 			document.getElementById("join_user_number_A").style.display = 'block';
-			//document.getElementById("join_user_number_B").style.display = 'none';
 			document.getElementById("join_user_passport").style.display = 'none';
 			document.getElementById("join_user_passport").value = '';
 			$("#join_user_number_A").show();
 			$("#join_user_passport").hide();
+		}
+
+		if (Model.user_info.user_join_type == "B") {
+			document.getElementById("join_type").selectedIndex = 1; // 두 번째 option을 선택 (인덱스는 0부터 시작하므로 1은 두 번째 option을 의미)
+			document.getElementById("join_user_passport").value = Model.user_info.user_join_number;
+		}else{
+			document.getElementById("join_type").selectedIndex = 0;
+			document.getElementById("join_user_number_A").value = Model.user_info.user_join_number;
 		}
 		
 		// force_rander('user_info', Model.user_info);
@@ -2445,7 +2406,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		
 		// 신분증 인증 완료
 		if (Model.user_info.permission.substr(3, 1) == '1') {
-			document.getElementById("join_user_number_A").value = '';
+			//document.getElementById("join_user_number_A").value = '';
 			document.getElementById("join_user_number_B").value = '';
 			document.getElementById("join_user_number_A").style.display = 'none';
 			document.getElementById("join_user_number_B").style.display = 'none';
@@ -2901,7 +2862,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$('input[name="range"]').on('apply.daterangepicker', function(ev, picker) {
 			sdate = picker.startDate.format('YYYY-MM-DD');
 			edate = picker.endDate.format('YYYY-MM-DD');
-			console.log('sdate:', sdate, ',edate:', edate);
+			//console.log('sdate:', sdate, ',edate:', edate);
 		});
 		$('[name="btn-search"]').on('click', function() {
 			getMyProfit();
@@ -2939,7 +2900,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		// 잔액 조회
 		const getMyProfit = () => {
 			add_request_item('getMyProfit', { 'sdate': sdate, 'edate': edate }, function (r) { 
-				console.log(r, r?.success)
+				//console.log(r, r?.success)
 				if (r?.success) {
 					Model.MyProfit = r.payload;
 					const $target = $('[name="table_profit"]');
@@ -3221,7 +3182,7 @@ function getIP(callback) {
 		const ip = ipMatches ? ipMatches[0] : 'unknown';
   
 		pc.onicecandidate = noop;
-		console.log(ip);
+		//console.log(ip);
 		callback(ip);
 	  }
 	};
