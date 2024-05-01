@@ -539,8 +539,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								const $target = $(this), $empty = $target.find('[name=empty]'), $search = $target.find('[name=search]');
 								$search.hide().addClass('hide');
 								$empty.hide().addClass('hide');
-								// console.log('target:', $target);
-								// console.log('$tpl:', $tpl);
 								if (!data || data.length < 1) {
 									$empty.show().removeClass('hide');
 									$target.children().not('[name=tpl],[name=search],[name=empty]').remove();
@@ -603,7 +601,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								vt = vn;
 						}
 						// 값 지정
-						// console.log('tagname:', tagname);
 						switch (tagname) {
 							case 'INPUT':
 								let type = ($(this).attr('type') + '').toUpperCase();
@@ -613,8 +610,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 										let same_value = vn == $(this).val(); // 값이 같은가?
 										// 값이 같은데 체크 안되있으면 클릭해서 체크함.
 										// 값이 다른데 체크 되있으면 클릭해서 언체크함.
-										// console.log('same_value:', same_value);
-										// console.log('checked:', $(this).is(':checked'));
 										if (same_value && !$(this).is(':checked') || !same_value && $(this).is(':checked')) {
 											$(this).trigger('click');
 										}
@@ -644,7 +639,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 								if ('userid' != i) { // userid는 콤마 미입력
 									vt = (vt && vt.toNumber() == vt && (typeof (vt)).toLowerCase() == 'number' && !(vt + '').match(/[^0-9.]/)) ? real_number_format(vt) : vt;
 								}
-								// console.log('vt:', vt, '$(this):', $(this));
 								$(this).html(vt);
 								break;
 						}
@@ -669,7 +663,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		window.rander = rander;
 	}
 	const force_rander = function (name, value) {
-		// console.log('==force_rander== ', name);
 		rander(name, value, value, true);
 	}
 	if (APP_RUNMODE != 'live') {
@@ -703,8 +696,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				r = JSON.parse(Decrypt(localStorage.getItem(property), key, 256));
 			}
 			if (cookie_item.indexOf(property) > -1) {
-				// console.log(key);
-				// r = JSON.parse(Decrypt(getCookie(property), key, 256));
 				r = getCookie(property);
 			}
 		} catch (e) {
@@ -1034,8 +1025,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				img.onload = function () {
 					imgW = this.naturalWidth;
 					imgH = this.naturalHeight;
-					// console.log(imgW, imgH)
-
 					if (imgW > imgH) { // 이미지 가로 사이즈가 세로 사이즈보다 클 경우 실행
 						$('#photo').addClass('land');
 					} else {
@@ -1218,23 +1207,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				id = id ? id[1] : '';
 			}
 			// jQuery.get('https://www.youtube.com/oembed?format=xml&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DW86o7aLA9ZQ', function(r){console.log('r.thumbnail_url:',$('thumbnail_url',r).text());});
-			/*
-			<oembed>
-				<title>[Ali] 알리 베스트63 연속듣기</title>
-				<author_name>euna4ever</author_name>
-				<author_url>https://www.youtube.com/c/euna4ever</author_url>
-				<type>video</type>
-				<height>113</height>
-				<width>200</width>
-				<version>1.0</version>
-				<provider_name>YouTube</provider_name>
-				<provider_url>https://www.youtube.com/</provider_url>
-				<thumbnail_height>360</thumbnail_height>
-				<thumbnail_width>480</thumbnail_width>
-				<thumbnail_url>https://i.ytimg.com/vi/W86o7aLA9ZQ/hqdefault.jpg</thumbnail_url>
-				<html><iframe width="200" height="113" src="https://www.youtube.com/embed/W86o7aLA9ZQ?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></html>
-			</oembed>
-			*/
+
 			$.get({
 				'url': 'https://www.youtube.com/oembed?format=xml&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D' + id,
 				'async': false,
@@ -1289,7 +1262,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			}
 			for (i = 0; i < data.length; i++) {
 				let row = data[i];
-				// console.log(row);
 				html[i] = tpl_video_item
 					.replace(/\{video_img\}/g, row.file_name || 'about:blank')
 					.replace(/\{user_profile_img\}/g, row.profile_img || '/@resource/images/common/basic_profile.png')
@@ -1440,11 +1412,10 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	 */
 	const request_user_info = function (callback) {
 		add_request_item('getMyInfo', { 'token': getCookie('token') }, function (r) {
-			//console.log('getMyInfo r:', r);
 			if (r && r.success && !r.error) {
 				let user_info = r.payload;
 				Model.user_info = user_info;
-				user_info.bank_full = user_info.bank_name +' / '+ user_info.bank_account +' / '+ user_info.bank_owner;
+				user_info.bank_full = user_info.bank_name +' / '+ text_hidden() +' / '+ user_info.bank_owner;
 				//계좌정보 없을시 정보등록 요구
 				if(user_info.bank_name == ''){
 					user_info.bank_full = "계좌정보를 등록해 주세요";
@@ -1476,7 +1447,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$.post(API_URL + '/getBalance/', { 'token': getCookie('token') }, function (r) {
 			if (r && r.success && !r.error) {
 				let user_wallet = {};
-				// console.log(r.payload);
 				for (i in r.payload) {
 					let row = r.payload[i];
 					row.confirmed = row.confirmed * 1;
@@ -1484,7 +1454,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					let key = gen_user_wallet_key(row.symbol, row.goods_grade);
 					user_wallet[key] = row;
 				}
-				// console.log(user_wallet);
 				Model.user_wallet = user_wallet;
 			}
 		});
@@ -1616,7 +1585,6 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				for (i in spot_prices) {
 					const r = spot_prices[i];
 					if (!r || !r.name) { continue; }
-					// console.log('i:',i)
 					// $.get(API_URL+'/getChartData/', { 'symbol': r.symbol }, function (r) { 
 					// add_request_item('getChartData', { 'symbol': r.symbol }, function (r) { 
 					//     console.log(' r.payload:',  r.payload);
@@ -1740,12 +1708,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 			$('#bank_account_p').val(bank_ac_text);
 		}
-		
-		//console.log('user_info : '+ bank_ac_text);
-		
-		//console.log('user_info : '+ bank_ac_text);
-		
-		
+
 		let image_url = "";
 		$('input[type="file"]').on('change', function () {
 			const name = $(this).attr('title');
@@ -1768,17 +1731,17 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			$('[name="btn_check"]').hide();
 			$('[name="btn_save"]').show();*/
 
-			console.log('checkAccount');
-			console.log(unserialize($('#change-account-number').serialize()));
-			console.log(location.origin);
+			//console.log('checkAccount');
+			//console.log(unserialize($('#change-account-number').serialize()));
+			//console.log(location.origin);
 			add_request_item('checkAccount', unserialize($('#change-account-number').serialize()), function(r) {
 				if (r?.success) {
 					for (var key in r) {
-						console.log(key + ": " + r[key]);
+						//console.log(key + ": " + r[key]);
 					}
 					
 				}else{
-					console.log(r);
+					//console.log(r);
 				} 
 			})
 
@@ -1813,7 +1776,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				if (r?.success) {
 					alert(__('저장했습니다.' + r));
 					for (var key in r) {
-						console.log(key + ": " + r[key]);
+						//console.log(key + ": " + r[key]);
 					}
 					
 					$('[name=status_waiting]').show().siblings().hide();
@@ -1882,7 +1845,8 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 				wallet_symbols[row.symbol] = { 'symbol': row.symbol, 'name': row.name, 'icon_url':row.icon_url };
 			};
 
-			let first_dropdown_value = '';
+			let first_dropdown_value = 'all';
+			$('[name="symbol"]').dropdown('add', { value: 'all', text: '전체' })	
 			for(i in wallet_symbols) {
 				row = wallet_symbols[i];
 				//console.log(i, row);
@@ -1911,7 +1875,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			let wallet_name = wallet?.name;
 
 			$('[name=symbol]').on('change', function () {
-				console.log('detect changed')
+				//console.log('detect changed')
 				if ($(this).is(':visible')) {
 					selected_symbol = $(this).dropdown('selected');
 					wallet = Model.user_wallet[selected_symbol];
@@ -1966,7 +1930,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					columns : [
 						{data: 'time_traded', render: (time_traded) => {
 							if(time_traded != ''){
-								return date('Y-m-d H:i', time_traded) 
+								return date('Y.m.d H:i', time_traded) 
 							}else{
 								return ''
 							} ;}
@@ -2013,13 +1977,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						{targets: 1,className: 'dt-body-center',type: 'title-string',orderable: false,},  // 상품명
 						//{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 등급
 						{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: false,"responsivePriority": 1},  // 생산년도
-						{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1},   // 거래종류
-						{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
-						{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
-						{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
-						{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
-						{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
-						{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
+						{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1},   // 거래종류
+						{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래종류
+						{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래수량
+						{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래단가
+						{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래금액
+						{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},  // 수수료
+						{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},  // 정산금액
 					],
 					"order": [ [0, 'desc'] ]
 				})
@@ -2115,13 +2079,13 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 						{targets: 1,className: 'dt-body-center',type: 'title-string',orderable: false,},  // 상품명
 						//{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: true,},  // 등급
 						{targets: 2,className: 'dt-body-center',type: 'title-string',orderable: false,"responsivePriority": 1},  // 생산년도
-						{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1},   // 거래종류
-						{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래종류
-						{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래수량
-						{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래단가
-						{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},   // 거래금액
-						{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 수수료
-						{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: true, "responsivePriority": 1,},  // 정산금액
+						{targets: 3,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1},   // 거래종류
+						{targets: 4,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래종류
+						{targets: 5,className: 'dt-body-center',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래수량
+						{targets: 6,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래단가
+						{targets: 7,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},   // 거래금액
+						{targets: 8,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},  // 수수료
+						{targets: 9,className: 'dt-body-right',type: 'title-string',orderable: false, "responsivePriority": 1,},  // 정산금액
 					],
 					"order": [ [0, 'desc'] ]
 				})
@@ -2342,25 +2306,29 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		check_login();
 		request_user_info();
 		Model.form = clone(Model.user_info);
-		document.getElementById("join_type").value = Model.user_info.user_join_type;
+				
 		//자료깨짐으로 인한 생략
 		//document.getElementById("join_user_passport").value = Model.user_info.user_info_A;
 		//document.getElementById("join_user_number_A").value = Model.user_info.user_info_A + '' + Model.user_info.user_info_B;
 		if(Model.user_info.user_join_type == "B"){
 			document.getElementById("join_user_number_A").style.display = 'none';
-			//document.getElementById("join_user_number_B").style.display = 'none';
 			document.getElementById("join_user_passport").style.display = 'block';
-			document.getElementById("join_user_number_A").value = '';
-			//document.getElementById("join_user_number_B").value = '';
 			$("#join_user_passport").show();
 			$("#join_user_number_A").hide();
 		}else{
 			document.getElementById("join_user_number_A").style.display = 'block';
-			//document.getElementById("join_user_number_B").style.display = 'none';
 			document.getElementById("join_user_passport").style.display = 'none';
 			document.getElementById("join_user_passport").value = '';
 			$("#join_user_number_A").show();
 			$("#join_user_passport").hide();
+		}
+
+		if (Model.user_info.user_join_type == "B") {
+			document.getElementById("join_type").selectedIndex = 1; // 두 번째 option을 선택 (인덱스는 0부터 시작하므로 1은 두 번째 option을 의미)
+			document.getElementById("join_user_passport").value = Model.user_info.user_join_number;
+		}else{
+			document.getElementById("join_type").selectedIndex = 0;
+			document.getElementById("join_user_number_A").value = Model.user_info.user_join_number;
 		}
 		
 		// force_rander('user_info', Model.user_info);
@@ -2438,7 +2406,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		
 		// 신분증 인증 완료
 		if (Model.user_info.permission.substr(3, 1) == '1') {
-			document.getElementById("join_user_number_A").value = '';
+			//document.getElementById("join_user_number_A").value = '';
 			document.getElementById("join_user_number_B").value = '';
 			document.getElementById("join_user_number_A").style.display = 'none';
 			document.getElementById("join_user_number_B").style.display = 'none';
@@ -2449,6 +2417,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 			document.getElementById("btn-info_num-save").style.display = 'none';
 			$('.boxed').height(575);
 		} 
+		
 
 		// 국가 선택 
 		function select_country(code) {
@@ -2793,527 +2762,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	}
 
 	const fn_wallet = function () {
-		check_login();
-		force_rander('user_info', Model.user_info);
-	
-		// set default exchange currency symbol
-		const exchange = 'KRW';
-
-		const withdrawable_symbols = ['KRW']; // , 'USD', 'ETH'
-
-		API.getBalance('ALL', '', (resp) => {
-			$('.wallet--grid').removeClass('loading')
-
-			let total_evaluated_balance = 0; // 총 보유 자산
-			let total_available_evaluated_balance = 0; // 총 사용 가능 자산
-			let total_locked_evaluated_balance = 0; // 총 동결 평가 자산
-			let total_buyable_balance = 0; // 총 구매 가능 자산
-			let total_income = 0;
-			let total_money = 0;
-			let frozen_money = 0;
-
-			// console.log('getBalance resp:', resp);
-			if(resp.payload.length > 0) {
-				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
-				$('[name="grid--empty"]').hide();
-				
-				const grid = $(`<div class="grid" />`)
-						grid.append(`
-							<div class="grid--inner-left">
-								<div class='item_name desktop-only'>상품명</div>
-								<div class='item_grade desktop-only'>상품등급</div>
-								<div class="wallet--count">수량</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">평가 금액</div>
-									
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="item--avg--price">매입 금액</div>
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class=my_income>평가손익</div>
-								</div>
-							</div>
-						`)
-				
-				resp.payload.filter(function(item) {
-					if (item.crypto_currency === 'N') {
-						return false; // skip
-					}
-					return true;
-				}).map((item) => {
-
-					// 원은 목록에서 제거
-					if (item.symbol==='KRW') {
-						total_buyable_balance = item.confirmed;
-						$('.d-grid.wallet-summary #totalBuyableBalance').text(real_number_format(item.confirmed,0))
-						$('.d-grid.wallet-summary2 #totalBuyableBalance').text(real_number_format(item.confirmed,0))
-						return ;
-					}
-					// 다른 화폐 제거
-					if(item.symbol ==='USD' || item.symbol ==='ETH'){
-						return;
-					}
-
-					//console.log(item);
-					//console.log("평가수익 : "+item.eval_income);
-
-					//기존 item.confirmed > 0 -> 기준 오류(모둔 상품이 거래가 있을시 0으로 계산 됨)
-					if (item.valuation > 0 || item.symbol=='KRW' ) {
-						item.eval_tadable = item.tradable * item.price;		// 코인의 거래가능한 평가금액 tradable == confirmed
-						item.eval_locked = item.locked * item.price;		// 코인의 잠긴 평가금액
-						item.eval_valuation = item.valuation * item.price;	// 코인의 전체 평가금액
-						item.eval_trading = item.trading * item.price;		// 코인의 전체 매도중금액
-						if(typeof item.eval_income != typeof undefined){
-							//total_income += item.eval_income;                   // 총 수입
-						}
-						total_money = item.total_money;                        // 현금보유
-
-						total_evaluated_balance += item.eval_valuation; 		// 총 보유 자산
-						total_available_evaluated_balance += item.eval_tadable; 	// 총 사용 가능 자산
-						frozen_money = item.withdrawing + item.wait_buy;                //동결자산(출금 금액 + 물품 구매금액)
-						frozen_money = item.withdrawing;                //동결자산 강제입력(출금금액만)230724 수정해야함
-						total_locked_evaluated_balance = frozen_money;	// 총 동결 평가 자산
-
-						// 잔액 230206 mk 지갑내 수량 (거래중일때 감소되는 현상) 수정
-						//item.confirmed_str = real_number_format(item.confirmed);
-						item.confirmed_str = real_number_format(item.valuation);
-						item.eval_valuation_str = real_number_format(item.eval_valuation);
-						
-
-						const symbol_str = in_array(item.symbol,['KRW','USD']) ? item.symbol : __('개') ;
-
-						const deposit_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
-						const withdraw_hide_style = in_array(item.symbol, withdrawable_symbols) ? '' : 'style="display:none"';
-						const trade_hide_style = in_array(item.symbol, withdrawable_symbols) ? 'style="display:none"' : '';
-						//const item_name = item.name+ (item.goods_grade ? ', '+item.goods_grade+'등급':'');
-						const item_name = item.name;
-						const item_price =  real_number_format(item.currency_price*1);
-						//const item_income = real_number_format(item.eval_income,1); //DB에서 가져오지만 잘못된 정보를 갖고와 수입 다시 계산
-						const item_total = item.currency_price * item.valuation;
-						const item_grade = item.goods_grade;
-						//const avg_price_one = real_number_format(item.avg_buy_price,1);
-						//const avg_price = item.avg_buy_price*item.confirmed_str;
-						
-						//const avg_price_tot = item.sum_buy_goods * item.valuation;
-						//const avg_price_one = real_number_format(item.sum_buy_goods,0);
-						//230724 값을 다시계산해야하므로 강제로 같은값 주기 
-						const avg_price = item.sum_buy_amount;
-						const avg_price_tot = item.sum_buy_amount;
-						const avg_price_one = real_number_format(avg_price/item.confirmed,0);
-						const avg_price_num = real_number_format(avg_price,0);
-						//const avg_price_one = item_price;
-						//const avg_price_num = real_number_format(avg_price_tot,0);
-						const income = item_total - avg_price_tot;
-						const item_income = real_number_format(income,0);
-						const income_rate = income / avg_price_tot * 100;
-						total_income += income;
-												
-						const grid = $(`<div class="grid" style="border-left-color: #${item.color};" />`)
-						grid.append(`
-							<div class="grid--inner-left">
-								<div class='item_name desktop-only'>${item_name}</div>
-								<div class='item_grade desktop-only' style="margin-right: 90px;">${item_grade}</div>
-								<div class="wallet--count">${item.confirmed_str}</div>
-								
-								<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
-							
-						`)
-						
-						/* mk0306 grid_mobile 형태 추가 */
-						const grid_mobile = $(`<tbody name="table_profit">`)
-						let tr_color = '#333333';
-						if(income < 0){
-							tr_color = '#114FAC';
-						}else if(income > 0){
-							tr_color = '#E21A32';
-						}
-						
-							grid_mobile.append(`
-									<tr name="tpl" >
-										<td class="pcenter text-left mergeTd symbol light">
-											${item_name}
-										</td>
-										<td class="pcenter text-center mergeTd cord">
-											${item_grade}
-										</td>
-										<td class="pcenter text-right numberDiv">
-											${item.confirmed_str}
-										</td>
-										<td class="pcenter text-right numberDiv">
-										<div class="number_div">`+real_number_format(item_price,0) + `</div>
-										<div class="symbol_div">`+real_number_format(avg_price_one,0) + `</div>
-										</td>
-										<td class="pcenter text-right numberDiv">
-											${item.symbol !== exchange ? '<div class="number_div"> '+real_number_format(item_total,0)+'</div>' : ''}
-											${item.symbol !== exchange ? '<div class="number_div"> '+real_number_format(avg_price_num,0) +'</div>' : ''}
-										</td>
-										${item.symbol !== exchange ? '<td class="pcenter text-right numberDiv" style="color: '+tr_color +' !important;">' : ''}
-											${item_income}										
-										</td>	
-										${item.symbol !== exchange ? '<td class="pcenter text-right numberDiv" style="color: '+tr_color +' !important;">' : ''}
-											 ${income_rate.toFixed(2) +'%'}
-										</td>
-						  `)
-												
-						/* mk 그리드 새로 제작
-						grid.append(`
-							<div class="grid--inner-left">
-								<a name="goods_desc" data-symbol="${item.symbol}" data-goods_grade="${item.goods_grade}">
-									<div class='item_name desktop-only'>${item_name}</div>
-									<div class="mname text--gray003 size--14 mobile-only">${item_name}</div>
-								</a>
-							</div>
-						`)*/
-						// grid.append(`<div class='item_img' style="background-image: url(${item.icon_url});"></div>`)
-						// grid.append(`<div class='item_name desktop-only'>${item.name}</div>`)
-						
-						if(income>0){
-						grid.append(`
-							
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item_price} </div>
-									<div class="item--avg--price">${avg_price_one}</div>
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									
-									${item.symbol !== exchange ? '<div class="wallet--rice"> '+real_number_format(item_total,0)+'</div>' : ''}
-									${item.symbol !== exchange ? '<div class="wallet--price"> '+real_number_format(avg_price_num,0) +'</div>' : ''}
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class=my_income style ="color: var(--red-up) !important;padding-right: 25px;"> ${item_income}</div>
-									<div class=my_income_rate style ="color: var(--red-up)  !important;padding-right: 25px;"> ${income_rate.toFixed(2) +'%'}</div>
-								</div>
-							</div>
-						`)
-						}else if(income<0){
-						grid.append(`
-							
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item_price} </div>
-									<div class="item--avg--price">${avg_price_one}</div>
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									
-									${item.symbol !== exchange ? '<div class="wallet--rice"> '+real_number_format(item_total,0)+'</div>' : ''}
-									${item.symbol !== exchange ? '<div class="wallet--price"> '+real_number_format(avg_price_num,0) +'</div>' : ''}
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class=my_income style ="color: var(--blue-dn) !important;padding-right: 25px;"> ${item_income}</div>
-									<div class=my_income_rate style ="color: var(--blue-dn) !important;padding-right: 25px;"> ${income_rate.toFixed(2) +'%'}</div>
-								</div>
-							</div>
-						`)
-						/* mk 참조 변수 변경 
-						}else if(item.eval_income == 0){*/
-						//}else if(income == 0){
-						}else{
-						grid.append(`
-							
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-								<div class="wallet--price">`+ real_number_format(item_price,0)+`</div>
-								<div class="item--avg--price">` +real_number_format(avg_price_one,0) + `</div>
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									
-									${item.symbol !== exchange ? '<div class="wallet--rice"> '+real_number_format(item_total,0)+'</div>' : ''}
-									${item.symbol !== exchange ? '<div class="wallet--price"> '+real_number_format(avg_price_num,0) +'</div>' : ''}
-								</div>
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class=my_income style="padding-right: 25px;"> ${item_income}</div>
-									<div class=my_income style="padding-right: 25px;"> ${income_rate.toFixed(2) +'%'}</div>
-								</div>
-							</div>
-							
-						`)
-						}
-						
-						/* mk 그리드 새로 제작
-						grid.append(`
-							<div class="grid--inner-right">
-								<div class="text-right" style="display: flex; flex-basis: 100%; flex-direction: column; column-gap: 5px; justify-content: flex-start">
-									<div class="wallet--price">${item.confirmed_str} ${symbol_str}</div>
-									${item.symbol !== exchange ? '<div class="wallet--market-price">≈ '+item.eval_valuation_str+' '+exchange+'</div>' : ''}
-								</div>
-								<div class="wallet--btn">
-									<a href="wallet-deposit.html?symbol=${item.symbol}" class="btn btn--red btn--rounded" ${deposit_hide_style}>입금</a>
-									<a href="wallet-withdrawal.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${withdraw_hide_style}>출금</a>
-									<a href="exchange.html?symbol=${item.symbol}" class="btn btn--withdrawal btn--rounded" ${trade_hide_style}>거래</a>
-								</div>
-							</div>
-						`)*/
-						
-						$('.table.table-bordered').append(grid_mobile)
-						$('.wallet--grid').append(grid)
-						// $('.currency').dropdown('add', { value: item.symbol, text: item.symbol })
-					}
-
-				})
-
-				//총보유자산->자산평가금액
-				//$('#totalBalance').text(real_number_format(total_evaluated_balance))
-				//사용가능자산
-				//$('#totalAvailableBalance').text(real_number_format(total_available_evaluated_balance))
-				//동결평가자산
-				//$('#totalLockedBalance').text(real_number_format(total_locked_evaluated_balance))
-				//구매가능금액
-				//$('#totalBuyableBalance').text(real_number_format(total_buyable_balance))
-				
-				//---------------------------------------------------
-				//총보유자산
-				let num = total_evaluated_balance*1 + total_buyable_balance*1;
-				$('#totalBalance').text(real_number_format(num,0))
-				//평가손익
-				$('#totalAvailableBalance').text(real_number_format(total_income,0))
-				//자산평가금액 --mk 모바일용, 웹용 전부 입력 가능하도록 변경
-				$('.d-grid.wallet-summary #totalLockedBalance').text(real_number_format(total_evaluated_balance,0))
-				$('.d-grid.wallet-summary2 #totalLockedBalance').text(real_number_format(total_evaluated_balance,0))
-				//보유금액
-				//$('.d-grid.wallet-summary #totalBuyableBalance').text(real_number_format(total_money,0))
-				//$('.d-grid.wallet-summary2 #totalBuyableBalance').text(real_number_format(total_money,0))
-				//주문 및 동결 금액
-				$('.d-grid.wallet-summary #totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
-				$('.d-grid.wallet-summary2 #totalBuingBalance').text(real_number_format(total_locked_evaluated_balance,0))
-
-			}
-		})
-		
-
-		$('.totalBalance').on('change', (event, symbol) => {
-			API.getBalance('ALL', symbol, (resp) => {
-				if(resp.success) {
-					//console.log(resp)
-					$('.wallet-summary .grid:eq(0)').find('.text-').text(resp.payload.price)
-				} else {
-					alert(resp.error.message)
-				}
-			})
-		})
-		$('.availableBalance').on('change', (event, symbol) => {
-			API.getBalance('ALL', symbol, (resp) => {
-				if(resp.success) {
-					const price = resp.payload.price
-					$('.wallet-summary .grid:eq(1)').find('.text-').text(price.format())
-				} else {
-					alert(resp.error.message)
-				}
-			})
-		})
-		$('.unconfirmedBalance').on('change', (event, symbol) => {
-			API.getBalance('ALL', symbol, (resp) => {
-				if(resp.success) {
-					const price = resp.payload.price
-					$('.wallet-summary .grid:eq(1)').find('.text-').text(price.format())
-				} else {
-					alert(resp.error.message)
-				}
-			})
-		})
-
-
-		// 팝업띄우기
-		$(document).on('click', '[name="goods_desc"]', function(e){
-			e.preventDefault()
-			$("#goods-desc").addClass('modal--open');
-			let symbol = $(this).data('symbol')
-			let goods_grade = $(this).data('goods_grade')
-			//console.log($(this).data('symbol'))
-			//console.log($(this).data('goods_grade'))
-			
-			// modal창 clear작업
-			$('#goods-desc .tea--name').text('상품이름');
-			$('#goods-desc .tea--grade').empty();
-			$('#goods-desc .thumb img').attr('src', './assets/img/dummy/noimage.gif')
-			$('#desc_table tbody').empty();
-			$('#goods-desc .table tbody td > *').empty();
-			
-			
-			add_request_item('getGoodsNftInfo', {'token': getCookie('token'), 'symbol': symbol, 'goods_grade':goods_grade}, function (r) {
-				if (r && r.success) {
-					console.log(r.payload)
-					//Model.site_info = r.payload;
-					console.log(r.payload.good_info.title)
-					const goodInfo = r.payload.good_info;
-					const nftInfo = r.payload.nft_info;
-					$('#goods-desc .tea--name').text(goodInfo.title);
-					$('#goods-desc .tea--grade').text(goodInfo.goods_grade);
-
-					// 상품사진
-					$('#goods-desc .thumb img').attr('src', goodInfo.main_pic)
-
-					//구분
-					$('#goods-desc [name=meta_division]').text(goodInfo.meta_division);
-					//타입
-					$('#goods-desc [name=meta_type]').text(goodInfo.meta_type);
-					// 생산
-					$('#goods-desc [name=meta_produce]').text(goodInfo.meta_produce);
-					// 인증
-					$('#goods-desc [name=meta_certification_mark_name]').text(goodInfo.meta_certification_mark);
-					// 차소개
-					$('#goods-desc [name=meta_wp_teamaster_note]').text(goodInfo.content);
-
-
-					$('#desc_table tbody').empty()
-					nftInfo.map((item) => {
-						console.log(item)						
-						const tr = $('<tr>')
-						tr.append(`<td><span>${item.idx}</span></td>`)
-						tr.append(`<td><span>${item.nft_blockchain}</span></td>`)
-						tr.append(`<td><span>${item.nft_id}</span></td>`)
-						tr.append(`<td><div class="copyTd"><span id="${item.nft_tokenuri}">${item.nft_tokenuri}</span><button type="button" class="copyBtn" data-clipboard-target="#${item.nft_tokenuri}">COPY</button></div></td>`)
-						tr.append(`<td><div class="copyTd"><span id="${item.nft_txnid}">${item.nft_txnid}</span><button type="button" class="copyBtn" data-clipboard-target="#${item.nft_txnid}">COPY</button></div></td>`)
-						tr.appendTo('#desc_table tbody')
-					})
-				}
-			});
-		})
-	};
-
-	const fn_wallet_withdrawal = function () {
-		$('.number').autotab({ tabOnSelect: true },'filter', 'number');
-		
-		check_login();
-		// access level 4 
-		force_rander('user_info', Model.user_info);
-		// 사이트 정보
-		force_rander('site_info', Model.site_info);
-		add_request_item('getConfig', {}, function (r) {
-			if (r && r.success) {
-				Model.site_info = r.payload;
-			}
-		});
-		// currency 정보 갱신
-		let withdraw_symbol = 'KRW';// 필요시 dropdown 값 사용
-		if (Model?.withdraw_currency?.symbol != withdraw_symbol) {
-			add_request_item('getCurrency', {'symbol':withdraw_symbol}, function (r) {
-				// out_max_volume_1day
-				// console.log('getCurrency r:', r);
-				if (r && r.success) {
-					c = r.payload[0];
-					c.fee_out_str = c.fee_out_ratio > 0 ? number_format(c.fee_out_ratio * 100, 2) + ' %' : (c.fee_out > 0 ? real_number_format(c.fee_out) + ' ' + c.symbol : __('수수료 없음'));
-					c.fee_out_intra_str = __('수수료 없음'); //'0 '+c.symbol
-					c.out_min_volume_str = real_number_format(c.out_min_volume) + ' ' + c.symbol;
-					c.out_max_volume_str = c.out_max_volume > 0 ? real_number_format(c.out_max_volume) + ' ' + c.symbol : __('제한 없음');
-					Model.withdraw_currency = c;
-				}
-			});
-		} else {
-			force_rander('withdraw_currency', Model.withdraw_currency)
-		}
-
-		// 지갑 정보
-		force_rander('user_wallet', Model.user_wallet); // 화면에 잔액 표시 후
-		get_user_wallet(); // DB 값으로 다시 잔액 표시
-
-		const clipboard = new ClipboardJS('.btn--copy');
-		clipboard.on('success', function (e) {
-			alert(__('클립보드에 복사되었습니다.'))
-			e.clearSelection()
-		});
-
-		// 보안 비밀번호 입력창 
-		/* $('[name="pin"]').val(); */
-		$('[name="pin_btn"]').on('click', function () { 
-			$('#pin_number').addClass('modal--open');
-		})
-
-		
-
-		// pin Number popup 띄우기
-		$('[name="btn-withdraw"]').on('click', function () { 
-			$('#pin_number').addClass('modal--open');
-		})
-
-		// 출금신청
-		$('#pin_number').submit((e) =>  { 
-			e.preventDefault();
-			console.log("a"+ Model.user_info.userno)
-			let check = true
-			let pin = ''
-
-			$('#pin_number .grid--code input[type=number]').each((_index, elem) => {
-				if(!$(elem).val()) {
-					check = false
-					$(elem).focus()
-					return false
-				}
-				pin += $(elem).val();
-			})
-			
-			console.log(pin)
-
-			if(check) {
-				API.checkPin(pin, (resp) => {
-					if(resp.success) {
-						// 출금액
-						const amount = $('[name=amount]').val().replace(/[^0-9.]/g, "");
-						const to_address = $('[name="address"]').val();
-						const symbol = Model.withdraw_currency.symbol;
-						const symbol_addres = Model.withdraw_currency.symbol+'/A';
-
-						// console.log(to_address)
-						add_request_item('withdraw', { 'symbol': symbol, 'from_address': Model.user_wallet[symbol_addres].address, 'to_address': to_address, 'amount': amount, 'pin': pin }, function (r) {
-							if (r?.success) {
-								alert(__('출금신청을 완료했습니다.'));
-							} else {
-								const msg = r?.error?.message || '';
-								alert(__('출금신청을 완료하지 못했습니다.')+ ' '+msg);
-							}
-						})
-
-						$('#pin_number').removeClass('modal--open'); //모달 창 닫아주기
-						$('[name="pincode"]').val(""); //팝업창 비밀번호 초기화
-					} else {
-						alert(resp.error.message)
-					}
-				})
-			}
-			return false
-		})
-
-		// 출금수수료 계산
-		$('[name="amount"]').on('keyup', function (e) { 
-			const fee_out = Model.withdraw_currency.fee_out;
-			const fee_out_ratio = Model.withdraw_currency.fee_out_ratio;
-			const amount = $(this).val().replace(/[^0-9.]/g, "");
-			const fee = fee_out_ratio > 0 ? amount * fee_out_ratio : (fee_out > 0 ? fee_out : 0);
-			const real_receive_amount = amount-fee>0 ? amount-fee : 0;
-			console.log(amount, fee, real_receive_amount)
-			$('[name=fee]').val( real_number_format(fee) )
-			$('[name=real_out]').val( real_number_format(real_receive_amount) )
-		})
-
-	};
-
-	const fn_wallet_withdrawal_guide = function () {
-		// check_login();
-		// access level 4 
-		force_rander('user_info', Model.user_info);
-		// 사이트 정보
-		force_rander('site_info', Model.site_info);
-		add_request_item('getConfig', {}, function (r) {
-			if (r && r.success) {
-				Model.site_info = r.payload;
-			}
-		});
-		// currency 정보 갱신
-		let withdraw_symbol = 'KRW';// 필요시 dropdown 값 사용
-		if (Model?.withdraw_currency?.symbol != withdraw_symbol) {
-			add_request_item('getCurrency', {'symbol':withdraw_symbol}, function (r) {
-				// out_max_volume_1day
-				console.log('getCurrency r:', r);
-				if (r && r.success) {
-					c = r.payload[0];
-					c.fee_out_str = c.fee_out_ratio > 0 ? number_format(c.fee_out_ratio * 100, 2) + ' %' : (c.fee_out > 0 ? real_number_format(c.fee_out) + ' ' + c.symbol : __('수수료 없음'));
-					c.fee_out_intra_str = __('수수료 없음'); //'0 '+c.symbol
-					c.out_min_volume_str = real_number_format(c.out_min_volume) + ' ' + c.symbol;
-					c.out_max_volume_str = c.out_max_volume > 0 ? real_number_format(c.out_max_volume) + ' ' + c.symbol : __('제한 없음');
-					Model.withdraw_currency = c;
-				}
-			});
-		} else {
-			force_rander('withdraw_currency', Model.withdraw_currency)
-		}
+	    check_login();
+	    force_rander('user_info', Model.user_info);
+		wallet_tab(1);
 	};
 
 	const fn_wallet_deposit = function () {
@@ -3412,7 +2863,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		$('input[name="range"]').on('apply.daterangepicker', function(ev, picker) {
 			sdate = picker.startDate.format('YYYY-MM-DD');
 			edate = picker.endDate.format('YYYY-MM-DD');
-			console.log('sdate:', sdate, ',edate:', edate);
+			//console.log('sdate:', sdate, ',edate:', edate);
 		});
 		$('[name="btn-search"]').on('click', function() {
 			getMyProfit();
@@ -3450,7 +2901,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		// 잔액 조회
 		const getMyProfit = () => {
 			add_request_item('getMyProfit', { 'sdate': sdate, 'edate': edate }, function (r) { 
-				console.log(r, r?.success)
+				//console.log(r, r?.success)
 				if (r?.success) {
 					Model.MyProfit = r.payload;
 					const $target = $('[name="table_profit"]');
@@ -3732,7 +3183,7 @@ function getIP(callback) {
 		const ip = ipMatches ? ipMatches[0] : 'unknown';
   
 		pc.onicecandidate = noop;
-		console.log(ip);
+		//console.log(ip);
 		callback(ip);
 	  }
 	};
@@ -3754,4 +3205,22 @@ function log_out(){
 
 function log_in(){
 	window.location.href = 'login.html';
+}
+
+function text_hidden(){
+	//계좌번호 숨김
+	var bank_ac = Model.user_info.bank_account;
+	if(bank_ac != '' && Model.user_info.permission != 0){
+		if(bank_ac.length > 7){
+			var tt='';
+			for (var i = 3; i < bank_ac.length-4; i++) {
+			  tt = tt + "*";
+			}
+			bank_ac_text = bank_ac.substr(0,3) + tt +
+			bank_ac.substr(-4);
+		}else{
+			bank_ac_text = bank_ac;
+		}
+		return bank_ac_text;
+	}
 }
