@@ -1568,6 +1568,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 		});
 		// 지수 차트 생성
 		window.displayChart('indexCanvas', '', Model.exchange_rate.base_currency, '1h', 100); // window.displayChart('chartdomid', 'GCA18KTDKK', 'KRW', '1h');
+		document.getElementById("tv-attr-logo").style.display = "none"; //tradingView 로고 삭제
 
 		// 인기 종목 표시 ( + 차트)
 		const $PriceTableTarget = $('[name=price_table]');
