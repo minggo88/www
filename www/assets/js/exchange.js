@@ -312,6 +312,7 @@ $(function() {
                 mode: LightweightCharts.CrosshairMode.Normal,
             },
         })
+        document.getElementById("tv-attr-logo").style.display = "none"; //tradingView 로고 삭제 
         // ---------------------------------------------------
         // 반응형처리
         $(window).resize(function() {
