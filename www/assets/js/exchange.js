@@ -1089,7 +1089,7 @@ $(function() {
 					//$('#buy-order').style.padding = '0';
 			    });
                 var search_text = $('#searchInput').val();
-                window.location.href = 'https://assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3='+search_text;
+                window.location.href = 'https://dev.assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3='+search_text;
 
 				const spans = document.querySelectorAll('.table-header span');
 				spans.forEach(span => {
