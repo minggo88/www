@@ -312,7 +312,7 @@ $(function() {
                 mode: LightweightCharts.CrosshairMode.Normal,
             },
         })
-        document.getElementById("tv-attr-logo").style.display = "none"; //tradingView 로고 삭제 
+        document.getElementById("tv-attr-logo").style.display = "none"; //tradingView 로고 삭제
         // ---------------------------------------------------
         // 반응형처리
         $(window).resize(function() {
@@ -1220,11 +1220,11 @@ $(function() {
             
 
             API.getSpotPrice(SELECTED_SYMBOL, SELECTED_EXCHANGE, SELECTED_GRADE, (resp) => {
-
+				
                 if(resp.success && resp.payload[0]) {
                     const spot = resp.payload[0];
                     spot.price_low = spot.price_low > data.price_open ? data.price_open : spot.price_low;
-
+					
                     // 최고가
                     $('#highest-price').text(real_number_format(spot.price_high))
                     // 최저가
@@ -1348,6 +1348,7 @@ $(function() {
                 render: (data, _type, row) => {
                     const classOn = row.like == 'Y' ? 'btn--star--on' : 'btn--star'
                     // 버튼
+					//console.log(data);
                     if (isMobile) {
                         return `<button type="button" class="btn ${classOn}" data-star-idx="${row.idx}"></button><span id="item_name" onclick="mobile_title_click()">${data}</span>`
                     }else{
@@ -1434,30 +1435,30 @@ $(function() {
                 targets: 'name',
                 className: 'dt-body-left',
                 type: 'title-string',
-                "orderable": false,
+                orderable: true,
                 responsivePriority: 1
             },
             {
                 targets: 'meta_type',
                 className: 'dt-body-center',
-                "orderable": false,
+                orderable: false,
             },
             {
                 targets: 'meta_wp_production_date',
                 className: 'dt-body-center',
                 "type": "any-number",
-                "orderable": false,
+                orderable: false,
             },
             {
                 targets: 'price',
                 className: 'dt-body-right',
-                "orderable": false,
+                orderable: true,
                 responsivePriority: 1
             },
             {
                 targets: [-1, -2],
                 className: 'dt-body-right',
-                "orderable": false,
+                orderable: true,
                 responsivePriority: 1
             },
         ],
@@ -1470,15 +1471,23 @@ $(function() {
 
     const setItemGrid = function (data) {
         // console.log('setItemGrid START');
+		console.log("set item");
+		console.log(data);
+		//console.log(data[8]);
+		//console.log(data);
         itemGrid.clear();
         if (data) {
+			console.log("set item22");
             //itemGrid.rows.add(data).draw();
 			itemGrid.rows.add(data);
-			itemGrid.order([4, 'asc']).draw();
+
+			itemGrid.order([0, 'desc'], [4, 'asc']).draw();
+			//itemGrid.order([4, 'asc']).draw();
         }
     }
 
 	$(".name:eq(0)").click(function() {
+		console.log("click");
 		if(sort_num<1){
 			itemGrid.clear().draw();
 			itemGrid.rows.add(desc_data);
@@ -1515,6 +1524,8 @@ $(function() {
                 for (let i = CURRENCY_INFO.length - 1; i >= 0; i--) {
                     desc_data.push(CURRENCY_INFO[i]); // 데이터 그리드 배열에 데이터 추가
                 }
+
+				console.log(CURRENCY_INFO);
                 
                 setItemGrid(CURRENCY_INFO);
                 console.log('999');		
