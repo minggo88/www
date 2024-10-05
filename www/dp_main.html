@@ -35,14 +35,19 @@
 <link rel="stylesheet" href="./assets/css/header.css?t=1672721419">
 <link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
 <link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
-<link rel="stylesheet" href="./assets/css/dp_mian.css?t=1672721419">
+<link rel="stylesheet" href="./assets/css/front.css?t=1672721419">
 <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />-->
 <!-- JS -->
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script src="//unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-<script src="./assets/js/dp_main.js"></script>
+<script src="./assets/js/common.js"></script>
+<script src="./assets/js/api.js"></script>
+<script src="./assets/js/components.js"></script>
 
+
+<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
 <script src="./i18n/i18n.js?t=1667796157"></script>
 
 <script>
@@ -67,17 +72,349 @@
 
 <body class="front">
 	<header>
-		
+		<div class="header_inner">
+			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
+			<nav class="nav">
+				<ul>
+					<li>
+						<a href="exchange.html" data-i18n="">MARKET</a>
+					</li>
+					<li>
+						<a href="wallet.html" data-login="" data-i18n="">보유현황</a>
+					</li>
+					<li>
+						<a href="wallet-inout.html" data-i18n="">입출금</a>
+					</li>
+					<li>
+						<a href="notice.html" data-i18n="">공지사항</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="nav--side">
+				<div name="box_logedin" class="profile dropdown-wrapper">
+					
+				</div>
+				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout"
+						data-i18n>로그아웃</button></div>
+				<div name="box_unlogedin" style="display: none"><a href="login.html" data-logout class="btn--login"
+						data-i18n>로그인</a></div>
+				<div class="language dropdown-wrapper">
+					<button type="button" class="dropdown">한국어</button>
+					<div class="dropdown--item" style="width: 81px">
+						<span>한국어</span>
+						<ul></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-mobile-menu">
+			<a href="#" class="btn hamburger" name="btn-hamburger">☰</a>
+		</div>
+		<ul class="gnb box-menu" name="box-menu">
+			<li>
+				<a href="exchange.html" data-i18n>MARKET</a>
+			</li>
+			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
+			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
+			<li>
+				<a href="wallet.html" data-login data-i18n>입출금</a>
+			</li>
+			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
+			<li>
+				<a href="notice.html" data-i18n>공지사항</a>
+			</li>
+		</ul>
 	</header>
-	
-	<section class="section--service text--white">
-		
-	</section>
-	
-	<section class="section--mobile text--white">
-	
-	</section>
+	<aside class="mobile-panel" style="display: none;">
+		<button type="button" class="navigation--close" onclick="$('.mobile-panel').hide(); return false"></button>
+		<h1 class="size--20" data-i18n="">마이페이지</h1>
+		<ul>
+			<li>
+				<a href="member-account.html" data-login="" data-i18n=""><i class="icon-user-fill"></i><span data-i18n="">정보
+						수정</span></a>
+			</li>
+			<li>
+				<a href="my-verification.html" data-login="" data-i18n=""><i class="icon-user-fill"></i><span data-i18n="">ID
+						인증 관리</span></a>
+			</li>
+			<li>
+				<a href="change-pin-number.html" data-login="" data-i18n=""><i class="icon-shield"></i><span data-i18n="">보안비밀번호 변경</span></a>
+			</li>
+			<li>
+				<a href="change-account-number.html" data-login="" data-i18n=""><i class="icon-circle-fill"></i><span data-i18n="">출금계좌 변경</span></a>
+			</li>
+			<li>
+				<a href="wallet-take-out-check.html" data-login data-i18n>반출신청현황</a>
+			</li>
+			<li>
+				<a href="wallet-take-out.html" data-login data-i18n>반출신청</a>
+			</li>
+			<li>
+				<a href="notification.html" data-login="" data-i18n=""><i class="icon-alarm"></i><span data-i18n="">알림</span></a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n="">입출금</h1>
+		<ul>
+			<li>
+				<a href="wallet.html" data-login=""><i class="icon-database-fill"></i> <span data-i18n="">보유 자산</span></a>
+			</li>
+			<li>
+				<a href="wallet-deposit.html" data-login=""><i class="icon-load-circle-fill"></i> <span data-i18n="">입금</span></a>
+			</li>
+			<li>
+				<a href="wallet-withdrawal.html" data-login=""><i class="icon-circle-fill"></i> <span data-i18n="">출금</span></a>
+			</li>
+			<li>
+				<a href="wallet-analysis.html" data-login=""><i class="icon-circle-fill"></i> <span data-i18n="">종합
+						분석</span></a>
+			</li>
+		</ul>
+		<h1 class="size--20" style="margin: 20px 0 7px;" data-i18n="">고객센터</h1>
+		<ul>
+			<li>
+				<a href="notice.html"><i class="icon-alarm"></i> <span data-i18n="">공지사항</span></a>
+			</li>
+			<li>
+				<a href="faq.html"><i class="icon-faq"></i> <span data-i18n="">자주하는 질문</span></a>
+			</li>
+			<li>
+				<a href="inquiry.html" data-login=""><i class="icon-inquiry"></i> <span data-i18n="">1:1 문의</span></a>
+			</li>
+		</ul>
+		<div class="nav--side mobile">
+			<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout" data-i18n="">로그아웃</button></div>
+			<div name="box_unlogedin" style=""><a href="login.html" data-logout="" class="btn--login" data-i18n="">로그인</a></div>
+			<div class="language dropdown-wrapper">
+				<button type="button" class="dropdown">한국어</button>
+				<div class="dropdown--item" style="width: 81px">
+			<div class="dropdown--item" style="width: 132px;left: -32px;">
+				<ul>
+					<li><a href="member-account.html" data-login="" data-i18n="">계정 정보</a></li>
+					<!--<li><a href="my-verification.html" data-login data-i18n>인증 관리</a></li>-->
+					<li><a href="change-pin-number.html" data-login="" data-i18n="">보안 비밀번호 변경</a></li>
+					<li><a href="change-account-number.html" data-login="" data-i18n="">출금계좌 관리</a></li>
+					<li><a href="wallet-take-out-check.html" data-login data-i18n>반출신청현황</a></li>
+					<li><a href="wallet-take-out.html" data-login data-i18n>반출신청</a></li>
+					<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+					<li><a href="notification.html" data-login="" data-i18n="">알림</a></li>
+				</ul>
+			</div>
 
+
+			</div>
+		</div>
+	</aside>
+	<div class="contents mobile-only">
+		<header class="contents--header">
+			<a href="index.html">ASSETTEA</a>
+			<span class=""></span>
+			<button type="button" class="navigation"></button>
+		</header>
+	</div>
+	<section class="viusalArea">
+		<div class="typography">
+			<h1 data-i18n>새로운 차 인증시스템을 기반으로</h1>
+			<h1 data-i18n>글로벌 표준을 만들어 갑니다.</h1>
+		</div>
+		<!--- 230310 일정 크기에 따른 컨테이너 추가 -->
+		<div class="container_min">
+			<div class="left" data-bind="trade_goods_summary.cnt_tea">0</div>
+			<div class="right" data-bind="trade_goods_summary.cnt_totaltea">0</div>
+			<div class="left white-text">TEA</div>
+			<div class="right white-text">Total</div>
+		</div>	
+		<div class="statistics">
+			<section class="statistics--tea">
+				<h1 data-i18n>TEA</h1>
+				<em data-bind="trade_goods_summary.cnt_tea">0</em>
+			</section>
+			<section class="statistics--teaware">
+				<h1 data-i18n>Total</h1>
+				<em data-bind="trade_goods_summary.cnt_totaltea">0</em>
+			</section>
+		</div>
+		<div class="getting-started">
+			<a href="exchange.html" class="btn--" data-i18n>개발페이지</a>
+			<!-- <span name="box_logedin" style="display: none" >
+				<button class="btn--login" name="btn-logout" data-i18n>로그아웃</button>
+			</span>
+			<a href="login.html" data-logout name="box_unlogedin" class="btn--login" style="display: none" data-i18n>로그인</a> -->
+		</div>
+	</section>
+	<div class="news">
+		<div class="column">
+			<div class="swiper">
+				<ul class="swiper-wrapper">
+					<li class="swiper-slide">
+						<a href="" style="width:100% ;">
+							<div class="bg"></div>
+						</a>
+					</li>
+					<li class="swiper-slide">
+						<a href style="width:100% ;">
+							<div class="bg"></div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="content_wrap">
+		<main class="d-grid grid-3-column">
+			<section class="section section--index">
+				<script>
+				</script>
+				<div class="three-line-legend" id="chartToolTip" style="display: block; left: 3px; top: 3px; width: 100%;">
+					<div style="font-size: 24px; margin: 4px 0px; color: #20262E">
+						<strong><span data-i18n>ATMI</span></strong>
+						<span style="width :20px">&nbsp;&nbsp;</span>
+						<strong><span style="font-size: 24px;margin: 4px 0px;color: #20262E;" name="point"></span></strong>
+						<!--<i class="icon--help" style="width: 16px;height: 18px;background: url('/assets/img/icon/btn_help.svg') no-repeat 50%;margin-left: 5px;vertical-align: baseline;"></i>
+						-->
+					</div>
+					<div class="pop_up">
+						<div class="pop_content" data-i18n>지수란 ASSETTEA의 거래지수를 의미하며 거래가 활발한지 아닌지를 나타내는 수치입니다.</div>
+					</div>
+					<!--<div style="font-size: 24px; margin: 4px 0px; color: #20262E" name="point">0</div>-->
+					<div name="dateStr"></div>
+				</div>
+
+				<div id="indexCanvas" class="canvas"
+					style="width: 100%; height: 42vh; max-height: 200px;    margin-top: 60px;border-bottom-width: 0px;"></div>
+			</section>
+			<section class="section">
+				<div class="section--header">
+					<h1 data-i18n>보이차 시세</h1>
+					<a href="exchange.html" class="section--more" data-i18n>전체보기</a>
+				</div>
+				<ul class="list" name="price_table">
+					<li name="tpl" style="display:none">
+						<span class="list--text"><a
+								href="exchange.html?symbol={symbol}&exchange={exchange}">{stock_name}</a></span>
+						<span class="list--text text-right {stock_updown_color}">
+							{stock_price} {stock_exchange}
+						</span>
+						<span class="list--text text-right {stock_updown_color}">
+							{stock_updown_percent}
+						</span>
+					</li>
+					<div class="text--center" name="search" style="display:none" data-i18n>조회 중입니다.</div>
+					<div class="text--center" name="empty" style="display:none" data-i18n>거래종목이 없습니다.</div>
+				</ul>
+			</section>
+			<section class="section">
+				<div class="section--header">
+					<h1 data-i18n>공지사항</h1>
+					<a href="notice.html" class="section--more" data-i18n>전체보기</a>
+				</div>
+				<ul id="notice--list" class="list">
+					<div class="text--center" name="search" data-i18n>조회 중입니다.</div>
+					<div class="text--center" style="display:none" name="empty" data-i18n>내용이 없습니다.</div>
+				</ul>
+			</section>
+		</main>
+		<section class="section--service text--white">
+			<!--<h1 data-i18n>모바일 APP에서 누리는 더 편리하고 안전한 거래</h1>
+			<div>
+				<p class="text--blue-gray" data-i18n>Download ASSETTEA APP</p>
+				<div class="appdown">
+					<button type="button" class="btn btn--appdown btn--android" data-i18n>Android</button>
+					<button type="button" class="btn btn--appdown btn--ios" data-i18n>iOS</button>
+				</div>
+			</div>
+			<div class="descArea">
+				<div class="row m-0 flex-self-center">
+					<div class="app--1 text--right">
+						<img src="./assets/img/icon-app-1.svg" alt="">
+						<div class="service--title" data-i18n>누구나 쉽고 빠른 거래</div>
+						<div class="service--desc" data-i18n>계좌이체보다 주식보다 쉽고 빠른 거래가 가능합니다</div>
+					</div>
+					<div class="app--2 text--left">
+						<img src="./assets/img/icon-app-2.svg" alt="">
+						<div class="service--title" data-i18n>전문 노하우를 통한 진품 거래</div>
+						<div class="service--desc" data-i18n>30년 보이차 전문 노하우를 통하여 오직 진품만을 감별하여 투자할 수 있게 도와드립니다</div>
+					</div>
+				</div>
+				<div class="row m-0 flex-self-center">
+					<div class="app--3 text--right">
+						<img src="./assets/img/icon-app-3.svg" alt="">
+						<div class="service--title" data-i18n>전세계 어디에서나</div>
+						<div class="service--desc" data-i18n>글로벌 시스템으로 전세계 어디에서나 거래가 가능하며 다양한 언어를 지원합니다</div>
+					</div>
+					<div class="app--4 text--left">
+						<img src="./assets/img/icon-app-4.svg" alt="">
+						<div class="service--title" data-i18n>한눈에 투자 현황 조회</div>
+						<div class="service--desc" data-i18n>내가 투자하고 거래하는 보이차의 시세 변화를 손쉽게 파악할 수 있습니다</div>
+					</div>
+				</div>
+				<div class="row m-0 flex-self-center">
+					<div class="app--5 text--right">
+						<img src="./assets/img/icon-app-5.svg" alt="">
+
+						<div class="service--title" data-i18n>투명하고 안전한 거래</div>
+						<div class="service--desc" data-i18n>블록체인 기술의 도입으로 투명한 거래 이력과 완벽한 보안을 제공합니다</div>
+					</div>
+					<div class="app--6 text--left">
+						<img src="./assets/img/icon-app-6.svg" alt="">
+						<div class="service--title" data-i18n>공동구매와 경매</div>
+						<div class="service--desc" data-i18n>소액으로 고급차에 투자할 수 있도록 공동구매와 경매를 지원하여 합리적인 거래를 추구합니다</div>
+					</div>
+				</div>
+			</div>
+			<div style="width: 360px;  right: 220px; top:582px; text-align: left; letter-spacing: -0.02em">
+			</div>-->
+		</section>
+		<!--<section class="section--service2 text--white"></section>-->
+		<section class="section--service3 text--white"></section>
+		<section class="section--service4 text--white"></section>
+	</div>
+	<footer class="">
+		<div class="footer_inner">
+			<!-- <div class="logo">ASSETTEA</div> -->
+			<nav class="fnb">
+				<ul>
+					<li>
+						<a href="company.html" target="_blank" data-i18n>회사소개</a>
+					</li>
+					<li>
+						<a href="use_agreement.html" target="_blank" data-i18n>이용약관</a>
+					</li>
+					<li>
+						<a href="user_policy.html" target="_blank" data-i18n>개인정보 처리방침</a>
+					</li>
+					<li>
+						<a href="faq.html" data-i18n>자주묻는질문</a>
+					</li>
+				</ul>
+				<div class="copyright">
+					<address>
+						<span class="company--name" data-bind="company_info.license_company">(주)끽다</span><br>
+						<span class="company--ceo"><span data-i18n>대표이사</span> : <span
+								data-bind="company_info.license_ceo">안성희</span></span>
+						<span class="company--number"><span data-i18n>사업자등록번호</span> : <span
+								data-bind="company_info.license_no">623-86-02033</span></span>
+						<span class="company--address"><span data-i18n>주소</span> : <span
+								data-bind="company_info.license_address">인천광역시 연수구 송도문화로 119, </span>
+								<br><span>인천글로벌캠퍼스 비1006호(송도동)</span>
+						<span><br><span data-i18n>전화</span> : <span
+								data-bind="company_info.shop_phone">02-733-9746</span></span>
+						<span><span data-i18n>통신판매업신고번호</span> : <span data-bind="company_info.license_sale">제
+								2022-인천연수구-1661 호</span></span>
+						<span><br><span data-i18n>이메일</span> : <span
+								data-bind="company_info.shop_admin_email">info@kkikda.com</span></span>
+					</address>
+					<div class="copy">Copyright © 2022 <span data-bind="company_info.license_company">(주)끽다</span>. All
+						rights reserved. </div>
+				</div>
+			</nav>
+			<!-- <span class="customer--text" data-i18n>고객상담 · 상담 · 배송 문의</span>
+			<span class="customer--number" data-bind="company_info.shop_phone">02-733-9746</span>
+			<span class="customer--time" data-i18n>평일 10:00 ~ 18:00(점심 13:00 ~ 14:00)</span> -->
+		</div>
+	</footer>
+
+	<script src="./assets/js/tradingview-lightweight-arealine-chart.js?t=1672042300"></script>
+	<script src="./assets/js/app.js?t=1672042800"></script>
 </body>
 
 </html>
