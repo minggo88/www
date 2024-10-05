@@ -1078,16 +1078,6 @@ $(function() {
             
             if(isMobile){
                 /// "order-content" 클래스를 가진 요소들을 모두 가져옵니다.
-				var orderContents2 = document.querySelectorAll('.right');
-			    var orderContents = document.querySelectorAll('.order-content');
-
-				
-			    // 모든 order-content 요소들의 글꼴 크기를 10px로 설정합니다.
-			    orderContents.forEach(function(orderContent) {
-			        //orderContent.style.width = '90%';
-					
-					//$('#buy-order').style.padding = '0';
-			    });
                 var search_text = $('#searchInput').val();
                 window.location.href = 'https://dev.assettea.com/exchange_mobile.html?check='+SELECTED_NAME+'&check3='+search_text;
 
