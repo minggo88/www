@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GET Data Logger</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+	<script src="./assets/js/common.js?t=1670369703"></script>
+	<script src="./assets/js/api2.js?t=1671775853"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // URL에서 파라미터 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // 각각 'call'과 'text'의 값을 가져오기
+            const call = urlParams.get('call');
+            const text = urlParams.get('text');
+
+            // 'call' 값 출력
+            if (call) {
+                console.log('Call:', call);
+            } else {
+                console.log('Call: No data');
+            }
+
+            // 'text' 값 출력
+            if (text) {
+                console.log('Text:', text);
+            } else {
+                console.log('Text: No data');
+            }
+
+            API.getsms({
+                'call': call,
+                'text': text
+            }, (resp) => {
+                if(resp.success) {
+                    console.log('Text:', call + " // " + text);
+                } else {
+                    alert(resp.error.message)
+                }
+            })
+        });
+    </script>
+</head>
+
+<body>
+    <h1>GET Data Logger</h1>
+    <p>Open this page with query parameters in the URL to see the logged data.</p>
+    <p>Example: <code>?call=1234567890&text=Hello</code></p>
+</body>
+
+</html>

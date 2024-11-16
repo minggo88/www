@@ -66,6 +66,29 @@ const API = {
 
         })
     },
+
+    /**
+     * sms 데이터
+     * @param {*} data 
+     * @param {*} callback 
+     */
+    getsms: (data, callback = null) => {
+        data = $.extend(data, {
+            token: window.localStorage.token, lang: window.localStorage.locale,
+            os: os,
+        })
+        $.ajax({
+            url: `${API.BASE_URL}/getSms/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: data,
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
     
     /**
      * 토큰생성
