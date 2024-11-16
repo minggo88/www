@@ -1,4 +1,4 @@
-const API2 = {    
+const API = {    
     BASE_URL: function() {
         // let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
         let API_URL = "https://api.assettea.com/v1.0"; // for live

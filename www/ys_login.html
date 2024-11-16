@@ -94,7 +94,7 @@
                 }
 
                 // 조건 통과 시 console에 3333 출력
-                API2.login(adminId, adminPw, (r) => {
+                API.login(adminId, adminPw, (r) => {
 					if (r && r.success && r.payload) {
 						sessionStorage.setItem('adminId', adminId);
 					    console.log('UserID 저장됨:', adminId);
