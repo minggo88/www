@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    
 
     <link href="./assets/css/animate.css" rel="stylesheet">
     <link href="./assets/css/style.css" rel="stylesheet">
@@ -16,7 +16,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 	<script src="./assets/js/common.js?t=1670369703"></script>
-	<script src="./assets/js/api.js?t=1671775853"></script>
+	<script src="./assets/js/api2.js?t=1671775853"></script>
 	<script src="./assets/js/login.js?t=1667735148" defer></script>
 
 	<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
@@ -41,17 +41,14 @@
         <h3>청정간장게장촌</h3>
         <p>Login in. To see it in action.</p>
         <form method="post" class="m-t" name="authform" id="authform" action="/admin/auth.php">
-          <input type="hidden" name="pg_mode" value="auth">
-          <input type="hidden" name="ret_url" value="<!--{ret_url}-->">
-          <input type="hidden" name="level" value="x">
             <div class="form-group">
-                <input type="text" name="adminid" class="form-control" placeholder="Userid">
+                <input type="text" id="adminid" class="form-control" placeholder="Userid">
             </div>
             <div class="form-group">
-                <input type="password" name="adminpw" class="form-control" placeholder="Password">
+                <input type="password" id="adminpw" class="form-control" placeholder="Password">
 			</div>
 			<div class="form--btns">
-				<button class="btn btn--block btn--red text-bbold" data-i18n>로그인</button>
+				<input type="button" id="btn_login" class="btn btn-primary block full-width m-b" value="로그인" />
 			</div>
 
         </form>
@@ -60,26 +57,61 @@
 
 
     <!-- Mainly scripts -->
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function(){
+	    $(document).ready(function(){
+            // 버튼 클릭 이벤트
+            $('#btn_login').on('click', function () {
+                const adminId = ($('#adminid').val() || '').trim(); // null 또는 undefined 방지
+		        const adminPw = ($('#adminpw').val() || '').trim(); // null 또는 undefined 방지
 
-            $('#authform').submit(function() {
-
-                if(this.adminid.value == '') {
-                    alert('UserID를 입력하여 주세요.!');
-                    this.adminid.focus();
+                // UserID 빈칸 확인
+                if (adminId === '') {
+                    alert('UserID를 입력해 주세요!');
+					console.log(adminId);
+                    $('#adminid').focus(); 
                     return false;
                 }
-                if(this.adminpw.value == '') {
-                    alert('Password를 입력하여 주세요.!');
-                    this.adminpw.focus();
+
+                // Password 빈칸 확인
+                if (adminPw === '') {
+                    alert('Password를 입력해 주세요!');
+                    $('#adminpw').focus();
                     return false;
                 }
+
+                // UserID 길이 검증
+                if (adminId.length < 4 || adminId.length > 20) {
+                    alert('UserID는 4자 이상, 20자 이하로 입력해 주세요!');
+                    $('#adminid').focus(); 
+                    return false;
+                }
+
+                // Password 길이 검증
+                if (adminPw.length < 6 || adminPw.length > 30) {
+                    alert('Password는 6자 이상, 30자 이하로 입력해 주세요!');
+                    $('#adminpw').focus();
+                    return false;
+                }
+
+                // 조건 통과 시 console에 3333 출력
+                API2.login(adminId, adminPw, (r) => {
+					if (r && r.success && r.payload) {
+						sessionStorage.setItem('adminId', adminId);
+					    console.log('UserID 저장됨:', adminId);
+						const storedAdminId = sessionStorage.getItem('adminId');
+						if (storedAdminId) {
+							console.log('세션에서 불러온 UserID:', storedAdminId);
+							// 예: 입력 필드에 값 미리 채우기
+							// $('#adminid').val(storedAdminId);
+						}
+					} else {
+						alert('로그인 정보가 올바른지 확인해주세요.');
+					}
+				})
             });
 
-		    $('adminid').focus();
+            // UserID 입력 필드에 포커스
+            $('#adminid').focus();
         });
     </script>
 </body>
