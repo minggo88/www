@@ -21,15 +21,19 @@
             // 'call' 값 출력
             if (call) {
                 console.log('Call:', call);
+                document.getElementById('callValue').textContent = 'Call: ' + call;
             } else {
                 console.log('Call: No data');
+                document.getElementById('callValue').textContent = 'Call: No data';
             }
 
             // 'text' 값 출력
             if (text) {
                 console.log('Text:', text);
+                document.getElementById('textValue').textContent = 'Text: ' + text;
             } else {
                 console.log('Text: No data');
+                document.getElementById('textValue').textContent = 'Text: No data';
             }
 
             API.getsms({
