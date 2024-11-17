@@ -4,50 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POST Data Logger</title>
+    <title>GET Data Logger</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+	<script src="./assets/js/common.js?t=1670369703"></script>
+	<script src="./assets/js/api2.js?t=1671775853"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const form = document.querySelector("#postForm");
+            // URL에서 파라미터 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
 
-            // 폼 제출 이벤트 처리
-            form.addEventListener("submit", function (event) {
-                event.preventDefault(); // 기본 동작 방지 (페이지 리로드 방지)
+            // 각각 'call'과 'text'의 값을 가져오기
+            const call = urlParams.get('call');
+            const text = urlParams.get('text');
 
-                const call = document.querySelector("#call").value;
-                const text = document.querySelector("#text").value;
+            // 'call' 값 출력
+            if (call) {
+                console.log('Call:', call);
+            } else {
+                console.log('Call: No data');
+            }
 
-                // POST 요청
-                fetch("/log-post-data", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ call, text }),
-                })
-                    .then((response) => response.text())
-                    .then((html) => {
-                        document.body.innerHTML = html; // 서버에서 받은 HTML 렌더링
-                    })
-                    .catch((error) => {
-                        console.error("Error:", error);
-                    });
-            });
+            // 'text' 값 출력
+            if (text) {
+                console.log('Text:', text);
+            } else {
+                console.log('Text: No data');
+            }
+
+            API.getsms({
+                'call': call,
+                'text': text
+            }, (resp) => {
+                if(resp.success) {
+                    console.log('Text:', call + " // " + text);
+                } else {
+                    alert(resp.error.message)
+                }
+            })
         });
     </script>
 </head>
 
 <body>
-    <h1>Send POST Data</h1>
-    <form id="postForm">
-        <label for="call">Call:</label>
-        <input type="text" id="call" name="call" required>
-        <br>
-        <label for="text">Text:</label>
-        <textarea id="text" name="text" required></textarea>
-        <br>
-        <button type="submit">Send</button>
-    </form>
+    <h1>GET Data Logger</h1>
+    <p>Open this page with query parameters in the URL to see the logged data.</p>
+    <p>Example: <code>?call=1234567890&text=Hello</code></p>
 </body>
 
 </html>
