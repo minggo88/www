@@ -74,8 +74,7 @@ const API = {
      */
     getsms: (data, callback = null) => {
         data = $.extend(data, {
-            token: null,
-            os: os,
+            
         })
         $.ajax({
             url: `${API.BASE_URL}/getSms/`,
