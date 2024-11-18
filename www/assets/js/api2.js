@@ -74,7 +74,7 @@ const API = {
      */
     getsms: (data, callback = null) => {
         data = $.extend(data, {
-            token: window.localStorage.token, lang: window.localStorage.locale,
+            token: null,
             os: os,
         })
         $.ajax({
