@@ -1,4 +1,5 @@
 const API = {    
+
     BASE_URL: function() {
         // let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
         let API_URL = "https://api.assettea.com/v1.0"; // for live
@@ -106,8 +107,11 @@ const API = {
         })
     },
 
-    //takeoutitem check
-    getSmsData: (symbol = 'ALL', exchange = null, callback = null) => {
+    /**
+     * getData
+     * @param {*} callback 
+     */
+    getSmsData: (callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getSmsData/`,
             type: 'POST',
@@ -118,7 +122,7 @@ const API = {
                 }
             }
         })
-    },
+    }
 }
 
 if(!window.localStorage.token) {
