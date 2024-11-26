@@ -93,7 +93,7 @@ const API = {
      * 토큰생성
      * @param {*} callback 
      */
-    /*getToken: (callback = null) => {
+    getToken: (callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getToken/`,
             type: 'POST',
@@ -104,7 +104,7 @@ const API = {
                 }
             }
         })
-    }*/
+    },
 
     //takeoutitem check
     getSmsData: (symbol = 'ALL', exchange = null, callback = null) => {
@@ -118,7 +118,7 @@ const API = {
                 }
             }
         })
-    }
+    },
 }
 
 if(!window.localStorage.token) {
