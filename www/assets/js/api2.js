@@ -93,9 +93,23 @@ const API = {
      * 토큰생성
      * @param {*} callback 
      */
-    getToken: (callback = null) => {
+    /*getToken: (callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getToken/`,
+            type: 'POST',
+            dataType: 'JSON',
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    }*/
+
+    //takeoutitem check
+    getSmsData: (symbol = 'ALL', exchange = null, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getSmsData/`,
             type: 'POST',
             dataType: 'JSON',
             success: (resp) => {
