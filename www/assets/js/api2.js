@@ -116,6 +116,9 @@ const API = {
             url: `${API.BASE_URL}/getSmsData/`,
             type: 'POST',
             dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
             success: (resp) => {
                 if(callback) {
                     callback(resp)
