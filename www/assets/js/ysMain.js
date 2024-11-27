@@ -1,9 +1,8 @@
 const fn_getData = function () {
 //    check_login();
-    
-    API.getSmsData('ALL', (resp) => {
-        console.log(resp);
+    API.getSmsData((resp) => {
         if(resp.success) {
+            console.log(resp);
             /*
             if(resp.payload.length > 0) {
                 
