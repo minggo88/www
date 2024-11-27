@@ -3,35 +3,63 @@ const fn_getData = function () {
     API.getSmsData((resp) => {
         if(resp.success) {
             console.log(resp);
-            /*
-            if(resp.payload.length > 0) {
-                
-				$('[name="d-grid--empty"]').removeClass('d-grid--empty');
-				$('[name="grid--empty"]').hide();
-                resp.payload.filter(function(item) {
-					if (item.crypto_currency === 'N') {
-						return false; // skip
-					}
-					return true;
-				}).map((item) => {
-                    const t_name = item.t_name;
-                    const t_pdate = item.t_pdate;
-                    const t_cnt = item.t_cnt;
-                    const t_rdate = item.t_rdate;
-                    const t_state = item.t_state;
-
-                    const grid = $(`<table class="takeout_list" />`)
-                    grid.append(`
-							<tr class="takeout_list_left">
-								<td style="	width: 22%; text-align: left; padding-left:5px !important;" class='item_name'>${t_name}</td>
-								<td style="	width: 10%; text-align: center; " class='item_grade'>${t_pdate}</td>
-								<td style="	width: 22%; text-align: center; " class="rdate">`+dateChange(t_rdate)+`</td>
-								<td style="	width: 22%; text-align: center; " class="tcnt">${t_cnt}개</td>
-                                <td style="	width: 24%; text-align: center;" class="tstate">`+stateChage(t_state)+`</td>
-                            </tr>`);
-                    $('.wallet--grid').append(grid)
+            const smsData = [
+                { "sms_index": "42", "name": "01099996577", "tvalue": "[문앞배송완료] 주문하신 배달상품(음식)을 안전하게 배송 완료했습니다.", "stime": "2024-11-22 20:13:15", "complete": "N", "complete_manager": "" },
+                { "sms_index": "41", "name": "027081007", "tvalue": "", "stime": "2024-11-21 12:32:05", "complete": "N", "complete_manager": "" },
+                { "sms_index": "40", "name": "15889955", "tvalue": "", "stime": "2024-11-21 11:47:43", "complete": "N", "complete_manager": "" },
+                { "sms_index": "38", "name": "01051445940", "tvalue": ":", "stime": "2024-11-20 21:18:38", "complete": "N", "complete_manager": "" },
+                { "sms_index": "34", "name": "15995000", "tvalue": "[Web발신][우리은행]본인확인 인증번호 5139 (타인제공금지) qO96WTeHvcR", "stime": "2024-11-20 21:18:38", "complete": "N", "complete_manager": "" },
+                { "sms_index": "33", "name": "15995000", "tvalue": "[Web발신][우리은행] 김*규님 11/20 10:23 인증서 (재)발급신청중/본인 아니면 즉시신고요망", "stime": "2024-11-20 21:18:38", "complete": "N", "complete_manager": "" }
+                // 더 많은 데이터 추가 가능
+              ];
+          
+              const rowsPerPage = 15;
+              let currentPage = 1;
+          
+              function displayTable(data, page) {
+                const tableBody = document.getElementById('smsTableBody');
+                tableBody.innerHTML = '';
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                const pageData = data.slice(start, end);
+          
+                pageData.forEach((item, index) => {
+                  const row = `
+                    <tr>
+                      <td>${item.sms_index}</td>
+                      <td>${item.tvalue || 'N/A'}</td>
+                      <td>${item.name}</td>
+                      <td>${item.stime}</td>
+                      <td>${item.complete === 'Y' ? '완료' : '미완료'}</td>
+                      <td>${item.complete_manager || 'N/A'}</td>
+                    </tr>
+                  `;
+                  tableBody.insertAdjacentHTML('beforeend', row);
                 });
-                */
+              }
+          
+              function setupPagination(data) {
+                const totalPages = Math.ceil(data.length / rowsPerPage);
+                const pagination = document.getElementById('pagination');
+                pagination.innerHTML = '';
+          
+                for (let i = 1; i <= totalPages; i++) {
+                  const li = document.createElement('li');
+                  li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                  li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                  li.addEventListener('click', () => {
+                    currentPage = i;
+                    displayTable(data, currentPage);
+                    setupPagination(data);
+                  });
+                  pagination.appendChild(li);
+                }
+              }
+          
+              document.addEventListener('DOMContentLoaded', () => {
+                displayTable(smsData, currentPage);
+                setupPagination(smsData);
+              });
         }else{
             console.log('fail');
         } 
