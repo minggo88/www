@@ -66,6 +66,29 @@
             font-weight: bold;
         }
 
+        /* 완료 여부 색상 */
+        .status-complete {
+            color: white;
+            background-color: #28a745; /* 초록색 */
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .status-incomplete {
+            color: white;
+            background-color: #dc3545; /* 붉은색 */
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        /* 내용 글자 길이 제한 */
+        .content-col {
+            max-width: 400px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         /* 반응형 스타일 */
         @media (max-width: 768px) {
             th, td {

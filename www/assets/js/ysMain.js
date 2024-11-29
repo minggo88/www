@@ -49,7 +49,11 @@ const fn_getData = function () {
               <td>${item.tvalue || 'N/A'}</td>
               <td>${item.name}</td>
               <td>${item.stime}</td>
-              <td>${item.complete === 'Y' ? '완료' : '미완료'}</td>
+              <td>
+                        <span class="${item.complete === 'Y' ? 'status-complete' : 'status-incomplete'}">
+                            ${item.complete === 'Y' ? '완료' : '미완료'}
+                        </span>
+                    </td>
               <td>${item.complete_manager || 'N/A'}</td>
             </tr>
           `;
@@ -105,6 +109,3 @@ const fn_getData = function () {
         displayTable(smsData, currentPage);
         setupPagination(smsData);
     });
-    
-    
-    
