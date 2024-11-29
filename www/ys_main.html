@@ -2,7 +2,6 @@
 <html>
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- JS -->
@@ -13,152 +12,159 @@
     <script src="https://dev.assettea.com/assets/js/bootstrap.bundle.min.js" 
         integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
+        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" 
+        integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
-	<title>청정간장게장촌</title>
+    <title>청정간장게장촌</title>
     <script src="./assets/js/ysMain.js"></script>
+
     <style type="text/css">
-        /* Chart.js */
-        @keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}
-    
-        .navbar-dark.bg-dark{
-          margin-bottom: 0px;
+        body {
+            font-family: Arial, sans-serif;
         }
+
+        .navbar-dark.bg-dark {
+            margin-bottom: 0px;
+        }
+
         .navbar-brand {
-          display: flex; /* 플렉스 박스를 사용 */
-          align-items: center; /* 세로 중앙 정렬 */
-          justify-content: center; /* 가로 중앙 정렬(필요하면 추가) */
-          height: 100%; /* 부모 요소 높이에 맞추기 */
-          text-decoration: none; /* 링크 밑줄 제거 (선택 사항) */
-          justify-content: center; /* 가로 정렬 */
+            display: flex;
+            align-items: center;
+            height: 100%;
+            text-decoration: none;
+            justify-content: center;
         }
-    
+
         .nav-item .nav-link {
-          font-size: 16px;
-          color: #343a40;
+            font-size: 16px;
+            color: #343a40;
         }
-    
-        #sidebarMenu{
-          height:860px;
+
+        #sidebarMenu {
+            height: 860px;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-size: 16px; /* 기본 글자 크기 */
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+
+        /* 반응형 스타일 */
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 14px; /* 중간 화면에서 글자 크기 축소 */
+                padding: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                font-size: 12px; /* 작은 화면에서 글자 크기 축소 */
+                padding: 4px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th {
+                font-size: 13px;
+            }
         }
     </style>
-
 </head>
 
 <body>
     <!-- header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="./ys_main.html"><h2>청정간장게장촌</h2></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarColor01" style="visibility:hidden;">
-            <!--<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-              </li>
-            </ul>
+            <a class="navbar-brand" href="./ys_main.html">
+                <h2>청정간장게장촌</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01" style="visibility:hidden;"></div>
             <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="visibility:hidden;">
-              <button class="btn btn-outline-light" type="submit">Search</button>
-            </form>-->
-          </div>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="visibility:hidden;">
-            <button class="btn btn-outline-success">Log out</button>
-          </form>
+                <button class="btn btn-outline-success">Log out</button>
+            </form>
         </div>
     </nav>
 
     <!-- main -->
     <div class="container-fluid">
         <div class="row">
-          <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3">
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">
-                    <span data-feather="home"></span>
-                    주문현황
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <span data-feather="file"></span>
-                    사원관리
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <span data-feather="shopping-cart"></span>
-                    회원관리
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <span data-feather="users"></span>
-                    히스토리
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <span data-feather="bar-chart-2"></span>
-                    맺음말
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <span data-feather="layers"></span>
-                    목록 설정
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-      
-          <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 class="h2">주문현황</h1>
-            </div>
-            <div class="table-responsive">
-              <table class="table table-striped table-sm">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">내용</th>
-                    <th scope="col">이름(전화번호)</th>
-                    <th scope="col">시간</th>
-                    <th scope="col">완료여부</th>
-                    <th scope="col">담당자</th>
-                  </tr>
-                </thead>
-                <tbody id="smsTableBody"> 
-                    <!-- 데이터 추가 지역-->
-                </tbody>
-              </table>
-              <nav>
-                <ul class="pagination" id="pagination">
-                  <!-- 페이지네이션 버튼 -->
-                </ul>
-              </nav>
-            </div>
-          </main>
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#"><span data-feather="home"></span> 주문현황</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><span data-feather="file"></span> 사원관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><span data-feather="shopping-cart"></span> 회원관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><span data-feather="users"></span> 히스토리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><span data-feather="bar-chart-2"></span> 맺음말</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><span data-feather="layers"></span> 목록 설정</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">주문현황</h1>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">내용</th>
+                                <th scope="col">이름(전화번호)</th>
+                                <th scope="col">시간</th>
+                                <th scope="col">완료여부</th>
+                                <th scope="col">담당자</th>
+                            </tr>
+                        </thead>
+                        <tbody id="smsTableBody">
+                            <!-- 데이터 추가 영역 -->
+                        </tbody>
+                    </table>
+                    <nav>
+                        <ul class="pagination" id="pagination">
+                            <!-- 페이지네이션 버튼 -->
+                        </ul>
+                    </nav>
+                </div>
+            </main>
         </div>
-      </div>
+    </div>
 </body>
 
 </html>
