@@ -222,12 +222,14 @@ const API = {
      * getCustomerData
      * @param {*} callback 
      */
-    getCustomerData: (callback = null) => {
+    getCustomerData: (s_name, s_call, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/getCustomerData/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
+                c_name: s_name,
+                c_call: s_call,
                 token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {
