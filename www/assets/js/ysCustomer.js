@@ -1,12 +1,15 @@
 const data = [];
 
-const fn_getManagerData = function () {
+const fn_getCustomerData = function () {
     // check_login();
-    API.getManagerData((resp) => {
+    API.getCustomerData('','',(resp) => {
         if (resp.success) {
+            console.log(resp);
             data.length = 0; // 기존 내용을 초기화
             data.push(...resp.payload); // payload 데이터를 data에 추가
-            renderMembers(resp.payload);
+            displayTable(data,1);
+            setupPagination(resp.payload);
+            //renderMembers(resp.payload);
         } else {
             console.log('fail');
         }
@@ -24,9 +27,9 @@ function resetForm() {
 // 회원가입 버튼 클릭 이벤트
 document.addEventListener("DOMContentLoaded", function() {
     // 회원가입 버튼 클릭 이벤트
-    const managerInputButton = document.getElementById('manager_input');
+    const customerInputButton = document.getElementById('customer_input');
  
-    managerInputButton.addEventListener('click', function() {
+    customerInputButton.addEventListener('click', function() {
         let name = document.getElementById('c_name').value.trim();
         let call = document.getElementById('c_call').value.trim();
         let address1 = document.getElementById('c_address1').value;
@@ -45,12 +48,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // 3. 성공 메시지
-    //addManager: (m_name, m_call, m_id, m_pw, m_use, callback = null) => {
-        API.addManager(name, call, id, pass, use, (resp) => {
+        API.addCustomer(name, call, address1, address2, (resp) => {
             if (resp.success) {
                 console.log(resp);
                 alert('회원가입이 성공하였습니다.');
-                fn_getManagerData();
+                fn_getCustomerData();
+                displayTable(data, currentPage);
+                setupPagination(data);
 
                 // 초기화
                 resetForm();
@@ -62,71 +66,45 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+const rowsPerPage = 9;
+let currentPage = 1;
 
-
-
-
-// 데이터 렌더링 함수
-function renderMembers(data) {
-    // team-ys 컨테이너
-    const teamYsContainer = document.querySelector('.team-ys');
-    teamYsContainer.innerHTML = ''; // 기존 내용 초기화
-
-    data.forEach(member => {
-        // team-member 요소 생성
-        const memberDiv = document.createElement('div');
-        memberDiv.classList.add('team-member');
-
-        // member-info 요소 생성
-        const memberInfoDiv = document.createElement('div');
-        memberInfoDiv.classList.add('member-info');
-
-        // 각 데이터 요소 추가
-        memberInfoDiv.innerHTML = `
-            <span id="title_id"><strong>${member.m_id}</strong></span>
-            <span id="title_name"><strong>${member.m_name}</strong></span>
-            <span id="title_call">${member.m_call}</span>
-            <input style="visibility:hidden;" id="title_index" value="${member.m_index}" />
-            <input style="visibility:hidden;" id="title_password" value="${member.m_password}" />
-            <input style="visibility:hidden;" id="title_use" value="${member.m_use}" />
-            <button class="button password-btn" data-toggle="modal" data-target="#passModal" data-whatever="${member.m_index}">패스워드 변경</button>
-            <button class="${member.m_use === 'Y' ? 'button disable-btn' : 'button enable-btn'}" id="use_yn">${member.m_use === 'Y' ? '사용 금지' : '사용 허용'}</button>
+function displayTable(data, page) {
+    const tableBody = document.getElementById('customerTableBody');
+    tableBody.innerHTML = '';
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const pageData = data.slice(start, end);
+    pageData.forEach((item, index) => {
+        const row = `
+            <tr>
+                <td>${item.c_name}</td>
+                <td>${item.c_call}</td>
+                <td>${item.c_address1}</td>
+                <td>${item.c_address2}</td>
+                <td><button class="button update-btn" id="btn_up_customer" data-toggle="modal" data-target="#passModal" data-whatever="${item.c_index}">수정</button></td>
+            </tr>
         `;
-
-        // team-member에 member-info 추가
-        memberDiv.appendChild(memberInfoDiv);
-
-        // team-ys에 team-member 추가
-        teamYsContainer.appendChild(memberDiv);
+        tableBody.insertAdjacentHTML('beforeend', row);
     });
+}
 
-    // 사용유무 확인체크
-    document.querySelectorAll('#use_yn').forEach(function(button) {
-        button.addEventListener('click', function() {
-            // 버튼이 클릭되었을 때, 이 버튼에 포함된 team-member의 id, 비밀번호, 사용 여부 값을 가져옴
-            var parentDiv = button.closest('.team-member');  // 버튼이 포함된 부모 div 선택
-    
-            var titleIndex = parentDiv.querySelector('#title_index').value;
-            var titleUse = parentDiv.querySelector('#title_use').value;
-            if(titleUse === 'Y'){
-                titleUse = 'N';
-            }else{
-                titleUse = 'Y';
-            }
-            console.log('title_index:', titleIndex);  // title_index의 값 출력
-            console.log('title_use:', titleUse);      // title_use의 값 출력
+function setupPagination(data) {
+    const totalPages = Math.ceil(data.length / rowsPerPage);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
 
-            API.updateManagerUse(titleIndex, titleUse, (resp) => {
-                    if (resp.success) {
-                        alert('정보가 변경되었습니다. \n페이지를 재시작 합니다.');
-                        fn_getManagerData();
-                    } else {
-                        console.log('fail');
-                    }
-                });
-            // title_index와 title_use 값을 사용하여 추가 작업을 할 수 있습니다.
+    for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener('click', () => {
+            currentPage = i;
+            displayTable(data, currentPage);
+            setupPagination(data);
         });
-    });
+        pagination.appendChild(li);
+    }
 }
 
 const check_logout = function (redirectUrl = "/ys_login.html") {
@@ -142,7 +120,9 @@ const check_logout = function (redirectUrl = "/ys_login.html") {
 
 ///-------------------------------------------------------------------------------------------
 $(document).ready(function() {
-    fn_getManagerData();
+    fn_getCustomerData();
+    displayTable(data, currentPage);
+    setupPagination(data);
 
     $('#passModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -152,14 +132,14 @@ $(document).ready(function() {
         var modal = $(this);
         // m_index 값이 4인 항목의 m_name 출력
         
-        const item = data.find(entry => entry.m_index == recipient);
+        const item = data.find(entry => entry.c_index == recipient);
         if (item) {
-            modal.find('.modal-title').text('패스워드 변경');
-            $('#recipient-id').val(item.m_id); // ID 설정
-            $('#recipient-name').val(item.m_name); // 이름 설정
-            $('#recipient-call').val(item.m_call); // ID 설정
-            $('#recipient-password').val(item.m_password);
-            $('#recipient-password-check').val(item.m_password);
+            modal.find('.modal-title').text('회원정보 수정');
+            $('#recipient-name').val(item.c_name); // ID 설정
+            $('#recipient-call').val(item.c_call); // ID 설정
+            $('#recipient-address1').val(item.c_address1);
+            $('#recipient-address2').val(item.c_address2);
+            $('#recipient-index').val(item.c_index);
         } else {
             console.log("m_index가 4인 항목을 찾을 수 없습니다.");
         }
@@ -167,33 +147,24 @@ $(document).ready(function() {
         //비밀번호 번경
         document.getElementById('btn_up_pw').addEventListener('click', function() {
             // 버튼 클릭 시 실행할 코드 작성
-            let up_pw =  $('#recipient-password').val();
-            let passCheck = $('#recipient-password-check').val();
+            let up_index = $('#recipient-index').val(); // index값
+            let up_name = $('#recipient-name').val(); // 이름 설정
+            let up_call = $('#recipient-call').val();
+            let up_address1 = $('#recipient-address1').val();
+            let up_address2 = $('#recipient-address2').val();
             
-            if(up_pw === passCheck){
-                let up_id = $('#recipient-id').val(); // ID 설정
-        
-                const item = data.find(entry => entry.m_id == up_id);
-                
-                let up_name = $('#recipient-name').val(); // 이름 설정
-                let up_call = $('#recipient-call').val();
-                let up_pw = $('#recipient-password').val();
-                let up_index = item.m_index;
-            
-                // 예시: 버튼 클릭 시 알림을 띄우기
-                API.updateManager(up_index, up_name, up_call, up_id, up_pw, (resp) => {
-                    if (resp.success) {
-                        alert('패스워드 변경이 성공하였습니다.');
-                        fn_getManagerData();
-        
-                    } else {
-                        console.log('fail');
-                        alert('패스워드 변경이 실패 하였습니다.');
-                    }
-                });
-            }else{
-                alert('비밀번호를 확인해 주세요');
-            }
+            // 예시: 버튼 클릭 시 알림을 띄우기
+            API.updateCustomer(up_index, up_name, up_call, up_address1, up_address2, (resp) => {
+                if (resp.success) {
+                    alert('회원정보 수정이 성공하였습니다.');
+                    fn_getCustomerData();
+                    displayTable(data, currentPage);
+                    setupPagination(data);
+                } else {
+                    console.log('fail');
+                    alert('회원정보 수정이 실패 하였습니다.');
+                }
+            });
             
             
             
