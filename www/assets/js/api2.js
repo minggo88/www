@@ -276,7 +276,7 @@ const API = {
             data: {
                 token: window.localStorage.token, lang: window.localStorage.locale,
                 up_index: c_index,
-                up_id: c_name,
+                up_name: c_name,
                 up_call: c_call,
                 up_address1: c_address1,
                 up_address2: c_address2
