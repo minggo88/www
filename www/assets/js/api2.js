@@ -125,6 +125,77 @@ const API = {
                 }
             }
         })
+    },
+
+    /**
+     * getData
+     * @param {*} callback 
+     */
+    getManagerData: (callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getManagerData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
+     * insertData
+     * @param {*} callback 
+     * 
+     */
+    addManager: (m_name, m_call, m_id, m_pw, m_use, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/addManager/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                add_id: m_id,
+                add_name: m_name,
+                add_pw: m_pw,
+                add_call: m_call,
+                add_use: m_use,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
+     * updateData
+     * @param {*} callback 
+     * 
+     */
+    updateManager: (m_index, m_name, m_call, m_id, m_pw, m_use, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/updateManager/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                up_index: m_index,
+                up_id: m_id,
+                up_name: m_name,
+                up_pw: m_pw,
+                up_call: m_call,
+                up_use: m_use
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
     }
 }
 
