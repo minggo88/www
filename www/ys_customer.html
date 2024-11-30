@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
     <title>청정간장게장촌</title>
-    <script src="./assets/js/ysMain.js"></script>
+    <script src="./assets/js/ysCustomer.js"></script>
 
     <style type="text/css">
         body {
@@ -121,7 +121,54 @@
                     <h1 class="h2">회원관리</h1>
                 </div>
                 <div class="table-responsive">
-                    
+                    <button class="create-id-btn" data-toggle="collapse" data-target="#collapseMake" aria-expanded="false" aria-controls="collapseMake">아이디 만들기</button>
+                    <br>
+                    <br>
+                    <div class="collapse" id="collapseMake">
+                        <div class="card card-body">
+                            <div class="col-md-8 order-md-1">
+                                <h3 class="mb-3">신규 회원 추가</h3>
+                                <form class="needs-validation" novalidate="">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                    <label for="c_name">이름</label>
+                                    <input type="text" class="form-control" id="c_name" placeholder="" value="" required="">
+                                    <div class="invalid-feedback">
+                                        이름은 필수값 입니다.
+                                    </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                    <label for="c_calle">전화번호</label>
+                                    <input type="text" class="form-control" id="c_calle" placeholder="" value="" required="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="m_address1">주소1</label>
+                                        <input type="text" class="form-control" id="m_address1" placeholder="" value="" required="">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="m_address2">주소2</label>
+                                        <input type="text" class="form-control" id="m_address2" placeholder="" value="" required="">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                <hr class="mb-4">
+                                <button class="btn btn-primary btn-lg btn-block" type="button" id="customer_input">유저 추가</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                 </div>
             </main>
         </div>

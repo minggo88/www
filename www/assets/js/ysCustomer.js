@@ -15,11 +15,10 @@ const fn_getManagerData = function () {
 
 // 입력 필드 초기화
 function resetForm() {
-    document.getElementById('m_name').value = '';
-    document.getElementById('m_call').value = '';
-    document.getElementById('m_id').value = '';
-    document.getElementById('m_pass').value = '';
-    document.getElementById('m_pass_check').value = '';
+    document.getElementById('c_name').value = '';
+    document.getElementById('c_call').value = '';
+    document.getElementById('c_address1').value = '';
+    document.getElementById('c_address2').value = '';
 }
 
 // 회원가입 버튼 클릭 이벤트
@@ -28,30 +27,20 @@ document.addEventListener("DOMContentLoaded", function() {
     const managerInputButton = document.getElementById('manager_input');
  
     managerInputButton.addEventListener('click', function() {
-        let name = document.getElementById('m_name').value.trim();
-        let call = document.getElementById('m_call').value.trim();
-        let id = document.getElementById('m_id').value.trim();
-        let pass = document.getElementById('m_pass').value.trim();
-        let passCheck = document.getElementById('m_pass_check').value.trim();
-        let use = document.getElementById('m_enable').checked ? 'Y' : 'N';
-
+        let name = document.getElementById('c_name').value.trim();
+        let call = document.getElementById('c_call').value.trim();
+        let address1 = document.getElementById('c_address1').value;
+        let address2 = document.getElementById('c_address2').value;
+        
         let missingFields = [];
 
         // 1. 빈 필드 체크
         if (!name) missingFields.push('이름');
         if (!call) missingFields.push('전화번호');
-        if (!id) missingFields.push('ID');
-        if (!pass) missingFields.push('패스워드');
-        if (!passCheck) missingFields.push('패스워드 확인');
-
+        if (!address1) missingFields.push('주소');
+        
         if (missingFields.length > 0) {
             alert('다음 항목을 입력하세요: ' + missingFields.join(', '));
-            return;
-        }
-
-        // 2. 패스워드 일치 확인
-        if (pass !== passCheck) {
-            alert('패스워드와 패스워드 확인이 일치하지 않습니다.');
             return;
         }
 
