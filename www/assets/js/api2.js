@@ -264,13 +264,13 @@ const API = {
         })
     },
     /**
-     * upCustomerData
+     * updaeCustomer
      * @param {*} callback 
      * 
      */
-    upCustomerData: (c_index, c_name, c_call, c_address1, c_address2, callback = null) => {
+    updateCustomer: (c_index, c_name, c_call, c_address1, c_address2, callback = null) => {
         $.ajax({
-            url: `${API.BASE_URL}/upCustomerData/`,
+            url: `${API.BASE_URL}/updateCustomer/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
