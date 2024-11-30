@@ -217,7 +217,51 @@ const API = {
                 }
             }
         })
-    }
+    },
+    /**
+     * getCustomerData
+     * @param {*} callback 
+     */
+    getCustomerData: (callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getCustomerData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
+     * upCustomerData
+     * @param {*} callback 
+     * 
+     */
+    upCustomerData: (c_index, c_name, c_call, c_address1, c_address2, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/upCustomerData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                up_index: c_index,
+                up_id: c_name,
+                up_call: c_call,
+                up_address1: c_address1,
+                up_address2: c_address2
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
     
 }
 
