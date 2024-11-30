@@ -4,10 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-    <script src="./assets/js/common.js?t=1670369703"></script>
     <script src="./assets/js/api2.js?t=1671775853"></script>
     <script src="https://dev.assettea.com/assets/js/bootstrap.bundle.min.js" 
         integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
@@ -16,15 +14,15 @@
         integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" 
         integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
-
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
     <title>청정간장게장촌</title>
-    <script src="./assets/js/ysMain.js"></script>
+    <script src="./assets/js/ysManager.js"></script>
 
     <style type="text/css">
         body {
             font-family: Arial, sans-serif;
+            font-size: 14px; /* 전체 글자 크기 설정 */
         }
     
         html, body {
@@ -56,9 +54,8 @@
             height: 100%;
         }
 
-        /* 네비게이션에서 활성화된 항목 스타일 */
         .nav-item .nav-link.active {
-            color: #dc3545;; /* 선택된 항목의 텍스트 색상 (붉은색) */
+            color: #dc3545; /* 선택된 항목의 텍스트 색상 (붉은색) */
             border-radius: 5px; /* 선택된 항목에 둥근 모서리 추가 */
         }
         
@@ -67,13 +64,61 @@
             overflow-y: auto; /* 스크롤 활성화 */
         }
     
-       
+        .team-member {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #dee2e6; /* 1px 테두리 */
+            padding: 3px; /* 3px 패딩 */
+        }
+
+        .button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .password-btn {
+            background-color: #5abfe5;
+            color: white;
+        }
+
+        .disable-btn {
+            background-color: #dc3545;
+            color: white;
+            width: 120px; /* 사용금지 버튼의 가로 길이 */
+        }
+
+        .enable-btn {
+            background-color: #29ab47;
+            color: white;
+            width: 120px; /* 사용금지 버튼의 가로 길이 */
+        }
+
+        .create-id-btn {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #29ab47;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right; /* 오른쪽으로 이동 */
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .member-info span {
+            flex-grow: 1;
+        }
     </style>
 
 </head>
 
 <body>
-    <!-- header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="./ys_main.html">
@@ -89,7 +134,6 @@
         </div>
     </nav>
 
-    <!-- main -->
     <div class="container-fluid">
         <div class="row">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -122,94 +166,158 @@
                     <h1 class="h2">사원관리</h1>
                 </div>
                 <div class="table-responsive">
-                    <div class="mb-4 card">
-                        <div class="card-body">
-                            <h4 class="card-title">My Team</h4>
-                    
-                            <!-- Team Member 1 -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <img src="/images/avatar/avatar-1.jpg" alt="" class="rounded-circle avatar-md">
+                    <button class="create-id-btn" data-toggle="collapse" data-target="#collapseMake" aria-expanded="false" aria-controls="collapseMake">아이디 만들기</button>
+                    <br>
+                    <br>
+                    <div class="collapse" id="collapseMake">
+                        <div class="card card-body">
+                            <div class="col-md-8 order-md-1">
+                              <h3 class="mb-3">신규 사원 추가</h3>
+                              <form class="needs-validation" novalidate="">
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_name">이름</label>
+                                    <input type="text" class="form-control" id="m_name" placeholder="" value="" required="">
+                                    <div class="invalid-feedback">
+                                      이름은 필수값 입니다.
                                     </div>
-                                    <div class="ms-3">
-                                        <h5 class="mb-1">Dianna Smiley</h5>
-                                        <p class="text-muted mb-0 fs-5 text-muted">UI / UX Designer</p>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_calle">전화번호</label>
+                                    <input type="text" class="form-control" id="m_call" placeholder="" value="" required="">
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_id">ID</label>
+                                    <input type="text" class="form-control" id="m_id" placeholder="" value="" required="">
+                                    <div class="invalid-feedback">
+                                      ID는 필수값 입니다.
                                     </div>
+                                  </div>
                                 </div>
-                                <div>
-                                    <a class="text-muted text-primary-hover me-3" href="/pages/profile#">
-                                        <i class="fe fe-phone-call fs-4"></i>
-                                    </a>
-                                    <a class="text-muted text-primary-hover" href="/pages/profile#">
-                                        <i class="fe fe-video fs-4"></i>
-                                    </a>
-                                </div>
-                            </div>
-                    
-                            <!-- Team Member 2 -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <img src="/images/avatar/avatar-2.jpg" alt="" class="rounded-circle avatar-md">
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_pass">비밀번호</label>
+                                    <input type="password" class="form-control" id="m_pass" placeholder="" value="" required="">
+                                    <div class="invalid-feedback">
+                                      패스워드는 필수값 입니다.
                                     </div>
-                                    <div class="ms-3">
-                                        <h5 class="mb-1">Anne Brewer</h5>
-                                        <p class="text-muted mb-0 fs-5 text-muted">Senior UX Designer</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_pass_check">패스워드 확인</label>
+                                    <input type="password" class="form-control" id="m_pass_check" placeholder="" value="" required="">
+                                    <div class="invalid-feedback">
+                                      패스워드 확인은 필수값 입니다.
                                     </div>
+                                  </div>
                                 </div>
-                                <div>
-                                    <a class="text-muted text-primary-hover me-3" href="/pages/profile#">
-                                        <i class="fe fe-phone-call fs-4"></i>
-                                    </a>
-                                    <a class="text-muted text-primary-hover" href="/pages/profile#">
-                                        <i class="fe fe-video fs-4"></i>
-                                    </a>
+                                
+                                <br>
+                                <label for="m_calle">사용여부</label>
+                                <div class="d-block my-3">
+                                  <div class="custom-control custom-radio">
+                                    <input id="m_enable" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                                    <label class="custom-control-label" for="m_enable">사용</label>
+                                  </div>
+                                  <div class="custom-control custom-radio">
+                                    <input id="m_disable" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                                    <label class="custom-control-label" for="m_disable">미사용</label>
+                                  </div>
                                 </div>
-                            </div>
-                    
-                            <!-- Team Member 3 -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <img src="/images/avatar/avatar-3.jpg" alt="" class="rounded-circle avatar-md">
-                                    </div>
-                                    <div class="ms-3">
-                                        <h5 class="mb-1">Richard Christmas</h5>
-                                        <p class="text-muted mb-0">Front-End Engineer</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a class="text-muted text-primary-hover me-3" href="/pages/profile#">
-                                        <i class="fe fe-phone-call fs-4"></i>
-                                    </a>
-                                    <a class="text-muted text-primary-hover" href="/pages/profile#">
-                                        <i class="fe fe-video fs-4"></i>
-                                    </a>
-                                </div>
-                            </div>
-                    
-                            <!-- Team Member 4 -->
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <img src="/images/avatar/avatar-4.jpg" alt="" class="rounded-circle avatar-md">
-                                    </div>
-                                    <div class="ms-3">
-                                        <h5 class="mb-1">Nicholas Binder</h5>
-                                        <p class="text-muted mb-0 fs-5">Content Marketing Manager</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a class="text-muted text-primary-hover me-3" href="/pages/profile#">
-                                        <i class="fe fe-phone-call fs-4"></i>
-                                    </a>
-                                    <a class="text-muted text-primary-hover" href="/pages/profile#">
-                                        <i class="fe fe-video fs-4"></i>
-                                    </a>
-                                </div>
+                               <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                <hr class="mb-4">
+                                <button class="btn btn-primary btn-lg btn-block" type="button" id="manager_input">회원가입</button>
+                                  </div>
+                               </div>
+                              </form>
                             </div>
                         </div>
+                    </div>
+                    <br>
+                    <div class = team-ys>
+                        <div class="team-member">
+                            <div class="member-info">
+                                <span><strong>minggo(M)</strong><br>01039275103</span>
+                                <span><strong>minggo(M)</strong><br>01039275103</span>
+                                <span style="visibility:hidden;"><strong>minggo(M)</strong><br>01039275103</span>
+                                <button class="button password-btn" data-toggle="modal" data-target="#passModal" data-whatever="@getbootstrap" >패스워드 변경</button>
+                                <button class="button disable-btn">사용금지</button>
+                            </div>
+                        </div>
+    
+                        <div class="team-member">
+                            <div class="member-info">
+                                <span><strong>Anne Brewer</strong><br>Senior UX Designer</span>
+                                <button class="button password-btn">패스워드 변경</button>
+                                <button class="button disable-btn">사용금지</button>
+                            </div>
+                        </div>
+    
+                        <div class="team-member">
+                            <div class="member-info">
+                                <span><strong>Richard Christmas</strong><br>Front-End Engineer</span>
+                                <button class="button password-btn">패스워드 변경</button>
+                                <button class="button enable-btn">사용</button>
+                            </div>
+                        </div>
+    
+                        <div class="team-member">
+                            <div class="member-info">
+                                <span><strong>Nicholas Binder</strong><br>Content Marketing Manager</span>
+                                <button class="button password-btn">패스워드 변경</button>
+                                <button class="button disable-btn">사용금지</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--모달창-->
+                    <div class="modal" id="passModal" tabindex="-1" role="dialog" aria-labelledby="passModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="passModalLabel">패스워드 변경</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form>
+                                <div class="form-id">
+                                    <label for="recipient-name" class="col-form-label">id</label>
+                                    <input type="text" class="form-control" id="recipient-id" disabled>
+                                </div>
+                                <div class="form-name">
+                                    <label for="recipient-name" class="col-form-label">이름</label>
+                                    <input type="text" class="form-control" id="recipient-name">
+                                </div>
+                                <div class="form-call">
+                                    <label for="recipient-name" class="col-form-label">전화번호</label>
+                                    <input type="text" class="form-control" id="recipient-call">
+                                </div>
+                              <div class="form-password">
+                                <label for="recipient-name" class="col-form-label">비밀번호</label>
+                                <input type="text" class="form-control" id="recipient-pssword">
+                              </div>
+                              <div class="form-password-check">
+                                <label for="message-text" class="col-form-label">비밀번호 확인</label>
+                                <input type="text" class="form-control" id="recipient-pssword-check">
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Send message</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                 </div>
             </main>
