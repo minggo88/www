@@ -114,6 +114,10 @@
         .member-info span {
             flex-grow: 1;
         }
+
+        #title_id{
+            width:262px;
+        }
     </style>
 
 </head>
@@ -140,7 +144,7 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span data-feather="home"></span> 주문현황</a>
+                            <a class="nav-link" href="./ys_main.html"><span data-feather="home"></span> 주문현황</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="#"><span data-feather="file"></span> 사원관리</a>
@@ -245,9 +249,11 @@
                     <div class = team-ys>
                         <div class="team-member">
                             <div class="member-info">
-                                <span><strong>minggo(M)</strong><br>01039275103</span>
-                                <span><strong>minggo(M)</strong><br>01039275103</span>
-                                <span style="visibility:hidden;"><strong>minggo(M)</strong><br>01039275103</span>
+                                <span id = "title_id"><strong></strong><br><span id = "title_call"></span></span>
+                                <span id = "title_name"><strong></strong></span>
+                                <input style="visibility:hidden;" id = "title_index" val =""></input>
+                                <input style="visibility:hidden;" id = "title_password" val =""></input>
+                                <input style="visibility:hidden;" id = "title_use" val =""></input>
                                 <button class="button password-btn" data-toggle="modal" data-target="#passModal" data-whatever="@getbootstrap" >패스워드 변경</button>
                                 <button class="button disable-btn">사용금지</button>
                             </div>
@@ -304,17 +310,17 @@
                                 </div>
                               <div class="form-password">
                                 <label for="recipient-name" class="col-form-label">비밀번호</label>
-                                <input type="text" class="form-control" id="recipient-pssword">
+                                <input type="password" class="form-control" id="recipient-password">
                               </div>
                               <div class="form-password-check">
                                 <label for="message-text" class="col-form-label">비밀번호 확인</label>
-                                <input type="text" class="form-control" id="recipient-pssword-check">
+                                <input type="password" class="form-control" id="recipient-password-check">
                               </div>
                             </form>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Send message</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                            <button type="button" class="btn btn-primary" id="btn_up_pw">변경하기</button>
                           </div>
                         </div>
                       </div>

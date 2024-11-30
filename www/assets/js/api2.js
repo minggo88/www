@@ -176,7 +176,7 @@ const API = {
      * @param {*} callback 
      * 
      */
-    updateManager: (m_index, m_name, m_call, m_id, m_pw, m_use, callback = null) => {
+    updateManager: (m_index, m_name, m_call, m_id, m_pw, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/updateManager/`,
             type: 'POST',
@@ -187,7 +187,28 @@ const API = {
                 up_id: m_id,
                 up_name: m_name,
                 up_pw: m_pw,
-                up_call: m_call,
+                up_call: m_call
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
+     * updateManagerUse
+     * @param {*} callback 
+     * 
+     */
+    updateManagerUse: (m_index, m_use, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/updateManagerUse/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                up_index: m_index,
                 up_use: m_use
             },
             success: (resp) => {
@@ -197,6 +218,7 @@ const API = {
             }
         })
     }
+    
 }
 
 if(!window.localStorage.token) {
