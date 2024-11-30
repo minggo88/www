@@ -240,6 +240,30 @@ const API = {
         })
     },
     /**
+     * insertData
+     * @param {*} callback 
+     * 
+     */
+    addCustomer: (c_name, c_call, c_address1, c_address2, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/addCustomer/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                add_name: c_name,
+                add_call: c_call,
+                add_address1: c_address1,
+                add_address2: c_address2
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
      * upCustomerData
      * @param {*} callback 
      * 
