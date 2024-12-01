@@ -131,7 +131,25 @@
             width: 8%;
         }
 
-    
+        .table-responsive{
+            width : 900px;
+        }
+        .table-responsive .needs-validation{
+            width : 850px;
+            font-size : 16px !important;
+        }
+
+        .table-responsive input, .table-responsive select{
+            height : 35px;
+            font-size: 14px;
+        }
+
+        #btn_complete{
+            width : 850px;
+            height : 45px;
+            font-size: 16px;
+        }
+        
         /* 반응형 스타일 */
         @media (max-width: 768px) {
             th, td {
@@ -216,26 +234,73 @@
                     <h1 class="h2">주문현황</h1>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped table-sm">
-                        <thead>
-                            <tr>
-                                <th class="col-index">#</th>
-                                <th class="col-text">내용</th>
-                                <th class="col-name">이름(전화번호)</th>
-                                <th class="col-time">시간</th>
-                                <th class="col-complete">완료여부</th>
-                                <th class="col-checker">담당자</th>
-                            </tr>
-                        </thead>
-                        <tbody id="smsTableBody">
-                            <!-- 데이터 추가 영역 -->
-                        </tbody>
-                    </table>
-                    <nav>
-                        <ul class="pagination" id="pagination">
-                            <!-- 페이지네이션 버튼 -->
-                        </ul>
-                    </nav>
+                    <form class="needs-validation" novalidate="">
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="detail_name">이름</label>
+                            <input type="text" class="form-control" id="detail_name" placeholder="" value="" required="">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label for="detail_call">전화번호</label>
+                            <input type="text" class="form-control" id="detail_call" placeholder="" value="" required="">
+                          </div>
+                        </div>
+                
+                        <div class="mb-3">
+                          <label for="address">주소 1</label>
+                          <input type="text" class="form-control" id="address" placeholder="주소를 적어주세요" required="">
+                        </div>
+                
+                        <div class="mb-3">
+                          <label for="address2">주소 2 <span class="text-muted">(Optional)</span></label>
+                          <input type="text" class="form-control" id="address2" placeholder="추가 주소를 적어주세요">
+                        </div>
+
+                        <hr class="mb-4">
+                
+                        <h4 class="mb-3">배송 주소를 선택해 주세요.</h4>
+                
+                        <div class="d-block my-3">
+                          <div class="custom-control custom-radio">
+                            <input id="address1" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                            <label class="custom-control-label" for="address1">주소1</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input id="address2" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                            <label class="custom-control-label" for="address2">주소2</label>
+                          </div>
+                        </div>
+                        <hr class="mb-4">
+                        <div class="row">
+                          <div class="col-md-4 mb-3">
+                            <label for="item_type">대분류</label>
+                            <select class="custom-select d-block w-100" id="item_type" required="">
+                              <option value="">Choose...</option>
+                              <option>United States</option>
+                            </select>
+                          </div>
+                          <div class="col-md-5 mb-3">
+                            <label for="item">신청품목</label>
+                            <select class="custom-select d-block w-100" id="item" required="">
+                              <option value="">Choose...</option>
+                              <option>United States</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3 mb-3">
+                            <label for="detail_ea">수량</label>
+                            <input type="text" class="form-control" id="detail_ea" placeholder="0" required="">
+                            <div class="invalid-feedback">
+                              수량을 적어주세요
+                            </div>
+                          </div>
+                        </div>
+                        
+                        
+                        
+                        <hr class="mb-4">
+                        <br>
+                        <button class="btn btn-primary btn-lg btn-block" id="btn_complete" type="button">주문 완료</button>
+                      </form>
                 </div>
             </main>
         </div>
