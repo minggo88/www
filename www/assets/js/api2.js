@@ -288,6 +288,25 @@ const API = {
             }
         })
     },
+    /**
+     * getItemtypeData
+     * @param {*} callback 
+     */
+    getItemtypeData: (callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getItemtypeData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
     
 }
 
