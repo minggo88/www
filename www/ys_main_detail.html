@@ -235,6 +235,10 @@
                 </div>
                 <div class="table-responsive">
                     <form class="needs-validation" novalidate="">
+                        <div class="mb-3">
+                          <label for="context">문자 내역</label>
+                          <input type="text" class="form-control" id="context" placeholder="" required="" style ="height: 109.5px;">
+                        </div>
                         <div class="row">
                           <div class="col-md-6 mb-3">
                             <label for="detail_name">이름</label>
@@ -261,14 +265,14 @@
                         <h4 class="mb-3">배송 주소를 선택해 주세요.</h4>
                 
                         <div class="d-block my-3">
-                          <div class="custom-control custom-radio">
-                            <input id="address1" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
-                            <label class="custom-control-label" for="address1">주소1</label>
-                          </div>
-                          <div class="custom-control custom-radio">
-                            <input id="address2" name="paymentMethod" type="radio" class="custom-control-input" required="">
-                            <label class="custom-control-label" for="address2">주소2</label>
-                          </div>
+                            <div class="custom-control custom-radio">
+                                <input id="radio_address1" name="addressGroup" type="radio" class="custom-control-input" checked="" required="">
+                                <label class="custom-control-label" for="radio_address1">주소1</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="radio_address2" name="addressGroup" type="radio" class="custom-control-input" required="">
+                                <label class="custom-control-label" for="radio_address2">주소2</label>
+                            </div>
                         </div>
                         <hr class="mb-4">
                         <div class="row">
@@ -283,7 +287,7 @@
                             <label for="item">신청품목</label>
                             <select class="custom-select d-block w-100" id="item" required="">
                               <option value="">Choose...</option>
-                              <option>United States</option>
+                              <option>대분류를 선택해 주세요</option>
                             </select>
                           </div>
                           <div class="col-md-3 mb-3">
@@ -295,8 +299,11 @@
                           </div>
                         </div>
                         
-                        
-                        
+                        <hr class="mb-4">
+                        <div class="mb-3">
+                          <label for="context">발송 문자</label>
+                          <input type="text" class="form-control" id="sendtext" placeholder="" required="" style ="height: 109.5px;">
+                        </div>
                         <hr class="mb-4">
                         <br>
                         <button class="btn btn-primary btn-lg btn-block" id="btn_complete" type="button">주문 완료</button>
