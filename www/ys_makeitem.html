@@ -283,12 +283,22 @@
       listBox.appendChild(div);
     }
     
-    function deleteItem() {
+    function deleteItem2() {
       if (selectedItem) {
         listBox.removeChild(selectedItem);
         itemInput.value = '';
         selectedItem = null;
       }
+        console.log('============123123======');
+        API.ysSMSSend('01039275103','ttttttt', (resp) => {
+            if (resp.success) {
+                console.log(resp);
+                console.log('==================');
+                
+            } else {
+                console.log('fail');
+            }
+        });
     }
 </script>
 </body>
