@@ -50,7 +50,9 @@ function displayTable(data, page) {
                 <td>${item.stime}</td>
                 <td>
                     <span class="${item.complete === 'Y' ? 'status-complete' : 'status-incomplete'}">
-                        ${item.complete === 'Y' ? '완료' : '미완료'}
+                        <a href="./ys_main_detail.html?sms_index=${item.sms_index}">
+                            ${item.complete === 'Y' ? '완료' : '미완료'}
+                        </a>
                     </span>
                 </td>
                 <td>${item.complete_manager}</td>
