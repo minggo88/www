@@ -327,6 +327,56 @@ const API = {
             }
         })
     },
+    /**
+     * ysCompleteOrder
+     * @param {*} callback 
+     * 
+     */
+    ysCompleteOrder: (c_index, c_name, c_call, c_address1, c_address2, c_order, c_ordernum, sendtext, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/ysCompleteOrder/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+                c_index: c_index,
+                c_name: c_name,
+                c_call: c_call,
+                c_address1: c_address1,
+                c_address2: c_address2,
+                c_order: c_order,
+                c_ordernum: c_ordernum,
+                c_sendtext: sendtext                
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+
+    /**
+     * ysSMSSend
+     * @param {*} callback 
+     */
+    ysSMSSend: (num, text, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/ysSMSSend/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                call: num,
+                message: text,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
 }
 
 if(!window.localStorage.token) {
