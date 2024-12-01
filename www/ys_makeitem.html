@@ -65,7 +65,65 @@
             height: 100%; /* main이 전체 높이를 채우도록 설정 */
             overflow-y: auto; /* 스크롤 활성화 */
         }
-    
+
+        .table-responsive{
+          
+        }
+        .container, .container2 {
+          width: 800px;
+          background: white;
+          padding: 20px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-left:0px;
+            font-size:16px !important;
+        }
+        .list-box, .list-box2 {
+          width: 100%;
+          max-height: 300px;
+          overflow-y: auto;
+          border: 1px solid #ccc;
+          padding: 10px;
+          margin-bottom: 20px;
+        }
+        .list-box div, .list-box2 div {
+          padding: 8px;
+          cursor: pointer;
+          border-bottom: 1px solid #ddd;
+        }
+        .list-box div:hover, .list-box2 div:hover {
+          background-color: #f0f0f0;
+        }
+        .form-group {
+          margin-bottom: 10px;
+        }
+        .form-group input {
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+        #btn_input, #btn_input2{
+            background-color:#29ab47;
+        }
+        
+        .button-group button {
+          padding: 10px 15px;
+          margin-right: 5px;
+          border: none;
+          background-color: #007bff;
+          color: white;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        .button-group button:hover {
+          background-color: #0056b3;
+        }
+        .button-group button:last-child {
+          background-color: #dc3545;
+        }
+        .button-group button:last-child:hover {
+          background-color: #c82333;
+        }
        
     </style>
 
@@ -121,59 +179,118 @@
                     <h1 class="h2">목록 설정</h1>
                 </div>
                 <div class="table-responsive">
-                    <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
-                        <div class="list-group">
-                          <label class="list-group-item d-flex gap-2">
-                            <input class="form-check-input flex-shrink-0" type="checkbox" value="" checked="">
-                            <span>
-                              First checkbox
-                              <small class="d-block text-body-secondary">With support text underneath to add more detail</small>
-                            </span>
-                          </label>
-                          <label class="list-group-item d-flex gap-2">
-                            <input class="form-check-input flex-shrink-0" type="checkbox" value="">
-                            <span>
-                              Second checkbox
-                              <small class="d-block text-body-secondary">Some other text goes here</small>
-                            </span>
-                          </label>
-                          <label class="list-group-item d-flex gap-2">
-                            <input class="form-check-input flex-shrink-0" type="checkbox" value="">
-                            <span>
-                              Third checkbox
-                              <small class="d-block text-body-secondary">And we end with another snippet of text</small>
-                            </span>
-                          </label>
+                    <div class="container">
+                        <div class="list-box" id="list-box">
+                          <!-- 리스트 아이템 -->
                         </div>
-                      
-                        <div class="list-group">
-                          <label class="list-group-item d-flex gap-2">
-                            <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios" id="listGroupRadios1" value="" checked="">
-                            <span>
-                              First radio
-                              <small class="d-block text-body-secondary">With support text underneath to add more detail</small>
-                            </span>
-                          </label>
-                          <label class="list-group-item d-flex gap-2">
-                            <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios" id="listGroupRadios2" value="">
-                            <span>
-                              Second radio
-                              <small class="d-block text-body-secondary">Some other text goes here</small>
-                            </span>
-                          </label>
-                          <label class="list-group-item d-flex gap-2">
-                            <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios" id="listGroupRadios3" value="">
-                            <span>
-                              Third radio
-                              <small class="d-block text-body-secondary">And we end with another snippet of text</small>
-                            </span>
-                          </label>
+                        <div class="form-group">
+                          <input type="text" id="item-input" placeholder="선택된 항목">
                         </div>
-                      </div>
+                        <div class="button-group">
+                            <button id="btn_input" onclick="addItem()">추가</button>
+                            <button onclick="updateItem()">수정</button>
+                            <!--<button onclick="deleteItem()">삭제</button>-->
+                        </div>
+                    </div>
+                    <div class="container2">
+                        <div class="list-box2" id="list-box2">
+                          <!-- 리스트 아이템 -->
+                        </div>
+                        <div class="form-group">
+                          <input type="text" id="item-input2" placeholder="선택된 항목">
+                        </div>
+                        <div class="button-group">
+                            <button id="btn_input2" onclick="addItem2()">추가</button>
+                            <button onclick="updateItem2()">수정</button>
+                            <button onclick="deleteItem2()">삭제</button>
+                        </div>
+                    </div>
+
                 </div>
             </main>
         </div>
     </div>
+<script>
+    const listBox = document.getElementById('list-box');
+    const listBox2 = document.getElementById('list-box2');
+    const itemInput = document.getElementById('item-input');
+    const itemInput2 = document.getElementById('item-input2');
+    let selectedItem = null;
+    let selectedItem2 = null;
+
+    API.getItemTypeData((resp) => {
+        if (resp.success) {
+            data.length = 0; // 기존 내용을 초기화
+            data.push(...resp.payload); // payload 데이터를 data에 추가
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item.itype_name; // 항목 이름 사용
+                div.setAttribute('data-index', item.itype_index); // 아이템 인덱스 저장
+                div.onclick = () => selectItem(div);
+                listBox.appendChild(div);
+            });
+        } else {
+            console.log('fail');
+        }
+    });
+    
+    function selectItem(item) {
+        if (selectedItem) {
+            selectedItem.style.backgroundColor = '';
+        }
+        selectedItem = item;
+        selectedItem.style.backgroundColor = '#d0ebff';
+        itemInput.value = selectedItem.textContent;
+        
+        const dataIndex = selectedItem.getAttribute('data-index');
+        API.getItemData(dataIndex, (resp) => {
+            if (resp.success) {
+                listBox2.innerHTML = ''; 
+                data2.length = 0; // 기존 내용을 초기화
+                data2.push(...resp.payload); // payload 데이터를 data에 추가
+                data2.forEach(item2 => {
+                    const div = document.createElement('div');
+                    div.textContent = item2.i_value; // 항목 이름 사용
+                    div.setAttribute('data-index', item2.item_index); // 아이템 인덱스 저장
+                    div.onclick = () => selectItem2(div);
+                    listBox2.appendChild(div);
+                });
+            } else {
+                console.log('fail');
+            }
+        });
+    }
+
+    function selectItem2(item) {
+        if (selectedItem2) {
+            selectedItem2.style.backgroundColor = '';
+        }
+        selectedItem2 = item;
+        selectedItem2.style.backgroundColor = '#d0ebff';
+        itemInput2.value = selectedItem2.textContent;
+    }
+    
+    function updateItem() {
+      if (selectedItem) {
+        selectedItem.textContent = itemInput.value;
+      }
+    }
+    
+    function addItem() {
+      const div = document.createElement('div');
+      div.textContent = itemInput.value || '새 항목';
+      div.onclick = () => selectItem(div);
+      listBox.appendChild(div);
+    }
+    
+    function deleteItem() {
+      if (selectedItem) {
+        listBox.removeChild(selectedItem);
+        itemInput.value = '';
+        selectedItem = null;
+      }
+    }
+</script>
 </body>
 
 </html>

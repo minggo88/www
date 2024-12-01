@@ -292,9 +292,9 @@ const API = {
      * getItemtypeData
      * @param {*} callback 
      */
-    getItemtypeData: (callback = null) => {
+    getItemTypeData: (callback = null) => {
         $.ajax({
-            url: `${API.BASE_URL}/getItemtypeData/`,
+            url: `${API.BASE_URL}/getItemTypeData/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -307,7 +307,26 @@ const API = {
             }
         })
     },
-    
+    /**
+     * getItemData
+     * @param {*} callback 
+     */
+    getItemData: (item_type_num, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getItemData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                type_num: item_type_num,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
 }
 
 if(!window.localStorage.token) {
