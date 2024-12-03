@@ -189,7 +189,7 @@
                         <div class="button-group">
                             <button id="btn_input" onclick="addItem()">추가</button>
                             <button onclick="updateItem()">수정</button>
-                            <!--<button onclick="deleteItem()">삭제</button>-->
+                            <button onclick="deleteItem()" style="display:none">삭제</button>
                         </div>
                     </div>
                     <div class="container2">
@@ -215,6 +215,7 @@
     const listBox2 = document.getElementById('list-box2');
     const itemInput = document.getElementById('item-input');
     const itemInput2 = document.getElementById('item-input2');
+    const d_index = document.getElementById('item-input2');
     let selectedItem = null;
     let selectedItem2 = null;
 
@@ -271,34 +272,103 @@
     }
     
     function updateItem() {
-      if (selectedItem) {
-        selectedItem.textContent = itemInput.value;
-      }
+        const dataIndex = selectedItem.getAttribute('data-index');
+        API.upItemTypeData(dataIndex, selectedItem.textContent, itemInput.value,(resp) => {
+            console.log(resp);
+            if (resp.success) {
+                console.log('success');
+                if (selectedItem) {
+                    selectedItem.textContent = itemInput.value;
+                }
+            } else {
+                alert('목록에 이미 같은 아이템이 있습니다.');
+                console.log('fail');
+                return;
+            }
+        });
     }
     
     function addItem() {
-      const div = document.createElement('div');
-      div.textContent = itemInput.value || '새 항목';
-      div.onclick = () => selectItem(div);
-      listBox.appendChild(div);
+        API.addItemTypeData(itemInput.value,(resp) => {
+            if (resp.success) {
+                const div = document.createElement('div');
+                div.textContent = itemInput.value || '새 항목';
+                div.onclick = () => selectItem(div);
+                listBox.appendChild(div);
+            } else {
+                console.log('fail');
+                alert('목록에 이미 같은 아이템이 있습니다.');
+                return;
+            }
+        });
+    }
+    
+    function addItem2() {
+        const dataIndex = selectedItem.getAttribute('data-index');
+        console.log(dataIndex);
+        console.log(itemInput2.value);
+        API.addItemData(dataIndex, itemInput2.value,(resp) => {
+            if (resp.success) {
+                API.getItemData(dataIndex, (resp) => {
+                    if (resp.success) {
+                        listBox2.innerHTML = ''; 
+                        data2.length = 0; // 기존 내용을 초기화
+                        data2.push(...resp.payload); // payload 데이터를 data에 추가
+                        data2.forEach(item2 => {
+                            const div = document.createElement('div');
+                            div.textContent = item2.i_value; // 항목 이름 사용
+                            div.setAttribute('data-index', item2.item_index); // 아이템 인덱스 저장
+                            div.onclick = () => selectItem2(div);
+                            listBox2.appendChild(div);
+                        });
+                    } else {
+                        console.log('fail');
+                    }
+                });
+            } else {
+                console.log('fail');
+                alert('목록에 이미 같은 아이템이 있습니다.');
+                return;
+            }
+        });
+    }
+
+    function updateItem2() {
+        const dataIndex2 = selectedItem2.getAttribute('data-index');
+        console.log(dataIndex2);
+        console.log(itemInput2.value);
+        
+        API.upItemData(dataIndex2, itemInput2.value,(resp) => {
+            console.log(resp);
+            if (resp.success) {
+                console.log('success');
+                if (selectedItem2) {
+                    selectedItem2.textContent = itemInput2.value;
+                }
+            } else {
+                alert('목록에 이미 같은 아이템이 있습니다.');
+                console.log('fail');
+                return;
+            }
+        });
     }
     
     function deleteItem2() {
-      if (selectedItem) {
-        listBox.removeChild(selectedItem);
-        itemInput.value = '';
-        selectedItem = null;
-      }
-        console.log('============123123======');
-        API.ysSMSSend('01039275103','ttttttt', (resp) => {
-            if (resp.success) {
+        const dataIndex2 = selectedItem2.getAttribute('data-index');
+        if (selectedItem2) {
+            API.deleteItemData(dataIndex2,(resp) => {
                 console.log(resp);
-                console.log('==================');
-                
-            } else {
-                console.log('fail');
-            }
-        });
+                if (resp.success) {
+                    console.log('success');
+                    listBox2.removeChild(selectedItem2);
+                    itemInput2.value = '';
+                    selectedItem2 = null;
+                } else {
+                    console.log('fail');
+                    return;
+                }
+            });   
+        }
     }
 </script>
 </body>

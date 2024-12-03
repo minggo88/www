@@ -377,6 +377,114 @@ const API = {
             }
         })
     },
+
+    /**
+     * addItemTypeData
+     * @param {*} callback 
+     */
+    addItemTypeData: (text, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/addItemTypeData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                up_text: text,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+
+    /**
+     * addItemData
+     * @param {*} callback 
+     */
+    addItemData: (index, text, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/addItemData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                add_index: index,
+                add_text: text,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+
+    /**
+     * upItemTypeData
+     * @param {*} callback 
+     */
+    upItemTypeData: (select_index, change_text, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/upItemTypeData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                c_index: select_index,
+                c_text: change_text,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+
+    /**
+     * upItemData
+     * @param {*} callback 
+     */
+    upItemData: (select_index, change_text, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/upItemData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                c_index: select_index,
+                c_text: change_text,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+
+    /**
+     * deleteItem2
+     * @param {*} callback 
+     */
+    deleteItemData: (select_index, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/deleteItemData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                c_index: select_index,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
 }
 
 if(!window.localStorage.token) {
