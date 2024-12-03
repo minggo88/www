@@ -357,7 +357,7 @@ const API = {
     },
 
     /**
-     * ysSMSSend
+     * ysSMSSend - 한글이 안된다??
      * @param {*} callback 
      */
     ysSMSSend: (num, text, callback = null) => {
@@ -472,6 +472,89 @@ const API = {
     deleteItemData: (select_index, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/deleteItemData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                c_index: select_index,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
+     * getEndTextData
+     * @param {*} callback 
+     */
+    getEndTextData: (callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getEndTextData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    
+    /**
+     * addEndTextData
+     * @param {*} callback 
+     */
+    addEndTextData: (text, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/addEndTextData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                up_text: text,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    
+    /**
+     * upItemData
+     * @param {*} callback 
+     */
+    upEndTextData: (select_index, change_text, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/upEndTextData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                c_index: select_index,
+                c_text: change_text,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+
+    /**
+     * deleteEndTextData
+     * @param {*} callback 
+     */
+    deleteEndTextData: (select_index, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/deleteEndTextData/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
