@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
     <title>청정간장게장촌</title>
-    <script src="./assets/js/ysMakeItem.js"></script>
+    <script src="./assets/js/ysEndText.js"></script>
 
     <style type="text/css">
         body {
@@ -165,10 +165,10 @@
                             <a class="nav-link" href="#"><span data-feather="users"></span> 히스토리</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./ys_endText.html"><span data-feather="bar-chart-2"></span> 맺음말</a>
+                            <a class="nav-link active" href="./ys_end.html"><span data-feather="bar-chart-2"></span> 맺음말</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="./ys_makeitem.html"><span data-feather="layers"></span> 목록 설정</a>
+                            <a class="nav-link " href="./ys_makeitem.html"><span data-feather="layers"></span> 목록 설정</a>
                         </li>
                     </ul>
                 </div>
@@ -189,37 +189,20 @@
                         <div class="button-group">
                             <button id="btn_input" onclick="addItem()">추가</button>
                             <button onclick="updateItem()">수정</button>
-                            <button onclick="deleteItem()" style="display:none">삭제</button>
+                            <button onclick="deleteItem()">삭제</button>
                         </div>
                     </div>
-                    <div class="container2">
-                        <div class="list-box2" id="list-box2">
-                          <!-- 리스트 아이템 -->
-                        </div>
-                        <div class="form-group">
-                          <input type="text" id="item-input2" placeholder="선택된 항목">
-                        </div>
-                        <div class="button-group">
-                            <button id="btn_input2" onclick="addItem2()">추가</button>
-                            <button onclick="updateItem2()">수정</button>
-                            <button onclick="deleteItem2()">삭제</button>
-                        </div>
-                    </div>
-
                 </div>
             </main>
         </div>
     </div>
 <script>
     const listBox = document.getElementById('list-box');
-    const listBox2 = document.getElementById('list-box2');
     const itemInput = document.getElementById('item-input');
-    const itemInput2 = document.getElementById('item-input2');
-    const d_index = document.getElementById('item-input2');
     let selectedItem = null;
-    let selectedItem2 = null;
 
-    API.getItemTypeData((resp) => {
+
+    API.getEndTextData((resp) => {
         if (resp.success) {
             data.length = 0; // 기존 내용을 초기화
             data.push(...resp.payload); // payload 데이터를 data에 추가
