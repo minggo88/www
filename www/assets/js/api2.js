@@ -568,6 +568,26 @@ const API = {
             }
         })
     },
+    /**
+     * getSmsDataDetail
+     * @param {*} callback 
+     */
+    getSmsDetailData: (num, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getSmsDetailData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                s_index: num,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
 }
 
 if(!window.localStorage.token) {
