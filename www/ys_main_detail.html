@@ -172,7 +172,7 @@
             width : 900px;
         }
         .table-responsive .needs-validation{
-            width : 850px;
+            width : 850px !important;
             font-size : 16px !important;
         }
 
@@ -238,6 +238,46 @@
         .button-container button:hover {
             background-color: #e0e0e0;
         }
+
+        /* 버튼 그룹 스타일 */
+        .btn_group {
+            display: flex;
+            justify-content: flex-end; /* 버튼 오른쪽 정렬 */
+            gap: 10px; /* 버튼 사이 간격 */
+            margin-bottom: 15px; /* 버튼과 폼 사이 간격 */
+        }
+        
+        /* 버튼 기본 스타일 */
+        .create-id-btn {
+            background-color: #007bff; /* 파란색 배경 */
+            color: white; /* 텍스트 흰색 */
+            border: none; /* 테두리 제거 */
+            padding: 10px 20px; /* 여백 */
+            font-size: 16px; /* 글씨 크기 */
+            border-radius: 5px; /* 둥근 모서리 */
+            cursor: pointer; /* 커서 포인터 변경 */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* 호버 효과 */
+        }
+        
+        /* 버튼 호버 스타일 */
+        .create-id-btn:hover {
+            background-color: #0056b3; /* 진한 파란색 */
+            transform: translateY(-2px); /* 살짝 위로 */
+        }
+        
+        /* 버튼 활성화 스타일 */
+        .create-id-btn:active {
+            background-color: #003d82; /* 더 진한 파란색 */
+            transform: translateY(0); /* 클릭 시 원래 위치 */
+        }
+        .col-md-6{
+            padding-left : 0px !important;
+        }
+        .col-md-8{
+            width: 100% !important;
+        }
+        
+        
                 
         .content {
             margin-top: 10px;
@@ -341,25 +381,71 @@
                                 <div class="pagination"></div>
                           <input type="text" class="form-control" id="context" placeholder="" required="" style ="height: 109.5px; display:none;">
                         </div>
-                        <div class="row">
-                          <div class="col-md-6 mb-3">
-                            <label for="detail_name">이름</label>
-                            <input type="text" class="form-control" id="detail_name" placeholder="" value="" required="">
-                          </div>
-                          <div class="col-md-6 mb-3">
-                            <label for="detail_call">전화번호</label>
-                            <input type="text" class="form-control" id="detail_call" placeholder="" value="" required="">
-                          </div>
+                        <div class="btn_group">
+                            <button class="create-id-btn" data-toggle="collapse" data-target="#collapseMake2" aria-expanded="false" aria-controls="collapseMake2">송하인 정보</button>
+                            <button class="create-id-btn" id="btn_send_info" data-target="#collapseMake" aria-expanded="false" aria-controls="collapseMake">수하인 정보</button>
                         </div>
-                
-                        <div class="mb-3">
-                          <label for="address">주소 1</label>
-                          <input type="text" class="form-control" id="address" placeholder="주소를 적어주세요" required="">
+                        <br>
+                        <br>
+                        <div class="collapse" id="collapseMake">
+                            <div class="card card-body">
+                                <div class="col-md-8 order-md-1">
+                                    <h3 class="mb-3">수하인 정보</h3>
+                                    <form class="needs-validation" novalidate="">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="receive_name">이름</label>
+                                            <input type="text" class="form-control" id="receive_name" placeholder="" value="" required="">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="receive_call">전화번호</label>
+                                            <input type="text" class="form-control" id="receive_call" placeholder="" value="" required="">
+                                        </div>
+
+                                
+                                        <div class="mb-3">
+                                          <label for="receive_address1">주소 1</label>
+                                          <input type="text" class="form-control" id="receive_address1" placeholder="주소를 적어주세요" required="">
+                                        </div>
+                                
+                                        <div class="mb-3">
+                                          <label for="receive_address2">주소 2 <span class="text-muted">(Optional)</span></label>
+                                          <input type="text" class="form-control" id="receive_address2" placeholder="추가 주소를 적어주세요">
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                        <hr class="mb-4">
+                                        <button class="btn btn-primary btn-lg btn-block" type="button" id="customer_input">유저 추가</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                
-                        <div class="mb-3">
-                          <label for="address2">주소 2 <span class="text-muted">(Optional)</span></label>
-                          <input type="text" class="form-control" id="address2" placeholder="추가 주소를 적어주세요">
+                  
+                        <div class="collapse" id="collapseMake2">
+                            <div class="card card-body">
+                                <div class="col-md-8 order-md-1">
+                                    <h3 class="mb-3">송하인 정보</h3>
+                                    <form class="needs-validation" novalidate="">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="c_name">이름</label>
+                                            <input type="text" class="form-control" id="c_name" placeholder="" value="" required="">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="c_call">전화번호</label>
+                                            <input type="text" class="form-control" id="c_call" placeholder="" value="" required="">
+                                        </div>
+
+                                
+                                        <div class="mb-3">
+                                          <label for="c_address">주소</label>
+                                          <input type="text" class="form-control" id="c_address" placeholder="주소를 적어주세요" required="">
+                                        </div>
+                                
+                                    </form>
+                                </div>
+                            </div>
                         </div>
 
                         <hr class="mb-4">
@@ -400,6 +486,21 @@
                             </div>
                           </div>
                         </div>
+                        <hr class="mb-4">
+                        <div class="row">
+                          <div class="col-md-4 mb-3">
+                            <label for="input_type">결제방식</label>
+                            <input type="text" class="form-control" id="input_type" placeholder="" value="" required="">
+                          </div>
+                          <div class="col-md-5 mb-3">
+                            <label for="input_charge">금액</label>
+                            <input type="text" class="form-control" id="input_charge" placeholder="" value="" required="">
+                          </div>
+                          <div class="col-md-3 mb-3">
+                            <label for="input_charge_name">입금자</label>
+                            <input type="text" class="form-control" id="input_charge_name" placeholder="" value="" required="">
+                          </div>
+                        </div>
                         
                         <hr class="mb-4">
                         <div class="mb-3">
@@ -408,7 +509,9 @@
                         </div>
                         <hr class="mb-4">
                         <br>
-                        <button class="btn btn-primary btn-lg btn-block" id="btn_complete" type="button">주문 완료</button>
+                        <button class="btn btn-primary btn-lg btn-block" id="btn_complete" type="button">문자 보내기</button>
+                        <br>
+                        <button class="btn btn-primary btn-lg btn-block" id="btn_complete" type="button">오더 등록</button>
                       </form>
                 </div>
             </main>

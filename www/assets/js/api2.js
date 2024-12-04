@@ -588,6 +588,27 @@ const API = {
             }
         })
     },
+    /**
+     * upSMSData
+     * @param {*} callback 
+     */
+    upSMSStateData: (state, index, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/upSMSStateData/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                c_index: index,
+                c_state: state,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
 }
 
 if(!window.localStorage.token) {

@@ -6,10 +6,11 @@ const fn_getData = function (num) {
     // check_login();
     API.getSmsDetailData(num, (resp) => {
         if (resp.success) {
+            //console.log(smsData);
             smsData.length = 0; // 기존 내용을 초기화
             smsData.push(...resp.payload); 
             const item = smsData.find(entry => entry.sms_index == num);
-            console.log(item);
+            //console.log(item);
             // 예시로 name 값을 설정
             let name = item.name;  // `(`와 `)`가 있는 경우
             // let name = "textOnly";   // `(`와 `)`가 없는 경우
@@ -28,14 +29,14 @@ const fn_getData = function (num) {
                 text2 = name;
             }
             document.getElementById("context").value = item.tvalue;;
-            document.getElementById("detail_name").value = text1;
-            document.getElementById("detail_call").value = text2;
+            document.getElementById("receive_name").value = text1;
+            document.getElementById("receive_call").value = text2;
             if(text1 != ''){
                 API.getCustomerData(text1 ,text2 , (resp) => {
                     if (resp.success) {
                         console.log(resp);
-                        document.getElementById("address").value = resp.payload[0].c_address1;
-                        document.getElementById("address2").value = resp.payload[0].c_address2;
+                        document.getElementById("receive_address1").value = resp.payload[0].c_address1;
+                        document.getElementById("receive_address2").value = resp.payload[0].c_address2;
                     }else{
                         console.log('fail');
                     }
@@ -60,25 +61,30 @@ let currentGroup = 1; // 현재 페이지 그룹
 function generatePosts() {
     const titles = smsData.map(item => item.tvalue);
     const contentSamples = smsData.map(item => item.tvalue);
-    renderPage(titles, contentSamples);
+    const time = smsData.map(item => item.stime);
+    const data_index = smsData.map(item => item.sms_index);
+    const completeYN = smsData.map(item => item.complete);
+    renderPage(titles, contentSamples,time,data_index,completeYN);
 }
 
-function renderPage(titles, contentSamples) {
+function renderPage(titles, contentSamples, time, data_index, completeYN) {
     const board = document.querySelector(".board");
     board.innerHTML = "";
-
+    console.log(smsData);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentItems = titles.slice(startIndex, endIndex);
     const currentContents = contentSamples.slice(startIndex, endIndex);
-    const time = smsData.map(item => item.stime);
-    const data_index = smsData.map(item => item.sms_index);
-    const completeYN = smsData.map(item => item.complete);
-
+    const currentTime = time.slice(startIndex, endIndex);
+    const currentIndex = data_index.slice(startIndex, endIndex);
+    const currentComplete = completeYN.slice(startIndex, endIndex);
+    
+    
+    
     for (let i = 0; i < currentItems.length; i++) {
         const post = document.createElement("div");
         post.className = "post";
-        post.setAttribute("data_index", `${data_index[i]}`); // 1~99 사이 랜덤 값 설정
+        post.setAttribute("data_index", `${currentIndex[i]}`); // 1~99 사이 랜덤 값 설정
 
         const title = document.createElement("div");
         title.className = "title";
@@ -87,7 +93,17 @@ function renderPage(titles, contentSamples) {
 
         const meta = document.createElement("div");
         meta.className = "meta";
-        meta.textContent = `시간: ${time[i]} / 상태: ${completeYN[i]}`;
+        const comText = '미완료';
+        //console.log(i);
+        //console.log(currentComplete[i]);
+        if (currentComplete[i] === 'N') {
+            meta.textContent = `시간: ${currentTime[i]} / 상태: 미완료`;
+            meta.style.color = "#dc3545";
+        } else {
+            meta.textContent = `시간: ${currentTime[i]} / 상태: 완료`;
+            meta.style.color = "#28a745";
+        }
+        
 
         const content = document.createElement("div");
         content.className = "content";
@@ -100,15 +116,15 @@ function renderPage(titles, contentSamples) {
 
         const completeButton = document.createElement("button");
         completeButton.textContent = "완료";
-        completeButton.onclick = () => markComplete(post);
+        completeButton.onclick = () => markComplete(currentIndex[i],post);
 
         const incompleteButton = document.createElement("button");
         incompleteButton.textContent = "미완료";
-        incompleteButton.onclick = () => markIncomplete(post);
+        incompleteButton.onclick = () => markIncomplete(currentIndex[i],post);
 
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "삭제";
-        deleteButton.onclick = () => deletePost(post);
+        deleteButton.onclick = () => deletePost(currentIndex[i],post);
 
         buttonContainer.appendChild(completeButton);
         buttonContainer.appendChild(incompleteButton);
@@ -178,18 +194,49 @@ function toggleContent(element) {
     }
 }
 
-function markComplete(post) {
-    alert(`완료 버튼 클릭: data_index = ${post.getAttribute("data_index")}`);
+function markComplete(index, post) {
+    event.preventDefault(); // 기본 동작 중지
+    API.upSMSStateData('Y' ,index , (resp) => {
+        // post 요소 내에서 meta 요소를 찾음
+        const meta = post.querySelector(".meta");
+        if (meta) {
+                meta.textContent = `시간: ${new Date().toLocaleString()} / 상태: 완료`; // 시간 갱신
+                meta.style.color = "#28a745"; // 글자색 초록색으로 변경
+        }else{
+            console.log('fail');
+        }
+    });
+
+    
     return;
 }
 
-function markIncomplete(post) {
-    alert(`미완료 버튼 클릭: data_index = ${post.getAttribute("data_index")}`);
+function markIncomplete(index, post) {
+    event.preventDefault(); // 기본 동작 중지
+    API.upSMSStateData('N' ,index , (resp) => {
+        // post 요소 내에서 meta 요소를 찾음
+        const meta = post.querySelector(".meta");
+        if (resp.success) {
+            meta.textContent = `시간: ${new Date().toLocaleString()} / 상태: 미완료`;
+            meta.style.color = "#dc3545";
+        }else{
+            console.log('fail');
+        }
+    });
     return;
 }
 
-function deletePost(post) {
-    alert(`삭제 버튼 클릭: data_index = ${post.getAttribute("data_index")}`);
+function deletePost(index, post) {
+    event.preventDefault(); // 기본 동작 중지
+    API.upSMSStateData('D' ,index , (resp) => {
+        // post 요소 내에서 meta 요소를 찾음
+        const meta = post.querySelector(".meta");
+        if (resp.success) {
+            generatePosts();
+        }else{
+            console.log('fail');
+        }
+    });
     post.remove();
     return;
 }
@@ -431,9 +478,34 @@ $(document).ready(function() {
         
     });
     
-    // 게시판 초기화
-    //generatePosts();
+    
 
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const createIdButtons = document.querySelectorAll(".create-id-btn");
+
+    createIdButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const targetId = button.getAttribute("data-target");
+            const collapseElement = document.querySelector(targetId);
+
+            if (collapseElement) {
+                //console.log(`Toggling collapse for: ${targetId}`);
+
+                // Bootstrap 5.1.0 이하 버전을 위한 인스턴스 관리
+                if (collapseElement.classList.contains('show')) {
+                    $(collapseElement).collapse('hide');
+                } else {
+                    $(collapseElement).collapse('show');
+                }
+            } else {
+                //console.error(`Collapse element with target ${targetId} not found.`);
+            }
+        });
+    });
 });
 
 
