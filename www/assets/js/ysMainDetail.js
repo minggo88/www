@@ -237,8 +237,7 @@ function deletePost(index, post) {
             console.log('fail');
         }
     });
-    post.remove();
-    return;
+    location.reload(); // 버튼 클릭 시 페이지 새로 고침    
 }
 
 const fn_ysCompleteOrder = function (c_index, c_name, c_call, c_address1, c_address2, c_order, c_ordernum, sendtext) {
