@@ -4,14 +4,12 @@ const data2 = [];
 
 const fn_getData = function (num) {
     // check_login();
-    API.getSmsData((resp) => {
+    API.getSmsDetailData(num, (resp) => {
         if (resp.success) {
             smsData.length = 0; // 기존 내용을 초기화
             smsData.push(...resp.payload); 
             const item = smsData.find(entry => entry.sms_index == num);
-
-            
-            
+            console.log(item);
             // 예시로 name 값을 설정
             let name = item.name;  // `(`와 `)`가 있는 경우
             // let name = "textOnly";   // `(`와 `)`가 없는 경우
@@ -29,7 +27,7 @@ const fn_getData = function (num) {
                 // '('가 없으면 text2에 전체 값을 넣음
                 text2 = name;
             }
-            document.getElementById("context").value = resp.payload[0].tvalue;;
+            document.getElementById("context").value = item.tvalue;;
             document.getElementById("detail_name").value = text1;
             document.getElementById("detail_call").value = text2;
             if(text1 != ''){
@@ -43,6 +41,8 @@ const fn_getData = function (num) {
                     }
                 });
             }
+
+            generatePosts();
             //document.getElementById("address").value = item.;
 
             
@@ -50,6 +50,148 @@ const fn_getData = function (num) {
             console.log('fail');
         }
     });
+}
+
+let currentPage = 1;
+const itemsPerPage = 5;
+const pagesPerGroup = 10; // 한 그룹당 페이지 버튼 수
+let currentGroup = 1; // 현재 페이지 그룹
+
+function generatePosts() {
+    const titles = smsData.map(item => item.tvalue);
+    const contentSamples = smsData.map(item => item.tvalue);
+    renderPage(titles, contentSamples);
+}
+
+function renderPage(titles, contentSamples) {
+    const board = document.querySelector(".board");
+    board.innerHTML = "";
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentItems = titles.slice(startIndex, endIndex);
+    const currentContents = contentSamples.slice(startIndex, endIndex);
+    const time = smsData.map(item => item.stime);
+    const data_index = smsData.map(item => item.sms_index);
+    const completeYN = smsData.map(item => item.complete);
+
+    for (let i = 0; i < currentItems.length; i++) {
+        const post = document.createElement("div");
+        post.className = "post";
+        post.setAttribute("data_index", `${data_index[i]}`); // 1~99 사이 랜덤 값 설정
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = currentItems[i].length > 50 ? currentItems[i].slice(0, 50) + "..." : currentItems[i];
+        title.setAttribute("onclick", "toggleContent(this)");
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = `시간: ${time[i]} / 상태: ${completeYN[i]}`;
+
+        const content = document.createElement("div");
+        content.className = "content";
+        content.style.display = "none";
+        content.textContent = currentContents[i];
+
+        // 버튼 추가
+        const buttonContainer = document.createElement("div");
+        buttonContainer.className = "button-container";
+
+        const completeButton = document.createElement("button");
+        completeButton.textContent = "완료";
+        completeButton.onclick = () => markComplete(post);
+
+        const incompleteButton = document.createElement("button");
+        incompleteButton.textContent = "미완료";
+        incompleteButton.onclick = () => markIncomplete(post);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "삭제";
+        deleteButton.onclick = () => deletePost(post);
+
+        buttonContainer.appendChild(completeButton);
+        buttonContainer.appendChild(incompleteButton);
+        buttonContainer.appendChild(deleteButton);
+
+        post.appendChild(title);
+        post.appendChild(meta);
+        post.appendChild(content);
+        content.appendChild(buttonContainer);
+        board.appendChild(post);
+    }
+
+    renderPagination(titles.length);
+}
+
+function renderPagination(totalItems) {
+    const pagination = document.querySelector(".pagination");
+    pagination.innerHTML = "";
+
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const totalGroups = Math.ceil(totalPages / pagesPerGroup);
+    const startPage = (currentGroup - 1) * pagesPerGroup + 1;
+    const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
+
+    for (let i = startPage; i <= endPage; i++) {
+        const button = document.createElement("button");
+        button.textContent = i;
+        button.className = i === currentPage ? "active" : "";
+        button.onclick = () => {
+            currentPage = i;
+            generatePosts();
+        };
+        pagination.appendChild(button);
+    }
+
+    if (endPage < totalPages) {
+        const nextGroupButton = document.createElement("button");
+        nextGroupButton.textContent = ">";
+        nextGroupButton.onclick = () => {
+            currentGroup++;
+            renderPagination(totalItems);
+        };
+        pagination.appendChild(nextGroupButton);
+    }
+
+    if (currentGroup > 1) {
+        const prevGroupButton = document.createElement("button");
+        prevGroupButton.textContent = "<";
+        prevGroupButton.onclick = () => {
+            currentGroup--;
+            renderPagination(totalItems);
+        };
+        pagination.insertBefore(prevGroupButton, pagination.firstChild);
+    }
+}
+
+function toggleContent(element) {
+    const content = element.nextElementSibling.nextElementSibling;
+    const buttonContainer = content.nextElementSibling; // 버튼 컨테이너
+
+    if (content.style.display === "block") {
+        content.style.display = "none";
+        buttonContainer.style.display = "none"; // 버튼 숨기기
+    } else {
+        content.style.display = "block";
+        buttonContainer.style.display = "flex"; // 버튼 보이기
+    }
+}
+
+function markComplete(post) {
+    alert(`완료 버튼 클릭: data_index = ${post.getAttribute("data_index")}`);
+    return;
+}
+
+function markIncomplete(post) {
+    alert(`미완료 버튼 클릭: data_index = ${post.getAttribute("data_index")}`);
+    return;
+}
+
+function deletePost(post) {
+    alert(`삭제 버튼 클릭: data_index = ${post.getAttribute("data_index")}`);
+    post.remove();
+    return;
 }
 
 const fn_ysCompleteOrder = function (c_index, c_name, c_call, c_address1, c_address2, c_order, c_ordernum, sendtext) {
@@ -268,7 +410,7 @@ $(document).ready(function() {
             }
         });
     });
-
+    
     const btnComplete = document.getElementById('btn_complete');
 
     // 클릭 이벤트 리스너 추가
@@ -277,7 +419,7 @@ $(document).ready(function() {
         // 클릭 시 실행될 코드 작성
         validateForm(smsIndex);
 
-         const detailName = document.getElementById('detail_name');
+        const detailName = document.getElementById('detail_name');
         const detailCall = document.getElementById('detail_call');
         const address1 = document.getElementById('address');
         const address2 = document.getElementById('address2');
@@ -288,4 +430,15 @@ $(document).ready(function() {
         fn_ysCompleteOrder(smsIndex, detailName, detailCall, address1, address2, item, detailEa, t_sendtext);
         
     });
+    
+    // 게시판 초기화
+    //generatePosts();
+
 });
+
+
+// 본문 토글 함수
+    function toggleContent(element) {
+      const content = element.nextElementSibling.nextElementSibling;
+      content.style.display = content.style.display === "block" ? "none" : "block";
+    }
