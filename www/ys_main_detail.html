@@ -7,7 +7,6 @@
     <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-    <script src="./assets/js/common.js?t=1670369703"></script>
     <script src="./assets/js/api2.js?t=1671775853"></script>
     <script src="https://dev.assettea.com/assets/js/bootstrap.bundle.min.js" 
         integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
@@ -20,9 +19,47 @@
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
     <title>청정간장게장촌</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./assets/js/ysMainDetail.js"></script>
 
     <style type="text/css">
+        body {
+          font-family: Arial, sans-serif;
+        }
+        
+        .board {
+          width: 100%;
+          margin: 0 auto;
+        }
+        
+        .post {
+          border: 1px solid #ccc;
+          margin-bottom: 10px;
+          border-radius: 5px;
+          overflow: hidden;
+        }
+        
+        .title {
+          background-color: #f4f4f4;
+          padding: 10px;
+          cursor: pointer;
+          font-weight: bold;
+        }
+        
+        .meta {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 5px;
+            text-align: right; /* 텍스트 왼쪽 정렬 */
+            margin-right:20px;
+        }
+        
+        .content {
+          display: none;
+          padding: 10px;
+          background-color: #fff;
+        }
         body {
             font-family: Arial, sans-serif;
         }
@@ -149,6 +186,66 @@
             height : 45px;
             font-size: 16px;
         }
+
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 20px;
+          gap: 10px;
+        }
+        
+        .pagination button {
+          background-color: transparent; /* 비선택된 배경 투명 */
+          border: 1px solid #ddd;
+          color: #333;
+          padding: 8px 12px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .pagination button:hover {
+          background-color: #ddd;
+        }
+        
+        .pagination button.active {
+          background-color: #007bff;
+          color: white;
+          border-color: #0056b3;
+        }
+        
+        .pagination button:focus {
+          outline: none;
+        }
+
+        .button-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .button-container button {
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .button-container button:hover {
+            background-color: #e0e0e0;
+        }
+                
+        .content {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
         
         /* 반응형 스타일 */
         @media (max-width: 768px) {
@@ -234,10 +331,15 @@
                     <h1 class="h2">주문현황</h1>
                 </div>
                 <div class="table-responsive">
+                    
                     <form class="needs-validation" novalidate="">
                         <div class="mb-3">
                           <label for="context">문자 내역</label>
-                          <input type="text" class="form-control" id="context" placeholder="" required="" style ="height: 109.5px;">
+                                <div class="board">
+                                <!-- JavaScript를 통해 동적으로 게시글 생성 -->
+                                </div>
+                                <div class="pagination"></div>
+                          <input type="text" class="form-control" id="context" placeholder="" required="" style ="height: 109.5px; display:none;">
                         </div>
                         <div class="row">
                           <div class="col-md-6 mb-3">
