@@ -172,7 +172,7 @@
             width : 900px;
         }
         .table-responsive .needs-validation{
-            width : 850px !important;
+            width : 850px;!important;
             font-size : 16px !important;
         }
 
@@ -181,10 +181,12 @@
             font-size: 14px;
         }
 
-        #btn_complete{
+        #btn_complete, #btn_order{
             width : 850px;
             height : 45px;
             font-size: 16px;
+            margin-left:25px;
+            margin-bottom : 20px;
         }
 
         .pagination {
@@ -271,10 +273,16 @@
             transform: translateY(0); /* 클릭 시 원래 위치 */
         }
         .col-md-6{
-            padding-left : 0px !important;
+            padding-left : 0px; !important;
         }
         .col-md-8{
             width: 100% !important;
+        }
+        .d-block.my-3 div label{
+            font-size: 14px !important;
+        }
+        .col-md-4.mb-3, .col-md-5.mb-3, .col-md-3.mb-3, .mb-3 label{
+            font-size: 16px;
         }
         
         
@@ -385,8 +393,6 @@
                             <button class="create-id-btn" data-toggle="collapse" data-target="#collapseMake2" aria-expanded="false" aria-controls="collapseMake2">송하인 정보</button>
                             <button class="create-id-btn" id="btn_send_info" data-target="#collapseMake" aria-expanded="false" aria-controls="collapseMake">수하인 정보</button>
                         </div>
-                        <br>
-                        <br>
                         <div class="collapse" id="collapseMake">
                             <div class="card card-body">
                                 <div class="col-md-8 order-md-1">
@@ -447,7 +453,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <br>
                         <hr class="mb-4">
                 
                         <h4 class="mb-3">배송 주소를 선택해 주세요.</h4>
@@ -511,7 +517,7 @@
                         <br>
                         <button class="btn btn-primary btn-lg btn-block" id="btn_complete" type="button">문자 보내기</button>
                         <br>
-                        <button class="btn btn-primary btn-lg btn-block" id="btn_complete" type="button">오더 등록</button>
+                        <button class="btn btn-primary btn-lg btn-block" id="btn_order" type="button">오더 등록</button>
                       </form>
                 </div>
             </main>
