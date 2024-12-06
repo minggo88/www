@@ -481,6 +481,17 @@ $(document).ready(function() {
 
 });
 
+window.onload = function() {
+    document.getElementById('btn_complete').onclick = function() {
+        // 주소 찾기 팝업 코드
+        new daum.Postcode({
+            oncomplete: function(data) {
+                document.getElementById('selectedAddress').innerHTML = '선택한 주소: ' + data.address;
+            }
+        }).open();
+    };
+};
+
 document.addEventListener("DOMContentLoaded", function () {
     const createIdButtons = document.querySelectorAll(".create-id-btn");
 
@@ -505,6 +516,40 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    // 회원가입 버튼 클릭 이벤트
+    const customerInputButton = document.getElementById('customer_input');
+ 
+    customerInputButton.addEventListener('click', function() {
+        let name = document.getElementById('receive_name').value.trim();
+        let call = document.getElementById('receive_call').value.trim();
+        let address1 = document.getElementById('receive_address1').value;
+        let address2 = document.getElementById('receive_address2').value;
+        
+        let missingFields = [];
+
+        // 1. 빈 필드 체크
+        if (!name) missingFields.push('이름');
+        if (!call) missingFields.push('전화번호');
+        if (!address1) missingFields.push('주소');
+        
+        if (missingFields.length > 0) {
+            alert('다음 항목을 입력하세요: ' + missingFields.join(', '));
+            return;
+        }
+
+        // 3. 성공 메시지
+        API.addCustomer(name, call, address1, address2, (resp) => {
+            if (resp.success) {
+                //console.log(resp);
+                alert('회원가입이 성공하였습니다.');
+                
+            } else {
+                //console.log('fail');
+                alert('회원가입이 실패 하였습니다.');
+            }
+        }); 
+    });
 });
 
 
@@ -513,3 +558,5 @@ document.addEventListener("DOMContentLoaded", function () {
       const content = element.nextElementSibling.nextElementSibling;
       content.style.display = content.style.display === "block" ? "none" : "block";
     }
+
+
