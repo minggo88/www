@@ -15,7 +15,7 @@
         integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" 
         integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
-
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
     <title>청정간장게장촌</title>
@@ -284,7 +284,9 @@
         .col-md-4.mb-3, .col-md-5.mb-3, .col-md-3.mb-3, .mb-3 label{
             font-size: 16px;
         }
-        
+        .custom-control-label{
+            font-size: 14px !important;
+        }
         
                 
         .content {
@@ -468,6 +470,17 @@
                                 <label class="custom-control-label" for="radio_address2">주소2</label>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                
+                                <button class="create-id-btn" id="btn_address_num">우편번호 찾기</button>
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <label for="input_type">우편번호</label>
+                                <div id="selectedAddress">우편번호 찾기를 클릭해 주세요.</div>
+                            </div>
+                        </div>
+                        
                         <hr class="mb-4">
                         <div class="row">
                           <div class="col-md-4 mb-3">
@@ -518,6 +531,8 @@
                         <button class="btn btn-primary btn-lg btn-block" id="btn_complete" type="button">문자 보내기</button>
                         <br>
                         <button class="btn btn-primary btn-lg btn-block" id="btn_order" type="button">오더 등록</button>
+
+                        
                       </form>
                 </div>
             </main>

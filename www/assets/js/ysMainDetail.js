@@ -550,6 +550,21 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }); 
     });
+
+    document.getElementById('btn_address_num').onclick = function () {
+        // 다음 우편번호 서비스 팝업 호출
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // data 객체를 통해 선택한 주소 및 우편번호 정보 가져오기
+                const fullAddress = data.address; // 전체 주소
+                const zonecode = data.zonecode; // 우편번호
+
+                // 선택한 주소를 표시
+                document.getElementById('selectedAddress').innerHTML = 
+                    `${zonecode}`;
+            }
+        }).open();
+    };
 });
 
 
