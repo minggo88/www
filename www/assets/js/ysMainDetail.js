@@ -1,6 +1,9 @@
 const smsData = [];
 const data = [];
 const data2 = [];
+let this_index = '';
+let this_post = '';
+
 
 const fn_getData = function (num) {
     // check_login();
@@ -85,6 +88,10 @@ function renderPage(titles, contentSamples, time, data_index, completeYN) {
         const post = document.createElement("div");
         post.className = "post";
         post.setAttribute("data_index", `${currentIndex[i]}`); 
+
+        if (currentIndex[i] === this_index) {
+            this_post = post;
+        }
 
         const title = document.createElement("div");
         title.className = "title";
@@ -417,7 +424,8 @@ const check_logout = function (redirectUrl = "/ys_login.html") {
 $(document).ready(function() {
     const urlParams = new URLSearchParams(window.location.search);
     const smsIndex = urlParams.get('sms_index');  // 'sms_index' 값 추출
-
+    this_index = smsIndex;
+    
     fn_getData(smsIndex);
     fn_getItem();
 
@@ -669,7 +677,9 @@ document.addEventListener("DOMContentLoaded", function () {
             
             API.addOrder(sendArray, (resp) => {
                 if (resp.success) {
+                    markComplete(this_index,this_post);
                     alert('주문이 신청되었습니다.');
+                    
                 } else {
                     alert('주문이 실패하였습니다.\n 빈내역이 있습니다.\n 다시 확인해주세요');
                 }
@@ -768,7 +778,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        
         // 카운터 증가
         itemCounter++;
         
@@ -799,7 +808,7 @@ function validateForm(data) {
     }
 
     // 모든 조건 통과
-    console.log('Validation successful!');
+    //console.log('Validation successful!');
     return true;
 }
 
