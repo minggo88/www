@@ -1,6 +1,7 @@
 const smsData = [];
 const data = [];
 const data2 = [];
+const data3 = [];
 let this_index = '';
 let this_post = '';
 
@@ -329,6 +330,65 @@ const fn_getItem = function(){
     });
 }
 
+const fn_getItemTypeData = function () {
+    // check_login();
+    API.getItemTypeData((resp) => {
+        if (resp.success) {
+            console.log(resp);
+            data.length = 0; // 기존 내용을 초기화
+            data.push(...resp.payload); // payload 데이터를 data에 추가
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item.itype_name; // 항목 이름 사용
+                div.setAttribute('data-index', item.itype_index); // 아이템 인덱스 저장
+                div.onclick = () => selectItem(div);
+                listBox.appendChild(div);
+            });
+        } else {
+            console.log('fail');
+        }
+    });
+}
+
+const fn_gettext_type = function(){
+    API.getEndTextData((resp) => {
+        if (resp.success) {
+           
+            data3.length = 0; // 기존 내용을 초기화
+            data3.push(...resp.payload); // payload 데이터를 data에 추가
+             console.log(data3);
+            // select 요소를 선택
+            const selectElement = document.getElementById('text_type');
+            
+            // 기존 내용 초기화
+            selectElement.innerHTML = '';
+            
+            // 기본 선택 옵션 추가
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '문장을 선택하세요';
+            selectElement.appendChild(defaultOption);
+            
+            // data 배열을 순회하며 옵션 추가
+            data3.forEach(item => {
+                const option = document.createElement('option');
+                
+                // 문자열 처리: 30글자 이상일 경우 '...' 추가
+                let tt = item.endt_text || '';  // item.endt_text가 없으면 빈 문자열로 대체
+                if (tt.length > 30) {
+                    tt = tt.substring(0, 30) + '...';
+                }
+            
+                option.value = item.endt_text;  // itype_index를 value로 사용
+                option.textContent = tt;         // tt를 표시 텍스트로 사용
+                selectElement.appendChild(option);
+            });
+        } else {
+            console.log('fail');
+        }
+    });
+}
+
 function validateForm(index_num) {
     let isValid = true;
 
@@ -428,6 +488,7 @@ $(document).ready(function() {
     
     fn_getData(smsIndex);
     fn_getItem();
+    fn_gettext_type();
 
     const selectElement = document.getElementById('item_type');
 
@@ -464,37 +525,43 @@ $(document).ready(function() {
             }
         });
     });
+
+     const selectElement2 = document.getElementById('text_type');
+
+    // change 이벤트 리스너 추가
+    selectElement2.addEventListener('change', function() {
+        // 선택된 value 값 출력
+        const sendTextValue = document.getElementById('sendtext').value;
+        document.getElementById('sendtext').value = selectElement2.value;
+        console.log('하이');
+    });
     
     const btnComplete = document.getElementById('btn_complete');
 
     // 클릭 이벤트 리스너 추가
     btnComplete.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 중지
-        // 클릭 시 실행될 코드 작성
-        //validateForm(smsIndex);
-
-        /*const detailName = document.getElementById('detail_name');
-        const detailCall = document.getElementById('detail_call');
-        const address1 = document.getElementById('address');
-        const address2 = document.getElementById('address2');
-        const itemType = document.getElementById('item_type');
-        const item = document.getElementById('item');
-        const detailEa = document.getElementById('detail_ea');
-        const t_sendtext = document.getElementById('sendtext');
-        fn_ysCompleteOrder(smsIndex, detailName, detailCall, address1, address2, item, detailEa, t_sendtext);
-        */
-        
+                
         let sendtext = $('#sendtext').val();
         let receive_call =  $('#receive_call').val();
-        API.ysSMSSend(receive_call,sendtext, (resp) => {
-            console.log(resp);
-            if (resp.success) {
-                
-                console.log('전송성공');
-            }else{
-                console.log('전송실패');
-            }   
-        });
+        // 메시지 내용 확인용 alert 표시
+        let confirmationMessage = sendtext + '\n\n' + "위 내용을 전송합니다.";
+        
+        // 사용자 확인을 위한 confirm 창
+        if (confirm(confirmationMessage)) {
+            // 'Yes'를 누르면 API 호출
+            API.ysSMSSend(receive_call, sendtext, (resp) => {
+                console.log(resp);
+                if (resp.success) {
+                    console.log('전송성공');
+                } else {
+                    console.log('전송실패');
+                }
+            });
+        } else {
+            // 'No'를 누르면 전송 취소
+            console.log('전송이 취소되었습니다.');
+        }
     });
 });
 
