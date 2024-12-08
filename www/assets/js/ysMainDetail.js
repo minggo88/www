@@ -34,7 +34,7 @@ const fn_getData = function (num) {
             if(text1 != ''){
                 API.getCustomerData(text1 ,text2 , (resp) => {
                     if (resp.success) {
-                        console.log(resp);
+                        //console.log(resp);
                         document.getElementById("receive_address1").value = resp.payload[0].c_address1;
                         document.getElementById("receive_address2").value = resp.payload[0].c_address2;
                     }else{
@@ -70,7 +70,7 @@ function generatePosts() {
 function renderPage(titles, contentSamples, time, data_index, completeYN) {
     const board = document.querySelector(".board");
     board.innerHTML = "";
-    console.log(smsData);
+    //console.log(smsData);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentItems = titles.slice(startIndex, endIndex);
@@ -84,7 +84,7 @@ function renderPage(titles, contentSamples, time, data_index, completeYN) {
     for (let i = 0; i < currentItems.length; i++) {
         const post = document.createElement("div");
         post.className = "post";
-        post.setAttribute("data_index", `${currentIndex[i]}`); // 1~99 사이 랜덤 값 설정
+        post.setAttribute("data_index", `${currentIndex[i]}`); 
 
         const title = document.createElement("div");
         title.className = "title";
@@ -306,7 +306,7 @@ const fn_getItem = function(){
             // 기본 선택 옵션 추가
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
-            defaultOption.textContent = 'Choose...';
+            defaultOption.textContent = '물품을 선택하세요';
             selectElement.appendChild(defaultOption);
             
             // data 배열을 순회하며 옵션 추가
@@ -428,7 +428,7 @@ $(document).ready(function() {
         // 선택된 value 값 출력
         API.getItemData(selectElement.value, (resp) => {
             if (resp.success) {
-                console.log(resp)
+                //console.log(resp)
                 data2.length = 0; // 기존 내용을 초기화
                 data2.push(...resp.payload); // payload 데이터를 data에 추가
     
@@ -551,6 +551,132 @@ document.addEventListener("DOMContentLoaded", function () {
         }); 
     });
 
+    document.getElementById('btn_order').onclick = function () {
+        const sendArray = [];
+       
+
+        const radioAddress1 = document.getElementById('radio_address1');
+        const selectElement = document.getElementById('item');
+        const selectedValue = selectElement.value; // 선택된 값
+        
+        
+
+        let receive_address_ra = $('#receive_address1').val();
+        if (radioAddress1.checked) {
+            receive_address_ra = $('#receive_address1').val();
+        } else {
+            receive_address_ra = $('#receive_address2').val();
+        }
+        
+        
+        let newData = {
+            send_name: $('#c_name').val(),
+            send_call: $('#c_call').val(),
+            send_address: $('#c_address').val(),
+            payment_type: $('#input_type').val(),
+            payment: $('#input_charge').val(),
+            payment_name: $('#input_charge_name').val(),
+            item : selectedValue,
+            item_cnt : $('#detail_ea').val(),
+            receive_name : $('#receive_name').val(),
+            receive_call : $('#receive_call').val(),
+            receive_address_num : document.getElementById('selectedAddress').innerHTML,
+            receive_address : receive_address_ra
+        };
+        
+        if(validateForm(newData)){
+            let selectElement2 = '';
+            let selectedValue2 = ''; // 선택된 값
+            let selectedItemCnt2 = '';
+            let selectElement5 = '';
+            let selectedValue5 = ''; // 선택된 값
+            let selectedItemCnt5 = '';
+            let selectElement4 = '';
+            let selectedValue4 = ''; // 선택된 값
+            let selectedItemCnt4 = '';
+            let selectElement3 = '';
+            let selectedValue3 = ''; // 선택된 값
+            let selectedItemCnt3 = '';
+            console.log(itemCounter);
+            switch (itemCounter) {
+                case 3:
+                    selectElement2 = document.getElementById('item_2');
+                    selectedValue2 = selectElement2 ? selectElement2.value : '';
+                    selectedItemCnt2 = $('#detail_ea_2').val();
+                    break;
+                case 4:
+                    selectElement2 = document.getElementById('item_2');
+                    selectedValue2 = selectElement2 ? selectElement2.value : '';
+                    selectElement3 = document.getElementById('item_3');
+                    selectedValue3 = selectElement3 ? selectElement3.value : '';
+                    selectedItemCnt2 = $('#detail_ea_2').val();
+                    selectedItemCnt3 = $('#detail_ea_3').val();
+                    break;
+                case 5:
+                    selectElement2 = document.getElementById('item_2');
+                    selectedValue2 = selectElement2 ? selectElement2.value : '';
+                    selectElement3 = document.getElementById('item_3');
+                    selectedValue3 = selectElement3 ? selectElement3.value : '';
+                    selectElement4 = document.getElementById('item_4');
+                    selectedValue4 = selectElement4 ? selectElement4.value : '';
+                    selectedItemCnt2 = $('#detail_ea_2').val();
+                    selectedItemCnt3 = $('#detail_ea_3').val();
+                    selectedItemCnt4 = $('#detail_ea_4').val();
+                    break;
+                case 6:
+                    selectElement2 = document.getElementById('item_2');
+                    selectedValue2 = selectElement2 ? selectElement2.value : '';
+                    selectElement3 = document.getElementById('item_3');
+                    selectedValue3 = selectElement3 ? selectElement3.value : '';
+                    selectElement4 = document.getElementById('item_4');
+                    selectedValue4 = selectElement4 ? selectElement4.value : '';
+                    selectElement5 = document.getElementById('item_5');
+                    selectedValue5 = selectElement5 ? selectElement5.value : '';
+                    selectedItemCnt2 = $('#detail_ea_2').val();
+                    selectedItemCnt3 = $('#detail_ea_3').val();
+                    selectedItemCnt4 = $('#detail_ea_4').val();
+                    selectedItemCnt5 = $('#detail_ea_5').val();
+                    break;
+                default:
+                    console.log('itemCounter 값이 범위를 벗어났습니다.');
+                    break;
+            }
+            let newData2 = {
+                send_name: $('#c_name').val(),
+                send_call: $('#c_call').val(),
+                send_address: $('#c_address').val(),
+                payment_type: $('#input_type').val(),
+                payment: $('#input_charge').val(),
+                payment_name: $('#input_charge_name').val(),
+                item : selectedValue,
+                item_cnt : $('#detail_ea').val(),
+                receive_name : $('#receive_name').val(),
+                receive_call : $('#receive_call').val(),
+                receive_address_num : document.getElementById('selectedAddress').innerHTML,
+                receive_address : receive_address_ra,
+                item2 : selectedValue2,
+                item_cnt2 : selectedItemCnt2,
+                item3 : selectedValue3,
+                item_cnt3 : selectedItemCnt3,
+                item4 : selectedValue4,
+                item_cnt4 : selectedItemCnt4,
+                item5 : selectedValue5,
+                item_cnt5 : selectedItemCnt5
+            };
+            sendArray.push(newData2);
+            console.log(sendArray);
+
+            
+            API.addOrder(sendArray, (resp) => {
+                if (resp.success) {
+                    alert('주문이 신청되었습니다.');
+                } else {
+                    alert('주문이 실패하였습니다.\n 빈내역이 있습니다.\n 다시 확인해주세요');
+                }
+            })
+        }
+    };
+
     document.getElementById('btn_address_num').onclick = function () {
         // 다음 우편번호 서비스 팝업 호출
         new daum.Postcode({
@@ -565,13 +691,115 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }).open();
     };
+
+    let itemCounter = 2; // ID의 숫자를 2부터 시작
+
+    document.getElementById('add_item1').addEventListener('click', function () {
+        // 최대 5개의 물품만 추가 가능
+        if (itemCounter > 5) {
+            alert("물품을 더 추가할 수 없습니다.");
+            return; // 추가 작업 중단
+        }
+    
+        // 기존의 check_item 요소를 가져옴
+        const originalItem = document.querySelector('.check_item');
+    
+        // 새로운 요소를 복제
+        const newItem = originalItem.cloneNode(true);
+        
+        // "추가하기" 버튼을 제거
+        const addItemButton = newItem.querySelector('#add_item1');
+        if (addItemButton) {
+            addItemButton.remove();
+        }
+    
+        // ID를 동적으로 변경 (기존 ID에 숫자를 추가)
+        newItem.querySelectorAll('[id]').forEach(function (element) {
+            const originalId = element.id; // 기존 ID
+            
+            element.id = `${originalId}_${itemCounter}`; // ID에 숫자 추가
+        });
+
+        // detail_ea로 복제된 input 요소의 값을 0으로 초기화
+        const detailEaInput = newItem.querySelector(`#detail_ea_${itemCounter}`);
+        if (detailEaInput) {
+            detailEaInput.value = '';
+        }
+    
+        
+        // 복제된 요소를 기존 요소 아래에 추가
+        originalItem.parentNode.appendChild(newItem);
+
+        // 새롭게 추가된 item_type에 이벤트 리스너 추가
+        const selectElement = newItem.querySelector(`#item_type_${itemCounter}`);
+        let select_counter = itemCounter;
+        console.log(selectElement);
+        if (selectElement) {
+            selectElement.addEventListener('change', function () {
+                // 선택된 value 값 출력
+                API.getItemData(selectElement.value, (resp) => {
+                    if (resp.success) {
+                        const data2 = []; // 기존 내용을 초기화
+                        data2.push(...resp.payload); // payload 데이터를 data2에 추가
+    
+                        // 새롭게 추가된 select 요소
+                        const itemSelectElement = newItem.querySelector(`#item_${select_counter}`);
+                        console.log(itemCounter);
+                        // 기존 내용 초기화
+                        itemSelectElement.innerHTML = '';
+    
+                        // 기본 선택 옵션 추가
+                        const defaultOption = document.createElement('option');
+                        defaultOption.value = '';
+                        defaultOption.textContent = 'Choose...';
+                        itemSelectElement.appendChild(defaultOption);
+    
+                        // data 배열을 순회하며 옵션 추가
+                        data2.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item.item_index; // item_index를 value로 사용
+                            option.textContent = item.i_value; // i_value를 표시 텍스트로 사용
+                            itemSelectElement.appendChild(option);
+                        });
+                    } else {
+                        console.log('fail');
+                    }
+                });
+            });
+        }
+
+        
+        // 카운터 증가
+        itemCounter++;
+        
+    });
+
 });
 
 
 // 본문 토글 함수
-    function toggleContent(element) {
-      const content = element.nextElementSibling.nextElementSibling;
-      content.style.display = content.style.display === "block" ? "none" : "block";
+function toggleContent(element) {
+  const content = element.nextElementSibling.nextElementSibling;
+  content.style.display = content.style.display === "block" ? "none" : "block";
+}
+
+function validateForm(data) {
+    // 필수 입력값 체크
+    for (const key in data) {
+        if (!data[key] || data[key].trim() === '') {
+            alert(`빈내역이 있습니다!`);
+            return false;
+        }
     }
 
+    // receive_address_num 글자 길이 체크
+    if (data.receive_address_num.length > 10) {
+        alert('우편번호를 확인해주세요.');
+        return false;
+    }
+
+    // 모든 조건 통과
+    console.log('Validation successful!');
+    return true;
+}
 

@@ -172,7 +172,7 @@
             width : 900px;
         }
         .table-responsive .needs-validation{
-            width : 850px !important;
+            width : 850px!important;
             font-size : 16px !important;
         }
 
@@ -482,30 +482,37 @@
                         </div>
                         
                         <hr class="mb-4">
-                        <div class="row">
-                          <div class="col-md-4 mb-3">
-                            <label for="item_type">대분류</label>
-                            <select class="custom-select d-block w-100" id="item_type" required="">
-                              <option value="">Choose...</option>
-                              <option>United States</option>
-                            </select>
-                          </div>
-                          <div class="col-md-5 mb-3">
-                            <label for="item">신청품목</label>
-                            <select class="custom-select d-block w-100" id="item" required="">
-                              <option value="">Choose...</option>
-                              <option>대분류를 선택해 주세요</option>
-                            </select>
-                          </div>
-                          <div class="col-md-3 mb-3">
-                            <label for="detail_ea">수량</label>
-                            <input type="text" class="form-control" id="detail_ea" placeholder="0" required="">
-                            <div class="invalid-feedback">
-                              수량을 적어주세요
+                        <div class="item_group">
+                            <div class="check_item">
+                                <div class="row">
+                                  <div class="col-md-4 mb-3">
+                                    <label for="item_type">대분류</label>
+                                    <select class="custom-select d-block w-100" id="item_type" required="">
+                                      <option value="">Choose...</option>
+                                      <option>United States</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-5 mb-3">
+                                    <label for="item">신청품목</label>
+                                    <select class="custom-select d-block w-100" id="item" required="">
+                                      <option value="">Choose...</option>
+                                      <option>대분류를 선택해 주세요</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-3 mb-3">
+                                    <label for="detail_ea">수량</label>
+                                    <input type="text" class="form-control" id="detail_ea" placeholder="0" required="">
+                                    <div class="invalid-feedback">
+                                      수량을 적어주세요
+                                    </div>
+                                  </div>
+                                </div>
+                                <button class="btn btn-primary btn-lg btn-block" id="add_item1" type="button">추가하기</button>
+                                <hr class="mb-4">
                             </div>
-                          </div>
+                            
                         </div>
-                        <hr class="mb-4">
+                        
                         <div class="row">
                           <div class="col-md-4 mb-3">
                             <label for="input_type">결제방식</label>
