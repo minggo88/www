@@ -471,9 +471,9 @@ $(document).ready(function() {
     btnComplete.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 중지
         // 클릭 시 실행될 코드 작성
-        validateForm(smsIndex);
+        //validateForm(smsIndex);
 
-        const detailName = document.getElementById('detail_name');
+        /*const detailName = document.getElementById('detail_name');
         const detailCall = document.getElementById('detail_call');
         const address1 = document.getElementById('address');
         const address2 = document.getElementById('address2');
@@ -482,23 +482,21 @@ $(document).ready(function() {
         const detailEa = document.getElementById('detail_ea');
         const t_sendtext = document.getElementById('sendtext');
         fn_ysCompleteOrder(smsIndex, detailName, detailCall, address1, address2, item, detailEa, t_sendtext);
+        */
         
+        let sendtext = $('#sendtext').val();
+        let receive_call =  $('#receive_call').val();
+        API.ysSMSSend(receive_call,sendtext, (resp) => {
+            console.log(resp);
+            if (resp.success) {
+                
+                console.log('전송성공');
+            }else{
+                console.log('전송실패');
+            }   
+        });
     });
-    
-    
-
 });
-
-window.onload = function() {
-    document.getElementById('btn_complete').onclick = function() {
-        // 주소 찾기 팝업 코드
-        new daum.Postcode({
-            oncomplete: function(data) {
-                document.getElementById('selectedAddress').innerHTML = '선택한 주소: ' + data.address;
-            }
-        }).open();
-    };
-};
 
 document.addEventListener("DOMContentLoaded", function () {
     const createIdButtons = document.querySelectorAll(".create-id-btn");
