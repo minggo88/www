@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <script src="./assets/js/api2.js?t=1671775853"></script>
+    <script src="https://dev.assettea.com/assets/js/bootstrap.bundle.min.js" 
+        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
+        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" 
+        integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <title>청정간장게장촌</title>
+    <script src="./assets/js/ysMain.js"></script>
+
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+        }
+    
+        html, body {
+            height: 100%;
+        }
+    
+        .navbar-dark.bg-dark {
+            margin-bottom: 0px;
+        }
+    
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            text-decoration: none;
+            justify-content: center;
+        }
+    
+        .nav-item .nav-link {
+            font-size: 16px;
+            color: #343a40;
+        }
+    
+        #sidebarMenu {
+            height: 100%;
+        }
+    
+        .container-fluid, .row {
+            height: 100%;
+        }
+
+        /* 네비게이션에서 활성화된 항목 스타일 */
+        .nav-item .nav-link.active {
+            color: #dc3545;; /* 선택된 항목의 텍스트 색상 (붉은색) */
+            border-radius: 5px; /* 선택된 항목에 둥근 모서리 추가 */
+        }
+        
+        main {
+            height: 100%; /* main이 전체 높이를 채우도록 설정 */
+            overflow-y: auto; /* 스크롤 활성화 */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+        .form-container input, .form-container select {
+            margin: 5px;
+            padding: 8px;
+        }
+       
+    </style>
+
+</head>
+
+<body>
+    <!-- header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./ys_main.html">
+                <h2>청정간장게장촌</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01" style="visibility:hidden;"></div>
+            <form class="d-flex">
+                <button class="btn btn-outline-success">Log out</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- main -->
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link " href="./ys_main.html"><span data-feather="home"></span> 주문현황</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./ys_manager.html"><span data-feather="file"></span> 사원관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="./ys_customer.html"><span data-feather="shopping-cart"></span> 회원관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./ys_order.html"><span data-feather="users"></span> 히스토리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./ys_end.html"><span data-feather="bar-chart-2"></span> 맺음말</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./ys_customer.html"><span data-feather="layers"></span> 목록 설정</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">주문관리</h1>
+                </div>
+                <div class="table-responsive">
+                    <!-- Table to Display Data -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Send Date</th>
+                                <th>Payment Type</th>
+                                <th>Payment</th>
+                                <th>Send Call</th>
+                                <th>Payment Name</th>
+                                <th>Receive Name</th>
+                                <th>Order Items</th>
+                                <th>Receive Call</th>
+                                <th>Box Count</th>
+                                <th>Receive Address</th>
+                                <th>Receive Code</th>
+                                <th>Move</th>
+                                <th>Send Message</th>
+                                <th>Order Index</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="order-table">
+                            <!-- Data rows will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+
+                    <!-- Form to Update Data -->
+                    <div class="form-container">
+                        <h3>Edit Order</h3>
+                        <form id="order-form">
+                            <input type="hidden" id="order-index" />
+                            <label>Send Date: <input type="text" id="send-date" /></label>
+                            <label>Payment Type: <input type="text" id="payment-type" /></label>
+                            <label>Payment: <input type="text" id="payment" /></label>
+                            <label>Send Call: <input type="text" id="send-call" /></label>
+                            <label>Payment Name: <input type="text" id="payment-name" /></label>
+                            <label>Receive Name: <input type="text" id="receive-name" /></label>
+                            <label>Order Items: <input type="text" id="order-items" /></label>
+                            <label>Receive Call: <input type="text" id="receive-call" /></label>
+                            <label>Box Count: <input type="text" id="box-count" /></label>
+                            <label>Receive Address: <input type="text" id="receive-address" /></label>
+                            <label>Receive Code: <input type="text" id="receive-code" /></label>
+                            <label>Move: <input type="text" id="move" /></label>
+                            <label>Send Message: <input type="text" id="send-message" /></label>
+                            <button type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const orders = [
+            {
+                send_date: "2024-12-01",
+                payment_type: "Card",
+                payment: 15000,
+                send_call: "010-1234-5678",
+                payment_name: "John Doe",
+                receive_name: "Jane Smith",
+                order_items: "Item A x2, Item B x3",
+                receive_call: "010-9876-5432",
+                box_count: 2,
+                receive_address: "Seoul, Dobong-gu",
+                receive_code: "12345",
+                move: "Courier",
+                send_message: "Leave at door",
+                order_index: 1
+            }
+        ];
+
+        function renderTable() {
+            const table = document.getElementById('order-table');
+            table.innerHTML = '';
+            orders.forEach((order, index) => {
+                const row = `
+                    <tr>
+                        <td>${order.send_date}</td>
+                        <td>${order.payment_type}</td>
+                        <td>${order.payment}</td>
+                        <td>${order.send_call}</td>
+                        <td>${order.payment_name}</td>
+                        <td>${order.receive_name}</td>
+                        <td>${order.order_items}</td>
+                        <td>${order.receive_call}</td>
+                        <td>${order.box_count}</td>
+                        <td>${order.receive_address}</td>
+                        <td>${order.receive_code}</td>
+                        <td>${order.move}</td>
+                        <td>${order.send_message}</td>
+                        <td>${order.order_index}</td>
+                        <td><button onclick="editOrder(${index})">Edit</button></td>
+                    </tr>
+                `;
+                table.innerHTML += row;
+            });
+        }
+
+        function editOrder(index) {
+            const order = orders[index];
+            document.getElementById('order-index').value = index;
+            document.getElementById('send-date').value = order.send_date;
+            document.getElementById('payment-type').value = order.payment_type;
+            document.getElementById('payment').value = order.payment;
+            document.getElementById('send-call').value = order.send_call;
+            document.getElementById('payment-name').value = order.payment_name;
+            document.getElementById('receive-name').value = order.receive_name;
+            document.getElementById('order-items').value = order.order_items;
+            document.getElementById('receive-call').value = order.receive_call;
+            document.getElementById('box-count').value = order.box_count;
+            document.getElementById('receive-address').value = order.receive_address;
+            document.getElementById('receive-code').value = order.receive_code;
+            document.getElementById('move').value = order.move;
+            document.getElementById('send-message').value = order.send_message;
+        }
+
+        document.getElementById('order-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const index = document.getElementById('order-index').value;
+            orders[index] = {
+                send_date: document.getElementById('send-date').value,
+                payment_type: document.getElementById('payment-type').value,
+                payment: document.getElementById('payment').value,
+                send_call: document.getElementById('send-call').value,
+                payment_name: document.getElementById('payment-name').value,
+                receive_name: document.getElementById('receive-name').value,
+                order_items: document.getElementById('order-items').value,
+                receive_call: document.getElementById('receive-call').value,
+                box_count: document.getElementById('box-count').value,
+                receive_address: document.getElementById('receive-address').value,
+                receive_code: document.getElementById('receive-code').value,
+                move: document.getElementById('move').value,
+                send_message: document.getElementById('send-message').value,
+                order_index: orders[index].order_index
+            };
+            renderTable();
+        });
+
+        renderTable();
+    </script>
+</body>
+
+</html>
