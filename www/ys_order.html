@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
     <title>청정간장게장촌</title>
-    <script src="./assets/js/ysMain.js"></script>
+
 
     <style type="text/css">
         body {
@@ -143,20 +143,21 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Send Date</th>
-                                <th>Payment Type</th>
-                                <th>Payment</th>
-                                <th>Send Call</th>
-                                <th>Payment Name</th>
-                                <th>Receive Name</th>
-                                <th>Order Items</th>
-                                <th>Receive Call</th>
-                                <th>Box Count</th>
-                                <th>Receive Address</th>
-                                <th>Receive Code</th>
-                                <th>Move</th>
-                                <th>Send Message</th>
-                                <th>Order Index</th>
+                                <th>발송날자</th>
+                                <th>결제방식</th>
+                                <th>금액</th>
+                                <th>송하인핸드폰번호</th>
+                                <th>입금자</th>
+                                <th>수하인명</th>
+                                <th>품목</th>
+                                <th>수량</th>
+                                <th>수하인핸드폰번호</th>
+                                <th>박스수량</th>
+                                <th>우편번호</th>
+                                <th>송하주코드</th>
+                                <th>운임구분</th>
+                                <th>배송메시지</th>
+                                <th style="display:none";>Order Index</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -164,25 +165,27 @@
                             <!-- Data rows will be inserted here by JavaScript -->
                         </tbody>
                     </table>
-
+                    <button id="download-btn" class="btn btn-primary" style="margin-top: 20px;">엑셀 다운로드</button>
+                    <br>
                     <!-- Form to Update Data -->
                     <div class="form-container">
                         <h3>Edit Order</h3>
                         <form id="order-form">
                             <input type="hidden" id="order-index" />
-                            <label>Send Date: <input type="text" id="send-date" /></label>
-                            <label>Payment Type: <input type="text" id="payment-type" /></label>
-                            <label>Payment: <input type="text" id="payment" /></label>
-                            <label>Send Call: <input type="text" id="send-call" /></label>
-                            <label>Payment Name: <input type="text" id="payment-name" /></label>
-                            <label>Receive Name: <input type="text" id="receive-name" /></label>
-                            <label>Order Items: <input type="text" id="order-items" /></label>
-                            <label>Receive Call: <input type="text" id="receive-call" /></label>
-                            <label>Box Count: <input type="text" id="box-count" /></label>
-                            <label>Receive Address: <input type="text" id="receive-address" /></label>
-                            <label>Receive Code: <input type="text" id="receive-code" /></label>
-                            <label>Move: <input type="text" id="move" /></label>
-                            <label>Send Message: <input type="text" id="send-message" /></label>
+                            <label>발송날자: <input type="text" id="send-date" /></label>
+                            <label>결제방식: <input type="text" id="payment-type" /></label>
+                            <label>금액: <input type="text" id="payment" /></label>
+                            <label>송하인핸드폰번호: <input type="text" id="send-call" /></label>
+                            <label>입금자: <input type="text" id="payment-name" /></label>
+                            <label>수하인명: <input type="text" id="receive-name" /></label>
+                            <label>배송물품: <input type="text" id="order-items" /></label>
+                            <label>수량: <input type="text" id="item-cnt" /></label>
+                            <label>수하인핸드폰번호: <input type="text" id="receive-call" /></label>
+                            <label>박스수량: <input type="text" id="box-count" /></label>
+                            <label>우편번호: <input type="text" id="receive-address" /></label>
+                            <label>송하주코드: <input type="text" id="receive-code" /></label>
+                            <label>운임구분: <input type="text" id="move" /></label>
+                            <label>배송메시지: <input type="text" id="send-message" /></label>
                             <button type="submit">Save</button>
                         </form>
                     </div>
@@ -211,9 +214,24 @@
             }
         ];
 
+        const fn_getData = function () {
+            // check_login();
+            API.getOrder((resp) => {
+                console.log(resp);
+                if (resp.success) {
+                    orders.length = 0; // 기존 내용을 초기화
+                    orders.push(...resp.payload); 
+                    renderTable();
+                } else {
+                    console.log('fail');
+                }
+            });
+        }
+
         function renderTable() {
             const table = document.getElementById('order-table');
             table.innerHTML = '';
+            
             orders.forEach((order, index) => {
                 const row = `
                     <tr>
@@ -223,14 +241,15 @@
                         <td>${order.send_call}</td>
                         <td>${order.payment_name}</td>
                         <td>${order.receive_name}</td>
-                        <td>${order.order_items}</td>
+                        <td>${order.order_item}</td>
+                        <td>${order.item_cnt}</td>
                         <td>${order.receive_call}</td>
                         <td>${order.box_count}</td>
                         <td>${order.receive_address}</td>
                         <td>${order.receive_code}</td>
                         <td>${order.move}</td>
                         <td>${order.send_message}</td>
-                        <td>${order.order_index}</td>
+                        <td style="display:none";>${order.order_index}</td>
                         <td><button onclick="editOrder(${index})">Edit</button></td>
                     </tr>
                 `;
@@ -247,7 +266,8 @@
             document.getElementById('send-call').value = order.send_call;
             document.getElementById('payment-name').value = order.payment_name;
             document.getElementById('receive-name').value = order.receive_name;
-            document.getElementById('order-items').value = order.order_items;
+            document.getElementById('order-items').value = order.order_item;
+            document.getElementById('item-cnt').value = order.item_cnt;
             document.getElementById('receive-call').value = order.receive_call;
             document.getElementById('box-count').value = order.box_count;
             document.getElementById('receive-address').value = order.receive_address;
@@ -267,6 +287,7 @@
                 payment_name: document.getElementById('payment-name').value,
                 receive_name: document.getElementById('receive-name').value,
                 order_items: document.getElementById('order-items').value,
+                item_cnt: document.getElementById('item-cnt').value,
                 receive_call: document.getElementById('receive-call').value,
                 box_count: document.getElementById('box-count').value,
                 receive_address: document.getElementById('receive-address').value,
@@ -277,8 +298,50 @@
             };
             renderTable();
         });
+        fn_getData();
 
-        renderTable();
+
+        // 엑셀 다운로드 기능 구현
+        // 엑셀 다운로드 기능 구현
+    function downloadCSV() {
+        const table = document.querySelector('table');
+        let csvContent = '';
+
+        // 테이블 헤더 추가
+        const headers = Array.from(table.querySelectorAll('th'));
+        const headerRow = headers.map(header => header.textContent).join(',') + '\n';
+        csvContent += headerRow;
+
+        // 테이블 데이터 추가
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+        rows.forEach(row => {
+            const cells = Array.from(row.querySelectorAll('td'));
+            const rowData = cells.map(cell => {
+                // 셀 데이터가 특수 문자를 포함할 수 있기 때문에, 이를 감싸줍니다.
+                let cellText = cell.textContent || cell.innerText;
+                return `"${cellText.replace(/"/g, '""')}"`; // "를 두 번 처리하여 CSV 규격에 맞게 변환
+            }).join(',');
+            csvContent += rowData + '\n';
+        });
+
+        // BOM을 추가하여 CSV 파일을 UTF-8 인코딩으로 저장
+        const bom = '\ufeff'; // BOM(UTF-8)을 파일 시작에 추가
+        const blob = new Blob([bom + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+            // 브라우저 호환성 체크
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'order_history.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+
+    // 다운로드 버튼에 클릭 이벤트 리스너 추가
+    document.getElementById('download-btn').addEventListener('click', downloadCSV);
     </script>
 </body>
 
