@@ -629,6 +629,45 @@ const API = {
             }
         })
     },
+    /**
+     * upOrder
+     * @param {*} callback 
+     */
+    upOrder: (data, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/upOrder/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                dataArray: data,
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
+     * getOrder
+     * @param {*} callback 
+     */
+    getOrder: (callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/getOrder/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                token: window.localStorage.token, lang: window.localStorage.locale,
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
 }
 
 if(!window.localStorage.token) {
