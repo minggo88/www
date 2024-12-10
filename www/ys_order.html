@@ -84,7 +84,37 @@
             margin: 5px;
             padding: 8px;
         }
-       
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .pagination button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            
+            cursor: pointer;
+        }
+        
+        .pagination button.active {
+            color: blue !important;
+            font-weight: bold !important;
+            border-color: blue !important; /* 선택된 버튼을 강조 */
+        }
+        
+        .pagination button:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
+        
+        .pagination button.disabled {
+            color: #aaa; 
+            cursor: not-allowed;
+            background-color: white;
+        }
+               
     </style>
 
 </head>
@@ -139,6 +169,14 @@
                     <h1 class="h2">주문관리</h1>
                 </div>
                 <div class="table-responsive">
+                    <!-- Filter Buttons -->
+                    <div id="filter-buttons" style="margin-bottom: 10px;">
+                        <button class="btn btn-outline-primary" onclick="filterData('all')">전체</button>
+                        <button class="btn btn-outline-primary" onclick="filterData('1day')">1일</button>
+                        <button class="btn btn-outline-primary" onclick="filterData('3days')">3일</button>
+                        <button class="btn btn-outline-primary" onclick="filterData('1week')">1주일</button>
+                        <button class="btn btn-outline-primary" onclick="filterData('1month')">1달</button>
+                    </div>
                     <!-- Table to Display Data -->
                     <table>
                         <thead>
@@ -154,9 +192,11 @@
                                 <th>수하인핸드폰번호</th>
                                 <th>박스수량</th>
                                 <th>우편번호</th>
+                                <th>수하인주소</th>
                                 <th>송하주코드</th>
                                 <th>운임구분</th>
                                 <th>배송메시지</th>
+                                <th>입력시간</th>
                                 <th style="display:none";>Order Index</th>
                                 <th>Action</th>
                             </tr>
@@ -165,6 +205,10 @@
                             <!-- Data rows will be inserted here by JavaScript -->
                         </tbody>
                     </table>
+                    <!-- Pagination Controls -->
+                    <div class="pagination" id="pagination" style="margin-top: 10px;">
+                        <!-- Pagination buttons will be dynamically created -->
+                    </div>
                     <button id="download-btn" class="btn btn-primary" style="margin-top: 20px;">엑셀 다운로드</button>
                     <br>
                     <!-- Form to Update Data -->
@@ -182,7 +226,8 @@
                             <label>수량: <input type="text" id="item-cnt" /></label>
                             <label>수하인핸드폰번호: <input type="text" id="receive-call" /></label>
                             <label>박스수량: <input type="text" id="box-count" /></label>
-                            <label>우편번호: <input type="text" id="receive-address" /></label>
+                            <label>우편번호: <input type="text" id="receive-address_num" /></label>
+                            <label>수하인주소: <input type="text" id="receive-address" /></label>
                             <label>송하주코드: <input type="text" id="receive-code" /></label>
                             <label>운임구분: <input type="text" id="move" /></label>
                             <label>배송메시지: <input type="text" id="send-message" /></label>
@@ -195,44 +240,35 @@
     </div>
 
     <script>
-        const orders = [
-            {
-                send_date: "2024-12-01",
-                payment_type: "Card",
-                payment: 15000,
-                send_call: "010-1234-5678",
-                payment_name: "John Doe",
-                receive_name: "Jane Smith",
-                order_items: "Item A x2, Item B x3",
-                receive_call: "010-9876-5432",
-                box_count: 2,
-                receive_address: "Seoul, Dobong-gu",
-                receive_code: "12345",
-                move: "Courier",
-                send_message: "Leave at door",
-                order_index: 1
-            }
-        ];
-
-        const fn_getData = function () {
-            // check_login();
-            API.getOrder((resp) => {
-                console.log(resp);
-                if (resp.success) {
-                    orders.length = 0; // 기존 내용을 초기화
-                    orders.push(...resp.payload); 
-                    renderTable();
-                } else {
-                    console.log('fail');
-                }
+        const itemsPerPage = 10; // 페이지당 항목 수
+        let currentPageGroup = 1; // 현재 페이지 그룹 (1: 1~10, 2: 11~20, ...)
+        let currentPage = 1; // 현재 페이지
+        let filteredOrders = []; // 현재 필터링된 데이터
+        
+        // 데이터 필터링 함수
+        function filterData(criteria) {
+            const now = new Date();
+            filteredOrders = orders.filter(order => {
+                const orderDate = new Date(order.stime);
+                if (criteria === 'all') return true;
+                if (criteria === '1day') return now - orderDate <= 24 * 60 * 60 * 1000;
+                if (criteria === '3days') return now - orderDate <= 3 * 24 * 60 * 60 * 1000;
+                if (criteria === '1week') return now - orderDate <= 7 * 24 * 60 * 60 * 1000;
+                if (criteria === '1month') return now - orderDate <= 30 * 24 * 60 * 60 * 1000;
             });
+            currentPage = 1; // 필터링 후 첫 페이지로 초기화
+            currentPageGroup = 1; // 페이지 그룹도 초기화
+            renderTable();
+            renderPagination();
         }
-
+        
+        // 테이블 렌더링 함수
         function renderTable() {
             const table = document.getElementById('order-table');
             table.innerHTML = '';
-            
-            orders.forEach((order, index) => {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            filteredOrders.slice(start, end).forEach((order, index) => {
                 const row = `
                     <tr>
                         <td>${order.send_date}</td>
@@ -244,21 +280,116 @@
                         <td>${order.order_item}</td>
                         <td>${order.item_cnt}</td>
                         <td>${order.receive_call}</td>
-                        <td>${order.box_count}</td>
+                        <td>${order.box_cnt}</td>
+                        <td>${order.receive_address_num}</td>
                         <td>${order.receive_address}</td>
                         <td>${order.receive_code}</td>
                         <td>${order.move}</td>
                         <td>${order.send_message}</td>
-                        <td style="display:none";>${order.order_index}</td>
+                        <td>${order.stime}</td>
+                        <td style="display:none;">${order.order_index}</td>
                         <td><button onclick="editOrder(${index})">Edit</button></td>
                     </tr>
                 `;
                 table.innerHTML += row;
             });
         }
+        
+        // 페이지네이션 렌더링 함수
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+        
+            const startPage = (currentPageGroup - 1) * itemsPerPage + 1;
+            const endPage = Math.min(currentPageGroup * itemsPerPage, totalPages);
+        
+            // '<' 버튼 추가
+            if (currentPageGroup > 1) {
+                const prevButton = document.createElement('button');
+                prevButton.textContent = '<';
+                prevButton.onclick = () => {
+                    currentPageGroup--;
+                    renderPagination();
+                    currentPage = (currentPageGroup - 1) * itemsPerPage + 1;
+                    renderTable();
+                };
+                pagination.appendChild(prevButton);
+            }
+        
+            // 페이지 번호 버튼 추가
+            for (let i = startPage; i <= endPage; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                if (i === currentPage) button.classList.add('btn-primary');
+                button.classList.add('btn', 'btn-outline-secondary');
+                button.style.margin = '0 5px';
+                button.onclick = () => {
+                    currentPage = i;
+                    renderTable();
+                    renderPagination();
+                };
+                pagination.appendChild(button);
+            }
+        
+            // '>' 버튼 추가
+            if (endPage < totalPages) {
+                const nextButton = document.createElement('button');
+                nextButton.textContent = '>';
+                nextButton.onclick = () => {
+                    currentPageGroup++;
+                    renderPagination();
+                    currentPage = (currentPageGroup - 1) * itemsPerPage + 1;
+                    renderTable();
+                };
+                pagination.appendChild(nextButton);
+            }
+        }
+        
+        // 초기 데이터 렌더링
+        const orders = [
+            // 예시 데이터
+            {
+                send_date: "2024-12-01",
+                payment_type: "Card",
+                payment: 15000,
+                send_call: "010-1234-5678",
+                payment_name: "John Doe",
+                receive_name: "Jane Smith",
+                order_items: "Item A x2, Item B x3",
+                item_cnt: 5,
+                receive_call: "010-9876-5432",
+                box_count: 2,
+                receive_address: "Seoul, Dobong-gu",
+                receive_code: "12345",
+                move: "Courier",
+                send_message: "Leave at door",
+                stime: "2024-12-01T10:00:00",
+                order_index: 1
+            }
+        ];
+        
+        function fn_getData() {
+            // check_login();
+            API.getOrder(resp => {
+                console.log(resp);
+                if (resp.success) {
+                    orders.length = 0; // 기존 내용을 초기화
+                    orders.push(...resp.payload);
+                    filterData('all'); // 기본 필터로 초기화
+                } else {
+                    console.error('Failed to load orders.');
+                }
+            });
+        }
+        
+        // 페이지 로드 시 기본 설정
+        fn_getData();
 
         function editOrder(index) {
-            const order = orders[index];
+            let new_index = currentPage*10-10+index;
+            const order = orders[new_index];
+            console.log(order);
             document.getElementById('order-index').value = index;
             document.getElementById('send-date').value = order.send_date;
             document.getElementById('payment-type').value = order.payment_type;
@@ -269,7 +400,8 @@
             document.getElementById('order-items').value = order.order_item;
             document.getElementById('item-cnt').value = order.item_cnt;
             document.getElementById('receive-call').value = order.receive_call;
-            document.getElementById('box-count').value = order.box_count;
+            document.getElementById('box-count').value = order.box_cnt;
+            document.getElementById('receive-address_num').value = order.receive_address_num;
             document.getElementById('receive-address').value = order.receive_address;
             document.getElementById('receive-code').value = order.receive_code;
             document.getElementById('move').value = order.move;
@@ -279,6 +411,8 @@
         document.getElementById('order-form').addEventListener('submit', function (e) {
             e.preventDefault();
             const index = document.getElementById('order-index').value;
+            //console.log(index);
+            //console.log(orders[index]);
             orders[index] = {
                 send_date: document.getElementById('send-date').value,
                 payment_type: document.getElementById('payment-type').value,
@@ -286,19 +420,31 @@
                 send_call: document.getElementById('send-call').value,
                 payment_name: document.getElementById('payment-name').value,
                 receive_name: document.getElementById('receive-name').value,
-                order_items: document.getElementById('order-items').value,
+                order_item: document.getElementById('order-items').value,
                 item_cnt: document.getElementById('item-cnt').value,
                 receive_call: document.getElementById('receive-call').value,
-                box_count: document.getElementById('box-count').value,
+                box_cnt: document.getElementById('box-count').value,
+                receive_address_num: document.getElementById('receive-address_num').value,
                 receive_address: document.getElementById('receive-address').value,
                 receive_code: document.getElementById('receive-code').value,
                 move: document.getElementById('move').value,
                 send_message: document.getElementById('send-message').value,
-                order_index: orders[index].order_index
+                order_index: orders[index].order_index,
+                stime: orders[index].stime
             };
-            renderTable();
+            console.log(orders[index]);
+            API.upOrder(orders[index], resp => {
+                console.log(resp);
+                if (resp.success) {
+                    //console.log(resp.success);
+                } else {
+                    console.error('Failed to load orders.');
+                }
+            });
+            filterData('all');
+            //renderTable();
         });
-        fn_getData();
+        
 
 
         // 엑셀 다운로드 기능 구현
