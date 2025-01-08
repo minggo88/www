@@ -116,3 +116,9 @@ function mobile_login_config(){
 	}
 	
 }
+
+$(document).ready(function() {
+    $(function () {
+		$("#header-placeholder").load("header.html");
+	});
+});
