@@ -27,6 +27,7 @@ if(!window.localStorage.locale) {
 }
 
 $(document).ready( function() {
+	$(".header_inner").load("/header.html");
 	$(".profile.dropdown-wrapper").load("./nav_side.html");
     //$(".sub header .header_inner").load("./header.html");  
 	document.getElementsByClassName("mobile-panel").innerHTML = "";
