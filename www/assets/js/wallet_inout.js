@@ -1,7 +1,7 @@
 setTimeout(function() {
     $("#title_3").hide();
     $("#title_3_on").show();
-}, 500);
+}, 1000);
 
 setTimeout(function() {
 	check_login();

@@ -1,7 +1,7 @@
 setTimeout(function() {
     $("#title_1").hide()
     $("#title_1_on").show()
-}, 500);
+}, 1000);
 
 var searchInput = document.getElementById('searchInput');
 
