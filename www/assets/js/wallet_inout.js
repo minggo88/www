@@ -3,9 +3,6 @@ setTimeout(function() {
     $("#title_3_on").show();
 }, 1000);
 
-setTimeout(function() {
-	check_login();
-}, 300);
 
 var search_type = 0;
 
@@ -165,13 +162,6 @@ window.addEventListener('load', function() {
 	check_login();
 });
 
-const check_login = function () {
-    if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-        alert('로그인 해주세요');
-		const LOGIN_PAGE = '/login.html';
-        window.location.href = LOGIN_PAGE;
-    }
-}
 const check_logout = function (msg) {
     if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
         if (msg) alert(msg);

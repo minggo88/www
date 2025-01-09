@@ -4,7 +4,6 @@ setTimeout(function() {
 }, 1000);
 
 setTimeout(function() {
-	check_login();
 	showTab(1);
 }, 100);
 
@@ -1013,12 +1012,7 @@ const stateChage = function(text){
         return "배달 완료"
     }
 }
-const check_login = function (msg) {
-    /*if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
-        if (msg) alert(msg);
-        window.location.href = LOGIN_PAGE;
-    }*/
-}
+
 const check_logout = function (msg) {
     if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
         if (msg) alert(msg);

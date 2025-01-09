@@ -1291,8 +1291,9 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	}
 
 	const check_login = function (msg) {
-		if (!Model.user_info || !Model.user_info.userid && !Model.user_info.userno) {
+		if (!Model.user_info && !Model.user_info.userno) {
 			if (msg) alert(msg);
+			 alert('로그인 해주세요');
 			window.location.href = LOGIN_PAGE;
 		}
 	}
