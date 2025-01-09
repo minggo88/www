@@ -1014,7 +1014,7 @@ const stateChage = function(text){
 }
 const check_login = function (msg) {
     if (!JSON.parse(sessionStorage.getItem('userModel'))) {
-		alert('로그인 해주세요');
+		//alert('로그인 해주세요');
 	   window.location.href = LOGIN_PAGE;
    }
 }
