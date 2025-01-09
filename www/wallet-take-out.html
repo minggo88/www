@@ -58,26 +58,39 @@
 <body class="sub wallet notice">
 	<header>
 		<div class="header_inner">
-			<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
+			<h1 class="logo"><a href="wallet.html">ASSETTEA</a></h1>
 			<nav class="nav">
 				<ul>
 					<li>
+						<a href="wallet.html" data-login="">HAVE</a>
+					</li>
+					<li>
 						<a href="exchange.html" data-i18n="">MARKET</a>
+					</li>				
+					<li>
+						<a href="wallet-inout.html" data-i18n="">WALLET</a>
 					</li>
 					<li>
-						<a href="wallet.html" data-login="" data-i18n="">보유현황</a>
-					</li>
-					<li>
-						<a href="wallet-inout.html" data-i18n="">입출금</a>
-					</li>
-					<li>
-						<a href="notice.html" data-i18n="">공지사항</a>
+						<a href="notice.html" data-i18n="">NOTICE</a>
 					</li>
 				</ul>
 			</nav>
 			<div class="nav--side">
 				<div name="box_logedin" class="profile dropdown-wrapper">
-					
+					<button type="button" class="dropdown btn btn--mypage" name="btn-papage"
+						data-i18n>마이페이지</button>
+					<div class="dropdown--item" style="width: 134px;left: -32px;">
+						<ul>
+							<li><a href="member-account.html" data-login data-i18n>정보 수정</a></li>
+							<li><a href="my-verification.html" data-login data-i18n>ID 인증 관리</a></li>
+							<li><a href="change-pin-number.html" data-login data-i18n>보안비밀번호변경</a></li>
+							<li><a href="change-account-number.html" data-login data-i18n>출금계좌 변경</a></li>
+							<li><a href="wallet-take-out-check.html" data-login data-i18n>반출신청현황</a></li>
+							<li><a href="wallet-take-out.html" data-login data-i18n>반출신청</a></li>
+							<!-- <li><a href="transaction.html" data-login data-i18n>거래 내역</a></li> -->
+							<li><a href="notification.html" data-login data-i18n>알림</a></li>
+						</ul>
+					</div>
 				</div>
 				<div name="box_logedin" style="display: none"><button class="btn btn--logout" name="btn-logout"
 						data-i18n>로그아웃</button></div>
@@ -97,16 +110,19 @@
 		</div>
 		<ul class="gnb box-menu" name="box-menu">
 			<li>
+				<a href="wallet.html" data-login="">HAVE</a>
+			</li>
+			<li>
 				<a href="exchange.html" data-i18n>MARKET</a>
 			</li>
 			<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
 			<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 			<li>
-				<a href="wallet.html" data-login data-i18n>입출금</a>
+				<a href="wallet.html" data-login data-i18n>WALLET</a>
 			</li>
 			<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 			<li>
-				<a href="notice.html" data-i18n>공지사항</a>
+				<a href="notice.html" data-i18n>NOTICE</a>
 			</li>
 		</ul>
 	</header>

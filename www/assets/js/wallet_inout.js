@@ -162,6 +162,7 @@ window.addEventListener('load', function() {
 		}
 	});
 	fn_total_money();
+	check_login();
 });
 
 const check_login = function () {
