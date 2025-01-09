@@ -4,6 +4,7 @@ setTimeout(function() {
 }, 1000);
 
 setTimeout(function() {
+	check_login();
 	showTab(1);
 }, 100);
 
@@ -836,8 +837,7 @@ window.addEventListener('load', function() {
 });
 
 const fn_takeout = function () {
-    check_login();
-
+    
 	//231103
 	let search_type = 0;//0: 전체, 1: 매수, 2: 매도
 	// 거래내역 검색
@@ -1012,8 +1012,15 @@ const stateChage = function(text){
         return "배달 완료"
     }
 }
-
+const check_login = function (msg) {
+    if (!JSON.parse(sessionStorage.getItem('userModel'))) {
+		alert('로그인 해주세요');
+	   window.location.href = LOGIN_PAGE;
+   }
+}
 const check_logout = function (msg) {
+	sessionStorage.removeItem('userModel');
+	console.log(JSON.parse(sessionStorage.getItem('userModel')));
     if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
         if (msg) alert(msg);
         window.location.href = "/";

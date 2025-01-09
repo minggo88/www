@@ -162,6 +162,13 @@ window.addEventListener('load', function() {
 	check_login();
 });
 
+const check_login = function (msg) {
+   if (!JSON.parse(sessionStorage.getItem('userModel'))) {
+		 alert('로그인 해주세요');
+		window.location.href = '/login.html';
+	}
+}
+
 const check_logout = function (msg) {
     if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
         if (msg) alert(msg);

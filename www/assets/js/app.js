@@ -1291,13 +1291,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	}
 
 	const check_login = function (msg) {
-		if (!Model.user_info && !Model.user_info.userno) {
-			if (msg) alert(msg);
+		if (!JSON.parse(sessionStorage.getItem('userModel'))) {
 			 alert('로그인 해주세요');
 			window.location.href = LOGIN_PAGE;
 		}
 	}
 	const check_logout = function (msg) {
+		sessionStorage.removeItem('userModel');
+		console.log(JSON.parse(sessionStorage.getItem('userModel')));
 		if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
 			if (msg) alert(msg);
 			window.location.href = "/";
@@ -2265,6 +2266,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					let user_info = { 'userid': email };
 					Model.user_info = user_info;
 					get_user_wallet();
+					sessionStorage.setItem('userModel', JSON.stringify(user_info));
 					request_user_info(function () { 
 						let ret_url = getURLParameter('ret_url')
 						ret_url = '/'; //ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
@@ -2273,7 +2275,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					});
 				} else {
 					let msg = r.error && r.error.message ? r.error.message : __('로그인 정보가 올바른지 확인해주세요.');
-					$('.validation--message').find('>p').text(msg).end().show()
+					$('.validation--message').find('>p').text(msg).end().show();
 				}
 			})
 		});
@@ -3198,6 +3200,7 @@ function log_out(){
 			Model.auto_login = false;
 			Model.visited_notice = false;
 			setCookie('token', '', -1);
+			sessionStorage.removeItem('userModel');
 			location.reload();
 		} else {
 			alert(__('로그아웃하지 못했습니다.')+' '+msg);
