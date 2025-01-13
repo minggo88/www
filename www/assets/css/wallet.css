@@ -2415,10 +2415,10 @@
 	}
 	/* tab1 */
 	.wallet_tab{
-		width: 95%;	
+		width: 100%;	
 	}
 	.con1{
-		width: 95%;	
+		width: 100%;	
 	}
 	.firsth_title_1,
 	.firsth_title_2 {
@@ -2450,10 +2450,10 @@
 	}
 	
 	.con2{
-		width:95%;	
+		width:100%;	
 	}
 	.list_tbody{
-		width: 95%;
+		width: 100%;
 	}
 	.title_tbody table tbody tr th{
 		font-size:13px;
