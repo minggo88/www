@@ -3,7 +3,7 @@ setTimeout(function() {
 	showTab(1);
 }, 100);
 
-function waitForElement(selector, callback, interval = 100) {
+function waitForElement(selector, callback, interval = 10) {
     const checkExist = setInterval(() => {
         const element = $(selector);
         if (element.length) {
