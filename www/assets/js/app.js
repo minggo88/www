@@ -3068,14 +3068,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	const reset_logedin_status = function () {
 		const user_info = Model.user_info;
 		// console.log('user_info:', user_info);
-		if (user_info.userno && user_info.userid) {
-			$('[name=box_logedin]').show();//로그인 된상태 -> 로그아웃 표시
-			$('[name=box_unlogedin]').hide();//로그인 안된상태 -> 로그인 표시
-			check_login_var = 1;
-		} else {
+		if (!JSON.parse(sessionStorage.getItem('userModel'))) {
 			$('[name=box_logedin]').hide();
 			$('[name=box_unlogedin]').show();
 			check_login_var = 0;
+		} else {
+			$('[name=box_logedin]').show();//로그인 된상태 -> 로그아웃 표시
+			$('[name=box_unlogedin]').hide();//로그인 안된상태 -> 로그인 표시
+			check_login_var = 1;
 		}
 	};
 	// reset_logedin_status();
