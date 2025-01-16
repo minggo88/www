@@ -1291,11 +1291,14 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	}
 
 	const check_login = function (msg) {
-		if (!JSON.parse(sessionStorage.getItem('userModel'))) {
-			 alert('로그인 해주세요');
-			window.location.href = LOGIN_PAGE;
-		}
-	}
+	    if (!JSON.parse(sessionStorage.getItem('userModel'))) {
+	        if (window.location.pathname === '/login.html') {
+	            window.location.href = '/wallet.html';
+	        } else {
+	            window.location.href = LOGIN_PAGE;
+	        }
+	    }
+	};
 	const check_logout = function (msg) {
 		sessionStorage.removeItem('userModel');
 		console.log(JSON.parse(sessionStorage.getItem('userModel')));
@@ -2269,7 +2272,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 					sessionStorage.setItem('userModel', JSON.stringify(user_info));
 					request_user_info(function () { 
 						let ret_url = getURLParameter('ret_url')
-						ret_url = '/'; //ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
+						ret_url = '/wallet.html'; //ret_url ? $.trim(base64_decode(ret_url)) : '/'; // location.href = 'exchange.html'
 						ret_url = setURLParameter('t', time(), ret_url);
 						window.location.href = ret_url;
 					});
