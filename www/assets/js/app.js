@@ -1292,12 +1292,12 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 
 	const check_login = function (msg) {
 	    if (!JSON.parse(sessionStorage.getItem('userModel'))) {
-	        if (window.location.pathname === '/login.html') {
+	        window.location.href = LOGIN_PAGE;
+	    } else {
+			if (window.location.pathname === '/login.html') {
 	            window.location.href = '/wallet.html';
-	        } else {
-	            window.location.href = LOGIN_PAGE;
-	        }
-	    }
+	        } 
+		}
 	};
 	const check_logout = function (msg) {
 		sessionStorage.removeItem('userModel');
