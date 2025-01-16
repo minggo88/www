@@ -1,12 +1,26 @@
 setTimeout(function() {
-    $("#title_2").hide()
-    $("#title_2_on").show()
-}, 1000);
-
-setTimeout(function() {
 	check_login();
 	showTab(1);
 }, 100);
+
+function waitForElement(selector, callback, interval = 100) {
+    const checkExist = setInterval(() => {
+        const element = $(selector);
+        if (element.length) {
+            console.log(`${selector} found!`);
+            clearInterval(checkExist); // 타이머 중지
+            callback(element); // 콜백 실행
+        }
+    }, interval);
+}
+
+// 사용 예제
+waitForElement('#title_2', function (element) {
+    element.hide(); // #title_2 숨김
+    console.log('#title_2 is now hidden');
+	 $("#title_2").hide();
+    $("#title_2_on").show();
+});
 
 function showTab(tabNumber) {
     // 모든 탭 내용을 숨김

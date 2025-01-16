@@ -1,7 +1,21 @@
-setTimeout(function() {
-    $("#title_1").hide()
-    $("#title_1_on").show()
-}, 1000);
+function waitForElement(selector, callback, interval = 100) {
+    const checkExist = setInterval(() => {
+        const element = $(selector);
+        if (element.length) {
+            console.log(`${selector} found!`);
+            clearInterval(checkExist); // 타이머 중지
+            callback(element); // 콜백 실행
+        }
+    }, interval);
+}
+
+// 사용 예제
+waitForElement('#title_1', function (element) {
+    element.hide(); // #title_2 숨김
+    console.log('#title_1 is now hidden');
+	$("#title_1").hide();
+    $("#title_1_on").show();
+});
 
 var searchInput = document.getElementById('searchInput');
 

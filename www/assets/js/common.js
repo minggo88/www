@@ -29,7 +29,12 @@ if(!window.localStorage.locale) {
 $(document).ready( function() {
 	if (window.location.pathname !== '/login.html') {
 		$(".header_inner").load("/header.html");
+		if(window.location.pathname === '/wallet.html'){
+			$("#title_2").hide();
+    		$("#title_2_on").show();
+		}
 	}
+
 	$(".profile.dropdown-wrapper").load("./nav_side.html");
     //$(".sub header .header_inner").load("./header.html");  
 	document.getElementsByClassName("mobile-panel").innerHTML = "";
