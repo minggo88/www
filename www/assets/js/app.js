@@ -1291,20 +1291,25 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	}
 
 	const check_login = function (msg) {
-	    if (!JSON.parse(sessionStorage.getItem('userModel'))) {
-	        window.location.href = LOGIN_PAGE;
-	    } else {
-			if (window.location.pathname === '/login.html') {
+	    const userModel = JSON.parse(sessionStorage.getItem('userModel'));
+	    if (!userModel) { // 세션이 없는 경우
+	        if (window.location.pathname !== '/login.html') {
+	            // 현재 페이지가 로그인 페이지가 아니라면 로그인 페이지로 이동
+	            window.location.href = LOGIN_PAGE;
+	        }
+	    } else { // 세션이 있는 경우
+	        if (window.location.pathname === '/login.html') {
+	            // 이미 로그인 상태에서 로그인 페이지라면 wallet.html로 이동
 	            window.location.href = '/wallet.html';
-	        } 
-		}
+	        }
+	    }
 	};
+	
 	const check_logout = function (msg) {
 		sessionStorage.removeItem('userModel');
-		console.log(JSON.parse(sessionStorage.getItem('userModel')));
 		if (Model.user_info && Model.user_info.userid && Model.user_info.userno) {
 			if (msg) alert(msg);
-			window.location.href = "/";
+			window.location.href = "/login.html";
 		}
 	}
 
@@ -2232,7 +2237,7 @@ translate();// head 에서 번역처리 할때 누락된것들이 있어 HMLT �
 	}
 
 	const fn_login = function () {
-		check_logout();
+		//check_logout();
 		window.keypress_support = false;
 
 		// 폼 초기화

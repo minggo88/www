@@ -27,12 +27,13 @@ if(!window.localStorage.locale) {
 }
 
 $(document).ready( function() {
-	$(".header_inner").load("/header.html");
+	if (window.location.pathname !== '/login.html') {
+		$(".header_inner").load("/header.html");
+	}
 	$(".profile.dropdown-wrapper").load("./nav_side.html");
     //$(".sub header .header_inner").load("./header.html");  
 	document.getElementsByClassName("mobile-panel").innerHTML = "";
 	$(".mobile-panel").load("./mobile_aside.html");  
-    
 });
 
 $(document)
