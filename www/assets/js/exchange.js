@@ -312,7 +312,7 @@ $(function() {
                 mode: LightweightCharts.CrosshairMode.Normal,
             },
         })
-        document.getElementById("tv-attr-logo").style.display = "none"; //tradingView 로고 삭제
+        //document.getElementById("tv-attr-logo").style.display = "none"; //tradingView 로고 삭제
         // ---------------------------------------------------
         // 반응형처리
         $(window).resize(function() {
@@ -369,19 +369,19 @@ $(function() {
                     window.lineSeries_A.setData(getLineChartData(data));
                     //$('#legend_a_grade').show();
 			
-			window.lineSeries_A.applyOptions({
-					priceScale: {
-						autoScale: true,
-					},
-					priceFormat: { // price format - y축
-						type: 'custom',
-						minMove: 500,
-						formatter: function(f){
-							return f
-						}
-						
-					},
-	                })
+                    window.lineSeries_A.applyOptions({
+                        priceScale: {
+                            autoScale: true,
+                        },
+                        priceFormat: { // price format - y축
+                            type: 'custom',
+                            minMove: 500,
+                            formatter: function(f){
+                                return f
+                            }
+                            
+                        },
+                    })
                 }
                 break;
             case 'B':
@@ -393,19 +393,19 @@ $(function() {
                     window.lineSeries_B.setData(getLineChartData(data));
                     //$('#legend_b_grade').show();
 					
-		    window.lineSeries_B.applyOptions({
-					priceScale: {
-						autoScale: true,
-					},
-					priceFormat: { // price format - y축
-						type: 'custom',
-						minMove: 500,
-						formatter: function(f){
-							return f
-						}
-						
-					},
-	                })	
+                    window.lineSeries_B.applyOptions({
+                        priceScale: {
+                            autoScale: true,
+                        },
+                        priceFormat: { // price format - y축
+                            type: 'custom',
+                            minMove: 500,
+                            formatter: function(f){
+                                return f
+                            }
+                            
+                        },
+                        })	
                 }
                 break;
         }
@@ -1896,7 +1896,7 @@ document.getElementById("tea_chart_tab").addEventListener("click", function () {
     document.getElementById("tea_chart_tab").style.color = "var(--red-up)";
     document.getElementById("tea_info_tab").style.color = "black";
     $("#tab-info").hide();
-    $(".chart").show(); R
+    $(".chart").show();
 });
 
 //하단 스크립트
