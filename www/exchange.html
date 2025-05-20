@@ -55,7 +55,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
 		integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+	<script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
 	<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
 	<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
 	<script src="./i18n/i18n.js?t=1667796157"></script>
@@ -67,20 +67,20 @@
 	<div class="container">
 		<header>
 			<div class="header_inner">
-				<h1 class="logo"><a href="wallet.html">ASSETTEA</a></h1>
+				<h1 class="logo"><a href="index.html">ASSETTEA</a></h1>
 				<nav class="nav">
 					<ul>
-						<li>
-							<a href="wallet.html" data-login="">HAVE</a>
+						<li id ="title_1_on" class="active">
+							<a href="exchange.html" data-i18n>MARKET</a>
 						</li>
 						<li>
-							<a href="exchange.html" data-i18n="">MARKET</a>
-						</li>				
-						<li>
-							<a href="wallet-inout.html" data-i18n="">WALLET</a>
+							<a href="wallet.html" data-login="" data-i18n="">보유현황</a>
 						</li>
 						<li>
-							<a href="notice.html" data-i18n="">NOTICE</a>
+							<a href="wallet-inout.html" data-i18n="">입출금</a>
+						</li>
+						<li>
+							<a href="notice.html" data-i18n="">공지사항</a>
 						</li>
 					</ul>
 				</nav>
@@ -119,19 +119,16 @@
 			</div>
 			<ul class="gnb box-menu" name="box-menu">
 				<li>
-					<a href="wallet.html" data-login="">HAVE</a>
-				</li>
-				<li>
 					<a href="exchange.html" data-i18n>MARKET</a>
 				</li>
 				<!-- <li><a href="group-buying.html" data-i18n>공동구매</a></li> -->
 				<!-- <li><a href="auction.html" data-i18n>경매</a></li> -->
 				<li>
-					<a href="wallet.html" data-login data-i18n>WALLET</a>
+					<a href="wallet.html" data-login data-i18n>입출금</a>
 				</li>
 				<!-- <li><a href="tea-ceremony-culture_.html" data-i18n>다도 문화</a></li> -->
 				<li>
-					<a href="notice.html" data-i18n>NOTICE</a>
+					<a href="notice.html" data-i18n>공지사항</a>
 				</li>
 			</ul>
 		</header>

@@ -326,7 +326,7 @@ $(function() {
                 mode: LightweightCharts.CrosshairMode.Normal,
             },
         })
-        document.getElementById("tv-attr-logo").style.display = "none"; //tradingView 로고 삭제 
+        //document.getElementById("tv-attr-logo").style.display = "none"; //tradingView 로고 삭제 
         // ---------------------------------------------------
         // 반응형처리
         $(window).resize(function() {
@@ -346,7 +346,19 @@ $(function() {
      * 처음 화면에 라이 차트를 만들어 그려 넣습니다.
      */
     const displayChartLine = async (grade, data) => {
-        
+        // 차트 대상 아이디
+        const target_id = 'tvchart';
+
+        // 차트 생성
+        const container = document.getElementById(target_id)
+        $(container).empty();
+        const chart = LightweightCharts.createChart(container, {
+            width: $('.details').width(),
+            height: height,
+            /*crosshair: {
+                mode: LightweightCharts.CrosshairMode.Normal,
+            },*/
+        })
         // ---------------------------------------------------
         // 라인 차트 생성
         switch (grade) {
@@ -359,19 +371,19 @@ $(function() {
                     window.lineSeries_S.setData(getLineChartData(data));
                     //$('#legend_s_grade').show();
 			
-			window.lineSeries_S.applyOptions({
-					priceScale: {
-						autoScale: true,
-					},
-					priceFormat: { // price format - y축
-						type: 'custom',
-						minMove: 500,
-						formatter: function(f){
-							return f
-						}
-						
-					},
-	                })
+                    window.lineSeries_S.applyOptions({
+                        priceScale: {
+                            autoScale: true,
+                        },
+                        priceFormat: { // price format - y축
+                            type: 'custom',
+                            minMove: 500,
+                            formatter: function(f){
+                                return f
+                            }
+                            
+                        },
+                    })
                 }
                 break;
             case 'A':
@@ -383,18 +395,18 @@ $(function() {
                     window.lineSeries_A.setData(getLineChartData(data));
                     //$('#legend_a_grade').show();
 			
-			window.lineSeries_A.applyOptions({
-					priceScale: {
-						autoScale: true,
-					},
-					priceFormat: { // price format - y축
-						type: 'custom',
-						minMove: 500,
-						formatter: function(f){
-							return f
-						}
-						
-					},
+                    window.lineSeries_A.applyOptions({
+                        priceScale: {
+                            autoScale: true,
+                        },
+                        priceFormat: { // price format - y축
+                            type: 'custom',
+                            minMove: 500,
+                            formatter: function(f){
+                                return f
+                            }
+                            
+                        },
 	                })
                 }
                 break;
@@ -407,18 +419,18 @@ $(function() {
                     window.lineSeries_B.setData(getLineChartData(data));
                     //$('#legend_b_grade').show();
 					
-		    window.lineSeries_B.applyOptions({
-					priceScale: {
-						autoScale: true,
-					},
-					priceFormat: { // price format - y축
-						type: 'custom',
-						minMove: 500,
-						formatter: function(f){
-							return f
-						}
-						
-					},
+                    window.lineSeries_B.applyOptions({
+                        priceScale: {
+                            autoScale: true,
+                        },
+                        priceFormat: { // price format - y축
+                            type: 'custom',
+                            minMove: 500,
+                            formatter: function(f){
+                                return f
+                            }
+                            
+                        },
 	                })	
                 }
                 break;
