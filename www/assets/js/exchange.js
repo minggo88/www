@@ -332,7 +332,19 @@ $(function() {
      * 처음 화면에 라이 차트를 만들어 그려 넣습니다.
      */
     const displayChartLine = async (grade, data) => {
-        
+        // 차트 대상 아이디
+        const target_id = 'tvchart';
+
+        // 차트 생성
+        const container = document.getElementById(target_id)
+        $(container).empty();
+        const chart = LightweightCharts.createChart(container, {
+            width: $('.details').width(),
+            height: height,
+            /*crosshair: {
+                mode: LightweightCharts.CrosshairMode.Normal,
+            },*/
+        })
         // ---------------------------------------------------
         // 라인 차트 생성
         switch (grade) {
