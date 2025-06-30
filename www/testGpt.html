@@ -27,12 +27,10 @@
   <div class="output" id="outputBox">🔍 결과가 여기에 표시됩니다</div>
 
   <script>
-    const SHEET_ID = "1KfZc8BPwhXRSPMj24l0pg72_rBCD74JUvZChuSrmw7U";
-    const SHEET_NAME = "Sheet1"; // 실제 시트 탭명으로 변경 가능
 
     async function loadPrompts() {
       try {
-        const url = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(SHEET_NAME)}`;
+        const url = `https://docs.google.com/spreadsheets/d/1KfZc8BPwhXRSPMj24l0pg72_rBCD74JUvZChuSrmw7U/edit?gid=0#gid=0`;
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
