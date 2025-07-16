@@ -134,17 +134,20 @@
       position: relative;
       pointer-events: auto;
     }
+    .slide-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .slide-bg {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: auto;
-      height: 100vh;
-      max-width: 100vw;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      z-index: 0;
       pointer-events: none;
+      display: block;
     }
     .arrow {
       position: absolute;
@@ -177,34 +180,26 @@
       opacity: 0;
       background: transparent;
     }
+    
+    /* 텍스트 영역 스타일 */
     .textArea {
       position: absolute;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      text-align: left;
-      width: auto;
-      pointer-events: auto;
-      overflow: hidden;
-      left: 200px;
-      top: 700px;
-      margin-top: 0;
-      padding-left: 3px;
+      color: #222;
+      font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+      font-weight: 900;
+      line-height: 1.4;
+      letter-spacing: 0.076em;
+      z-index: 1;
+      pointer-events: none;
     }
     .textArea p {
       margin: 0 0 0.2em 0;
-      font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
-      font-size: clamp(11px, 2.5vw, 30px);
-      font-weight: 900;
       filter: drop-shadow(1px 0 white) drop-shadow(-1px 0 white)
         drop-shadow(0 1px white) drop-shadow(0 -1px white)
         drop-shadow(1px 1px white) drop-shadow(-1px -1px white)
         drop-shadow(1px -1px white) drop-shadow(-1px 1px white);
       user-select: none;
       cursor: default;
-      letter-spacing: 0.036em;
-      line-height: 0.68em;
       opacity: 0;
       background: transparent;
       color: #222;
@@ -222,27 +217,23 @@
       transform: translateY(0);
       transition: opacity 1.2s cubic-bezier(0.4,0,0.2,1), transform 1.2s cubic-bezier(0.4,0,0.2,1);
     }
+    
+    /* 명사 버튼 스타일 */
+    .noun-span {
+      cursor: pointer;
+      pointer-events: auto;
+      color: #222;
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      font: inherit;
+      text-decoration: none;
+    }
+    .noun-span:hover {
+    }
+    
     @media (max-width: 900px) {
-      .slide {
-        width: 100vw;
-        height: 56.25vw;
-        max-width: 100vw;
-        max-height: 100vh;
-      }
-      .textArea {
-        left: 4vw !important;
-        top: 30vw !important;
-        padding-left: 1vw !important;
-        margin-top: 0 !important;
-        transform: none !important;
-        z-index: 10 !important;
-      }
-      .textArea p {
-        font-size: clamp(11px, 2.5vw, 30px);
-        max-width: 92vw;
-        letter-spacing: 0.036em;
-        line-height: 1.10em;
-      }
       #tabbar-container {
         min-width: 180px;
         max-width: 98vw;
@@ -279,20 +270,6 @@
         border-radius: 4px;
       }
     }
-    @media (min-width: 901px) {
-      .slide {
-        width: 100vw;
-        height: 56.25vw;
-        max-width: 100vw;
-        max-height: 100vh;
-      }
-      .textArea p {
-        font-size: clamp(11px, 2.5vw, 30px);
-        max-width: none;
-        letter-spacing: 0.036em;
-        line-height: 1.10em;
-      }
-    }
   </style>
 </head>
 <body>
@@ -312,7 +289,16 @@
   <div id="tabbar-modal-overlay"></div>
   <div id="app"></div>
   <script>
-// Model
+// 페이지별 텍스트 위치 설정 함수 - 쉽게 조정 가능
+function getTextPosition(pageIndex) {
+  const positions = {
+    0: { left: 150, top: 980 }, // 1페이지 (0번 인덱스)
+    1: { left: 150, top: 965 }  // 2페이지 (1번 인덱스)
+  };
+  return positions[pageIndex] || { left: 120, top: 700 };
+}
+
+// Model - 원본 사이트와 동일한 텍스트 위치로 업데이트
 const slides = [
   {
     bg: '../assets/img/02.webp',
@@ -322,7 +308,7 @@ const slides = [
       'Countless stars twinkle',
       'in the sky when the Sun sleeps.'
     ],
-    textPos: { left: '7%', top: '78%' }
+    textPos: getTextPosition(0)
   },
   {
     bg: '../assets/img/03.webp',
@@ -332,7 +318,7 @@ const slides = [
       'So, how did the universe come',
       'to be?'
     ],
-    textPos: { left: '12%', top: '74%' }
+    textPos: getTextPosition(1)
   }
 ];
 
@@ -358,8 +344,7 @@ function laypop(message) {
 function makeNounSpan(word) {
   const span = document.createElement('span');
   span.textContent = word;
-  span.style.cursor = 'pointer';
-  span.style.pointerEvents = 'auto';
+  span.className = 'noun-span';
   span.addEventListener('click', function(e) {
     e.stopPropagation();
     laypop(word);
@@ -384,32 +369,20 @@ function renderSlide(idx) {
   leftArrow.addEventListener('click', prevSlide);
   container.appendChild(leftArrow);
 
+  // 이미지+텍스트 래퍼
+  const imgWrapper = document.createElement('div');
+  imgWrapper.className = 'slide-img-wrapper';
+
   // 슬라이드(배경)
-  const slideDiv = document.createElement('div');
-  slideDiv.className = 'slide';
   const img = document.createElement('img');
   img.className = 'slide-bg';
   img.src = slide.bg;
   img.alt = 'slide';
-  slideDiv.appendChild(img);
-  container.appendChild(slideDiv);
-
-  // 오른쪽 화살표
-  const rightArrow = document.createElement('button');
-  rightArrow.className = 'arrow right';
-  rightArrow.innerHTML = '&#62;';
-  rightArrow.tabIndex = -1;
-  rightArrow.addEventListener('click', nextSlide);
-  container.appendChild(rightArrow);
+  imgWrapper.appendChild(img);
 
   // 텍스트 영역
   const textArea = document.createElement('div');
   textArea.className = 'textArea';
-  textArea.style.left = '200px'; // 1,2페이지 모두 200px로 고정
-  textArea.style.paddingLeft = '3px'; // 공통 padding-left
-  textArea.style.top = '700px';
-  textArea.style.marginTop = '20px';
-  textArea.style.transform = 'translateY(-700px)';
 
   // 각 줄별로 명사에만 클릭 이벤트 적용
   slide.text.forEach((line, i) => {
@@ -484,18 +457,27 @@ function renderSlide(idx) {
     }
     textArea.appendChild(p);
   });
-  slideDiv.appendChild(textArea);
+  imgWrapper.appendChild(textArea);
+  container.appendChild(imgWrapper);
+
+  // 오른쪽 화살표
+  const rightArrow = document.createElement('button');
+  rightArrow.className = 'arrow right';
+  rightArrow.innerHTML = '&#62;';
+  rightArrow.tabIndex = -1;
+  rightArrow.addEventListener('click', nextSlide);
+  container.appendChild(rightArrow);
 
   app.appendChild(container);
 
   // 텍스트 애니메이션
-  if (!textAnimated[idx]) {
+  if (textAnimated[idx]) {
+    const ps = textArea.querySelectorAll('p');
+    ps.forEach(p => p.classList.remove('visible'));
+    ps.forEach(p => p.classList.add('done'));
+  } else {
     animateText(textArea);
     textAnimated[idx] = true;
-  } else {
-    // 이미 본 페이지는 애니메이션 없이 바로 표시
-    const ps = textArea.querySelectorAll('p');
-    ps.forEach(p => p.classList.add('done'));
   }
 
   // 화살표 위치(top) 조정
@@ -504,30 +486,44 @@ function renderSlide(idx) {
   // 드래그/터치 이벤트
   addDragEvents(container, leftArrow, rightArrow);
 
-  // 리사이즈 시 위치 재조정
-  window.onresize = () => {
-    positionArrows(img, leftArrow, rightArrow);
-    positionTextArea(img, textArea, slide.textPos);
-    // 2페이지에서 left가 250px 초과 시 강제 고정
-    if (idx === 1) {
-      const leftValue = parseFloat(window.getComputedStyle(textArea).left);
-      if (leftValue > 250) {
-        textArea.style.setProperty('left', '250px', 'important');
-      }
-    }
-  };
-  // 이미지 로드 후 위치 재조정
+  // 이미지 로드 후 텍스트 위치 조정
   img.onload = () => {
     positionArrows(img, leftArrow, rightArrow);
-    positionTextArea(img, textArea, slide.textPos);
-    // 2페이지에서 left가 250px 초과 시 강제 고정
-    if (idx === 1) {
-      const leftValue = parseFloat(window.getComputedStyle(textArea).left);
-      if (leftValue > 250) {
-        textArea.style.setProperty('left', '250px', 'important');
-      }
+    // 이미지 로드 완료 후 약간의 지연을 두고 위치 조정
+    setTimeout(() => {
+      positionTextAreaToImage(img, textArea, slide.textPos);
+      setTextFontSizeByImage(img, textArea);
+    }, 50);
+  };
+  
+  // 리사이즈 시 텍스트 위치/글자크기 조정
+  const resizeHandler = () => {
+    positionArrows(img, leftArrow, rightArrow);
+    // 리사이즈 시에도 약간의 지연을 두고 재계산
+    setTimeout(() => {
+      positionTextAreaToImage(img, textArea, slide.textPos);
+      setTextFontSizeByImage(img, textArea);
+    }, 10);
+  };
+  window.removeEventListener('resize', resizeHandler);
+  window.addEventListener('resize', resizeHandler);
+  
+  // 최초 렌더링 시에도 위치/글자크기 조정 시도 (이미지 캐시 등)
+  setTimeout(() => {
+    positionTextAreaToImage(img, textArea, slide.textPos);
+    setTextFontSizeByImage(img, textArea);
+  }, 100);
+  
+  // 추가로 이미지가 완전히 렌더링된 후 한 번 더 조정
+  const checkAndAdjust = () => {
+    if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+      positionTextAreaToImage(img, textArea, slide.textPos);
+      setTextFontSizeByImage(img, textArea);
+    } else {
+      setTimeout(checkAndAdjust, 50);
     }
   };
+  checkAndAdjust();
 }
 
 function animateText(textArea) {
@@ -548,20 +544,106 @@ function positionArrows(imgElem, leftArrow, rightArrow) {
   rightArrow.style.transform = 'translateY(-50%)';
 }
 
-function positionTextArea(imgElem, textArea, pos) {
+// 이미지의 실제 렌더링 크기를 기준으로 텍스트 위치를 정확히 계산
+function positionTextAreaToImage(imgElem, textArea, pos) {
   if (!imgElem || !textArea) return;
-  const rect = imgElem.getBoundingClientRect();
-  const slideRect = imgElem.parentElement.getBoundingClientRect();
-  // % 기준 위치
-  if (pos.left && pos.left.includes('%')) {
-    const left = rect.left - slideRect.left + rect.width * (parseFloat(pos.left)/100);
-    textArea.style.left = left + 'px';
+  
+  // 이미지의 자연 크기 (원본 크기)
+  const naturalWidth = imgElem.naturalWidth;
+  const naturalHeight = imgElem.naturalHeight;
+  
+  if (naturalWidth === 0 || naturalHeight === 0) {
+    // 이미지가 아직 로드되지 않은 경우
+    setTimeout(() => positionTextAreaToImage(imgElem, textArea, pos), 100);
+    return;
   }
-  if (pos.top && pos.top.includes('%')) {
-    const top = rect.top - slideRect.top + rect.height * (parseFloat(pos.top)/100);
-    textArea.style.top = top + 'px';
-    textArea.style.transform = `translateY(-${pos.top})`;
+  
+  // 이미지 요소의 실제 표시 크기 (CSS에 의해 결정된 크기)
+  const imgRect = imgElem.getBoundingClientRect();
+  const containerRect = imgElem.parentElement.getBoundingClientRect();
+  
+  // object-fit: contain 때문에 이미지가 비율을 유지하며 표시됨
+  // 실제 표시되는 이미지의 크기 계산
+  const containerAspect = containerRect.width / containerRect.height;
+  const imageAspect = naturalWidth / naturalHeight;
+  
+  let displayWidth, displayHeight;
+  let offsetX, offsetY;
+  
+  if (imageAspect > containerAspect) {
+    // 이미지가 컨테이너보다 더 넓은 비율 - 너비에 맞춤
+    displayWidth = containerRect.width;
+    displayHeight = containerRect.width / imageAspect;
+    offsetX = 0;
+    offsetY = (containerRect.height - displayHeight) / 2;
+  } else {
+    // 이미지가 컨테이너보다 더 높은 비율 - 높이에 맞춤
+    displayWidth = containerRect.height * imageAspect;
+    displayHeight = containerRect.height;
+    offsetX = (containerRect.width - displayWidth) / 2;
+    offsetY = 0;
   }
+  
+  // 원본 이미지 크기 대비 현재 표시 크기의 비율
+  const scale = displayWidth / naturalWidth; // 또는 displayHeight / naturalHeight (같은 값)
+  
+  // 원본 위치를 현재 스케일에 맞게 조정
+  const scaledLeft = pos.left * scale;
+  const scaledTop = pos.top * scale;
+  
+  // 컨테이너 기준 최종 위치
+  const finalLeft = offsetX + scaledLeft;
+  const finalTop = offsetY + scaledTop;
+  
+  textArea.style.left = finalLeft + 'px';
+  textArea.style.top = finalTop + 'px';
+  textArea.style.transform = 'none';
+}
+
+// 이미지 크기에 정확히 비례하여 폰트 크기 설정
+function setTextFontSizeByImage(imgElem, textArea) {
+  if (!imgElem || !textArea) return;
+  
+  const naturalWidth = imgElem.naturalWidth;
+  const naturalHeight = imgElem.naturalHeight;
+  
+  if (naturalWidth === 0 || naturalHeight === 0) {
+    // 이미지가 아직 로드되지 않은 경우
+    setTimeout(() => setTextFontSizeByImage(imgElem, textArea), 100);
+    return;
+  }
+  
+  // 이미지 요소의 실제 표시 크기 계산
+  const containerRect = imgElem.parentElement.getBoundingClientRect();
+  const imageAspect = naturalWidth / naturalHeight;
+  const containerAspect = containerRect.width / containerRect.height;
+  
+  let displayWidth, displayHeight;
+  
+  if (imageAspect > containerAspect) {
+    displayWidth = containerRect.width;
+    displayHeight = containerRect.width / imageAspect;
+  } else {
+    displayWidth = containerRect.height * imageAspect;
+    displayHeight = containerRect.height;
+  }
+  
+  // 원본 이미지 크기 대비 현재 표시 크기의 비율
+  const scale = displayWidth / naturalWidth;
+  
+  // 원본 사이트 기준 폰트 크기를 한 단계 올림 (36px -> 42px)
+  const baseFontSize = 48;
+  
+  // 스케일에 따른 폰트 크기 계산
+  let fontSize = baseFontSize * scale;
+  
+  // 최소/최대 폰트 크기 제한 (범위도 한 단계씩 올림)
+  fontSize = Math.max(10, Math.min(fontSize, 70));
+  
+  const ps = textArea.querySelectorAll('p');
+  ps.forEach(p => {
+    p.style.fontSize = fontSize + 'px';
+  });
 }
 
 function prevSlide() {
@@ -668,4 +750,4 @@ window.addEventListener('DOMContentLoaded', () => {
 });
   </script>
 </body>
-</html> 
+</html>
