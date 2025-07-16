@@ -187,8 +187,8 @@
       color: #222;
       font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
       font-weight: 900;
-      line-height: 1.4;
-      letter-spacing: 0.076em;
+      line-height: 1.1;
+      letter-spacing: 0.036em;
       z-index: 1;
       pointer-events: none;
     }
@@ -203,19 +203,32 @@
       opacity: 0;
       background: transparent;
       color: #222;
-      transition: opacity 1.2s cubic-bezier(0.4,0,0.2,1), transform 1.2s cubic-bezier(0.4,0,0.2,1);
       text-align: left;
       width: auto;
       box-sizing: initial;
       word-break: normal;
       pointer-events: none;
       overflow: visible;
-      transform: translateY(-30px);
+      /* 기본 상태는 transform 없음 */
+      transform: translateY(0);
+      transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
     }
-    .textArea p.visible, .textArea p.done {
+    
+    /* 첫 번째 문장용 특별 클래스 */
+    .textArea p.first-line {
+      transform: translateY(20px);
+      transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+    
+    .textArea p.visible {
       opacity: 1;
       transform: translateY(0);
-      transition: opacity 1.2s cubic-bezier(0.4,0,0.2,1), transform 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    
+    .textArea p.done {
+      opacity: 1;
+      transform: translateY(0);
+      transition: none; /* 이미 완료된 것은 transition 제거 */
     }
     
     /* 명사 버튼 스타일 */
@@ -231,6 +244,7 @@
       text-decoration: none;
     }
     .noun-span:hover {
+      text-decoration: underline;
     }
     
     @media (max-width: 900px) {
@@ -387,6 +401,12 @@ function renderSlide(idx) {
   // 각 줄별로 명사에만 클릭 이벤트 적용
   slide.text.forEach((line, i) => {
     const p = document.createElement('p');
+    
+    // 첫 번째 문장에만 특별한 클래스 추가
+    if (i === 0) {
+      p.classList.add('first-line');
+    }
+    
     // 1페이지(0)와 2페이지(1)별로 명사 위치 다르게 처리
     if (idx === 0) {
       if (i === 1) {
@@ -528,10 +548,25 @@ function renderSlide(idx) {
 
 function animateText(textArea) {
   const ps = textArea.querySelectorAll('p');
-  ps.forEach(p => { p.classList.remove('visible', 'done'); });
-  ps.forEach((p, i) => {
-    setTimeout(() => { p.classList.add('visible'); }, 400 + i * 500);
+  
+  // 모든 요소 초기화
+  ps.forEach(p => { 
+    p.classList.remove('visible', 'done');
   });
+  
+  // 첫 번째 문장은 아래에서 위로 부드럽게 (400ms 후)
+  if (ps[0]) {
+    setTimeout(() => { 
+      ps[0].classList.add('visible'); 
+    }, 400);
+  }
+  
+  // 나머지 문장들은 빠르게 페이드인 (첫 문장 시작 후 200ms 간격으로)
+  for (let i = 1; i < ps.length; i++) {
+    setTimeout(() => { 
+      ps[i].classList.add('visible'); 
+    }, 600 + (i - 1) * 200); // 첫 문장 200ms 후부터 시작
+  }
 }
 
 function positionArrows(imgElem, leftArrow, rightArrow) {
@@ -632,7 +667,7 @@ function setTextFontSizeByImage(imgElem, textArea) {
   const scale = displayWidth / naturalWidth;
   
   // 원본 사이트 기준 폰트 크기를 한 단계 올림 (36px -> 42px)
-  const baseFontSize = 48;
+  const baseFontSize = 42;
   
   // 스케일에 따른 폰트 크기 계산
   let fontSize = baseFontSize * scale;
