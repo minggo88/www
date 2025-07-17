@@ -2,297 +2,418 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>슬라이드 뷰어 (통합)</title>
+  <title>4구역 슬라이드 시스템</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      min-height: 100vh;
-      min-width: 100vw;
-      overflow: hidden;
-      font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
-      background: #f8f8f8;
-    }
-    body {
-      background: #fff;
-      width: 100vw;
-      height: 100vh;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #app {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #tabbar-modal-overlay {
-      display: none;
-      position: fixed;
-      left: 0; top: 0; right: 0; bottom: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.35);
-      z-index: 9998;
-    }
-    #tabbar-container {
-      width: auto;
-      min-width: 340px;
-      max-width: 90vw;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
-      z-index: 9999;
-      padding: 32px 32px 18px 32px;
-    }
-    #tabbar-container.show-tabbar {
-      display: flex;
-    }
-    #tabbar-container.show-tabbar ~ #tabbar-modal-overlay {
-      display: block;
-    }
-    #tabbar {
-      display: flex;
-      gap: 8px;
-      margin: 0 0 18px 0;
-    }
-    .tab {
-      background: #f2f2f2;
-      border: 1px solid #ccc;
-      border-radius: 8px 8px 0 0;
-      padding: 10px 22px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-    .tab.active {
-      background: #222;
-      color: #fff;
-      border-bottom: 2px solid #222;
-    }
-    #searchbox {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    #searchInput {
-      padding: 8px 14px;
-      font-size: 1rem;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-      outline: none;
-    }
-    #searchBtn {
-      padding: 8px 18px;
-      font-size: 1rem;
-      background: #222;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    #searchBtn:hover {
-      background: #444;
-    }
-    .slide-container {
-      width: 100vw;
-      height: 100vh;
-      max-width: 100vw;
-      max-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      pointer-events: auto;
-      overflow: hidden;
-    }
-    .slide {
-      width: 100vw;
-      height: 100vh;
-      max-width: 100vw;
-      max-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      pointer-events: auto;
-    }
-    .slide-img-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .slide-bg {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      pointer-events: none;
-      display: block;
-    }
-    .arrow {
-      position: absolute;
-      top: 50%;
-      font-size: 3.5rem;
-      color: #333;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 2;
-      padding: 0.1em 0.4em;
-      border-radius: 0.5em;
-      user-select: none;
-      opacity: 0;
-      transition: opacity 0.3s, box-shadow 0.2s, background 0.2s;
-      pointer-events: auto;
-      font-family: 'Arial Black', Arial, sans-serif;
-      font-weight: bold;
-      line-height: 1;
-      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
-      border: 1.5px solid #e0e0e0;
-    }
-    .arrow.left { left: 32px; }
-    .arrow.right { right: 32px; }
-    .arrow:hover, .arrow:focus, .arrow:active {
-      opacity: 1;
-      background: rgba(255,255,255,0.85);
-    }
-    .arrow:not(:hover):not(:focus):not(:active) {
-      opacity: 0;
-      background: transparent;
-    }
-    
-    /* 텍스트 영역 스타일 */
-    .textArea {
-      position: absolute;
-      color: #222;
-      font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
-      font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: 0.036em;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .textArea p {
-      margin: 0 0 0.2em 0;
-      filter: drop-shadow(1px 0 white) drop-shadow(-1px 0 white)
-        drop-shadow(0 1px white) drop-shadow(0 -1px white)
-        drop-shadow(1px 1px white) drop-shadow(-1px -1px white)
-        drop-shadow(1px -1px white) drop-shadow(-1px 1px white);
-      user-select: none;
-      cursor: default;
-      opacity: 0;
-      background: transparent;
-      color: #222;
-      text-align: left;
-      width: auto;
-      box-sizing: initial;
-      word-break: normal;
-      pointer-events: none;
-      overflow: visible;
-      /* 기본 상태는 transform 없음 */
-      transform: translateY(0);
-      transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
-    }
-    
-    /* 첫 번째 문장용 특별 클래스 */
-    .textArea p.first-line {
-      transform: translateY(20px);
-      transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
-    }
-    
-    .textArea p.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .textArea p.done {
-      opacity: 1;
-      transform: translateY(0);
-      transition: none; /* 이미 완료된 것은 transition 제거 */
-    }
-    
-    /* 명사 버튼 스타일 */
-    .noun-span {
-      cursor: pointer;
-      pointer-events: auto;
-      color: #222;
-      background: transparent;
-      border: none;
-      padding: 0;
-      margin: 0;
-      font: inherit;
-      text-decoration: none;
-    }
-    .noun-span:hover {
-    }
-    
-    @media (max-width: 900px) {
-      #tabbar-container {
-        min-width: 180px;
-        max-width: 98vw;
-        padding: 12px 6px 8px 6px;
-        border-radius: 10px;
-      }
-      #tabbar {
-        gap: 3px;
-        margin: 0 0 8px 0;
-      }
-      .tab {
-        padding: 5px 8px;
-        font-size: 0.85rem;
-        border-radius: 6px 6px 0 0;
-      }
-      #searchbox {
-        gap: 3px;
-        margin-bottom: 4px;
-      }
-      #searchInput {
-        padding: 4px 7px;
-        font-size: 0.85rem;
-        border-radius: 4px;
-      }
-      #searchBtn {
-        padding: 4px 10px;
-        font-size: 0.85rem;
-        border-radius: 4px;
-      }
-      #tabbar-close-btn {
-        margin-top: 6px;
-        padding: 4px 12px;
-        font-size: 0.85rem;
-        border-radius: 4px;
-      }
-    }
+/* --- style.css 전체 --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow: hidden;
+  font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+  background: #f8f8f8;
+}
+body {
+  background: #fff;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tabbar-modal-overlay {
+  display: none;
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  z-index: 9998;
+}
+#tabbar-container {
+  width: auto;
+  min-width: 340px;
+  max-width: 90vw;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+  z-index: 9999;
+  padding: 32px 32px 18px 32px;
+}
+#tabbar-container.show-tabbar {
+  display: flex;
+}
+#tabbar-container.show-tabbar ~ #tabbar-modal-overlay {
+  display: block;
+}
+#tabbar {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 18px 0;
+}
+.tab {
+  background: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 8px 8px 0 0;
+  padding: 10px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.tab.active {
+  background: #222;
+  color: #fff;
+  border-bottom: 2px solid #222;
+}
+#searchbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+#searchInput {
+  padding: 8px 14px;
+  font-size: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  outline: none;
+}
+#searchBtn {
+  padding: 8px 18px;
+  font-size: 1rem;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#searchBtn:hover {
+  background: #444;
+}
+.slide-container {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  pointer-events: auto;
+  overflow: hidden;
+}
+.slide {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  pointer-events: auto;
+}
+.slide-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  display: block;
+}
+.arrow {
+  position: absolute;
+  top: 50%;
+  font-size: 3.5rem;
+  color: #333;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0.1em 0.4em;
+  border-radius: 0.5em;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.3s, box-shadow 0.2s, background 0.2s;
+  pointer-events: auto;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: bold;
+  line-height: 1;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+  border: 1.5px solid #e0e0e0;
+}
+.arrow.left { left: 32px; }
+.arrow.right { right: 32px; }
+.arrow:hover, .arrow:focus, .arrow:active {
+  opacity: 1;
+  background: rgba(255,255,255,0.85);
+}
+.arrow:not(:hover):not(:focus):not(:active) {
+  opacity: 0;
+  background: transparent;
+}
+
+/* 4구역 텍스트 시스템 */
+.text-zone {
+  position: absolute;
+  font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  color: #2d3436;
+  line-height: 1.4;
+  letter-spacing: 0.036em;
+  z-index: 50;
+  pointer-events: auto;
+  text-align: left;
+  word-break: break-word;
+  hyphens: auto;
+  text-shadow: 
+    1px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px -1px 0 #fff,
+    2px 2px 4px rgba(0,0,0,0.1);
+  max-width: 60vw;
+}
+
+.text-zone.zone-1 {
+  top: 100px;
+  left: 80px;
+}
+
+.text-zone.zone-2 {
+  top: 100px;
+  right: 80px;
+}
+
+.text-zone.zone-3 {
+  bottom: 200px;
+  left: 80px;
+}
+
+.text-zone.zone-4 {
+  bottom: 200px;
+  right: 80px;
+}
+
+/* 클릭 가능한 키워드 */
+.noun-span {
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+  transition: none;
+}
+.noun-span:hover {
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 텍스트 애니메이션 */
+.text-zone p {
+  color: #222;
+  font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: 0.036em;
+  text-shadow: 
+    1px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px -1px 0 #fff,
+    2px 2px 4px rgba(0,0,0,0.1);
+  max-width: 60vw;
+  z-index: 50;
+  pointer-events: auto;
+  text-align: left;
+  word-break: break-word;
+  hyphens: auto;
+  filter: drop-shadow(1px 0 white) drop-shadow(-1px 0 white)
+          drop-shadow(0 1px white) drop-shadow(0 -1px white)
+          drop-shadow(1px 1px white) drop-shadow(-1px -1px white)
+          drop-shadow(1px -1px white) drop-shadow(-1px 1px white);
+  user-select: none;
+  cursor: default;
+  background: transparent;
+  width: auto;
+  box-sizing: initial;
+  overflow: visible;
+  margin: 0 0 0.2em 0;
+  opacity: 0;
+  transform: translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+.text-zone p.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.text-zone p.done {
+  opacity: 1;
+  transform: translateY(0);
+  transition: none;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .text-zone.zone-1,
+  .text-zone.zone-2,
+  .text-zone.zone-3,
+  .text-zone.zone-4 {
+    font-size: 18px;
+    max-width: 45vw;
+    text-align: left !important;
+    word-break: break-word;
+    white-space: normal;
+  }
+  
+  .text-zone.zone-1 { top: 60px; left: 20px; }
+  .text-zone.zone-2 { top: 60px; right: 20px; }
+  .text-zone.zone-3 { bottom: 120px; left: 20px; }
+  .text-zone.zone-4 { bottom: 120px; right: 20px; }
+  
+  .arrow {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .arrow.left { left: 16px; }
+  .arrow.right { right: 16px; }
+}
+
+@media (max-width: 900px) {
+  #tabbar-container {
+    min-width: 180px;
+    max-width: 98vw;
+    padding: 12px 6px 8px 6px;
+    border-radius: 10px;
+  }
+  #tabbar {
+    gap: 3px;
+    margin: 0 0 8px 0;
+  }
+  .tab {
+    padding: 5px 8px;
+    font-size: 0.85rem;
+    border-radius: 6px 6px 0 0;
+  }
+  #searchbox {
+    gap: 3px;
+    margin-bottom: 4px;
+  }
+  #searchInput {
+    padding: 4px 7px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+  }
+  #searchBtn {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+  }
+  #tabbar-close-btn {
+    margin-top: 6px;
+    padding: 4px 12px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+  }
+} 
+
+/* 갤럭시탭(가로/세로) 화면 최적화 */
+@media (min-width: 800px) and (max-width: 1400px) and (min-height: 600px) and (max-height: 1100px) {
+  html, body {
+    font-size: 18px;
+  }
+  .slide-container, .slide {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+  .text-zone, .text-zone p {
+    font-size: 22px !important;
+    max-width: 70vw;
+    padding: 0 16px;
+    line-height: 1.5;
+  }
+  .text-zone.zone-1 {
+    top: 80px;
+    left: 48px;
+  }
+  .text-zone.zone-2 {
+    top: 80px;
+    right: 48px;
+  }
+  .text-zone.zone-3 {
+    bottom: 120px;
+    left: 48px;
+  }
+  .text-zone.zone-4 {
+    bottom: 120px;
+    right: 48px;
+  }
+  .arrow {
+    font-size: 2.5rem;
+    left: 24px;
+    right: 24px;
+  }
+  #tabbar-container {
+    min-width: 220px;
+    max-width: 80vw;
+    padding: 18px 12px 10px 12px;
+    border-radius: 12px;
+  }
+  #searchInput {
+    font-size: 1.1rem;
+    padding: 10px 16px;
+  }
+  #searchBtn {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+} 
   </style>
 </head>
 <body>
   <div id="tabbar-container">
     <div id="tabbar">
-      <button class="tab" data-label="BBC News">BBC News</button>
-      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+      <button class="tab" data-label="BBC">BBC</button>
       <button class="tab" data-label="NatGeo">NatGeo</button>
-      <button class="tab" data-label="NatGeo Wild">NatGeo Wild</button>
-      <button class="tab" data-label="NatGeo Kids">NatGeo Kids</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
     </div>
     <div id="searchbox">
       <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
@@ -302,79 +423,191 @@
   <div id="tabbar-modal-overlay"></div>
   <div id="app"></div>
   <script>
-// 페이지별 텍스트 위치 설정 함수 - 쉽게 조정 가능
-function getTextPosition(pageIndex) {
-  const positions = {
-    0: { left: 150, top: 980 }, // 1페이지 (0번 인덱스)
-    1: { left: 150, top: 965 }  // 2페이지 (1번 인덱스)
-  };
-  return positions[pageIndex] || { left: 120, top: 700 };
-}
+// 4구역 위치 제어 함수
+const CONFIG = {
+  setZonePosition: (zoneNumber, top, left, right, bottom) => {
+    const zone = document.querySelector(`.zone-${zoneNumber}`);
+    if (!zone) return;
+    zone.style.top = top !== undefined ? top + 'px' : '';
+    zone.style.left = left !== undefined ? left + 'px' : '';
+    zone.style.right = right !== undefined ? right + 'px' : '';
+    zone.style.bottom = bottom !== undefined ? bottom + 'px' : '';
+  },
+  
+  setZoneFontSize: (zoneNumber, fontSize) => {
+    const zone = document.querySelector(`.zone-${zoneNumber}`);
+    if (zone) zone.style.fontSize = fontSize + 'px';
+  }
+};
 
-// Model - 원본 사이트와 동일한 텍스트 위치로 업데이트
-const slides = [
+// 슬라이드 데이터
+const slideTemplates = [
   {
-    bg: '../assets/img/02.webp',
-    text: [
-      'What can you see',
-      'when you look up at the night sky?',
-      'Countless stars twinkle',
-      'in the sky when the Sun sleeps.'
-    ],
-    textPos: getTextPosition(0)
+    bg: '/assets/img/2.12.1/1.png',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
   },
   {
-    bg: '../assets/img/03.webp',
-    text: [
-      'The night sky, a world filled with',
-      'stars, is called the universe.',
-      'So, how did the universe come',
-      'to be?'
-    ],
-    textPos: getTextPosition(1)
+    bg: '/assets/img/2.12.1/2.png',
+    zones: {
+      1: {
+        text: '우리는 주변에서<br>쉽게 숫자를 볼 수 있어요.<br>숫자는 사람이 만든<br>아주 중요한 발명품이에요.',
+        keywords: ['숫자', '사람', '발명품']
+      },
+      2: {
+        text: '깡충깡충! 토끼가 몇 마리인지<br>세려면 숫자가 필요해요.<br>똑딱똑딱! 시간에도 숫자가 들어 있고요.<br>영차! 무거운 돌의 무게도<br>숫자로 나타낼 수 있어요.',
+        keywords: ['토끼', '숫자', '시간', '돌', '무게']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '/assets/img/2.12.1/3.png',
+    zones: {
+      1: { text: '아프리카 남부의 동굴에서<br>특별한 보물이 발견되었어요.', keywords: [] },
+      2: { text: '약 4만 년 전의 것으로 여겨지는<br>‘레봄보 뼈’예요.<br>레봄보 뼈는 가장 오래된 수학 유물이랍니다.', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '/assets/img/2.12.1/4.png',
+    zones: {
+      1: { text: '레봄보 뼈에는 특별한 자국<br>29개가 새겨져 있어요.', keywords: ['레봄보 뼈','자국'] },
+      2: { text: '무언가 규칙이 있는 듯한 모양이죠.<br>대체 무슨 표시일까요?<br>수를 기록할 때 사용한 자국이랍니다.', keywords: ['규칙','표시','수','자국'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '/assets/img/2.12.1/5.png',
+    zones: {
+      1: { text: '킁킁! 멧돼지 한 마리, 멧돼지 두 마리,<br>이렇게 동물의 마릿수를 세었어요.', keywords: ['멧돼지','동물','마릿수'] },
+      2: { text: '꽃 피는 봄에서 포슬포슬 눈 내리는 겨울까지<br>계절이 바뀌는 것을 기록했지요.<br>레봄보 뼈는 수학의 시작을 알리는<br>소중한 보물이랍니다.', keywords: ['꽃','봄','눈','겨울','계절','기록','레봄보 뼈','수학','보물'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '/assets/img/2.12.1/6.png',
+    zones: {
+      1: { text: '고고학자들은 레봄보 뼈를<br>평범한 뼛조각이라고 생각했어요.', keywords: ['고고학자','레봄보 뼈','뼛조각'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '하지만 자세히 보니<br>엄청난 비밀이 숨어 있었어요!', keywords: ['비밀'] }
+    }
+  },
+  {
+    bg: '/assets/img/2.12.1/7.png',
+    zones: {
+      1: { text: '옛날 조상은 하나, 둘, 셋!<br>손가락으로 수를 세었어요.', keywords: ['조상','손가락','수'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '레봄보 뼈는 아주 오래전에<br>수가 생겨났다는 사실을 말해 줘요.', keywords: ['레봄보 뼈','수','사실'] }
+    }
+  },
+  {
+    bg: '/assets/img/2.12.1/8.png',
+    zones: {
+      1: { text: '옛날에는 휙휙! 동물을 사냥하고,<br>쏙쏙! 농사를 지으며 살았어요.<br>물이나 곡식을 세려면 수가 있어야 해요.<br>수는 하루하루 살아가는 데<br>꼭 필요한 도구였어요.', keywords: ['옛날','동물','사냥','농사','곡식','수','도구'] },
+      2: { text: '사람들은 점차 수학적으로 생각하는<br>능력을 키웠어요.<br>이러한 과정의 시작점에<br>레봄보 뼈가 있어요.', keywords: ['수학','생각','능력','과정','시작점','레봄보 뼈'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }      
+    }
+  },
+  {
+    bg: '/assets/img/2.12.1/9.png',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '오래전 사람들은<br>수의 규칙을 하나씩 찾아냈어요.', keywords: ['사람들','수','규칙'] },
+      4: { text: '수를 기록하는 방법도 점점 발전시켰지요.', keywords: ['수','기록','방법','발전'] }
+    }
   }
 ];
 
 let current = 0;
-let textAnimated = [false, false]; // 각 페이지별 애니메이션 여부
+let textAnimated = Array(slideTemplates.length).fill(false);
 
-// 커스텀 팝업 함수(laypop)
+// 모달 팝업 함수
 function laypop(message) {
-  // 기존 alert 대신 tabbar 모달만 보이게 (팝업 제거)
   const tabbar = document.getElementById('tabbar-container');
   const overlay = document.getElementById('tabbar-modal-overlay');
   if (tabbar) tabbar.classList.add('show-tabbar');
   if (overlay) overlay.style.display = 'block';
-  // inputbox에 클릭한 단어 넣기
+  
   const searchInput = document.getElementById('searchInput');
   if (searchInput) searchInput.value = message;
-  // tabbar가 열릴 때마다 첫 번째 탭(BBC News) active
+  
   const tabs = document.querySelectorAll('.tab');
   tabs.forEach(tab => tab.classList.remove('active'));
   if (tabs[0]) tabs[0].classList.add('active');
 }
 
-function makeNounSpan(word) {
-  const span = document.createElement('span');
-  span.textContent = word;
-  span.className = 'noun-span';
-  span.addEventListener('click', function(e) {
-    e.stopPropagation();
-    laypop(word);
-  });
-  return span;
+// 키워드 클릭 이벤트
+function handleKeywordClick(keyword) {
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.value = keyword;
+  laypop(keyword);
 }
 
+// 텍스트 렌더링 with 키워드 하이라이팅
+function renderTextWithKeywords(text, keywords) {
+  let processedText = text;
+  
+  keywords.forEach(keyword => {
+    const regex = new RegExp(`${keyword}`, 'g');
+    processedText = processedText.replace(regex, 
+      `<span class="noun-span" onclick="handleKeywordClick('${keyword}')">${keyword}</span>`
+    );
+  });
+  
+  return processedText;
+}
+
+// 이미지 크기에 따라 .text-zone의 p 폰트 크기를 동적으로 조정
+function setTextFontSizeByImage(imgElem) {
+  if (!imgElem) return;
+  const naturalWidth = imgElem.naturalWidth;
+  const naturalHeight = imgElem.naturalHeight;
+  if (naturalWidth === 0 || naturalHeight === 0) {
+    setTimeout(() => setTextFontSizeByImage(imgElem), 100);
+    return;
+  }
+  const containerRect = imgElem.parentElement.getBoundingClientRect();
+  const imageAspect = naturalWidth / naturalHeight;
+  const containerAspect = containerRect.width / containerRect.height;
+  let displayWidth, displayHeight;
+  if (imageAspect > containerAspect) {
+    displayWidth = containerRect.width;
+    displayHeight = containerRect.width / imageAspect;
+  } else {
+    displayWidth = containerRect.height * imageAspect;
+    displayHeight = containerRect.height;
+  }
+  const scale = displayWidth / naturalWidth;
+  const baseFontSize = 42; // to.html의 기준값
+  let fontSize = baseFontSize * scale;
+  fontSize = Math.max(10, Math.min(fontSize, 70));
+  document.querySelectorAll('.text-zone p').forEach(p => {
+    p.style.fontSize = fontSize + 'px';
+  });
+}
+
+// 슬라이드 렌더링
 function renderSlide(idx) {
-  const slide = slides[idx];
+  const slide = slideTemplates[idx];
   const app = document.getElementById('app');
   app.innerHTML = '';
 
-  // 슬라이드 컨테이너
   const container = document.createElement('div');
   container.className = 'slide-container';
 
-  // 왼쪽 화살표
   const leftArrow = document.createElement('button');
   leftArrow.className = 'arrow left';
   leftArrow.innerHTML = '&#60;';
@@ -382,104 +615,37 @@ function renderSlide(idx) {
   leftArrow.addEventListener('click', prevSlide);
   container.appendChild(leftArrow);
 
-  // 이미지+텍스트 래퍼
   const imgWrapper = document.createElement('div');
   imgWrapper.className = 'slide-img-wrapper';
 
-  // 슬라이드(배경)
   const img = document.createElement('img');
   img.className = 'slide-bg';
   img.src = slide.bg;
   img.alt = 'slide';
+  img.onload = function() {
+    setTextFontSizeByImage(img);
+  };
   imgWrapper.appendChild(img);
 
-  // 텍스트 영역
-  const textArea = document.createElement('div');
-  textArea.className = 'textArea';
-
-  // 각 줄별로 명사에만 클릭 이벤트 적용
-  slide.text.forEach((line, i) => {
-    const p = document.createElement('p');
-    
-    // 첫 번째 문장에만 특별한 클래스 추가
-    if (i === 0) {
-      p.classList.add('first-line');
+  // 4구역 텍스트 생성
+  Object.entries(slide.zones).forEach(([zoneNum, zoneData]) => {
+    if (zoneData.text) {
+      const textZone = document.createElement('div');
+      textZone.className = `text-zone zone-${zoneNum}`;
+      // 줄바꿈(<br> 또는 \n)마다 p 태그 생성
+      const lines = zoneData.text.split(/<br\s*\/?>|\n/);
+      lines.forEach(line => {
+        if (line.trim() === '') return;
+      const paragraph = document.createElement('p');
+        paragraph.innerHTML = renderTextWithKeywords(line, zoneData.keywords);
+      textZone.appendChild(paragraph);
+      });
+      imgWrapper.appendChild(textZone);
     }
-    
-    // 1페이지(0)와 2페이지(1)별로 명사 위치 다르게 처리
-    if (idx === 0) {
-      if (i === 1) {
-        const before = 'when you look up at the night ';
-        const noun = 'sky';
-        const after = '?';
-        p.appendChild(document.createTextNode(before));
-        p.appendChild(makeNounSpan(noun));
-        p.appendChild(document.createTextNode(after));
-      } else if (i === 2) {
-        const before = 'Countless ';
-        const noun = 'stars';
-        const after = ' twinkle';
-        p.appendChild(document.createTextNode(before));
-        p.appendChild(makeNounSpan(noun));
-        p.appendChild(document.createTextNode(after));
-      } else if (i === 3) {
-        const before = 'in the ';
-        const noun1 = 'sky';
-        const middle = ' when the ';
-        const noun2 = 'Sun';
-        const after = ' sleeps.';
-        p.appendChild(document.createTextNode(before));
-        p.appendChild(makeNounSpan(noun1));
-        p.appendChild(document.createTextNode(middle));
-        p.appendChild(makeNounSpan(noun2));
-        p.appendChild(document.createTextNode(after));
-      } else {
-        p.textContent = line;
-      }
-    } else if (idx === 1) {
-      // 2페이지 명사: "night sky", "world", "stars", "universe"
-      if (i === 0) {
-        // 'The night sky, a world filled with'
-        const before1 = 'The ';
-        const noun1 = 'night sky';
-        const comma = ', a ';
-        const noun2 = 'world';
-        const after = ' filled with';
-        p.appendChild(document.createTextNode(before1));
-        p.appendChild(makeNounSpan(noun1));
-        p.appendChild(document.createTextNode(comma));
-        p.appendChild(makeNounSpan(noun2));
-        p.appendChild(document.createTextNode(after));
-      } else if (i === 1) {
-        // 'stars, is called the universe.'
-        const noun1 = 'stars';
-        const middle = ', is called the ';
-        const noun2 = 'universe';
-        const after = '.';
-        p.appendChild(makeNounSpan(noun1));
-        p.appendChild(document.createTextNode(middle));
-        p.appendChild(makeNounSpan(noun2));
-        p.appendChild(document.createTextNode(after));
-      } else if (i === 2) {
-        // 'So, how did the universe come'
-        const before = 'So, how did the ';
-        const noun = 'universe';
-        const after = ' come';
-        p.appendChild(document.createTextNode(before));
-        p.appendChild(makeNounSpan(noun));
-        p.appendChild(document.createTextNode(after));
-      } else {
-        p.textContent = line;
-      }
-    } else {
-      p.textContent = line;
-    }
-    textArea.appendChild(p);
   });
-  imgWrapper.appendChild(textArea);
+
   container.appendChild(imgWrapper);
 
-  // 오른쪽 화살표
   const rightArrow = document.createElement('button');
   rightArrow.className = 'arrow right';
   rightArrow.innerHTML = '&#62;';
@@ -490,82 +656,38 @@ function renderSlide(idx) {
   app.appendChild(container);
 
   // 텍스트 애니메이션
-  if (textAnimated[idx]) {
-    const ps = textArea.querySelectorAll('p');
-    ps.forEach(p => p.classList.remove('visible'));
-    ps.forEach(p => p.classList.add('done'));
-  } else {
-    animateText(textArea);
+  if (!textAnimated[idx]) {
+    setTimeout(() => {
+      const textElements = container.querySelectorAll('.text-zone p');
+      if (textElements[0]) {
+        setTimeout(() => {
+          textElements[0].classList.add('visible');
+        }, 400);
+      }
+      for (let i = 1; i < textElements.length; i++) {
+  setTimeout(() => {
+          textElements[i].classList.add('visible');
+        }, 600 + (i - 1) * 200);
+      }
+    }, 300);
     textAnimated[idx] = true;
+  } else {
+    // 이미 애니메이션이 실행된 경우, 모든 텍스트를 즉시 visible로
+    const textElements = container.querySelectorAll('.text-zone p');
+    textElements.forEach(el => el.classList.add('visible'));
   }
 
-  // 화살표 위치(top) 조정
   positionArrows(img, leftArrow, rightArrow);
-
-  // 드래그/터치 이벤트
   addDragEvents(container, leftArrow, rightArrow);
 
-  // 이미지 로드 후 텍스트 위치 조정
-  img.onload = () => {
-    positionArrows(img, leftArrow, rightArrow);
-    // 이미지 로드 완료 후 약간의 지연을 두고 위치 조정
-    setTimeout(() => {
-      positionTextAreaToImage(img, textArea, slide.textPos);
-      setTextFontSizeByImage(img, textArea);
-    }, 50);
-  };
-  
-  // 리사이즈 시 텍스트 위치/글자크기 조정
-  const resizeHandler = () => {
-    positionArrows(img, leftArrow, rightArrow);
-    // 리사이즈 시에도 약간의 지연을 두고 재계산
-    setTimeout(() => {
-      positionTextAreaToImage(img, textArea, slide.textPos);
-      setTextFontSizeByImage(img, textArea);
-    }, 10);
-  };
-  window.removeEventListener('resize', resizeHandler);
-  window.addEventListener('resize', resizeHandler);
-  
-  // 최초 렌더링 시에도 위치/글자크기 조정 시도 (이미지 캐시 등)
-  setTimeout(() => {
-    positionTextAreaToImage(img, textArea, slide.textPos);
-    setTextFontSizeByImage(img, textArea);
-  }, 100);
-  
-  // 추가로 이미지가 완전히 렌더링된 후 한 번 더 조정
-  const checkAndAdjust = () => {
-    if (img.naturalWidth > 0 && img.naturalHeight > 0) {
-      positionTextAreaToImage(img, textArea, slide.textPos);
-      setTextFontSizeByImage(img, textArea);
-    } else {
-      setTimeout(checkAndAdjust, 50);
-    }
-  };
-  checkAndAdjust();
-}
+  // 창 크기 변경 시 폰트 크기 동기화
+  window.addEventListener('resize', () => setTextFontSizeByImage(img));
 
-function animateText(textArea) {
-  const ps = textArea.querySelectorAll('p');
-  
-  // 모든 요소 초기화
-  ps.forEach(p => { 
-    p.classList.remove('visible', 'done');
-  });
-  
-  // 첫 번째 문장은 아래에서 위로 부드럽게 (400ms 후)
-  if (ps[0]) {
-    setTimeout(() => { 
-      ps[0].classList.add('visible'); 
-    }, 400);
-  }
-  
-  // 나머지 문장들은 빠르게 페이드인 (첫 문장 시작 후 200ms 간격으로)
-  for (let i = 1; i < ps.length; i++) {
-    setTimeout(() => { 
-      ps[i].classList.add('visible'); 
-    }, 600 + (i - 1) * 200); // 첫 문장 200ms 후부터 시작
-  }
+  // 슬라이드 렌더링 후 위치 재설정
+  CONFIG.setZonePosition(1, 120, 250);
+  CONFIG.setZonePosition(2, 120, 1060);
+  CONFIG.setZonePosition(3, undefined, 100, undefined, 180);
+  CONFIG.setZonePosition(4, undefined, 1060, undefined, 80);
 }
 
 function positionArrows(imgElem, leftArrow, rightArrow) {
@@ -578,114 +700,13 @@ function positionArrows(imgElem, leftArrow, rightArrow) {
   rightArrow.style.transform = 'translateY(-50%)';
 }
 
-// 이미지의 실제 렌더링 크기를 기준으로 텍스트 위치를 정확히 계산
-function positionTextAreaToImage(imgElem, textArea, pos) {
-  if (!imgElem || !textArea) return;
-  
-  // 이미지의 자연 크기 (원본 크기)
-  const naturalWidth = imgElem.naturalWidth;
-  const naturalHeight = imgElem.naturalHeight;
-  
-  if (naturalWidth === 0 || naturalHeight === 0) {
-    // 이미지가 아직 로드되지 않은 경우
-    setTimeout(() => positionTextAreaToImage(imgElem, textArea, pos), 100);
-    return;
-  }
-  
-  // 이미지 요소의 실제 표시 크기 (CSS에 의해 결정된 크기)
-  const imgRect = imgElem.getBoundingClientRect();
-  const containerRect = imgElem.parentElement.getBoundingClientRect();
-  
-  // object-fit: contain 때문에 이미지가 비율을 유지하며 표시됨
-  // 실제 표시되는 이미지의 크기 계산
-  const containerAspect = containerRect.width / containerRect.height;
-  const imageAspect = naturalWidth / naturalHeight;
-  
-  let displayWidth, displayHeight;
-  let offsetX, offsetY;
-  
-  if (imageAspect > containerAspect) {
-    // 이미지가 컨테이너보다 더 넓은 비율 - 너비에 맞춤
-    displayWidth = containerRect.width;
-    displayHeight = containerRect.width / imageAspect;
-    offsetX = 0;
-    offsetY = (containerRect.height - displayHeight) / 2;
-  } else {
-    // 이미지가 컨테이너보다 더 높은 비율 - 높이에 맞춤
-    displayWidth = containerRect.height * imageAspect;
-    displayHeight = containerRect.height;
-    offsetX = (containerRect.width - displayWidth) / 2;
-    offsetY = 0;
-  }
-  
-  // 원본 이미지 크기 대비 현재 표시 크기의 비율
-  const scale = displayWidth / naturalWidth; // 또는 displayHeight / naturalHeight (같은 값)
-  
-  // 원본 위치를 현재 스케일에 맞게 조정
-  const scaledLeft = pos.left * scale;
-  const scaledTop = pos.top * scale;
-  
-  // 컨테이너 기준 최종 위치
-  const finalLeft = offsetX + scaledLeft;
-  const finalTop = offsetY + scaledTop;
-  
-  textArea.style.left = finalLeft + 'px';
-  textArea.style.top = finalTop + 'px';
-  textArea.style.transform = 'none';
-}
-
-// 이미지 크기에 정확히 비례하여 폰트 크기 설정
-function setTextFontSizeByImage(imgElem, textArea) {
-  if (!imgElem || !textArea) return;
-  
-  const naturalWidth = imgElem.naturalWidth;
-  const naturalHeight = imgElem.naturalHeight;
-  
-  if (naturalWidth === 0 || naturalHeight === 0) {
-    // 이미지가 아직 로드되지 않은 경우
-    setTimeout(() => setTextFontSizeByImage(imgElem, textArea), 100);
-    return;
-  }
-  
-  // 이미지 요소의 실제 표시 크기 계산
-  const containerRect = imgElem.parentElement.getBoundingClientRect();
-  const imageAspect = naturalWidth / naturalHeight;
-  const containerAspect = containerRect.width / containerRect.height;
-  
-  let displayWidth, displayHeight;
-  
-  if (imageAspect > containerAspect) {
-    displayWidth = containerRect.width;
-    displayHeight = containerRect.width / imageAspect;
-  } else {
-    displayWidth = containerRect.height * imageAspect;
-    displayHeight = containerRect.height;
-  }
-  
-  // 원본 이미지 크기 대비 현재 표시 크기의 비율
-  const scale = displayWidth / naturalWidth;
-  
-  // 원본 사이트 기준 폰트 크기를 한 단계 올림 (36px -> 42px)
-  const baseFontSize = 42;
-  
-  // 스케일에 따른 폰트 크기 계산
-  let fontSize = baseFontSize * scale;
-  
-  // 최소/최대 폰트 크기 제한 (범위도 한 단계씩 올림)
-  fontSize = Math.max(10, Math.min(fontSize, 70));
-  
-  const ps = textArea.querySelectorAll('p');
-  ps.forEach(p => {
-    p.style.fontSize = fontSize + 'px';
-  });
-}
-
 function prevSlide() {
-  current = (current - 1 + slides.length) % slides.length;
+  current = (current - 1 + slideTemplates.length) % slideTemplates.length;
   renderSlide(current);
 }
+
 function nextSlide() {
-  current = (current + 1) % slides.length;
+  current = (current + 1) % slideTemplates.length;
   renderSlide(current);
 }
 
@@ -717,39 +738,41 @@ function addDragEvents(container, leftArrow, rightArrow) {
 }
 
 // 첫 슬라이드 표시
-window.onload = () => renderSlide(current);
+window.onload = () => {
+  renderSlide(current);
+};
 
-// 탭바 및 검색 인풋 이벤트 처리
+// 탭바 이벤트 처리
 window.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.tab');
   const searchInput = document.getElementById('searchInput');
-  // 기본적으로 BBC News 탭 클릭 상태
+  
   tabs.forEach(tab => tab.classList.remove('active'));
   if (tabs[0]) tabs[0].classList.add('active');
-  // 탭 클릭 시 inputbox에 내용 넣는 기능 제거
+  
   tabs.forEach(tab => {
     tab.addEventListener('click', function() {
       tabs.forEach(t => t.classList.remove('active'));
       this.classList.add('active');
     });
   });
-  // Search 버튼 기능: 탭에 따라 유튜브 채널 주소로 새 창 띄우기
+  
   document.getElementById('searchBtn').addEventListener('click', function() {
     const tabToChannel = {
-      'BBC News': 'UC16niRr50-MSBwiO3YDb3RA',
-      'BBC Earth': 'UCwmZiChSryoWQCZMIQezgTg',
-      'NatGeo': 'UCpVm7bg6pXKo1Pr6k5kxG9A',
-      'NatGeo Wild': 'UCDPk9MG2RexnOMGTD-YnSnA',
-      'NatGeo Kids': 'UCXVCgDuD_QCkI7gTKU7-tpg'
+      'BBC': 'BBC',
+      'NatGeo': 'NatGeo',
+      'Discovery': 'discovery',
+      'TED': 'TED'
     };
     const activeTab = document.querySelector('.tab.active');
-    const tabLabel = activeTab ? activeTab.dataset.label : 'BBC News';
-    const channelId = tabToChannel[tabLabel] || tabToChannel['BBC News'];
+    const tabLabel = activeTab ? activeTab.dataset.label : 'BBC';
+    const channelId = tabToChannel[tabLabel] || tabToChannel['BBC'];
     const query = encodeURIComponent(searchInput.value);
-    const url = `https://www.youtube.com/channel/${channelId}/search?query=${query}`;
+    const url = `https://www.youtube.com/@${channelId}/search?query=${query}`;
     window.open(url, '_blank');
   });
-  // 닫기 버튼 동적 추가
+  
+  // 닫기 버튼 추가
   const tabbar = document.getElementById('tabbar-container');
   if (tabbar && !document.getElementById('tabbar-close-btn')) {
     const closeBtn = document.createElement('button');
@@ -773,6 +796,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     tabbar.appendChild(closeBtn);
   }
+  
   // 오버레이 클릭 시 닫기
   const overlay = document.getElementById('tabbar-modal-overlay');
   if (overlay) {
