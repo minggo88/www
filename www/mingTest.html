@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>4구역 슬라이드 시스템</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#222">
+  <link rel="stylesheet" href="style.css">
   <style>
 /* --- style.css 전체 --- */
 html, body {
@@ -410,7 +415,6 @@ body {
 <body>
   <div id="tabbar-container">
     <div id="tabbar">
-      <button class="tab" data-label="BBC">BBC</button>
       <button class="tab" data-label="NatGeo">NatGeo</button>
       <button class="tab" data-label="Discovery">Discovery</button>
       <button class="tab" data-label="TED">TED</button>
@@ -422,6 +426,7 @@ body {
   </div>
   <div id="tabbar-modal-overlay"></div>
   <div id="app"></div>
+  <script src="app.js"></script>
   <script>
 // 4구역 위치 제어 함수
 const CONFIG = {
@@ -443,7 +448,7 @@ const CONFIG = {
 // 슬라이드 데이터
 const slideTemplates = [
   {
-    bg: '../assets/img/2.12.1/1.jpg',
+    bg: '../assets/img/2.12.1/main.jpg',
     zones: {
       1: { text: '', keywords: [] },
       2: { text: '', keywords: [] },
@@ -542,9 +547,8 @@ const slideTemplates = [
     bg: '../assets/img/2.12.1/11.jpg',
     zones: {
       1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '숫자는 점점 멋지게 발전했어요!<br>처음에는 꼬물꼬물 손가락,<br>동글동글 돌멩이로 수를 세었어요.', keywords: ['숫자','발전','손가락','돌멩이','수'] },
-      4: { text: '시간이 지나 딸깍딸깍 주판도 나타났지요.<br>1, 2, 3, 4 같은 아라비아 숫자는<br>훨씬 나중에 생겨났답니다.', keywords: ['주판','아라비아 숫자','시간'] }
+      2: { text: '숫자는 점점 멋지게 발전했어요!<br>처음에는 꼬물꼬물 손가락,<br>동글동글 돌멩이로 수를 세었어요.', keywords: ['숫자','발전','손가락','돌멩이','수'] },
+      3: { text: '시간이 지나 딸깍딸깍 주판도 나타났지요.<br>1, 2, 3, 4 같은 아라비아 숫자는<br>훨씬 나중에 생겨났답니다.', keywords: ['주판','아라비아 숫자','시간'] }
     }
   },
   {
@@ -864,14 +868,13 @@ window.addEventListener('DOMContentLoaded', () => {
   
   document.getElementById('searchBtn').addEventListener('click', function() {
     const tabToChannel = {
-      'BBC': 'BBC',
       'NatGeo': 'NatGeo',
       'Discovery': 'discovery',
       'TED': 'TED'
     };
     const activeTab = document.querySelector('.tab.active');
-    const tabLabel = activeTab ? activeTab.dataset.label : 'BBC';
-    const channelId = tabToChannel[tabLabel] || tabToChannel['BBC'];
+    const tabLabel = activeTab ? activeTab.dataset.label : 'NatGeo';
+    const channelId = tabToChannel[tabLabel] || tabToChannel['NatGeo'];
     const query = encodeURIComponent(searchInput.value);
     const url = `https://www.youtube.com/@${channelId}/search?query=${query}`;
     window.open(url, '_blank');
@@ -911,6 +914,20 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+  // 전체화면 진입 함수 (사용자 제스처 필요)
+  function requestFullscreen() {
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  }
+  // 모바일에서 첫 터치 시 전체화면 진입 시도
+  window.addEventListener('touchstart', function autoFullscreen() {
+    requestFullscreen();
+    window.removeEventListener('touchstart', autoFullscreen);
+  });
+  // PC에서도 버튼으로 전체화면 진입 가능 (옵션)
+  // window.addEventListener('keydown', e => { if (e.key === 'f') requestFullscreen(); });
   </script>
 </body>
 </html>
