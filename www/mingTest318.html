@@ -675,8 +675,9 @@ body {
   <div id="tabbar-container">
     <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10000;">×</button>
     <div id="tabbar">
-      <button class="tab" data-label="NatGeo">NatGeo</button>
+      <button class="tab" data-label="National Geographic">National Geographic</button>
       <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
     </div>
     <div id="searchbox">
       <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
@@ -1390,13 +1391,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // 채널 정보
   const channels = {
-      'natgeo': {
-          id: 'UCA8pL-7_85WJFxo9k7Q4_tA',
-          handle: '@natgeokorea'
+      'National Geographic': {
+          id: 'UCpVm7bg6pXKo1Pr6k5kxG9A',
+          handle: '@NationalGeographic'
       },
-      'discovery': {
-          id: 'UCFfYg0ARElS5naUXXECoNbw',
-          handle: '@discoverychannelkorea_official'
+      'Discovery': {
+          id: 'UCqnbDFdCpuN8CMEg0VuEBqA',
+          handle: '@Discovery'
+      },
+      'TED': {
+          id: 'UCAuUUnT6oDeKwE6v1NGQxug',
+          handle: '@TED'
       }
   };
 
@@ -1505,10 +1510,12 @@ window.addEventListener('DOMContentLoaded', () => {
       const tabLabel = activeTab ? activeTab.dataset.label : 'NatGeo';
       const query = searchInput.value;
       let results = [];
-      if (tabLabel === 'NatGeo') {
-          results = await searchInChannel('natgeo', query);
+      if (tabLabel === 'National Geographic') {
+          results = await searchInChannel('National Geographic', query);
       } else if (tabLabel === 'Discovery') {
-          results = await searchInChannel('discovery', query);
+          results = await searchInChannel('Discovery', query);
+      } else if (tabLabel === 'TED') {
+          results = await searchInChannel('TED', query);
       } else {
           results = await globalSearch(query);
       }
