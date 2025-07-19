@@ -880,7 +880,7 @@ const CONFIG = {
       
       // Zone 위치 변경 시 adjustForOrientation 실행
       setTimeout(() => {
-        CONFIG.adjustForOrientation();
+        safeAdjustForOrientation();
       }, 10);
     }
   },
@@ -898,22 +898,27 @@ const CONFIG = {
         
         // Zone 폰트 크기 변경 시 adjustForOrientation 실행
         setTimeout(() => {
-          CONFIG.adjustForOrientation();
+          safeAdjustForOrientation();
         }, 10);
       }
     }
   },
   adjustForOrientation: () => {
     const isLandscape = window.innerWidth > window.innerHeight;
+    const isFullscreen = !!(document.fullscreenElement || 
+                           document.webkitFullscreenElement || 
+                           document.mozFullScreenElement || 
+                           document.msFullscreenElement);
+    
     console.log('Adjusting for orientation:', {
       isLandscape: isLandscape,
+      isFullscreen: isFullscreen,
       width: window.innerWidth,
       height: window.innerHeight
     });
     
-    // Adjusting for orientation 로그 후 실제 조정 실행
-    setTimeout(() => {
-      if (isLandscape) {
+    if (isLandscape) {
+      if (isFullscreen) {
         CONFIG.setZonePositionPercent(1, 10, 6, undefined, undefined);
         CONFIG.setZoneFontSize(1, 35);
         CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);
@@ -923,6 +928,17 @@ const CONFIG = {
         CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 16);
         CONFIG.setZoneFontSize(4, 35);
       } else {
+        CONFIG.setZonePositionPercent(1, 10, 13, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(1, 35);
+        CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);
+        CONFIG.setZoneFontSize(2, 35);
+        CONFIG.setZonePositionPercent(3, undefined, 13, undefined, 16);
+        CONFIG.setZoneFontSize(3, 35);
+        CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 16);
+        CONFIG.setZoneFontSize(4, 35);
+      }
+    } else {
+      if (isFullscreen) {
         CONFIG.setZonePositionPercent(1, 35, 6, undefined, undefined, '%');
         CONFIG.setZoneFontSize(1, 35);
         CONFIG.setZonePositionPercent(2, 35, 106, undefined, undefined, '%');
@@ -931,12 +947,42 @@ const CONFIG = {
         CONFIG.setZoneFontSize(3, 35);
         CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 36, '%');
         CONFIG.setZoneFontSize(4, 35);
+      } else {
+        CONFIG.setZonePositionPercent(1, 35, 35, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(1, 35);
+        CONFIG.setZonePositionPercent(2, 35, 106, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(2, 35);
+        CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 36, '%');
+        CONFIG.setZoneFontSize(3, 35);
+        CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 36, '%');
+        CONFIG.setZoneFontSize(4, 35);
       }
-    }, 10);
+    }
   }
 };
 
 // 기존 CONFIG 관련 중복 선언부는 모두 삭제(제거)
+
+// adjustForOrientation 래퍼 함수 - 텍스트 숨김/표시 처리
+function safeAdjustForOrientation() {
+  // 모든 텍스트 영역을 임시로 숨기기
+  const textZones = document.querySelectorAll('.text-zone');
+  textZones.forEach(zone => {
+    zone.style.opacity = '0';
+    zone.style.transition = 'opacity 0.1s ease';
+  });
+  
+  // 위치 조정 실행
+  CONFIG.adjustForOrientation();
+  
+  // 위치 조정 완료 후 텍스트를 부드럽게 다시 나타나게 하기
+  setTimeout(() => {
+    textZones.forEach(zone => {
+      zone.style.opacity = '1';
+      zone.style.transition = 'opacity 0.3s ease';
+    });
+  }, 100);
+}
 
 // 슬라이드 데이터
 const slideTemplates = [
@@ -1542,7 +1588,7 @@ function renderSlide(idx) {
   
   // 슬라이드 렌더링 후 위치 조정
   setTimeout(() => {
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 100);
 
   // 갤럭시 탭 최적화 텍스트 애니메이션
@@ -1870,22 +1916,22 @@ window.onload = () => {
 
 document.addEventListener('fullscreenchange', () => {
   setTimeout(() => {
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 10);
 });
 document.addEventListener('webkitfullscreenchange', () => {
   setTimeout(() => {
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 10);
 });
 document.addEventListener('mozfullscreenchange', () => {
   setTimeout(() => {
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 10);
 });
 document.addEventListener('MSFullscreenChange', () => {
   setTimeout(() => {
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 10);
 });
 
@@ -1903,7 +1949,7 @@ window.addEventListener('resize', () => {
   setScreenHeight();
   // Screen size changed 로그 후 adjustForOrientation 실행
   setTimeout(() => {
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 10);
 });
 window.addEventListener('orientationchange', () => {
@@ -1914,7 +1960,7 @@ window.addEventListener('orientationchange', () => {
   });
   setTimeout(() => {
     setScreenHeight();
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 100); // 방향 변경 후 짧은 지연
 });
 
@@ -1938,7 +1984,7 @@ document.addEventListener('fullscreenchange', () => {
       if (applyZoneResponsive) applyZoneResponsive();
     }
     // 전체화면 상태 변경 후 adjustForOrientation 실행
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 100);
 });
 
@@ -1960,7 +2006,7 @@ document.addEventListener('webkitfullscreenchange', () => {
       if (applyZoneResponsive) applyZoneResponsive();
     }
     // 전체화면 상태 변경 후 adjustForOrientation 실행
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 100);
 });
 
@@ -2004,7 +2050,7 @@ document.addEventListener('MSFullscreenChange', () => {
       if (applyZoneResponsive) applyZoneResponsive();
     }
     // 전체화면 상태 변경 후 adjustForOrientation 실행
-    CONFIG.adjustForOrientation();
+    safeAdjustForOrientation();
   }, 100);
 });
 
