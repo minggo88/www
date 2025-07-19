@@ -56,7 +56,7 @@ body {
   left: 0; top: 0; right: 0; bottom: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(255,255,255,0.85);
+  background: rgba(0,0,0,0.35);
   z-index: 9998;
 }
 #tabbar-container {
@@ -71,7 +71,7 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background: transparent;
+  background: #fff;
   border-radius: 18px;
   box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
   z-index: 9999;
@@ -173,14 +173,14 @@ body {
   top: 50%;
   font-size: 3.5rem;
   color: #333;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.8);
   border: none;
   cursor: pointer;
   z-index: 2;
   padding: 0.1em 0.4em;
   border-radius: 0.5em;
   user-select: none;
-  opacity: 0;
+  opacity: 0.7;
   transition: opacity 0.3s, box-shadow 0.2s, background 0.2s;
   pointer-events: auto;
   font-family: 'Arial Black', Arial, sans-serif;
@@ -193,11 +193,7 @@ body {
 .arrow.right { right: 32px; }
 .arrow:hover, .arrow:focus, .arrow:active {
   opacity: 1;
-  background: transparent;
-}
-.arrow:not(:hover):not(:focus):not(:active) {
-  opacity: 0;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 /* 기본 zone 스타일 */
@@ -250,7 +246,7 @@ body {
   font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
   font-weight: 600;
   font-size: 35px;
-  line-height: 1.1;
+  line-height: 1.3;
   letter-spacing: -0.05em;
   text-shadow: 
     1px 1px 0 #fff,
@@ -277,6 +273,26 @@ body {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* 명사 버튼 스타일 */
+.noun-span {
+  cursor: pointer;
+  pointer-events: auto;
+  color: #222;
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.noun-span:hover {
+  background-color: transparent !important;
+}
+.noun-span:active {
+  background-color: transparent !important;
 }
 
 .text-zone p.visible {
@@ -311,6 +327,8 @@ body {
     font-size: 2rem;
     width: 50px;
     height: 50px;
+    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.9);
   }
   
   .arrow.left { left: 16px; }
@@ -368,7 +386,7 @@ body {
     width: auto;
     padding: 0;
     margin: 0;
-    line-height: 1.1;
+    line-height: 1.3;
   }
   .text-zone.zone-1 {
     top: 80px;
@@ -419,7 +437,7 @@ body {
   }
   
   .text-zone p {
-    line-height: 1.1;
+    line-height: 1.3;
   }
   
   .text-zone.zone-1 {
@@ -482,7 +500,7 @@ body {
   }
   
   .text-zone p {
-    line-height: 1.1;
+    line-height: 1.3;
   }
   
   .text-zone.zone-1 {
@@ -545,7 +563,7 @@ body {
   }
   
   .text-zone p {
-    line-height: 1.1;
+    line-height: 1.3;
   }
   
   .arrow {
@@ -724,31 +742,38 @@ body {
   }
 } 
 
-#loading-overlay {
+
+
+.text-zone, .slide-container {
+  pointer-events: auto !important;
+}
+
+#fs-btn {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  width: 100vw;
-  height: 100vh;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 100001;
   background: #000;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2.2rem;
-  z-index: 99999;
   transition: opacity 0.3s;
 }
-#loading-overlay.hide {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
+#fs-btn.hide { opacity: 0; pointer-events: none; }
   </style>
 </head>
 <body>
-  <div id="loading-overlay">
-    <span>로딩중입니다...</span>
+
+  
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">전체화면에서 이야기를 시작합니다.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">전체화면보기</button>
+    </div>
   </div>
+
   <div id="tabbar-container">
     <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10000;">×</button>
     <div id="tabbar">
@@ -809,10 +834,29 @@ const CONFIG = {
   setZonePositionPercent: (zoneNumber, top, left, right, bottom) => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
     if (!zone) return;
+    const oldTop = zone.style.top;
+    const oldLeft = zone.style.left;
+    const oldRight = zone.style.right;
+    const oldBottom = zone.style.bottom;
+    
     zone.style.top = top !== undefined ? top + '%' : '';
     zone.style.left = left !== undefined ? left + '%' : '';
     zone.style.right = right !== undefined ? right + '%' : '';
     zone.style.bottom = bottom !== undefined ? bottom + '%' : '';
+    
+    const newTop = zone.style.top;
+    const newLeft = zone.style.left;
+    const newRight = zone.style.right;
+    const newBottom = zone.style.bottom;
+    
+    if (oldTop !== newTop || oldLeft !== newLeft || oldRight !== newRight || oldBottom !== newBottom) {
+      console.log(`Zone ${zoneNumber} position changed:`, {
+        top: `${oldTop} → ${newTop}`,
+        left: `${oldLeft} → ${newLeft}`,
+        right: `${oldRight} → ${newRight}`,
+        bottom: `${oldBottom} → ${newBottom}`
+      });
+    }
   },
   setZoneFontSize: (zoneNumber, fontSize, unit = 'px') => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
@@ -820,26 +864,29 @@ const CONFIG = {
   },
   adjustForOrientation: () => {
     const isLandscape = window.innerWidth > window.innerHeight;
+    console.log('Adjusting for orientation:', {
+      isLandscape: isLandscape,
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+    
     if (isLandscape) {
       CONFIG.setZonePositionPercent(1, 10, 6, undefined, undefined);
       CONFIG.setZoneFontSize(1, 35);
       CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);
       CONFIG.setZoneFontSize(2, 35);
-      CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 12);
+      CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 16);
       CONFIG.setZoneFontSize(3, 35);
-      CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 12);
+      CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 16);
       CONFIG.setZoneFontSize(4, 35);
     } else {
-      // 기존 세로 모드(px) 고정 로직 유지 또는 필요시 수정
-      const baseW = getBaseWidth();
-      const baseH = getBaseHeight();
-      CONFIG.setZonePositionPx(1, Math.round(0.10*baseH), Math.round(0.06*baseW));
+      CONFIG.setZonePositionPercent(1, 35, 6, undefined, undefined, '%');
       CONFIG.setZoneFontSize(1, 35);
-      CONFIG.setZonePositionPx(2, Math.round(0.10*baseH), Math.round(1.06*baseW));
+      CONFIG.setZonePositionPercent(2, 35, 106, undefined, undefined, '%');
       CONFIG.setZoneFontSize(2, 35);
-      CONFIG.setZonePositionPx(3, undefined, Math.round(0.06*baseW), undefined, Math.round(0.80*baseH));
+      CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 36, '%');
       CONFIG.setZoneFontSize(3, 35);
-      CONFIG.setZonePositionPx(4, undefined, Math.round(0.70*baseW), undefined, Math.round(0.80*baseH));
+      CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 36, '%');
       CONFIG.setZoneFontSize(4, 35);
     }
   }
@@ -1316,6 +1363,13 @@ function renderSlide(idx) {
   leftArrow.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
+    requestFullscreen(); // 직접 클릭 시 전체화면 시도
+    prevSlide();
+  });
+  leftArrow.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    requestFullscreen(); // 직접 터치 시 전체화면 시도
     prevSlide();
   });
   container.appendChild(leftArrow);
@@ -1346,7 +1400,20 @@ function renderSlide(idx) {
       // 명사 클릭 이벤트 바인딩
       textZone.querySelectorAll('.noun-span').forEach(el => {
         el.addEventListener('click', function(e) {
+          e.preventDefault();
           e.stopPropagation();
+          e.stopImmediatePropagation();
+          if (typeof laypop === 'function') {
+            laypop(this.textContent);
+          } else {
+            alert(this.textContent);
+          }
+        });
+        // 모바일 터치 이벤트 추가
+        el.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
           if (typeof laypop === 'function') {
             laypop(this.textContent);
           } else {
@@ -1368,6 +1435,13 @@ function renderSlide(idx) {
   rightArrow.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
+    requestFullscreen(); // 직접 클릭 시 전체화면 시도
+    nextSlide();
+  });
+  rightArrow.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    requestFullscreen(); // 직접 터치 시 전체화면 시도
     nextSlide();
   });
   container.appendChild(rightArrow);
@@ -1452,10 +1526,7 @@ function renderSlide(idx) {
   positionArrows(img, leftArrow, rightArrow);
   addDragEvents(container, leftArrow, rightArrow);
 
-  // 첫 슬라이드(1.jpg)에서는 오버레이 숨김
-  if (idx === 0) {
-    document.getElementById('loading-overlay').style.display = 'none';
-  }
+
 }
 
 function positionArrows(imgElem, leftArrow, rightArrow) {
@@ -1469,20 +1540,14 @@ function positionArrows(imgElem, leftArrow, rightArrow) {
 }
 
 function showLoadingAndGoToPage(targetPage) {
-  // 전체화면이 아니면 오버레이 띄우고 전체화면 진입 시도
+  // 전체화면이 아니면 전체화면 진입 시도
   if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
-    document.getElementById('loading-overlay').style.display = 'flex';
     requestFullscreen();
     // 전체화면 진입 후 fullscreenchange 이벤트에서 1초 후 페이지 전환
     let handler = () => {
       setTimeout(() => {
         current = targetPage;
         renderSlide(current);
-        document.getElementById('loading-overlay').classList.add('hide');
-        setTimeout(() => {
-          document.getElementById('loading-overlay').style.display = 'none';
-          document.getElementById('loading-overlay').classList.remove('hide');
-        }, 300);
         document.removeEventListener('fullscreenchange', handler);
         document.removeEventListener('webkitfullscreenchange', handler);
         document.removeEventListener('mozfullscreenchange', handler);
@@ -1494,7 +1559,7 @@ function showLoadingAndGoToPage(targetPage) {
     document.addEventListener('mozfullscreenchange', handler);
     document.addEventListener('MSFullscreenChange', handler);
   } else {
-    // 이미 전체화면이면 오버레이 없이 바로 페이지 전환
+    // 이미 전체화면이면 바로 페이지 전환
     current = targetPage;
     renderSlide(current);
   }
@@ -1502,86 +1567,116 @@ function showLoadingAndGoToPage(targetPage) {
 
 function nextSlide() {
   let next = (current + 1) % slideTemplates.length;
-  showLoadingAndGoToPage(next);
+  if (current === 0) {
+    // 첫 번째 슬라이드에서 다음으로 넘어갈 때 모달 표시
+    showFullscreenModal(next);
+  } else {
+    showLoadingAndGoToPage(next);
+  }
 }
 
 function prevSlide() {
   let prev = (current - 1 + slideTemplates.length) % slideTemplates.length;
-  showLoadingAndGoToPage(prev);
+  if (current === 0) {
+    // 첫 번째 슬라이드에서 이전으로 넘어갈 때 모달 표시
+    showFullscreenModal(prev);
+  } else {
+    showLoadingAndGoToPage(prev);
+  }
+}
+
+function showFullscreenModal(targetPage) {
+  const modal = document.getElementById('fullscreen-modal');
+  const btn = document.getElementById('fullscreen-modal-btn');
+  
+  modal.style.display = 'flex';
+  modal.style.alignItems = 'center';
+  modal.style.justifyContent = 'center';
+  
+  btn.onclick = () => {
+    // 모달 즉시 숨기기
+    modal.style.display = 'none';
+    requestFullscreen();
+    
+    // 전체화면 진입 후 페이지 전환
+    let handler = () => {
+      setTimeout(() => {
+        current = targetPage;
+        renderSlide(current);
+        document.removeEventListener('fullscreenchange', handler);
+        document.removeEventListener('webkitfullscreenchange', handler);
+        document.removeEventListener('mozfullscreenchange', handler);
+        document.removeEventListener('MSFullscreenChange', handler);
+      }, 200);
+    };
+    document.addEventListener('fullscreenchange', handler);
+    document.addEventListener('webkitfullscreenchange', handler);
+    document.addEventListener('mozfullscreenchange', handler);
+    document.addEventListener('MSFullscreenChange', handler);
+  };
 }
 
 function addDragEvents(container, leftArrow, rightArrow) {
   let startX = null;
   let dragging = false;
-  
   // 마우스 이벤트
-  container.onmousedown = e => { 
-    e.preventDefault();
-    startX = e.clientX; 
-    dragging = true; 
-  };
-  container.onmousemove = e => { 
-    if (!dragging) return; 
-    e.preventDefault();
-  };
+  container.onmousedown = e => { e.preventDefault(); startX = e.clientX; dragging = true; };
+  container.onmousemove = e => { if (!dragging) return; e.preventDefault(); };
   container.onmouseup = e => {
     if (!dragging) return;
     e.preventDefault();
     const diff = e.clientX - startX;
-    if (diff > 60) {
-      leftArrow.click();
-    } else if (diff < -60) {
-      rightArrow.click();
+    if (diff > 60) { 
+      if (current === 0) {
+        showFullscreenModal((current - 1 + slideTemplates.length) % slideTemplates.length);
+      } else {
+        leftArrow.click(); 
+      }
+    }
+    else if (diff < -60) { 
+      if (current === 0) {
+        showFullscreenModal((current + 1) % slideTemplates.length);
+      } else {
+        rightArrow.click(); 
+      }
     }
     dragging = false;
     startX = null;
   };
-  
-  // 모바일 터치 이벤트 (전체화면에서도 작동하도록 개선)
-  container.ontouchstart = e => { 
-    e.preventDefault();
-    startX = e.touches[0].clientX; 
-    dragging = true; 
-  };
-  container.ontouchmove = e => { 
-    if (!dragging) return; 
-    e.preventDefault();
-  };
-  container.ontouchend = e => {
-    if (!dragging) return;
-    e.preventDefault();
-    const endX = e.changedTouches[0].clientX;
-    const diff = endX - startX;
-    if (diff > 60) {
-      leftArrow.click();
-    } else if (diff < -60) {
-      rightArrow.click();
-    }
-    dragging = false;
-    startX = null;
-  };
-  
-  // 전체화면에서 터치 이벤트 추가 보장
+  // 모바일 터치 이벤트 (슬라이드 이동에만 passive: false)
   container.addEventListener('touchstart', e => {
     e.preventDefault();
     startX = e.touches[0].clientX;
     dragging = true;
   }, { passive: false });
-  
+  container.addEventListener('touchmove', e => {
+    if (!dragging) return;
+    e.preventDefault();
+  }, { passive: false });
   container.addEventListener('touchend', e => {
     if (!dragging) return;
     e.preventDefault();
     const endX = e.changedTouches[0].clientX;
     const diff = endX - startX;
-    if (diff > 60) {
-      leftArrow.click();
-    } else if (diff < -60) {
-      rightArrow.click();
+    if (diff > 60) { 
+      if (current === 0) {
+        showFullscreenModal((current - 1 + slideTemplates.length) % slideTemplates.length);
+      } else {
+        leftArrow.click(); 
+      }
+    }
+    else if (diff < -60) { 
+      if (current === 0) {
+        showFullscreenModal((current + 1) % slideTemplates.length);
+      } else {
+        rightArrow.click(); 
+      }
     }
     dragging = false;
     startX = null;
   }, { passive: false });
 }
+// 화살표 버튼 등 클릭/터치 이벤트에는 passive 옵션을 명시하지 않음(기본 true)
 
 // 전체화면 관련 변수
 let isFullscreen = false;
@@ -1624,68 +1719,54 @@ function hideAddressBar() {
 // 첫 슬라이드 표시
 window.onload = () => {
   renderSlide(current);
-  // 첫 슬라이드(1.jpg)에서는 오버레이 바로 숨김
-  if (current === 0) {
-    document.getElementById('loading-overlay').style.display = 'none';
-  } else {
-    document.getElementById('loading-overlay').style.display = 'flex';
-  }
-  requestFullscreen();
   hideAddressBar();
 }
 
 document.addEventListener('fullscreenchange', () => {
   setTimeout(() => {
     CONFIG.adjustForOrientation();
-    document.getElementById('loading-overlay').classList.add('hide');
-    setTimeout(() => {
-      document.getElementById('loading-overlay').style.display = 'none';
-    }, 300);
   }, 10);
 });
 document.addEventListener('webkitfullscreenchange', () => {
   setTimeout(() => {
     CONFIG.adjustForOrientation();
-    document.getElementById('loading-overlay').classList.add('hide');
-    setTimeout(() => {
-      document.getElementById('loading-overlay').style.display = 'none';
-    }, 300);
   }, 10);
 });
 document.addEventListener('mozfullscreenchange', () => {
   setTimeout(() => {
     CONFIG.adjustForOrientation();
-    document.getElementById('loading-overlay').classList.add('hide');
-    setTimeout(() => {
-      document.getElementById('loading-overlay').style.display = 'none';
-    }, 300);
   }, 10);
 });
 document.addEventListener('MSFullscreenChange', () => {
   setTimeout(() => {
     CONFIG.adjustForOrientation();
-    document.getElementById('loading-overlay').classList.add('hide');
-    setTimeout(() => {
-      document.getElementById('loading-overlay').style.display = 'none';
-    }, 300);
   }, 10);
 });
 
 // 모바일 기기 감지
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  
-if (isMobile) {
-  // 모바일에서 자동 전체화면 시도
-  setTimeout(() => {
-    requestFullscreen();
-  }, 1000); // 1초 후 전체화면 시도
-}
 
 // 화면 크기 감지 및 조정
 setScreenHeight();
-window.addEventListener('resize', setScreenHeight);
+window.addEventListener('resize', () => {
+  console.log('Screen size changed:', {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    orientation: window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
+  });
+  setScreenHeight();
+  CONFIG.adjustForOrientation();
+});
 window.addEventListener('orientationchange', () => {
-  setTimeout(setScreenHeight, 500); // 방향 변경 후 약간의 지연
+  console.log('Orientation changed:', {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    orientation: window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
+  });
+  setTimeout(() => {
+    setScreenHeight();
+    CONFIG.adjustForOrientation();
+  }, 100); // 방향 변경 후 짧은 지연
 });
 
 // 전체화면 상태 변경 감지
@@ -1918,10 +1999,14 @@ window.addEventListener('DOMContentLoaded', () => {
     tabbar.appendChild(closeBtn);
   }
   
-  // 오버레이 클릭 시 닫기
+  // 오버레이 클릭 시 닫기 (탭바 자체 클릭은 제외)
   const overlay = document.getElementById('tabbar-modal-overlay');
   if (overlay) {
-    overlay.addEventListener('click', () => {
+    overlay.addEventListener('click', (e) => {
+      // 탭바 자체를 클릭한 경우는 닫지 않음
+      if (e.target.closest('#tabbar-container')) {
+        return;
+      }
       if (tabbar) tabbar.classList.remove('show-tabbar');
       overlay.style.display = 'none';
     });
@@ -2111,6 +2196,8 @@ function renderYoutubeResults(items) {
     });
   }, 100);
 }
+
+
   </script>
 </body>
 </html>
