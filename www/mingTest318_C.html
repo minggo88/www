@@ -704,7 +704,7 @@ body {
   opacity: 1 !important;
 }
 
-/* 페이지 인디케이터 강제 흰색 스타일 */
+/* 페이지 인디케이터 기본 스타일 */
 .page-dot {
   background: rgba(255,255,255,0.3) !important;
   border: 2px solid rgba(255,255,255,0.1) !important;
@@ -713,6 +713,99 @@ body {
 .page-dot.active {
   background: #fff !important;
   border: 2px solid #fff !important;
+}
+
+/* 갤럭시 탭 S9 최적화 (가로/세로 모드 모두) */
+@media screen and (min-width: 800px) and (max-width: 1400px) and (min-height: 600px) and (max-height: 1100px),
+       screen and (orientation: portrait) and (min-width: 600px) and (max-width: 1200px) {
+  /* 슬라이드 버튼 숨기기 (일반 화면 + 전체화면) */
+  .arrow {
+    display: none !important;
+  }
+  
+  /* 갤럭시 탭 S9에서 페이지 인디케이터 기본 회색 */
+  .page-dot {
+    background: rgba(128,128,128,0.4) !important;
+    border: 2px solid rgba(128,128,128,0.2) !important;
+  }
+  
+  .page-dot.active {
+    background: rgba(128,128,128,0.8) !important;
+    border: 2px solid rgba(128,128,128,0.6) !important;
+  }
+  
+  .page-dot:hover {
+    background: rgba(128,128,128,0.6) !important;
+    transform: scale(1.2) !important;
+  }
+  
+  /* 전체화면일 때만 페이지 인디케이터 강제 표시 */
+  :fullscreen #page-indicator,
+  :-webkit-full-screen #page-indicator,
+  :-moz-full-screen #page-indicator,
+  :-ms-fullscreen #page-indicator,
+  html:fullscreen #page-indicator,
+  html:-webkit-full-screen #page-indicator,
+  html:-moz-full-screen #page-indicator,
+  html:-ms-fullscreen #page-indicator,
+  body:fullscreen #page-indicator,
+  body:-webkit-full-screen #page-indicator,
+  body:-moz-full-screen #page-indicator,
+  body:-ms-fullscreen #page-indicator {
+    opacity: 1 !important;
+    display: flex !important;
+    z-index: 10000 !important;
+  }
+  
+  /* 전체화면일 때 페이지 인디케이터 검은색으로 변경 */
+  :fullscreen .page-dot,
+  :-webkit-full-screen .page-dot,
+  :-moz-full-screen .page-dot,
+  :-ms-fullscreen .page-dot,
+  html:fullscreen .page-dot,
+  html:-webkit-full-screen .page-dot,
+  html:-moz-full-screen .page-dot,
+  html:-ms-fullscreen .page-dot,
+  body:fullscreen .page-dot,
+  body:-webkit-full-screen .page-dot,
+  body:-moz-full-screen .page-dot,
+  body:-ms-fullscreen .page-dot {
+    background: rgba(0,0,0,0.5) !important;
+    border: 2px solid rgba(0,0,0,0.3) !important;
+  }
+  
+  :fullscreen .page-dot.active,
+  :-webkit-full-screen .page-dot.active,
+  :-moz-full-screen .page-dot.active,
+  :-ms-fullscreen .page-dot.active,
+  html:fullscreen .page-dot.active,
+  html:-webkit-full-screen .page-dot.active,
+  html:-moz-full-screen .page-dot.active,
+  html:-ms-fullscreen .page-dot.active,
+  body:fullscreen .page-dot.active,
+  body:-webkit-full-screen .page-dot.active,
+  body:-moz-full-screen .page-dot.active,
+  body:-ms-fullscreen .page-dot.active {
+    background: #000 !important;
+    border: 2px solid #000 !important;
+  }
+  
+  /* 전체화면일 때 페이지 인디케이터 호버 효과도 검은색으로 */
+  :fullscreen .page-dot:hover,
+  :-webkit-full-screen .page-dot:hover,
+  :-moz-full-screen .page-dot:hover,
+  :-ms-fullscreen .page-dot:hover,
+  html:fullscreen .page-dot:hover,
+  html:-webkit-full-screen .page-dot:hover,
+  html:-moz-full-screen .page-dot:hover,
+  html:-ms-fullscreen .page-dot:hover,
+  body:fullscreen .page-dot:hover,
+  body:-webkit-full-screen .page-dot:hover,
+  body:-moz-full-screen .page-dot:hover,
+  body:-ms-fullscreen .page-dot:hover {
+    background: rgba(0,0,0,0.7) !important;
+    transform: scale(1.2) !important;
+  }
 }
 
 /* 다크 모드 지원 */
@@ -1789,6 +1882,44 @@ function updateFullscreenStatus() {
                    document.webkitFullscreenElement || 
                    document.mozFullScreenElement || 
                    document.msFullscreenElement);
+  
+  // 갤럭시 탭 S9에서 전체화면일 때 페이지 인디케이터 강제 표시
+  const pageIndicator = document.getElementById('page-indicator');
+  if (pageIndicator && ((window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+      window.innerHeight >= 600 && window.innerHeight <= 1100) || 
+      (window.innerWidth >= 600 && window.innerWidth <= 1200 && window.innerHeight > window.innerWidth))) {
+    if (isFullscreen) {
+      pageIndicator.style.opacity = '1';
+      pageIndicator.style.display = 'flex';
+      pageIndicator.style.zIndex = '10000';
+      
+      // 전체화면일 때 페이지 인디케이터 회색으로 강제 적용
+      const dots = pageIndicator.querySelectorAll('.page-dot');
+      dots.forEach(dot => {
+        if (dot.classList.contains('active')) {
+          dot.style.background = 'rgba(128,128,128,0.8)';
+          dot.style.border = '2px solid rgba(128,128,128,0.6)';
+        } else {
+          dot.style.background = 'rgba(128,128,128,0.4)';
+          dot.style.border = '2px solid rgba(128,128,128,0.2)';
+        }
+      });
+    } else {
+      pageIndicator.style.opacity = '0.3';
+      
+      // 일반 화면일 때 회색으로 복원
+      const dots = pageIndicator.querySelectorAll('.page-dot');
+      dots.forEach(dot => {
+        if (dot.classList.contains('active')) {
+          dot.style.background = 'rgba(128,128,128,0.8)';
+          dot.style.border = '2px solid rgba(128,128,128,0.6)';
+        } else {
+          dot.style.background = 'rgba(128,128,128,0.4)';
+          dot.style.border = '2px solid rgba(128,128,128,0.2)';
+        }
+      });
+    }
+  }
 }
 
 // 화면 높이 설정 (모바일 브라우저 대응)
@@ -1842,6 +1973,12 @@ function createPageIndicator() {
       e.stopPropagation();
       console.log('Page indicator clicked:', index, 'current:', current);
       
+      // laypop 모달이 열려있으면 클릭 무시
+      const tabbar = document.getElementById('tabbar-container');
+      if (tabbar && tabbar.classList.contains('show-tabbar')) {
+        return;
+      }
+      
       if (index === current) return; // 현재 페이지면 클릭 무시
       
       // 모든 페이지에서 전체화면 체크
@@ -1861,6 +1998,12 @@ function createPageIndicator() {
       e.preventDefault();
       e.stopPropagation();
       console.log('Page indicator touched:', index, 'current:', current);
+      
+      // laypop 모달이 열려있으면 터치 무시
+      const tabbar = document.getElementById('tabbar-container');
+      if (tabbar && tabbar.classList.contains('show-tabbar')) {
+        return;
+      }
       
       if (index === current) return; // 현재 페이지면 터치 무시
       
@@ -1893,6 +2036,22 @@ function createPageIndicator() {
     
     indicator.appendChild(dot);
   });
+  
+  // 갤럭시 탭 S9에서 페이지 인디케이터 색상 설정
+  if ((window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+       window.innerHeight >= 600 && window.innerHeight <= 1100) || 
+      (window.innerWidth >= 600 && window.innerWidth <= 1200 && window.innerHeight > window.innerWidth)) {
+    const dots = indicator.querySelectorAll('.page-dot');
+    dots.forEach(dot => {
+      if (dot.classList.contains('active')) {
+        dot.style.background = 'rgba(128,128,128,0.8)';
+        dot.style.border = '2px solid rgba(128,128,128,0.6)';
+      } else {
+        dot.style.background = 'rgba(128,128,128,0.4)';
+        dot.style.border = '2px solid rgba(128,128,128,0.2)';
+      }
+    });
+  }
 }
 
 // 페이지 인디케이터 업데이트 함수
@@ -1912,6 +2071,25 @@ window.onload = () => {
   renderSlide(current);
   createPageIndicator();
   hideAddressBar();
+  
+        // 갤럭시 탭 S9에서 페이지 인디케이터 색상 초기 설정
+      setTimeout(() => {
+        const pageIndicator = document.getElementById('page-indicator');
+        if (pageIndicator && ((window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+            window.innerHeight >= 600 && window.innerHeight <= 1100) || 
+            (window.innerWidth >= 600 && window.innerWidth <= 1200 && window.innerHeight > window.innerWidth))) {
+          const dots = pageIndicator.querySelectorAll('.page-dot');
+          dots.forEach(dot => {
+            if (dot.classList.contains('active')) {
+              dot.style.background = 'rgba(128,128,128,0.8)';
+              dot.style.border = '2px solid rgba(128,128,128,0.6)';
+            } else {
+              dot.style.background = 'rgba(128,128,128,0.4)';
+              dot.style.border = '2px solid rgba(128,128,128,0.2)';
+            }
+          });
+        }
+      }, 100);
 }
 
 document.addEventListener('fullscreenchange', () => {
