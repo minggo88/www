@@ -704,6 +704,17 @@ body {
   opacity: 1 !important;
 }
 
+/* 페이지 인디케이터 강제 흰색 스타일 */
+.page-dot {
+  background: rgba(255,255,255,0.3) !important;
+  border: 2px solid rgba(255,255,255,0.1) !important;
+}
+
+.page-dot.active {
+  background: #fff !important;
+  border: 2px solid #fff !important;
+}
+
 /* 다크 모드 지원 */
 @media (prefers-color-scheme: dark) {
   body {
@@ -900,25 +911,28 @@ const CONFIG = {
       height: window.innerHeight
     });
     
-    if (isLandscape) {
-      CONFIG.setZonePositionPercent(1, 10, 6, undefined, undefined);
-      CONFIG.setZoneFontSize(1, 35);
-      CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);
-      CONFIG.setZoneFontSize(2, 35);
-      CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 16);
-      CONFIG.setZoneFontSize(3, 35);
-      CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 16);
-      CONFIG.setZoneFontSize(4, 35);
-    } else {
-      CONFIG.setZonePositionPercent(1, 35, 6, undefined, undefined, '%');
-      CONFIG.setZoneFontSize(1, 35);
-      CONFIG.setZonePositionPercent(2, 35, 106, undefined, undefined, '%');
-      CONFIG.setZoneFontSize(2, 35);
-      CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 36, '%');
-      CONFIG.setZoneFontSize(3, 35);
-      CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 36, '%');
-      CONFIG.setZoneFontSize(4, 35);
-    }
+    // Adjusting for orientation 로그 후 실제 조정 실행
+    setTimeout(() => {
+      if (isLandscape) {
+        CONFIG.setZonePositionPercent(1, 10, 6, undefined, undefined);
+        CONFIG.setZoneFontSize(1, 35);
+        CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);
+        CONFIG.setZoneFontSize(2, 35);
+        CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 16);
+        CONFIG.setZoneFontSize(3, 35);
+        CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 16);
+        CONFIG.setZoneFontSize(4, 35);
+      } else {
+        CONFIG.setZonePositionPercent(1, 35, 6, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(1, 35);
+        CONFIG.setZonePositionPercent(2, 35, 106, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(2, 35);
+        CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 36, '%');
+        CONFIG.setZoneFontSize(3, 35);
+        CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 36, '%');
+        CONFIG.setZoneFontSize(4, 35);
+      }
+    }, 10);
   }
 };
 
@@ -1766,11 +1780,16 @@ function createPageIndicator() {
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      background: ${index === current ? '#222' : 'rgba(0,0,0,0.3)'};
+      background: rgba(255,255,255,0.3);
       cursor: pointer;
       transition: all 0.3s ease;
-      border: 2px solid ${index === current ? '#222' : 'rgba(0,0,0,0.1)'};
+      border: 2px solid rgba(255,255,255,0.1);
     `;
+    
+    // 현재 페이지면 active 클래스 추가
+    if (index === current) {
+      dot.classList.add('active');
+    }
     
     dot.addEventListener('click', (e) => {
       e.preventDefault();
@@ -1814,14 +1833,14 @@ function createPageIndicator() {
     // 호버 효과
     dot.addEventListener('mouseenter', () => {
       if (index !== current) {
-        dot.style.background = 'rgba(0,0,0,0.6)';
+        dot.style.background = 'rgba(255,255,255,0.6)';
         dot.style.transform = 'scale(1.2)';
       }
     });
     
     dot.addEventListener('mouseleave', () => {
       if (index !== current) {
-        dot.style.background = 'rgba(0,0,0,0.3)';
+        dot.style.background = 'rgba(255,255,255,0.3)';
         dot.style.transform = 'scale(1)';
       }
     });
@@ -1835,11 +1854,9 @@ function updatePageIndicator() {
   const dots = document.querySelectorAll('.page-dot');
   dots.forEach((dot, index) => {
     if (index === current) {
-      dot.style.background = '#222';
-      dot.style.border = '2px solid #222';
+      dot.classList.add('active');
     } else {
-      dot.style.background = 'rgba(0,0,0,0.3)';
-      dot.style.border = '2px solid rgba(0,0,0,0.1)';
+      dot.classList.remove('active');
     }
   });
 }
@@ -1903,7 +1920,16 @@ window.addEventListener('orientationchange', () => {
 
 // 전체화면 상태 변경 감지
 document.addEventListener('fullscreenchange', () => {
+  const wasFullscreen = isFullscreen;
   updateFullscreenStatus();
+  
+  console.log('Fullscreen mode changed:', {
+    from: wasFullscreen ? 'fullscreen' : 'normal',
+    to: isFullscreen ? 'fullscreen' : 'normal',
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
   // 전체화면 상태 변경 시 텍스트 위치 재계산
   setTimeout(() => {
     const container = document.querySelector('.slide-container');
@@ -1911,36 +1937,74 @@ document.addEventListener('fullscreenchange', () => {
       const applyZoneResponsive = window.applyZoneResponsive;
       if (applyZoneResponsive) applyZoneResponsive();
     }
+    // 전체화면 상태 변경 후 adjustForOrientation 실행
+    CONFIG.adjustForOrientation();
   }, 100);
 });
+
 document.addEventListener('webkitfullscreenchange', () => {
+  const wasFullscreen = isFullscreen;
   updateFullscreenStatus();
+  
+  console.log('Fullscreen mode changed (webkit):', {
+    from: wasFullscreen ? 'fullscreen' : 'normal',
+    to: isFullscreen ? 'fullscreen' : 'normal',
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
   setTimeout(() => {
     const container = document.querySelector('.slide-container');
     if (container) {
       const applyZoneResponsive = window.applyZoneResponsive;
       if (applyZoneResponsive) applyZoneResponsive();
     }
+    // 전체화면 상태 변경 후 adjustForOrientation 실행
+    CONFIG.adjustForOrientation();
   }, 100);
 });
+
 document.addEventListener('mozfullscreenchange', () => {
+  const wasFullscreen = isFullscreen;
   updateFullscreenStatus();
+  
+  console.log('Fullscreen mode changed (moz):', {
+    from: wasFullscreen ? 'fullscreen' : 'normal',
+    to: isFullscreen ? 'fullscreen' : 'normal',
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
   setTimeout(() => {
     const container = document.querySelector('.slide-container');
     if (container) {
       const applyZoneResponsive = window.applyZoneResponsive;
       if (applyZoneResponsive) applyZoneResponsive();
     }
+    // 전체화면 상태 변경 후 adjustForOrientation 실행
+    CONFIG.adjustForOrientation();
   }, 100);
 });
+
 document.addEventListener('MSFullscreenChange', () => {
+  const wasFullscreen = isFullscreen;
   updateFullscreenStatus();
+  
+  console.log('Fullscreen mode changed (MS):', {
+    from: wasFullscreen ? 'fullscreen' : 'normal',
+    to: isFullscreen ? 'fullscreen' : 'normal',
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
   setTimeout(() => {
     const container = document.querySelector('.slide-container');
     if (container) {
       const applyZoneResponsive = window.applyZoneResponsive;
       if (applyZoneResponsive) applyZoneResponsive();
     }
+    // 전체화면 상태 변경 후 adjustForOrientation 실행
+    CONFIG.adjustForOrientation();
   }, 100);
 });
 
