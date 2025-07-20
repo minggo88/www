@@ -191,9 +191,15 @@ body {
 }
 .arrow.left { left: 32px; }
 .arrow.right { right: 32px; }
-.arrow:hover, .arrow:focus, .arrow:active {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.9);
+.arrow:not(:hover):not(:focus):not(:active) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.arrow:hover,
+.arrow:focus,
+.arrow:active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 /* 기본 zone 스타일 */
@@ -961,6 +967,23 @@ body {
     right: 13% !important;
     top: 54% !important;
   }
+}
+
+.arrow.left,
+.arrow.right {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s;
+}
+.arrow.left:hover,
+.arrow.right:hover {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.slide-container:hover .arrow.left,
+.slide-container:hover .arrow.right {
+  opacity: 1;
+  pointer-events: auto !important;
 }
   </style>
 </head>
