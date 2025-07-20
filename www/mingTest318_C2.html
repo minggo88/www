@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>3.1.8</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#222">
+  <link rel="stylesheet" href="style.css">
+  <style>
+/* --- style.css 전체 --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow: hidden;
+  font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+  background: #f8f8f8;
+}
+body {
+  background: #fff;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tabbar-modal-overlay {
+  display: none;
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  z-index: 9998;
+}
+#tabbar-container {
+  width: auto;
+  min-width: 340px;
+  max-width: 90vw;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+  z-index: 9999;
+  padding: 32px 32px 18px 32px;
+}
+#tabbar-container.show-tabbar {
+  display: flex;
+}
+#tabbar-container.show-tabbar ~ #tabbar-modal-overlay {
+  display: block;
+}
+#tabbar {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 18px 0;
+}
+.tab {
+  background: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 8px 8px 0 0;
+  padding: 12px 48px;
+  min-width: 160px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.tab.active {
+  background: #222;
+  color: #fff;
+  border-bottom: 2px solid #222;
+}
+#searchbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+#searchInput {
+  padding: 8px 14px;
+  font-size: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  outline: none;
+}
+#searchBtn {
+  padding: 8px 18px;
+  font-size: 1rem;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#searchBtn:hover {
+  background: #444;
+}
+.slide-container {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  pointer-events: auto;
+  overflow: hidden;
+}
+.slide {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  pointer-events: auto;
+}
+.slide-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  display: block;
+}
+.arrow {
+  position: absolute;
+  top: 50%;
+  font-size: 3.5rem;
+  color: #333;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0.1em 0.4em;
+  border-radius: 0.5em;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.3s, box-shadow 0.2s, background 0.2s;
+  pointer-events: auto;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: bold;
+  line-height: 1;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+  border: 1.5px solid #e0e0e0;
+}
+.arrow.left { left: 32px; }
+.arrow.right { right: 32px; }
+.arrow:hover, .arrow:focus, .arrow:active {
+  opacity: 1;
+  background: rgba(255,255,255,0.85);
+}
+.arrow:not(:hover):not(:focus):not(:active) {
+  opacity: 0;
+  background: transparent;
+}
+
+/* 4구역 텍스트 시스템 */
+.text-zone {
+  position: absolute;
+  font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+  font-weight: 600;
+  color: #2d3436;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+  z-index: 50;
+  pointer-events: auto;
+  text-align: left;
+  word-break: break-word;
+  hyphens: auto;
+  text-shadow: 
+    1px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px -1px 0 #fff,
+    2px 2px 4px rgba(0,0,0,0.1);
+  max-width: 60vw;
+  /* 배경, border, box-shadow, backdrop-filter 제거 */
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.text-zone.zone-1 {
+  top: 100px;
+  left: 80px;
+}
+
+.text-zone.zone-2 {
+  top: 100px;
+  right: 80px;
+}
+
+.text-zone.zone-3 {
+  bottom: 200px;
+  left: 80px;
+}
+
+.text-zone.zone-4 {
+  bottom: 200px;
+  right: 80px;
+}
+
+/* 텍스트 애니메이션 */
+.text-zone p {
+  color: #222;
+  font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+  text-shadow: 
+    1px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px -1px 0 #fff,
+    2px 2px 4px rgba(0,0,0,0.1);
+  max-width: 60vw;
+  z-index: 50;
+  pointer-events: auto;
+  text-align: left;
+  word-break: break-word;
+  hyphens: auto;
+  filter: drop-shadow(1px 0 white) drop-shadow(-1px 0 white)
+          drop-shadow(0 1px white) drop-shadow(0 -1px white);
+  user-select: none;
+  cursor: default;
+  background: transparent;
+  width: auto;
+  box-sizing: initial;
+  overflow: visible;
+  margin: 0 0 0.2em 0;
+  opacity: 0;
+  transform: translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+.text-zone p.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.text-zone p.done {
+  opacity: 1;
+  transform: translateY(0);
+  transition: none;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .text-zone.zone-1,
+  .text-zone.zone-2,
+  .text-zone.zone-3,
+  .text-zone.zone-4 {
+    max-width: 45vw;
+    text-align: left !important;
+    word-break: break-word;
+    white-space: normal;
+  }
+  
+  .text-zone.zone-1 { top: 60px; left: 20px; }
+  .text-zone.zone-2 { top: 60px; right: 20px; }
+  .text-zone.zone-3 { bottom: 120px; left: 20px; }
+  .text-zone.zone-4 { bottom: 120px; right: 20px; }
+  
+  .arrow {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .arrow.left { left: 16px; }
+  .arrow.right { right: 16px; }
+}
+
+@media (max-width: 900px) {
+  #tabbar-container {
+    min-width: 180px;
+    max-width: 98vw;
+    padding: 12px 6px 8px 6px;
+    border-radius: 10px;
+  }
+  #tabbar {
+    gap: 3px;
+    margin: 0 0 8px 0;
+  }
+  .tab {
+    padding: 5px 8px;
+    border-radius: 6px 6px 0 0;
+  }
+  #searchbox {
+    gap: 3px;
+    margin-bottom: 4px;
+  }
+  #searchInput {
+    padding: 4px 7px;
+    border-radius: 4px;
+  }
+  #searchBtn {
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  #tabbar-close-btn {
+    margin-top: 6px;
+    padding: 4px 12px;
+    border-radius: 4px;
+  }
+} 
+
+/* 갤럭시탭(가로/세로) 화면 최적화 */
+@media (min-width: 800px) and (max-width: 1400px) and (min-height: 600px) and (max-height: 1100px) {
+  html, body {
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+  .slide-container, .slide {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+  .text-zone, .text-zone p {
+    max-width: 70vw;
+    padding: 0 16px;
+    line-height: 1.1;
+  }
+  .text-zone.zone-1 {
+    top: 80px;
+    left: 48px;
+  }
+  .text-zone.zone-2 {
+    top: 80px;
+    right: 48px;
+  }
+  .text-zone.zone-3 {
+    bottom: 120px;
+    left: 48px;
+  }
+  .text-zone.zone-4 {
+    bottom: 120px;
+    right: 48px;
+  }
+  .arrow {
+    font-size: 2.5rem;
+    left: 24px;
+    right: 24px;
+  }
+  #tabbar-container {
+    min-width: 220px;
+    max-width: 80vw;
+    padding: 18px 12px 10px 12px;
+    border-radius: 12px;
+  }
+  #searchInput {
+    padding: 10px 16px;
+  }
+  #searchBtn {
+    padding: 10px 20px;
+  }
+}
+
+/* 갤럭시 탭 세로 모드 (10:16) 최적화 */
+@media screen and (orientation: portrait) and (min-width: 600px) and (max-width: 1200px) {
+  .text-zone {
+    max-width: 75vw;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+  }
+  
+  .text-zone p {
+    line-height: 1.1;
+  }
+  
+  .text-zone.zone-1 {
+    top: 6vh;
+    left: 4vw;
+  }
+  
+  .text-zone.zone-2 {
+    top: 6vh;
+    right: 4vw;
+  }
+  
+  .text-zone.zone-3 {
+    bottom: 6vh;
+    left: 4vw;
+  }
+  
+  .text-zone.zone-4 {
+    bottom: 6vh;
+    right: 4vw;
+  }
+  
+  .arrow {
+    font-size: 2.2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .arrow.left {
+    left: 25px;
+  }
+  
+  .arrow.right {
+    right: 25px;
+  }
+  
+  #tabbar-container {
+    min-width: 300px;
+    max-width: 85vw;
+    padding: 24px 20px 16px;
+  }
+}
+
+/* 갤럭시 탭 가로 모드 (16:10) 최적화 */
+@media screen and (orientation: landscape) and (min-width: 1000px) and (max-width: 2000px) {
+  .text-zone {
+    max-width: 65vw;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(10px);
+  }
+  
+  .text-zone p {
+    line-height: 1.1;
+  }
+  
+  .text-zone.zone-1 {
+    top: 8vh;
+    left: 6vw;
+  }
+  
+  .text-zone.zone-2 {
+    top: 8vh;
+    right: 6vw;
+  }
+  
+  .text-zone.zone-3 {
+    bottom: 8vh;
+    left: 6vw;
+  }
+  
+  .text-zone.zone-4 {
+    bottom: 8vh;
+    right: 6vw;
+  }
+  
+  .arrow {
+    font-size: 3rem;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+  
+  .arrow.left {
+    left: 40px;
+  }
+  
+  .arrow.right {
+    right: 40px;
+  }
+  
+  #tabbar-container {
+    min-width: 400px;
+    max-width: 80vw;
+    padding: 32px 28px 20px;
+  }
+}
+
+/* 고해상도 갤럭시 탭 (2560x1600) 최적화 */
+@media screen and (min-width: 2000px) {
+  .text-zone {
+    max-width: 60vw;
+    padding: 20px 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+  }
+  
+  .text-zone p {
+    line-height: 1.1;
+  }
+  
+  .arrow {
+    font-size: 3.5rem;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  .arrow.left {
+    left: 60px;
+  }
+  
+  .arrow.right {
+    right: 60px;
+  }
+  
+  #tabbar-container {
+    min-width: 500px;
+    max-width: 75vw;
+    padding: 40px 36px 24px;
+  }
+  
+  .tab {
+    padding: 12px 28px;
+  }
+  
+  #searchInput {
+    padding: 12px 20px;
+  }
+  
+  #searchBtn {
+    padding: 12px 24px;
+  }
+}
+
+/* 터치 제스처 최적화 */
+.slide-container {
+  touch-action: pan-x;
+}
+
+/* 화살표 터치 최적화 */
+.arrow:hover,
+.arrow:focus,
+.arrow:active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* 갤럭시 탭에서 터치 시 화살표 표시 */
+.slide-container:hover .arrow {
+  opacity: 0.8;
+}
+
+/* 터치 디바이스에서 화살표 항상 표시 */
+@media (hover: none) {
+  .arrow {
+    opacity: 0.7;
+  }
+  
+  .arrow:active {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+/* 성능 최적화 */
+.slide-bg {
+  will-change: transform;
+}
+
+.text-zone {
+  will-change: opacity, transform;
+}
+
+.arrow {
+  will-change: opacity, transform;
+}
+
+/* 접근성 개선 */
+.arrow:focus {
+  outline: 3px solid #007bff;
+  outline-offset: 2px;
+}
+
+.tab:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+#searchInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+#searchBtn:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a1a;
+  }
+  
+  .text-zone {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .text-zone p {
+    color: #f0f0f0;
+  }
+  
+  #tabbar-container {
+    background: #2d2d2d;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .tab {
+    background: #3a3a3a;
+    border: 1px solid #555;
+    color: #f0f0f0;
+  }
+  
+  .tab.active {
+    background: #fff;
+    color: #222;
+  }
+  
+  #searchInput {
+    background: #3a3a3a;
+    border: 2px solid #555;
+    color: #f0f0f0;
+  }
+  
+  #searchInput:focus {
+    border-color: #fff;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+  }
+} 
+  </style>
+</head>
+<body>
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10000;">×</button>
+    <div id="tabbar">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+// 4구역 위치 제어 함수
+const CONFIG = {
+  setZonePosition: (zoneNumber, top, left, right, bottom) => {
+    const zone = document.querySelector(`.zone-${zoneNumber}`);
+    if (!zone) return;
+    zone.style.top = top !== undefined ? top + 'px' : '';
+    zone.style.left = left !== undefined ? left + 'px' : '';
+    zone.style.right = right !== undefined ? right + 'px' : '';
+    zone.style.bottom = bottom !== undefined ? bottom + 'px' : '';
+  },
+  
+  setZoneFontSize: (zoneNumber, fontSize) => {
+    const zone = document.querySelector(`.zone-${zoneNumber}`);
+    if (zone) zone.style.fontSize = fontSize + 'px';
+  }
+};
+
+// 슬라이드 데이터
+const slideTemplates = [
+  {
+    bg: '../assets/img/3.1.8/1.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/2.jpg',
+    zones: {
+      1: {
+        text: 'Yellow dust usually happens in the<br>desert areas of China and Mongolia.<br>It is a natural phenomenon where<br>wind blows fine sand and dust<br>particles into the atmosphere.',
+        keywords: ['Yellow dust', 'desert', 'China', 'Mongolia', 'phenomenon', 'wind', 'sand', 'dust', 'atmosphere']
+      },
+      2: {
+        text: 'Yellow dust often occurs in East<br>Asian countries during spring.',
+        keywords: ['Yellow dust', 'Asian countries', 'spring']
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: '',
+        keywords: []
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/3.jpg',
+    zones: {
+      1: {
+        text: '',
+        keywords: []
+      },
+      2: {
+        text: 'How is yellow dust made,<br>and what are its effects?',
+        keywords: ['yellow dust', 'effects']
+      },
+      3: {
+        text: 'Yellow dust mostly travels to Korea<br>and Japan through the atmospheric<br>circulation, and sometimes even<br>reaches North America.',
+        keywords: ['Yellow dust', 'Korea', 'Japan', 'circulation', 'North America']
+      },
+      4: {
+        text: '',
+        keywords: []
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/4.jpg',
+    zones: {
+      1: {
+        text: 'Yellow dust happens in China\'s Gobi<br>Desert, Taklamakan Desert, and<br>Mongolia\'s desert areas.',
+        keywords: ['Yellow dust', 'China', 'Gobi', 'Desert', 'Taklamakan Desert', 'Mongolia', 'desert areas']
+      },
+      2: {
+        text: 'These areas have the perfect<br>conditions for yellow dust to<br>form due to their dry weather<br>and strong winds.',
+        keywords: ['areas', 'conditions', 'yellow dust', 'weather', 'winds']
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: '',
+        keywords: []
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/5.jpg',
+    zones: {
+      1: {
+        text: 'Yellow dust happens when there is<br>little rain and humidity, like in a dry<br>desert.',
+        keywords: ['Yellow dust', 'rain', 'humidity', 'desert']
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: 'The area needs sandy, dusty soil<br>and strong winds for yellow dust<br>to happen.',
+        keywords: ['area', 'soil', 'winds', 'yellow dust']
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/6.jpg',
+    zones: {
+      1: {
+        text: 'Yellow dust does not only travel<br>just above Earth\'s surface.',
+        keywords: ['Yellow dust', 'travel', 'Earth', 'surface']
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: 'It can also travel high up in the sky,<br>sometimes reaching all the way<br>to North America.',
+        keywords: ['travel','sky', 'North America']
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/7.jpg',
+    zones: {
+      1: {
+        text: 'The fine dust particles of yellow<br>dust can enter a person\'s lungs and<br>cause asthma and bronchitis.',
+        keywords: ['dust particles', 'lungs', 'asthma', 'bronchitis']
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: 'It can also cause breathing problems<br>and trigger allergic reactions.',
+        keywords: ['breathing problems', 'allergic reactions']
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/8.jpg',
+    zones: {
+      1: {
+        text: 'Yellow dust can greatly damage<br>crops.',
+        keywords: ['Yellow dust', 'crops']
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: 'Plants cannot photosynthesize<br>or grow well when dust builds up<br>on their leaves.',
+        keywords: ['plants', 'photosynthesize', 'dust', 'leaves']
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/9.jpg',
+    zones: {
+      1: {
+        text: 'Dust that builds up in the soil<br>can change the materials that<br>make up the soil and hinder<br>crop growth.',
+        keywords: ['dust', 'soil', 'materials', 'hinder', 'crop growth']
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: '',
+        keywords: []
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/10.jpg',
+    zones: {
+      1: {
+        text: 'Yellow dust also affects industrial<br>activities.',
+        keywords: ['Yellow dust', 'activities']
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: 'It can delay or even cancel flights<br>and shut down factories because<br>of mechanical failures caused by<br>the dust.',
+        keywords: ['flights', 'factories', 'mechanical failures', 'dust']
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/11.jpg',
+    zones: {
+      1: {
+        text: 'We must wear a mask outside on<br>days with severe yellow dust.',
+        keywords: ['mask', 'yellow dust']
+      },
+      2: {
+        text: 'Also, always remember to use<br>an air purifier to purify the indoor<br>air in the house.',
+        keywords: ['air purifier', 'air', 'house']
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: '',
+        keywords: []
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/12.jpg',
+    zones: {
+      1: {
+        text: 'Yellow dust is a problem that<br>crosses country borders and<br>requires international cooperation.',
+        keywords: ['Yellow dust', 'problem', 'country borders', 'international cooperation']
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: 'Countries affected by yellow dust,<br>like China, Mongolia, Korea, and<br>Japan, need to urgently conduct<br>joint research and develop<br>measures to solve this problem.',
+        keywords: ['countries', 'yellow dust', 'China', 'Mongolia', 'Korea', 'Japan', 'joint research', 'measures', 'problem']
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/13.jpg',
+    zones: {
+      1: {
+        text: '',
+        keywords: []
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: 'One solution would be to plant trees<br>in deserts where yellow dust is<br>created.',
+        keywords: ['solution', 'plant trees', 'deserts', 'yellow dust']
+      },
+      4: {
+        text: 'Planting trees hardens the ground,<br>and trees can prevent sand and<br>dust from flying away.',
+        keywords: ['trees', 'ground', 'sand', 'dust']
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/14.jpg',
+    zones: {
+      1: {
+        text: '',
+        keywords: []
+      },
+      2: {
+        text: 'We need to find different methods<br>to minimize the damage caused by<br>yellow dust.',
+        keywords: ['methods', 'damage', 'yellow dust']
+      },
+      3: {
+        text: 'Yellow dust is a natural phenomenon<br>out of our control.',
+        keywords: ['Yellow dust', 'natural phenomenon', 'control']
+      },
+      4: {
+        text: '',
+        keywords: []
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/15.jpg',
+    zones: {
+      1: {
+        text: 'We must keep checking the weather<br>and soil conditions to reduce yellow<br>dust.',
+        keywords: ['weather', 'soil conditions', 'yellow dust']
+      },
+      2: {
+        text: 'It is important that countries work<br>together to reduce the yellow dust<br>from happening.',
+        keywords: ['important', 'countries', 'yellow dust']
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: '',
+        keywords: []
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/16.jpg',
+    zones: {
+      1: {
+        text: '',
+        keywords: []
+      },
+      2: {
+        text: 'Once we learn where yellow dust<br>comes from and how it moves,<br>we can predict it more accurately.',
+        keywords: ['yellow dust', 'predict']
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: 'We can lessen the damage by using<br>computer weather predictions to<br>foresee the movement of yellow<br>dust and then take steps to protect<br>ourselves.',
+        keywords: ['damage', 'computer weather predictions', 'movement', 'yellow dust', 'protect']
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/17.jpg',
+    zones: {
+      1: {
+        text: 'With satellites, we can see where<br>yellow dust travels in real time.',
+        keywords: ['satellites', 'yellow dust', 'real time']
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: 'Studying satellite images from<br>space can help make a plan that<br>predicts how yellow dust forms<br>and travels.',
+        keywords: ['satellite images', 'space', 'plan', 'yellow dust']
+      }
+    }
+  },
+  {
+    bg: '../assets/img/3.1.8/18.jpg',
+    zones: {
+      1: {
+        text: 'If we develop a system that predicts<br>yellow dust, it can warn people<br>ahead of time and protect them<br>from damage from yellow dust.',
+        keywords: ['system', 'yellow dust', 'warn', 'people', 'damage', 'protect']
+      },
+      2: {
+        text: '',
+        keywords: []
+      },
+      3: {
+        text: '',
+        keywords: []
+      },
+      4: {
+        text: '',
+        keywords: []
+      }
+    }
+  }
+];
+
+let current = 0;
+let textAnimated = Array(slideTemplates.length).fill(false);
+
+// 모달 팝업 함수
+function laypop(message) {
+  const tabbar = document.getElementById('tabbar-container');
+  const overlay = document.getElementById('tabbar-modal-overlay');
+  if (tabbar) tabbar.classList.add('show-tabbar');
+  if (overlay) overlay.style.display = 'block';
+  
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.value = message;
+  
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  if (tabs[0]) tabs[0].classList.add('active');
+}
+
+// 키워드 클릭 이벤트
+function handleKeywordClick(keyword) {
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.value = keyword;
+  laypop(keyword);
+}
+
+// 텍스트 렌더링 with 키워드 하이라이팅
+function renderTextWithKeywords(text, keywords) {
+  // 긴 키워드부터 먼저 치환, 이미 감싼 부분은 다시 치환하지 않음
+  if (!Array.isArray(keywords) || keywords.length === 0) return text;
+  // 키워드 길이 내림차순 정렬
+  const sortedKeywords = [...keywords].sort((a, b) => b.length - a.length);
+  let processedText = text;
+  sortedKeywords.forEach(keyword => {
+    // 이미 감싼 부분은 제외하고, 나머지만 치환
+    // (1) 태그로 감싸진 부분 split
+    const parts = processedText.split(/(<span[^>]*>.*?<\/span>)/g);
+    for (let i = 0; i < parts.length; i++) {
+      // span 태그가 아닌 부분만 치환
+      if (!parts[i].startsWith('<span')) {
+        // 단어 경계 무시, 단순히 해당 문자열만 치환
+        const regex = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+        parts[i] = parts[i].replace(regex, `<span style="cursor:pointer;" onclick=\"handleKeywordClick('${keyword}')\">${keyword}</span>`);
+      }
+    }
+    processedText = parts.join('');
+  });
+  return processedText;
+}
+
+// 명사 클릭 span 래핑 함수 (줄바꿈 포함 명사 지원)
+function renderZoneTextWithNounSpans(text, keywords) {
+  if (!text) return '';
+  let html = text;
+  // 긴 명사 우선 매칭
+  keywords.sort((a, b) => b.length - a.length).forEach(noun => {
+    // 줄바꿈 포함 매칭: 공백을 [ \n\r\t\f\v]*로 치환
+    const pattern = noun.replace(/ /g, '[ \n\r\t\f\v]*');
+    html = html.replace(
+      new RegExp(pattern, 'gi'),
+      match => `<span class="noun-span">${match}</span>`
+    );
+  });
+  // <br>로 분할하여 <p>로 감싸기
+  return html.split(/<br\s*\/?>/i).map(line => `<p>${line}</p>`).join('');
+}
+
+// 이미지 크기에 따라 .text-zone의 p 폰트 크기를 동적으로 조정
+function setTextFontSizeByImage(imgElem) {
+  // 이미지 크기에 따라 폰트 크기 조정하지 않음 (고정)
+  return;
+}
+
+// 슬라이드 렌더링
+function renderSlide(idx) {
+  // 기준 위치(px)
+  const BASE_WIDTH = 1440;
+  const BASE_HEIGHT = 900;
+  const zoneBase = {
+    1: { top: 120, left: 250 },
+    2: { top: 120, left: 1020 },
+    3: { bottom: 80, left: 250 },
+    4: { bottom: 80, left: 1020 }
+  };
+  const baseFontSize = 36;
+
+  const slide = slideTemplates[idx];
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+
+  const container = document.createElement('div');
+  container.className = 'slide-container';
+
+  const leftArrow = document.createElement('button');
+  leftArrow.className = 'arrow left';
+  leftArrow.innerHTML = '&#60;';
+  leftArrow.tabIndex = -1;
+  leftArrow.addEventListener('click', prevSlide);
+  container.appendChild(leftArrow);
+
+  const imgWrapper = document.createElement('div');
+  imgWrapper.className = 'slide-img-wrapper';
+
+  const img = document.createElement('img');
+  img.className = 'slide-bg';
+  img.src = slide.bg;
+  img.alt = 'slide';
+  imgWrapper.appendChild(img);
+
+  // 4구역 텍스트 생성
+  const zoneDivs = {};
+  Object.entries(slide.zones).forEach(([zoneNum, zoneData]) => {
+    if (zoneData.text) {
+      const textZone = document.createElement('div');
+      textZone.className = `text-zone zone-${zoneNum}`;
+      // 줄바꿈(<br> 또는 \n)마다 p 태그 생성
+      const lines = zoneData.text.split(/<br\s*\/?>|\n/);
+      lines.forEach(line => {
+        if (line.trim() === '') return;
+        const paragraph = document.createElement('p');
+        paragraph.innerHTML = renderZoneTextWithNounSpans(line, zoneData.keywords);
+        textZone.appendChild(paragraph);
+      });
+      // 명사 클릭 이벤트 바인딩
+      textZone.querySelectorAll('.noun-span').forEach(el => {
+        el.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (typeof laypop === 'function') {
+            laypop(this.textContent);
+          } else {
+            alert(this.textContent);
+          }
+        });
+      });
+      imgWrapper.appendChild(textZone);
+      zoneDivs[zoneNum] = textZone;
+    }
+  });
+
+  container.appendChild(imgWrapper);
+
+  const rightArrow = document.createElement('button');
+  rightArrow.className = 'arrow right';
+  rightArrow.innerHTML = '&#62;';
+  rightArrow.tabIndex = -1;
+  rightArrow.addEventListener('click', nextSlide);
+  container.appendChild(rightArrow);
+
+  app.appendChild(container);
+
+  // 위치/폰트크기 scaling 적용 함수
+  function applyZoneResponsive() {
+    const scaleW = window.innerWidth / BASE_WIDTH;
+    const scaleH = window.innerHeight / BASE_HEIGHT;
+    const scale = Math.min(scaleW, scaleH);
+    [1,2,3,4].forEach(zoneNum => {
+      const div = zoneDivs[zoneNum];
+      if (!div) return;
+      const base = zoneBase[zoneNum];
+      // 위치
+      if (base.top !== undefined) div.style.top = (base.top * scale) + 'px';
+      else div.style.top = '';
+      if (base.left !== undefined) div.style.left = (base.left * scale) + 'px';
+      else div.style.left = '';
+      if (base.bottom !== undefined) div.style.bottom = (base.bottom * scale) + 'px';
+      else div.style.bottom = '';
+      if (base.right !== undefined) div.style.right = (base.right * scale) + 'px';
+      else div.style.right = '';
+      // 폰트 크기
+      div.querySelectorAll('p').forEach(p => {
+        p.style.fontSize = (baseFontSize * scale) + 'px';
+        p.style.margin = '0 0 0.2em 0';
+        p.style.padding = '0';
+        p.style.boxSizing = 'border-box';
+      });
+      // 오프셋 방지: margin/padding 제거
+      div.style.margin = '0';
+      div.style.padding = '0';
+      div.style.boxSizing = 'border-box';
+    });
+  }
+
+  // 최초 적용 및 리사이즈 반영
+  window.addEventListener('resize', applyZoneResponsive);
+  setTimeout(applyZoneResponsive, 0);
+
+  // 나머지 기존 기능(애니메이션, 화살표, drag 등) 유지
+  // zone 위치 기본값 적용
+  // CONFIG.setZonePosition(1, 120, 250); // 이 부분은 이미 위에서 처리했으므로 제거
+  // CONFIG.setZonePosition(2, 120, 1020); // 이 부분은 이미 위에서 처리했으므로 제거
+  // CONFIG.setZonePosition(3, undefined, 250, undefined, 80); // 이 부분은 이미 위에서 처리했으므로 제거
+  // CONFIG.setZonePosition(4, undefined, 1020, undefined, 80); // 이 부분은 이미 위에서 처리했으므로 제거
+
+  // 갤럭시 탭 최적화 텍스트 애니메이션
+  if (!textAnimated[idx]) {
+    setTimeout(() => {
+      const order = [1, 3, 2, 4];
+      let pList = [];
+      order.forEach(zoneNum => {
+        const zone = container.querySelector(`.zone-${zoneNum}`);
+        if (zone) {
+          pList = pList.concat(Array.from(zone.querySelectorAll('p')));
+        }
+      });
+      if (pList[0]) {
+        setTimeout(() => {
+          const p = container.querySelectorAll('p')[0];
+          if (p) p.classList.add('visible');
+        }, 500);
+      }
+      for (let i = 1; i < pList.length; i++) {
+        setTimeout(() => {
+          const p = container.querySelectorAll('p')[i];
+          if (p) p.classList.add('visible');
+        }, 600 + (i - 1) * 100);
+      }
+      // 모든 애니메이션이 끝난 후 visible이 안 된 p가 있으면 한 번 더 적용
+      setTimeout(() => {
+        container.querySelectorAll('p').forEach(p => {
+          if (!p.classList.contains('visible')) {
+            p.classList.add('visible');
+          }
+        });
+      }, 600 + (pList.length - 1) * 100 + 400);
+    }, 400);
+    textAnimated[idx] = true;
+  } else {
+    // 이미 애니메이션이 실행된 경우, 모든 텍스트를 즉시 visible로
+    container.querySelectorAll('p').forEach(el => el.classList.add('visible'));
+  }
+
+  positionArrows(img, leftArrow, rightArrow);
+  addDragEvents(container, leftArrow, rightArrow);
+}
+
+function positionArrows(imgElem, leftArrow, rightArrow) {
+  if (!imgElem || !leftArrow || !rightArrow) return;
+  const imgRect = imgElem.getBoundingClientRect();
+  const slideRect = imgElem.parentElement.getBoundingClientRect();
+  leftArrow.style.top = (imgRect.top - slideRect.top + imgRect.height/2) + 'px';
+  rightArrow.style.top = (imgRect.top - slideRect.top + imgRect.height/2) + 'px';
+  leftArrow.style.transform = 'translateY(-50%)';
+  rightArrow.style.transform = 'translateY(-50%)';
+}
+
+function prevSlide() {
+  CONFIG.setZonePosition(1, 120, 250);
+  CONFIG.setZonePosition(2, 120, 1020);
+  CONFIG.setZonePosition(3, undefined, 250, undefined, 80);
+  CONFIG.setZonePosition(4, undefined, 1020, undefined, 80);
+  textAnimated[current] = false;
+  current = (current - 1 + slideTemplates.length) % slideTemplates.length;
+  renderSlide(current);
+}
+
+function nextSlide() {
+  CONFIG.setZonePosition(1, 120, 250);
+  CONFIG.setZonePosition(2, 120, 1020);
+  CONFIG.setZonePosition(3, undefined, 250, undefined, 80);
+  CONFIG.setZonePosition(4, undefined, 1020, undefined, 80);
+  textAnimated[current] = false;
+  current = (current + 1) % slideTemplates.length;
+  renderSlide(current);
+}
+
+function addDragEvents(container, leftArrow, rightArrow) {
+  let startX = null;
+  let dragging = false;
+  container.onmousedown = e => { startX = e.clientX; dragging = true; };
+  container.onmousemove = e => { if (!dragging) return; };
+  container.onmouseup = e => {
+    if (!dragging) return;
+    const diff = e.clientX - startX;
+    if (diff > 60) leftArrow.click();
+    else if (diff < -60) rightArrow.click();
+    dragging = false;
+    startX = null;
+  };
+  // 모바일 터치
+  container.ontouchstart = e => { startX = e.touches[0].clientX; dragging = true; };
+  container.ontouchmove = e => { if (!dragging) return; };
+  container.ontouchend = e => {
+    if (!dragging) return;
+    const endX = e.changedTouches[0].clientX;
+    const diff = endX - startX;
+    if (diff > 60) leftArrow.click();
+    else if (diff < -60) rightArrow.click();
+    dragging = false;
+    startX = null;
+  };
+}
+
+// 첫 슬라이드 표시
+window.onload = () => {
+  renderSlide(current);
+};
+
+// 탭바 이벤트 처리
+window.addEventListener('DOMContentLoaded', () => {
+  const tabs = document.querySelectorAll('.tab');
+  const searchInput = document.getElementById('searchInput');
+  
+  tabs.forEach(tab => tab.classList.remove('active'));
+  if (tabs[0]) tabs[0].classList.add('active');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      tabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+  
+  // === YouTube 채널별 검색 개선 ===
+  const API_KEY = 'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4';
+
+  // 채널 정보
+  const channels = {
+      'National Geographic': {
+          id: 'UCpVm7bg6pXKo1Pr6k5kxG9A',
+          handle: '@NationalGeographic'
+      },
+      'Discovery': {
+          id: 'UCqnbDFdCpuN8CMEg0VuEBqA',
+          handle: '@Discovery'
+      },
+      'TED': {
+          id: 'UCAuUUnT6oDeKwE6v1NGQxug',
+          handle: '@TED'
+      }
+  };
+
+  // 1. 채널 ID로 검색 (가장 정확)
+  async function searchInChannel(channelKey, searchTerm) {
+      const channel = channels[channelKey];
+      const url = `https://www.googleapis.com/youtube/v3/search?` +
+          `part=snippet&type=video&maxResults=8&` +
+          `channelId=${channel.id}&q=${encodeURIComponent(searchTerm)}&` +
+          `key=${API_KEY}`;
+      console.log(`[채널검색] ${channel.handle}:`, url);
+      try {
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.error) {
+              console.error('API 에러:', data.error);
+              return [];
+          }
+          // 임베드 허용 영상만 필터링
+          const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
+          if (videoIds.length === 0) return [];
+          const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${API_KEY}`;
+          const statusRes = await fetch(statusUrl);
+          const statusData = await statusRes.json();
+          const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
+          return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
+      } catch (error) {
+          console.error('검색 실패:', error);
+          return [];
+      }
+  }
+
+  // 2. 채널의 최신 비디오 가져오기
+  async function getChannelVideos(channelKey, maxResults = 8) {
+      const channel = channels[channelKey];
+      const url = `https://www.googleapis.com/youtube/v3/search?` +
+          `part=snippet&type=video&maxResults=${maxResults}&` +
+          `channelId=${channel.id}&order=date&` +
+          `key=${API_KEY}`;
+      console.log(`[최신비디오] ${channel.handle}:`, url);
+      try {
+          const response = await fetch(url);
+          const data = await response.json();
+          // 임베드 허용 영상만 필터링
+          const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
+          if (videoIds.length === 0) return [];
+          const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${API_KEY}`;
+          const statusRes = await fetch(statusUrl);
+          const statusData = await statusRes.json();
+          const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
+          return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
+      } catch (error) {
+          console.error('비디오 가져오기 실패:', error);
+          return [];
+      }
+  }
+
+  // 3. 전체 검색 (채널 지정 없이)
+  async function globalSearch(searchTerm) {
+      const url = `https://www.googleapis.com/youtube/v3/search?` +
+          `part=snippet&type=video&maxResults=8&` +
+          `q=${encodeURIComponent(searchTerm)}&` +
+          `key=${API_KEY}`;
+      console.log(`[전체검색]:`, url);
+      try {
+          const response = await fetch(url);
+          const data = await response.json();
+          // 임베드 허용 영상만 필터링
+          const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
+          if (videoIds.length === 0) return [];
+          const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${API_KEY}`;
+          const statusRes = await fetch(statusUrl);
+          const statusData = await statusRes.json();
+          const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
+          return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
+      } catch (error) {
+          console.error('전체 검색 실패:', error);
+          return [];
+      }
+  }
+
+  // 4. API 상태 확인
+  async function checkApiStatus() {
+      const testUrl = `https://www.googleapis.com/youtube/v3/channels?` +
+          `part=snippet&id=${channels.natgeo.id}&key=${API_KEY}`;
+      try {
+          const response = await fetch(testUrl);
+          const data = await response.json();
+          if (data.error) {
+              console.error('API 키 문제:', data.error.message);
+              return false;
+          } else {
+              console.log('API 정상 작동:', data.items[0].snippet.title);
+              return true;
+          }
+      } catch (error) {
+          console.error('API 연결 실패:', error);
+          return false;
+      }
+  }
+
+  // 5. 검색 버튼 클릭 이벤트 리팩토링
+  const searchBtn = document.getElementById('searchBtn');
+  searchBtn.addEventListener('click', async function() {
+      const activeTab = document.querySelector('.tab.active');
+      const tabLabel = activeTab ? activeTab.dataset.label : 'NatGeo';
+      const query = searchInput.value;
+      let results = [];
+      if (tabLabel === 'National Geographic') {
+          results = await searchInChannel('National Geographic', query);
+      } else if (tabLabel === 'Discovery') {
+          results = await searchInChannel('Discovery', query);
+      } else if (tabLabel === 'TED') {
+          results = await searchInChannel('TED', query);
+      } else {
+          results = await globalSearch(query);
+      }
+      renderYoutubeResults(results);
+  });
+
+  // 6. 테스트 및 API 상태 확인 (원할 때만 호출)
+  // checkApiStatus().then(isWorking => {
+  //     if (isWorking) {
+  //         // testSearches();
+  //     }
+  // });
+  
+  // 닫기 버튼 추가
+  const tabbar = document.getElementById('tabbar-container');
+  if (tabbar && !document.getElementById('tabbar-close-btn')) {
+    const closeBtn = document.createElement('button');
+    closeBtn.id = 'tabbar-close-btn';
+    closeBtn.textContent = 'close';
+    closeBtn.style.marginTop = '12px';
+    closeBtn.style.padding = '8px 24px';
+    closeBtn.style.fontSize = '1rem';
+    closeBtn.style.background = '#222';
+    closeBtn.style.color = '#fff';
+    closeBtn.style.border = 'none';
+    closeBtn.style.borderRadius = '6px';
+    closeBtn.style.cursor = 'pointer';
+    closeBtn.style.transition = 'background 0.2s';
+    closeBtn.addEventListener('mouseover', () => closeBtn.style.background = '#444');
+    closeBtn.addEventListener('mouseout', () => closeBtn.style.background = '#222');
+    closeBtn.addEventListener('click', () => {
+      tabbar.classList.remove('show-tabbar');
+      const overlay = document.getElementById('tabbar-modal-overlay');
+      if (overlay) overlay.style.display = 'none';
+    });
+    tabbar.appendChild(closeBtn);
+  }
+  
+  // 오버레이 클릭 시 닫기
+  const overlay = document.getElementById('tabbar-modal-overlay');
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      if (tabbar) tabbar.classList.remove('show-tabbar');
+      overlay.style.display = 'none';
+    });
+  }
+  // X 버튼(오른쪽 상단) 클릭 시 모달 닫기
+  const xBtn = document.getElementById('tabbar-x-btn');
+  if (xBtn) {
+    xBtn.addEventListener('click', () => {
+      const tabbar = document.getElementById('tabbar-container');
+      if (tabbar) tabbar.classList.remove('show-tabbar');
+      const overlay = document.getElementById('tabbar-modal-overlay');
+      if (overlay) overlay.style.display = 'none';
+    });
+  }
+});
+
+// window.addEventListener('DOMContentLoaded', ...) 바깥에 openYoutubePopup 함수 선언
+function openYoutubePopup(vid) {
+  const w = Math.floor(window.innerWidth * 0.9);
+  const h = Math.floor(window.innerHeight * 0.9);
+  const left = window.screenX + Math.floor((window.innerWidth - w) / 2);
+  const top = window.screenY + Math.floor((window.innerHeight - h) / 2);
+  window.open(
+    `https://www.youtube.com/watch?v=${vid}`,
+    '_blank',
+    `width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no`
+  );
+}
+  // 전체화면 진입 함수 (사용자 제스처 필요)
+  function requestFullscreen() {
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  }
+  // 모바일에서 첫 터치 시 전체화면 진입 시도
+  window.addEventListener('touchstart', function autoFullscreen() {
+    requestFullscreen();
+    window.removeEventListener('touchstart', autoFullscreen);
+  });
+  // PC에서도 버튼으로 전체화면 진입 가능 (옵션)
+  // window.addEventListener('keydown', e => { if (e.key === 'f') requestFullscreen(); });
+
+
+// 검색 결과 렌더링 함수 선언 (window.addEventListener 등 바깥, <script> 내 최상단)
+function renderYoutubeResults(items) {
+  let html = '';
+  if (!items || items.length === 0) {
+    html = '<div style="padding:2em; text-align:center;">임베드 허용된 영상이 없습니다.</div>';
+  } else {
+    html = items.map((item, idx) => `
+      <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
+        <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
+          <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
+        </div>
+        <div>
+          <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
+            ${item.snippet.title}
+          </div>
+          <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+  let modal = document.getElementById('search-result-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'search-result-modal';
+    modal.style.position = 'fixed';
+    modal.style.left = '0';
+    modal.style.top = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.background = 'rgba(0,0,0,0.55)';
+    modal.style.zIndex = '10001';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.innerHTML = `
+      <div style="position:relative; width:90vw; max-width:1200px; height:80vh; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); display:flex; flex-direction:column;">
+        <button id="search-modal-close" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10002;">×</button>
+        <div id="search-iframe-wrap" style="flex:1; min-height:0; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; overflow-y:auto; padding:2em;"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    document.getElementById('search-modal-close').onclick = () => { modal.remove(); };
+  } else {
+    modal.style.display = 'flex';
+  }
+  document.getElementById('search-iframe-wrap').innerHTML = html;
+  setTimeout(() => {
+    let lastPlayer = null;
+    let lastPlayerDiv = null;
+    document.querySelectorAll('.yt-thumb-title').forEach(el => {
+      el.onclick = function() {
+        const vid = this.dataset.videoid;
+        const itemDiv = this.closest('.yt-result-item');
+        if (!itemDiv) return;
+        if (lastPlayer && typeof lastPlayer.destroy === 'function') lastPlayer.destroy();
+        if (lastPlayerDiv && lastPlayerDiv.parentNode) lastPlayerDiv.parentNode.removeChild(lastPlayerDiv);
+        const exist = itemDiv.querySelector('.yt-inline-player-wrap');
+        if (exist) { exist.remove(); lastPlayer = null; lastPlayerDiv = null; return; }
+        const wrap = document.createElement('div');
+        wrap.className = 'yt-inline-player-wrap';
+        wrap.style.position = 'absolute';
+        wrap.style.left = '0';
+        wrap.style.top = '0';
+        wrap.style.width = '100%';
+        wrap.style.height = '100%';
+        wrap.style.background = 'rgba(0,0,0,0.95)';
+        wrap.style.display = 'flex';
+        wrap.style.alignItems = 'center';
+        wrap.style.justifyContent = 'center';
+        wrap.style.zIndex = '100';
+        wrap.innerHTML = `
+          <div style="position:relative;width:80vw;max-width:900px;height:45vw;max-height:60vh;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+            <button class="yt-inline-close" style="position:absolute;right:12px;top:12px;font-size:2rem;font-weight:bold;background:none;border:none;color:#fff;z-index:10011;cursor:pointer;">×</button>
+            <div id="yt-player-api-box" style="width:100%;height:100%;"></div>
+          </div>
+        `;
+        itemDiv.appendChild(wrap);
+        lastPlayerDiv = wrap;
+        wrap.querySelector('.yt-inline-close').onclick = () => { if (lastPlayer && typeof lastPlayer.destroy === 'function') lastPlayer.destroy(); wrap.remove(); lastPlayer = null; lastPlayerDiv = null; };
+        if (window.YT && window.YT.Player) {
+          lastPlayer = new YT.Player(wrap.querySelector('#yt-player-api-box'), {
+            width: '100%',
+            height: '100%',
+            videoId: vid,
+            playerVars: { 'autoplay': 1, 'controls': 1 },
+            events: {
+              'onReady': function (event) { event.target.playVideo(); }
+            }
+          });
+        } else {
+          let retry = 0;
+          function tryCreatePlayer() {
+            if (window.YT && window.YT.Player) {
+              lastPlayer = new YT.Player(wrap.querySelector('#yt-player-api-box'), {
+                width: '100%',
+                height: '100%',
+                videoId: vid,
+                playerVars: { 'autoplay': 1, 'controls': 1 },
+                events: {
+                  'onReady': function (event) { event.target.playVideo(); }
+                }
+              });
+            } else if (retry < 10) {
+              retry++;
+              setTimeout(tryCreatePlayer, 300);
+            }
+          }
+          tryCreatePlayer();
+        }
+      };
+    });
+  }, 100);
+}
+  </script>
+</body>
+</html>

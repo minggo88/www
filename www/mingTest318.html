@@ -7,7 +7,9 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
   <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
   <link rel="stylesheet" href="style.css">
   <style>
 /* --- style.css 전체 --- */
@@ -20,16 +22,26 @@ html, body {
   min-width: 100vw;
   overflow: hidden;
   font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
-  background: #f8f8f8;
+  background: transparent;
+  position: fixed; /* 전체화면 고정 */
 }
 body {
-  background: #fff;
+  background: transparent;
   width: 100vw;
   height: 100vh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* iOS Safari 전체화면 */
+  -webkit-appearance: none;
+  /* Android Chrome 전체화면 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #app {
   width: 100vw;
@@ -161,14 +173,14 @@ body {
   top: 50%;
   font-size: 3.5rem;
   color: #333;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.8);
   border: none;
   cursor: pointer;
   z-index: 2;
   padding: 0.1em 0.4em;
   border-radius: 0.5em;
   user-select: none;
-  opacity: 0;
+  opacity: 0.7;
   transition: opacity 0.3s, box-shadow 0.2s, background 0.2s;
   pointer-events: auto;
   font-family: 'Arial Black', Arial, sans-serif;
@@ -179,60 +191,97 @@ body {
 }
 .arrow.left { left: 32px; }
 .arrow.right { right: 32px; }
-.arrow:hover, .arrow:focus, .arrow:active {
-  opacity: 1;
-  background: rgba(255,255,255,0.85);
-}
 .arrow:not(:hover):not(:focus):not(:active) {
-  opacity: 0;
-  background: transparent;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.arrow:hover,
+.arrow:focus,
+.arrow:active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
-/* 4구역 텍스트 시스템 */
+/* 기본 zone 스타일 */
+.text-zone, .text-zone p {
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal;
+}
+
+.text-zone:empty::before {
+  content: '\00a0';
+  display: block;
+}
+
 .text-zone {
   position: absolute;
-  font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
-  font-weight: 600;
-  color: #2d3436;
-  line-height: 1.1;
-  letter-spacing: -0.05em;
-  z-index: 50;
-  pointer-events: auto;
-  text-align: left;
-  word-break: break-word;
-  hyphens: auto;
-  text-shadow: 
-    1px 1px 0 #fff,
-    -1px 1px 0 #fff,
-    1px -1px 0 #fff,
-    -1px -1px 0 #fff,
-    2px 2px 4px rgba(0,0,0,0.1);
-  max-width: 60vw;
-  /* 배경, border, box-shadow, backdrop-filter 제거 */
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  line-height: 1.4;
+  z-index: 10;
+  word-wrap: break-word;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background: transparent;
+  border-radius: 0;
+  backdrop-filter: none;
+  transition: all 0.3s ease;
 }
 
-.text-zone.zone-1 {
-  top: 100px;
-  left: 80px;
+/* 가로 모드 (landscape) */
+@media screen and (orientation: landscape) {
+  .text-zone {
+    font-size: 2vw;
+  }
 }
 
-.text-zone.zone-2 {
-  top: 100px;
-  right: 80px;
+/* 세로 모드 (portrait) */
+@media screen and (orientation: portrait) {
+  .text-zone {
+    font-size: 2.5vh;
+  }
 }
 
-.text-zone.zone-3 {
-  bottom: 200px;
-  left: 80px;
-}
-
-.text-zone.zone-4 {
-  bottom: 200px;
-  right: 80px;
+/* 모바일 세로모드에서 필터 탭 크기 조정 */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  #tabbar-container {
+    min-width: 280px;
+    max-width: 95vw;
+    padding: 20px 20px 12px 20px;
+  }
+  
+  #tabbar {
+    gap: 4px;
+    margin: 0 0 12px 0;
+  }
+  
+  .tab {
+    padding: 6px 12px;
+    min-width: 80px;
+    font-size: 0.8rem;
+    border-radius: 6px 6px 0 0;
+  }
+  
+  #searchbox {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  
+  #searchInput {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+  }
+  
+  #searchBtn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+  }
 }
 
 /* 텍스트 애니메이션 */
@@ -240,33 +289,48 @@ body {
   color: #222;
   font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
   font-weight: 600;
-  font-size: 36px;
-  line-height: 1.1;
+  font-size: 35px;
+  line-height: 1.3;
   letter-spacing: -0.05em;
-  text-shadow: 
+  text-shadow:
     1px 1px 0 #fff,
     -1px 1px 0 #fff,
     1px -1px 0 #fff,
     -1px -1px 0 #fff,
-    2px 2px 4px rgba(0,0,0,0.1);
-  max-width: 60vw;
+    0.5px 0.5px 1px rgba(0,0,0,0.1) !important;
+  filter: none !important;
+  max-width: none;
+  width: auto;
   z-index: 50;
   pointer-events: auto;
   text-align: left;
   word-break: break-word;
   hyphens: auto;
-  filter: drop-shadow(1px 0 white) drop-shadow(-1px 0 white)
-          drop-shadow(0 1px white) drop-shadow(0 -1px white);
-  user-select: none;
-  cursor: default;
-  background: transparent;
-  width: auto;
-  box-sizing: initial;
-  overflow: visible;
-  margin: 0 0 0.2em 0;
+  margin: 0;
+  padding: 0;
   opacity: 0;
-  transform: translateY(0);
-  transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+  transform: translateY(30px);
+  transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* 명사 버튼 스타일 */
+.noun-span {
+  cursor: pointer;
+  pointer-events: auto;
+  color: #222;
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.noun-span:hover {
+  background-color: transparent !important;
+}
+.noun-span:active {
+  background-color: transparent !important;
 }
 
 .text-zone p.visible {
@@ -286,21 +350,23 @@ body {
   .text-zone.zone-2,
   .text-zone.zone-3,
   .text-zone.zone-4 {
-    max-width: 45vw;
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
     text-align: left !important;
     word-break: break-word;
     white-space: normal;
   }
   
-  .text-zone.zone-1 { top: 60px; left: 20px; }
-  .text-zone.zone-2 { top: 60px; right: 20px; }
-  .text-zone.zone-3 { bottom: 120px; left: 20px; }
-  .text-zone.zone-4 { bottom: 120px; right: 20px; }
+  /* 위치는 JavaScript에서 제어 */
   
   .arrow {
     font-size: 2rem;
     width: 50px;
     height: 50px;
+    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.9);
   }
   
   .arrow.left { left: 16px; }
@@ -334,11 +400,6 @@ body {
     padding: 4px 10px;
     border-radius: 4px;
   }
-  #tabbar-close-btn {
-    margin-top: 6px;
-    padding: 4px 12px;
-    border-radius: 4px;
-  }
 } 
 
 /* 갤럭시탭(가로/세로) 화면 최적화 */
@@ -354,9 +415,11 @@ body {
     max-height: 100vh;
   }
   .text-zone, .text-zone p {
-    max-width: 70vw;
-    padding: 0 16px;
-    line-height: 1.1;
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    line-height: 1.3;
   }
   .text-zone.zone-1 {
     top: 80px;
@@ -396,16 +459,18 @@ body {
 /* 갤럭시 탭 세로 모드 (10:16) 최적화 */
 @media screen and (orientation: portrait) and (min-width: 600px) and (max-width: 1200px) {
   .text-zone {
-    max-width: 75vw;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(8px);
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
   }
   
   .text-zone p {
-    line-height: 1.1;
+    line-height: 1.3;
   }
   
   .text-zone.zone-1 {
@@ -415,7 +480,8 @@ body {
   
   .text-zone.zone-2 {
     top: 6vh;
-    right: 4vw;
+    left: 50%;
+    transform: translateX(-50%);
   }
   
   .text-zone.zone-3 {
@@ -425,7 +491,8 @@ body {
   
   .text-zone.zone-4 {
     bottom: 6vh;
-    right: 4vw;
+    left: 50%;
+    transform: translateX(-50%);
   }
   
   .arrow {
@@ -433,8 +500,8 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: transparent;
+    box-shadow: none;
   }
   
   .arrow.left {
@@ -455,16 +522,18 @@ body {
 /* 갤럭시 탭 가로 모드 (16:10) 최적화 */
 @media screen and (orientation: landscape) and (min-width: 1000px) and (max-width: 2000px) {
   .text-zone {
-    max-width: 65vw;
-    padding: 16px 24px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 16px;
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.18);
-    backdrop-filter: blur(10px);
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
   }
   
   .text-zone p {
-    line-height: 1.1;
+    line-height: 1.3;
   }
   
   .text-zone.zone-1 {
@@ -474,7 +543,8 @@ body {
   
   .text-zone.zone-2 {
     top: 8vh;
-    right: 6vw;
+    left: 50%;
+    transform: translateX(-50%);
   }
   
   .text-zone.zone-3 {
@@ -484,7 +554,8 @@ body {
   
   .text-zone.zone-4 {
     bottom: 8vh;
-    right: 6vw;
+    left: 50%;
+    transform: translateX(-50%);
   }
   
   .arrow {
@@ -492,8 +563,8 @@ body {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    background: transparent;
+    box-shadow: none;
   }
   
   .arrow.left {
@@ -514,16 +585,18 @@ body {
 /* 고해상도 갤럭시 탭 (2560x1600) 최적화 */
 @media screen and (min-width: 2000px) {
   .text-zone {
-    max-width: 60vw;
-    padding: 20px 28px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(12px);
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
   }
   
   .text-zone p {
-    line-height: 1.1;
+    line-height: 1.3;
   }
   
   .arrow {
@@ -531,8 +604,8 @@ body {
     width: 84px;
     height: 84px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: transparent;
+    box-shadow: none;
   }
   
   .arrow.left {
@@ -572,13 +645,35 @@ body {
 .arrow:focus,
 .arrow:active {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.95);
+  background: transparent;
   transform: translateY(-50%) scale(1.05);
+}
+
+/* 전체화면에서 화살표 항상 표시 */
+.arrow {
+  z-index: 1000;
+  pointer-events: auto;
 }
 
 /* 갤럭시 탭에서 터치 시 화살표 표시 */
 .slide-container:hover .arrow {
   opacity: 0.8;
+}
+
+/* iOS Safari 전용 전체화면 스타일 */
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+}
+
+/* 안드로이드 크롬 전용 전체화면 스타일 */
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+  html, body {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+  }
 }
 
 /* 터치 디바이스에서 화살표 항상 표시 */
@@ -591,6 +686,16 @@ body {
     opacity: 1;
     transform: translateY(-50%) scale(1.1);
   }
+}
+
+/* 전체화면에서 터치 이벤트 보장 */
+.slide-container {
+  pointer-events: auto;
+  touch-action: pan-x;
+}
+
+.slide {
+  pointer-events: auto;
 }
 
 /* 성능 최적화 */
@@ -625,6 +730,115 @@ body {
 #searchBtn:focus {
   outline: 2px solid #007bff;
   outline-offset: 2px;
+}
+
+/* 페이지 인디케이터 호버 효과 */
+#page-indicator:hover {
+  opacity: 1 !important;
+}
+
+/* 페이지 인디케이터 기본 스타일 */
+.page-dot {
+  background: rgba(255,255,255,0.3) !important;
+  border: 2px solid rgba(255,255,255,0.1) !important;
+}
+
+.page-dot.active {
+  background: #fff !important;
+  border: 2px solid #fff !important;
+}
+
+/* 갤럭시 탭 S9 최적화 (가로/세로 모드 모두) */
+@media screen and (min-width: 800px) and (max-width: 1400px) and (min-height: 600px) and (max-height: 1100px),
+       screen and (orientation: portrait) and (min-width: 600px) and (max-width: 1200px) {
+  /* 슬라이드 버튼 숨기기 (일반 화면 + 전체화면) */
+  .arrow {
+    display: none !important;
+  }
+  
+  /* 갤럭시 탭 S9에서 페이지 인디케이터 기본 회색 */
+  .page-dot {
+    background: rgba(128,128,128,0.4) !important;
+    border: 2px solid rgba(128,128,128,0.2) !important;
+  }
+  
+  .page-dot.active {
+    background: rgba(128,128,128,0.8) !important;
+    border: 2px solid rgba(128,128,128,0.6) !important;
+  }
+  
+  .page-dot:hover {
+    background: rgba(128,128,128,0.6) !important;
+    transform: scale(1.2) !important;
+  }
+  
+  /* 전체화면일 때만 페이지 인디케이터 강제 표시 */
+  :fullscreen #page-indicator,
+  :-webkit-full-screen #page-indicator,
+  :-moz-full-screen #page-indicator,
+  :-ms-fullscreen #page-indicator,
+  html:fullscreen #page-indicator,
+  html:-webkit-full-screen #page-indicator,
+  html:-moz-full-screen #page-indicator,
+  html:-ms-fullscreen #page-indicator,
+  body:fullscreen #page-indicator,
+  body:-webkit-full-screen #page-indicator,
+  body:-moz-full-screen #page-indicator,
+  body:-ms-fullscreen #page-indicator {
+    opacity: 1 !important;
+    display: flex !important;
+    z-index: 10000 !important;
+  }
+  
+  /* 전체화면일 때 페이지 인디케이터 검은색으로 변경 */
+  :fullscreen .page-dot,
+  :-webkit-full-screen .page-dot,
+  :-moz-full-screen .page-dot,
+  :-ms-fullscreen .page-dot,
+  html:fullscreen .page-dot,
+  html:-webkit-full-screen .page-dot,
+  html:-moz-full-screen .page-dot,
+  html:-ms-fullscreen .page-dot,
+  body:fullscreen .page-dot,
+  body:-webkit-full-screen .page-dot,
+  body:-moz-full-screen .page-dot,
+  body:-ms-fullscreen .page-dot {
+    background: rgba(0,0,0,0.5) !important;
+    border: 2px solid rgba(0,0,0,0.3) !important;
+  }
+  
+  :fullscreen .page-dot.active,
+  :-webkit-full-screen .page-dot.active,
+  :-moz-full-screen .page-dot.active,
+  :-ms-fullscreen .page-dot.active,
+  html:fullscreen .page-dot.active,
+  html:-webkit-full-screen .page-dot.active,
+  html:-moz-full-screen .page-dot.active,
+  html:-ms-fullscreen .page-dot.active,
+  body:fullscreen .page-dot.active,
+  body:-webkit-full-screen .page-dot.active,
+  body:-moz-full-screen .page-dot.active,
+  body:-ms-fullscreen .page-dot.active {
+    background: #000 !important;
+    border: 2px solid #000 !important;
+  }
+  
+  /* 전체화면일 때 페이지 인디케이터 호버 효과도 검은색으로 */
+  :fullscreen .page-dot:hover,
+  :-webkit-full-screen .page-dot:hover,
+  :-moz-full-screen .page-dot:hover,
+  :-ms-fullscreen .page-dot:hover,
+  html:fullscreen .page-dot:hover,
+  html:-webkit-full-screen .page-dot:hover,
+  html:-moz-full-screen .page-dot:hover,
+  html:-ms-fullscreen .page-dot:hover,
+  body:fullscreen .page-dot:hover,
+  body:-webkit-full-screen .page-dot:hover,
+  body:-moz-full-screen .page-dot:hover,
+  body:-ms-fullscreen .page-dot:hover {
+    background: rgba(0,0,0,0.7) !important;
+    transform: scale(1.2) !important;
+  }
 }
 
 /* 다크 모드 지원 */
@@ -669,15 +883,133 @@ body {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
   }
 } 
+
+
+
+.text-zone, .slide-container {
+  pointer-events: auto !important;
+}
+
+#fs-btn {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 100001;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  transition: opacity 0.3s;
+}
+#fs-btn.hide { opacity: 0; pointer-events: none; }
+
+/* 유튜브 플레이어 슬라이드 애니메이션 */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 800px;
+  }
+}
+
+/* 유튜브 플레이어 강제 크기 설정 */
+.yt-inline-player {
+  width: 100% !important;
+  height: 600px !important;
+  min-height: 600px !important;
+  max-height: 800px !important;
+}
+
+.yt-inline-player iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 600px !important;
+}
+
+#tabbar-close-btn { display: none !important; }
+
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  .text-zone p {
+    text-shadow:
+      1px 1px 0 #fff,
+      -1px 1px 0 #fff,
+      1px -1px 0 #fff,
+      -1px -1px 0 #fff,
+      0.5px 0.5px 1px rgba(0,0,0,0.1) !important;
+    filter: none !important;
+  }
+}
+
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  #story-start-btn {
+    top: 52% !important;
+    right: 5% !important;
+  }
+  #page-indicator {
+    bottom: 38% !important;
+    gap: 4px !important;
+  }
+  #page-indicator .page-dot {
+    width: 8px !important;
+    height: 8px !important;
+    border-width: 1.5px !important;
+  }
+}
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  #story-start-btn {
+    right: 13% !important;
+    top: 54% !important;
+  }
+}
+
+.arrow.left,
+.arrow.right {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s;
+}
+.arrow.left:hover,
+.arrow.right:hover {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.slide-container:hover .arrow.left,
+.slide-container:hover .arrow.right {
+  opacity: 1;
+  pointer-events: auto !important;
+}
   </style>
 </head>
 <body>
+
+  
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
   <div id="tabbar-container">
-    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10000;">×</button>
-    <div id="tabbar">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
       <button class="tab" data-label="National Geographic">National Geographic</button>
       <button class="tab" data-label="Discovery">Discovery</button>
       <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
     </div>
     <div id="searchbox">
       <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
@@ -688,9 +1020,70 @@ body {
   <div id="app"></div>
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-// 4구역 위치 제어 함수
+// 전체화면 기준값 저장
+let fullscreenBaseWidth = null;
+let fullscreenBaseHeight = null;
+
+function requestFullscreen() {
+  const element = document.documentElement;
+  if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullscreenElement && !document.msFullscreenElement) {
+    try {
+      if (element.requestFullscreen) {
+        element.requestFullscreen().then(() => {
+          // 전체화면 진입 성공 시 기준값 저장
+          setTimeout(() => {
+            fullscreenBaseWidth = window.innerWidth;
+            fullscreenBaseHeight = window.innerHeight;
+          }, 500);
+        }).catch(err => {
+          console.log('Fullscreen request failed:', err);
+          // Promise 실패 시에도 재시도
+          setTimeout(() => {
+            try {
+              requestFullscreen();
+            } catch (retryErr) {
+              console.log('Fullscreen retry failed:', retryErr);
+            }
+          }, 100);
+        });
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+        setTimeout(() => {
+          fullscreenBaseWidth = window.innerWidth;
+          fullscreenBaseHeight = window.innerHeight;
+        }, 500);
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+        setTimeout(() => {
+          fullscreenBaseWidth = window.innerWidth;
+          fullscreenBaseHeight = window.innerHeight;
+        }, 500);
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+        setTimeout(() => {
+          fullscreenBaseWidth = window.innerWidth;
+          fullscreenBaseHeight = window.innerHeight;
+        }, 500);
+      } else {
+        // 전체화면 API를 지원하지 않는 경우
+        console.log('Fullscreen API not supported');
+      }
+    } catch (err) {
+      console.log('Fullscreen request error:', err);
+    }
+  }
+}
+
+function getBaseWidth() {
+  return fullscreenBaseWidth || window.innerWidth;
+}
+function getBaseHeight() {
+  return fullscreenBaseHeight || window.innerHeight;
+}
+
+// 4구역 위치 제어 함수 및 전체화면 고정 위치 계산 포함
 const CONFIG = {
-  setZonePosition: (zoneNumber, top, left, right, bottom) => {
+  setZonePositionPx: (zoneNumber, top, left, right, bottom) => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
     if (!zone) return;
     zone.style.top = top !== undefined ? top + 'px' : '';
@@ -698,12 +1091,199 @@ const CONFIG = {
     zone.style.right = right !== undefined ? right + 'px' : '';
     zone.style.bottom = bottom !== undefined ? bottom + 'px' : '';
   },
-  
-  setZoneFontSize: (zoneNumber, fontSize) => {
+  setZonePositionPercent: (zoneNumber, top, left, right, bottom) => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
-    if (zone) zone.style.fontSize = fontSize + 'px';
+    if (!zone) return;
+    const oldTop = zone.style.top;
+    const oldLeft = zone.style.left;
+    const oldRight = zone.style.right;
+    const oldBottom = zone.style.bottom;
+    
+    zone.style.top = top !== undefined ? top + '%' : '';
+    zone.style.left = left !== undefined ? left + '%' : '';
+    zone.style.right = right !== undefined ? right + '%' : '';
+    zone.style.bottom = bottom !== undefined ? bottom + '%' : '';
+    
+    const newTop = zone.style.top;
+    const newLeft = zone.style.left;
+    const newRight = zone.style.right;
+    const newBottom = zone.style.bottom;
+    
+    if (oldTop !== newTop || oldLeft !== newLeft || oldRight !== newRight || oldBottom !== newBottom) {
+      console.log(`Zone ${zoneNumber} position changed:`, {
+        top: `${oldTop} → ${newTop}`,
+        left: `${oldLeft} → ${newLeft}`,
+        right: `${oldRight} → ${newRight}`,
+        bottom: `${oldBottom} → ${newBottom}`
+      });
+      
+      // Zone 위치 변경 시 adjustForOrientation 실행
+      setTimeout(() => {
+        safeAdjustForOrientation();
+      }, 10);
+    }
+  },
+  setZoneFontSize: (zoneNumber, fontSize, unit = 'px') => {
+    const zone = document.querySelector(`.zone-${zoneNumber}`);
+    if (zone) {
+      const oldFontSize = zone.style.fontSize;
+      zone.style.fontSize = fontSize + unit;
+      const newFontSize = zone.style.fontSize;
+      
+      if (oldFontSize !== newFontSize) {
+        console.log(`Zone ${zoneNumber} font size changed:`, {
+          fontSize: `${oldFontSize} → ${newFontSize}`
+        });
+        
+        // Zone 폰트 크기 변경 시 adjustForOrientation 실행
+        setTimeout(() => {
+          safeAdjustForOrientation();
+        }, 10);
+      }
+    }
+  },
+  adjustForOrientation: () => {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const isFullscreen = !!(document.fullscreenElement || 
+                           document.webkitFullscreenElement || 
+                           document.mozFullScreenElement || 
+                           document.msFullscreenElement);
+    
+    // 모바일 감지 (화면 너비가 600px 이하)
+    const isMobile = window.innerWidth <= 600;
+    
+    console.log('Adjusting for orientation:', {
+      isLandscape: isLandscape,
+      isFullscreen: isFullscreen,
+      isMobile: isMobile,
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+    
+    if (isMobile) {
+      // 1: 모바일(세로/가로)
+      if (isLandscape) {
+        if (isFullscreen) {
+          console.log('1-1'); // 모바일 가로, 전체화면
+          CONFIG.setZonePositionPercent(1, 8, 5, undefined, undefined);
+          CONFIG.setZoneFontSize(1, 24);
+          CONFIG.setZonePositionPercent(2, 8, 95, undefined, undefined);
+          CONFIG.setZoneFontSize(2, 24);
+          CONFIG.setZonePositionPercent(3, undefined, 5, undefined, 12);
+          CONFIG.setZoneFontSize(3, 24);
+          CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 12);
+          CONFIG.setZoneFontSize(4, 24);
+        } else {
+          console.log('1-2'); // 모바일 가로, 일반화면
+          CONFIG.setZonePositionPercent(1, 8, 10, undefined, undefined);
+          CONFIG.setZoneFontSize(1, 24);
+          CONFIG.setZonePositionPercent(2, 8, 95, undefined, undefined);
+          CONFIG.setZoneFontSize(2, 24);
+          CONFIG.setZonePositionPercent(3, undefined, 10, undefined, 12);
+          CONFIG.setZoneFontSize(3, 24);
+          CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 12);
+          CONFIG.setZoneFontSize(4, 24);
+        }
+      } else {
+        if (isFullscreen) {
+          console.log('1-3'); // 모바일 세로, 전체화면
+          CONFIG.setZonePositionPercent(1, 40, 5, undefined, undefined);
+          CONFIG.setZoneFontSize(1, 24);
+          CONFIG.setZonePositionPercent(2, 40, 55, undefined, undefined);
+          CONFIG.setZoneFontSize(2, 24);
+          CONFIG.setZonePositionPercent(3, undefined, 5, undefined, 40);
+          CONFIG.setZoneFontSize(3, 24);
+          CONFIG.setZonePositionPercent(4, undefined, 55, undefined, 40);
+          CONFIG.setZoneFontSize(4, 24);
+        } else {
+          console.log('1-4'); // 모바일 세로, 일반화면
+          CONFIG.setZonePositionPercent(1, 25, 15, undefined, undefined);
+          CONFIG.setZoneFontSize(1, 24);
+          CONFIG.setZonePositionPercent(2, 25, 95, undefined, undefined);
+          CONFIG.setZoneFontSize(2, 24);
+          CONFIG.setZonePositionPercent(3, undefined, 5, undefined, 25);
+          CONFIG.setZoneFontSize(3, 24);
+          CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 25);
+          CONFIG.setZoneFontSize(4, 24);
+        }
+      }
+    } else if (window.innerWidth <= 900 && window.innerWidth > window.innerHeight) {
+      console.log('2'); // 모바일 가로(900px 이하)
+      CONFIG.setZonePositionPercent(1, 5, 12, undefined, undefined, '%');
+      CONFIG.setZonePositionPercent(2, 5, 55, undefined, undefined, '%');
+      CONFIG.setZonePositionPercent(3, undefined, 12, undefined, 15, '%');
+      CONFIG.setZonePositionPercent(4, undefined, 55, undefined, 15, '%');
+      CONFIG.setZoneFontSize(1, 22);
+    } else if (isLandscape) {
+      if (isFullscreen) {
+        console.log('3-1'); // 태블릿/PC 가로, 전체화면
+        CONFIG.setZonePositionPercent(1, 10, 6, undefined, undefined);
+        CONFIG.setZoneFontSize(1, 35);
+        CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);
+        CONFIG.setZoneFontSize(2, 35);
+        CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 16);
+        CONFIG.setZoneFontSize(3, 35);
+        CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 16);
+        CONFIG.setZoneFontSize(4, 35);
+      } else {
+        console.log('3-2'); // 태블릿/PC 가로, 일반화면
+        CONFIG.setZonePositionPercent(1, 10, 13, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(1, 35);
+        CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);
+        CONFIG.setZoneFontSize(2, 35);
+        CONFIG.setZonePositionPercent(3, undefined, 13, undefined, 16);
+        CONFIG.setZoneFontSize(3, 35);
+        CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 16);
+        CONFIG.setZoneFontSize(4, 35);
+      }
+    } else {
+      if (isFullscreen) {
+        console.log('4-1'); // 태블릿/PC 세로, 전체화면
+        CONFIG.setZonePositionPercent(1, 35, 6, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(1, 35);
+        CONFIG.setZonePositionPercent(2, 35, 106, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(2, 35);
+        CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 36, '%');
+        CONFIG.setZoneFontSize(3, 35);
+        CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 36, '%');
+        CONFIG.setZoneFontSize(4, 35);
+      } else {
+        console.log('4-2'); // 태블릿/PC 세로, 일반화면
+        CONFIG.setZonePositionPercent(1, 35, 35, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(1, 35);
+        CONFIG.setZonePositionPercent(2, 35, 106, undefined, undefined, '%');
+        CONFIG.setZoneFontSize(2, 35);
+        CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 36, '%');
+        CONFIG.setZoneFontSize(3, 35);
+        CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 36, '%');
+        CONFIG.setZoneFontSize(4, 35);
+      }
+    }
   }
 };
+
+// 기존 CONFIG 관련 중복 선언부는 모두 삭제(제거)
+
+// adjustForOrientation 래퍼 함수 - 텍스트 숨김/표시 처리
+function safeAdjustForOrientation() {
+  // 모든 텍스트 영역을 임시로 숨기기
+  const textZones = document.querySelectorAll('.text-zone');
+  textZones.forEach(zone => {
+    zone.style.opacity = '0';
+    zone.style.transition = 'opacity 0.1s ease';
+  });
+  
+  // 위치 조정 실행
+  CONFIG.adjustForOrientation();
+  
+  // 위치 조정 완료 후 텍스트를 부드럽게 다시 나타나게 하기
+  setTimeout(() => {
+    textZones.forEach(zone => {
+      zone.style.opacity = '1';
+      zone.style.transition = 'opacity 0.3s ease';
+    });
+  }, 100);
+}
 
 // 슬라이드 데이터
 const slideTemplates = [
@@ -714,7 +1294,8 @@ const slideTemplates = [
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
-    }
+    },
+    hasStartButton: true
   },
   {
     bg: '../assets/img/3.1.8/2.jpg',
@@ -1149,16 +1730,16 @@ function setTextFontSizeByImage(imgElem) {
 
 // 슬라이드 렌더링
 function renderSlide(idx) {
-  // 기준 위치(px)
+  // 기준 위치(px) - CONFIG.setZonePosition 값과 일치
   const BASE_WIDTH = 1440;
   const BASE_HEIGHT = 900;
   const zoneBase = {
-    1: { top: 120, left: 250 },
-    2: { top: 120, left: 1020 },
-    3: { bottom: 80, left: 250 },
-    4: { bottom: 80, left: 1020 }
+    1: { top: 100, left: 71 },
+    2: { top: 100, left: 640 },
+    3: { bottom: 100, left: 71 },
+    4: { bottom: 100, left: 640 }
   };
-  const baseFontSize = 36;
+  const baseFontSize = 35;
 
   const slide = slideTemplates[idx];
   const app = document.getElementById('app');
@@ -1171,7 +1752,16 @@ function renderSlide(idx) {
   leftArrow.className = 'arrow left';
   leftArrow.innerHTML = '&#60;';
   leftArrow.tabIndex = -1;
-  leftArrow.addEventListener('click', prevSlide);
+  leftArrow.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    prevSlide();
+  });
+  leftArrow.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    prevSlide();
+  });
   container.appendChild(leftArrow);
 
   const imgWrapper = document.createElement('div');
@@ -1200,7 +1790,20 @@ function renderSlide(idx) {
       // 명사 클릭 이벤트 바인딩
       textZone.querySelectorAll('.noun-span').forEach(el => {
         el.addEventListener('click', function(e) {
+          e.preventDefault();
           e.stopPropagation();
+          e.stopImmediatePropagation();
+          if (typeof laypop === 'function') {
+            laypop(this.textContent);
+          } else {
+            alert(this.textContent);
+          }
+        });
+        // 모바일 터치 이벤트 추가
+        el.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
           if (typeof laypop === 'function') {
             laypop(this.textContent);
           } else {
@@ -1215,98 +1818,302 @@ function renderSlide(idx) {
 
   container.appendChild(imgWrapper);
 
+  // 1.jpg 슬라이드에 "이야기 시작" 버튼 추가
+  if (slide.hasStartButton) {
+    const startButton = document.createElement('button');
+    startButton.id = 'story-start-btn';
+    startButton.textContent = 'Start Story';
+    startButton.style.cssText = `
+      position: absolute;
+      top: 70%;
+      right: 22%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      border: 3px solid white;
+      padding: 20px 40px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+      z-index: 10000;
+      transition: all 0.3s ease;
+      font-family: Arial, sans-serif;
+      min-width: 180px;
+      text-align: center;
+      pointer-events: auto;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    `;
+    
+    // 디바이스별 스타일 적용
+    const applyDeviceStyle = () => {
+      if (window.innerWidth <= 600) {
+        // 모바일
+        if (window.innerWidth > window.innerHeight) {
+          // 모바일 가로모드
+          startButton.style.right = '5%';
+          startButton.style.top = '60%';
+          startButton.style.fontSize = '1.2rem';
+          startButton.style.padding = '15px 30px';
+          startButton.style.minWidth = '140px';
+        } else {
+          // 모바일 세로모드
+          startButton.style.right = '8%';
+          startButton.style.top = '45%';
+          startButton.style.fontSize = '1.2rem';
+          startButton.style.padding = '15px 30px';
+          startButton.style.minWidth = '140px';
+        }
+      } else if (window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+                 window.innerHeight >= 600 && window.innerHeight <= 1100) {
+        // 탭 가로모드
+        startButton.style.right = '17%';
+        startButton.style.top = '70%';
+        startButton.style.fontSize = '1.5rem';
+        startButton.style.padding = '20px 40px';
+        startButton.style.minWidth = '180px';
+      } else if (window.innerWidth >= 600 && window.innerWidth <= 1200 && 
+                 window.innerHeight > window.innerWidth) {
+        // 탭 세로모드
+        startButton.style.right = '9%';
+        startButton.style.top = '50%';
+        startButton.style.fontSize = '1.5rem';
+        startButton.style.padding = '20px 40px';
+        startButton.style.minWidth = '180px';
+      } else {
+        // 웹페이지
+        startButton.style.right = '22%';
+        startButton.style.top = '70%';
+        startButton.style.fontSize = '1.5rem';
+        startButton.style.padding = '20px 40px';
+        startButton.style.minWidth = '180px';
+      }
+    };
+    
+    // 초기 적용
+    applyDeviceStyle();
+    
+    // 리사이즈 시에도 적용
+    window.addEventListener('resize', applyDeviceStyle);
+    
+    startButton.addEventListener('mouseenter', () => {
+      startButton.style.background = 'rgba(255, 255, 255, 0.9)';
+      startButton.style.color = 'black';
+    });
+    
+    startButton.addEventListener('mouseleave', () => {
+      startButton.style.background = 'rgba(0, 0, 0, 0.8)';
+      startButton.style.color = 'white';
+    });
+    
+    // 클릭 이벤트
+    startButton.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Start Story button clicked');
+      
+      // 매번 전체화면 상태를 체크
+      const isCurrentlyFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+      
+      if (isCurrentlyFullscreen) {
+        // 이미 전체화면이면 바로 다음 페이지로
+        current = 1; // 다음 페이지 (2.jpg)
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        // 전체화면이 아니면 전체화면으로 전환 후 다음 페이지로
+        try {
+          requestFullscreen();
+          
+          // 전체화면 진입 후 다음 페이지로 전환
+          let handler = () => {
+            // 전체화면이 실제로 진입되었는지 확인
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+              setTimeout(() => {
+                current = 1; // 다음 페이지 (2.jpg)
+                renderSlide(current);
+                updatePageIndicator();
+                document.removeEventListener('fullscreenchange', handler);
+                document.removeEventListener('webkitfullscreenchange', handler);
+                document.removeEventListener('mozfullscreenchange', handler);
+                document.removeEventListener('MSFullscreenChange', handler);
+              }, 200);
+            }
+          };
+          document.addEventListener('fullscreenchange', handler);
+          document.addEventListener('webkitfullscreenchange', handler);
+          document.addEventListener('mozfullscreenchange', handler);
+          document.addEventListener('MSFullscreenChange', handler);
+        } catch (err) {
+          console.log('Fullscreen request error in button click:', err);
+          // 오류 발생 시 전체화면으로 다시 시도
+          setTimeout(() => {
+            try {
+              requestFullscreen();
+            } catch (retryErr) {
+              console.log('Fullscreen retry failed:', retryErr);
+            }
+          }, 100);
+        }
+      }
+    };
+    
+    // 터치 이벤트 (모바일용)
+    startButton.ontouchstart = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Start Story button touched');
+      
+      // 매번 전체화면 상태를 체크
+      const isCurrentlyFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+      
+      if (isCurrentlyFullscreen) {
+        // 이미 전체화면이면 바로 다음 페이지로
+        current = 1; // 다음 페이지 (2.jpg)
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        // 전체화면이 아니면 전체화면으로 전환 후 다음 페이지로
+        try {
+          requestFullscreen();
+          
+          // 전체화면 진입 후 다음 페이지로 전환
+          let handler = () => {
+            // 전체화면이 실제로 진입되었는지 확인
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+              setTimeout(() => {
+                current = 1; // 다음 페이지 (2.jpg)
+                renderSlide(current);
+                updatePageIndicator();
+                document.removeEventListener('fullscreenchange', handler);
+                document.removeEventListener('webkitfullscreenchange', handler);
+                document.removeEventListener('mozfullscreenchange', handler);
+                document.removeEventListener('MSFullscreenChange', handler);
+              }, 200);
+            }
+          };
+          document.addEventListener('fullscreenchange', handler);
+          document.addEventListener('webkitfullscreenchange', handler);
+          document.addEventListener('mozfullscreenchange', handler);
+          document.addEventListener('MSFullscreenChange', handler);
+        } catch (err) {
+          console.log('Fullscreen request error in button touch:', err);
+          // 오류 발생 시 전체화면으로 다시 시도
+          setTimeout(() => {
+            try {
+              requestFullscreen();
+            } catch (retryErr) {
+              console.log('Fullscreen retry failed:', retryErr);
+            }
+          }, 100);
+        }
+      }
+    };
+    
+    container.appendChild(startButton);
+  }
+
   const rightArrow = document.createElement('button');
   rightArrow.className = 'arrow right';
   rightArrow.innerHTML = '&#62;';
   rightArrow.tabIndex = -1;
-  rightArrow.addEventListener('click', nextSlide);
+  rightArrow.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    nextSlide();
+  });
+  rightArrow.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    nextSlide();
+  });
   container.appendChild(rightArrow);
 
   app.appendChild(container);
 
   // 위치/폰트크기 scaling 적용 함수
-  function applyZoneResponsive() {
+  window.applyZoneResponsive = function() {
     const scaleW = window.innerWidth / BASE_WIDTH;
     const scaleH = window.innerHeight / BASE_HEIGHT;
     const scale = Math.min(scaleW, scaleH);
+    
+    // 전체화면 상태에서 추가 조정
+    const fullscreenAdjustment = isFullscreen ? 1.0 : 1.0; // 필요시 조정 가능
+    
     [1,2,3,4].forEach(zoneNum => {
       const div = zoneDivs[zoneNum];
       if (!div) return;
       const base = zoneBase[zoneNum];
-      // 위치
-      if (base.top !== undefined) div.style.top = (base.top * scale) + 'px';
+      
+      // 위치 계산 (전체화면 고려)
+      const adjustedScale = scale * fullscreenAdjustment;
+      
+      if (base.top !== undefined) div.style.top = (base.top * adjustedScale) + 'px';
       else div.style.top = '';
-      if (base.left !== undefined) div.style.left = (base.left * scale) + 'px';
+      if (base.left !== undefined) div.style.left = (base.left * adjustedScale) + 'px';
       else div.style.left = '';
-      if (base.bottom !== undefined) div.style.bottom = (base.bottom * scale) + 'px';
+      if (base.bottom !== undefined) div.style.bottom = (base.bottom * adjustedScale) + 'px';
       else div.style.bottom = '';
-      if (base.right !== undefined) div.style.right = (base.right * scale) + 'px';
+      if (base.right !== undefined) div.style.right = (base.right * adjustedScale) + 'px';
       else div.style.right = '';
+      
       // 폰트 크기
       div.querySelectorAll('p').forEach(p => {
-        p.style.fontSize = (baseFontSize * scale) + 'px';
-        p.style.margin = '0 0 0.2em 0';
+        p.style.fontSize = (baseFontSize * adjustedScale) + 'px';
+        p.style.margin = '0';
         p.style.padding = '0';
         p.style.boxSizing = 'border-box';
+        p.style.maxWidth = 'none';
+        p.style.width = 'auto';
       });
+      
       // 오프셋 방지: margin/padding 제거
       div.style.margin = '0';
       div.style.padding = '0';
       div.style.boxSizing = 'border-box';
+      div.style.maxWidth = 'none';
+      div.style.width = 'auto';
     });
   }
 
   // 최초 적용 및 리사이즈 반영
-  window.addEventListener('resize', applyZoneResponsive);
-  setTimeout(applyZoneResponsive, 0);
+  window.addEventListener('resize', window.applyZoneResponsive);
+  setTimeout(window.applyZoneResponsive, 0);
 
   // 나머지 기존 기능(애니메이션, 화살표, drag 등) 유지
-  // zone 위치 기본값 적용
-  // CONFIG.setZonePosition(1, 120, 250); // 이 부분은 이미 위에서 처리했으므로 제거
-  // CONFIG.setZonePosition(2, 120, 1020); // 이 부분은 이미 위에서 처리했으므로 제거
-  // CONFIG.setZonePosition(3, undefined, 250, undefined, 80); // 이 부분은 이미 위에서 처리했으므로 제거
-  // CONFIG.setZonePosition(4, undefined, 1020, undefined, 80); // 이 부분은 이미 위에서 처리했으므로 제거
+  // zone 위치는 adjustForOrientation()에서 자동으로 설정됨
+  
+  // 슬라이드 렌더링 후 위치 조정
+  setTimeout(() => {
+    safeAdjustForOrientation();
+  }, 100);
 
   // 갤럭시 탭 최적화 텍스트 애니메이션
-  if (!textAnimated[idx]) {
+  // 항상 모든 p에 visible 클래스 추가
     setTimeout(() => {
-      const order = [1, 3, 2, 4];
-      let pList = [];
-      order.forEach(zoneNum => {
-        const zone = container.querySelector(`.zone-${zoneNum}`);
-        if (zone) {
-          pList = pList.concat(Array.from(zone.querySelectorAll('p')));
-        }
-      });
-      if (pList[0]) {
+    const allP = Array.from(container.querySelectorAll('p'));
+    if (allP.length > 0) {
+      // 첫 줄은 0.4초 후 슬라이드 업
         setTimeout(() => {
-          const p = container.querySelectorAll('p')[0];
-          if (p) p.classList.add('visible');
-        }, 500);
-      }
-      for (let i = 1; i < pList.length; i++) {
+        allP[0].classList.add('visible');
+      }, 400);
+      // 두 번째 줄부터는 0.1초 간격으로 다다다닥
+      for (let i = 1; i < allP.length; i++) {
         setTimeout(() => {
-          const p = container.querySelectorAll('p')[i];
-          if (p) p.classList.add('visible');
-        }, 600 + (i - 1) * 100);
+          allP[i].classList.add('visible');
+        }, 400 + i * 100);
       }
-      // 모든 애니메이션이 끝난 후 visible이 안 된 p가 있으면 한 번 더 적용
-      setTimeout(() => {
-        container.querySelectorAll('p').forEach(p => {
-          if (!p.classList.contains('visible')) {
-            p.classList.add('visible');
-          }
-        });
-      }, 600 + (pList.length - 1) * 100 + 400);
-    }, 400);
-    textAnimated[idx] = true;
-  } else {
-    // 이미 애니메이션이 실행된 경우, 모든 텍스트를 즉시 visible로
-    container.querySelectorAll('p').forEach(el => el.classList.add('visible'));
-  }
+    }
+  }, 0);
 
   positionArrows(img, leftArrow, rightArrow);
   addDragEvents(container, leftArrow, rightArrow);
+
+  // 페이지 인디케이터 다시 생성 (이벤트 리스너 재바인딩)
+  createPageIndicator();
+
 }
 
 function positionArrows(imgElem, leftArrow, rightArrow) {
@@ -1319,57 +2126,575 @@ function positionArrows(imgElem, leftArrow, rightArrow) {
   rightArrow.style.transform = 'translateY(-50%)';
 }
 
-function prevSlide() {
-  CONFIG.setZonePosition(1, 120, 250);
-  CONFIG.setZonePosition(2, 120, 1020);
-  CONFIG.setZonePosition(3, undefined, 250, undefined, 80);
-  CONFIG.setZonePosition(4, undefined, 1020, undefined, 80);
-  textAnimated[current] = false;
-  current = (current - 1 + slideTemplates.length) % slideTemplates.length;
-  renderSlide(current);
-}
+// showLoadingAndGoToPage 함수 제거 - 더 이상 사용하지 않음
 
 function nextSlide() {
-  CONFIG.setZonePosition(1, 120, 250);
-  CONFIG.setZonePosition(2, 120, 1020);
-  CONFIG.setZonePosition(3, undefined, 250, undefined, 80);
-  CONFIG.setZonePosition(4, undefined, 1020, undefined, 80);
-  textAnimated[current] = false;
-  current = (current + 1) % slideTemplates.length;
-  renderSlide(current);
+  let next = (current + 1) % slideTemplates.length;
+  // 모든 페이지에서 전체화면 체크
+  if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+    // 이미 전체화면이면 바로 이동
+    current = next;
+    renderSlide(current);
+    updatePageIndicator();
+  } else {
+    // 전체화면이 아니면 모달 표시
+    // 1.jpg에서 다음 페이지로 넘어가려고 할 때는 특별 처리
+    if (current === 0) {
+      showFullscreenModal(0); // 1.jpg용 메시지 표시
+    } else {
+      showFullscreenModal(next);
+    }
+  }
+}
+
+function prevSlide() {
+  let prev = (current - 1 + slideTemplates.length) % slideTemplates.length;
+  // 모든 페이지에서 전체화면 체크
+  if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+    // 이미 전체화면이면 바로 이동
+    current = prev;
+    renderSlide(current);
+    updatePageIndicator();
+  } else {
+    // 전체화면이 아니면 모달 표시
+    // 1.jpg에서 이전 페이지로 넘어가려고 할 때는 특별 처리
+    if (current === 0) {
+      showFullscreenModal(0); // 1.jpg용 메시지 표시
+    } else {
+      showFullscreenModal(prev);
+    }
+  }
+}
+
+function showFullscreenModal(targetPage) {
+  const modal = document.getElementById('fullscreen-modal');
+  const btn = document.getElementById('fullscreen-modal-btn');
+  
+  // 1.jpg 슬라이드인 경우 다른 메시지 표시
+  if (targetPage === 0) {
+    modal.innerHTML = `
+      <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+        <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Please click the "Start Story" button to begin.</h2>
+        <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">Close</button>
+      </div>
+    `;
+  } else {
+    modal.innerHTML = `
+      <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+        <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+        <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">Confirm</button>
+      </div>
+    `;
+  }
+  
+  modal.style.display = 'flex';
+  modal.style.alignItems = 'center';
+  modal.style.justifyContent = 'center';
+  
+  // 버튼 이벤트 리스너 재설정
+  setTimeout(() => {
+    const newBtn = document.getElementById('fullscreen-modal-btn');
+    if (newBtn) {
+      newBtn.onclick = () => {
+        modal.style.display = 'none';
+        if (targetPage !== 0) {
+          requestFullscreen();
+          
+          // 전체화면 진입 후 페이지 전환
+          let handler = () => {
+            setTimeout(() => {
+              current = targetPage;
+              renderSlide(current);
+              updatePageIndicator();
+              document.removeEventListener('fullscreenchange', handler);
+              document.removeEventListener('webkitfullscreenchange', handler);
+              document.removeEventListener('mozfullscreenchange', handler);
+              document.removeEventListener('MSFullscreenChange', handler);
+            }, 200);
+          };
+          document.addEventListener('fullscreenchange', handler);
+          document.addEventListener('webkitfullscreenchange', handler);
+          document.addEventListener('mozfullscreenchange', handler);
+          document.addEventListener('MSFullscreenChange', handler);
+        }
+      };
+    }
+  }, 10);
 }
 
 function addDragEvents(container, leftArrow, rightArrow) {
   let startX = null;
   let dragging = false;
-  container.onmousedown = e => { startX = e.clientX; dragging = true; };
-  container.onmousemove = e => { if (!dragging) return; };
+  // 마우스 이벤트
+  container.onmousedown = e => { e.preventDefault(); startX = e.clientX; dragging = true; };
+  container.onmousemove = e => { if (!dragging) return; e.preventDefault(); };
   container.onmouseup = e => {
     if (!dragging) return;
+    e.preventDefault();
     const diff = e.clientX - startX;
-    if (diff > 60) leftArrow.click();
-    else if (diff < -60) rightArrow.click();
+    if (diff > 60) { 
+      // 모든 페이지에서 전체화면 체크
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // 이미 전체화면이면 바로 이동
+        current = (current - 1 + slideTemplates.length) % slideTemplates.length;
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        // 1.jpg에서 이전 페이지로 넘어가려고 할 때는 특별 처리
+        if (current === 0) {
+          showFullscreenModal(0); // 1.jpg용 메시지 표시
+        } else {
+          showFullscreenModal((current - 1 + slideTemplates.length) % slideTemplates.length);
+        }
+      }
+    }
+    else if (diff < -60) { 
+      // 모든 페이지에서 전체화면 체크
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // 이미 전체화면이면 바로 이동
+        current = (current + 1) % slideTemplates.length;
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        // 1.jpg에서 다음 페이지로 넘어가려고 할 때는 특별 처리
+        if (current === 0) {
+          showFullscreenModal(0); // 1.jpg용 메시지 표시
+        } else {
+          showFullscreenModal((current + 1) % slideTemplates.length);
+        }
+      }
+    }
     dragging = false;
     startX = null;
   };
-  // 모바일 터치
-  container.ontouchstart = e => { startX = e.touches[0].clientX; dragging = true; };
-  container.ontouchmove = e => { if (!dragging) return; };
-  container.ontouchend = e => {
+  // 모바일 터치 이벤트 (슬라이드 이동에만 passive: false)
+  container.addEventListener('touchstart', e => {
+    e.preventDefault();
+    startX = e.touches[0].clientX;
+    dragging = true;
+  }, { passive: false });
+  container.addEventListener('touchmove', e => {
     if (!dragging) return;
+    e.preventDefault();
+  }, { passive: false });
+  container.addEventListener('touchend', e => {
+    if (!dragging) return;
+    e.preventDefault();
     const endX = e.changedTouches[0].clientX;
     const diff = endX - startX;
-    if (diff > 60) leftArrow.click();
-    else if (diff < -60) rightArrow.click();
+    if (diff > 60) { 
+      // 모든 페이지에서 전체화면 체크
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // 이미 전체화면이면 바로 이동
+        current = (current - 1 + slideTemplates.length) % slideTemplates.length;
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        // 1.jpg에서 이전 페이지로 넘어가려고 할 때는 특별 처리
+        if (current === 0) {
+          showFullscreenModal(0); // 1.jpg용 메시지 표시
+        } else {
+          showFullscreenModal((current - 1 + slideTemplates.length) % slideTemplates.length);
+        }
+      }
+    }
+    else if (diff < -60) { 
+      // 모든 페이지에서 전체화면 체크
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // 이미 전체화면이면 바로 이동
+        current = (current + 1) % slideTemplates.length;
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        // 1.jpg에서 다음 페이지로 넘어가려고 할 때는 특별 처리
+        if (current === 0) {
+          showFullscreenModal(0); // 1.jpg용 메시지 표시
+        } else {
+          showFullscreenModal((current + 1) % slideTemplates.length);
+        }
+      }
+    }
     dragging = false;
     startX = null;
-  };
+  }, { passive: false });
+}
+// 화살표 버튼 등 클릭/터치 이벤트에는 passive 옵션을 명시하지 않음(기본 true)
+
+// 전체화면 관련 변수
+let isFullscreen = false;
+
+// 전체화면 해제 함수
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) { // Safari
+    document.webkitExitFullscreen();
+  } else if (document.mozCancelFullScreen) { // Firefox
+    document.mozCancelFullScreen();
+  } else if (document.msExitFullscreen) { // IE/Edge
+    document.msExitFullscreen();
+  }
+}
+
+// 전체화면 상태 업데이트
+function updateFullscreenStatus() {
+  isFullscreen = !!(document.fullscreenElement || 
+                   document.webkitFullscreenElement || 
+                   document.mozFullScreenElement || 
+                   document.msFullscreenElement);
+  
+  // 갤럭시 탭 S9에서 전체화면일 때 페이지 인디케이터 강제 표시
+  const pageIndicator = document.getElementById('page-indicator');
+  if (pageIndicator && ((window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+      window.innerHeight >= 600 && window.innerHeight <= 1100) || 
+      (window.innerWidth >= 600 && window.innerWidth <= 1200 && window.innerHeight > window.innerWidth))) {
+    if (isFullscreen) {
+      pageIndicator.style.opacity = '1';
+      pageIndicator.style.display = 'flex';
+      pageIndicator.style.zIndex = '10000';
+      
+      // 전체화면일 때 페이지 인디케이터 회색으로 강제 적용
+      const dots = pageIndicator.querySelectorAll('.page-dot');
+      dots.forEach(dot => {
+        if (dot.classList.contains('active')) {
+          dot.style.background = 'rgba(128,128,128,0.8)';
+          dot.style.border = '2px solid rgba(128,128,128,0.6)';
+        } else {
+          dot.style.background = 'rgba(128,128,128,0.4)';
+          dot.style.border = '2px solid rgba(128,128,128,0.2)';
+        }
+      });
+    } else {
+      pageIndicator.style.opacity = '0.3';
+      
+      // 일반 화면일 때 회색으로 복원
+      const dots = pageIndicator.querySelectorAll('.page-dot');
+      dots.forEach(dot => {
+        if (dot.classList.contains('active')) {
+          dot.style.background = 'rgba(128,128,128,0.8)';
+          dot.style.border = '2px solid rgba(128,128,128,0.6)';
+        } else {
+          dot.style.background = 'rgba(128,128,128,0.4)';
+          dot.style.border = '2px solid rgba(128,128,128,0.2)';
+        }
+      });
+    }
+  }
+}
+
+// 화면 높이 설정 (모바일 브라우저 대응)
+function setScreenHeight() {
+  // 실제 뷰포트 높이 계산
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// iOS Safari 주소창 숨기기
+function hideAddressBar() {
+  setTimeout(() => {
+    window.scrollTo(0, 1);
+  }, 0);
+}
+
+// 페이지 인디케이터 생성 함수
+function createPageIndicator() {
+  const indicator = document.getElementById('page-indicator');
+  indicator.innerHTML = '';
+  
+  // 호버 이벤트 추가
+  indicator.addEventListener('mouseenter', () => {
+    indicator.style.opacity = '1';
+  });
+  
+  indicator.addEventListener('mouseleave', () => {
+    indicator.style.opacity = '0.3';
+  });
+  
+  slideTemplates.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.className = 'page-dot';
+    dot.style.cssText = `
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255,255,255,0.1);
+    `;
+    
+    // 현재 페이지면 active 클래스 추가
+    if (index === current) {
+      dot.classList.add('active');
+    }
+    
+    dot.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Page indicator clicked:', index, 'current:', current);
+      
+      // laypop 모달이 열려있으면 클릭 무시
+      const tabbar = document.getElementById('tabbar-container');
+      if (tabbar && tabbar.classList.contains('show-tabbar')) {
+        return;
+      }
+      
+      if (index === current) return; // 현재 페이지면 클릭 무시
+      
+      // 모든 페이지에서 전체화면 체크
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // 이미 전체화면이면 바로 이동
+        current = index;
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        // 전체화면이 아니면 모달 표시
+        showFullscreenModal(index);
+      }
+    });
+    
+    // 터치 이벤트 추가 (모바일 대응)
+    dot.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Page indicator touched:', index, 'current:', current);
+      
+      // laypop 모달이 열려있으면 터치 무시
+      const tabbar = document.getElementById('tabbar-container');
+      if (tabbar && tabbar.classList.contains('show-tabbar')) {
+        return;
+      }
+      
+      if (index === current) return; // 현재 페이지면 터치 무시
+      
+      // 모든 페이지에서 전체화면 체크
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // 이미 전체화면이면 바로 이동
+        current = index;
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        // 전체화면이 아니면 모달 표시
+        showFullscreenModal(index);
+      }
+    });
+    
+    // 호버 효과
+    dot.addEventListener('mouseenter', () => {
+      if (index !== current) {
+        dot.style.background = 'rgba(255,255,255,0.6)';
+        dot.style.transform = 'scale(1.2)';
+      }
+    });
+    
+    dot.addEventListener('mouseleave', () => {
+      if (index !== current) {
+        dot.style.background = 'rgba(255,255,255,0.3)';
+        dot.style.transform = 'scale(1)';
+      }
+    });
+    
+    indicator.appendChild(dot);
+  });
+  
+  // 갤럭시 탭 S9에서 페이지 인디케이터 색상 설정
+  if ((window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+       window.innerHeight >= 600 && window.innerHeight <= 1100) || 
+      (window.innerWidth >= 600 && window.innerWidth <= 1200 && window.innerHeight > window.innerWidth)) {
+    const dots = indicator.querySelectorAll('.page-dot');
+    dots.forEach(dot => {
+      if (dot.classList.contains('active')) {
+        dot.style.background = 'rgba(128,128,128,0.8)';
+        dot.style.border = '2px solid rgba(128,128,128,0.6)';
+      } else {
+        dot.style.background = 'rgba(128,128,128,0.4)';
+        dot.style.border = '2px solid rgba(128,128,128,0.2)';
+      }
+    });
+  }
+}
+
+// 페이지 인디케이터 업데이트 함수
+function updatePageIndicator() {
+  const dots = document.querySelectorAll('.page-dot');
+  dots.forEach((dot, index) => {
+    if (index === current) {
+      dot.classList.add('active');
+    } else {
+      dot.classList.remove('active');
+    }
+  });
 }
 
 // 첫 슬라이드 표시
 window.onload = () => {
   renderSlide(current);
-};
+  createPageIndicator();
+  hideAddressBar();
+  
+        // 갤럭시 탭 S9에서 페이지 인디케이터 색상 초기 설정
+      setTimeout(() => {
+        const pageIndicator = document.getElementById('page-indicator');
+        if (pageIndicator && ((window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+            window.innerHeight >= 600 && window.innerHeight <= 1100) || 
+            (window.innerWidth >= 600 && window.innerWidth <= 1200 && window.innerHeight > window.innerWidth))) {
+          const dots = pageIndicator.querySelectorAll('.page-dot');
+          dots.forEach(dot => {
+            if (dot.classList.contains('active')) {
+              dot.style.background = 'rgba(128,128,128,0.8)';
+              dot.style.border = '2px solid rgba(128,128,128,0.6)';
+            } else {
+              dot.style.background = 'rgba(128,128,128,0.4)';
+              dot.style.border = '2px solid rgba(128,128,128,0.2)';
+            }
+          });
+        }
+      }, 100);
+}
+
+document.addEventListener('fullscreenchange', () => {
+  setTimeout(() => {
+    safeAdjustForOrientation();
+  }, 10);
+});
+document.addEventListener('webkitfullscreenchange', () => {
+  setTimeout(() => {
+    safeAdjustForOrientation();
+  }, 10);
+});
+document.addEventListener('mozfullscreenchange', () => {
+  setTimeout(() => {
+    safeAdjustForOrientation();
+  }, 10);
+});
+document.addEventListener('MSFullscreenChange', () => {
+  setTimeout(() => {
+    safeAdjustForOrientation();
+  }, 10);
+});
+
+// 모바일 기기 감지
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+// 화면 크기 감지 및 조정
+setScreenHeight();
+window.addEventListener('resize', () => {
+  console.log('Screen size changed:', {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    orientation: window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
+  });
+  setScreenHeight();
+  // Screen size changed 로그 후 adjustForOrientation 실행
+  setTimeout(() => {
+    safeAdjustForOrientation();
+  }, 10);
+});
+window.addEventListener('orientationchange', () => {
+  console.log('Orientation changed:', {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    orientation: window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
+  });
+  setTimeout(() => {
+    setScreenHeight();
+    safeAdjustForOrientation();
+  }, 100); // 방향 변경 후 짧은 지연
+});
+
+// 전체화면 상태 변경 감지
+document.addEventListener('fullscreenchange', () => {
+  const wasFullscreen = isFullscreen;
+  updateFullscreenStatus();
+  
+  console.log('Fullscreen mode changed:', {
+    from: wasFullscreen ? 'fullscreen' : 'normal',
+    to: isFullscreen ? 'fullscreen' : 'normal',
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
+  // 전체화면 상태 변경 시 텍스트 위치 재계산
+  setTimeout(() => {
+    const container = document.querySelector('.slide-container');
+    if (container) {
+      const applyZoneResponsive = window.applyZoneResponsive;
+      if (applyZoneResponsive) applyZoneResponsive();
+    }
+    // 전체화면 상태 변경 후 adjustForOrientation 실행
+    safeAdjustForOrientation();
+  }, 100);
+});
+
+document.addEventListener('webkitfullscreenchange', () => {
+  const wasFullscreen = isFullscreen;
+  updateFullscreenStatus();
+  
+  console.log('Fullscreen mode changed (webkit):', {
+    from: wasFullscreen ? 'fullscreen' : 'normal',
+    to: isFullscreen ? 'fullscreen' : 'normal',
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
+  setTimeout(() => {
+    const container = document.querySelector('.slide-container');
+    if (container) {
+      const applyZoneResponsive = window.applyZoneResponsive;
+      if (applyZoneResponsive) applyZoneResponsive();
+    }
+    // 전체화면 상태 변경 후 adjustForOrientation 실행
+    safeAdjustForOrientation();
+  }, 100);
+});
+
+document.addEventListener('mozfullscreenchange', () => {
+  const wasFullscreen = isFullscreen;
+  updateFullscreenStatus();
+  
+  console.log('Fullscreen mode changed (moz):', {
+    from: wasFullscreen ? 'fullscreen' : 'normal',
+    to: isFullscreen ? 'fullscreen' : 'normal',
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
+  setTimeout(() => {
+    const container = document.querySelector('.slide-container');
+    if (container) {
+      const applyZoneResponsive = window.applyZoneResponsive;
+      if (applyZoneResponsive) applyZoneResponsive();
+    }
+    // 전체화면 상태 변경 후 adjustForOrientation 실행
+    CONFIG.adjustForOrientation();
+  }, 100);
+});
+
+document.addEventListener('MSFullscreenChange', () => {
+  const wasFullscreen = isFullscreen;
+  updateFullscreenStatus();
+  
+  console.log('Fullscreen mode changed (MS):', {
+    from: wasFullscreen ? 'fullscreen' : 'normal',
+    to: isFullscreen ? 'fullscreen' : 'normal',
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
+  setTimeout(() => {
+    const container = document.querySelector('.slide-container');
+    if (container) {
+      const applyZoneResponsive = window.applyZoneResponsive;
+      if (applyZoneResponsive) applyZoneResponsive();
+    }
+    // 전체화면 상태 변경 후 adjustForOrientation 실행
+    safeAdjustForOrientation();
+  }, 100);
+});
+
+// iOS Safari 주소창 숨기기
+hideAddressBar();
+
 
 // 탭바 이벤트 처리
 window.addEventListener('DOMContentLoaded', () => {
@@ -1402,6 +2727,10 @@ window.addEventListener('DOMContentLoaded', () => {
       'TED': {
           id: 'UCAuUUnT6oDeKwE6v1NGQxug',
           handle: '@TED'
+      },
+      'BBC Earth': {
+          id: 'UC0p5jTq6Xx_DosDFxVXnWaQ',
+          handle: '@bbcearth'
       }
   };
 
@@ -1516,6 +2845,8 @@ window.addEventListener('DOMContentLoaded', () => {
           results = await searchInChannel('Discovery', query);
       } else if (tabLabel === 'TED') {
           results = await searchInChannel('TED', query);
+      } else if (tabLabel === 'BBC Earth') {
+          results = await searchInChannel('BBC Earth', query);
       } else {
           results = await globalSearch(query);
       }
@@ -1554,10 +2885,14 @@ window.addEventListener('DOMContentLoaded', () => {
     tabbar.appendChild(closeBtn);
   }
   
-  // 오버레이 클릭 시 닫기
+  // 오버레이 클릭 시 닫기 (탭바 자체 클릭은 제외)
   const overlay = document.getElementById('tabbar-modal-overlay');
   if (overlay) {
-    overlay.addEventListener('click', () => {
+    overlay.addEventListener('click', (e) => {
+      // 탭바 자체를 클릭한 경우는 닫지 않음
+      if (e.target.closest('#tabbar-container')) {
+        return;
+      }
       if (tabbar) tabbar.classList.remove('show-tabbar');
       overlay.style.display = 'none';
     });
@@ -1586,20 +2921,52 @@ function openYoutubePopup(vid) {
     `width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no`
   );
 }
-  // 전체화면 진입 함수 (사용자 제스처 필요)
-  function requestFullscreen() {
-    const el = document.documentElement;
-    if (el.requestFullscreen) el.requestFullscreen();
-    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-    else if (el.msRequestFullscreen) el.msRequestFullscreen();
-  }
-  // 모바일에서 첫 터치 시 전체화면 진입 시도
-  window.addEventListener('touchstart', function autoFullscreen() {
-    requestFullscreen();
-    window.removeEventListener('touchstart', autoFullscreen);
+  // 터치 이벤트로 주소창 숨기기 (iOS Safari) - 슬라이드 컨테이너 제외
+  document.addEventListener('touchstart', function(e) {
+    // 슬라이드 컨테이너의 터치 이벤트는 방해하지 않음
+    if (e.target.closest('.slide-container')) {
+      return;
+    }
+    
+    if (window.scrollY === 0) {
+      hideAddressBar();
+    }
+  }, { passive: true });
+
+  // 뒤로가기 방지 (전체화면 유지)
+  history.pushState(null, '', location.href);
+  window.addEventListener('popstate', function() {
+    history.pushState(null, '', location.href);
   });
-  // PC에서도 버튼으로 전체화면 진입 가능 (옵션)
-  // window.addEventListener('keydown', e => { if (e.key === 'f') requestFullscreen(); });
+
+  // 키보드 이벤트 처리
+  document.addEventListener('keydown', function(event) {
+    // F11 키로 전체화면 토글
+    if (event.key === 'F11') {
+      event.preventDefault();
+      if (isFullscreen) {
+        exitFullscreen();
+      } else {
+    requestFullscreen();
+      }
+    }
+    
+    // 화살표 키로 슬라이드 이동 (전체화면에서도 작동)
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      prevSlide();
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      nextSlide();
+    }
+  });
+
+  // 페이지 언로드 시 전체화면 해제
+  window.addEventListener('beforeunload', function() {
+    if (isFullscreen) {
+      exitFullscreen();
+    }
+  });
 
 
 // 검색 결과 렌더링 함수 선언 (window.addEventListener 등 바깥, <script> 내 최상단)
@@ -1637,9 +3004,9 @@ function renderYoutubeResults(items) {
     modal.style.alignItems = 'center';
     modal.style.justifyContent = 'center';
     modal.innerHTML = `
-      <div style="position:relative; width:90vw; max-width:1200px; height:80vh; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); display:flex; flex-direction:column;">
+      <div style="position:relative; width:90vw; max-width:1200px; height:90vh; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); display:flex; flex-direction:column;">
         <button id="search-modal-close" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10002;">×</button>
-        <div id="search-iframe-wrap" style="flex:1; min-height:0; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; overflow-y:auto; padding:2em;"></div>
+        <div id="search-iframe-wrap" style="flex:1; min-height:0; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; overflow-y:auto; padding:1em;"></div>
       </div>
     `;
     document.body.appendChild(modal);
@@ -1647,74 +3014,166 @@ function renderYoutubeResults(items) {
   } else {
     modal.style.display = 'flex';
   }
+  // 검색 결과를 표시
   document.getElementById('search-iframe-wrap').innerHTML = html;
-  setTimeout(() => {
-    let lastPlayer = null;
-    let lastPlayerDiv = null;
-    document.querySelectorAll('.yt-thumb-title').forEach(el => {
-      el.onclick = function() {
-        const vid = this.dataset.videoid;
-        const itemDiv = this.closest('.yt-result-item');
-        if (!itemDiv) return;
-        if (lastPlayer && typeof lastPlayer.destroy === 'function') lastPlayer.destroy();
-        if (lastPlayerDiv && lastPlayerDiv.parentNode) lastPlayerDiv.parentNode.removeChild(lastPlayerDiv);
-        const exist = itemDiv.querySelector('.yt-inline-player-wrap');
-        if (exist) { exist.remove(); lastPlayer = null; lastPlayerDiv = null; return; }
-        const wrap = document.createElement('div');
-        wrap.className = 'yt-inline-player-wrap';
-        wrap.style.position = 'absolute';
-        wrap.style.left = '0';
-        wrap.style.top = '0';
-        wrap.style.width = '100%';
-        wrap.style.height = '100%';
-        wrap.style.background = 'rgba(0,0,0,0.95)';
-        wrap.style.display = 'flex';
-        wrap.style.alignItems = 'center';
-        wrap.style.justifyContent = 'center';
-        wrap.style.zIndex = '100';
-        wrap.innerHTML = `
-          <div style="position:relative;width:80vw;max-width:900px;height:45vw;max-height:60vh;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center;">
-            <button class="yt-inline-close" style="position:absolute;right:12px;top:12px;font-size:2rem;font-weight:bold;background:none;border:none;color:#fff;z-index:10011;cursor:pointer;">×</button>
-            <div id="yt-player-api-box" style="width:100%;height:100%;"></div>
-          </div>
-        `;
-        itemDiv.appendChild(wrap);
-        lastPlayerDiv = wrap;
-        wrap.querySelector('.yt-inline-close').onclick = () => { if (lastPlayer && typeof lastPlayer.destroy === 'function') lastPlayer.destroy(); wrap.remove(); lastPlayer = null; lastPlayerDiv = null; };
-        if (window.YT && window.YT.Player) {
-          lastPlayer = new YT.Player(wrap.querySelector('#yt-player-api-box'), {
-            width: '100%',
-            height: '100%',
-            videoId: vid,
-            playerVars: { 'autoplay': 1, 'controls': 1 },
-            events: {
-              'onReady': function (event) { event.target.playVideo(); }
-            }
-          });
-        } else {
-          let retry = 0;
-          function tryCreatePlayer() {
-            if (window.YT && window.YT.Player) {
-              lastPlayer = new YT.Player(wrap.querySelector('#yt-player-api-box'), {
-                width: '100%',
-                height: '100%',
-                videoId: vid,
-                playerVars: { 'autoplay': 1, 'controls': 1 },
-                events: {
-                  'onReady': function (event) { event.target.playVideo(); }
-                }
-              });
-            } else if (retry < 10) {
-              retry++;
-              setTimeout(tryCreatePlayer, 300);
-            }
+  
+  let currentPlayer = null;
+  let currentPlayerContainer = null;
+  
+      setTimeout(() => {
+      document.querySelectorAll('.yt-thumb-title').forEach(el => {
+        el.onclick = function() {
+          const vid = this.dataset.videoid;
+          const itemDiv = this.closest('.yt-result-item');
+          
+          // 기존 플레이어가 있으면 제거
+          if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+            currentPlayer.destroy();
           }
-          tryCreatePlayer();
-        }
-      };
-    });
-  }, 100);
+          if (currentPlayerContainer && currentPlayerContainer.parentNode) {
+            currentPlayerContainer.remove();
+          }
+          
+          // 같은 아이템을 다시 클릭한 경우 플레이어만 제거하고 종료
+          if (itemDiv.querySelector('.yt-inline-player')) {
+            return;
+          }
+          
+          // 더 큰 높이로 설정 (최소 600px, 화면 높이의 70%)
+          const minHeight = Math.max(600, window.innerHeight * 0.7);
+          
+          // 플레이어 컨테이너 생성
+          const playerContainer = document.createElement('div');
+          playerContainer.className = 'yt-inline-player';
+          playerContainer.style.cssText = `
+            width: 100% !important;
+            height: ${minHeight}px !important;
+            min-height: 600px !important;
+            max-height: 800px !important;
+            background: #000;
+            border-radius: 12px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: slideDown 0.3s ease-out;
+            box-sizing: border-box;
+          `;
+          
+          const playerDiv = document.createElement('div');
+          playerDiv.style.cssText = `
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 600px !important;
+            border-radius: 12px;
+            overflow: hidden;
+            box-sizing: border-box;
+          `;
+          
+          playerContainer.appendChild(playerDiv);
+          
+          // 닫기 버튼 추가
+          const closeBtn = document.createElement('button');
+          closeBtn.innerHTML = '×';
+          closeBtn.style.cssText = `
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            font-size: 2rem;
+            font-weight: bold;
+            background: rgba(0,0,0,0.7);
+            border: none;
+            color: #fff;
+            z-index: 10011;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `;
+          
+          closeBtn.onclick = () => {
+            if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+              currentPlayer.destroy();
+            }
+            playerContainer.remove();
+            currentPlayer = null;
+            currentPlayerContainer = null;
+          };
+          
+          playerContainer.appendChild(closeBtn);
+          
+          // 아이템 바로 다음에 플레이어 삽입
+          itemDiv.parentNode.insertBefore(playerContainer, itemDiv.nextSibling);
+          currentPlayerContainer = playerContainer;
+          
+          // 클릭한 리스트가 가장 위로 스크롤
+          setTimeout(() => {
+            itemDiv.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start',
+              inline: 'nearest'
+            });
+          }, 100);
+          
+          // 새 플레이어 생성
+          if (window.YT && window.YT.Player) {
+            currentPlayer = new YT.Player(playerDiv, {
+              width: '100%',
+              height: minHeight,
+              videoId: vid,
+              playerVars: { 'autoplay': 1, 'controls': 1 },
+              events: {
+                'onReady': function (event) { 
+                  event.target.playVideo(); 
+                  // 플레이어 크기 강제 설정
+                  const iframe = playerDiv.querySelector('iframe');
+                  if (iframe) {
+                    iframe.style.width = '100% !important';
+                    iframe.style.height = minHeight + 'px !important';
+                    iframe.style.minHeight = '600px !important';
+                  }
+                }
+              }
+            });
+          } else {
+            let retry = 0;
+            function tryCreatePlayer() {
+              if (window.YT && window.YT.Player) {
+                currentPlayer = new YT.Player(playerDiv, {
+                  width: '100%',
+                  height: minHeight,
+                  videoId: vid,
+                  playerVars: { 'autoplay': 1, 'controls': 1 },
+                  events: {
+                    'onReady': function (event) { 
+                      event.target.playVideo(); 
+                      // 플레이어 크기 강제 설정
+                      const iframe = playerDiv.querySelector('iframe');
+                      if (iframe) {
+                        iframe.style.width = '100% !important';
+                        iframe.style.height = minHeight + 'px !important';
+                        iframe.style.minHeight = '600px !important';
+                      }
+                    }
+                  }
+                });
+              } else if (retry < 10) {
+                retry++;
+                setTimeout(tryCreatePlayer, 300);
+              }
+            }
+            tryCreatePlayer();
+          }
+        };
+      });
+    }, 100);
 }
+
+
   </script>
 </body>
 </html>
