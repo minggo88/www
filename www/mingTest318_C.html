@@ -240,6 +240,44 @@ body {
   }
 }
 
+/* 모바일 세로모드에서 필터 탭 크기 조정 */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  #tabbar-container {
+    min-width: 280px;
+    max-width: 95vw;
+    padding: 20px 20px 12px 20px;
+  }
+  
+  #tabbar {
+    gap: 4px;
+    margin: 0 0 12px 0;
+  }
+  
+  .tab {
+    padding: 6px 12px;
+    min-width: 80px;
+    font-size: 0.8rem;
+    border-radius: 6px 6px 0 0;
+  }
+  
+  #searchbox {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  
+  #searchInput {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+  }
+  
+  #searchBtn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+  }
+}
+
 /* 텍스트 애니메이션 */
 .text-zone p {
   color: #222;
@@ -248,12 +286,13 @@ body {
   font-size: 35px;
   line-height: 1.3;
   letter-spacing: -0.05em;
-  text-shadow: 
+  text-shadow:
     1px 1px 0 #fff,
     -1px 1px 0 #fff,
     1px -1px 0 #fff,
     -1px -1px 0 #fff,
-    2px 2px 4px rgba(0,0,0,0.1);
+    0.5px 0.5px 1px rgba(0,0,0,0.1) !important;
+  filter: none !important;
   max-width: none;
   width: auto;
   z-index: 50;
@@ -261,13 +300,6 @@ body {
   text-align: left;
   word-break: break-word;
   hyphens: auto;
-  filter: drop-shadow(1px 0 white) drop-shadow(-1px 0 white)
-          drop-shadow(0 1px white) drop-shadow(0 -1px white);
-  user-select: none;
-  cursor: default;
-  background: transparent;
-  box-sizing: border-box;
-  overflow: visible;
   margin: 0;
   padding: 0;
   opacity: 0;
@@ -360,11 +392,6 @@ body {
   }
   #searchBtn {
     padding: 4px 10px;
-    border-radius: 4px;
-  }
-  #tabbar-close-btn {
-    margin-top: 6px;
-    padding: 4px 12px;
     border-radius: 4px;
   }
 } 
@@ -898,6 +925,27 @@ body {
   height: 100% !important;
   min-height: 600px !important;
 }
+
+#tabbar-close-btn { display: none !important; }
+
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  .text-zone p {
+    text-shadow:
+      1px 1px 0 #fff,
+      -1px 1px 0 #fff,
+      1px -1px 0 #fff,
+      -1px -1px 0 #fff,
+      0.5px 0.5px 1px rgba(0,0,0,0.1) !important;
+    filter: none !important;
+  }
+}
+
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  #story-start-btn {
+    top: 52% !important;
+    right: 5% !important;
+  }
+}
   </style>
 </head>
 <body>
@@ -917,11 +965,12 @@ body {
   </div>
 
   <div id="tabbar-container">
-    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10000;">×</button>
-    <div id="tabbar">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
       <button class="tab" data-label="National Geographic">National Geographic</button>
       <button class="tab" data-label="Discovery">Discovery</button>
       <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
     </div>
     <div id="searchbox">
       <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
@@ -939,20 +988,50 @@ let fullscreenBaseHeight = null;
 function requestFullscreen() {
   const element = document.documentElement;
   if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullscreenElement && !document.msFullscreenElement) {
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
+    try {
+      if (element.requestFullscreen) {
+        element.requestFullscreen().then(() => {
+          // 전체화면 진입 성공 시 기준값 저장
+          setTimeout(() => {
+            fullscreenBaseWidth = window.innerWidth;
+            fullscreenBaseHeight = window.innerHeight;
+          }, 500);
+        }).catch(err => {
+          console.log('Fullscreen request failed:', err);
+          // Promise 실패 시에도 재시도
+          setTimeout(() => {
+            try {
+              requestFullscreen();
+            } catch (retryErr) {
+              console.log('Fullscreen retry failed:', retryErr);
+            }
+          }, 100);
+        });
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+        setTimeout(() => {
+          fullscreenBaseWidth = window.innerWidth;
+          fullscreenBaseHeight = window.innerHeight;
+        }, 500);
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+        setTimeout(() => {
+          fullscreenBaseWidth = window.innerWidth;
+          fullscreenBaseHeight = window.innerHeight;
+        }, 500);
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+        setTimeout(() => {
+          fullscreenBaseWidth = window.innerWidth;
+          fullscreenBaseHeight = window.innerHeight;
+        }, 500);
+      } else {
+        // 전체화면 API를 지원하지 않는 경우
+        console.log('Fullscreen API not supported');
+      }
+    } catch (err) {
+      console.log('Fullscreen request error:', err);
     }
-    // 전체화면 진입 직후 기준값 저장
-    setTimeout(() => {
-      fullscreenBaseWidth = window.innerWidth;
-      fullscreenBaseHeight = window.innerHeight;
-    }, 500);
   }
 }
 
@@ -1031,14 +1110,66 @@ const CONFIG = {
                            document.mozFullScreenElement || 
                            document.msFullscreenElement);
     
+    // 모바일 감지 (화면 너비가 600px 이하)
+    const isMobile = window.innerWidth <= 600;
+    
     console.log('Adjusting for orientation:', {
       isLandscape: isLandscape,
       isFullscreen: isFullscreen,
+      isMobile: isMobile,
       width: window.innerWidth,
       height: window.innerHeight
     });
     
-    if (isLandscape) {
+    if (isMobile) {
+      // 모바일 전용 설정
+      if (isLandscape) {
+        if (isFullscreen) {
+          console.log('11111111');
+          CONFIG.setZonePositionPercent(1, 8, 5, undefined, undefined);
+          CONFIG.setZoneFontSize(1, 24);
+          CONFIG.setZonePositionPercent(2, 8, 95, undefined, undefined);
+          CONFIG.setZoneFontSize(2, 24);
+          CONFIG.setZonePositionPercent(3, undefined, 5, undefined, 12);
+          CONFIG.setZoneFontSize(3, 24);
+          CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 12);
+          CONFIG.setZoneFontSize(4, 24);
+        } else {
+          console.log('1111111122');
+          CONFIG.setZonePositionPercent(1, 8, 10, undefined, undefined);
+          CONFIG.setZoneFontSize(1, 24);
+          CONFIG.setZonePositionPercent(2, 8, 95, undefined, undefined);
+          CONFIG.setZoneFontSize(2, 24);
+          CONFIG.setZonePositionPercent(3, undefined, 10, undefined, 12);
+          CONFIG.setZoneFontSize(3, 24);
+          CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 12);
+          CONFIG.setZoneFontSize(4, 24);
+        }
+      } else {
+        if (isFullscreen) {
+          console.log('1111111331');
+          CONFIG.setZonePositionPercent(1, 40, 5, undefined, undefined);
+          CONFIG.setZoneFontSize(1, 24);
+          CONFIG.setZonePositionPercent(2, 40, 55, undefined, undefined);
+          CONFIG.setZoneFontSize(2, 24);
+          CONFIG.setZonePositionPercent(3, undefined, 5, undefined, 40);
+          CONFIG.setZoneFontSize(3, 24);
+          CONFIG.setZonePositionPercent(4, undefined, 55, undefined, 40);
+          CONFIG.setZoneFontSize(4, 24);
+        } else {
+          console.log('11111114444441');
+          CONFIG.setZonePositionPercent(1, 25, 15, undefined, undefined);
+          CONFIG.setZoneFontSize(1, 24);
+          CONFIG.setZonePositionPercent(2, 25, 95, undefined, undefined);
+          CONFIG.setZoneFontSize(2, 24);
+          CONFIG.setZonePositionPercent(3, undefined, 5, undefined, 25);
+          CONFIG.setZoneFontSize(3, 24);
+          CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 25);
+          CONFIG.setZoneFontSize(4, 24);
+        }
+      }
+    } else if (isLandscape) {
+      // 태블릿/데스크톱 가로모드
       if (isFullscreen) {
         CONFIG.setZonePositionPercent(1, 10, 6, undefined, undefined);
         CONFIG.setZoneFontSize(1, 35);
@@ -1059,6 +1190,7 @@ const CONFIG = {
         CONFIG.setZoneFontSize(4, 35);
       }
     } else {
+      // 태블릿/데스크톱 세로모드
       if (isFullscreen) {
         CONFIG.setZonePositionPercent(1, 35, 6, undefined, undefined, '%');
         CONFIG.setZoneFontSize(1, 35);
@@ -1667,21 +1799,56 @@ function renderSlide(idx) {
       -ms-user-select: none;
     `;
     
-    // 탭 가로모드용 스타일 적용
-    const applyTabLandscapeStyle = () => {
-      if (window.innerWidth >= 800 && window.innerWidth <= 1400 && 
-          window.innerHeight >= 600 && window.innerHeight <= 1100) {
+    // 디바이스별 스타일 적용
+    const applyDeviceStyle = () => {
+      if (window.innerWidth <= 600) {
+        // 모바일
+        if (window.innerWidth > window.innerHeight) {
+          // 모바일 가로모드
+          startButton.style.right = '5%';
+          startButton.style.top = '60%';
+          startButton.style.fontSize = '1.2rem';
+          startButton.style.padding = '15px 30px';
+          startButton.style.minWidth = '140px';
+        } else {
+          // 모바일 세로모드
+          startButton.style.right = '8%';
+          startButton.style.top = '45%';
+          startButton.style.fontSize = '1.2rem';
+          startButton.style.padding = '15px 30px';
+          startButton.style.minWidth = '140px';
+        }
+      } else if (window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+                 window.innerHeight >= 600 && window.innerHeight <= 1100) {
+        // 탭 가로모드
         startButton.style.right = '17%';
+        startButton.style.top = '70%';
+        startButton.style.fontSize = '1.5rem';
+        startButton.style.padding = '20px 40px';
+        startButton.style.minWidth = '180px';
+      } else if (window.innerWidth >= 600 && window.innerWidth <= 1200 && 
+                 window.innerHeight > window.innerWidth) {
+        // 탭 세로모드
+        startButton.style.right = '9%';
+        startButton.style.top = '50%';
+        startButton.style.fontSize = '1.5rem';
+        startButton.style.padding = '20px 40px';
+        startButton.style.minWidth = '180px';
       } else {
+        // 웹페이지
         startButton.style.right = '22%';
+        startButton.style.top = '70%';
+        startButton.style.fontSize = '1.5rem';
+        startButton.style.padding = '20px 40px';
+        startButton.style.minWidth = '180px';
       }
     };
     
     // 초기 적용
-    applyTabLandscapeStyle();
+    applyDeviceStyle();
     
     // 리사이즈 시에도 적용
-    window.addEventListener('resize', applyTabLandscapeStyle);
+    window.addEventListener('resize', applyDeviceStyle);
     
     startButton.addEventListener('mouseenter', () => {
       startButton.style.background = 'rgba(255, 255, 255, 0.9)';
@@ -1693,7 +1860,8 @@ function renderSlide(idx) {
       startButton.style.color = 'white';
     });
     
-    startButton.addEventListener('click', (e) => {
+    // 클릭 이벤트
+    startButton.onclick = function(e) {
       e.preventDefault();
       e.stopPropagation();
       console.log('Start Story button clicked');
@@ -1708,29 +1876,44 @@ function renderSlide(idx) {
         updatePageIndicator();
       } else {
         // 전체화면이 아니면 전체화면으로 전환 후 다음 페이지로
-        requestFullscreen();
-        
-        // 전체화면 진입 후 다음 페이지로 전환
-        let handler = () => {
+        try {
+          requestFullscreen();
+          
+          // 전체화면 진입 후 다음 페이지로 전환
+          let handler = () => {
+            // 전체화면이 실제로 진입되었는지 확인
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+              setTimeout(() => {
+                current = 1; // 다음 페이지 (2.jpg)
+                renderSlide(current);
+                updatePageIndicator();
+                document.removeEventListener('fullscreenchange', handler);
+                document.removeEventListener('webkitfullscreenchange', handler);
+                document.removeEventListener('mozfullscreenchange', handler);
+                document.removeEventListener('MSFullscreenChange', handler);
+              }, 200);
+            }
+          };
+          document.addEventListener('fullscreenchange', handler);
+          document.addEventListener('webkitfullscreenchange', handler);
+          document.addEventListener('mozfullscreenchange', handler);
+          document.addEventListener('MSFullscreenChange', handler);
+        } catch (err) {
+          console.log('Fullscreen request error in button click:', err);
+          // 오류 발생 시 전체화면으로 다시 시도
           setTimeout(() => {
-            current = 1; // 다음 페이지 (2.jpg)
-            renderSlide(current);
-            updatePageIndicator();
-            document.removeEventListener('fullscreenchange', handler);
-            document.removeEventListener('webkitfullscreenchange', handler);
-            document.removeEventListener('mozfullscreenchange', handler);
-            document.removeEventListener('MSFullscreenChange', handler);
-          }, 200);
-        };
-        document.addEventListener('fullscreenchange', handler);
-        document.addEventListener('webkitfullscreenchange', handler);
-        document.addEventListener('mozfullscreenchange', handler);
-        document.addEventListener('MSFullscreenChange', handler);
+            try {
+              requestFullscreen();
+            } catch (retryErr) {
+              console.log('Fullscreen retry failed:', retryErr);
+            }
+          }, 100);
+        }
       }
-    });
+    };
     
-    // 터치 이벤트 추가
-    startButton.addEventListener('touchstart', (e) => {
+    // 터치 이벤트 (모바일용)
+    startButton.ontouchstart = function(e) {
       e.preventDefault();
       e.stopPropagation();
       console.log('Start Story button touched');
@@ -1745,26 +1928,41 @@ function renderSlide(idx) {
         updatePageIndicator();
       } else {
         // 전체화면이 아니면 전체화면으로 전환 후 다음 페이지로
-        requestFullscreen();
-        
-        // 전체화면 진입 후 다음 페이지로 전환
-        let handler = () => {
+        try {
+          requestFullscreen();
+          
+          // 전체화면 진입 후 다음 페이지로 전환
+          let handler = () => {
+            // 전체화면이 실제로 진입되었는지 확인
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+              setTimeout(() => {
+                current = 1; // 다음 페이지 (2.jpg)
+                renderSlide(current);
+                updatePageIndicator();
+                document.removeEventListener('fullscreenchange', handler);
+                document.removeEventListener('webkitfullscreenchange', handler);
+                document.removeEventListener('mozfullscreenchange', handler);
+                document.removeEventListener('MSFullscreenChange', handler);
+              }, 200);
+            }
+          };
+          document.addEventListener('fullscreenchange', handler);
+          document.addEventListener('webkitfullscreenchange', handler);
+          document.addEventListener('mozfullscreenchange', handler);
+          document.addEventListener('MSFullscreenChange', handler);
+        } catch (err) {
+          console.log('Fullscreen request error in button touch:', err);
+          // 오류 발생 시 전체화면으로 다시 시도
           setTimeout(() => {
-            current = 1; // 다음 페이지 (2.jpg)
-            renderSlide(current);
-            updatePageIndicator();
-            document.removeEventListener('fullscreenchange', handler);
-            document.removeEventListener('webkitfullscreenchange', handler);
-            document.removeEventListener('mozfullscreenchange', handler);
-            document.removeEventListener('MSFullscreenChange', handler);
-          }, 200);
-        };
-        document.addEventListener('fullscreenchange', handler);
-        document.addEventListener('webkitfullscreenchange', handler);
-        document.addEventListener('mozfullscreenchange', handler);
-        document.addEventListener('MSFullscreenChange', handler);
+            try {
+              requestFullscreen();
+            } catch (retryErr) {
+              console.log('Fullscreen retry failed:', retryErr);
+            }
+          }, 100);
+        }
       }
-    });
+    };
     
     container.appendChild(startButton);
   }
@@ -2481,6 +2679,10 @@ window.addEventListener('DOMContentLoaded', () => {
       'TED': {
           id: 'UCAuUUnT6oDeKwE6v1NGQxug',
           handle: '@TED'
+      },
+      'BBC Earth': {
+          id: 'UC0p5jTq6Xx_DosDFxVXnWaQ',
+          handle: '@bbcearth'
       }
   };
 
@@ -2595,6 +2797,8 @@ window.addEventListener('DOMContentLoaded', () => {
           results = await searchInChannel('Discovery', query);
       } else if (tabLabel === 'TED') {
           results = await searchInChannel('TED', query);
+      } else if (tabLabel === 'BBC Earth') {
+          results = await searchInChannel('BBC Earth', query);
       } else {
           results = await globalSearch(query);
       }
