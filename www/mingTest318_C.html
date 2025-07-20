@@ -906,8 +906,8 @@ body {
   <!-- 전체화면 모달 -->
   <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
     <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
-      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">전체화면에서 이야기를 시작합니다.</h2>
-      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">전체화면보기</button>
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
     </div>
   </div>
   
@@ -1655,12 +1655,33 @@ function renderSlide(idx) {
       font-weight: bold;
       border-radius: 12px;
       cursor: pointer;
-      z-index: 1000;
+      z-index: 10000;
       transition: all 0.3s ease;
       font-family: Arial, sans-serif;
       min-width: 180px;
       text-align: center;
+      pointer-events: auto;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     `;
+    
+    // 탭 가로모드용 스타일 적용
+    const applyTabLandscapeStyle = () => {
+      if (window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+          window.innerHeight >= 600 && window.innerHeight <= 1100) {
+        startButton.style.right = '17%';
+      } else {
+        startButton.style.right = '22%';
+      }
+    };
+    
+    // 초기 적용
+    applyTabLandscapeStyle();
+    
+    // 리사이즈 시에도 적용
+    window.addEventListener('resize', applyTabLandscapeStyle);
     
     startButton.addEventListener('mouseenter', () => {
       startButton.style.background = 'rgba(255, 255, 255, 0.9)';
@@ -1672,13 +1693,58 @@ function renderSlide(idx) {
       startButton.style.color = 'white';
     });
     
-    startButton.addEventListener('click', () => {
-      // 전체화면이면 바로 다음 페이지로, 아니면 전체화면 후 다음 페이지로
-      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+    startButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Start Story button clicked');
+      
+      // 매번 전체화면 상태를 체크
+      const isCurrentlyFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+      
+      if (isCurrentlyFullscreen) {
+        // 이미 전체화면이면 바로 다음 페이지로
         current = 1; // 다음 페이지 (2.jpg)
         renderSlide(current);
         updatePageIndicator();
       } else {
+        // 전체화면이 아니면 전체화면으로 전환 후 다음 페이지로
+        requestFullscreen();
+        
+        // 전체화면 진입 후 다음 페이지로 전환
+        let handler = () => {
+          setTimeout(() => {
+            current = 1; // 다음 페이지 (2.jpg)
+            renderSlide(current);
+            updatePageIndicator();
+            document.removeEventListener('fullscreenchange', handler);
+            document.removeEventListener('webkitfullscreenchange', handler);
+            document.removeEventListener('mozfullscreenchange', handler);
+            document.removeEventListener('MSFullscreenChange', handler);
+          }, 200);
+        };
+        document.addEventListener('fullscreenchange', handler);
+        document.addEventListener('webkitfullscreenchange', handler);
+        document.addEventListener('mozfullscreenchange', handler);
+        document.addEventListener('MSFullscreenChange', handler);
+      }
+    });
+    
+    // 터치 이벤트 추가
+    startButton.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Start Story button touched');
+      
+      // 매번 전체화면 상태를 체크
+      const isCurrentlyFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+      
+      if (isCurrentlyFullscreen) {
+        // 이미 전체화면이면 바로 다음 페이지로
+        current = 1; // 다음 페이지 (2.jpg)
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        // 전체화면이 아니면 전체화면으로 전환 후 다음 페이지로
         requestFullscreen();
         
         // 전체화면 진입 후 다음 페이지로 전환
