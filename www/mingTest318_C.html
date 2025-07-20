@@ -870,6 +870,34 @@ body {
   transition: opacity 0.3s;
 }
 #fs-btn.hide { opacity: 0; pointer-events: none; }
+
+/* 유튜브 플레이어 슬라이드 애니메이션 */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 800px;
+  }
+}
+
+/* 유튜브 플레이어 강제 크기 설정 */
+.yt-inline-player {
+  width: 100% !important;
+  height: 600px !important;
+  min-height: 600px !important;
+  max-height: 800px !important;
+}
+
+.yt-inline-player iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 600px !important;
+}
   </style>
 </head>
 <body>
@@ -1086,7 +1114,8 @@ const slideTemplates = [
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
-    }
+    },
+    hasStartButton: true
   },
   {
     bg: '../assets/img/3.1.8/2.jpg',
@@ -1609,6 +1638,71 @@ function renderSlide(idx) {
 
   container.appendChild(imgWrapper);
 
+  // 1.jpg 슬라이드에 "이야기 시작" 버튼 추가
+  if (slide.hasStartButton) {
+    const startButton = document.createElement('button');
+    startButton.id = 'story-start-btn';
+    startButton.textContent = 'Start Story';
+    startButton.style.cssText = `
+      position: absolute;
+      top: 70%;
+      right: 22%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      border: 3px solid white;
+      padding: 20px 40px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      font-family: Arial, sans-serif;
+      min-width: 180px;
+      text-align: center;
+    `;
+    
+    startButton.addEventListener('mouseenter', () => {
+      startButton.style.background = 'rgba(255, 255, 255, 0.9)';
+      startButton.style.color = 'black';
+    });
+    
+    startButton.addEventListener('mouseleave', () => {
+      startButton.style.background = 'rgba(0, 0, 0, 0.8)';
+      startButton.style.color = 'white';
+    });
+    
+    startButton.addEventListener('click', () => {
+      // 전체화면이면 바로 다음 페이지로, 아니면 전체화면 후 다음 페이지로
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        current = 1; // 다음 페이지 (2.jpg)
+        renderSlide(current);
+        updatePageIndicator();
+      } else {
+        requestFullscreen();
+        
+        // 전체화면 진입 후 다음 페이지로 전환
+        let handler = () => {
+          setTimeout(() => {
+            current = 1; // 다음 페이지 (2.jpg)
+            renderSlide(current);
+            updatePageIndicator();
+            document.removeEventListener('fullscreenchange', handler);
+            document.removeEventListener('webkitfullscreenchange', handler);
+            document.removeEventListener('mozfullscreenchange', handler);
+            document.removeEventListener('MSFullscreenChange', handler);
+          }, 200);
+        };
+        document.addEventListener('fullscreenchange', handler);
+        document.addEventListener('webkitfullscreenchange', handler);
+        document.addEventListener('mozfullscreenchange', handler);
+        document.addEventListener('MSFullscreenChange', handler);
+      }
+    });
+    
+    container.appendChild(startButton);
+  }
+
   const rightArrow = document.createElement('button');
   rightArrow.className = 'arrow right';
   rightArrow.innerHTML = '&#62;';
@@ -1728,11 +1822,16 @@ function nextSlide() {
   if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
     // 이미 전체화면이면 바로 이동
     current = next;
-  renderSlide(current);
+    renderSlide(current);
     updatePageIndicator();
   } else {
     // 전체화면이 아니면 모달 표시
-    showFullscreenModal(next);
+    // 1.jpg에서 다음 페이지로 넘어가려고 할 때는 특별 처리
+    if (current === 0) {
+      showFullscreenModal(0); // 1.jpg용 메시지 표시
+    } else {
+      showFullscreenModal(next);
+    }
   }
 }
 
@@ -1746,7 +1845,12 @@ function prevSlide() {
     updatePageIndicator();
   } else {
     // 전체화면이 아니면 모달 표시
-    showFullscreenModal(prev);
+    // 1.jpg에서 이전 페이지로 넘어가려고 할 때는 특별 처리
+    if (current === 0) {
+      showFullscreenModal(0); // 1.jpg용 메시지 표시
+    } else {
+      showFullscreenModal(prev);
+    }
   }
 }
 
@@ -1754,32 +1858,56 @@ function showFullscreenModal(targetPage) {
   const modal = document.getElementById('fullscreen-modal');
   const btn = document.getElementById('fullscreen-modal-btn');
   
+  // 1.jpg 슬라이드인 경우 다른 메시지 표시
+  if (targetPage === 0) {
+    modal.innerHTML = `
+      <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+        <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Please click the "Start Story" button to begin.</h2>
+        <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">Close</button>
+      </div>
+    `;
+  } else {
+    modal.innerHTML = `
+      <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+        <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+        <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">Confirm</button>
+      </div>
+    `;
+  }
+  
   modal.style.display = 'flex';
   modal.style.alignItems = 'center';
   modal.style.justifyContent = 'center';
   
-  btn.onclick = () => {
-    // 모달 즉시 숨기기
-    modal.style.display = 'none';
-    requestFullscreen();
-    
-    // 전체화면 진입 후 페이지 전환
-    let handler = () => {
-      setTimeout(() => {
-        current = targetPage;
-        renderSlide(current);
-        updatePageIndicator();
-        document.removeEventListener('fullscreenchange', handler);
-        document.removeEventListener('webkitfullscreenchange', handler);
-        document.removeEventListener('mozfullscreenchange', handler);
-        document.removeEventListener('MSFullscreenChange', handler);
-      }, 200);
-    };
-    document.addEventListener('fullscreenchange', handler);
-    document.addEventListener('webkitfullscreenchange', handler);
-    document.addEventListener('mozfullscreenchange', handler);
-    document.addEventListener('MSFullscreenChange', handler);
-  };
+  // 버튼 이벤트 리스너 재설정
+  setTimeout(() => {
+    const newBtn = document.getElementById('fullscreen-modal-btn');
+    if (newBtn) {
+      newBtn.onclick = () => {
+        modal.style.display = 'none';
+        if (targetPage !== 0) {
+          requestFullscreen();
+          
+          // 전체화면 진입 후 페이지 전환
+          let handler = () => {
+            setTimeout(() => {
+              current = targetPage;
+              renderSlide(current);
+              updatePageIndicator();
+              document.removeEventListener('fullscreenchange', handler);
+              document.removeEventListener('webkitfullscreenchange', handler);
+              document.removeEventListener('mozfullscreenchange', handler);
+              document.removeEventListener('MSFullscreenChange', handler);
+            }, 200);
+          };
+          document.addEventListener('fullscreenchange', handler);
+          document.addEventListener('webkitfullscreenchange', handler);
+          document.addEventListener('mozfullscreenchange', handler);
+          document.addEventListener('MSFullscreenChange', handler);
+        }
+      };
+    }
+  }, 10);
 }
 
 function addDragEvents(container, leftArrow, rightArrow) {
@@ -1800,7 +1928,12 @@ function addDragEvents(container, leftArrow, rightArrow) {
         renderSlide(current);
         updatePageIndicator();
       } else {
-        showFullscreenModal((current - 1 + slideTemplates.length) % slideTemplates.length);
+        // 1.jpg에서 이전 페이지로 넘어가려고 할 때는 특별 처리
+        if (current === 0) {
+          showFullscreenModal(0); // 1.jpg용 메시지 표시
+        } else {
+          showFullscreenModal((current - 1 + slideTemplates.length) % slideTemplates.length);
+        }
       }
     }
     else if (diff < -60) { 
@@ -1811,7 +1944,12 @@ function addDragEvents(container, leftArrow, rightArrow) {
         renderSlide(current);
         updatePageIndicator();
       } else {
-        showFullscreenModal((current + 1) % slideTemplates.length);
+        // 1.jpg에서 다음 페이지로 넘어가려고 할 때는 특별 처리
+        if (current === 0) {
+          showFullscreenModal(0); // 1.jpg용 메시지 표시
+        } else {
+          showFullscreenModal((current + 1) % slideTemplates.length);
+        }
       }
     }
     dragging = false;
@@ -1840,7 +1978,12 @@ function addDragEvents(container, leftArrow, rightArrow) {
         renderSlide(current);
         updatePageIndicator();
       } else {
-        showFullscreenModal((current - 1 + slideTemplates.length) % slideTemplates.length);
+        // 1.jpg에서 이전 페이지로 넘어가려고 할 때는 특별 처리
+        if (current === 0) {
+          showFullscreenModal(0); // 1.jpg용 메시지 표시
+        } else {
+          showFullscreenModal((current - 1 + slideTemplates.length) % slideTemplates.length);
+        }
       }
     }
     else if (diff < -60) { 
@@ -1851,7 +1994,12 @@ function addDragEvents(container, leftArrow, rightArrow) {
         renderSlide(current);
         updatePageIndicator();
       } else {
-        showFullscreenModal((current + 1) % slideTemplates.length);
+        // 1.jpg에서 다음 페이지로 넘어가려고 할 때는 특별 처리
+        if (current === 0) {
+          showFullscreenModal(0); // 1.jpg용 메시지 표시
+        } else {
+          showFullscreenModal((current + 1) % slideTemplates.length);
+        }
       }
     }
     dragging = false;
@@ -2538,9 +2686,9 @@ function renderYoutubeResults(items) {
     modal.style.alignItems = 'center';
     modal.style.justifyContent = 'center';
     modal.innerHTML = `
-      <div style="position:relative; width:90vw; max-width:1200px; height:80vh; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); display:flex; flex-direction:column;">
+      <div style="position:relative; width:90vw; max-width:1200px; height:90vh; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); display:flex; flex-direction:column;">
         <button id="search-modal-close" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10002;">×</button>
-        <div id="search-iframe-wrap" style="flex:1; min-height:0; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; overflow-y:auto; padding:2em;"></div>
+        <div id="search-iframe-wrap" style="flex:1; min-height:0; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; overflow-y:auto; padding:1em;"></div>
       </div>
     `;
     document.body.appendChild(modal);
@@ -2548,73 +2696,163 @@ function renderYoutubeResults(items) {
   } else {
     modal.style.display = 'flex';
   }
+  // 검색 결과를 표시
   document.getElementById('search-iframe-wrap').innerHTML = html;
-  setTimeout(() => {
-    let lastPlayer = null;
-    let lastPlayerDiv = null;
-    document.querySelectorAll('.yt-thumb-title').forEach(el => {
-      el.onclick = function() {
-        const vid = this.dataset.videoid;
-        const itemDiv = this.closest('.yt-result-item');
-        if (!itemDiv) return;
-        if (lastPlayer && typeof lastPlayer.destroy === 'function') lastPlayer.destroy();
-        if (lastPlayerDiv && lastPlayerDiv.parentNode) lastPlayerDiv.parentNode.removeChild(lastPlayerDiv);
-        const exist = itemDiv.querySelector('.yt-inline-player-wrap');
-        if (exist) { exist.remove(); lastPlayer = null; lastPlayerDiv = null; return; }
-        const wrap = document.createElement('div');
-        wrap.className = 'yt-inline-player-wrap';
-        wrap.style.position = 'absolute';
-        wrap.style.left = '0';
-        wrap.style.top = '0';
-        wrap.style.width = '100%';
-        wrap.style.height = '100%';
-        wrap.style.background = 'rgba(0,0,0,0.95)';
-        wrap.style.display = 'flex';
-        wrap.style.alignItems = 'center';
-        wrap.style.justifyContent = 'center';
-        wrap.style.zIndex = '100';
-        wrap.innerHTML = `
-          <div style="position:relative;width:80vw;max-width:900px;height:45vw;max-height:60vh;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center;">
-            <button class="yt-inline-close" style="position:absolute;right:12px;top:12px;font-size:2rem;font-weight:bold;background:none;border:none;color:#fff;z-index:10011;cursor:pointer;">×</button>
-            <div id="yt-player-api-box" style="width:100%;height:100%;"></div>
-          </div>
-        `;
-        itemDiv.appendChild(wrap);
-        lastPlayerDiv = wrap;
-        wrap.querySelector('.yt-inline-close').onclick = () => { if (lastPlayer && typeof lastPlayer.destroy === 'function') lastPlayer.destroy(); wrap.remove(); lastPlayer = null; lastPlayerDiv = null; };
-        if (window.YT && window.YT.Player) {
-          lastPlayer = new YT.Player(wrap.querySelector('#yt-player-api-box'), {
-            width: '100%',
-            height: '100%',
-            videoId: vid,
-            playerVars: { 'autoplay': 1, 'controls': 1 },
-            events: {
-              'onReady': function (event) { event.target.playVideo(); }
-            }
-          });
-        } else {
-          let retry = 0;
-          function tryCreatePlayer() {
-            if (window.YT && window.YT.Player) {
-              lastPlayer = new YT.Player(wrap.querySelector('#yt-player-api-box'), {
-                width: '100%',
-                height: '100%',
-                videoId: vid,
-                playerVars: { 'autoplay': 1, 'controls': 1 },
-                events: {
-                  'onReady': function (event) { event.target.playVideo(); }
-                }
-              });
-            } else if (retry < 10) {
-              retry++;
-              setTimeout(tryCreatePlayer, 300);
-            }
+  
+  let currentPlayer = null;
+  let currentPlayerContainer = null;
+  
+      setTimeout(() => {
+      document.querySelectorAll('.yt-thumb-title').forEach(el => {
+        el.onclick = function() {
+          const vid = this.dataset.videoid;
+          const itemDiv = this.closest('.yt-result-item');
+          
+          // 기존 플레이어가 있으면 제거
+          if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+            currentPlayer.destroy();
           }
-          tryCreatePlayer();
-        }
-      };
-    });
-  }, 100);
+          if (currentPlayerContainer && currentPlayerContainer.parentNode) {
+            currentPlayerContainer.remove();
+          }
+          
+          // 같은 아이템을 다시 클릭한 경우 플레이어만 제거하고 종료
+          if (itemDiv.querySelector('.yt-inline-player')) {
+            return;
+          }
+          
+          // 더 큰 높이로 설정 (최소 600px, 화면 높이의 70%)
+          const minHeight = Math.max(600, window.innerHeight * 0.7);
+          
+          // 플레이어 컨테이너 생성
+          const playerContainer = document.createElement('div');
+          playerContainer.className = 'yt-inline-player';
+          playerContainer.style.cssText = `
+            width: 100% !important;
+            height: ${minHeight}px !important;
+            min-height: 600px !important;
+            max-height: 800px !important;
+            background: #000;
+            border-radius: 12px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: slideDown 0.3s ease-out;
+            box-sizing: border-box;
+          `;
+          
+          const playerDiv = document.createElement('div');
+          playerDiv.style.cssText = `
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 600px !important;
+            border-radius: 12px;
+            overflow: hidden;
+            box-sizing: border-box;
+          `;
+          
+          playerContainer.appendChild(playerDiv);
+          
+          // 닫기 버튼 추가
+          const closeBtn = document.createElement('button');
+          closeBtn.innerHTML = '×';
+          closeBtn.style.cssText = `
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            font-size: 2rem;
+            font-weight: bold;
+            background: rgba(0,0,0,0.7);
+            border: none;
+            color: #fff;
+            z-index: 10011;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `;
+          
+          closeBtn.onclick = () => {
+            if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+              currentPlayer.destroy();
+            }
+            playerContainer.remove();
+            currentPlayer = null;
+            currentPlayerContainer = null;
+          };
+          
+          playerContainer.appendChild(closeBtn);
+          
+          // 아이템 바로 다음에 플레이어 삽입
+          itemDiv.parentNode.insertBefore(playerContainer, itemDiv.nextSibling);
+          currentPlayerContainer = playerContainer;
+          
+          // 클릭한 리스트가 가장 위로 스크롤
+          setTimeout(() => {
+            itemDiv.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start',
+              inline: 'nearest'
+            });
+          }, 100);
+          
+          // 새 플레이어 생성
+          if (window.YT && window.YT.Player) {
+            currentPlayer = new YT.Player(playerDiv, {
+              width: '100%',
+              height: minHeight,
+              videoId: vid,
+              playerVars: { 'autoplay': 1, 'controls': 1 },
+              events: {
+                'onReady': function (event) { 
+                  event.target.playVideo(); 
+                  // 플레이어 크기 강제 설정
+                  const iframe = playerDiv.querySelector('iframe');
+                  if (iframe) {
+                    iframe.style.width = '100% !important';
+                    iframe.style.height = minHeight + 'px !important';
+                    iframe.style.minHeight = '600px !important';
+                  }
+                }
+              }
+            });
+          } else {
+            let retry = 0;
+            function tryCreatePlayer() {
+              if (window.YT && window.YT.Player) {
+                currentPlayer = new YT.Player(playerDiv, {
+                  width: '100%',
+                  height: minHeight,
+                  videoId: vid,
+                  playerVars: { 'autoplay': 1, 'controls': 1 },
+                  events: {
+                    'onReady': function (event) { 
+                      event.target.playVideo(); 
+                      // 플레이어 크기 강제 설정
+                      const iframe = playerDiv.querySelector('iframe');
+                      if (iframe) {
+                        iframe.style.width = '100% !important';
+                        iframe.style.height = minHeight + 'px !important';
+                        iframe.style.minHeight = '600px !important';
+                      }
+                    }
+                  }
+                });
+              } else if (retry < 10) {
+                retry++;
+                setTimeout(tryCreatePlayer, 300);
+              }
+            }
+            tryCreatePlayer();
+          }
+        };
+      });
+    }, 100);
 }
 
 
