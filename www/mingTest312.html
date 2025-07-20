@@ -1287,8 +1287,9 @@ function safeAdjustForOrientation() {
 
 // 슬라이드 데이터
 const slideTemplates = [
+  // 1페이지(시작)
   {
-    bg: '../assets/img/3.1.8/1.jpg',
+    bg: '../assets/img/3.1.2/1.jpg',
     zones: {
       1: { text: '', keywords: [] },
       2: { text: '', keywords: [] },
@@ -1297,361 +1298,165 @@ const slideTemplates = [
     },
     hasStartButton: true
   },
+  // 2페이지
   {
-    bg: '../assets/img/3.1.8/2.jpg',
+    bg: '../assets/img/3.1.2/2.jpg',
     zones: {
-      1: {
-        text: 'Yellow dust usually happens in the<br>desert areas of China and Mongolia.<br>It is a natural phenomenon where<br>wind blows fine sand and dust<br>particles into the atmosphere.',
-        keywords: ['Yellow dust', 'desert', 'China', 'Mongolia', 'phenomenon', 'wind', 'sand', 'dust', 'atmosphere']
-      },
-      2: {
-        text: 'Yellow dust often occurs in East<br>Asian countries during spring.',
-        keywords: ['Yellow dust', 'Asian countries', 'spring']
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: '',
-        keywords: []
-      }
+      1: { text: 'If we look up at the sky,<br>the clouds look different every day.', keywords: ['sky', 'clouds', 'day'] },
+      2: { text: 'Some clouds look like whales,<br>and some clouds look like<br>elephants.', keywords: ['clouds', 'whales', 'elephants'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
     }
   },
+  // 3페이지
   {
-    bg: '../assets/img/3.1.8/3.jpg',
+    bg: '../assets/img/3.1.2/3.jpg',
     zones: {
-      1: {
-        text: '',
-        keywords: []
-      },
-      2: {
-        text: 'How is yellow dust made,<br>and what are its effects?',
-        keywords: ['yellow dust', 'effects']
-      },
-      3: {
-        text: 'Yellow dust mostly travels to Korea<br>and Japan through the atmospheric<br>circulation, and sometimes even<br>reaches North America.',
-        keywords: ['Yellow dust', 'Korea', 'Japan', 'circulation', 'North America']
-      },
-      4: {
-        text: '',
-        keywords: []
-      }
+      1: { text: 'A cloud is a collection of tiny drops<br>of water and ice.<br>So, how are these clouds made?', 
+      keywords: ['cloud', 'tiny drops', 'water', 'ice', 'clouds'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
     }
   },
+  // 4페이지
   {
-    bg: '../assets/img/3.1.8/4.jpg',
+    bg: '../assets/img/3.1.2/4.jpg',
     zones: {
-      1: {
-        text: 'Yellow dust happens in China\'s Gobi<br>Desert, Taklamakan Desert, and<br>Mongolia\'s desert areas.',
-        keywords: ['Yellow dust', 'China', 'Gobi', 'Desert', 'Taklamakan Desert', 'Mongolia', 'desert areas']
-      },
-      2: {
-        text: 'These areas have the perfect<br>conditions for yellow dust to<br>form due to their dry weather<br>and strong winds.',
-        keywords: ['areas', 'conditions', 'yellow dust', 'weather', 'winds']
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: '',
-        keywords: []
-      }
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'For clouds to form, water vapor on<br>the ground and in the air must rise<br>into the sky.<br>When the sun warms the land and<br>the ocean, the water heats up and<br>becomes water vapor.', keywords: ['clouds', 'water vapor', 'ground', 'air', 'sky', 'sun', 'land', 'ocean'] },
+      4: { text: 'This water vapor is so light<br>that it floats up into the sky.', keywords: ['water vapor', 'sky'] }
     }
   },
+  // 5페이지
   {
-    bg: '../assets/img/3.1.8/5.jpg',
+    bg: '../assets/img/3.1.2/5.jpg',
     zones: {
-      1: {
-        text: 'Yellow dust happens when there is<br>little rain and humidity, like in a dry<br>desert.',
-        keywords: ['Yellow dust', 'rain', 'humidity', 'desert']
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: 'The area needs sandy, dusty soil<br>and strong winds for yellow dust<br>to happen.',
-        keywords: ['area', 'soil', 'winds', 'yellow dust']
-      }
+      1: { text: 'Following the flow of air, when water<br>vapor meets a high place, such as<br>a mountain, its pathway is blocked<br>and rises high into the sky.', keywords: ['air', 'water vapor', 'mountain', 'pathway', 'sky'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
     }
   },
+  // 6페이지
   {
-    bg: '../assets/img/3.1.8/6.jpg',
+    bg: '../assets/img/3.1.2/6.jpg',
     zones: {
-      1: {
-        text: 'Yellow dust does not only travel<br>just above Earth\'s surface.',
-        keywords: ['Yellow dust', 'travel', 'Earth', 'surface']
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: 'It can also travel high up in the sky,<br>sometimes reaching all the way<br>to North America.',
-        keywords: ['travel','sky', 'North America']
-      }
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Water vapor can rise into the sky<br>even when cold air meets warm air.', keywords: ['water vapor', 'sky', 'cold air', 'warm air'] },
+      4: { text: 'This is because the warm air<br>rises above the cold air, creating<br>an updraft.', keywords: ['warm air', 'cold air', 'updraft'] }
     }
   },
+  // 7페이지
   {
-    bg: '../assets/img/3.1.8/7.jpg',
+    bg: '../assets/img/3.1.2/7.jpg',
     zones: {
-      1: {
-        text: 'The fine dust particles of yellow<br>dust can enter a person\'s lungs and<br>cause asthma and bronchitis.',
-        keywords: ['dust particles', 'lungs', 'asthma', 'bronchitis']
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: 'It can also cause breathing problems<br>and trigger allergic reactions.',
-        keywords: ['breathing problems', 'allergic reactions']
-      }
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'The water vapor that comes up to<br>the sky meets some friends who<br>are waiting.', keywords: ['water vapor', 'sky', 'friends'] },
+      4: { text: 'They are little dust particles called<br>"aerosols."', keywords: ['dust particles', 'aerosols'] }
     }
   },
+  // 8페이지
   {
-    bg: '../assets/img/3.1.8/8.jpg',
+    bg: '../assets/img/3.1.2/8.jpg',
     zones: {
-      1: {
-        text: 'Yellow dust can greatly damage<br>crops.',
-        keywords: ['Yellow dust', 'crops']
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: 'Plants cannot photosynthesize<br>or grow well when dust builds up<br>on their leaves.',
-        keywords: ['plants', 'photosynthesize', 'dust', 'leaves']
-      }
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Aerosols create cloud droplets when<br>water vapor turns cold as it rises<br>high into the sky.<br>When cloud droplets gather,<br>they look like clouds to our eyes.', keywords: ['aerosols', 'cloud droplets', 'water vapor', 'sky', 'clouds'] },
+      4: { text: '', keywords: [] }
     }
   },
+  // 9페이지
   {
-    bg: '../assets/img/3.1.8/9.jpg',
+    bg: '../assets/img/3.1.2/9.jpg',
     zones: {
-      1: {
-        text: 'Dust that builds up in the soil<br>can change the materials that<br>make up the soil and hinder<br>crop growth.',
-        keywords: ['dust', 'soil', 'materials', 'hinder', 'crop growth']
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: '',
-        keywords: []
-      }
+      1: { text: 'Did you know how clouds<br>are made?', keywords: ['clouds'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Light, cotton candy-like clouds float<br>where the wind blows.<br>How light must they be to float<br>in the sky?', keywords: ['clouds', 'wind', 'sky'] }
     }
   },
+  // 10페이지
   {
-    bg: '../assets/img/3.1.8/10.jpg',
+    bg: '../assets/img/3.1.2/10.jpg',
     zones: {
-      1: {
-        text: 'Yellow dust also affects industrial<br>activities.',
-        keywords: ['Yellow dust', 'activities']
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: 'It can delay or even cancel flights<br>and shut down factories because<br>of mechanical failures caused by<br>the dust.',
-        keywords: ['flights', 'factories', 'mechanical failures', 'dust']
-      }
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'The weight of cumulus clouds that<br>we often see is 1,000 tons!', keywords: ['cumulus clouds', 'weight', 'tons'] },
+      4: { text: 'They are as heavy as 400 elephants.<br>Clouds are not light at all.', keywords: ['elephants', 'clouds'] }
     }
   },
+  // 11페이지
   {
-    bg: '../assets/img/3.1.8/11.jpg',
+    bg: '../assets/img/3.1.2/11.jpg',
     zones: {
-      1: {
-        text: 'We must wear a mask outside on<br>days with severe yellow dust.',
-        keywords: ['mask', 'yellow dust']
-      },
-      2: {
-        text: 'Also, always remember to use<br>an air purifier to purify the indoor<br>air in the house.',
-        keywords: ['air purifier', 'air', 'house']
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: '',
-        keywords: []
-      }
+      1: { text: '', keywords: [] },
+      2: { text: 'Clouds are not floating. Each cloud<br>is slowly falling to the ground.<br>Small clouds are so light that they<br>fall slowly and look like they are<br>floating to our eyes.', keywords: ['clouds', 'ground', 'eyes'] },
+      3: { text: 'How do these heavy clouds<br>float in the sky without falling<br>to the ground?', keywords: ['clouds', 'sky', 'ground'] },
+      4: { text: '', keywords: [] }
     }
   },
+  // 12페이지
   {
-    bg: '../assets/img/3.1.8/12.jpg',
+    bg: '../assets/img/3.1.2/12.jpg',
     zones: {
-      1: {
-        text: 'Yellow dust is a problem that<br>crosses country borders and<br>requires international cooperation.',
-        keywords: ['Yellow dust', 'problem', 'country borders', 'international cooperation']
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: 'Countries affected by yellow dust,<br>like China, Mongolia, Korea, and<br>Japan, need to urgently conduct<br>joint research and develop<br>measures to solve this problem.',
-        keywords: ['countries', 'yellow dust', 'China', 'Mongolia', 'Korea', 'Japan', 'joint research', 'measures', 'problem']
-      }
+      1: { text: 'Why do clouds fall slowly?', keywords: ['clouds'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Clouds are created in updrafts,<br>so the forces trying to rise to<br>the sky and the forces trying to<br>fall to the ground push against<br>each other.', keywords: ['clouds', 'updrafts', 'sky', 'ground'] }
     }
   },
+  // 13페이지
   {
-    bg: '../assets/img/3.1.8/13.jpg',
+    bg: '../assets/img/3.1.2/13.jpg',
     zones: {
-      1: {
-        text: '',
-        keywords: []
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: 'One solution would be to plant trees<br>in deserts where yellow dust is<br>created.',
-        keywords: ['solution', 'plant trees', 'deserts', 'yellow dust']
-      },
-      4: {
-        text: 'Planting trees hardens the ground,<br>and trees can prevent sand and<br>dust from flying away.',
-        keywords: ['trees', 'ground', 'sand', 'dust']
-      }
+      1: { text: '', keywords: [] },
+      2: { text: 'When they become big and heavy<br>enough, they become rain or snow.', keywords: ['rain', 'snow'] },
+      3: { text: 'Cloud droplets look like they are<br>still because they are falling very<br>slowly.', keywords: ['cloud droplets'] },
+      4: { text: '', keywords: [] }
     }
   },
+  // 14페이지
   {
-    bg: '../assets/img/3.1.8/14.jpg',
+    bg: '../assets/img/3.1.2/14.jpg',
     zones: {
-      1: {
-        text: '',
-        keywords: []
-      },
-      2: {
-        text: 'We need to find different methods<br>to minimize the damage caused by<br>yellow dust.',
-        keywords: ['methods', 'damage', 'yellow dust']
-      },
-      3: {
-        text: 'Yellow dust is a natural phenomenon<br>out of our control.',
-        keywords: ['Yellow dust', 'natural phenomenon', 'control']
-      },
-      4: {
-        text: '',
-        keywords: []
-      }
+      1: { text: '', keywords: [] },
+      2: { text: 'Clouds that float high in the sky<br>look like wool or feathers.', keywords: ['clouds', 'sky', 'wool', 'feathers'] },
+      3: { text: 'There are many kinds of clouds,<br>and they have different names<br>depending on their shape and<br>height.', keywords: ['clouds', 'shape', 'height', 'names'] },
+      4: { text: '', keywords: [] }
     }
   },
+  // 15페이지
   {
-    bg: '../assets/img/3.1.8/15.jpg',
+    bg: '../assets/img/3.1.2/15.jpg',
     zones: {
-      1: {
-        text: 'We must keep checking the weather<br>and soil conditions to reduce yellow<br>dust.',
-        keywords: ['weather', 'soil conditions', 'yellow dust']
-      },
-      2: {
-        text: 'It is important that countries work<br>together to reduce the yellow dust<br>from happening.',
-        keywords: ['important', 'countries', 'yellow dust']
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: '',
-        keywords: []
-      }
+      1: { text: 'Clouds floating low in the sky<br>create rain and look like fog.', keywords: ['clouds', 'sky', 'rain', 'fog'] },
+      2: { text: 'In the summer, huge clouds form,<br>creating showers and thunderstorms.', keywords: ['summer', 'clouds', 'showers', 'thunderstorms'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
     }
   },
+  // 16페이지
   {
-    bg: '../assets/img/3.1.8/16.jpg',
+    bg: '../assets/img/3.1.2/16.jpg',
     zones: {
-      1: {
-        text: '',
-        keywords: []
-      },
-      2: {
-        text: 'Once we learn where yellow dust<br>comes from and how it moves,<br>we can predict it more accurately.',
-        keywords: ['yellow dust', 'predict']
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: 'We can lessen the damage by using<br>computer weather predictions to<br>foresee the movement of yellow<br>dust and then take steps to protect<br>ourselves.',
-        keywords: ['damage', 'computer weather predictions', 'movement', 'yellow dust', 'protect']
-      }
+      1: { text: 'Have you ever seen a long, straight<br>trail of clouds?<br>We call them "contrails."', keywords: ['trail', 'clouds', 'contrails'] },
+      2: { text: 'When an airplane flies in the sky,<br>hot exhaust from its engine meets<br>cold air and makes water.<br>A flying airplane leaves a long trail<br>of clouds.', keywords: ['airplane', 'sky', 'exhaust', 'engine', 'cold air', 'water', 'clouds'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
     }
   },
+  // 17페이지
   {
-    bg: '../assets/img/3.1.8/17.jpg',
+    bg: '../assets/img/3.1.2/17.jpg',
     zones: {
-      1: {
-        text: 'With satellites, we can see where<br>yellow dust travels in real time.',
-        keywords: ['satellites', 'yellow dust', 'real time']
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: 'Studying satellite images from<br>space can help make a plan that<br>predicts how yellow dust forms<br>and travels.',
-        keywords: ['satellite images', 'space', 'plan', 'yellow dust']
-      }
-    }
-  },
-  {
-    bg: '../assets/img/3.1.8/18.jpg',
-    zones: {
-      1: {
-        text: 'If we develop a system that predicts<br>yellow dust, it can warn people<br>ahead of time and protect them<br>from damage from yellow dust.',
-        keywords: ['system', 'yellow dust', 'warn', 'people', 'damage', 'protect']
-      },
-      2: {
-        text: '',
-        keywords: []
-      },
-      3: {
-        text: '',
-        keywords: []
-      },
-      4: {
-        text: '',
-        keywords: []
-      }
+      1: { text: 'Clouds in the sky block the hot<br>summer sun.', keywords: ['clouds', 'sky', 'sun', 'summer'] },
+      2: { text: 'Now we have learned how clouds<br>in the sky are made.', keywords: ['clouds', 'sky'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
     }
   }
 ];
