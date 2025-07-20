@@ -948,8 +948,12 @@ body {
 
 @media screen and (max-width: 600px) and (orientation: portrait) {
   #story-start-btn {
-    top: 52% !important;
+    top: 58% !important;
     right: 5% !important;
+    height: 4%;
+    padding: 1% !important;
+    width : 7%;
+    font-size : 16px !important;
   }
   #page-indicator {
     bottom: 38% !important;
@@ -965,7 +969,9 @@ body {
 @media screen and (max-width: 900px) and (orientation: landscape) {
   #story-start-btn {
     right: 13% !important;
-    top: 54% !important;
+    top: 83% !important;
+    height: 15%;
+    padding-top: 1.5% !important;
   }
 }
 
@@ -1668,14 +1674,14 @@ function renderSlide(idx) {
         if (window.innerWidth > window.innerHeight) {
           // 모바일 가로모드
           startButton.style.right = '5%';
-          startButton.style.top = '60%';
+          startButton.style.top = '70%';
           startButton.style.fontSize = '1.2rem';
           startButton.style.padding = '15px 30px';
           startButton.style.minWidth = '140px';
         } else {
           // 모바일 세로모드
           startButton.style.right = '8%';
-          startButton.style.top = '45%';
+          startButton.style.top = '61%';
           startButton.style.fontSize = '1.2rem';
           startButton.style.padding = '15px 30px';
           startButton.style.minWidth = '140px';
@@ -1684,7 +1690,7 @@ function renderSlide(idx) {
                  window.innerHeight >= 600 && window.innerHeight <= 1100) {
         // 탭 가로모드
         startButton.style.right = '17%';
-        startButton.style.top = '70%';
+        startButton.style.top = '80%';
         startButton.style.fontSize = '1.5rem';
         startButton.style.padding = '20px 40px';
         startButton.style.minWidth = '180px';
@@ -1692,14 +1698,14 @@ function renderSlide(idx) {
                  window.innerHeight > window.innerWidth) {
         // 탭 세로모드
         startButton.style.right = '9%';
-        startButton.style.top = '50%';
+        startButton.style.top = '61%';
         startButton.style.fontSize = '1.5rem';
         startButton.style.padding = '20px 40px';
         startButton.style.minWidth = '180px';
       } else {
         // 웹페이지
         startButton.style.right = '22%';
-        startButton.style.top = '70%';
+        startButton.style.top = '83%';
         startButton.style.fontSize = '1.5rem';
         startButton.style.padding = '20px 40px';
         startButton.style.minWidth = '180px';
