@@ -12,7 +12,7 @@
   <meta name="screen-orientation" content="portrait">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="../assets/img/4.1.1/favicon.ico">
-  <link rel="apple-touch-icon" href="../assets/img/4.1.1/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/4.1.1s/favicon.ico">
   <style>
 /* --- style.css 전체 --- */
 html, body {
@@ -2807,7 +2807,7 @@ function openYoutubePopup(vid) {
 function renderYoutubeResults(items) {
   let html = '';
   if (!items || items.length === 0) {
-    html = '<div style="padding:2em; text-align:center;">임베드 허용된 영상이 없습니다.</div>';
+    html = '<div style="padding:2em; text-align:center;">No results found.</div>';
   } else {
     html = items.map((item, idx) => `
       <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
