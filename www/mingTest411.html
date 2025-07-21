@@ -1289,315 +1289,205 @@ function safeAdjustForOrientation() {
 
 // 슬라이드 데이터
 const slideTemplates = [
-  // 1페이지(시작)
-  {
-    bg: '../assets/img/4.1.1/1.jpg',
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    },
-    hasStartButton: true
-  },
+ // 1페이지(시작)
+ {
+   bg: '../assets/img/4.1.1/1.jpg',
+   zones: {
+     1: { text: '', keywords: [] },
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   },
+   hasStartButton: true
+ },
+ 
+ // 2페이지
+ {
+   bg: '../assets/img/4.1.1/2.jpg',
+   zones: {
+     1: { text: '', keywords: [] },
+     2: { text: '', keywords: [] },
+     3: { text: 'Did you know that colors make up<br>80% of the information we receive<br>through our eyes? Colors have<br>meanings that are far deeper and<br>more complex than we may think.', keywords: ['colors', 'information', 'eyes', 'meanings'] },
+     4: { text: 'Take a popular fast-food restaurant<br>as an example.<br>This place uses red everywhere—<br>in the decor, chairs, tables, signs,<br>and packaging. But why? There is<br>a business strategy behind it.', keywords: ['restaurant', 'red', 'decor', 'strategy'] }
+   }
+ },
+ 
+ // 3페이지
+ {
+   bg: '../assets/img/4.1.1/3.jpg',
+   zones: {
+     1: { text: 'Looking at red can make time feel<br>like it is moving faster.<br>Red also makes people feel hungry<br>and crave sweet foods, which can<br>make us want to order more.', keywords: ['red', 'time', 'hungry', 'foods', 'order'] },
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 4페이지
+ {
+   bg: '../assets/img/4.1.1/4.jpg',
+   zones: {
+     1: { text: '', keywords: [] },
+      2: { text: 'This strategy helps increase the<br>restaurant\'s profits.', keywords: ['strategy', 'profits'] },
+      3: { text: 'So, by using red, the restaurant can<br>keep people coming and going<br>quickly and encourage them to buy<br>more food.', keywords: ['red', 'restaurant', 'people', 'food'] },
 
-  // 2페이지 (PDF 3페이지)
-  {
-    bg: '../assets/img/4.1.1/2.jpg',
-    zones: {
-      1: { 
-        text: 'Did you know that colors make up 80% of the information we receive through our eyes? Colors have meanings that are far deeper and more complex than we may think.', 
-        keywords: ['colors', '80%', 'information', 'eyes', 'meanings', 'deeper', 'complex'] 
-      },
-      2: { text: '', keywords: [] },
-      3: { 
-        text: 'Take a popular fast-food restaurant as an example.', 
-        keywords: ['fast-food', 'restaurant', 'example'] 
-      },
-      4: { 
-        text: 'This place uses red everywhere—in the decor, chairs, tables, signs, and packaging. But why? There is a business strategy behind it.', 
-        keywords: ['red', 'everywhere', 'decor', 'chairs', 'tables', 'signs', 'packaging', 'business strategy'] 
-      }
-    }
-  },
-
-  // 3페이지 (PDF 4페이지)
-  {
-    bg: '../assets/img/4.1.1/3.jpg',
-    zones: {
-      1: { 
-        text: 'Looking at red can make time feel like it is moving faster.', 
-        keywords: ['red', 'time', 'moving faster'] 
-      },
-      2: { text: '', keywords: [] },
-      3: { 
-        text: 'Red also makes people feel hungry and crave sweet foods, which can make us want to order more.', 
-        keywords: ['red', 'hungry', 'crave', 'sweet foods', 'order more'] 
-      },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 4페이지 (PDF 5페이지)
-  {
-    bg: '../assets/img/4.1.1/4.jpg',
-    zones: {
-      1: { 
-        text: 'So, by using red, the restaurant can keep people coming and going quickly and encourage them to buy more food.', 
-        keywords: ['red', 'restaurant', 'coming and going', 'quickly', 'buy more food'] 
-      },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { 
-        text: 'This strategy helps increase the restaurant\'s profits.', 
-        keywords: ['strategy', 'increase', 'profits'] 
-      }
-    }
-  },
-
-  // 5페이지 (PDF 6페이지)
-  {
-    bg: '../assets/img/4.1.1/5.jpg',
-    zones: {
-      1: { 
-        text: 'As you can see, colors can have a big impact on us.', 
-        keywords: ['colors', 'big impact'] 
-      },
-      2: { 
-        text: 'On the other hand, seeing blue food can make us lose our appetite.', 
-        keywords: ['blue food', 'lose', 'appetite'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { 
-        text: 'That is because blue reminds us of bitter tastes, which naturally makes us want to avoid eating. Blue can also have a calming effect on our minds.', 
-        keywords: ['blue', 'bitter tastes', 'avoid eating', 'calming effect', 'minds'] 
-      }
-    }
-  },
-
-  // 6페이지 (PDF 7페이지)
-  {
-    bg: '../assets/img/4.1.1/6.jpg',
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { 
-        text: 'Red gives us energy, making us feel more active and ready to take on challenges.', 
-        keywords: ['red', 'energy', 'active', 'challenges'] 
-      },
-      3: { 
-        text: 'So when we are feeling unmotivated, it is better to use red.', 
-        keywords: ['unmotivated', 'better', 'use red'] 
-      },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 7페이지 (PDF 8페이지)
-  {
-    bg: '../assets/img/4.1.1/7.jpg',
-    zones: {
-      1: { 
-        text: 'Many companies use colors in marketing today. What color comes to mind when you think of the brand "Coca-Cola"?', 
-        keywords: ['companies', 'colors', 'marketing', 'Coca-Cola', 'brand'] 
-      },
-      2: { 
-        text: 'Most people will think of the color red. Coca-Cola used red as its brand color to become the number one soda company in the world.', 
-        keywords: ['red', 'Coca-Cola', 'brand color', 'number one', 'soda company', 'world'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 8페이지 (PDF 9페이지)
-  {
-    bg: '../assets/img/4.1.1/8.jpg',
-    zones: {
-      1: { 
-        text: '"Color marketing" uses colors to connect with people\'s emotions and sell products.', 
-        keywords: ['color marketing', 'emotions', 'sell products'] 
-      },
-      2: { 
-        text: 'Green is often used for products that focus on being eco-friendly. Blue is often used to create a cool and refreshing image.', 
-        keywords: ['green', 'eco-friendly', 'blue', 'cool', 'refreshing image'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 9페이지 (PDF 10페이지)
-  {
-    bg: '../assets/img/4.1.1/9.jpg',
-    zones: {
-      1: { 
-        text: 'However, color marketing does not always work. People usually expect tomato ketchup to be red.', 
-        keywords: ['color marketing', 'not always work', 'tomato ketchup', 'red'] 
-      },
-      2: { 
-        text: 'In the early 2000s, a company released green ketchup. The company promoted it as something new and exciting, but it ended up failing.', 
-        keywords: ['early 2000s', 'green ketchup', 'new', 'exciting', 'failing'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { 
-        text: 'So, it is important to carefully consider how colors affect people\'s feelings when developing products.', 
-        keywords: ['important', 'carefully consider', 'colors affect', 'feelings', 'developing products'] 
-      }
-    }
-  },
-
-  // 10페이지 (PDF 11페이지)
-  {
-    bg: '../assets/img/4.1.1/10.jpg',
-    zones: {
-      1: { 
-        text: 'Now, think of the colors we see from the moment when we leave our house. The most common colors are the three colors of traffic lights.', 
-        keywords: ['colors', 'leave house', 'common colors', 'traffic lights'] 
-      },
-      2: { 
-        text: 'Traffic lights use red for "stop," yellow for "caution," and green for "go." But why were the colors red, orange, and green chosen for traffic lights?', 
-        keywords: ['traffic lights', 'red', 'stop', 'yellow', 'caution', 'green', 'go', 'orange', 'chosen'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 11페이지 (PDF 12페이지)
-  {
-    bg: '../assets/img/4.1.1/11.jpg',
-    zones: {
-      1: { 
-        text: 'Traffic lights were created in the late 1860s to improve safety as more cars started to fill the roads. Back then, different colors were used for traffic lights.', 
-        keywords: ['traffic lights', 'late 1860s', 'improve safety', 'cars', 'roads', 'different colors'] 
-      },
-      2: { 
-        text: 'The original traffic lights were red, green, and white. Like today, red meant stop, but green meant caution, and white meant go.', 
-        keywords: ['original', 'red', 'green', 'white', 'stop', 'caution', 'go'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 12페이지 (PDF 13페이지)
-  {
-    bg: '../assets/img/4.1.1/12.jpg',
-    zones: {
-      1: { 
-        text: 'But in the early 1900s, a train engineer mistook a broken red light for white, causing a serious traffic accident.', 
-        keywords: ['early 1900s', 'train engineer', 'mistook', 'broken red light', 'white', 'serious accident'] 
-      },
-      2: { 
-        text: 'Instead of stopping, he kept going and crashed into another train.', 
-        keywords: ['stopping', 'kept going', 'crashed', 'another train'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 13페이지 (PDF 14페이지)
-  {
-    bg: '../assets/img/4.1.1/13.jpg',
-    zones: {
-      1: { 
-        text: 'After this accident, the meaning of green changed from "caution" to "go."', 
-        keywords: ['accident', 'green', 'changed', 'caution', 'go'] 
-      },
-      2: { 
-        text: 'And orange, which is easy to tell apart from green, became the new "caution" signal. But red has always meant stop.', 
-        keywords: ['orange', 'easy', 'tell apart', 'green', 'caution signal', 'red', 'stop'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 14페이지 (PDF 15페이지)
-  {
-    bg: '../assets/img/4.1.1/14.jpg',
-    zones: {
-      1: { 
-        text: 'Why are the red and green colors of traffic lights easy to tell apart?', 
-        keywords: ['red', 'green', 'traffic lights', 'easy', 'tell apart'] 
-      },
-      2: { 
-        text: 'When we mix two colors and get a neutral color like gray or black, those two colors are called complementary colors. The complementary color of red is green.', 
-        keywords: ['mix', 'two colors', 'neutral color', 'gray', 'black', 'complementary colors', 'red', 'green'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 15페이지 (PDF 16페이지)
-  {
-    bg: '../assets/img/4.1.1/15.jpg',
-    zones: {
-      1: { 
-        text: 'When two complementary colors are placed together, they stand out against each other. This effect is called "complementary contrast."', 
-        keywords: ['complementary colors', 'placed together', 'stand out', 'complementary contrast'] 
-      },
-      2: { 
-        text: 'Using complementary colors can create a strong impression. Signs and logos often use complementary color pairs like yellow and navy or blue and orange.', 
-        keywords: ['complementary colors', 'strong impression', 'signs', 'logos', 'yellow', 'navy', 'blue', 'orange'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 16페이지 (PDF 17페이지)
-  {
-    bg: '../assets/img/4.1.1/16.jpg',
-    zones: {
-      1: { 
-        text: 'But why was the color red chosen to mean "stop" in traffic lights? Red makes people think of blood, which triggers a sense of fear.', 
-        keywords: ['red', 'chosen', 'stop', 'traffic lights', 'blood', 'triggers', 'fear'] 
-      },
-      2: { 
-        text: 'Red is also the color that stands out the most, no matter the distance. Red is also the most visible color, even for people who have trouble seeing other colors.', 
-        keywords: ['red', 'stands out', 'distance', 'most visible', 'trouble seeing', 'other colors'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 17페이지 (PDF 18페이지)
-  {
-    bg: '../assets/img/4.1.1/17.jpg',
-    zones: {
-      1: { 
-        text: 'Red is also a functional color that can be easily noticed in the dark. That is why it is often used for warning lights to signal danger.', 
-        keywords: ['red', 'functional color', 'easily noticed', 'dark', 'warning lights', 'signal danger'] 
-      },
-      2: { 
-        text: 'There is a special reason why red is so easily visible to our eyes. Colors come from light. Our eyes are designed to pick up light and convert it into colors, allowing us to see the world in all its vibrant colors.', 
-        keywords: ['special reason', 'red', 'easily visible', 'eyes', 'colors', 'light', 'designed', 'pick up', 'convert', 'vibrant colors'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
-  // 18페이지 (PDF 19페이지)
-  {
-    bg: '../assets/img/4.1.1/18.jpg',
-    zones: {
-      1: { 
-        text: 'Light has wavelengths for each color. Our eyes distinguish colors based on these wavelengths. Compared to other colors, red can make more heat energy and has a long wavelength, allowing it to penetrate objects deeply.', 
-        keywords: ['light', 'wavelengths', 'eyes', 'distinguish colors', 'red', 'heat energy', 'long wavelength', 'penetrate', 'deeply'] 
-      },
-      2: { 
-        text: 'So, red can be absorbed by objects more than other colors. This is why red objects are so visible to our eyes.', 
-        keywords: ['red', 'absorbed', 'objects', 'other colors', 'red objects', 'visible', 'eyes'] 
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  }
+     4: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 5페이지
+ {
+   bg: '../assets/img/4.1.1/5.jpg',
+   zones: {
+     1: { text: 'As you can see, colors can have<br>a big impact on us.', keywords: ['colors', 'impact'] },
+     2: { text: 'On the other hand, seeing blue food<br>can make us lose our appetite.', keywords: ['blue', 'food', 'appetite'] },
+     3: { text: '', keywords: [] },
+     4: { text: 'That is because blue reminds us of<br>bitter tastes, which naturally makes<br>us want to avoid eating.<br>Blue can also have a calming effect<br>on our minds.', keywords: ['blue', 'tastes', 'effect', 'minds'] }
+   }
+ },
+ 
+ // 6페이지
+ {
+   bg: '../assets/img/4.1.1/6.jpg',
+   zones: {
+     1: { text: 'So when we are feeling unmotivated,<br>it is better to use red.', keywords: ['red'] },
+     4: { text: 'Red gives us energy, making us feel<br>more active and ready to take on<br>challenges.', keywords: ['Red', 'energy', 'challenges'] },
+     3: { text: '', keywords: [] },
+     2: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 7페이지
+ {
+   bg: '../assets/img/4.1.1/7.jpg',
+   zones: {
+     1: { text: 'Many companies use colors in<br>marketing today.<br>What color comes to mind when you<br>think of the brand "Coca-Cola"?', keywords: ['companies', 'colors', 'marketing', 'Coca-Cola'] },
+     2: { text: 'Most people will think of the color<br>red. Coca-Cola used red as its brand<br>color to become the number one<br>soda company in the world.', keywords: ['red', 'brand', 'company'] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 8페이지
+ {
+   bg: '../assets/img/4.1.1/8.jpg',
+   zones: {
+     1: { text: '"Color marketing" uses colors to<br>connect with people\'s emotions<br>and sell products.', keywords: ['marketing', 'colors', 'emotions', 'products'] },
+     2: { text: 'Green is often used for products<br>that focus on being eco-friendly.<br>Blue is often used to create a cool<br>and refreshing image.', keywords: ['Green', 'products', 'Blue', 'image'] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 9페이지
+ {
+   bg: '../assets/img/4.1.1/9.jpg',
+   zones: {
+     1: { text: 'However, color marketing does not<br>always work. People usually expect<br>tomato ketchup to be red.', keywords: ['marketing', 'ketchup', 'red'] },
+     2: { text: 'In the early 2000s, a company<br>released green ketchup. The company<br>promoted it as something new and<br>exciting, but it ended up failing.', keywords: ['company', 'ketchup', 'failing'] },
+     3: { text: '', keywords: [] },
+     4: { text: 'So, it is important to carefully<br>consider how colors affect people\'s<br>feelings when developing products.', keywords: ['colors', 'feelings', 'products'] }
+   }
+ },
+ 
+ // 10페이지
+ {
+   bg: '../assets/img/4.1.1/10.jpg',
+   zones: {
+     3: { text: 'Now, think of the colors we see<br>from the moment when we leave<br>our house.<br>The most common colors are the<br>three colors of traffic lights.', keywords: ['colors', 'house', 'traffic lights'] },
+     2: { text: 'Traffic lights use red for "stop,"<br>yellow for "caution," and green for<br>"go." But why were the colors red,<br>orange, and green chosen for traffic<br>lights?', keywords: ['red', 'yellow', 'green', 'lights'] },
+     1: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 11페이지
+ {
+   bg: '../assets/img/4.1.1/11.jpg',
+   zones: {
+     1: { text: 'Traffic lights were created in the<br>late 1860s to improve safety as<br>more cars started to fill the roads.<br>Back then, different colors were<br>used for traffic lights.', keywords: ['traffic lights', 'safety', 'cars', 'roads', 'colors'] },
+     2: { text: 'The original traffic lights were<br>red, green, and white. Like today,<br>red meant stop, but green meant<br>caution, and white meant go.', keywords: ['traffic lights', 'red', 'green', 'white'] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 12페이지
+ {
+   bg: '../assets/img/4.1.1/12.jpg',
+   zones: {
+     1: { text: 'But in the early 1900s, a train<br>engineer mistook a broken red light<br>for white, causing a serious traffic<br>accident.', keywords: ['train', 'light', 'accident'] },
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: 'Instead of stopping, he kept going<br>and crashed into another train.', keywords: ['train'] }
+   }
+ },
+ 
+ // 13페이지
+ {
+   bg: '../assets/img/4.1.1/13.jpg',
+   zones: {
+     1: { text: 'After this accident, the meaning<br>of green changed from "caution"<br>to "go."', keywords: ['accident', 'green'] },
+     4: { text: 'And orange, which is easy to tell<br>apart from green, became the new<br>"caution" signal. But red has always<br>meant stop.', keywords: ['orange', 'green', 'red'] },
+     3: { text: '', keywords: [] },
+     2: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 14페이지
+ {
+   bg: '../assets/img/4.1.1/14.jpg',
+   zones: {
+     3: { text: 'Why are the red and green colors of<br>traffic lights easy to tell apart?', keywords: ['red', 'green', 'traffic lights'] },
+     2: { text: 'When we mix two colors and get<br>a neutral color like gray or black,<br>those two colors are called<br>complementary colors.<br>The complementary color of red is<br>green.', keywords: ['colors', 'complementary colors', 'red', 'green'] },
+     1: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 15페이지
+ {
+   bg: '../assets/img/4.1.1/15.jpg',
+   zones: {
+     3: { text: 'When two complementary colors<br>are placed together, they stand out<br>against each other. This effect is<br>called "complementary contrast."', keywords: ['complementary colors', 'contrast'] },
+     2: { text: 'Using complementary colors can<br>create a strong impression. Signs<br>and logos often use complementary<br>color pairs like yellow and navy or<br>blue and orange.', keywords: ['colors', 'signs', 'logos'] },
+     1: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 16페이지
+ {
+   bg: '../assets/img/4.1.1/16.jpg',
+   zones: {
+     3: { text: 'But why was the color red chosen<br>to mean "stop" in traffic lights?<br>Red makes people think of blood,<br>which triggers a sense of fear.', keywords: ['red', 'traffic lights', 'blood'] },
+     2: { text: 'Red is also the color that stands out<br>the most, no matter the distance.<br>Red is also the most visible color,<br>even for people who have trouble<br>seeing other colors.', keywords: ['red', 'color', 'distance'] },
+     1: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ 
+ // 17페이지
+ {
+   bg: '../assets/img/4.1.1/17.jpg',
+   zones: {
+     1: { text: 'Red is also a functional color that<br>can be easily noticed in the dark.<br>That is why it is often used for<br>warning lights to signal danger.', keywords: ['red', 'lights', 'danger'] },
+     2: { text: 'There is a special reason why red is<br>so easily visible to our eyes. Colors<br>come from light.', keywords: ['red', 'eyes', 'colors', 'light'] },
+     3: { text: '', keywords: [] },
+     4: { text: 'Our eyes are designed to pick up<br>light and convert it into colors,<br>allowing us to see the world in all<br>its vibrant colors.', keywords: ['eyes', 'light', 'colors'] }
+   }
+ },
+ 
+ // 18페이지
+ {
+   bg: '../assets/img/4.1.1/18.jpg',
+   zones: {
+     1: { text: 'Light has wavelengths for each<br>color. Our eyes distinguish colors<br>based on these wavelengths.', keywords: ['Light', 'wavelengths', 'color', 'eyes', 'distinguish'] },
+     2: { text: 'So, red can be absorbed by objects<br>more than other colors. This is why<br>red objects are so visible to our eyes.', keywords: ['red', 'absorbed', 'objects', 'colors', 'visible', 'eyes'] },
+     3: { text: 'Compared to other colors, red can<br>make more heat energy and has<br>a long wavelength, allowing it to<br>penetrate objects deeply.', keywords: ['red', 'heat energy', 'long wavelength', 'penetrate', 'objects'] },
+     4: { text: '', keywords: [] }
+   }
+ }
 ];
 
 let current = 0;
