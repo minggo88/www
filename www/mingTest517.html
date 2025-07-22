@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>K5.1.4.E</title>
+  <title>K5.1.7.E</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,8 +11,8 @@
   <meta name="theme-color" content="#222">
   <meta name="screen-orientation" content="portrait">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="../assets/img/5.1.4/favicon.ico">
-  <link rel="apple-touch-icon" href="../assets/img/5.1.4/favicon.ico">
+  <link rel="icon" href="../assets/img/5.1.7/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/5.1.7/favicon.ico">
   <style>
 /* --- style.css 전체 --- */
 html, body {
@@ -1288,294 +1288,184 @@ function safeAdjustForOrientation() {
 }
 
 const slideTemplates = [
-  // 1페이지(시작) - 메인페이지
+  // 첫 번째 슬라이드 (시작 페이지)
   {
-    bg: '../assets/img/5.1.4/1.jpg',
+    bg: '../assets/img/5.1.7/1.jpg',
+    hasStartButton: true,
     zones: {
       1: { text: '', keywords: [] },
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
-    },
-    hasStartButton: true
+    }
   },
-  
-  // 2페이지 - 존1, 존2
+  // 212: 2번 슬라이드 = PDF 3페이지, 존1+2
   {
-    bg: '../assets/img/5.1.4/2.jpg',
+    bg: '../assets/img/5.1.7/2.jpg',
     zones: {
-      1: {
-        text: 'Over time, the part of the bacteria<br>that sensed sunlight changed to<br>a concave shape.',
-        keywords: ['over time', 'bacteria', 'sensed sunlight', 'concave shape']
-      },
-      2: {
-        text: 'This greatly contributed to the<br>survival of bacteria.<br>What was the reason for this?',
-        keywords: ['greatly contributed', 'survival', 'bacteria', 'reason']
-      },
+      1: { text: 'Plants have two main types of<br>organs: the nutrition organ and<br>the reproductive organ.', keywords: ['plants', 'main types', 'nutrition organ', 'reproductive organ'] },
+      2: { text: 'Plants only have these two organs.<br>Unlike humans, they do not have<br>complex organs like brains or kidneys.', keywords: ['only two organs', 'unlike humans', 'complex organs', 'brains', 'kidneys'] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 3페이지 - 존1, 존2
+  // 31: 3번 슬라이드 = PDF 4페이지, 존1
   {
-    bg: '../assets/img/5.1.4/3.jpg',
+    bg: '../assets/img/5.1.7/3.jpg',
     zones: {
-      1: {
-        text: 'When the light-sensing area was flat,<br>the bacteria received the same<br>amount of light regardless of which<br>direction the light came from.',
-        keywords: ['light-sensing area', 'flat', 'bacteria', 'same amount', 'light', 'direction']
-      },
-      2: {
-        text: 'The bacteria could only sense<br>the absence or presence of light<br>regardless of whether the light<br>came from above, below, left, or<br>right.',
-        keywords: ['bacteria', 'sense', 'absence', 'presence', 'light', 'above', 'below', 'left', 'right']
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 4페이지 - 존1, 존2
-  {
-    bg: '../assets/img/5.1.4/4.jpg',
-    zones: {
-      1: {
-        text: 'They could not identify where<br>the light was coming from.',
-        keywords: ['could not identify', 'light', 'coming from']
-      },
-      2: {
-        text: 'However, as the light-sensing area<br>became concave, the bacteria could<br>sense the direction of the light.<br>This was because shadows formed<br>depending on the direction of the<br>light, and no shadows were formed<br>when facing the light directly.',
-        keywords: ['light-sensing area', 'concave', 'bacteria', 'sense direction', 'shadows formed', 'facing light directly']
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 5페이지 - 존3, 존4
-  {
-    bg: '../assets/img/5.1.4/5.jpg',
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: {
-        text: 'In other words, the concave surface<br>of the light sensors could detect<br>the direction of incoming light.',
-        keywords: ['concave surface', 'light sensors', 'detect', 'direction', 'incoming light']
-      },
-      4: {
-        text: 'The first life form with a concave<br>light sensor was a flatworm called<br>planaria.',
-        keywords: ['first life form', 'concave light sensor', 'flatworm', 'planaria']
-      }
-    }
-  },
-  
-  // 6페이지 - 존2, 존3
-  {
-    bg: '../assets/img/5.1.4/6.jpg',
-    zones: {
-      1: { text: '', keywords: [] },
-      2: {
-        text: 'This life form could faintly see the<br>shapes of objects through the light<br>entering its concave area.',
-        keywords: ['life form', 'faintly see', 'shapes', 'objects', 'light entering', 'concave area']
-      },
-      3: {
-        text: 'Planaria is an ancient life form that<br>still lives commonly in the fresh<br>water today.',
-        keywords: ['planaria', 'ancient life form', 'lives commonly', 'fresh water', 'today']
-      },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 7페이지 - 존1, 존2
-  {
-    bg: '../assets/img/5.1.4/7.jpg',
-    zones: {
-      1: {
-        text: 'It could barely tell apart what was<br>food and what was a predator.',
-        keywords: ['barely tell apart', 'food', 'predator']
-      },
-      2: {
-        text: 'Even this was a huge change and<br>development for life forms at<br>that time.',
-        keywords: ['huge change', 'development', 'life forms', 'that time']
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 8페이지 - 존1, 존2
-  {
-    bg: '../assets/img/5.1.4/8.jpg',
-    zones: {
-      1: {
-        text: 'However, simply having a concave<br>shape was not enough to achieve<br>the same effect as the human eye.',
-        keywords: ['concave shape', 'not enough', 'achieve', 'same effect', 'human eye']
-      },
-      2: {
-        text: 'There were too many flaws to call<br>it a visual organ capable of seeing<br>objects clearly.',
-        keywords: ['too many flaws', 'visual organ', 'capable', 'seeing objects', 'clearly']
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 9페이지 - 존1, 존4
-  {
-    bg: '../assets/img/5.1.4/9.jpg',
-    zones: {
-      1: {
-        text: 'The area receiving light was too<br>wide to focus properly.',
-        keywords: ['area receiving light', 'too wide', 'focus properly']
-      },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: {
-        text: 'The planaria\'s concave area could<br>only see the vague shapes of<br>objects. It was far from the detailed<br>vision of a human eye.',
-        keywords: ['planaria', 'concave area', 'vague shapes', 'objects', 'far from', 'detailed vision', 'human eye']
-      }
-    }
-  },
-  
-  // 10페이지 - 존1, 존4
-  {
-    bg: '../assets/img/5.1.4/10.jpg',
-    zones: {
-      1: {
-        text: 'Changes were needed to detect the<br>direction of light reflected from<br>objects more accurately and to see<br>shapes more clearly.',
-        keywords: ['changes needed', 'detect direction', 'light reflected', 'objects', 'accurately', 'see shapes', 'clearly']
-      },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: {
-        text: 'That change was making the hole<br>through which light entered smaller.',
-        keywords: ['change', 'making hole', 'light entered', 'smaller']
-      }
-    }
-  },
-  
-  // 11페이지 - 존1
-  {
-    bg: '../assets/img/5.1.4/11.jpg',
-    zones: {
-      1: {
-        text: 'Eventually, the concave shape<br>became deeper, and the size of<br>the hole where light entered<br>became smaller.',
-        keywords: ['concave shape', 'deeper', 'size', 'hole', 'light entered', 'smaller']
-      },
+      1: { text: 'So how do plants survive?<br>Plant cells can sense their environment<br>in a way similar to our five senses.', keywords: ['plants survive', 'plant cells', 'sense', 'environment', 'five senses'] },
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 12페이지 - 존1
+  // 412: 4번 슬라이드 = PDF 5페이지, 존1+2
   {
-    bg: '../assets/img/5.1.4/12.jpg',
+    bg: '../assets/img/5.1.7/4.jpg',
     zones: {
-      1: {
-        text: 'As the opening for the light became<br>smaller, the direction and focus of<br>the light became more accurate.<br>The shapes of objects also began to<br>appear more clearly.',
-        keywords: ['opening', 'light', 'smaller', 'direction', 'focus', 'accurate', 'shapes', 'objects', 'clearly']
-      },
+      1: { text: 'When we carefully observe growing<br>plants, we can see that the roots<br>always grow downward.', keywords: ['carefully observe', 'growing plants', 'roots', 'grow downward'] },
+      2: { text: 'This shows that plants can sense<br>gravity.', keywords: ['shows', 'plants', 'sense gravity'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 512: 5번 슬라이드 = PDF 6페이지, 존1+2
+  {
+    bg: '../assets/img/5.1.7/5.jpg',
+    zones: {
+      1: { text: 'How does this compare to the way<br>humans sense gravity?', keywords: ['compare', 'humans', 'sense gravity'] },
+      2: { text: 'Inside our ears, there are small<br>stones called otoliths.<br>When we tilt our bodies, the otoliths<br>also move to one side.', keywords: ['inside ears', 'small stones', 'otoliths', 'tilt bodies', 'move one side'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 61: 6번 슬라이드 = PDF 7페이지, 존1
+  {
+    bg: '../assets/img/5.1.7/6.jpg',
+    zones: {
+      1: { text: 'These otoliths help us keep our<br>balance and sense gravity through<br>such movements.<br>Thanks to them we can understand<br>balance and direction.', keywords: ['otoliths', 'keep balance', 'sense gravity', 'movements', 'understand', 'direction'] },
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 13페이지 - 존1, 존2
+  // 712: 7번 슬라이드 = PDF 8페이지, 존1+2
   {
-    bg: '../assets/img/5.1.4/13.jpg',
+    bg: '../assets/img/5.1.7/7.jpg',
     zones: {
-      1: {
-        text: 'The eye of the nautilus, which had<br>all these advantages, could see<br>much more clearly than the concave<br>eye of the planaria.',
-        keywords: ['nautilus eye', 'advantages', 'see clearly', 'planaria', 'concave eye']
-      },
-      2: {
-        text: 'As a result, the nautilus had a larger<br>chance of survival than other life<br>forms at the time. However,<br>the pinhole eye of the nautilus also<br>had problems.',
-        keywords: ['nautilus', 'larger chance', 'survival', 'life forms', 'pinhole eye', 'problems']
-      },
+      1: { text: 'There is something similar to<br>an otolith at the tip of a plant\'s<br>roots.', keywords: ['similar', 'otolith', 'tip', 'plant roots'] },
+      2: { text: 'It is a lump of starch, much like<br>a small pebble.', keywords: ['lump', 'starch', 'small pebble'] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 14페이지 - 존1
+  // 814: 8번 슬라이드 = PDF 9페이지, 존1+4
   {
-    bg: '../assets/img/5.1.4/14.jpg',
+    bg: '../assets/img/5.1.7/8.jpg',
     zones: {
-      1: {
-        text: 'It could not see well in the dim light<br>of the deep ocean because the hole<br>was so small.',
-        keywords: ['could not see well', 'dim light', 'deep ocean', 'hole', 'small']
-      },
+      1: { text: 'If a root grows sideways,<br>these lumps sink in the direction of<br>gravity, causing the root to continue<br>growing downward.', keywords: ['root grows sideways', 'lumps sink', 'direction gravity', 'continue growing downward'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'This is how plants use the very ends<br>of their roots to sense gravity.', keywords: ['plants use', 'very ends', 'roots', 'sense gravity'] }
+    }
+  },
+  // 912: 9번 슬라이드 = PDF 10페이지, 존1+2
+  {
+    bg: '../assets/img/5.1.7/9.jpg',
+    zones: {
+      1: { text: 'What would happen if we tried to<br>grow plants in space?<br>The weak gravity would cause the<br>plants to grow in all directions.', keywords: ['grow plants', 'space', 'weak gravity', 'all directions'] },
+      2: { text: 'What would happen if plants grew<br>like this?', keywords: ['plants grew', 'like this'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 1012: 10번 슬라이드 = PDF 11페이지, 존1+2
+  {
+    bg: '../assets/img/5.1.7/10.jpg',
+    zones: {
+      1: { text: 'A plant\'s roots need to grow into<br>the soil to absorb water and mineral<br>nutrients.', keywords: ['plant roots', 'grow into soil', 'absorb water', 'mineral nutrients'] },
+      2: { text: 'But what would happen if the roots<br>could not sense gravity and grew<br>upward toward the sky?', keywords: ['roots', 'not sense gravity', 'grew upward', 'toward sky'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 111: 11번 슬라이드 = PDF 12페이지, 존1
+  {
+    bg: '../assets/img/5.1.7/11.jpg',
+    zones: {
+      1: { text: 'The plant would not be able to<br>absorb water and minerals and<br>would eventually die.<br>This shows how important roots<br>that sense gravity are for the<br>plant\'s survival.', keywords: ['not able', 'absorb water', 'minerals', 'eventually die', 'important', 'sense gravity', 'survival'] },
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 15페이지 - 존1, 존2
+  // 1212: 12번 슬라이드 = PDF 13페이지, 존1+2
   {
-    bg: '../assets/img/5.1.4/15.jpg',
+    bg: '../assets/img/5.1.7/12.jpg',
     zones: {
-      1: {
-        text: 'A person with poor eyesight is<br>worried because they left their<br>glasses at home. Is there a way to<br>see objects clearly without glasses?',
-        keywords: ['poor eyesight', 'worried', 'left glasses', 'home', 'see objects clearly', 'without glasses']
-      },
-      2: {
-        text: 'We can use the principle found in<br>the nautilus\'s eye. All we need is<br>our two hands.',
-        keywords: ['principle', 'nautilus eye', 'two hands']
-      },
+      1: { text: 'Reproduction is as important to<br>plants as survival. For successful<br>reproduction, a plant needs to<br>spread both its pollen and seeds.', keywords: ['reproduction', 'important', 'survival', 'successful reproduction', 'spread', 'pollen', 'seeds'] },
+      2: { text: 'Cherry trees produce beautiful<br>white blossoms to attract bees.<br>The bees get nectar in return for<br>carrying pollen from flower to<br>flower.', keywords: ['cherry trees', 'beautiful white blossoms', 'attract bees', 'nectar', 'carrying pollen', 'flower'] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 16페이지 - 존1, 존2
+  // 1312: 13번 슬라이드 = PDF 14페이지, 존1+2
   {
-    bg: '../assets/img/5.1.4/16.jpg',
+    bg: '../assets/img/5.1.7/13.jpg',
     zones: {
-      1: {
-        text: 'First, close one hand into a fist,<br>leaving a very small hole,<br>just big enough for a needle to fit<br>through.',
-        keywords: ['close hand', 'fist', 'very small hole', 'needle', 'fit through']
-      },
-      2: {
-        text: 'Now, place one eye near the hole<br>we made with our hand and look<br>around. Close or cover the other eye<br>with the other hand.',
-        keywords: ['place eye', 'near hole', 'made with hand', 'look around', 'close', 'cover', 'other eye']
-      },
+      1: { text: 'However, the red cherry fruit of the<br>cherry tree has a different story.<br>This is because bees cannot see<br>the color red.', keywords: ['red cherry fruit', 'different story', 'bees', 'cannot see', 'color red'] },
+      2: { text: 'It seems clear that the red cherries<br>are meant to attract birds rather<br>than bees. The red color is easily<br>seen from a distance, making it an<br>excellent signal for birds.', keywords: ['red cherries', 'attract birds', 'rather than bees', 'easily seen', 'distance', 'excellent signal'] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 17페이지 - 존1, 존2
+  // 1412: 14번 슬라이드 = PDF 15페이지, 존1+2
   {
-    bg: '../assets/img/5.1.4/17.jpg',
+    bg: '../assets/img/5.1.7/14.jpg',
     zones: {
-      1: {
-        text: 'The distant, blurry letters should<br>now appear clear.',
-        keywords: ['distant', 'blurry letters', 'appear clear']
-      },
-      2: {
-        text: 'This ability to see objects clearly<br>through a small pinhole is called<br>the "pinhole effect."',
-        keywords: ['ability', 'see objects clearly', 'small pinhole', 'pinhole effect']
-      },
+      1: { text: 'When a bird eats a cherry, it later<br>expels the seed in its droppings.<br>Bird droppings are also excellent<br>fertilizers.', keywords: ['bird eats', 'cherry', 'expels seed', 'droppings', 'excellent fertilizers'] },
+      2: { text: 'This benefits both the cherry trees<br>and the birds. The cherry trees can<br>spread their seeds far and the birds<br>can eat a tasty meal.', keywords: ['benefits both', 'cherry trees', 'birds', 'spread seeds', 'tasty meal'] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 18페이지 - 존1, 존3
+  // 1514: 15번 슬라이드 = PDF 16페이지, 존1+4
   {
-    bg: '../assets/img/5.1.4/18.jpg',
+    bg: '../assets/img/5.1.7/15.jpg',
     zones: {
-      1: {
-        text: 'People with poor eyesight squint<br>their eyes when they read.',
-        keywords: ['poor eyesight', 'squint eyes', 'read']
-      },
+      1: { text: 'However, there is one thing to take<br>note of. Cherries only turn red when<br>they are fully ripe. Until then, they<br>are green.', keywords: ['one thing', 'cherries', 'turn red', 'fully ripe', 'green'] },
       2: { text: '', keywords: [] },
-      3: {
-        text: 'This is because squinting narrows<br>the space between the eyelids,<br>creating a "pinhole effect" that<br>helps them see better.',
-        keywords: ['squinting narrows', 'space', 'eyelids', 'pinhole effect', 'see better']
-      },
+      3: { text: '', keywords: [] },
+      4: { text: 'Before germination, the seeds are<br>hidden among leaves and birds do<br>not notice them. Plants need to<br>protect their fruits until they are ripe.', keywords: ['before germination', 'seeds hidden', 'among leaves', 'birds not notice', 'protect fruits', 'until ripe'] }
+    }
+  },
+  // 1612: 16번 슬라이드 = PDF 17페이지, 존1+2
+  {
+    bg: '../assets/img/5.1.7/16.jpg',
+    zones: {
+      1: { text: 'Unripe fruit often has an unpleasant<br>taste or smell. Thanks to this,<br>animals do not eat it.', keywords: ['unripe fruit', 'unpleasant taste', 'smell', 'animals', 'not eat'] },
+      2: { text: 'Birds are not the only animals that<br>move plant seeds.<br>Fruit-eating monkeys also spread<br>seeds as much as birds do.', keywords: ['birds', 'not only animals', 'move plant seeds', 'fruit-eating monkeys', 'spread seeds'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 1712: 17번 슬라이드 = PDF 18페이지, 존1+2
+  {
+    bg: '../assets/img/5.1.7/17.jpg',
+    zones: {
+      1: { text: 'Ants eat small fruits,<br>but the important thing is that they<br>carry these fruits to their nests and<br>store them underground.', keywords: ['ants', 'eat small fruits', 'important thing', 'carry fruits', 'nests', 'store underground'] },
+      2: { text: 'This behavior is great news for<br>plants because it allows their seeds<br>to be spread over long distances.', keywords: ['behavior', 'great news', 'plants', 'seeds spread', 'long distances'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 181: 18번 슬라이드 = PDF 19페이지, 존1
+  {
+    bg: '../assets/img/5.1.7/18.jpg',
+    zones: {
+      1: { text: 'Ant nests are damp, dark, and rich<br>in nutrients. It is the best place for<br>seeds to sprout.<br>Ants are one of the best partners<br>a plant can have.', keywords: ['ant nests', 'damp', 'dark', 'rich nutrients', 'best place', 'seeds sprout', 'best partners'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   }
