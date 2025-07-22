@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>K5.1.5.E</title>
+  <title>K5.1.4.E</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,8 +11,8 @@
   <meta name="theme-color" content="#222">
   <meta name="screen-orientation" content="portrait">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="../assets/img/5.1.5/favicon.ico">
-  <link rel="apple-touch-icon" href="../assets/img/5.1.5/favicon.ico">
+  <link rel="icon" href="../assets/img/5.1.4/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/5.1.4/favicon.ico">
   <style>
 /* --- style.css 전체 --- */
 html, body {
@@ -1288,166 +1288,294 @@ function safeAdjustForOrientation() {
 }
 
 const slideTemplates = [
+  // 1페이지(시작) - 메인페이지
   {
-    bg: '../assets/img/5.1.5/1.jpg',
-    hasStartButton: true,
+    bg: '../assets/img/5.1.4/1.jpg',
     zones: {
       1: { text: '', keywords: [] },
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
-    }
+    },
+    hasStartButton: true
   },
+  
+  // 2페이지 - 존1, 존2
   {
-    bg: '../assets/img/5.1.5/2.jpg',
+    bg: '../assets/img/5.1.4/2.jpg',
     zones: {
-      1: { text: 'Sea creatures evolved to have<br>different types of eyes to suit<br>their different environments.', keywords: ['sea creatures', 'evolved', 'different types', 'eyes', 'environments'] },
-      2: { text: '', keywords: [] },
+      1: {
+        text: 'Over time, the part of the bacteria<br>that sensed sunlight changed to<br>a concave shape.',
+        keywords: ['over time', 'bacteria', 'sensed sunlight', 'concave shape']
+      },
+      2: {
+        text: 'This greatly contributed to the<br>survival of bacteria.<br>What was the reason for this?',
+        keywords: ['greatly contributed', 'survival', 'bacteria', 'reason']
+      },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
+  
+  // 3페이지 - 존1, 존2
   {
-    bg: '../assets/img/5.1.5/3.jpg',
+    bg: '../assets/img/5.1.4/3.jpg',
     zones: {
-      1: { text: 'Changes that discarded the<br>disadvantages of concave and<br>pinhole eyes while improving<br>their advantages happened<br>during this process.', keywords: ['changes', 'disadvantages', 'concave eyes', 'pinhole eyes', 'advantages', 'process'] },
-      2: { text: 'Those changes began with<br>inflammation.', keywords: ['changes', 'inflammation'] },
+      1: {
+        text: 'When the light-sensing area was flat,<br>the bacteria received the same<br>amount of light regardless of which<br>direction the light came from.',
+        keywords: ['light-sensing area', 'flat', 'bacteria', 'same amount', 'light', 'direction']
+      },
+      2: {
+        text: 'The bacteria could only sense<br>the absence or presence of light<br>regardless of whether the light<br>came from above, below, left, or<br>right.',
+        keywords: ['bacteria', 'sense', 'absence', 'presence', 'light', 'above', 'below', 'left', 'right']
+      },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
+  
+  // 4페이지 - 존1, 존2
   {
-    bg: '../assets/img/5.1.5/4.jpg',
+    bg: '../assets/img/5.1.4/4.jpg',
     zones: {
-      1: { text: 'Bacteria entered the eye through<br>the hole, causing inflammation.<br>To prevent this, a see-through<br>protective layer formed over the<br>hole.', keywords: ['bacteria', 'eye', 'hole', 'inflammation', 'protective layer'] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: 'The shape of this protective layer<br>gradually changed over a long<br>period of time.', keywords: ['shape', 'protective layer', 'gradually changed', 'time'] }
-    }
-  },
-  {
-    bg: '../assets/img/5.1.5/5.jpg',
-    zones: {
-      1: { text: 'Then protein crystals on the surface<br>of the eye evolved into a structure<br>that easily focused light onto the<br>retina. This structure is called the<br>lens.', keywords: ['protein crystals', 'evolved', 'structure', 'focused light', 'retina', 'lens'] },
-      2: { text: 'The lens plays an important role<br>in the eye\'s adaptability. It helps<br>objects appear clear, regardless of<br>distance.', keywords: ['lens', 'adaptability', 'objects', 'clear', 'distance'] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/5.1.5/6.jpg',
-    zones: {
-      1: { text: 'A lens-shaped eye was born,<br>which could receive light over<br>a wide area like a concave eye<br>while focusing light onto a single<br>point like a pinhole eye.', keywords: ['lens-shaped eye', 'receive light', 'wide area', 'concave eye', 'focusing', 'single point', 'pinhole eye'] },
-      2: { text: 'This is the fascinating evolution<br>process of the eye.', keywords: ['fascinating', 'evolution process', 'eye'] },
+      1: {
+        text: 'They could not identify where<br>the light was coming from.',
+        keywords: ['could not identify', 'light', 'coming from']
+      },
+      2: {
+        text: 'However, as the light-sensing area<br>became concave, the bacteria could<br>sense the direction of the light.<br>This was because shadows formed<br>depending on the direction of the<br>light, and no shadows were formed<br>when facing the light directly.',
+        keywords: ['light-sensing area', 'concave', 'bacteria', 'sense direction', 'shadows formed', 'facing light directly']
+      },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
+  
+  // 5페이지 - 존3, 존4
   {
-    bg: '../assets/img/5.1.5/7.jpg',
+    bg: '../assets/img/5.1.4/5.jpg',
     zones: {
       1: { text: '', keywords: [] },
-      2: { text: 'When sea creatures moved onto<br>land, they encountered unexpected<br>problems.', keywords: ['sea creatures', 'moved', 'land', 'unexpected problems'] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/5.1.5/8.jpg',
-    zones: {
-      1: { text: 'Their eyes, which had evolved to<br>see well underwater, distorted light<br>when they came out of the water.', keywords: ['eyes', 'evolved', 'underwater', 'distorted light', 'water'] },
       2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
+      3: {
+        text: 'In other words, the concave surface<br>of the light sensors could detect<br>the direction of incoming light.',
+        keywords: ['concave surface', 'light sensors', 'detect', 'direction', 'incoming light']
+      },
+      4: {
+        text: 'The first life form with a concave<br>light sensor was a flatworm called<br>planaria.',
+        keywords: ['first life form', 'concave light sensor', 'flatworm', 'planaria']
+      }
     }
   },
+  
+  // 6페이지 - 존2, 존3
   {
-    bg: '../assets/img/5.1.5/9.jpg',
-    zones: {
-      1: { text: 'Consider how chopsticks look bent<br>when we put them in water.<br>This happens because the medium<br>through which light passes changes.', keywords: ['chopsticks', 'bent', 'water', 'medium', 'light passes', 'changes'] },
-      2: { text: 'In other words, light bends when<br>it moves from air to water or from<br>water to air.', keywords: ['light bends', 'air', 'water', 'moves'] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/5.1.5/10.jpg',
-    zones: {
-      1: { text: 'Therefore, for sea creatures to see<br>light properly underwater, their<br>eyes needed to keep the moisture<br>to prevent the light\'s medium from<br>changing.', keywords: ['sea creatures', 'see light', 'underwater', 'eyes', 'moisture', 'medium'] },
-      2: { text: 'When the moisture-filled eyes<br>came onto land, the light started<br>to appear bent again.', keywords: ['moisture-filled eyes', 'land', 'light', 'bent'] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/5.1.5/11.jpg',
-    zones: {
-      1: { text: 'Here, the evolution of the eye<br>began again. Many creatures that<br>came onto land slowly evolved over<br>billions of years to have eyes that<br>could focus well on land.', keywords: ['evolution', 'eye', 'creatures', 'land', 'billions of years', 'focus'] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: 'As if proving we have evolved from<br>sea creatures, our eyes, like theirs,<br>are also filled with moisture.', keywords: ['proving', 'evolved', 'sea creatures', 'eyes', 'moisture'] }
-    }
-  },
-  {
-    bg: '../assets/img/5.1.5/12.jpg',
-    zones: {
-      1: { text: 'Sometimes, photos taken with high-<br>performance cameras do not match<br>what we see with our eyes.', keywords: ['photos', 'high-performance cameras', 'match', 'see', 'eyes'] },
-      2: { text: 'The shapes may look slightly<br>distorted, and the colors are less<br>vivid. Then, how good must human<br>eyes be?', keywords: ['shapes', 'distorted', 'colors', 'vivid', 'human eyes'] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/5.1.5/13.jpg',
-    zones: {
-      1: { text: 'It is difficult to directly compare<br>the human eye to a camera.<br>Scientists say that the resolution<br>of the human eye is over 500<br>megapixels.', keywords: ['compare', 'human eye', 'camera', 'scientists', 'resolution', '500 megapixels'] },
-      2: { text: 'This is more than 10 times better<br>than a high-performance digital<br>camera. Is not that amazing?', keywords: ['10 times better', 'high-performance', 'digital camera', 'amazing'] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/5.1.5/14.jpg',
-    zones: {
-      1: { text: 'No matter how good a device is,<br>it will break down quickly if not<br>properly maintained. Our eyes are<br>the same.', keywords: ['device', 'break down', 'maintained', 'eyes'] },
-      2: { text: 'The physical problems we experience<br>from working in front of a computer<br>for long periods are called "visual<br>display terminal syndrome," or VDT<br>syndrome for short.', keywords: ['physical problems', 'computer', 'VDT syndrome'] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/5.1.5/15.jpg',
+    bg: '../assets/img/5.1.4/6.jpg',
     zones: {
       1: { text: '', keywords: [] },
-      3: { text: 'About 90% of people who use<br>a computer for more than 3 hours<br>a day suffer from VDT syndrome.<br>Anyone that often use a computer<br>or smartphone and has the following<br>symptoms might suffer from VDT<br>syndrome.', keywords: ['90%', 'computer', '3 hours', 'VDT syndrome', 'smartphone', 'symptoms'] },
-      2: { text: 'Your eyes feel tired and often get<br>bloodshot. Your eyes react<br>sensitively to light or other stimuli.<br>Your eyes feel gritty, as if there is<br>sand in them.', keywords: ['tired', 'bloodshot', 'sensitively', 'light', 'stimuli', 'gritty', 'sand'] },
+      2: {
+        text: 'This life form could faintly see the<br>shapes of objects through the light<br>entering its concave area.',
+        keywords: ['life form', 'faintly see', 'shapes', 'objects', 'light entering', 'concave area']
+      },
+      3: {
+        text: 'Planaria is an ancient life form that<br>still lives commonly in the fresh<br>water today.',
+        keywords: ['planaria', 'ancient life form', 'lives commonly', 'fresh water', 'today']
+      },
       4: { text: '', keywords: [] }
     }
   },
+  
+  // 7페이지 - 존1, 존2
   {
-    bg: '../assets/img/5.1.5/16.jpg',
+    bg: '../assets/img/5.1.4/7.jpg',
     zones: {
-      3: { text: 'Taking a 10-minute break from<br>the computer every 50 minutes<br>can help prevent VDT syndrome.<br>Stretching your back, shoulders,<br>and wrists during breaks is also<br>very helpful.', keywords: ['10-minute break', 'computer', '50 minutes', 'prevent', 'VDT syndrome', 'stretching', 'back', 'shoulders', 'wrists'] },
+      1: {
+        text: 'It could barely tell apart what was<br>food and what was a predator.',
+        keywords: ['barely tell apart', 'food', 'predator']
+      },
+      2: {
+        text: 'Even this was a huge change and<br>development for life forms at<br>that time.',
+        keywords: ['huge change', 'development', 'life forms', 'that time']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  // 8페이지 - 존1, 존2
+  {
+    bg: '../assets/img/5.1.4/8.jpg',
+    zones: {
+      1: {
+        text: 'However, simply having a concave<br>shape was not enough to achieve<br>the same effect as the human eye.',
+        keywords: ['concave shape', 'not enough', 'achieve', 'same effect', 'human eye']
+      },
+      2: {
+        text: 'There were too many flaws to call<br>it a visual organ capable of seeing<br>objects clearly.',
+        keywords: ['too many flaws', 'visual organ', 'capable', 'seeing objects', 'clearly']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  // 9페이지 - 존1, 존4
+  {
+    bg: '../assets/img/5.1.4/9.jpg',
+    zones: {
+      1: {
+        text: 'The area receiving light was too<br>wide to focus properly.',
+        keywords: ['area receiving light', 'too wide', 'focus properly']
+      },
       2: { text: '', keywords: [] },
-      1: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
+      3: { text: '', keywords: [] },
+      4: {
+        text: 'The planaria\'s concave area could<br>only see the vague shapes of<br>objects. It was far from the detailed<br>vision of a human eye.',
+        keywords: ['planaria', 'concave area', 'vague shapes', 'objects', 'far from', 'detailed vision', 'human eye']
+      }
     }
   },
+  
+  // 10페이지 - 존1, 존4
   {
-    bg: '../assets/img/5.1.5/17.jpg',
+    bg: '../assets/img/5.1.4/10.jpg',
     zones: {
-      1: { text: 'Some people call the human eye<br>a "perfect eye." Do you agree?', keywords: ['human eye', 'perfect eye', 'agree'] },
-      2: { text: 'In fact, the word "perfect" does<br>not quite apply to life forms.<br>Life forms simply adapt to their<br>given environments.', keywords: ['perfect', 'life forms', 'adapt', 'environments'] },
+      1: {
+        text: 'Changes were needed to detect the<br>direction of light reflected from<br>objects more accurately and to see<br>shapes more clearly.',
+        keywords: ['changes needed', 'detect direction', 'light reflected', 'objects', 'accurately', 'see shapes', 'clearly']
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: {
+        text: 'That change was making the hole<br>through which light entered smaller.',
+        keywords: ['change', 'making hole', 'light entered', 'smaller']
+      }
+    }
+  },
+  
+  // 11페이지 - 존1
+  {
+    bg: '../assets/img/5.1.4/11.jpg',
+    zones: {
+      1: {
+        text: 'Eventually, the concave shape<br>became deeper, and the size of<br>the hole where light entered<br>became smaller.',
+        keywords: ['concave shape', 'deeper', 'size', 'hole', 'light entered', 'smaller']
+      },
+      2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
+  
+  // 12페이지 - 존1
   {
-    bg: '../assets/img/5.1.5/18.jpg',
+    bg: '../assets/img/5.1.4/12.jpg',
     zones: {
-      1: { text: 'Fossil research has shown that<br>the eyes of organisms have<br>evolved and changed according to<br>their environments. For example,<br>the eyes of the hagfish have<br>deteriorated and can only detect<br>faint light.', keywords: ['fossil research', 'eyes', 'organisms', 'evolved', 'environments', 'hagfish', 'deteriorated', 'faint light'] },
-      2: { text: 'These could be considered "perfect<br>eyes" for the hagfish, which are<br>mostly active at night.', keywords: ['perfect eyes', 'hagfish', 'active', 'night'] },
+      1: {
+        text: 'As the opening for the light became<br>smaller, the direction and focus of<br>the light became more accurate.<br>The shapes of objects also began to<br>appear more clearly.',
+        keywords: ['opening', 'light', 'smaller', 'direction', 'focus', 'accurate', 'shapes', 'objects', 'clearly']
+      },
+      2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  // 13페이지 - 존1, 존2
+  {
+    bg: '../assets/img/5.1.4/13.jpg',
+    zones: {
+      1: {
+        text: 'The eye of the nautilus, which had<br>all these advantages, could see<br>much more clearly than the concave<br>eye of the planaria.',
+        keywords: ['nautilus eye', 'advantages', 'see clearly', 'planaria', 'concave eye']
+      },
+      2: {
+        text: 'As a result, the nautilus had a larger<br>chance of survival than other life<br>forms at the time. However,<br>the pinhole eye of the nautilus also<br>had problems.',
+        keywords: ['nautilus', 'larger chance', 'survival', 'life forms', 'pinhole eye', 'problems']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  // 14페이지 - 존1
+  {
+    bg: '../assets/img/5.1.4/14.jpg',
+    zones: {
+      1: {
+        text: 'It could not see well in the dim light<br>of the deep ocean because the hole<br>was so small.',
+        keywords: ['could not see well', 'dim light', 'deep ocean', 'hole', 'small']
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  // 15페이지 - 존1, 존2
+  {
+    bg: '../assets/img/5.1.4/15.jpg',
+    zones: {
+      1: {
+        text: 'A person with poor eyesight is<br>worried because they left their<br>glasses at home. Is there a way to<br>see objects clearly without glasses?',
+        keywords: ['poor eyesight', 'worried', 'left glasses', 'home', 'see objects clearly', 'without glasses']
+      },
+      2: {
+        text: 'We can use the principle found in<br>the nautilus\'s eye. All we need is<br>our two hands.',
+        keywords: ['principle', 'nautilus eye', 'two hands']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  // 16페이지 - 존1, 존2
+  {
+    bg: '../assets/img/5.1.4/16.jpg',
+    zones: {
+      1: {
+        text: 'First, close one hand into a fist,<br>leaving a very small hole,<br>just big enough for a needle to fit<br>through.',
+        keywords: ['close hand', 'fist', 'very small hole', 'needle', 'fit through']
+      },
+      2: {
+        text: 'Now, place one eye near the hole<br>we made with our hand and look<br>around. Close or cover the other eye<br>with the other hand.',
+        keywords: ['place eye', 'near hole', 'made with hand', 'look around', 'close', 'cover', 'other eye']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  // 17페이지 - 존1, 존2
+  {
+    bg: '../assets/img/5.1.4/17.jpg',
+    zones: {
+      1: {
+        text: 'The distant, blurry letters should<br>now appear clear.',
+        keywords: ['distant', 'blurry letters', 'appear clear']
+      },
+      2: {
+        text: 'This ability to see objects clearly<br>through a small pinhole is called<br>the "pinhole effect."',
+        keywords: ['ability', 'see objects clearly', 'small pinhole', 'pinhole effect']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  // 18페이지 - 존1, 존3
+  {
+    bg: '../assets/img/5.1.4/18.jpg',
+    zones: {
+      1: {
+        text: 'People with poor eyesight squint<br>their eyes when they read.',
+        keywords: ['poor eyesight', 'squint eyes', 'read']
+      },
+      2: { text: '', keywords: [] },
+      3: {
+        text: 'This is because squinting narrows<br>the space between the eyelids,<br>creating a "pinhole effect" that<br>helps them see better.',
+        keywords: ['squinting narrows', 'space', 'eyelids', 'pinhole effect', 'see better']
+      },
       4: { text: '', keywords: [] }
     }
   }

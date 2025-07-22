@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>K5.1.4.E</title>
+  <title>K5.1.6.E</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,8 +11,8 @@
   <meta name="theme-color" content="#222">
   <meta name="screen-orientation" content="portrait">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="../assets/img/5.1.4/favicon.ico">
-  <link rel="apple-touch-icon" href="../assets/img/5.1.4/favicon.ico">
+  <link rel="icon" href="../assets/img/5.1.6/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/5.1.6/favicon.ico">
   <style>
 /* --- style.css 전체 --- */
 html, body {
@@ -1288,295 +1288,167 @@ function safeAdjustForOrientation() {
 }
 
 const slideTemplates = [
-  // 1페이지(시작) - 메인페이지
   {
-    bg: '../assets/img/5.1.4/1.jpg',
+    bg: '../assets/img/5.1.6/1.jpg',
+    hasStartButton: true,
     zones: {
       1: { text: '', keywords: [] },
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
-    },
-    hasStartButton: true
+    }
   },
-  
-  // 2페이지 - 존1, 존2
   {
-    bg: '../assets/img/5.1.4/2.jpg',
+    bg: '../assets/img/5.1.6/2.jpg',
     zones: {
-      1: {
-        text: 'Over time, the part of the bacteria<br>that sensed sunlight changed to<br>a concave shape.',
-        keywords: ['over time', 'bacteria', 'sensed sunlight', 'concave shape']
-      },
-      2: {
-        text: 'This greatly contributed to the<br>survival of bacteria.<br>What was the reason for this?',
-        keywords: ['greatly contributed', 'survival', 'bacteria', 'reason']
-      },
+      1: { text: 'How can plants survive without<br>eyes, noses, or mouths?', keywords: ['plants', 'survive', 'eyes', 'noses', 'mouths'] },
+      2: { text: 'Plants can also sense light.<br>They can detect what other plants<br>are nearby through a part called<br>phytochrome.', keywords: ['plants', 'sense light', 'detect', 'phytochrome'] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 3페이지 - 존1, 존2
   {
-    bg: '../assets/img/5.1.4/3.jpg',
+    bg: '../assets/img/5.1.6/3.jpg',
     zones: {
-      1: {
-        text: 'When the light-sensing area was flat,<br>the bacteria received the same<br>amount of light regardless of which<br>direction the light came from.',
-        keywords: ['light-sensing area', 'flat', 'bacteria', 'same amount', 'light', 'direction']
-      },
-      2: {
-        text: 'The bacteria could only sense<br>the absence or presence of light<br>regardless of whether the light<br>came from above, below, left, or<br>right.',
-        keywords: ['bacteria', 'sense', 'absence', 'presence', 'light', 'above', 'below', 'left', 'right']
-      },
+      1: { text: 'Unlike human eyes which can truly<br>see objects, phytochrome does<br>not allow plants to see things,<br>but it plays a role similar to "eyes"<br>in plants.', keywords: ['human eyes', 'phytochrome', 'see objects', 'plants', 'eyes'] },
+      2: { text: 'Then, can plants know when<br>butterflies or bees fly by?<br>Can they do something to actively<br>attract butterflies and bees?', keywords: ['plants', 'butterflies', 'bees', 'attract'] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 4페이지 - 존1, 존2
   {
-    bg: '../assets/img/5.1.4/4.jpg',
+    bg: '../assets/img/5.1.6/4.jpg',
     zones: {
-      1: {
-        text: 'They could not identify where<br>the light was coming from.',
-        keywords: ['could not identify', 'light', 'coming from']
-      },
-      2: {
-        text: 'However, as the light-sensing area<br>became concave, the bacteria could<br>sense the direction of the light.<br>This was because shadows formed<br>depending on the direction of the<br>light, and no shadows were formed<br>when facing the light directly.',
-        keywords: ['light-sensing area', 'concave', 'bacteria', 'sense direction', 'shadows formed', 'facing light directly']
-      },
+      1: { text: 'Plants obtain a lot of information<br>through light. Plants respond<br>sensitively to seasonal changes<br>using phytochrome and decide<br>when to bloom.', keywords: ['plants', 'information', 'light', 'seasonal changes', 'phytochrome', 'bloom'] },
+      2: { text: 'Scientists first confirmed<br>phytochromes in plants in the 1950s.<br>Phytochrome refers to a photoreceptor<br>made of pigment proteins.', keywords: ['scientists', 'phytochromes', '1950s', 'photoreceptor', 'pigment proteins'] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 5페이지 - 존3, 존4
   {
-    bg: '../assets/img/5.1.4/5.jpg',
+    bg: '../assets/img/5.1.6/5.jpg',
+    zones: {
+      1: { text: 'A photoreceptor in plants is a protein<br>that receives light stimuli and sends<br>them throughout the plant body.', keywords: ['photoreceptor', 'plants', 'protein', 'light stimuli', 'plant body'] },
+      2: { text: 'Then, where are we most likely to<br>find photoreceptors in a plant?<br>Plants have photoreceptors in their<br>roots as well as in their stems,<br>flowers, and fruits. This means that<br>plants can detect light in all parts<br>of their bodies.', keywords: ['photoreceptors', 'plant', 'roots', 'stems', 'flowers', 'fruits', 'detect light'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/5.1.6/6.jpg',
+    zones: {
+      1: { text: 'Humans also have photoreceptors.<br>In humans, photoreceptors are<br>concentrated in the visual organ,<br>the eye. This means that humans<br>can only see through their eyes.', keywords: ['humans', 'photoreceptors', 'visual organ', 'eye', 'see'] },
+      2: { text: 'Cells in the part of plants that have<br>photoreceptors also play the role<br>of eyes. However, they do not see<br>images like human eyes do.<br>Unlike humans, plants have eyes all<br>over their bodies.', keywords: ['cells', 'plants', 'photoreceptors', 'eyes', 'images', 'human eyes', 'bodies'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/5.1.6/7.jpg',
+    zones: {
+      1: { text: 'Since plants live their entire lives<br>where they have rooted, they can<br>suffer deadly injuries from herbivores.<br>Therefore, plants have evolved to<br>spread their bodily functions across<br>multiple locations rather than<br>concentrating them in one place.', keywords: ['plants', 'rooted', 'herbivores', 'evolved', 'bodily functions', 'multiple locations'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/5.1.6/8.jpg',
+    zones: {
+      1: { text: 'The biggest characteristic of plants<br>is that all their functions are spread<br>throughout their entire body.', keywords: ['characteristic', 'plants', 'functions', 'spread', 'entire body'] },
+      2: { text: 'Thanks to this, losing any one part<br>does not affect life at all. This is<br>true even for photoreceptors.', keywords: ['losing', 'part', 'affect life', 'photoreceptors'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/5.1.6/9.jpg',
     zones: {
       1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: {
-        text: 'In other words, the concave surface<br>of the light sensors could detect<br>the direction of incoming light.',
-        keywords: ['concave surface', 'light sensors', 'detect', 'direction', 'incoming light']
-      },
-      4: {
-        text: 'The first life form with a concave<br>light sensor was a flatworm called<br>planaria.',
-        keywords: ['first life form', 'concave light sensor', 'flatworm', 'planaria']
-      }
+      2: { text: 'Surprisingly, plants have all five<br>senses, not just sight.<br>Plants can sense light, smell odors,<br>and detect various physical stimuli.', keywords: ['plants', 'five senses', 'sight', 'sense light', 'smell odors', 'physical stimuli'] },
+      3: { text: 'If we send a plant growing on the<br>ground into space on a satellite,<br>the plant will not feel gravity,<br>causing its roots and stems to grow<br>in all directions. This shows that<br>the plant detects gravity.', keywords: ['plant', 'space', 'satellite', 'gravity', 'roots', 'stems', 'grow', 'detects'] },
+      4: { text: '', keywords: [] }
     }
   },
-  
-  // 6페이지 - 존2, 존3
   {
-    bg: '../assets/img/5.1.4/6.jpg',
+    bg: '../assets/img/5.1.6/10.jpg',
+    zones: {
+      1: { text: 'For humans, being near loved ones<br>brings happiness, while the presence<br>of disliked people makes us want to<br>push them away.', keywords: ['humans', 'loved ones', 'happiness', 'disliked people', 'push away'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Plants also let out foul smells to<br>prevent nearby plants they dislike<br>from coming closer, similar to what<br>humans do.', keywords: ['plants', 'foul smells', 'prevent', 'dislike', 'coming closer', 'humans'] }
+    }
+  },
+  {
+    bg: '../assets/img/5.1.6/11.jpg',
+    zones: {
+      1: { text: 'They can even ripen fruit quickly<br>for more aggressive attacks.', keywords: ['ripen fruit', 'quickly', 'aggressive attacks'] },
+      2: { text: 'The five senses of plants are<br>different from the five senses of<br>humans, but we can be certain that<br>they exist.', keywords: ['five senses', 'plants', 'different', 'humans', 'exist'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/5.1.6/12.jpg',
+    zones: {
+      1: { text: 'Then, what about the brain?<br>The brain controls all human<br>sensory organs.', keywords: ['brain', 'controls', 'human', 'sensory organs'] },
+      2: { text: 'Do plants have a brain that can<br>control all sensory organs?', keywords: ['plants', 'brain', 'control', 'sensory organs'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/5.1.6/13.jpg',
+    zones: {
+      1: { text: 'As we have previously learned,<br>plants have photoreceptors spread<br>throughout their bodies.', keywords: ['plants', 'photoreceptors', 'spread', 'bodies'] },
+      2: { text: 'The young leaves of plants, flowers,<br>and fruits can all detect light.', keywords: ['young leaves', 'plants', 'flowers', 'fruits', 'detect light'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/5.1.6/14.jpg',
     zones: {
       1: { text: '', keywords: [] },
-      2: {
-        text: 'This life form could faintly see the<br>shapes of objects through the light<br>entering its concave area.',
-        keywords: ['life form', 'faintly see', 'shapes', 'objects', 'light entering', 'concave area']
-      },
-      3: {
-        text: 'Planaria is an ancient life form that<br>still lives commonly in the fresh<br>water today.',
-        keywords: ['planaria', 'ancient life form', 'lives commonly', 'fresh water', 'today']
-      },
+      2: { text: 'The basic unit of a life form is the<br>cell. All the cells of plants can sense<br>stimuli.', keywords: ['basic unit', 'life form', 'cell', 'plants', 'sense stimuli'] },
+      3: { text: 'However, plants do not have a central<br>system that can control everything<br>from one place, like the human<br>brain.', keywords: ['plants', 'central system', 'control', 'human brain'] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 7페이지 - 존1, 존2
   {
-    bg: '../assets/img/5.1.4/7.jpg',
+    bg: '../assets/img/5.1.6/15.jpg',
     zones: {
-      1: {
-        text: 'It could barely tell apart what was<br>food and what was a predator.',
-        keywords: ['barely tell apart', 'food', 'predator']
-      },
-      2: {
-        text: 'Even this was a huge change and<br>development for life forms at<br>that time.',
-        keywords: ['huge change', 'development', 'life forms', 'that time']
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 8페이지 - 존1, 존2
-  {
-    bg: '../assets/img/5.1.4/8.jpg',
-    zones: {
-      1: {
-        text: 'However, simply having a concave<br>shape was not enough to achieve<br>the same effect as the human eye.',
-        keywords: ['concave shape', 'not enough', 'achieve', 'same effect', 'human eye']
-      },
-      2: {
-        text: 'There were too many flaws to call<br>it a visual organ capable of seeing<br>objects clearly.',
-        keywords: ['too many flaws', 'visual organ', 'capable', 'seeing objects', 'clearly']
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 9페이지 - 존1, 존4
-  {
-    bg: '../assets/img/5.1.4/9.jpg',
-    zones: {
-      1: {
-        text: 'The area receiving light was too<br>wide to focus properly.',
-        keywords: ['area receiving light', 'too wide', 'focus properly']
-      },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: {
-        text: 'The planaria\'s concave area could<br>only see the vague shapes of<br>objects. It was far from the detailed<br>vision of a human eye.',
-        keywords: ['planaria', 'concave area', 'vague shapes', 'objects', 'far from', 'detailed vision', 'human eye']
-      }
-    }
-  },
-  
-  // 10페이지 - 존1, 존4
-  {
-    bg: '../assets/img/5.1.4/10.jpg',
-    zones: {
-      1: {
-        text: 'Changes were needed to detect the<br>direction of light reflected from<br>objects more accurately and to see<br>shapes more clearly.',
-        keywords: ['changes needed', 'detect direction', 'light reflected', 'objects', 'accurately', 'see shapes', 'clearly']
-      },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: {
-        text: 'That change was making the hole<br>through which light entered smaller.',
-        keywords: ['change', 'making hole', 'light entered', 'smaller']
-      }
-    }
-  },
-  
-  // 11페이지 - 존1
-  {
-    bg: '../assets/img/5.1.4/11.jpg',
-    zones: {
-      1: {
-        text: 'Eventually, the concave shape<br>became deeper, and the size of<br>the hole where light entered<br>became smaller.',
-        keywords: ['concave shape', 'deeper', 'size', 'hole', 'light entered', 'smaller']
-      },
+      1: { text: 'Plants that settle in sunny spots are<br>like wealthy people, while those<br>crouching in the shade are like poor<br>people.<br><br>Why have plants developed the<br>ability to detect light?<br>It is so that they can get as much<br>energy as they can through<br>photosynthesis.', keywords: ['plants', 'sunny spots', 'wealthy people', 'shade', 'poor people', 'developed', 'detect light', 'energy', 'photosynthesis'] },
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 12페이지 - 존1
   {
-    bg: '../assets/img/5.1.4/12.jpg',
+    bg: '../assets/img/5.1.6/16.jpg',
     zones: {
-      1: {
-        text: 'As the opening for the light became<br>smaller, the direction and focus of<br>the light became more accurate.<br>The shapes of objects also began to<br>appear more clearly.',
-        keywords: ['opening', 'light', 'smaller', 'direction', 'focus', 'accurate', 'shapes', 'objects', 'clearly']
-      },
+      1: { text: 'Just as people want to earn a lot of<br>money, plants try to gather plenty<br>of sunlight. Plants growing together<br>in forests or pots compete fiercely<br>for this resource.', keywords: ['people', 'earn money', 'plants', 'gather sunlight', 'forests', 'pots', 'compete', 'resource'] },
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 13페이지 - 존1, 존2
   {
-    bg: '../assets/img/5.1.4/13.jpg',
+    bg: '../assets/img/5.1.6/17.jpg',
     zones: {
-      1: {
-        text: 'The eye of the nautilus, which had<br>all these advantages, could see<br>much more clearly than the concave<br>eye of the planaria.',
-        keywords: ['nautilus eye', 'advantages', 'see clearly', 'planaria', 'concave eye']
-      },
-      2: {
-        text: 'As a result, the nautilus had a larger<br>chance of survival than other life<br>forms at the time. However,<br>the pinhole eye of the nautilus also<br>had problems.',
-        keywords: ['nautilus', 'larger chance', 'survival', 'life forms', 'pinhole eye', 'problems']
-      },
+      1: { text: 'Trees try to grow faster than their<br>rivals. This phenomenon is called<br>"shade avoidance."', keywords: ['trees', 'grow faster', 'rivals', 'phenomenon', 'shade avoidance'] },
+      2: { text: 'Of course, some people may think<br>the word "avoidance" does not quite<br>fit with plants. If so, consider what<br>happens to the plants that lose the<br>battle for sunlight.', keywords: ['people', 'avoidance', 'plants', 'battle', 'sunlight'] },
       3: { text: '', keywords: [] },
       4: { text: '', keywords: [] }
     }
   },
-  
-  // 14페이지 - 존1
   {
-    bg: '../assets/img/5.1.4/14.jpg',
+    bg: '../assets/img/5.1.6/18.jpg',
     zones: {
-      1: {
-        text: 'It could not see well in the dim light<br>of the deep ocean because the hole<br>was so small.',
-        keywords: ['could not see well', 'dim light', 'deep ocean', 'hole', 'small']
-      },
+      1: { text: 'Slowly dying in the shadow of other<br>plants, unable to photosynthesize,<br>is like a death sentence for a plant.', keywords: ['dying', 'shadow', 'plants', 'photosynthesize', 'death sentence'] },
       2: { text: '', keywords: [] },
       3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 15페이지 - 존1, 존2
-  {
-    bg: '../assets/img/5.1.4/15.jpg',
-    zones: {
-      1: {
-        text: 'A person with poor eyesight is<br>worried because they left their<br>glasses at home. Is there a way to<br>see objects clearly without glasses?',
-        keywords: ['poor eyesight', 'worried', 'left glasses', 'home', 'see objects clearly', 'without glasses']
-      },
-      2: {
-        text: 'We can use the principle found in<br>the nautilus\'s eye. All we need is<br>our two hands.',
-        keywords: ['principle', 'nautilus eye', 'two hands']
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 16페이지 - 존1, 존2
-  {
-    bg: '../assets/img/5.1.4/16.jpg',
-    zones: {
-      1: {
-        text: 'First, close one hand into a fist,<br>leaving a very small hole,<br>just big enough for a needle to fit<br>through.',
-        keywords: ['close hand', 'fist', 'very small hole', 'needle', 'fit through']
-      },
-      2: {
-        text: 'Now, place one eye near the hole<br>we made with our hand and look<br>around. Close or cover the other eye<br>with the other hand.',
-        keywords: ['place eye', 'near hole', 'made with hand', 'look around', 'close', 'cover', 'other eye']
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 17페이지 - 존1, 존2
-  {
-    bg: '../assets/img/5.1.4/17.jpg',
-    zones: {
-      1: {
-        text: 'The distant, blurry letters should<br>now appear clear.',
-        keywords: ['distant', 'blurry letters', 'appear clear']
-      },
-      2: {
-        text: 'This ability to see objects clearly<br>through a small pinhole is called<br>the "pinhole effect."',
-        keywords: ['ability', 'see objects clearly', 'small pinhole', 'pinhole effect']
-      },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  
-  // 18페이지 - 존1, 존3
-  {
-    bg: '../assets/img/5.1.4/18.jpg',
-    zones: {
-      1: {
-        text: 'People with poor eyesight squint<br>their eyes when they read.',
-        keywords: ['poor eyesight', 'squint eyes', 'read']
-      },
-      2: { text: '', keywords: [] },
-      3: {
-        text: 'This is because squinting narrows<br>the space between the eyelids,<br>creating a "pinhole effect" that<br>helps them see better.',
-        keywords: ['squinting narrows', 'space', 'eyelids', 'pinhole effect', 'see better']
-      },
-      4: { text: '', keywords: [] }
+      4: { text: 'Let\'s define "intelligence" as the<br>ability to calculate risks and seek<br>benefits. Then avoiding the shade<br>can be seen as an expression of<br>plant intelligence through action.', keywords: ['intelligence', 'calculate risks', 'benefits', 'avoiding shade', 'plant intelligence', 'action'] }
     }
   }
 ];
