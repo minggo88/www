@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K7.1.1.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/7.1.1/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/7.1.1/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+    // Slide 1 (PDF Page 1 - Placeholder as per instructions for hasStartButton)
+    {
+      bg: '../assets/img/ReadBook/7.1.1/1.jpg',
+      hasStartButton: true,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 2 (PDF Page 3) - Command: 212
+    {
+      bg: '../assets/img/ReadBook/7.1.1/2.jpg',
+      zones: {
+        1: { text: 'The first thing we notice when<br>we look at an object is not its shape<br>or use. It is the color.', keywords: ['first thing', 'object', 'shape', 'use', 'color'] },
+        2: { text: 'We see an object through its color.', keywords: ['object', 'color'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 3 (PDF Page 4) - Command: 312
+    {
+      bg: '../assets/img/ReadBook/7.1.1/3.jpg',
+      zones: {
+        1: { text: 'We connect the object with its color<br>and store it in our memory.', keywords: ['connect', 'object', 'color', 'store', 'memory'] },
+        2: { text: 'Later, when we see the same object<br>again, the color comes to mind from<br>our memory.<br>This is called "memory color."', keywords: ['same object', 'color', 'memory', 'memory color'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 4 (PDF Page 5) - Command: 412
+    {
+      bg: '../assets/img/ReadBook/7.1.1/4.jpg',
+      zones: {
+        1: { text: 'Memory color is the typical color we<br>associate with an object based on<br>our preexisting ideas.<br>For example, people usually think of<br>blue when they hear "ocean," black<br>when they hear "darkness," and<br>green when they hear "leaves."', keywords: ['Memory color', 'typical color', 'object', 'preexisting ideas', 'blue', 'ocean', 'black', 'darkness', 'green', 'leaves'] },
+        2: { text: 'Memory colors vary slightly by<br>country, region, age, or social group.<br>For example, when thinking of the<br>color red, young children might<br>think of the "sun" or "fire," young<br>adults might think of "passion," and<br>older adults might think of "danger."', keywords: ['Memory colors', 'vary', 'country', 'region', 'age', 'social group', 'red', 'sun', 'fire', 'passion', 'danger'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 5 (PDF Page 6) - Command: 523
+    {
+      bg: '../assets/img/ReadBook/7.1.1/5.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'Regardless of race, everyone has<br>some common memory colors.', keywords: ['race', 'common memory colors'] },
+        3: { text: 'When should we cross the street<br>at a traffic light?', keywords: ['cross the street', 'traffic light'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 6 (PDF Page 7) - Command: 612
+    {
+      bg: '../assets/img/ReadBook/7.1.1/6.jpg',
+      zones: {
+        1: { text: 'Traffic lights change colors, and<br>people move according to those<br>colors as if they have made a rule.', keywords: ['Traffic lights', 'change colors', 'people move', 'rule'] },
+        2: { text: 'This is related to memory colors.<br>People remember the red traffic<br>light as a signal for warning and<br>danger. On the other hand, green<br>is recognized in our memory as<br>the color for "go" and "proceed."', keywords: ['memory colors', 'red traffic light', 'warning', 'danger', 'green', 'go', 'proceed'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 7 (PDF Page 8) - Command: 723
+    {
+      bg: '../assets/img/ReadBook/7.1.1/7.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'We often remember food by its<br>memory color.', keywords: ['food', 'memory color'] },
+        3: { text: 'For example, we usually remember<br>spaghetti as red. So, seeing red<br>spaghetti makes us want to eat it.', keywords: ['spaghetti', 'red', 'eat'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 8 (PDF Page 9) - Command: 812
+    {
+      bg: '../assets/img/ReadBook/7.1.1/8.jpg',
+      zones: {
+        1: { text: 'But what if spaghetti were blue?<br>Since it does not match the color<br>we remember, it would not look as<br>appealing to eat.', keywords: ['spaghetti', 'blue', 'color', 'appealing'] },
+        2: { text: 'In this way, color greatly influences<br>our minds.', keywords: ['color', 'influences', 'minds'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 9 (PDF Page 10) - Command: 912
+    {
+      bg: '../assets/img/ReadBook/7.1.1/9.jpg',
+      zones: {
+        1: { text: 'Here is a fun experiment using<br>colors. Black, blue, and white boxes<br>were placed in front of children.', keywords: ['experiment', 'colors', 'Black', 'blue', 'white boxes', 'children'] },
+        2: { text: 'They were asked to choose the box<br>they thought was the heaviest and<br>which was the lightest.<br>What do you think happened?', keywords: ['choose', 'box', 'heaviest', 'lightest'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 10 (PDF Page 11) - Command: 1012
+    {
+      bg: '../assets/img/ReadBook/7.1.1/10.jpg',
+      zones: {
+        1: { text: 'The children said that the black box<br>seemed the heaviest and the white<br>box seemed the lightest.', keywords: ['children', 'black box', 'heaviest', 'white box', 'lightest'] },
+        2: { text: 'In reality, all three boxes weighed<br>the same. Why did they seem to<br>weigh differently based on their<br>color?', keywords: ['reality', 'three boxes', 'weighed the same', 'differently', 'color'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 11 (PDF Page 12) - Command: 1112
+    {
+      bg: '../assets/img/ReadBook/7.1.1/11.jpg',
+      zones: {
+        1: { text: 'The secret lies in the brightness<br>of the colors. Colors feel heavier<br>or lighter depending on their<br>brightness.', keywords: ['secret', 'brightness', 'colors', 'heavier', 'lighter'] },
+        2: { text: 'The more mixed colors, the darker<br>they appear and the heavier they<br>feel. However, fewer mixed colors<br>appear brighter and feel lighter.<br>That is why the darkest black<br>box looked the heaviest,<br>and the brightest white box<br>looked the lightest.', keywords: ['mixed colors', 'darker', 'heavier', 'fewer mixed colors', 'brighter', 'lighter', 'darkest black box', 'brightest white box'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 12 (PDF Page 13) - Command: 1214
+    {
+      bg: '../assets/img/ReadBook/7.1.1/12.jpg',
+      zones: {
+        1: { text: 'People tend to choose colors based<br>on their preferences.', keywords: ['People', 'choose colors', 'preferences'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'But each person has something<br>called a "personal color."', keywords: ['person', 'personal color'] }
+      }
+    },
+    // Slide 13 (PDF Page 14) - Command: 1312
+    {
+      bg: '../assets/img/ReadBook/7.1.1/13.jpg',
+      zones: {
+        1: { text: 'Personal color is the unique color<br>that suits each person based on<br>their skin, hair, and eye color.', keywords: ['Personal color', 'unique color', 'person', 'skin', 'hair', 'eye color'] },
+        2: { text: 'If we understand and use colors<br>that match our natural skin tone,<br>we can create a more likable<br>impression. The key to choosing<br>these colors is our face color.', keywords: ['colors', 'natural skin tone', 'likable impression', 'face color'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 14 (PDF Page 15) - Command: 14124
+    {
+      bg: '../assets/img/ReadBook/7.1.1/14.jpg',
+      zones: {
+        1: { text: 'Finding each person\'s personal<br>color is done in a scientific and<br>objective way.', keywords: ['personal color', 'scientific', 'objective way'] },
+        2: { text: 'This means we can choose colors<br>based on clear evidence and<br>standards.', keywords: ['choose colors', 'clear evidence', 'standards'] },
+        3: { text: '', keywords: [] },
+        4: { text: 'Depending on the color of our faces,<br>warm colors might suit us better,<br>or cool colors might look best.', keywords: ['color', 'faces', 'warm colors', 'cool colors'] }
+      }
+    },
+    // Slide 15 (PDF Page 16) - Command: 152
+    {
+      bg: '../assets/img/ReadBook/7.1.1/15.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'Color therapy uses the energy and<br>properties of colors to help improve<br>our mood, reduce stress, and<br>increase our overall well-being.', keywords: ['Color therapy', 'energy', 'properties', 'colors', 'improve mood', 'reduce stress', 'well-being'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 16 (PDF Page 17) - Command: 163 (No content for 163, so it will be empty)
+    {
+      bg: '../assets/img/ReadBook/7.1.1/16.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 17 (PDF Page 18) - Command: 1712
+    {
+      bg: '../assets/img/ReadBook/7.1.1/17.jpg',
+      zones: {
+        1: { text: 'He found that red light raised blood<br>pressure, sped up breathing, and<br>tightened muscles.', keywords: ['red light', 'blood pressure', 'breathing', 'tightened muscles'] },
+        2: { text: 'On the other hand, blue light calmed<br>the nerves, slowed breathing,<br>reduced eye blinking and blood<br>pressure, and made people happy<br>and relaxed.', keywords: ['blue light', 'calmed nerves', 'slowed breathing', 'reduced eye blinking', 'blood pressure', 'happy', 'relaxed'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 18 (PDF Page 19) - Command: 1823
+    {
+      bg: '../assets/img/ReadBook/7.1.1/18.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'Tired of gray, city dwellers<br>unconsciously seek comfort from<br>nature\'s colors. For them, the green<br>of nature is the best color therapy<br>for peace of mind.', keywords: ['city dwellers', 'comfort', 'nature\'s colors', 'green', 'color therapy', 'peace of mind'] },
+        3: { text: 'When we feel stressed, we want to<br>take a break and go somewhere far<br>away. Most people think of peaceful<br>places like a quiet beach or a lush<br>forest.', keywords: ['stressed', 'break', 'peaceful places', 'quiet beach', 'lush forest'] },
+        4: { text: '', keywords: [] }
+      }
+    }
+  ];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 
