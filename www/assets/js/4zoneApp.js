@@ -102,6 +102,13 @@ const CONFIG = {
       CONFIG.setZonePositionPercent(3, undefined, 12, undefined, 15, '%');
       CONFIG.setZonePositionPercent(4, undefined, 55, undefined, 15, '%');
       CONFIG.setZoneFontSize(1, 22);
+    } else if (window.innerWidth >= 900 && window.innerWidth <= 1200 && window.innerWidth > window.innerHeight) {
+      console.log('3-1'); // 모바일 가로(900px 이하)
+      CONFIG.setZonePositionPercent(1, 10, 5, undefined, undefined, '%');
+      CONFIG.setZonePositionPercent(2, 10, 105, undefined, undefined, '%');
+      CONFIG.setZonePositionPercent(3, undefined, 5, undefined, 15, '%');
+      CONFIG.setZonePositionPercent(4, undefined, 55, undefined, 15, '%');
+      CONFIG.setZoneFontSize(1, 22);
     } else if (isLandscape) {
       console.log('3-2'); // 태블릿/PC 가로
       CONFIG.setZonePositionPercent(1, 10, 13, undefined, undefined, '%');
