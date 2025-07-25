@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K7.1.4.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/7.1.4/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/7.1.4/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+    // Slide 1 (PDF Page 1 - Placeholder as per instructions for hasStartButton)
+    {
+      bg: '../assets/img/ReadBook/7.1.4/1.jpg',
+      hasStartButton: true,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 2 (PDF Page 3) - Command: 212
+    {
+      bg: '../assets/img/ReadBook/7.1.4/2.jpg',
+      zones: {
+        1: { text: 'Our brain tucked safely inside the<br>skull, separated from the world.<br>It can only understand the outside<br>world through our senses.', keywords: ['brain', 'skull', 'separated from the world', 'understand', 'outside world', 'senses'] },
+        2: { text: 'So, can our brain, with only limited<br>information from our senses, handle<br>things coming in from outside?<br>Can we trust our brain to do this?', keywords: ['brain', 'limited information', 'senses', 'handle things', 'trust brain'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 3 (PDF Page 4) - Command: 312
+    {
+      bg: '../assets/img/ReadBook/7.1.4/3.jpg',
+      zones: {
+        1: { text: 'Our brain holds onto a lot of<br>important memories from past<br>experiences.', keywords: ['brain', 'memories', 'past experiences'] },
+        2: { text: 'But sometimes, the brain gets<br>confused while controlling our<br>senses and makes mistakes.<br>This means it can fail to understand<br>what is really happening.', keywords: ['brain', 'confused', 'controlling senses', 'mistakes', 'fail to understand'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 4 (PDF Page 5) - Command: 412
+    {
+      bg: '../assets/img/ReadBook/7.1.4/4.jpg',
+      zones: {
+        1: { text: 'For example, the brain might think<br>that an object is in a different place<br>because of where a shadow is.', keywords: ['brain', 'object', 'different place', 'shadow'] },
+        2: { text: 'It can even misinterpret the same<br>sound in different ways. So, how do<br>these brain tricks happen?', keywords: ['misinterpret', 'sound', 'different ways', 'brain tricks'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 5 (PDF Page 6) - Command: 512
+    {
+      bg: '../assets/img/ReadBook/7.1.4/5.jpg',
+      zones: {
+        1: { text: 'Our brain sees the world using<br>shadows, colors, distance, and<br>movement.', keywords: ['brain', 'world', 'shadows', 'colors', 'distance', 'movement'] },
+        2: { text: 'How does the brain know what<br>a soccer ball is? And how does it<br>know where the soccer ball is?', keywords: ['brain', 'soccer ball', 'where'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 6 (PDF Page 7) - Command: 612
+    {
+      bg: '../assets/img/ReadBook/7.1.4/6.jpg',
+      zones: {
+        1: { text: 'When we see an object, the light<br>reflecting off it turns into electrical<br>signals by the cells in our eyes.', keywords: ['object', 'light reflecting', 'electrical signals', 'cells', 'eyes'] },
+        2: { text: 'Then, these signals travel to the<br>back of the brain through the optic<br>nerve. In the part called the "visual<br>cortex," the brain figures out what<br>the object is.', keywords: ['signals', 'brain', 'optic nerve', 'visual cortex', 'figures out', 'object'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 7 (PDF Page 8) - Command: 7123
+    {
+      bg: '../assets/img/ReadBook/7.1.4/7.jpg',
+      zones: {
+        1: { text: 'At this point, the brain compares<br>what it sees with stored memories<br>to recognize that the object is<br>a soccer ball.', keywords: ['brain', 'compares', 'stored memories', 'recognize', 'soccer ball'] },
+        3: { text: 'Once the brain knows it is a soccer<br>ball, it uses shadows to figure out<br>where the ball is.', keywords: ['brain', 'soccer ball', 'shadows', 'figure out', 'where'] },
+        2: { text: 'If the shadow moves farther from<br>the soccer ball, it will look like the<br>ball is flying.<br>If the shadow repeatedly moves<br>closer and then farther away it will<br>look like the ball is bouncing.', keywords: ['shadow moves farther', 'ball flying', 'shadow moves closer', 'farther away', 'ball bouncing'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 8 (PDF Page 9) - Command: 812
+    {
+      bg: '../assets/img/ReadBook/7.1.4/8.jpg',
+      zones: {
+        1: { text: 'In a world where the Sun is our<br>only light source, our brain can use<br>shadows to understand where<br>a floating soccer ball is.', keywords: ['Sun', 'light source', 'brain', 'shadows', 'floating soccer ball'] },
+        2: { text: 'Our brain also uses distance to<br>figure out the speed and direction<br>of the soccer ball.', keywords: ['brain', 'distance', 'speed', 'direction', 'soccer ball'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 9 (PDF Page 10) - Command: 912
+    {
+      bg: '../assets/img/ReadBook/7.1.4/9.jpg',
+      zones: {
+        1: { text: 'Our brain relies a lot on sight to<br>understand things.<br>Now, look at the picture on the right.<br>Do you see a duck or a rabbit?', keywords: ['brain', 'sight', 'understand things', 'picture', 'duck', 'rabbit'] },
+        2: { text: 'Actually, this is not a picture of<br>a duck or a rabbit.', keywords: ['not a picture', 'duck', 'rabbit'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 10 (PDF Page 11) - Command: 1012
+    {
+      bg: '../assets/img/ReadBook/7.1.4/10.jpg',
+      zones: {
+        1: { text: 'It is actually just a bunch of lines<br>that came together to make it look<br>like a duck or a rabbit.', keywords: ['lines', 'duck', 'rabbit'] },
+        2: { text: 'Depending on who looks at it,<br>some people will see this picture<br>as a duck, while others will see it<br>as a rabbit.', keywords: ['looks at it', 'duck', 'rabbit'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 11 (PDF Page 12) - Command: 1112
+    {
+      bg: '../assets/img/ReadBook/7.1.4/11.jpg',
+      zones: {
+        1: { text: 'What can you see in this picture?<br>Do you see an old lady? Or do you<br>see a young lady?', keywords: ['picture', 'old lady', 'young lady'] },
+        2: { text: 'Once someone sees the old lady,<br>they keep seeing the old lady. And<br>once someone sees the young lady,<br>they keep seeing the young lady.', keywords: ['old lady', 'young lady'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 12 (PDF Page 13) - Command: 1212
+    {
+      bg: '../assets/img/ReadBook/7.1.4/12.jpg',
+      zones: {
+        1: { text: 'This picture is called "Rubin\'s Vase."<br>Different people may see this<br>picture differently.', keywords: ['Rubin\'s Vase', 'different people', 'differently'] },
+        2: { text: 'These things happen because our<br>brain likes to see things in ways<br>that are familiar to us.', keywords: ['brain', 'familiar'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 13 (PDF Page 14) - Command: 1312
+    {
+      bg: '../assets/img/ReadBook/7.1.4/13.jpg',
+      zones: {
+        1: { text: 'That is why something can look<br>different depending on how we<br>look at it. This is called a "double<br>illusion."', keywords: ['different', 'double illusion'] },
+        2: { text: 'Imagine watching cars drive away<br>on a road. As the cars get farther,<br>the images on our retina become<br>smaller. But our brain does not think,<br>"The cars are getting smaller."', keywords: ['cars', 'road', 'farther', 'images', 'retina', 'smaller', 'brain'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 14 (PDF Page 15) - Command: 1412
+    {
+      bg: '../assets/img/ReadBook/7.1.4/14.jpg',
+      zones: {
+        1: { text: 'Our brains correctly judge,<br>"The car looks smaller because<br>it is moving away from me."<br>through advanced calculations and<br>interpretations based on the visual<br>information within a short period<br>of time.', keywords: ['brains', 'correctly judge', 'car looks smaller', 'moving away', 'advanced calculations', 'interpretations', 'visual information', 'short period of time'] },
+        2: { text: 'But sometimes, our brains might<br>make mistakes when trying to<br>understand things like this.<br>The information we see with our eyes<br>can be very limited depending on<br>the light or where we are standing.', keywords: ['brains', 'mistakes', 'understand', 'information', 'eyes', 'limited', 'light', 'standing'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 15 (PDF Page 16) - Command: 1512
+    {
+      bg: '../assets/img/ReadBook/7.1.4/15.jpg',
+      zones: {
+        2: { text: 'An "optical illusion" is a mistake<br>that happens when the brain tries<br>to understand something.', keywords: ['optical illusion', 'mistake', 'brain', 'understand'] },
+        1: { text: 'Our brain must make quick decisions<br>based on limited information.<br>In these situations, the brain actively<br>uses past experiences to make<br>sense of things.', keywords: ['brain', 'quick decisions', 'limited information', 'past experiences', 'sense of things'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 16 (PDF Page 17) - Command: 1612
+    {
+      bg: '../assets/img/ReadBook/7.1.4/16.jpg',
+      zones: {
+        1: { text: 'How our brain interprets what we<br>see might not always match what<br>is there.', keywords: ['brain', 'interprets', 'see', 'match'] },
+        2: { text: 'Look at the picture below. If we cut<br>two pieces of paper into the exact<br>same curved shape and place them<br>side by side, the one on the left<br>looks bigger.', keywords: ['picture', 'paper', 'curved shape', 'side by side', 'left', 'bigger'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 17 (PDF Page 18) - Command: 1712
+    {
+      bg: '../assets/img/ReadBook/7.1.4/17.jpg',
+      zones: {
+        1: { text: 'If we move the piece on the right to<br>the left side, the left side still looks<br>bigger. Even though we know for<br>sure that both pieces are the same<br>size, the one on the left always<br>looks bigger.', keywords: ['piece', 'right', 'left side', 'bigger', 'same size'] },
+        2: { text: 'Our brain interprets the two shapes<br>as being different in size due to<br>the difference in length where<br>they touch, but it is just an optical<br>illusion.', keywords: ['brain', 'interprets', 'shapes', 'different in size', 'length', 'optical illusion'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 18 (PDF Page 19) - Command: 1812
+    {
+      bg: '../assets/img/ReadBook/7.1.4/18.jpg',
+      zones: {
+        2: { text: 'Our brains do not see one small part<br>at a time but look at everything<br>around them. That is why sometimes<br>the same thing can look lighter or<br>darker depending on how bright the<br>background is. This is a "black-and<br>white illusion."', keywords: ['brains', 'small part', 'everything', 'lighter', 'darker', 'bright', 'background', 'black-and-white illusion'] },
+        1: { text: 'In this way, when the size, length,<br>direction, or angles of shapes look<br>different from how they really are,<br>it is called "geometric illusion."', keywords: ['size', 'length', 'direction', 'angles', 'shapes', 'different', 'geometric illusion'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    }
+  ];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 
