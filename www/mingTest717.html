@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K7.1.7.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/7.1.7/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/7.1.7/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+    {
+      bg: '../assets/img/ReadBook/7.1.7/1.jpg',
+      hasStartButton: true,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/2.jpg',
+      zones: {
+        1: { text: 'When light passes through the pupil<br>and lens, it forms an image on the<br>retina, allowing us to see things.', keywords: ['light', 'passes through', 'pupil', 'lens', 'forms', 'image', 'retina', 'allowing', 'see things'] },
+        2: { text: 'However, if the lens cannot focus<br>properly, the image may form either<br>in front of or behind the retina.<br>This causes objects to appear<br>blurry. When images on the retina<br>are not clear, it is referred to as<br>"poor eyesight."', keywords: ['lens', 'cannot focus', 'properly', 'image', 'front', 'behind', 'retina', 'causes', 'objects', 'blurry', 'not clear', 'poor eyesight'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/3.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        3: { text: 'When we squint, why do blurry<br>objects become clearer?<br>Squinting lets in less light and uses<br>a smaller surface area of the lens.', keywords: ['squint', 'blurry', 'objects', 'clearer', 'squinting', 'less light', 'smaller surface area', 'lens'] },
+        2: { text: 'This reduces the amount of light<br>bending and prevents it from<br>spreading out. Therefore, signs,<br>people, and backgrounds look<br>clearer when squinting because<br>of this effect.', keywords: ['reduces', 'amount', 'light bending', 'prevents', 'spreading out', 'signs', 'people', 'backgrounds', 'clearer', 'squinting', 'effect'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/4.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        3: { text: 'Photographers adjust the amount<br>of light coming into the camera by<br>changing the aperture.<br>A smaller aperture lets in less light,<br>making both distant and nearby<br>objects appear clearer.', keywords: ['photographers', 'adjust', 'amount', 'light', 'camera', 'changing', 'aperture', 'smaller aperture', 'less light', 'distant', 'nearby', 'objects', 'clearer'] },
+        2: { text: 'On the other hand, when the camera<br>aperture is wide open, more light<br>passes through the lens, making<br>only the sharply focused part clear,<br>while the rest looks blurry.', keywords: ['camera', 'aperture', 'wide open', 'more light', 'passes through', 'lens', 'sharply focused', 'part clear', 'rest', 'blurry'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/5.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        3: { text: 'Let us explore why blinking helps us<br>see better. Our eyes are constantly<br>dealing with fine dust from the<br>environment.', keywords: ['explore', 'blinking', 'helps', 'see better', 'eyes', 'constantly', 'dealing', 'fine dust', 'environment'] },
+        2: { text: 'That is why our tear glands keep<br>creating tears to wash our eyes.<br>Also, our eyelids act as a primary<br>defense mechanism by blocking<br>foreign particles like dust from<br>entering our eyes.', keywords: ['tear glands', 'creating tears', 'wash', 'eyes', 'eyelids', 'primary', 'defense mechanism', 'blocking', 'foreign particles', 'dust', 'entering'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/6.jpg',
+      zones: {
+        1: { text: 'The dust filtered by the eye, skin<br>cells shed from the eye, and fats<br>from the eye edges mix with tears<br>to form eye mucus.', keywords: ['dust', 'filtered', 'eye', 'skin cells', 'shed', 'fats', 'eye edges', 'mix', 'tears', 'form', 'eye mucus'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'In a way, blinking helps keep our<br>eyes safe from things that should<br>not be there, so it is very important.<br>It is kind of like cleaning a high-<br>quality camera lens filter.', keywords: ['blinking', 'helps', 'keep', 'eyes safe', 'things', 'should not be there', 'very important', 'cleaning', 'high-quality', 'camera lens filter'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/7.jpg',
+      zones: {
+        1: { text: 'Blinking moistens the eyes with<br>tears, protecting them. Tears keep<br>the cornea and conjunctiva moist,<br>helping our eyes move smoothly.', keywords: ['blinking', 'moistens', 'eyes', 'tears', 'protecting', 'cornea', 'conjunctiva', 'moist', 'helping', 'eyes move', 'smoothly'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/8.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        3: { text: 'The cornea has no blood vessels.<br>Blinking provides oxygen and<br>glucose to the cornea and washes<br>away dirt.', keywords: ['cornea', 'no blood vessels', 'blinking', 'provides', 'oxygen', 'glucose', 'washes away', 'dirt'] },
+        2: { text: 'Blinking spreads tears evenly over<br>the cornea. This makes the cornea<br>smooth with a thin layer, so we can<br>see objects more clearly.', keywords: ['blinking', 'spreads tears', 'evenly', 'cornea', 'makes', 'smooth', 'thin layer', 'see objects', 'more clearly'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/9.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'Tears are 98.5% water and the<br>remaining 1.5% has protein, salt,<br>fat, glucose, and other substances.<br>Proteins, especially lysozyme and<br>lactoferrin, help kill germs and<br>viruses on the surface of the eyes.<br>They prevent eye infections and<br>help treat inflammation.', keywords: ['tears', '98.5% water', '1.5%', 'protein', 'salt', 'fat', 'glucose', 'substances', 'lysozyme', 'lactoferrin', 'kill germs', 'viruses', 'surface', 'eyes', 'prevent', 'eye infections', 'treat inflammation'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/10.jpg',
+      zones: {
+        1: { text: 'Blinking not only keeps our eyes<br>moist but also plays a key role in<br>processing visual information.', keywords: ['blinking', 'not only', 'keeps', 'eyes moist', 'also', 'key role', 'processing', 'visual information'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'A research team from the University<br>of Rochester in the United States<br>studied the connection between<br>visual processing and blinking and<br>published their results.', keywords: ['research team', 'University', 'Rochester', 'United States', 'studied', 'connection', 'visual processing', 'blinking', 'published', 'results'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/11.jpg',
+      zones: {
+        1: { text: 'The research team tracked eye<br>movements and used computers to<br>analyze the frequencies involved<br>in processing visual information.', keywords: ['research team', 'tracked', 'eye movements', 'used computers', 'analyze', 'frequencies', 'involved', 'processing', 'visual information'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'They discovered that blinking helps<br>us notice patterns that change<br>slowly and become bigger over time.<br>Blinking allows us to gather various<br>pieces of information and build<br>a clearer overall picture.', keywords: ['discovered', 'blinking', 'helps', 'notice patterns', 'change slowly', 'become bigger', 'over time', 'allows', 'gather', 'various pieces', 'information', 'build', 'clearer overall picture'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/12.jpg',
+      zones: {
+        1: { text: 'Blinking changes the patterns of<br>light reaching the retina.<br>Unlike when we keep our eyes<br>open and focus on a specific point,<br>different types of visual signals<br>are sent to the brain.', keywords: ['blinking', 'changes', 'patterns', 'light', 'reaching', 'retina', 'unlike', 'keep eyes open', 'focus', 'specific point', 'different types', 'visual signals', 'sent', 'brain'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'These signals help recognize and<br>understand the overall scene seen<br>with our eyes.', keywords: ['signals', 'help', 'recognize', 'understand', 'overall scene', 'seen', 'eyes'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/13.jpg',
+      zones: {
+        1: { text: 'Do animals see the world like<br>humans do? Animals have different<br>eye structures depending on their<br>species. So, the way they see the<br>world varies too.', keywords: ['animals', 'see', 'world', 'humans', 'different', 'eye structures', 'depending', 'species', 'way', 'varies'] },
+        4: { text: 'Most fish have one eye on each side<br>of their head. Since each eye can<br>cover a 180° view, with both eyes<br>they can cover the entire 360° view<br>around them.', keywords: ['most fish', 'one eye', 'each side', 'head', 'each eye', 'cover', '180° view', 'both eyes', 'entire 360° view', 'around them'] },
+        3: { text: '', keywords: [] },
+        2: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/14.jpg',
+      zones: {
+        1: { text: 'Do guide dogs that help blind<br>people have better eyesight than<br>other dogs? No, they do not.<br>Guide dogs need strict training<br>because they cannot tell the colors<br>of traffic lights.', keywords: ['guide dogs', 'help', 'blind people', 'better eyesight', 'other dogs', 'no', 'strict training', 'cannot tell', 'colors', 'traffic lights'] },
+        4: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        2: { text: 'Dogs have a very keen sense of<br>smell. Unlike their sense of smell,<br>dogs have poor vision.<br>Dogs are red-green color blind and<br>cannot tell apart between red and<br>green colors.', keywords: ['dogs', 'very keen', 'sense of smell', 'unlike', 'poor vision', 'red-green color blind', 'cannot tell apart', 'red', 'green colors'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/15.jpg',
+      zones: {
+        1: { text: 'Insects have different kinds of eyes,<br>like compound eyes or simple eyes.<br>Let\'s take a closer look at insect<br>eyes using the dragonfly, which is<br>easy to find around us. Dragonflies<br>have two compound eyes that cover<br>most of their head.', keywords: ['insects', 'different kinds', 'eyes', 'compound eyes', 'simple eyes', 'closer look', 'insect eyes', 'dragonfly', 'easy to find', 'around us', 'two compound eyes', 'cover', 'most', 'head'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'Their compound eyes consist of<br>many tiny hexagonal eyes, similar<br>to a beehive.<br>A dragonfly\'s compound eyes are<br>made up of 10,000 to 30,000 tiny<br>eyes called "ommatidia."', keywords: ['compound eyes', 'consist', 'many tiny', 'hexagonal eyes', 'similar', 'beehive', 'dragonfly\'s', 'made up', '10,000', '30,000', 'tiny eyes', 'ommatidia'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/16.jpg',
+      zones: {
+        1: { text: 'Each tiny eye (ommatidium) has its<br>own visual nerve, making each one<br>a separate visual unit.<br>To a dragonfly, the world looks like<br>a colorful mosaic.', keywords: ['tiny eye', 'ommatidium', 'own visual nerve', 'making', 'separate visual unit', 'dragonfly', 'world', 'looks like', 'colorful mosaic'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'The compound eyes of a dragonfly<br>are rounded and stick out from both<br>sides of its head. This allows it to<br>sense a very wide range not only in<br>front but also to the sides and even<br>some areas behind them.', keywords: ['compound eyes', 'dragonfly', 'rounded', 'stick out', 'both sides', 'head', 'allows', 'sense', 'very wide range', 'not only', 'front', 'also', 'sides', 'even', 'areas behind'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/17.jpg',
+      zones: {
+        1: { text: 'Also, because its eye is made up of<br>countless ommatidia, it is very good<br>at sensing moving objects. However,<br>there are also disadvantages.', keywords: ['eye', 'made up', 'countless ommatidia', 'very good', 'sensing', 'moving objects', 'however', 'disadvantages'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'When viewing still objects,<br>the compound eyes can make shapes<br>overlap, making the world look<br>fragmented. This makes it difficult<br>to clearly recognize objects.', keywords: ['viewing', 'still objects', 'compound eyes', 'make shapes', 'overlap', 'making', 'world look', 'fragmented', 'makes', 'difficult', 'clearly recognize', 'objects'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/7.1.7/18.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        3: { text: 'Between the compound eyes of<br>a dragonfly, there are three simple<br>eyes and a pair of antennae.<br>Simple eyes can sense distance,<br>brightness, and darkness. They can<br>also detect movements much faster<br>than compound eyes.', keywords: ['between', 'compound eyes', 'dragonfly', 'three simple', 'eyes', 'pair', 'antennae', 'simple eyes', 'sense distance', 'brightness', 'darkness', 'detect movements', 'much faster', 'compound eyes'] },
+        2: { text: 'The simple eyes send visual<br>information quickly to the<br>movement control nerves.<br>This allows dragonflies to move<br>rapidly in all directions and<br>perform aerial maneuvers.', keywords: ['simple eyes', 'send', 'visual information', 'quickly', 'movement control nerves', 'allows', 'dragonflies', 'move rapidly', 'all directions', 'perform', 'aerial maneuvers'] },
+        4: { text: '', keywords: [] }
+      }
+    }
+  ];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 
