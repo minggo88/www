@@ -110,7 +110,7 @@ const CONFIG = {
       CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 15, '%');
       CONFIG.setZoneFontSize(1, 22);
     } else if (isLandscape) {
-      alert('3-2'); // 태블릿/PC 가로
+      console.log('3-2'); // 태블릿/PC 가로
       CONFIG.setZonePositionPercent(1, 10, 13, undefined, undefined, '%');
       CONFIG.setZoneFontSize(1, 35);
       CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);

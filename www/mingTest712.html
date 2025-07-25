@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K7.1.2.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/7.1.2/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/7.1.2/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+    // Slide 1 (PDF Page 1 - Placeholder as per instructions for hasStartButton)
+    {
+      bg: '../assets/img/ReadBook/7.1.2/1.jpg',
+      hasStartButton: true,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 2 (PDF Page 3) - Command: 212
+    {
+      bg: '../assets/img/ReadBook/7.1.2/2.jpg',
+      zones: {
+        1: { text: 'Our eyes are the essential pathways<br>for understanding the world.', keywords: ['eyes', 'essential pathways', 'understanding the world'] },
+        2: { text: 'The brain interprets the images we<br>get through our eyes. So, how does<br>the brain understand the world?', keywords: ['brain', 'interprets', 'images', 'eyes', 'understand the world'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 3 (PDF Page 4) - Command: 312
+    {
+      bg: '../assets/img/ReadBook/7.1.2/3.jpg',
+      zones: {
+        1: { text: 'We use five main senses to understand<br>the outside world. They are sight,<br>hearing, touch, smell, and taste.', keywords: ['five main senses', 'outside world', 'sight', 'hearing', 'touch', 'smell', 'taste'] },
+        2: { text: 'Our brain ranks visual information<br>as the most important out of all<br>the senses.', keywords: ['brain', 'visual information', 'most important', 'senses'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 4 (PDF Page 5) - Command: 412
+    {
+      bg: '../assets/img/ReadBook/7.1.2/4.jpg',
+      zones: {
+        1: { text: 'So, how is the visual information<br>sent to the brain? And how does<br>our brain process this information?', keywords: ['visual information', 'sent to the brain', 'brain', 'process information'] },
+        2: { text: 'Light from an object passes through<br>the cornea, then through the pupil<br>and lens, and reaches the retina.<br>The lens is connected to the ciliary<br>muscle and thin fibers called<br>suspensory ligaments.', keywords: ['Light', 'object', 'cornea', 'pupil', 'lens', 'retina', 'ciliary muscle', 'suspensory ligaments'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 5 (PDF Page 6) - Command: 512
+    {
+      bg: '../assets/img/ReadBook/7.1.2/5.jpg',
+      zones: {
+        1: { text: 'When these two tissues tighten or<br>loosen, the lens changes thickness.', keywords: ['tissues', 'tighten', 'loosen', 'lens', 'thickness'] },
+        2: { text: 'This helps the lens bend the light<br>to focus properly on the retina.', keywords: ['lens', 'bend the light', 'focus', 'retina'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 6 (PDF Page 7) - Command: 612
+    {
+      bg: '../assets/img/ReadBook/7.1.2/6.jpg',
+      zones: {
+        1: { text: 'As a result, an image of the object<br>forms on the retina.', keywords: ['image', 'object', 'retina'] },
+        2: { text: 'The cells in the retina convert this<br>light into electrical signals.<br>These signals are sent to the brain<br>through the optic nerve. The brain<br>then identifies what the object is.', keywords: ['cells', 'retina', 'light', 'electrical signals', 'brain', 'optic nerve', 'identifies', 'object'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 7 (PDF Page 8) - Command: 71
+    {
+      bg: '../assets/img/ReadBook/7.1.2/7.jpg',
+      zones: {
+        1: { text: 'This is how we can see objects<br>through our eyes.', keywords: ['see objects', 'eyes'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 8 (PDF Page 9) - Command: 812
+    {
+      bg: '../assets/img/ReadBook/7.1.2/8.jpg',
+      zones: {
+        1: { text: 'Humans do not immediately perceive<br>sight as soon as our eyes receive<br>information.', keywords: ['Humans', 'perceive sight', 'eyes', 'information'] },
+        2: { text: 'The optic nerves detect visual<br>information in the retina and convert<br>it into electrical signals, which are<br>then transmitted to the brain.<br>Then, the brain comprehensively<br>interprets this information, and only<br>then do we obtain a sense of vision.', keywords: ['optic nerves', 'visual information', 'retina', 'electrical signals', 'transmitted', 'brain', 'interprets', 'sense of vision'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 9 (PDF Page 10) - Command: 912
+    {
+      bg: '../assets/img/ReadBook/7.1.2/9.jpg',
+      zones: {
+        1: { text: 'So, are we seeing things as they are<br>now or as they were in the past?<br>Our eyes always see things from<br>the past.', keywords: ['seeing things', 'now', 'past', 'eyes'] },
+        2: { text: 'This is because it takes time for<br>the information to reach our brain.<br>According to scientists, it takes about<br>0.15 seconds for the information<br>to travel from our eyes to the brain<br>and be read.', keywords: ['time', 'information', 'brain', 'scientists', '0.15 seconds', 'eyes'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 10 (PDF Page 11) - Command: 101
+    {
+      bg: '../assets/img/ReadBook/7.1.2/10.jpg',
+      zones: {
+        1: { text: 'The retina has special photoreceptor<br>cells. These cells are called cones<br>and rods. The human retina contains<br>about 6 million cones and 120 million<br>rods.', keywords: ['retina', 'photoreceptor cells', 'cones', 'rods', 'human retina', '6 million cones', '120 million rods'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 11 (PDF Page 12) - Command: 111
+    {
+      bg: '../assets/img/ReadBook/7.1.2/11.jpg',
+      zones: {
+        1: { text: 'Cone cells, shaped like little party<br>hats, process light information and<br>help us see colors. When more light<br>comes in, cone cells work harder to<br>distinguish colors.', keywords: ['Cone cells', 'party hats', 'process light information', 'see colors', 'light', 'distinguish colors'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 12 (PDF Page 13) - Command: 1212
+    {
+      bg: '../assets/img/ReadBook/7.1.2/12.jpg',
+      zones: {
+        1: { text: 'Cone cells are divided into three<br>types based on the wavelength of<br>light they detect.', keywords: ['Cone cells', 'three types', 'wavelength of light'] },
+        2: { text: 'L-cone cells react strongly to red<br>light with long wavelengths, around<br>560 nanometers. M-cone cells are<br>most sensitive to green light with<br>medium wavelengths, around 530<br>nanometers.<br>Lastly, S-cone cells react strongly<br>to blue light with short wavelengths,<br>around 420 nanometers.', keywords: ['L-cone cells', 'red light', 'long wavelengths', '560 nanometers', 'M-cone cells', 'green light', 'medium wavelengths', '530 nanometers', 'S-cone cells', 'blue light', 'short wavelengths', '420 nanometers'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 13 (PDF Page 14) - Command: 1312
+    {
+      bg: '../assets/img/ReadBook/7.1.2/13.jpg',
+      zones: {
+        1: { text: 'Most people can see all the colors<br>in the light spectrum by mixing<br>the three primary colors-red, green,<br>and blue-detected by the three<br>types of cone cells.', keywords: ['colors', 'light spectrum', 'mixing', 'three primary colors', 'red', 'green', 'blue', 'cone cells'] },
+        2: { text: 'This is similar to how TVs and<br>computer monitors create all kinds<br>of colors by mixing red, green, and<br>blue pixels in the right amounts.', keywords: ['TVs', 'computer monitors', 'colors', 'mixing', 'red', 'green', 'blue pixels'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 14 (PDF Page 15) - Command: 1412
+    {
+      bg: '../assets/img/ReadBook/7.1.2/14.jpg',
+      zones: {
+        2: { text: 'Through this process, we can see<br>the different colors that objects<br>have in the visible light spectrum.', keywords: ['process', 'different colors', 'objects', 'visible light spectrum'] },
+        1: { text: 'The information about the light<br>wavelengths sensed by these cone<br>cells is sent to the brain through<br>the optic nerve.', keywords: ['information', 'light wavelengths', 'cone cells', 'brain', 'optic nerve'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 15 (PDF Page 16) - Command: 1512
+    {
+      bg: '../assets/img/ReadBook/7.1.2/15.jpg',
+      zones: {
+        2: { text: 'Color vision deficiencies are caused<br>mainly by genetic factors. But they<br>can also happen because of eye<br>diseases like macular degeneration<br>or glaucoma, which people can get<br>later in life.', keywords: ['Color vision deficiencies', 'genetic factors', 'eye diseases', 'macular degeneration', 'glaucoma'] },
+        1: { text: 'When someone cannot tell apart<br>colors because of problems in<br>their eyes, it is called "color vision<br>deficiency."', keywords: ['cannot tell apart colors', 'problems', 'eyes', 'color vision deficiency'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 16 (PDF Page 17) - Command: 1612
+    {
+      bg: '../assets/img/ReadBook/7.1.2/16.jpg',
+      zones: {
+        1: { text: 'Color vision deficiency can be<br>categorized into total color blindness,<br>partial color blindness, and color<br>weakness.', keywords: ['Color vision deficiency', 'total color blindness', 'partial color blindness', 'color weakness'] },
+        2: { text: 'Total color blindness occurs when<br>cone cells that detect colors are not<br>in the retina, so the person cannot<br>see any colors at all.', keywords: ['Total color blindness', 'cone cells', 'detect colors', 'retina', 'cannot see any colors'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 17 (PDF Page 18) - Command: 17123
+    {
+      bg: '../assets/img/ReadBook/7.1.2/17.jpg',
+      zones: {
+        1: { text: 'Partial color blindness happens<br>when one of the three types of<br>cone cells in the retina is missing.', keywords: ['Partial color blindness', 'three types', 'cone cells', 'retina', 'missing'] },
+        3: { text: 'For example, red-green color<br>blindness occurs when L-cone cells,<br>which detect red, are absent.', keywords: ['red-green color blindness', 'L-cone cells', 'red', 'absent'] },
+        2: { text: 'People with this condition cannot<br>distinguish between red and green<br>and see red as a darker color.', keywords: ['condition', 'cannot distinguish', 'red', 'green', 'darker color'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 18 (PDF Page 19) - Command: 1823
+    {
+      bg: '../assets/img/ReadBook/7.1.2/18.jpg',
+      zones: {
+        3: { text: '', keywords: [] },
+        2: { text: 'However, people with color weakness<br>can see bright colors just fine.<br>Most color weakness is either red<br>or green and is caused by a change<br>in the cone cells.', keywords: ['color weakness', 'bright colors', 'red', 'green', 'change', 'cone cells'] },
+        1: { text: 'Color weakness means having trouble<br>seeing faded colors or taking a long<br>time to tell colors apart.', keywords: ['Color weakness', 'faded colors', 'long time', 'colors apart'] },
+        4: { text: '', keywords: [] }
+      }
+    }
+  ];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 
