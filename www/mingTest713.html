@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K7.1.3.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/7.1.3/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/7.1.3/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+    // Slide 1 (PDF Page 1 - Placeholder as per instructions for hasStartButton)
+    {
+      bg: '../assets/img/ReadBook/7.1.3/1.jpg',
+      hasStartButton: true,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 2 (PDF Page 3) - Command: 212
+    {
+      bg: '../assets/img/ReadBook/7.1.3/2.jpg',
+      zones: {
+        1: { text: 'What happens if light with a certain<br>color stimulates all three types of<br>cone cells at the same time?', keywords: ['light', 'color', 'stimulates', 'cone cells'] },
+        2: { text: 'The different cone cells help us see<br>a wide range of colors. But there is<br>a catch.', keywords: ['cone cells', 'wide range of colors', 'catch'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 3 (PDF Page 4) - Command: 312
+    {
+      bg: '../assets/img/ReadBook/7.1.3/3.jpg',
+      zones: {
+        1: { text: 'Imagine we are looking at a yellow<br>banana in the kitchen.', keywords: ['yellow banana', 'kitchen'] },
+        2: { text: 'The banana appears yellow to<br>our eyes because the light with<br>a wavelength of approximately 580<br>nanometers, corresponding to the<br>color yellow, enters our eyes.', keywords: ['banana', 'yellow', 'eyes', 'light', 'wavelength', '580 nanometers'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 4 (PDF Page 5) - Command: 41
+    {
+      bg: '../assets/img/ReadBook/7.1.3/4.jpg',
+      zones: {
+        1: { text: 'However, the yellow wavelength of<br>a banana seen on a smartphone is<br>different from the wavelength of<br>a real yellow banana.', keywords: ['yellow wavelength', 'banana', 'smartphone', 'different', 'real yellow banana'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 5 (PDF Page 6) - Command: 51
+    {
+      bg: '../assets/img/ReadBook/7.1.3/5.jpg',
+      zones: {
+        1: { text: 'On a smartphone, the yellow color<br>of the banana is made up of red<br>light, around 630 nanometers, and<br>green light, around 530 nanometers.<br>These two colors blend in a way that<br>tricks our eyes into seeing yellow.', keywords: ['smartphone', 'yellow color', 'banana', 'red light', '630 nanometers', 'green light', '530 nanometers', 'blend', 'tricks eyes'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 6 (PDF Page 7) - Command: 612
+    {
+      bg: '../assets/img/ReadBook/7.1.3/6.jpg',
+      zones: {
+        1: { text: 'When the cone cells send both red<br>(around 630 nm) and green (around<br>530 nm) signals to the brain at the<br>same time, the brain thinks it is<br>yellow (around 580 nm).', keywords: ['cone cells', 'red', '630 nm', 'green', '530 nm', 'signals', 'brain', 'yellow', '580 nm'] },
+        2: { text: 'So, the banana we see on smartphones<br>is not really yellow.', keywords: ['banana', 'smartphones', 'not really yellow'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 7 (PDF Page 8) - Command: 712
+    {
+      bg: '../assets/img/ReadBook/7.1.3/7.jpg',
+      zones: {
+        1: { text: 'The many colors we see on TV also<br>use this trick to make our brains<br>perceive colors in a special way.', keywords: ['colors', 'TV', 'trick', 'brains', 'perceive colors'] },
+        2: { text: 'In this way, our brains often interpret<br>colors differently from what they<br>really are.', keywords: ['brains', 'interpret colors', 'differently'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 8 (PDF Page 9) - Command: 812
+    {
+      bg: '../assets/img/ReadBook/7.1.3/8.jpg',
+      zones: {
+        1: { text: 'Rod cells become more important at<br>night when there is very little light.<br>Rod cells are stick-shaped cells<br>located away from the center of<br>the retina.', keywords: ['Rod cells', 'night', 'little light', 'stick-shaped cells', 'retina'] },
+        2: { text: 'Rod cells are very sensitive to light,<br>so they are mainly used at night to<br>sense brightness and the outlines<br>of objects. Unlike cone cells,<br>rod cells cannot tell apart colors.', keywords: ['Rod cells', 'sensitive to light', 'night', 'brightness', 'outlines of objects', 'cone cells', 'cannot tell apart colors'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 9 (PDF Page 10) - Command: 912
+    {
+      bg: '../assets/img/ReadBook/7.1.3/9.jpg',
+      zones: {
+        1: { text: 'Even the brightest flower will look<br>black and white under the faint<br>starlight on a dark night without the<br>moon. We can only see the flower\'s<br>outline in black and white.', keywords: ['flower', 'black and white', 'starlight', 'dark night', 'moon', 'outline'] },
+        2: { text: 'During the day, when there is plenty<br>of light, the three types of cone<br>cells process the light information.', keywords: ['day', 'light', 'three types of cone cells', 'process light information'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 10 (PDF Page 11) - Command: 1012
+    {
+      bg: '../assets/img/ReadBook/7.1.3/10.jpg',
+      zones: {
+        1: { text: 'However, the photoreceptor cells<br>are not evenly spread across the<br>retina. To see objects clearly, these<br>cells are gathered in a specific area.<br>Can you guess which area?', keywords: ['photoreceptor cells', 'not evenly spread', 'retina', 'objects clearly', 'gathered', 'specific area'] },
+        2: { text: 'It is none other than the macula<br>in the center of the retina.', keywords: ['macula', 'center of the retina'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 11 (PDF Page 12) - Command: 1112
+    {
+      bg: '../assets/img/ReadBook/7.1.3/11.jpg',
+      zones: {
+        1: { text: 'The macula is the part of the retina<br>with a high concentration of<br>photoreceptor cells.<br>It helps us see the light and details', keywords: ['macula', 'retina', 'high concentration', 'photoreceptor cells'] },
+        2: { text: 'The macula is a yellow, round spot on<br>the retina about 4 millimeters wide.<br>In the center of the macula is a small,<br>dimpled area called the fovea,<br>where cone cells are densely packed.', keywords: ['light', 'details', 'clearly', 'accurately', 'yellow', 'round spot', '4 millimeters wide', 'fovea', 'cone cells', 'densely packed'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 12 (PDF Page 13) - Command: 1212
+    {
+      bg: '../assets/img/ReadBook/7.1.3/12.jpg',
+      zones: {
+        1: { text: 'The macula takes up a tiny portion<br>of the retina.', keywords: ['macula', 'tiny portion', 'retina'] },
+        2: { text: 'However, when light from an object<br>enters our eyes, the lens focuses it<br>and sends it onto the macula.', keywords: ['light', 'object', 'eyes', 'lens', 'focuses', 'macula'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 13 (PDF Page 14) - Command: 1312
+    {
+      bg: '../assets/img/ReadBook/7.1.3/13.jpg',
+      zones: {
+        1: { text: 'The macula is important because it<br>helps our eyes move and focus on<br>things.', keywords: ['macula', 'eyes move', 'focus'] },
+        2: { text: 'Our eyes move differently when we<br>look at a specific object and a wide<br>scene.', keywords: ['eyes move', 'specific object', 'wide scene'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 14 (PDF Page 15) - Command: 1412
+    {
+      bg: '../assets/img/ReadBook/7.1.3/14.jpg',
+      zones: {
+        2: { text: 'But when we look at a wide scene,<br>our eyes move quickly in little jumps,<br>like a machine.', keywords: ['wide scene', 'eyes move quickly', 'little jumps', 'machine'] },
+        1: { text: 'When following a specific object,<br>our eyes move very slowly.', keywords: ['specific object', 'eyes move very slowly'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 15 (PDF Page 16) - Command: 1512
+    {
+      bg: '../assets/img/ReadBook/7.1.3/15.jpg',
+      zones: {
+        2: { text: 'But even when our eyes move<br>in jumps, our brain thinks they<br>move smoothly. Why is that?', keywords: ['eyes move in jumps', 'brain', 'smoothly'] },
+        1: { text: 'This is called<br>"saccadic eye movement."', keywords: ['saccadic eye movement'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 16 (PDF Page 17) - Command: 161
+    {
+      bg: '../assets/img/ReadBook/7.1.3/16.jpg',
+      zones: {
+        1: { text: 'Our eyes cannot see a wide area<br>all at once, but they quickly scan<br>the surroundings and send the<br>information to the macula.', keywords: ['eyes', 'wide area', 'scan surroundings', 'information', 'macula'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 17 (PDF Page 18) - Command: 171
+    {
+      bg: '../assets/img/ReadBook/7.1.3/17.jpg',
+      zones: {
+        1: { text: 'The macula is where light focuses,<br>so it can see visual information<br>clearly and accurately.', keywords: ['macula', 'light focuses', 'visual information', 'clearly', 'accurately'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    // Slide 18 (PDF Page 19) - Command: 1812
+    {
+      bg: '../assets/img/ReadBook/7.1.3/18.jpg',
+      zones: {
+        2: { text: 'In this way, our brain uses information<br>from the macula to see the world<br>more clearly.', keywords: ['brain', 'information', 'macula', 'see the world', 'clearly'] },
+        1: { text: 'The macula sends this information<br>to the brain, helping it quickly<br>understand the whole image.', keywords: ['macula', 'information', 'brain', 'quickly understand', 'whole image'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    }
+  ];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 
