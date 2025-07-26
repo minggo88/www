@@ -34,10 +34,7 @@ const CONFIG = {
         bottom: `${oldBottom} → ${newBottom}`
       });
       
-      // Zone 위치 변경 시 adjustForOrientation 실행
-      setTimeout(() => {
-        safeAdjustForOrientation();
-      }, 10);
+      // Zone 위치 변경 시 adjustForOrientation 실행 제거 - 성능 최적화
     }
   },
   setType2ZonePositionPercent: (zoneNumber, top, left, right, bottom) => {
@@ -79,10 +76,7 @@ const CONFIG = {
           fontSize: `${oldFontSize} → ${newFontSize}`
         });
         
-        // Zone 폰트 크기 변경 시 adjustForOrientation 실행
-        setTimeout(() => {
-          safeAdjustForOrientation();
-        }, 10);
+        // Zone 폰트 크기 변경 시 adjustForOrientation 실행 제거 - 성능 최적화
       }
     }
   },
@@ -169,29 +163,40 @@ const CONFIG = {
       CONFIG.setType2ZonePositionPercent(3, undefined, 17, undefined, 14);
     }
     if (zone4IsType2) {
-      CONFIG.setType2ZonePositionPercent(4, undefined, 110, undefined, 14);
+      CONFIG.setType2ZonePositionPercent(4, undefined, 107, undefined, 14);
     }
   }
 };
 
-// adjustForOrientation 래퍼 함수 - 텍스트 숨김/표시 처리
+// adjustForOrientation 래퍼 함수 - 성능 최적화된 버전
+let adjustTimeout = null;
 function safeAdjustForOrientation() {
-  // 모든 텍스트 영역을 임시로 숨기기
-  const textZones = document.querySelectorAll('.text-zone');
-  textZones.forEach(zone => {
-    zone.style.opacity = '0';
-    zone.style.transition = 'opacity 0.1s ease';
-  });
+  // 이미 실행 중인 경우 취소
+  if (adjustTimeout) {
+    clearTimeout(adjustTimeout);
+  }
   
-  // 위치 조정 실행
-  CONFIG.adjustForOrientation();
-  
-  // 위치 조정 완료 후 텍스트를 부드럽게 다시 나타나게 하기
-  setTimeout(() => {
+  // 디바운싱 적용 - 100ms 후에 실행
+  adjustTimeout = setTimeout(() => {
+    // 모든 텍스트 영역을 임시로 숨기기
+    const textZones = document.querySelectorAll('.text-zone');
     textZones.forEach(zone => {
-      zone.style.opacity = '1';
-      zone.style.transition = 'opacity 0.3s ease';
+      zone.style.opacity = '0';
+      zone.style.transition = 'opacity 0.1s ease';
     });
+    
+    // 위치 조정 실행
+    CONFIG.adjustForOrientation();
+    
+    // 위치 조정 완료 후 텍스트를 부드럽게 다시 나타나게 하기
+    setTimeout(() => {
+      textZones.forEach(zone => {
+        zone.style.opacity = '1';
+        zone.style.transition = 'opacity 0.3s ease';
+      });
+    }, 100);
+    
+    adjustTimeout = null;
   }, 100);
 }
 
@@ -455,10 +460,8 @@ function renderSlide(idx) {
   // 나머지 기존 기능(애니메이션, 화살표, drag 등) 유지
   // zone 위치는 adjustForOrientation()에서 자동으로 설정됨
   
-  // 슬라이드 렌더링 후 위치 조정
-  setTimeout(() => {
-    safeAdjustForOrientation();
-  }, 100);
+  // 슬라이드 렌더링 후 위치 조정 - 한 번만 실행
+  safeAdjustForOrientation();
 
   // 갤럭시 탭 최적화 텍스트 애니메이션
   // 항상 모든 p에 visible 클래스 추가
@@ -732,10 +735,7 @@ window.addEventListener('resize', () => {
     orientation: window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
   });
   setScreenHeight();
-  // Screen size changed 로그 후 adjustForOrientation 실행
-  setTimeout(() => {
-    safeAdjustForOrientation();
-  }, 10);
+  // 성능 최적화 - resize 이벤트에서 safeAdjustForOrientation 호출 제거
 });
 window.addEventListener('orientationchange', () => {
   console.log('Orientation changed:', {
@@ -745,7 +745,7 @@ window.addEventListener('orientationchange', () => {
   });
   setTimeout(() => {
     setScreenHeight();
-    safeAdjustForOrientation();
+    // 성능 최적화 - orientationchange 이벤트에서 safeAdjustForOrientation 호출 제거
   }, 100); // 방향 변경 후 짧은 지연
 });
 
