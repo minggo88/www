@@ -1,0 +1,983 @@
+/* --- style.css 전체 --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow: hidden;
+  font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+  background: transparent;
+  position: fixed; /* 전체화면 고정 */
+}
+body {
+  background: transparent;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* iOS Safari 전체화면 */
+  -webkit-appearance: none;
+  /* Android Chrome 전체화면 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tabbar-modal-overlay {
+  display: none;
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  z-index: 9998;
+}
+#tabbar-container {
+  width: auto;
+  min-width: 340px;
+  max-width: 90vw;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+  z-index: 9999;
+  padding: 32px 32px 18px 32px;
+}
+#tabbar-container.show-tabbar {
+  display: flex;
+}
+#tabbar-container.show-tabbar ~ #tabbar-modal-overlay {
+  display: block;
+}
+#tabbar {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 18px 0;
+}
+.tab {
+  background: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 8px 8px 0 0;
+  padding: 12px 48px;
+  min-width: 160px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.tab.active {
+  background: #222;
+  color: #fff;
+  border-bottom: 2px solid #222;
+}
+#searchbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+#searchInput {
+  padding: 8px 14px;
+  font-size: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  outline: none;
+}
+#searchBtn {
+  padding: 8px 18px;
+  font-size: 1rem;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#searchBtn:hover {
+  background: #444;
+}
+.slide-container {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  pointer-events: auto;
+  overflow: hidden;
+}
+.slide {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  pointer-events: auto;
+}
+.slide-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  display: block;
+}
+.arrow {
+  position: absolute;
+  top: 50%;
+  font-size: 3.5rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0.1em 0.4em;
+  border-radius: 0.5em;
+  user-select: none;
+  opacity: 0.7;
+  transition: opacity 0.3s, box-shadow 0.2s, background 0.2s;
+  pointer-events: auto;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: bold;
+  line-height: 1;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+  border: 1.5px solid #e0e0e0;
+}
+.arrow.left { left: 32px; }
+.arrow.right { right: 32px; }
+.arrow:not(:hover):not(:focus):not(:active) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.arrow:hover,
+.arrow:focus,
+.arrow:active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* 기본 zone 스타일 */
+.text-zone, .text-zone p {
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal;
+}
+
+.text-zone:empty::before {
+  content: '\00a0';
+  display: block;
+}
+
+.text-zone {
+  position: absolute;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  line-height: 1.4;
+  z-index: 10;
+  word-wrap: break-word;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background: transparent;
+  border-radius: 0;
+  backdrop-filter: none;
+  transition: all 0.3s ease;
+}
+
+/* 가로 모드 (landscape) */
+@media screen and (orientation: landscape) {
+  .text-zone {
+    font-size: 2vw;
+  }
+}
+
+/* 세로 모드 (portrait) */
+@media screen and (orientation: portrait) {
+  .text-zone {
+    font-size: 2.5vh;
+  }
+}
+
+/* 모바일 세로모드에서 필터 탭 크기 조정 */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  #tabbar-container {
+    min-width: 280px;
+    max-width: 95vw;
+    padding: 20px 20px 12px 20px;
+  }
+  
+  #tabbar {
+    gap: 4px;
+    margin: 0 0 12px 0;
+  }
+  
+  .tab {
+    padding: 6px 12px;
+    min-width: 80px;
+    font-size: 0.8rem;
+    border-radius: 6px 6px 0 0;
+  }
+  
+  #searchbox {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  
+  #searchInput {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+  }
+  
+  #searchBtn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+  }
+}
+
+/* 텍스트 애니메이션 */
+.text-zone p {
+  color: #222;
+          font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+        font-weight: 600;
+        font-size: 25px;
+        line-height: 1.3;
+  letter-spacing: -0.05em;
+  text-shadow:
+    1px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px -1px 0 #fff,
+    0.5px 0.5px 1px rgba(0,0,0,0.1) !important;
+  filter: none !important;
+  max-width: none;
+  width: auto;
+  z-index: 50;
+  pointer-events: auto;
+  text-align: left;
+  word-break: break-word;
+  hyphens: auto;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* 명사 버튼 스타일 */
+.noun-span {
+  cursor: pointer;
+  pointer-events: auto;
+  color: #222;
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.noun-span:hover {
+  background-color: transparent !important;
+}
+.noun-span:active {
+  background-color: transparent !important;
+}
+
+.text-zone p.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.text-zone p.done {
+  opacity: 1;
+  transform: translateY(0);
+  transition: none;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .text-zone.zone-1,
+  .text-zone.zone-2,
+  .text-zone.zone-3,
+  .text-zone.zone-4 {
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    text-align: left !important;
+    word-break: break-word;
+    white-space: normal;
+  }
+  
+  /* 위치는 JavaScript에서 제어 */
+  
+  .arrow {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  .arrow.left { left: 16px; }
+  .arrow.right { right: 16px; }
+}
+
+@media (max-width: 900px) {
+  #tabbar-container {
+    min-width: 180px;
+    max-width: 98vw;
+    padding: 12px 6px 8px 6px;
+    border-radius: 10px;
+  }
+  #tabbar {
+    gap: 3px;
+    margin: 0 0 8px 0;
+  }
+  .tab {
+    padding: 5px 8px;
+    border-radius: 6px 6px 0 0;
+  }
+  #searchbox {
+    gap: 3px;
+    margin-bottom: 4px;
+  }
+  #searchInput {
+    padding: 4px 7px;
+    border-radius: 4px;
+  }
+  #searchBtn {
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+} 
+
+/* 갤럭시탭(가로/세로) 화면 최적화 */
+@media (min-width: 800px) and (max-width: 1400px) and (min-height: 600px) and (max-height: 1100px) {
+  html, body {
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+  .slide-container, .slide {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+  .text-zone, .text-zone p {
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    line-height: 1.3;
+  }
+  .text-zone.zone-1 {
+    top: 80px;
+    left: 48px;
+  }
+  .text-zone.zone-2 {
+    top: 80px;
+    right: 48px;
+  }
+  .text-zone.zone-3 {
+    bottom: 120px;
+    left: 48px;
+  }
+  .text-zone.zone-4 {
+    bottom: 120px;
+    right: 48px;
+  }
+  .arrow {
+    font-size: 2.5rem;
+    left: 24px;
+    right: 24px;
+  }
+  #tabbar-container {
+    min-width: 220px;
+    max-width: 80vw;
+    padding: 18px 12px 10px 12px;
+    border-radius: 12px;
+  }
+  #searchInput {
+    padding: 10px 16px;
+  }
+  #searchBtn {
+    padding: 10px 20px;
+  }
+}
+
+/* 갤럭시 탭 세로 모드 (10:16) 최적화 */
+@media screen and (orientation: portrait) and (min-width: 600px) and (max-width: 1200px) {
+  .text-zone {
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  
+  .text-zone p {
+    line-height: 1.3;
+  }
+  
+  .text-zone.zone-1 {
+    top: 6vh;
+    left: 4vw;
+  }
+  
+  .text-zone.zone-2 {
+    top: 6vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .text-zone.zone-3 {
+    bottom: 6vh;
+    left: 4vw;
+  }
+  
+  .text-zone.zone-4 {
+    bottom: 6vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .arrow {
+    font-size: 2.2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
+  }
+  
+  .arrow.left {
+    left: 25px;
+  }
+  
+  .arrow.right {
+    right: 25px;
+  }
+  
+  #tabbar-container {
+    min-width: 300px;
+    max-width: 85vw;
+    padding: 24px 20px 16px;
+  }
+}
+
+/* 갤럭시 탭 가로 모드 (16:10) 최적화 */
+@media screen and (orientation: landscape) and (min-width: 1000px) and (max-width: 2000px) {
+  .text-zone {
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  
+  .text-zone p {
+    line-height: 1.3;
+  }
+  
+  .text-zone.zone-1 {
+    top: 8vh;
+    left: 6vw;
+  }
+  
+  .text-zone.zone-2 {
+    top: 8vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .text-zone.zone-3 {
+    bottom: 8vh;
+    left: 6vw;
+  }
+  
+  .text-zone.zone-4 {
+    bottom: 8vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .arrow {
+    font-size: 3rem;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
+  }
+  
+  .arrow.left {
+    left: 40px;
+  }
+  
+  .arrow.right {
+    right: 40px;
+  }
+  
+  #tabbar-container {
+    min-width: 400px;
+    max-width: 80vw;
+    padding: 32px 28px 20px;
+  }
+}
+
+/* 고해상도 갤럭시 탭 (2560x1600) 최적화 */
+@media screen and (min-width: 2000px) {
+  .text-zone {
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  
+  .text-zone p {
+    line-height: 1.3;
+  }
+  
+  .arrow {
+    font-size: 3.5rem;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
+  }
+  
+  .arrow.left {
+    left: 60px;
+  }
+  
+  .arrow.right {
+    right: 60px;
+  }
+  
+  #tabbar-container {
+    min-width: 500px;
+    max-width: 75vw;
+    padding: 40px 36px 24px;
+  }
+  
+  .tab {
+    padding: 12px 28px;
+  }
+  
+  #searchInput {
+    padding: 12px 20px;
+  }
+  
+  #searchBtn {
+    padding: 12px 24px;
+  }
+}
+
+/* 터치 제스처 최적화 */
+.slide-container {
+  touch-action: pan-x;
+}
+
+/* 화살표 터치 최적화 */
+.arrow:hover,
+.arrow:focus,
+.arrow:active {
+  opacity: 1;
+  background: transparent;
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* 전체화면에서 화살표 항상 표시 */
+.arrow {
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+/* 갤럭시 탭에서 터치 시 화살표 표시 */
+.slide-container:hover .arrow {
+  opacity: 0.8;
+}
+
+/* iOS Safari 전용 전체화면 스타일 */
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+}
+
+/* 안드로이드 크롬 전용 전체화면 스타일 */
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+  html, body {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+/* 터치 디바이스에서 화살표 항상 표시 */
+@media (hover: none) {
+  .arrow {
+    opacity: 0.7;
+  }
+  
+  .arrow:active {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+/* 전체화면에서 터치 이벤트 보장 */
+.slide-container {
+  pointer-events: auto;
+  touch-action: pan-x;
+}
+
+.slide {
+  pointer-events: auto;
+}
+
+/* 성능 최적화 */
+.slide-bg {
+  will-change: transform;
+}
+
+.text-zone {
+  will-change: opacity, transform;
+}
+
+.arrow {
+  will-change: opacity, transform;
+}
+
+/* 접근성 개선 */
+.arrow:focus {
+  outline: 3px solid #007bff;
+  outline-offset: 2px;
+}
+
+.tab:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+#searchInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+#searchBtn:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* 페이지 인디케이터 호버 효과 */
+#page-indicator:hover {
+  opacity: 1 !important;
+}
+
+/* 페이지 인디케이터 기본 스타일 */
+.page-dot {
+  background: rgba(255,255,255,0.3) !important;
+  border: 2px solid rgba(255,255,255,0.1) !important;
+}
+
+.page-dot.active {
+  background: #fff !important;
+  border: 2px solid #fff !important;
+}
+
+/* 갤럭시 탭 S9 최적화 (가로/세로 모드 모두) */
+@media screen and (min-width: 800px) and (max-width: 1400px) and (min-height: 600px) and (max-height: 1100px),
+       screen and (orientation: portrait) and (min-width: 600px) and (max-width: 1200px) {
+  /* 슬라이드 버튼 숨기기 (일반 화면 + 전체화면) */
+  .arrow {
+    display: none !important;
+  }
+  
+  /* 갤럭시 탭 S9에서 페이지 인디케이터 기본 회색 */
+  .page-dot {
+    background: rgba(128,128,128,0.4) !important;
+    border: 2px solid rgba(128,128,128,0.2) !important;
+  }
+  
+  .page-dot.active {
+    background: rgba(128,128,128,0.8) !important;
+    border: 2px solid rgba(128,128,128,0.6) !important;
+  }
+  
+  .page-dot:hover {
+    background: rgba(128,128,128,0.6) !important;
+    transform: scale(1.2) !important;
+  }
+  
+  /* 전체화면일 때만 페이지 인디케이터 강제 표시 */
+  :fullscreen #page-indicator,
+  :-webkit-full-screen #page-indicator,
+  :-moz-full-screen #page-indicator,
+  :-ms-fullscreen #page-indicator,
+  html:fullscreen #page-indicator,
+  html:-webkit-full-screen #page-indicator,
+  html:-moz-full-screen #page-indicator,
+  html:-ms-fullscreen #page-indicator,
+  body:fullscreen #page-indicator,
+  body:-webkit-full-screen #page-indicator,
+  body:-moz-full-screen #page-indicator,
+  body:-ms-fullscreen #page-indicator {
+    opacity: 1 !important;
+    display: flex !important;
+    z-index: 10000 !important;
+  }
+  
+  /* 전체화면일 때 페이지 인디케이터 검은색으로 변경 */
+  :fullscreen .page-dot,
+  :-webkit-full-screen .page-dot,
+  :-moz-full-screen .page-dot,
+  :-ms-fullscreen .page-dot,
+  html:fullscreen .page-dot,
+  html:-webkit-full-screen .page-dot,
+  html:-moz-full-screen .page-dot,
+  html:-ms-fullscreen .page-dot,
+  body:fullscreen .page-dot,
+  body:-webkit-full-screen .page-dot,
+  body:-moz-full-screen .page-dot,
+  body:-ms-fullscreen .page-dot {
+    background: rgba(0,0,0,0.5) !important;
+    border: 2px solid rgba(0,0,0,0.3) !important;
+  }
+  
+  :fullscreen .page-dot.active,
+  :-webkit-full-screen .page-dot.active,
+  :-moz-full-screen .page-dot.active,
+  :-ms-fullscreen .page-dot.active,
+  html:fullscreen .page-dot.active,
+  html:-webkit-full-screen .page-dot.active,
+  html:-moz-full-screen .page-dot.active,
+  html:-ms-fullscreen .page-dot.active,
+  body:fullscreen .page-dot.active,
+  body:-webkit-full-screen .page-dot.active,
+  body:-moz-full-screen .page-dot.active,
+  body:-ms-fullscreen .page-dot.active {
+    background: #000 !important;
+    border: 2px solid #000 !important;
+  }
+  
+  /* 전체화면일 때 페이지 인디케이터 호버 효과도 검은색으로 */
+  :fullscreen .page-dot:hover,
+  :-webkit-full-screen .page-dot:hover,
+  :-moz-full-screen .page-dot:hover,
+  :-ms-fullscreen .page-dot:hover,
+  html:fullscreen .page-dot:hover,
+  html:-webkit-full-screen .page-dot:hover,
+  html:-moz-full-screen .page-dot:hover,
+  html:-ms-full-screen .page-dot:hover,
+  body:fullscreen .page-dot:hover,
+  body:-webkit-full-screen .page-dot:hover,
+  body:-moz-full-screen .page-dot:hover,
+  body:-ms-fullscreen .page-dot:hover {
+    background: rgba(0,0,0,0.7) !important;
+    transform: scale(1.2) !important;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a1a;
+  }
+  
+  .text-zone {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .text-zone p {
+    color: #f0f0f0;
+  }
+  
+  #tabbar-container {
+    background: #2d2d2d;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .tab {
+    background: #3a3a3a;
+    border: 1px solid #555;
+    color: #f0f0f0;
+  }
+  
+  .tab.active {
+    background: #fff;
+    color: #222;
+  }
+  
+  #searchInput {
+    background: #3a3a3a;
+    border: 2px solid #555;
+    color: #f0f0f0;
+  }
+  
+  #searchInput:focus {
+    border-color: #fff;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+  }
+} 
+
+.text-zone, .slide-container {
+  pointer-events: auto !important;
+}
+
+#fs-btn {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 100001;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  transition: opacity 0.3s;
+}
+#fs-btn.hide { opacity: 0; pointer-events: none; }
+
+/* 유튜브 플레이어 슬라이드 애니메이션 */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 800px;
+  }
+}
+
+/* 유튜브 플레이어 강제 크기 설정 */
+.yt-inline-player {
+  width: 100% !important;
+  height: 600px !important;
+  min-height: 600px !important;
+  max-height: 800px !important;
+}
+
+.yt-inline-player iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 600px !important;
+}
+
+/* YouTube 플레이어 애니메이션 */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#tabbar-close-btn { display: none !important; }
+
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  .text-zone p {
+    text-shadow:
+      1px 1px 0 #fff,
+      -1px 1px 0 #fff,
+      1px -1px 0 #fff,
+      -1px -1px 0 #fff,
+      0.5px 0.5px 1px rgba(0,0,0,0.1) !important;
+    filter: none !important;
+  }
+}
+
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  #story-start-btn {
+    top: 52% !important;
+    right: 5% !important;
+  }
+  #page-indicator {
+    bottom: 38% !important;
+    gap: 4px !important;
+  }
+  #page-indicator .page-dot {
+    width: 8px !important;
+    height: 8px !important;
+    border-width: 1.5px !important;
+  }
+}
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  #story-start-btn {
+    right: 13% !important;
+    top: 54% !important;
+  }
+}
+
+.arrow.left,
+.arrow.right {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s;
+}
+.arrow.left:hover,
+.arrow.right:hover {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.slide-container:hover .arrow.left,
+.slide-container:hover .arrow.right {
+  opacity: 1;
+  pointer-events: auto !important;
+} 
