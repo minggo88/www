@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>KG1.1.1.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+  <link rel="icon" href="../assets/img/ReadBook/G1.1.1/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/G1.1.1/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/3.jpg',
+    zones: {
+      1: { text: 'What would happen if the sun suddenly disappeared<br>one day? Could we survive without rivers and seas,<br>the sources of life? It is impossible to imagine life<br>without drinking water and food.<br>"Nature" is everything spontaneously created in the<br>environment, such as the mountains, rivers, oceans,<br>and living organisms. Everything that surrounds us<br>is our environment, and what remains unchanged by<br>human touch is called the "natural environment."', keywords: ['sun', 'rivers', 'seas', 'water', 'food', 'nature', 'environment', 'natural environment'], fontType: 'type1' },
+      2: { text: 'The natural environment breaks down into two<br>components: living matter, "organisms," such as<br>animals and plants, or nonliving matter, "inanimate<br>objects," such as air, water, mountains, fields, and<br>rivers. Regardless, humans are also a part of the<br>natural environment.', keywords: ['organisms', 'animals', 'plants', 'inanimate objects', 'air', 'water', 'mountains', 'humans'], fontType: 'type1' },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain what humans need to survive.', keywords: ['humans', 'survive'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/4.jpg',
+    zones: {
+      1: { text: 'People receive immeasurable help from nature to<br>survive. Nature generously provides not only food and<br>clothes but also various necessities for sustaining life.<br>The air allows us to breathe comfortably. The river<br>offers drinking water, while the ocean gives us fish<br>and salt. Humans could not survive even a few minutes<br>without the help of nature.', keywords: ['nature', 'food', 'clothes', 'air', 'breathe', 'river', 'ocean', 'fish', 'salt'] },
+      2: { text: 'Humans, an integral part of nature, cannot be<br>separated from it. Shall we explore what crucial living<br>and non-living things exist in the natural environment?<br>Living organisms are literally alive and are also known<br>as just organisms.', keywords: ['humans', 'nature', 'living', 'non-living', 'organisms'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/5.jpg',
+    zones: {
+      1: { text: 'All organisms breathe, consume nutrients, and<br>reproduce. They have continuously evolved their<br>shapes and characteristics and produced numerous<br>descendants since the birth of the Earth. Humans<br>are no exception to this evolutionary process.', keywords: ['organisms', 'breathe', 'nutrients', 'reproduce', 'evolved', 'descendants', 'Earth', 'humans'] },
+      2: { text: 'As the most intelligent living organism among all<br>constituents of nature, they strived to understand<br>the other life forms in their world.<br>They devised a method to classify organisms based<br>on similar traits. Biologists particularly excel at<br>classifying living organisms.', keywords: ['intelligent', 'organism', 'nature', 'classify', 'traits', 'biologists'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/6.jpg',
+    zones: {
+      1: { text: 'The botanist Carl Linnaeus was the first to formulate<br>the method of biological classification.<br>He grouped plants with similar shapes and traits after<br>carefully observing each one. Then, he applied the<br>same method to categorize animals.', keywords: ['Carl Linnaeus', 'botanist', 'biological classification', 'plants', 'shapes', 'traits', 'animals'] },
+      2: { text: 'However, a problem arose during this process.<br>For example, the animal we call "cat" in English is<br>called by various names in the different languages<br>of each country. This is bound to become a problem.', keywords: ['problem', 'cat', 'English', 'languages', 'country'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain the common traits of all living organisms.', keywords: ['traits', 'living organisms'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/7.jpg',
+    zones: {
+      1: { text: 'Thus, biologists named cats "Felis catus," regardless<br>of country or language. "Scientific name" refers to<br>the standardized name assigned to classify organisms.<br>Linnaeus was the first to establish the foundation<br>of scientific names.<br>Then, can we classify living organisms into smaller<br>groups? How about dividing them based on those<br>that can move on their own and those that cannot?', keywords: ['biologists', 'Felis catus', 'scientific name', 'Linnaeus', 'organisms', 'classify'] },
+      2: { text: 'Living organisms that move on their own are called<br>"animals." Animals must catch and consume other<br>organisms since they cannot produce their own<br>nutrients. They need to move diligently to find food<br>or mate.<br>On the other hand, plants anchor their root in one<br>place over a long period. This is because they can<br>produce nutrients to survive even without moving.<br>Through photosynthesis, plants generate their own<br>food factories to produce nutrients using sunlight,<br>carbon dioxide, and water.', keywords: ['animals', 'move', 'nutrients', 'food', 'mate', 'plants', 'root', 'photosynthesis', 'sunlight', 'carbon dioxide', 'water'] },
+      3: { text: 'What is the benefit of assigning a scientific name<br>to an organism?', keywords: ['scientific name', 'organism'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/8.jpg',
+    zones: {
+      1: { text: 'Consider the biologist Linnaeus. What would be his<br>very first step in classifying organisms? How about<br>finding organisms that can be grouped together with<br>humans?<br>A pregnant woman carries a baby in her womb for<br>about ten months before giving birth. The newborn<br>baby feeds on the mother\'s milk and grows. Humans<br>strictly maintain their body temperature at 36.5 °C.<br>Animals that give birth, feed milk, and maintain a<br>constant body temperature like humans are called<br>"mammals."', keywords: ['Linnaeus', 'organisms', 'humans', 'pregnant', 'birth', 'milk', 'body temperature', 'mammals'] },
+      2: { text: 'Are immobile organisms like mushrooms and mold also<br>considered plants? While photosynthesis is a distinct<br>characteristic of plants, mushrooms and mold cannot<br>perform photosynthesis.<br>Since they cannot produce nutrients independently,<br>they must attach themselves to dead animals or<br>plants to survive. These organisms are called "fungi."', keywords: ['mushrooms', 'mold', 'plants', 'photosynthesis', 'nutrients', 'fungi'] },
+      3: { text: 'Lions, tigers, horses, cows, and deer belong to<br>mammals. Even whales living in the sea are categorized<br>as mammals since they give birth to offspring and<br>manage a constant temperature.', keywords: ['lions', 'tigers', 'horses', 'cows', 'deer', 'mammals', 'whales', 'sea', 'offspring'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/9.jpg',
+    zones: {
+      1: { text: 'Mammals also include animals with pouches called<br>"marsupials." Marsupial babies are not fully developed<br>when they are born. The newborn baby feeds on milk<br>inside its mother\'s pouch, marsupium.', keywords: ['mammals', 'marsupials', 'pouches', 'babies', 'developed', 'milk', 'marsupium'] },
+      2: { text: 'Kangaroos are the most representative marsupial<br>in Australia. Other marsupials akin to kangaroos are<br>wallabies, koalas, and opossums. Do all mammals give<br>birth and nurture their offspring?<br>Surprisingly, some mammals known as "monotremes"<br>lay eggs. While most mammals have separate openings<br>for excretion and giving birth, monotremes have<br>a single opening for both functions. Hence, they are<br>called monotremes, meaning "animals with a single<br>opening".', keywords: ['kangaroos', 'Australia', 'marsupial', 'wallabies', 'koalas', 'opossums', 'mammals', 'monotremes', 'eggs', 'opening'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'What are the common traits of animals called<br>mammals?', keywords: ['traits', 'mammals'] , fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/10.jpg',
+    zones: {
+      1: { text: 'Monotremes have unique features that set them<br>apart from other animals. For example, a platypus has<br>a duck\'s bill, a beaver\'s tail, and webbed feet with<br>claws. Also, the echidna resembles an anteater, but its<br>pointed fur gives it a hedgehog-like appearance.', keywords: ['monotremes', 'platypus', 'duck', 'bill', 'beaver', 'tail', 'webbed feet', 'echidna', 'anteater', 'hedgehog'] },
+      2: { text: 'Can we categorize lizards and salamanders into the<br>same group of organisms? Although they appear similar<br>and are both active on land, they are in two distinct<br>classes. Lizards are reptiles while salamanders are<br>amphibians.<br>Reptiles breathe through their lungs, and their body<br>temperature fluctuates according to their surrounding<br>environment. Also, they reproduce by laying eggs.<br>Snakes, turtles, and crocodiles are other examples<br>of reptiles. Like reptiles, amphibians also lay eggs to<br>reproduce and their body temperature varies with<br>the environment.', keywords: ['lizards', 'salamanders', 'organisms', 'reptiles', 'amphibians', 'lungs', 'body temperature', 'eggs', 'snakes', 'turtles', 'crocodiles'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why a kangaroo raises its offspring in its<br>pouch.<br>Check Point 05', keywords: ['kangaroo', 'offspring', 'pouch'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/11.jpg',
+    zones: {
+      1: { text: 'Then how do we distinguish between amphibians and<br>reptiles? Young amphibians live in water and must<br>breathe through their gills. However, as they mature,<br>they breathe through their lungs and skin, allowing<br>them to live both in water and on land. That is why<br>offspring and parent amphibians look entirely different.<br>In contrast, young reptiles look the same as their<br>adult forms. Moreover, reptiles and amphibians have<br>completely different skin.', keywords: ['amphibians', 'reptiles', 'water', 'gills', 'lungs', 'skin', 'land', 'offspring'] },
+      2: { text: 'Hard scales or plates cover reptile skin to prevent<br>moisture from escaping. This allows them to thrive in<br>extremely hot regions like the desert.<br>In contrast, amphibians have exposed bare skin. They<br>must live by the water because they breathe in the<br>oxygen dissolved in the water, soaking their skin.<br>Other amphibians include frogs, toads, and newts.', keywords: ['scales', 'plates', 'reptile skin', 'moisture', 'desert', 'amphibians', 'bare skin', 'oxygen', 'water', 'frogs', 'toads', 'newts'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/12.jpg',
+    zones: {
+      1: { text: 'Non-living components of the natural environment<br>are called inanimate objects. Some inanimate objects<br>vital to our existence include the air we breathe, the<br>soil beneath our feet, and the daily water we drink.', keywords: ['non-living', 'natural environment', 'inanimate objects', 'air', 'soil', 'water'] },
+      2: { text: 'Inanimate objects are essential for living organisms to<br>thrive. Sunlight, air, and water are inanimate objects<br>crucial for the survival of all living organisms. Then,<br>are viruses living or inanimate?<br>Rod-shaped or spherical viruses contain nucleic acid,<br>a genetic material vital for the survival of all living<br>organisms. They even exhibit some characteristics of<br>living organisms.', keywords: ['inanimate objects', 'living organisms', 'sunlight', 'air', 'water', 'viruses', 'nucleic acid', 'genetic material'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'What inanimate objects exist in nature?<br>Check Point 06', keywords: ['inanimate objects', 'nature'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/13.jpg',
+    zones: {
+      1: { text: 'Organisms have the inherent instinct to utilize the<br>energy obtained from food to pass on their genetic<br>material over generations. However, unlike typical<br>living organisms, viruses lack the ability to grow<br>independently.<br>Viruses can only survive by entering another organism<br>and replicate themselves to multiply offspring.<br>As a result, scientists consider viruses to be an<br>intermediate stage between the living and non-living<br>things. "Ecosystem" refers to the interaction<br>between living and non-living things in the natural<br>environment.', keywords: ['organisms', 'energy', 'food', 'genetic material', 'viruses', 'grow', 'replicate', 'offspring', 'scientists', 'ecosystem'] },
+      2: { text: 'Mathematics is the study to uncover the secrets<br>of nature. Observing nature is the first step to<br>uncovering the secrets of nature. It is essential to<br>classify the discovery after observation. This includes<br>distinguishing between living and non-living things<br>and categorizing animals and plants based on their<br>distinct characteristics.<br><br>01. Nature Is Open to All<br>Ⅰ. What Is the Purpose of Studying Nature<br>That Is Open to All?', keywords: ['mathematics', 'secrets', 'nature', 'observing', 'classify', 'discovery', 'living', 'non-living', 'animals', 'plants', 'characteristics'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/14.jpg',
+    zones: {
+      1: { text: 'Naturally, effective classification requires a deep<br>understanding of the characteristics of objects in<br>nature. For example, it is necessary to establish some<br>criteria and systematically confirm them to classify<br>living organisms into plants and animals. In other<br>words, organisms that can move on their own are<br>animals, and organisms that stay in one place are<br>plants.<br>Organisms that produce their own nutrients through<br>photosynthesis are plants. If they must consume<br>other organisms to survive, they are animals. Through<br>this process, we can find some organisms that fall<br>between the two categories: plants and animals.', keywords: ['classification', 'characteristics', 'nature', 'criteria', 'organisms', 'plants', 'animals', 'move', 'nutrients', 'photosynthesis'] },
+      2: { text: 'Nature is open to anyone, calling us to uncover its<br>hidden secrets. Nature does not discriminate between<br>child or adult, good or bad. Therefore, we must<br>approach nature open-mindedly to fully grasp what<br>it longs to give. We study nature, open to everyone,<br>to gain ideas in advanced industries that can make<br>people happy.', keywords: ['nature', 'open', 'secrets', 'discriminate', 'child', 'adult', 'open-mindedly', 'industries', 'people', 'happy'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/15.jpg',
+    zones: {
+      1: { text: '(1) We can classify nature into living and non-living things.<br>Also, we can further classify living organisms into<br>plants and animals. How can we further classify plants<br>and animals into even smaller groups?<br><br>(2) Although nature is open to everyone, some places and<br>organisms are not easily approachable to humans.<br>What are some examples of nature that do not permit<br>human access?', keywords: ['classify', 'nature', 'living', 'non-living', 'organisms', 'plants', 'animals', 'humans', 'access'] },
+      2: { text: 'Nature constantly communicates with us. Observing<br>nature can lead to the discovery of technology to<br>make people happy. For example, animals living in<br>nature each have a unique survival method.<br><br>01. Nature Is Open to All<br>Ⅱ. How Can We Apply the Study of Nature<br>That Is Open to All?', keywords: ['nature', 'communicates', 'observing', 'discovery', 'technology', 'people', 'happy', 'animals', 'survival method'] },
+      3: { text: 'Exploring the World of Math with Children', keywords: ['exploring', 'world', 'math', 'children'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/16.jpg',
+    zones: {
+      1: { text: 'Land creatures like humans cannot survive<br>underwater like fish. Land creatures breathe with<br>their lungs, while fish breathe with their gills.<br>That is why scuba divers carry large oxygen tanks<br>on their backs for diving.', keywords: ['land creatures', 'humans', 'underwater', 'fish', 'lungs', 'gills', 'scuba divers', 'oxygen tanks'] },
+      2: { text: 'We could explore the oceans more freely if we could<br>create a device applying our knowledge of how<br>fish gills operate. However, a breathing apparatus<br>operating on the principle of gills has not yet been<br>invented. Viruses, in the middle stage between living<br>and non-living, reproduce offspring faster than any<br>organism.', keywords: ['oceans', 'device', 'fish gills', 'breathing apparatus', 'principle', 'viruses', 'living', 'non-living', 'reproduce', 'offspring', 'organism'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/17.jpg',
+    zones: {
+      1: { text: 'Could we utilize the properties of viruses to create<br>fast-growing plants? This could rescue people<br>starving from the lack of food.<br>Nature does not easily expose its secrets. Moreover,<br>it is difficult to recognize the regularities concealed<br>in nature where creation and extinction coexist.<br>Nature provides clues only to those who approach it<br>closely and observe it persistently.', keywords: ['viruses', 'properties', 'fast-growing plants', 'people', 'starving', 'food', 'nature', 'secrets', 'regularities', 'creation', 'extinction', 'clues'] },
+      2: { text: '', keywords: [] },
+      3: { text: '(1) Organisms take on different forms depending on the<br>environment they live in. What are some technologies<br>that utilize the appearance of organisms? Explain.<br><br>(2) The standardized name used to classify organisms is<br>"scientific name." Why do we use scientific names?', keywords: ['organisms', 'forms', 'environment', 'technologies', 'appearance', 'scientific name', 'classify'] },
+      4: { text: 'Exploring the World of Math with Children', keywords: ['exploring', 'world', 'math', 'children'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/18.jpg',
+    zones: {
+      1: { text: 'Have you ever heard of parasites? It refers to a living<br>organism that attaches itself to another organism and<br>causes harm. The creatures in the movie series Aliens are<br>parasites. After hatching, the offspring enters the human<br>body and emerges when fully grown. It is dreadful to<br>simply think about it.<br>The ecosystem does not only have parasitic relationships<br>that create negative effects. Some organisms help each<br>other in "symbiosis," meaning they live together in harmony.<br>The clownfish and sea anemone are examples of a symbiotic<br>relationship. The sea anemone protects the clownfish from<br>its predators with poison, while the clownfish lures prey to<br>the sea anemone or shares its food. What other organisms<br>have symbiotic relationships?', keywords: ['parasites', 'organism', 'harm', 'Aliens', 'offspring', 'human body', 'ecosystem', 'symbiosis', 'harmony', 'clownfish', 'sea anemone', 'predators', 'poison', 'prey'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'General Practice Problem 01', keywords: ['general practice', 'problem'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/19.jpg',
+    zones: {
+      1: { text: 'Nature can be broadly classified into living and non-living<br>things. Things that have life, such as plants and animals,<br>are called living things, and things that do not have life,<br>such as soil, water, clouds, and the moon, are called<br>non-living things.<br>Can living things survive without these non-living things?<br>For example, if the sun disappeared, plants, unable to<br>perform photosynthesis, would wither and die. Herbivores,<br>dependent on plants for sustenance, would also vanish.<br>In turn, carnivores and humans, who rely on herbivores<br>for food, would also die out. Additionally, if essential<br>components like air and water, often taken for granted,<br>were to disappear, all life on Earth would also cease to exist.', keywords: ['nature', 'living things', 'non-living things', 'plants', 'animals', 'soil', 'water', 'clouds', 'moon', 'sun', 'photosynthesis', 'herbivores', 'carnivores', 'humans', 'air', 'Earth'] },
+      2: { text: 'On the contrary, what would happen if all living organisms<br>disappeared from Earth?<br>Even the gentlest breeze would cause dust to rise from<br>the exposed soil. All land might turn into a desert without<br>the trees containing water. Now, explain how living things<br>support non-living things.', keywords: ['living organisms', 'Earth', 'breeze', 'dust', 'soil', 'land', 'desert', 'trees', 'water'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'General Practice Problem 02', keywords: ['general practice', 'problem'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/20.jpg',
+    zones: {
+      1: { text: 'An estimated 1.5 million species of organisms exist on<br>Earth, but many more remain to be discovered. Scientists<br>believe that only about 10~20% of species on Earth have<br>been discovered. Even so, classifying these organisms<br>based on their characteristics is a challenge.<br>Initially, biologists classified organisms based on their<br>habitats or external appearances, but they soon realized<br>the limitations of this. They acknowledged the flaw in<br>the classification criteria and expanded their standards<br>to include internal structures, lifestyles, reproductive<br>methods, and more. For example, when classifying<br>animals, one of the primary criteria is whether they have<br>a backbone (vertebra).', keywords: ['1.5 million', 'species', 'organisms', 'Earth', 'discovered', 'scientists', '10-20%', 'classifying', 'characteristics', 'biologists', 'habitats', 'appearances', 'limitations', 'criteria', 'internal structures', 'lifestyles', 'reproductive methods', 'animals', 'backbone', 'vertebra'] },
+      2: { text: 'There is a method for this categorization. Vertebrates<br>are animals with backbones, while invertebrates are<br>those without backbones. Find and write down five kinds<br>of each. Also, identify which maintains a constant body<br>temperature throughout the year.', keywords: ['categorization', 'vertebrates', 'animals', 'backbones', 'invertebrates', 'constant body temperature'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'General Homework 01', keywords: ['general homework'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/21.jpg',
+    zones: {
+      1: { text: 'Many think that plants benefit animals but do not get any<br>benefits in return. However, carefully observing nature<br>reveals instances where animals help plants. For example,<br>trees release special chemicals when caterpillars chew<br>on tree leaves. These chemicals not only signal to the<br>surroundings that the tree is under attack but also attract<br>insects or birds that prey on caterpillars. The chemical<br>signals attract predators, and the tree escapes from<br>danger.<br>Plants need successful pollination to produce offspring.<br>Pollination is the transfer of pollen from the stamen to<br>the stigma. Plants provide sweet nectar to insects, and in<br>return, insects collect and transport pollen. With the help<br>of insects, the probability of successful pollination on the<br>stigma increases compared to the wind that carries pollen.<br>Research and explain other ways animals help plants.', keywords: ['plants', 'animals', 'benefits', 'observing', 'nature', 'trees', 'chemicals', 'caterpillars', 'leaves', 'insects', 'birds', 'predators', 'pollination', 'offspring', 'pollen', 'stamen', 'stigma', 'nectar', 'wind'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'General Homework 02', keywords: ['general homework'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/22.jpg',
+    zones: {
+      1: { text: 'Invisible Creatures<br><br>Microorganisms are organisms so small that we cannot<br>see them with our naked eyes. There are many types of<br>microorganisms. Microorganisms include bacteria, which<br>have been studied the most, algae, which can obtain<br>nutrients through photosynthesis, and fungi, which cannot<br>photosynthesize and live a parasitic life.<br>Viruses, which do not have a cellular structure but are<br>capable of performing activities as parasites, and protozoa,<br>which are primitive single-celled animals, are also<br>classified as microorganisms.<br>Microorganisms contribute to biodiversity by interacting<br>with other organisms in various environments. Scientists<br>can accumulate knowledge about living things through<br>research on microorganisms.', keywords: ['invisible creatures', 'microorganisms', 'organisms', 'naked eyes', 'bacteria', 'algae', 'nutrients', 'photosynthesis', 'fungi', 'parasitic', 'viruses', 'cellular structure', 'parasites', 'protozoa', 'single-celled animals', 'biodiversity', 'environments', 'scientists', 'research'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Math Break Time 01', keywords: ['math break time'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.1/23.jpg',
+    zones: {
+      1: { text: 'E. coli can be an example that has dramatically expanded<br>the scope of knowledge about life. However, not all<br>microorganisms play a positive role. Sometimes, it can<br>cause fatal diseases to humans.<br>Diseases can be classified based on the type of organism<br>that causes harm to humans. The first is bacterial disease.<br>It refers to disease caused by bacteria classified as single-<br>celled prokaryotes. Representative diseases include<br>dysentery, bacterial pneumonia, cholera, and tetanus. The<br>second is a viral disease. Viruses are very simple life forms<br>consisting of a protein shell and genetic material, but they<br>often bring fatal diseases. They cause diseases such as<br>acquired immune deficiency syndrome (AIDS), measles,<br>and the common cold.<br>Since the organisms involved in each disease are different,<br>the treatment methods also vary. Therefore, it is important<br>to accurately identify the cause of the disease.', keywords: ['E. coli', 'knowledge', 'life', 'microorganisms', 'positive role', 'fatal diseases', 'humans', 'diseases', 'classified', 'organism', 'harm', 'bacterial disease', 'bacteria', 'single-celled prokaryotes', 'dysentery', 'bacterial pneumonia', 'cholera', 'tetanus', 'viral disease', 'viruses', 'protein shell', 'genetic material', 'AIDS', 'measles', 'common cold', 'treatment methods', 'cause', 'disease'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Math Break Time 02', keywords: ['math break time'] },
+      4: { text: '', keywords: [] }
+    }
+  }
+];
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 
