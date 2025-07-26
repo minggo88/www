@@ -163,7 +163,7 @@ const CONFIG = {
       CONFIG.setType2ZonePositionPercent(3, undefined, 17, undefined, 14);
     }
     if (zone4IsType2) {
-      CONFIG.setType2ZonePositionPercent(4, undefined, 107, undefined, 14);
+      CONFIG.setType2ZonePositionPercent(4, undefined, 108, undefined, 17.5);
     }
   }
 };
