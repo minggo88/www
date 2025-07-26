@@ -40,6 +40,33 @@ const CONFIG = {
       }, 10);
     }
   },
+  setType2ZonePositionPercent: (zoneNumber, top, left, right, bottom) => {
+    const zone = document.querySelector(`.zone-${zoneNumber}.type2`);
+    if (!zone) return;
+    const oldTop = zone.style.top;
+    const oldLeft = zone.style.left;
+    const oldRight = zone.style.right;
+    const oldBottom = zone.style.bottom;
+    
+    zone.style.top = top !== undefined ? top + '%' : '';
+    zone.style.left = left !== undefined ? left + '%' : '';
+    zone.style.right = right !== undefined ? right + '%' : '';
+    zone.style.bottom = bottom !== undefined ? bottom + '%' : '';
+    
+    const newTop = zone.style.top;
+    const newLeft = zone.style.left;
+    const newRight = zone.style.right;
+    const newBottom = zone.style.bottom;
+    
+    if (oldTop !== newTop || oldLeft !== newLeft || oldRight !== newRight || oldBottom !== newBottom) {
+      console.log(`Type2 Zone ${zoneNumber} position changed:`, {
+        top: `${oldTop} → ${newTop}`,
+        left: `${oldLeft} → ${newLeft}`,
+        right: `${oldRight} → ${newRight}`,
+        bottom: `${oldBottom} → ${newBottom}`
+      });
+    }
+  },
   setZoneFontSize: (zoneNumber, fontSize, unit = 'px') => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
     if (zone) {
@@ -72,6 +99,12 @@ const CONFIG = {
       height: window.innerHeight
     });
     
+    // 현재 슬라이드의 zone 3, 4가 type2인지 확인
+    const currentSlideIndex = typeof current !== 'undefined' ? current : 0;
+    const currentSlide = slideTemplates[currentSlideIndex];
+    const zone3IsType2 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type2';
+    const zone4IsType2 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type2';
+    
     if (isMobile) {
       // 1: 모바일(세로/가로)
       if (isLandscape) {
@@ -100,8 +133,8 @@ const CONFIG = {
       CONFIG.setZonePositionPercent(1, 5, 12, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(2, 5, 55, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(3, undefined, 12, undefined, 15, '%');
-      CONFIG.setZonePositionPercent(4, undefined, 55, undefined, 15, '%');
       CONFIG.setZoneFontSize(1, 14);
+      CONFIG.setZonePositionPercent(4, undefined, 55, undefined, 15, '%');
     } else if (window.innerWidth >= 900 && window.innerWidth <= 1400 && window.innerWidth > window.innerHeight) {
       console.log('3-1'); // 모바일 가로(900px 이하)
       CONFIG.setZonePositionPercent(1, 12, 6, undefined, undefined, '%');
@@ -129,6 +162,14 @@ const CONFIG = {
       CONFIG.setZoneFontSize(3, 25);
       CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 36, '%');
       CONFIG.setZoneFontSize(4, 25);
+    }
+    
+    // type2인 경우 특별한 위치 설정 적용
+    if (zone3IsType2) {
+      CONFIG.setType2ZonePositionPercent(3, undefined, 17, undefined, 14);
+    }
+    if (zone4IsType2) {
+      CONFIG.setType2ZonePositionPercent(4, undefined, 110, undefined, 14);
     }
   }
 };
@@ -300,6 +341,12 @@ function renderSlide(idx) {
     if (zoneData.text) {
       const textZone = document.createElement('div');
       textZone.className = `text-zone zone-${zoneNum}`;
+      
+      // type2 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type2') {
+        textZone.classList.add('type2');
+        textZone.setAttribute('data-font-type', 'type2');
+      }
       // 줄바꿈(<br> 또는 \n)마다 p 태그 생성
       const lines = zoneData.text.split(/<br\s*\/?>|\n/);
       lines.forEach(line => {

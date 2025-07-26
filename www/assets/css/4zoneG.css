@@ -299,6 +299,15 @@ body {
   transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 
+/* type2 스타일 - 흰색 폰트와 왼쪽 패딩 */
+.text-zone.type2 p,
+.text-zone[data-font-type="type2"] p {
+  color: white !important;
+  padding-left: 3px !important;
+  text-shadow: none !important;
+  font-weight: normal !important;
+}
+
 /* 명사 버튼 스타일 */
 .noun-span {
   cursor: pointer;
@@ -311,6 +320,12 @@ body {
   font: inherit;
   text-decoration: none;
   transition: background-color 0.2s ease;
+}
+
+/* type2 영역 내의 명사 버튼은 흰색으로 */
+.text-zone.type2 .noun-span,
+.text-zone[data-font-type="type2"] .noun-span {
+  color: white !important;
 }
 .noun-span:hover {
   background-color: transparent !important;
