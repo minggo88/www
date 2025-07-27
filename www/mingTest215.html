@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K2.1.5.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/2.1.5/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/2.1.5/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  // 슬라이드 템플릿 배열
+  const slideTemplates = [
+    {
+      // 첫 번째 슬라이드 (PDF 2페이지에 해당)
+      bg: '../assets/img/ReadBook/2.1.5/1.jpg',
+      hasStartButton: true, // 첫 번째 슬라이드에만 시작 버튼 설정
+      zones: {
+        1: { text: '', keywords: [] }, // 존1: 왼쪽 위 (비어 있음)
+        2: { text: '', keywords: [] }, // 존2: 오른쪽 위 (비어 있음)
+        3: { text: '', keywords: [] }, // 존3: 왼쪽 아래 (비어 있음)
+        4: { text: '', keywords: [] }  // 존4: 오른쪽 아래 (비어 있음)
+      }
+    },
+    {
+      // 슬라이드 2 (PDF 3페이지)
+      bg: '../assets/img/ReadBook/2.1.5/2.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'Earth has a special friend. His name<br>is the Moon. The Moon floats<br>in the night sky, always watching<br>over us.<br><br>Today, I will tell you an exciting<br>story about the Moon.', keywords: ['Moon', 'Earth', 'friend', 'night sky', 'story'] }
+      }
+    },
+    {
+      // 슬라이드 3 (PDF 4페이지)
+      bg: '../assets/img/ReadBook/2.1.5/3.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'There are many ideas about how<br>the Moon was born, but among them,<br>many scientists agree with<br>the "giant impact theory."', keywords: ['Moon', 'born', 'giant impact theory', 'scientists'] }
+      }
+    },
+    {
+      // 슬라이드 4 (PDF 5페이지)
+      bg: '../assets/img/ReadBook/2.1.5/4.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'According to this theory, about 4.5<br>billion years ago, early Earth and<br>a Mars-sized object collided,<br>causing some pieces to break off<br>into space.', keywords: ['theory', '4.5 billion years ago', 'Earth', 'Mars-sized object', 'collided', 'space'] },
+        2: { text: 'Those pieces began to gather one<br>by one and become round.<br>That\'s what we now call the Moon!', keywords: ['pieces', 'gather', 'round', 'Moon'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 5 (PDF 6페이지)
+      bg: '../assets/img/ReadBook/2.1.5/5.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'The Moon has a very special<br>relationship with the Earth.', keywords: ['Moon', 'Earth', 'relationship'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'The Moon is about 384,400 kilometers<br>from Earth.<br><br>That is long enough to fit 30 Earths<br>side by side.', keywords: ['Moon', 'kilometers', 'Earth', '30 Earths'] }
+      }
+    },
+    {
+      // 슬라이드 6 (PDF 7페이지)
+      bg: '../assets/img/ReadBook/2.1.5/6.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'The Moon is about a quarter of the<br>Earth\'s size and 3,476 kilometers<br>in diameter.', keywords: ['Moon', 'quarter', 'Earth\'s size', 'kilometers', 'diameter'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'Even though the Moon is huge,<br>it does not look as big from our<br>night sky because it is so far away.', keywords: ['Moon', 'huge', 'night sky', 'far away'] }
+      }
+    },
+    {
+      // 슬라이드 7 (PDF 8페이지)
+      bg: '../assets/img/ReadBook/2.1.5/7.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'The surface of the Moon is a little<br>different from our Earth\'s.<br>There are dark and light parts,<br>which are called \'seas.\'<br>But there is no natural water.', keywords: ['Moon', 'surface', 'Earth', 'dark', 'light', 'seas', 'water'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] }, // Moved due to <br><br> in original zone 1
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 8 (PDF 9페이지)
+      bg: '../assets/img/ReadBook/2.1.5/8.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'The dark areas are covered in black<br>stones made from hardened lava.', keywords: ['dark areas', 'black stones', 'hardened lava'] },
+        2: { text: 'The light parts are like high<br>mountains, but they look bright<br>because there are many white<br>stones.', keywords: ['light parts', 'high mountains', 'bright', 'white stones'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 9 (PDF 10페이지)
+      bg: '../assets/img/ReadBook/2.1.5/9.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'The Moon spins around the Earth<br>in an oval shape.', keywords: ['Moon', 'spins', 'Earth', 'oval shape'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'That is why the Moon slowly changes<br>shape every time we look at<br><br>the night sky.', keywords: ['Moon', 'changes shape', 'night sky'] }
+      }
+    },
+    {
+      // 슬라이드 10 (PDF 11페이지)
+      bg: '../assets/img/ReadBook/2.1.5/10.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        // 존 2와 존 3의 내용이 교체됨
+        3: { text: 'Sometimes, it is a round full Moon;<br>other times, it becomes a crescent<br>or dark Moon.', keywords: ['full Moon', 'crescent', 'dark Moon'] },
+        2: { text: 'These changes are called<br>the "phases of the Moon."', keywords: ['changes', 'phases of the Moon'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 11 (PDF 12페이지)
+      bg: '../assets/img/ReadBook/2.1.5/11.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'People have tried to explore the Moon<br>many times. Humans first landed<br>on the Moon in 1969.', keywords: ['explore', 'Moon', 'landed', '1969'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 12 (PDF 13페이지)
+      bg: '../assets/img/ReadBook/2.1.5/12.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        3: { text: 'Afterwards, we explored the Moon<br>a few more times.<br>In 2009,<br>India\'s Chandrayaan-1 discovered<br>water on the Moon.', keywords: ['explored', 'Moon', '2009', 'India', 'Chandrayaan-1', 'discovered', 'water'] },
+        2: { text: 'How amazing is that!', keywords: ['amazing'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 13 (PDF 14페이지)
+      bg: '../assets/img/ReadBook/2.1.5/13.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'The inside of the Moon is made up<br>of a crust, a mantle, and a core.', keywords: ['Moon', 'inside', 'crust', 'mantle', 'core'] },
+        3: { text: 'The Moon is like the Earth,<br>but there are also many differences.', keywords: ['Moon', 'Earth', 'differences'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 14 (PDF 15페이지)
+      bg: '../assets/img/ReadBook/2.1.5/14.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'Over time, the Moon will slowly<br>move away from Earth.<br>The Moon about 4 cm away<br>from Earth every year.', keywords: ['Moon', 'move away', 'Earth', '4 cm', 'every year'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 15 (PDF 16페이지)
+      bg: '../assets/img/ReadBook/2.1.5/15.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'But this will only happen in hundreds<br>of millions of years, so we don\'t have<br>to worry about it now.', keywords: ['hundreds of millions of years', 'worry'] },
+        3: { text: 'As the Moon moves away,<br>there will be many changes<br>in the Earth\'s oceans and weather.', keywords: ['Moon', 'moves away', 'changes', 'Earth\'s oceans', 'weather'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 16 (PDF 17페이지)
+      bg: '../assets/img/ReadBook/2.1.5/16.jpg',
+      hasStartButton: false,
+      zones: {
+        2: { text: 'Whenever we gaze at the night sky,<br>the Moon captures our imagination.', keywords: ['gaze', 'night sky', 'Moon', 'imagination'] },
+        1: { text: 'After all, the Moon is an extraordinary<br>friend to our Earth.', keywords: ['Moon', 'extraordinary friend', 'Earth'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      // 슬라이드 17 (PDF 18페이지)
+      bg: '../assets/img/ReadBook/2.1.5/17.jpg',
+      hasStartButton: false,
+      zones: {
+        4: { text: 'Just as we gaze at the Moon,<br>it always watches over us.<br>We are drawn to the Moon in<br>the night sky because it gazes<br>down at us lovingly.', keywords: ['gaze', 'Moon', 'watches over us', 'drawn', 'night sky', 'lovingly'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        1: { text: '', keywords: [] }
+      }
+    }
+  ];
+
+  console.log(slideTemplates);
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 
