@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K2.1.8.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/2.1.8/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/2.1.8/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/2.1.8/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/2.jpg',
+    zones: {
+      1: { text: 'There are about a trillion kinds<br>of life forms on Earth.', keywords: ['trillion', 'life forms', 'Earth'] },
+      2: { text: 'How were all these creatures<br>born?', keywords: ['creatures', 'born'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/3.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'It is all thanks to comets and<br>asteroids that had a lot of water.', keywords: ['comets', 'asteroids', 'water'] },
+      3: { text: 'Water is the beginning of life.<br>Then, how did water appear?', keywords: ['water', 'beginning', 'life'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/4.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'Comets and asteroids sent water<br>to Earth through solar winds.<br>These comets are good friends<br>to our Earth.', keywords: ['comets', 'asteroids', 'solar winds', 'Earth'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/5.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'As water was created,<br>it evaporated under the Sun\'s heat<br>and turned into water vapor,<br>making clouds. Then finally, it started<br>to rain from the thick clouds that<br>covered the sky.', keywords: ['water', 'evaporated', 'Sun', 'water vapor', 'clouds', 'rain'] },
+      3: { text: 'Thanks to the water from comets<br>and asteroids, the Earth,<br>which was a burning fireball,<br>quickly cooled down.', keywords: ['water', 'comets', 'asteroids', 'Earth', 'burning fireball', 'cooled'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/6.jpg',
+    zones: {
+      1: { text: 'As it kept raining,<br>the surface of the Earth got<br>cooler and cooler.', keywords: ['raining', 'Earth', 'cooler'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'It continued to rain and rain again,<br>and oceans formed on the Earth<br>over a long period.', keywords: ['rain', 'oceans', 'Earth', 'long period'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/7.jpg',
+    zones: {
+      1: { text: 'With the creation of the oceans,<br>the Earth became more and more<br>pleasant. Also, amazing things<br>started to happen in the ocean.', keywords: ['oceans', 'Earth', 'pleasant', 'amazing things'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Small substances in the water<br>met and combined to create tiny<br>life forms.', keywords: ['substances', 'water', 'combined', 'tiny life forms'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/8.jpg',
+    zones: {
+      1: { text: 'Early life forms were too small to<br>be seen by our eyes.<br>But these little creatures gathered<br>and formed a group.', keywords: ['early life forms', 'small', 'creatures', 'gathered', 'group'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'They grew bigger and bigger,<br>taking on the shape of various<br>creatures.', keywords: ['grew bigger', 'shape', 'various creatures'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/9.jpg',
+    zones: {
+      1: { text: 'Small creatures lived in the ocean<br>and became more and more<br>complex.', keywords: ['small creatures', 'ocean', 'complex'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Some of them were green in color,<br>and they were named "chlorophyta."', keywords: ['green', 'color', 'chlorophyta'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/10.jpg',
+    zones: {
+      1: { text: 'Chlorophyta had chlorophyll,<br>so they could make their own<br>energy using sunlight.', keywords: ['chlorophyta', 'chlorophyll', 'energy', 'sunlight'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Thanks to the oxygen created by<br>chlorophyta, there is more oxygen<br>in the Earth\'s atmosphere and<br>an environment where more living<br>things can live.', keywords: ['oxygen', 'chlorophyta', 'Earth', 'atmosphere', 'living things'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/11.jpg',
+    zones: {
+      4: { text: 'With the formation of an ozone<br>layer that blocked ultraviolet rays,<br>life forms moved from the ocean<br>to land, allowing life to flourish<br>on Earth as a green planet.', keywords: ['ozone layer', 'ultraviolet rays', 'life forms', 'ocean', 'land', 'green planet'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      1: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/12.jpg',
+    zones: {
+      1: { text: 'So, how did life on Earth<br>flourish?', keywords: ['life', 'Earth', 'flourish'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'It was the power of water and<br>oxygen that blossomed life<br>on Earth.', keywords: ['power', 'water', 'oxygen', 'blossomed', 'life', 'Earth'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/13.jpg',
+    zones: {
+      1: { text: 'Using the oxygen created by plants,<br>animals made energy and let out<br>carbon dioxide.', keywords: ['oxygen', 'plants', 'animals', 'energy', 'carbon dioxide'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Carbon dioxide became food for plants.<br>In this way, plants and animals<br>helped each other to survive and<br>preserve their species.', keywords: ['carbon dioxide', 'food', 'plants', 'animals', 'survive', 'species'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/14.jpg',
+    zones: {
+      1: { text: 'Over time, living things became<br>more and more complex.<br>Eventually, fish, plants, and animals<br>also appeared.', keywords: ['living things', 'complex', 'fish', 'plants', 'animals'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'These small life forms,<br>which started in the ocean,<br>spread throughout the planet as<br>they became increasingly diverse.', keywords: ['small life forms', 'ocean', 'planet', 'diverse'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/15.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      3: { text: 'Some creatures lived in water,<br>and some emerged to live on<br>the ground.', keywords: ['creatures', 'water', 'ground'] },
+      2: { text: 'Then, over time, humans appeared<br>on Earth.', keywords: ['humans', 'Earth'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/16.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'The little creatures that started out<br>in the ocean became increasingly<br>complex, and now there are so many<br>creatures living together on Earth<br>today.', keywords: ['little creatures', 'ocean', 'complex', 'creatures', 'Earth'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.8/17.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      3: { text: 'Not all living things were born<br>at the same time.<br>It has been a complex process<br>over a long period of time.', keywords: ['living things', 'born', 'complex process', 'long period'] },
+      2: { text: 'The Earth is home to mysterious<br>and beautiful creatures.', keywords: ['Earth', 'mysterious', 'beautiful creatures'] },
+      4: { text: '', keywords: [] }
+    }
+  }
+  ];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 
