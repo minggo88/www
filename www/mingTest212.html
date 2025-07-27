@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K2.1.2.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/2.1.2/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/2.1.2/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/2.1.2/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'Life forms, such as animals and<br>plants, are rarely seen in outer<br>space. But many beautiful things<br>live there.', keywords: ['life forms', 'animals', 'plants', 'outer space', 'beautiful things'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/3.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'So, what beautiful things live in<br>the universe?', keywords: ['beautiful things', 'universe'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/4.jpg',
+    zones: {
+      1: { text: 'Stars are the first to come to mind.<br>Stars are the small white dots that<br>sparkle in the night sky.', keywords: ['stars', 'white dots', 'sparkle', 'night sky'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'But they are actually huge balls<br>of hot rock.', keywords: ['huge balls', 'hot rock'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/5.jpg',
+    zones: {
+      1: { text: 'The Sun we see every day is also<br>a star.', keywords: ['Sun', 'star'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Countless stars twinkling in the<br>night sky are hot and bright just<br>like the Sun. They only seem tiny<br>because they are far away.', keywords: ['countless stars', 'twinkling', 'hot', 'bright', 'Sun', 'far away'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/6.jpg',
+    zones: {
+      1: { text: 'A planet is a celestial object that<br>orbits a star.', keywords: ['planet', 'celestial object', 'orbits', 'star'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Our solar system has eight planets:<br>Mercury, Venus, Earth, Mars,<br>Jupiter, Saturn, Uranus, and<br>Neptune.', keywords: ['solar system', 'eight planets', 'Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/7.jpg',
+    zones: {
+      1: { text: 'Some celestial objects orbit planets,<br>like the moon that orbits the Earth.', keywords: ['celestial objects', 'orbit', 'planets', 'moon', 'Earth'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'We call these celestial objects<br>satellites. People have also<br>launched man-made satellites<br>into space.', keywords: ['satellites', 'man-made satellites', 'space'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/8.jpg',
+    zones: {
+      1: { text: 'There is a lone traveler in space<br>that lets out a long tail of light.<br>This traveler\'s name is a "comet."', keywords: ['lone traveler', 'space', 'long tail', 'light', 'comet'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'A comet is a small piece of rock<br>made of ice and dust.<br>It forms a long tail as it revolves<br>around the Sun.', keywords: ['comet', 'small piece', 'rock', 'ice', 'dust', 'long tail', 'revolves', 'Sun'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/9.jpg',
+    zones: {
+      1: { text: 'Sometimes when we look up at the<br>night sky, we can see something<br>like a fast, twinkling star.<br>This is a meteor.', keywords: ['night sky', 'fast', 'twinkling star', 'meteor'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'A meteor is a phenomenon that<br>occurs when small rocks or dust<br>from space enter the Earth\'s<br>atmosphere.', keywords: ['meteor', 'phenomenon', 'small rocks', 'dust', 'space', 'Earth\'s atmosphere'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/10.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'A meteor that reaches the ground<br>before completely burning up is<br>called a "meteorite."', keywords: ['meteor', 'ground', 'burning up', 'meteorite'] },
+      3: { text: 'We can see meteors like shooting<br>stars in the night sky.', keywords: ['meteors', 'shooting stars', 'night sky'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/11.jpg',
+    zones: {
+      1: { text: 'In space, there are many nebulae<br>made up of gas and dust.', keywords: ['space', 'nebulae', 'gas', 'dust'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Even though they are invisible<br>to our naked eyes, we can easily<br>see them with an astronomical<br>telescope.', keywords: ['invisible', 'naked eyes', 'astronomical telescope'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/12.jpg',
+    zones: {
+      1: { text: 'A black hole is a piece of rock<br>left by the explosion of a very<br>heavy star.', keywords: ['black hole', 'piece of rock', 'explosion', 'heavy star'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'It is so powerful that it can absorb<br>light and cannot be seen with<br>the naked eye. But it can be found<br>using X-rays.', keywords: ['powerful', 'absorb light', 'naked eye', 'X-rays'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/13.jpg',
+    zones: {
+      1: { text: 'We may have all seen<br>countless stars twinkling<br>in the night sky.', keywords: ['countless stars', 'twinkling', 'night sky'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'The place where all those<br>many stars gather is called<br>the "galaxy."', keywords: ['stars', 'gather', 'galaxy'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/14.jpg',
+    zones: {
+      1: { text: 'A galaxy is a vast,<br>beautiful collection of stars.<br>All the celestial bodies we have<br>learned about are within the galaxy,<br>including our own Earth.', keywords: ['galaxy', 'vast', 'beautiful collection', 'stars', 'celestial bodies', 'Earth'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'The universe is filled with countless<br>galaxies. Many mysterious things<br>exist in the universe.', keywords: ['universe', 'countless galaxies', 'mysterious things'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/15.jpg',
+    zones: {
+      1: { text: 'Outer space, or just space,<br>refers to everywhere outside<br>the Earth\'s atmosphere.', keywords: ['outer space', 'space', 'Earth\'s atmosphere'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'The Earth is not considered<br>outer space because a layer<br>of air protects it.', keywords: ['Earth', 'outer space', 'layer of air', 'protects'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/16.jpg',
+    zones: {
+      1: { text: 'Things can float in space since there<br>is almost no gravity. People cannot<br>breathe because there is no air,<br>so they must wear spacesuits.<br>The universe is too vast to truly<br>know where it ends. It is beyond<br>our imagination.', keywords: ['float', 'space', 'no gravity', 'breathe', 'no air', 'spacesuits', 'universe', 'vast', 'beyond imagination'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.2/17.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'We do not know what space looks<br>like. It can be as flat as the floor<br>or as round as a ball.<br>What shape do you think space is?', keywords: ['space', 'flat', 'floor', 'round', 'ball', 'shape'] }
+    }
+  }
+];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 
