@@ -160,10 +160,10 @@ const CONFIG = {
     
     // type2인 경우 특별한 위치 설정 적용
     if (zone3IsType2) {
-      CONFIG.setType2ZonePositionPercent(3, undefined, 17, undefined, 14);
+      CONFIG.setType2ZonePositionPercent(3, undefined, 6, undefined, 17);
     }
     if (zone4IsType2) {
-      CONFIG.setType2ZonePositionPercent(4, undefined, 108, undefined, 17.5);
+      CONFIG.setType2ZonePositionPercent(4, undefined, 107, undefined, 17);
     }
   }
 };
