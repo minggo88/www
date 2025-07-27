@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K2.1.6.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/2.1.6/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/2.1.6/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+    {
+      bg: '../assets/img/ReadBook/2.1.6/1.jpg',
+      hasStartButton: true,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/2.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'The Earth is the only planet<br>in our solar system where life<br>can live.', keywords: ['Earth', 'only planet', 'solar system', 'life'] },
+        2: { text: 'That is because it has a suitable<br>environment where living things<br>can survive.<br>Among them, the air that animals<br>can breathe is essential.', keywords: ['suitable environment', 'living things', 'survive', 'air', 'animals', 'breathe', 'essential'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/3.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        3: { text: 'Air is also called the "atmosphere."<br>So why is the atmosphere<br>important?', keywords: ['air', 'atmosphere', 'important'] },
+        2: { text: 'Earth\'s atmosphere provides<br>oxygen for animals and plants<br>to live.', keywords: ['atmosphere', 'provides', 'oxygen', 'animals', 'plants', 'live'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/4.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: 'The atmosphere warms the Earth,<br>slows down meteorites from space,<br>and protects us against harmful<br>cosmic rays.', keywords: ['atmosphere', 'warms', 'Earth', 'meteorites', 'space', 'protects', 'harmful', 'cosmic rays'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/5.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'But at first, Earth was nothing<br>like we know today.', keywords: ['first', 'Earth', 'nothing', 'today'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'There were no blue oceans,<br>no blue skies, and no life.', keywords: ['no blue oceans', 'no blue skies', 'no life'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/6.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'We call the Earth of this period<br>"Early Earth."', keywords: ['Earth', 'period', 'Early Earth'] },
+        3: { text: 'Like a huge furnace,<br>the Earth was filled with burning<br>lava and gas.', keywords: ['huge furnace', 'Earth', 'filled', 'burning', 'lava', 'gas'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/7.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        3: { text: 'As time went by,<br>the Earth started to get colder.', keywords: ['time', 'Earth', 'started', 'colder'] },
+        2: { text: 'From then on,<br>a second atmosphere was created.', keywords: ['then on', 'second atmosphere', 'created'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/8.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: 'As volcanoes erupted,<br>many gases were released into<br>the atmosphere. Nitrogen<br>and carbon dioxide gathered in<br>the atmosphere from asteroids<br>colliding with Earth.', keywords: ['volcanoes', 'erupted', 'gases', 'released', 'atmosphere', 'nitrogen', 'carbon dioxide', 'asteroids', 'colliding', 'Earth'] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/9.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'But there was still very little oxygen<br>on Earth and a lot of carbon dioxide<br>and nitrogen.', keywords: ['very little oxygen', 'Earth', 'carbon dioxide', 'nitrogen'] },
+        2: { text: 'If living things were in that<br>environment, they would not<br>be able to stay alive.', keywords: ['living things', 'environment', 'not able', 'stay alive'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/10.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'Then, as the Earth\'s temperature<br>dropped, water vapor gathered,<br>and it started to rain.', keywords: ['Earth temperature', 'dropped', 'water vapor', 'gathered', 'started', 'rain'] },
+        2: { text: 'The rain made the first oceans<br>on the Earth\'s surface.', keywords: ['rain', 'made', 'first oceans', 'Earth surface'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/11.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'One day, small creatures appeared<br>in the oceans.', keywords: ['one day', 'small creatures', 'appeared', 'oceans'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'Tiny microorganisms called<br>cyanobacteria were created.', keywords: ['tiny microorganisms', 'cyanobacteria', 'created'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/12.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'The cyanobacteria produced oxygen<br>with the help of the Sun.', keywords: ['cyanobacteria', 'produced', 'oxygen', 'help', 'Sun'] },
+        2: { text: 'At first, this oxygen did not remain<br>in the atmosphere as it reacted<br>with other substances. But as<br>time passed, it gradually began<br>to accumulate.', keywords: ['oxygen', 'not remain', 'atmosphere', 'reacted', 'other substances', 'time passed', 'gradually', 'accumulate'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/13.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'Through this process,<br>a third atmosphere was created.', keywords: ['process', 'third atmosphere', 'created'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'This atmosphere had the oxygen<br>that we are breathing now.<br>Oxygen played an important role<br>in creating the atmosphere.', keywords: ['oxygen', 'important role', 'creating', 'atmosphere', 'breathing now'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/14.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'Without oxygen,<br>the ozone layer would not<br>have formed.', keywords: ['without oxygen', 'ozone layer', 'not formed'] },
+        2: { text: 'The ozone layer protects the Earth<br>from harmful UV rays.<br>Life on Earth can live safely with<br>the protection of the ozone layer.', keywords: ['ozone layer', 'protects', 'Earth', 'harmful UV rays', 'life', 'live safely', 'protection'] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/15.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'The Earth has a unique<br>atmosphere that is not found on<br>any other planet.', keywords: ['Earth', 'unique', 'atmosphere', 'not found', 'other planet'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'This atmosphere helps us breathe<br>and plays an important role in<br>controlling the Earth\'s climate<br>and weather.', keywords: ['atmosphere', 'helps', 'breathe', 'important role', 'controlling', 'climate', 'weather'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/16.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: 'Oxygen and carbon dioxide help<br>regulate Earth\'s temperature.', keywords: ['oxygen', 'carbon dioxide', 'help', 'regulate', 'Earth temperature'] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'The Earth has become a wonderful<br>planet we can live on.', keywords: ['Earth', 'become', 'wonderful', 'planet', 'live on'] }
+      }
+    },
+    {
+      bg: '../assets/img/ReadBook/2.1.6/17.jpg',
+      hasStartButton: false,
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: 'Earth\'s atmosphere is unique<br>and precious to life!<br>We all need to help the Earth<br>stay alive.', keywords: ['need', 'help', 'Earth', 'stay alive', 'atmosphere', 'unique', 'precious', 'life'] },
+        3: { text: 'The Earth\'s air was created through<br>many processes over a long time.<br>This process still goes on.', keywords: ['Earth air', 'created', 'many processes', 'long time', 'process', 'still goes on'] },
+        4: { text: '', keywords: [] }
+      }
+    }
+  ];
+
+  console.log(slideTemplates);
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 

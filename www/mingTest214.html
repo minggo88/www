@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K2.1.4.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/2.1.4/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/2.1.4/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/2.1.4/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/2.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'From outer space, Earth appears as<br>a beautiful planet with blue oceans,<br>green mountains, brown soil, and<br>white clouds.', keywords: ['outer space', 'Earth', 'blue oceans', 'green mountains', 'brown soil', 'white clouds'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/3.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'But Earth was not always as<br>beautiful as it is now.', keywords: ['Earth', 'beautiful'] },
+      2: { text: 'How was the Earth born?<br>It is believed that the Earth is about<br>4.6 billion years old.', keywords: ['Earth', 'born', '4.6 billion years old'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/4.jpg',
+    hasStartButton: false,
+    zones: {
+      4: { text: 'The Earth\'s embryo grew bigger,<br>and its gravity became stronger.', keywords: ['embryo', 'gravity', 'stronger'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      1: { text: 'In the beginning, there were small<br>rocks orbiting the Sun.<br>These rocks collided and merged<br>over time.', keywords: ['beginning', 'small rocks', 'orbiting', 'Sun', 'collided', 'merged'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/5.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'The Earth was a hot, burning ball<br>when it was first born. Lava flowed<br>everywhere.<br><br>We call this early stage of Earth<br>the "Primitive Earth."', keywords: ['hot', 'burning ball', 'first born', 'lava', 'Primitive Earth'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/6.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'As time passed, the Earth slowly<br>began to cool.', keywords: ['time passed', 'Earth', 'cool'] },
+      2: { text: 'Land formed as the lava hardened.<br>But the Earth was still a very harsh<br>place.', keywords: ['land', 'lava', 'hardened', 'harsh place'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/7.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Then, as time passed, hard ground<br>formed.', keywords: ['time passed', 'hard ground', 'formed'] },
+      2: { text: 'Rain began to fall, and oceans<br>started to form.', keywords: ['rain', 'fall', 'oceans', 'form'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/8.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'After the oceans were created,<br>the Earth\'s temperatures dropped<br>even more. The oceans helped cool<br>the planet, making the Earth\'s<br>temperature more stable.', keywords: ['oceans', 'created', 'temperatures', 'dropped', 'cool', 'planet', 'stable'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/9.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'Over time, these small life forms<br>became more diverse and complex.', keywords: ['time', 'small life forms', 'diverse', 'complex'] },
+      3: { text: 'Tiny creatures started to live<br>in the oceans.', keywords: ['tiny creatures', 'oceans'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/10.jpg',
+    hasStartButton: false,
+    zones: {
+      4: { text: 'At first, the air was filled with<br>toxic gases, but as underwater<br>lifeforms began to produce oxygen,<br>the atmosphere gradually became<br>clearer and breathable.', keywords: ['air', 'toxic gases', 'underwater', 'lifeforms', 'oxygen', 'atmosphere', 'breathable'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      1: { text: 'Meanwhile, air began to form<br>in the sky.', keywords: ['air', 'form', 'sky'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/11.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'This is how the air we breathe today<br>came to be.', keywords: ['air', 'breathe', 'today'] },
+      2: { text: 'The Earth became greener and<br>more beautiful with the creation<br>of oceans and the atmosphere.', keywords: ['Earth', 'greener', 'beautiful', 'creation', 'oceans', 'atmosphere'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/12.jpg',
+    hasStartButton: false,
+    zones: {
+      2: { text: '', keywords: [] },
+      1: { text: 'Life in the oceans continued to<br>evolve, and eventually, some<br>creatures left the water and<br>began to live on land.', keywords: ['life', 'oceans', 'evolve', 'creatures', 'water', 'land'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/13.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Small plants and trees began to<br>grow on land, and animals started<br>living there too.', keywords: ['small plants', 'trees', 'grow', 'land', 'animals'] },
+      2: { text: 'Over time, Earth became filled with<br>many different life forms.', keywords: ['time', 'Earth', 'life forms'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/14.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      4: { text: 'But the dinosaurs suddenly<br>disappeared one day, and new<br>animals took their place.', keywords: ['dinosaurs', 'disappeared', 'new animals'] },
+      3: { text: 'Giant animals like dinosaurs also<br>appeared, and dense forests with<br>enormous trees emerged.', keywords: ['giant animals', 'dinosaurs', 'dense forests', 'enormous trees'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/15.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'After another long period, humans<br>appeared on Earth. People began<br>farming, building homes, and<br>creating various tools.', keywords: ['long period', 'humans', 'Earth', 'farming', 'building homes', 'tools'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/16.jpg',
+    hasStartButton: false,
+    zones: {
+      4: { text: 'The surface of the Earth is constantly<br>moving. Earthquakes can cause the<br>ground to split, and volcanic activity<br>can create new islands in the sea.', keywords: ['surface', 'Earth', 'constantly moving', 'earthquakes', 'ground', 'volcanic activity', 'islands'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      1: { text: 'Earth has undergone many changes<br>over a long time to become what<br>it is today. But the Earth is still<br>changing.', keywords: ['Earth', 'changes', 'long time', 'still changing'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/17.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'We can come to understand just<br>how precious our planet Earth is<br>by closely observing and studying<br>the changes on our planet.', keywords: ['understand', 'precious', 'planet Earth', 'observing', 'studying', 'changes'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.4/18.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'We must continually learn about<br>our planet to live happily on this<br>beautiful Earth with its blue oceans,<br>vast lands, and clear air.', keywords: ['continually learn', 'planet', 'live happily', 'beautiful Earth', 'blue oceans', 'vast lands', 'clear air'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  }
+  ];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 

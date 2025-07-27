@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K2.1.3.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/2.1.3/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/2.1.3/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/2.1.3/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/2.jpg',
+    zones: {
+      1: { text: 'Many mysterious things were<br>happening in the universe<br>a long time ago.', keywords: ['mysterious things', 'universe', 'long time ago'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Among them, the most wonderful<br>story is how the Sun and the stars<br>were born.', keywords: ['wonderful story', 'Sun', 'stars', 'born'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/3.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'There were a lot of little specks of<br>dust and gases in this cloud.', keywords: ['little specks', 'dust', 'gases', 'cloud'] },
+      3: { text: 'At first, the universe was filled<br>with a huge cloud of gas.', keywords: ['universe', 'filled', 'huge cloud', 'gas'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/4.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'As the gases and dust gathered,<br>the mass grew bigger and hotter.<br>The big lump kept growing bigger<br>and hotter over a very long time.', keywords: ['gases', 'dust', 'gathered', 'mass', 'bigger', 'hotter', 'big lump'] },
+      3: { text: 'One day, the gases and dust started<br>to pull each other into the middle of<br>this giant cloud. They tried to stick<br>together like magnets.', keywords: ['pull each other', 'middle', 'giant cloud', 'stick together', 'magnets'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/5.jpg',
+    zones: {
+      1: { text: 'Did you know the Sun we see every<br>day is also a star?', keywords: ['Sun', 'star'] },
+      2: { text: 'This was the moment the Sun<br>was born!', keywords: ['moment', 'Sun', 'born'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/6.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'When the Sun was born,<br>the universe became brighter<br>and more beautiful.', keywords: ['Sun', 'born', 'universe', 'brighter', 'beautiful'] },
+      3: { text: 'The Sun was so hot and bright that<br>it lit up the surroundings.', keywords: ['Sun', 'hot', 'bright', 'lit up', 'surroundings'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/7.jpg',
+    zones: {
+      1: { text: 'Many mysterious things<br>started happening in the universe<br>with the Sun\'s birth.', keywords: ['mysterious things', 'universe', 'Sun\'s birth'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Small dust and gases around<br>the Sun gathered and circulated,<br>creating small clumps.', keywords: ['small dust', 'gases', 'Sun', 'gathered', 'circulated', 'small clumps'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/8.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'These clumps grew and became<br>planets. Our Earth was one of<br>those planets.', keywords: ['clumps', 'grew', 'planets', 'Earth'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/9.jpg',
+    zones: {
+      1: { text: 'But there are so many stars in the<br>universe other than the Sun.', keywords: ['stars', 'universe', 'Sun'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'If we look at closely, the small stars<br>in the night sky are as big as the<br>Sun and shine just as brightly.', keywords: ['small stars', 'night sky', 'big', 'Sun', 'shine', 'brightly'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/10.jpg',
+    zones: {
+      1: { text: 'The Sun is a nearby star,<br>but the other stars are far away.', keywords: ['Sun', 'nearby star', 'other stars', 'far away'] },
+      2: { text: 'Stars were born in nebulae filled<br>with gas and dust just like the Sun.', keywords: ['stars', 'born', 'nebulae', 'gas', 'dust', 'Sun'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/11.jpg',
+    zones: {
+      1: { text: 'Tiny specks of dust and gases<br>gathered, and the clumps started to<br>glow as they grew hotter and hotter.', keywords: ['tiny specks', 'dust', 'gases', 'gathered', 'clumps', 'glow', 'hotter'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'That is how many stars<br>were born.', keywords: ['stars', 'born'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/12.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      3: { text: 'The Sun shines on Earth,<br>keeping us warm<br>and helping us live.', keywords: ['Sun', 'shines', 'Earth', 'warm', 'helping', 'live'] },
+      2: { text: 'Thanks to the Sun, plants grow,<br>and many animals and people live.<br>The Sun nourishes all living things<br>so they can live.', keywords: ['Sun', 'plants', 'grow', 'animals', 'people', 'live', 'nourishes', 'living things'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/13.jpg',
+    zones: {
+      1: { text: 'Without the Sun, the Earth would<br>only have dark nights.<br>Without the Sun, the Earth would<br>be too cold for anything to live.', keywords: ['without Sun', 'Earth', 'dark nights', 'too cold', 'live'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Because of the Sun, we experience<br>day and night separately.<br>As days pass by, we grow a year<br>older with each returning year.<br>The calendar we use is also based<br>on the Sun.', keywords: ['Sun', 'day', 'night', 'separately', 'year older', 'calendar', 'based'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/14.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'We can easily see our Sun by just<br>looking up.', keywords: ['easily see', 'Sun', 'looking up'] },
+      3: { text: 'We can feel the light and warmth<br>of the Sun wherever we are<br>on Earth.', keywords: ['light', 'warmth', 'Sun', 'Earth'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/15.jpg',
+    zones: {
+      4: { text: 'That is why people studied<br>the stars and dreamed of<br>space travel.', keywords: ['people', 'studied', 'stars', 'dreamed', 'space travel'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      1: { text: 'We can imagine a broader world<br>by looking at the stars and<br>wondering about the universe.', keywords: ['imagine', 'broader world', 'looking', 'stars', 'wondering', 'universe'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/16.jpg',
+    zones: {
+      1: { text: 'The birth of the Sun and stars<br>happened a long time ago,<br>but we still remember them<br>and look up at the sky.', keywords: ['birth', 'Sun', 'stars', 'long time ago', 'remember', 'look up', 'sky'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'The birth of the Sun and stars<br>gave us light, warmth, and also<br>taught us the importance of life.', keywords: ['birth', 'Sun', 'stars', 'light', 'warmth', 'importance', 'life'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/2.1.3/17.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'The stars invite us to the mysterious<br>sky and guide us into the world<br>of dreams.', keywords: ['stars', 'invite', 'mysterious sky', 'guide', 'world', 'dreams'] },
+      3: { text: 'The Sun wakes us from our<br>sweet sleep and tells us to greet<br>the morning.', keywords: ['Sun', 'wakes', 'sweet sleep', 'greet', 'morning'] },
+      4: { text: '', keywords: [] }
+    }
+  }
+];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 
