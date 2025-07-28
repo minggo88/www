@@ -472,98 +472,148 @@ function setTextFontSizeByImage(imgElem) {
 
 // 슬라이드 렌더링
 function renderSlide(idx) {
-  const template = slideTemplates[idx];
-  if (!template) return;
+  // 기준 위치(px) - CONFIG.setZonePosition 값과 일치
+  const BASE_WIDTH = 1440;
+  const BASE_HEIGHT = 900;
+  const zoneBase = {
+    1: { top: 100, left: 71 },
+    2: { top: 100, left: 640 },
+    3: { bottom: 100, left: 71 },
+    4: { bottom: 100, left: 640 }
+  };
+  const baseFontSize = 25;
   
-  const container = document.getElementById('app');
-  if (!container) return;
-  
-  // 기존 슬라이드 제거
-  const existingSlide = container.querySelector('.slide-container');
-  if (existingSlide) {
-    existingSlide.remove();
-  }
-  
-  // 새 슬라이드 생성
-  const slideContainer = document.createElement('div');
-  slideContainer.className = 'slide-container';
-  
-  const slide = document.createElement('div');
-  slide.className = 'slide';
-  
-  const imgWrapper = document.createElement('div');
-  imgWrapper.className = 'slide-img-wrapper';
-  
-  const img = document.createElement('img');
-  img.className = 'slide-bg';
-  img.src = template.bg;
-  img.alt = 'Slide background';
-  
-  imgWrapper.appendChild(img);
-  slide.appendChild(imgWrapper);
-  
-  // Zone 텍스트 추가
-  if (template.zones) {
-    Object.keys(template.zones).forEach(zoneNum => {
-      const zoneData = template.zones[zoneNum];
-      if (zoneData && zoneData.text) {
-        const zone = document.createElement('div');
-        zone.className = `text-zone zone-${zoneNum}`;
-        
-        // fontType이 있으면 클래스 추가
-        if (zoneData.fontType) {
-          zone.classList.add(zoneData.fontType);
-          zone.setAttribute('data-font-type', zoneData.fontType);
-        }
-        
-        // 텍스트 렌더링 (키워드 포함)
-        const renderedText = renderZoneTextWithNounSpans(zoneData.text, zoneData.keywords || []);
-        zone.innerHTML = renderedText;
-        
-        slide.appendChild(zone);
+  // Font size conditions - can be chosen per zone
+  const getFontSizeForZone = (slideIndex, zoneNumber, zoneData) => {
+    // Check if zoneData has fontType specified
+    if (zoneData && zoneData.fontType) {
+      if (zoneData.fontType === 'type1') {
+        return baseFontSize; // type1: current size
+      } else if (zoneData.fontType === 'type2') {
+        return baseFontSize - 5; // type2: one step smaller
+                  } else if (zoneData.fontType === 'type3') {
+              return baseFontSize - 5; // type3: one step smaller
+            } else if (zoneData.fontType === 'type4') {
+              return baseFontSize - 5; // type4: one step smaller
+            } else if (zoneData.fontType === 'type5') {
+              return baseFontSize - 7.5; // type5: one and a half steps smaller
+            } else if (zoneData.fontType === 'type8') {
+              return baseFontSize - 7.5; // type8: one and a half steps smaller
+            } else if (zoneData.fontType === 'type9') {
+              return baseFontSize - 7.5; // type9: one and a half steps smaller
+            } else if (zoneData.fontType === 'type6') {
+              return baseFontSize - 7.5; // type6: one and a half steps smaller
+            } else if (zoneData.fontType === 'type7') {
+              return baseFontSize - 7.5; // type7: one and a half steps smaller
+            }
+    }
+    
+    // Fallback to page 3 logic for backward compatibility
+    if (slideIndex === 2) { // Page 3 (0-indexed)
+      if (zoneNumber === 1 || zoneNumber === 2) {
+        return baseFontSize; // type1: current size
+      } else if (zoneNumber === 4) {
+        return baseFontSize - 5; // type2: one step smaller
       }
-    });
-  }
-  
-  // 화살표 추가
+    }
+    
+    return baseFontSize; // default size for other pages
+  };
+
+  const slide = slideTemplates[idx];
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+
+  const container = document.createElement('div');
+  container.className = 'slide-container';
+
   const leftArrow = document.createElement('button');
   leftArrow.className = 'arrow left';
-  leftArrow.innerHTML = '‹';
-  leftArrow.onclick = prevSlide;
-  
-  const rightArrow = document.createElement('button');
-  rightArrow.className = 'arrow right';
-  rightArrow.innerHTML = '›';
-  rightArrow.onclick = nextSlide;
-  
-  slide.appendChild(leftArrow);
-  slide.appendChild(rightArrow);
-  
-  slideContainer.appendChild(slide);
-  container.appendChild(slideContainer);
-  
-  // 이미지 로드 후 화살표 위치 조정
-  img.onload = () => {
-    positionArrows(img, leftArrow, rightArrow);
-    addDragEvents(slideContainer, leftArrow, rightArrow);
-  };
-  
-  // 페이지 인디케이터 업데이트
-  updatePageIndicator();
-  
-  // 텍스트 애니메이션 시작
-  setTimeout(() => {
-    const zones = slide.querySelectorAll('.text-zone');
-    zones.forEach((zone, index) => {
-      const paragraphs = zone.querySelectorAll('p');
-      paragraphs.forEach((p, pIndex) => {
-        setTimeout(() => {
-          p.classList.add('visible');
-        }, (index * 200) + (pIndex * 100));
-      });
+  leftArrow.innerHTML = '&#60;';
+  leftArrow.tabIndex = -1;
+  leftArrow.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    prevSlide();
+  });
+  leftArrow.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    prevSlide();
+  });
+  container.appendChild(leftArrow);
+
+  const imgWrapper = document.createElement('div');
+  imgWrapper.className = 'slide-img-wrapper';
+
+  const img = document.createElement('img');
+  img.className = 'slide-bg';
+  img.src = slide.bg;
+  img.alt = 'slide';
+  imgWrapper.appendChild(img);
+
+  // 4구역 텍스트 생성
+  const zoneDivs = {};
+  Object.entries(slide.zones).forEach(([zoneNum, zoneData]) => {
+    if (zoneData.text) {
+      const textZone = document.createElement('div');
+      textZone.className = `text-zone zone-${zoneNum}`;
       
+      // type2 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type2') {
+        textZone.classList.add('type2');
+        textZone.setAttribute('data-font-type', 'type2');
+      }
+      // type3 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type3') {
+        textZone.classList.add('type3');
+        textZone.setAttribute('data-font-type', 'type3');
+      }
+      // type4 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type4') {
+        textZone.classList.add('type4');
+        textZone.setAttribute('data-font-type', 'type4');
+      }
+      // type5 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type5') {
+        textZone.classList.add('type5');
+        textZone.setAttribute('data-font-type', 'type5');
+      }
+      // type8 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type8') {
+        textZone.classList.add('type8');
+        textZone.setAttribute('data-font-type', 'type8');
+      }
+      // type9 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type9') {
+        textZone.classList.add('type9');
+        textZone.setAttribute('data-font-type', 'type9');
+      }
+      // type6 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type6') {
+        textZone.classList.add('type6');
+        textZone.setAttribute('data-font-type', 'type6');
+      }
+      // type7 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type7') {
+        textZone.classList.add('type7');
+        textZone.setAttribute('data-font-type', 'type7');
+      }
+      // 줄바꿈(<br> 또는 \n)마다 p 태그 생성
+      const lines = zoneData.text.split(/<br\s*\/?>|\n/);
+      lines.forEach(line => {
+        const paragraph = document.createElement('p');
+        if (line.trim() === '') {
+          // 빈 줄인 경우 줄바꿈을 위한 빈 p 태그 생성
+          paragraph.style.height = '1em';
+          paragraph.style.margin = '0.3em 0';
+        } else {
+          paragraph.innerHTML = renderZoneTextWithNounSpans(line, zoneData.keywords);
+        }
+        textZone.appendChild(paragraph);
+      });
       // 명사 클릭 이벤트 바인딩
-      zone.querySelectorAll('.noun-span').forEach(el => {
+      textZone.querySelectorAll('.noun-span').forEach(el => {
         el.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
@@ -574,7 +624,6 @@ function renderSlide(idx) {
             alert(this.textContent);
           }
         });
-        
         // 모바일 터치 이벤트 추가
         el.addEventListener('touchstart', function(e) {
           e.preventDefault();
@@ -587,21 +636,119 @@ function renderSlide(idx) {
           }
         });
       });
+      imgWrapper.appendChild(textZone);
+      zoneDivs[zoneNum] = textZone;
+    }
+  });
+
+  container.appendChild(imgWrapper);
+
+  const rightArrow = document.createElement('button');
+  rightArrow.className = 'arrow right';
+  rightArrow.innerHTML = '&#62;';
+  rightArrow.tabIndex = -1;
+  rightArrow.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    nextSlide();
+  });
+  rightArrow.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    nextSlide();
+  });
+  container.appendChild(rightArrow);
+
+  app.appendChild(container);
+
+  // 위치/폰트크기 scaling 적용 함수
+  window.applyZoneResponsive = function() {
+    const scaleW = window.innerWidth / BASE_WIDTH;
+    const scaleH = window.innerHeight / BASE_HEIGHT;
+    const scale = Math.min(scaleW, scaleH);
+    
+    [1,2,3,4].forEach(zoneNum => {
+      const div = zoneDivs[zoneNum];
+      if (!div) return;
+      const base = zoneBase[zoneNum];
+      
+      // 위치 계산
+      const adjustedScale = scale;
+      
+      if (base.top !== undefined) div.style.top = (base.top * adjustedScale) + 'px';
+      else div.style.top = '';
+      if (base.left !== undefined) div.style.left = (base.left * adjustedScale) + 'px';
+      else div.style.left = '';
+      if (base.bottom !== undefined) div.style.bottom = (base.bottom * adjustedScale) + 'px';
+      else div.style.bottom = '';
+      if (base.right !== undefined) div.style.right = (base.right * adjustedScale) + 'px';
+      else div.style.right = '';
+      
+      // 폰트 크기
+      const zoneData = slide.zones[zoneNum];
+      const zoneFontSize = getFontSizeForZone(idx, zoneNum, zoneData);
+      div.querySelectorAll('p').forEach(p => {
+        p.style.fontSize = (zoneFontSize * adjustedScale) + 'px';
+        p.style.margin = '0';
+        p.style.padding = '0';
+        p.style.boxSizing = 'border-box';
+        p.style.maxWidth = 'none';
+        p.style.width = 'auto';
+      });
+      
+      // 오프셋 방지: margin/padding 제거
+      div.style.margin = '0';
+      div.style.padding = '0';
+      div.style.boxSizing = 'border-box';
+      div.style.maxWidth = 'none';
+      div.style.width = 'auto';
     });
-  }, 300);
+  }
+
+  // 최초 적용 및 리사이즈 반영
+  window.addEventListener('resize', window.applyZoneResponsive);
+  setTimeout(window.applyZoneResponsive, 0);
+
+  // 나머지 기존 기능(애니메이션, 화살표, drag 등) 유지
+  // zone 위치는 adjustForOrientation()에서 자동으로 설정됨
+  
+  // 슬라이드 렌더링 후 위치 조정 - 한 번만 실행
+  safeAdjustForOrientation();
+
+  // 갤럭시 탭 최적화 텍스트 애니메이션
+  // 항상 모든 p에 visible 클래스 추가
+    setTimeout(() => {
+    const allP = Array.from(container.querySelectorAll('p'));
+    if (allP.length > 0) {
+      // 첫 줄은 0.4초 후 슬라이드 업
+        setTimeout(() => {
+        allP[0].classList.add('visible');
+      }, 400);
+      // 두 번째 줄부터는 0.1초 간격으로 다다다닥
+      for (let i = 1; i < allP.length; i++) {
+        setTimeout(() => {
+          allP[i].classList.add('visible');
+        }, 400 + i * 100);
+      }
+    }
+  }, 0);
+
+  positionArrows(img, leftArrow, rightArrow);
+  addDragEvents(container, leftArrow, rightArrow);
+
+  // 페이지 인디케이터 다시 생성 (이벤트 리스너 재바인딩)
+  createPageIndicator();
+
 }
 
 function positionArrows(imgElem, leftArrow, rightArrow) {
   if (!imgElem || !leftArrow || !rightArrow) return;
-  
-  // CSS에서 화살표 위치를 처리하므로 여기서는 추가 조정만 수행
-  // 화살표가 이미지 영역 밖에 위치하도록 보장
-  leftArrow.style.left = '2vw';
-  rightArrow.style.right = '2vw';
-  
-  // 화살표를 항상 보이도록 설정 (모바일에서는 숨김 처리됨)
-  leftArrow.style.opacity = '0';
-  rightArrow.style.opacity = '0';
+  const imgRect = imgElem.getBoundingClientRect();
+  const slideRect = imgElem.parentElement.getBoundingClientRect();
+  leftArrow.style.top = (imgRect.top - slideRect.top + imgRect.height/2) + 'px';
+  rightArrow.style.top = (imgRect.top - slideRect.top + imgRect.height/2) + 'px';
+  leftArrow.style.transform = 'translateY(-50%)';
+  rightArrow.style.transform = 'translateY(-50%)';
 }
 
 function nextSlide() {
@@ -621,19 +768,16 @@ function prevSlide() {
 function addDragEvents(container, leftArrow, rightArrow) {
   let startX = null;
   let dragging = false;
-  
   // 마우스 이벤트
   container.addEventListener('mousedown', e => { 
     e.preventDefault(); 
     startX = e.clientX; 
     dragging = true; 
   });
-  
   container.addEventListener('mousemove', e => { 
     if (!dragging) return; 
     e.preventDefault(); 
   });
-  
   container.addEventListener('mouseup', e => {
     if (!dragging) return;
     e.preventDefault();
@@ -647,19 +791,16 @@ function addDragEvents(container, leftArrow, rightArrow) {
     dragging = false;
     startX = null;
   });
-  
   // 모바일 터치 이벤트 (슬라이드 이동에만 passive: false)
   container.addEventListener('touchstart', e => {
     e.preventDefault();
     startX = e.touches[0].clientX;
     dragging = true;
   }, { passive: false });
-  
   container.addEventListener('touchmove', e => {
     if (!dragging) return;
     e.preventDefault();
   }, { passive: false });
-  
   container.addEventListener('touchend', e => {
     if (!dragging) return;
     e.preventDefault();
@@ -674,23 +815,6 @@ function addDragEvents(container, leftArrow, rightArrow) {
     dragging = false;
     startX = null;
   }, { passive: false });
-  
-  // 화살표에 드래그 이벤트 추가
-  if (leftArrow) {
-    leftArrow.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      prevSlide();
-    });
-  }
-  
-  if (rightArrow) {
-    rightArrow.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      nextSlide();
-    });
-  }
 }
 
 // 화면 높이 설정 (모바일 브라우저 대응)
