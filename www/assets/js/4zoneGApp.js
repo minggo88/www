@@ -64,6 +64,35 @@ const CONFIG = {
       });
     }
   },
+  setTypeZonePositionPercent: (type, zoneNumber, top, left, right, bottom) => {
+    const zone = document.querySelector(`.zone-${zoneNumber}.${type}`);
+    if (!zone) return;
+    const oldTop = zone.style.top;
+    const oldLeft = zone.style.left;
+    const oldRight = zone.style.right;
+    const oldBottom = zone.style.bottom;
+
+    zone.style.top = top !== undefined ? top + '%' : '';
+    zone.style.left = left !== undefined ? left + '%' : '';
+    zone.style.right = right !== undefined ? right + '%' : '';
+    zone.style.bottom = bottom !== undefined ? bottom + '%' : '';
+
+    const newTop = zone.style.top;
+    const newLeft = zone.style.left;
+    const newRight = zone.style.right;
+    const newBottom = zone.style.bottom;
+
+    if (oldTop !== newTop || oldLeft !== newLeft || oldRight !== newRight || oldBottom !== newBottom) {
+      console.log(`Type${type.charAt(4)} Zone ${zoneNumber} position changed:`, {
+        top: `${oldTop} → ${newTop}`,
+        left: `${oldLeft} → ${newLeft}`,
+        right: `${oldRight} → ${newRight}`,
+        bottom: `${oldBottom} → ${newBottom}`
+      });
+    }
+  },
+
+
   setZoneFontSize: (zoneNumber, fontSize, unit = 'px') => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
     if (zone) {
@@ -98,6 +127,8 @@ const CONFIG = {
     const currentSlide = slideTemplates[currentSlideIndex];
     const zone3IsType2 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type2';
     const zone4IsType2 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type2';
+    const zone3IsType3 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type3';
+    const zone4IsType3 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type3';
     
     if (isMobile) {
       // 1: 모바일(세로/가로)
@@ -160,10 +191,177 @@ const CONFIG = {
     
     // type2인 경우 특별한 위치 설정 적용
     if (zone3IsType2) {
-      CONFIG.setType2ZonePositionPercent(3, undefined, 6, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type2', 3, undefined, 6, undefined, 17);
     }
     if (zone4IsType2) {
-      CONFIG.setType2ZonePositionPercent(4, undefined, 107, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type2', 4, undefined, 107, undefined, 17);
+    }
+    
+    // type3인 경우 특별한 위치 설정 적용
+    if (zone3IsType3) {
+      CONFIG.setTypeZonePositionPercent('type3', 3, undefined, 6, undefined, 17);
+    }
+    if (zone4IsType3) {
+      CONFIG.setTypeZonePositionPercent('type3', 4, undefined, 107, undefined, 17);
+    }
+    
+    // type3인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType3 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type3';
+    const zone2IsType3 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type3';
+    
+    if (zone1IsType3) {
+      console.log('type3-1');
+      CONFIG.setTypeZonePositionPercent('type3', 1, 21, 6.6, undefined, undefined, '%');
+    }
+    if (zone2IsType3) {
+      console.log('type3-2');
+      CONFIG.setTypeZonePositionPercent('type3', 2, 21, 106.6, undefined, undefined);
+    }
+    if (zone3IsType3) {
+      console.log('type3-3');
+      CONFIG.setTypeZonePositionPercent('type3', 3, undefined, 6.6, undefined, 17);
+    }
+    if (zone4IsType3) {
+      console.log('type3-4');
+      CONFIG.setTypeZonePositionPercent('type3', 4, undefined, 106.6, undefined, 17);
+    }
+    
+    // type4인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType4 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type4';
+    const zone2IsType4 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type4';
+    const zone3IsType4 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type4';
+    const zone4IsType4 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type4';
+    
+    if (zone1IsType4) {
+      console.log('type4-1');
+      CONFIG.setTypeZonePositionPercent('type4', 1, 17, 7, undefined, undefined, '%');
+    }
+    if (zone2IsType4) {
+      console.log('type4-2');
+      CONFIG.setTypeZonePositionPercent('type4', 2, 17, 107, undefined, undefined);
+    }
+    if (zone3IsType4) {
+      console.log('type4-3');
+      CONFIG.setTypeZonePositionPercent('type4', 3, undefined, 6, undefined, 17);
+    }
+    if (zone4IsType4) {
+      console.log('type4-4');
+      CONFIG.setTypeZonePositionPercent('type4', 4, undefined, 107, undefined, 17);
+    }
+    
+    // type5인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType5 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type5';
+    const zone2IsType5 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type5';
+    const zone3IsType5 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type5';
+    const zone4IsType5 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type5';
+    
+    if (zone1IsType5) {
+      console.log('type5-1');
+      CONFIG.setTypeZonePositionPercent('type5', 1, 38, 6.6, undefined, undefined, '%');
+    }
+    if (zone2IsType5) {
+      console.log('type5-2');
+      CONFIG.setTypeZonePositionPercent('type5', 2, 38, 106.6, undefined, undefined);
+    }
+    if (zone3IsType5) {
+      console.log('type5-3');
+      CONFIG.setTypeZonePositionPercent('type5', 3, undefined, 6.6, undefined, 15);
+    }
+    if (zone4IsType5) {
+      console.log('type5-4');
+      CONFIG.setTypeZonePositionPercent('type5', 4, undefined, 106.6, undefined, 17);
+    }
+    
+    // type8인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType8 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type8';
+    const zone2IsType8 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type8';
+    const zone3IsType8 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type8';
+    const zone4IsType8 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type8';
+    
+    if (zone1IsType8) {
+      console.log('type8-1');
+      CONFIG.setTypeZonePositionPercent('type8', 1, 20, 6.6, undefined, undefined, '%');
+    }
+    if (zone2IsType8) {
+      console.log('type8-2');
+      CONFIG.setTypeZonePositionPercent('type8', 2, 20, 107.3, undefined, undefined);
+    }
+    if (zone3IsType8) {
+      console.log('type8-3');
+      CONFIG.setTypeZonePositionPercent('type8', 3, undefined, 6.6, undefined, 15);
+    }
+    if (zone4IsType8) {
+      console.log('type8-4');
+      CONFIG.setTypeZonePositionPercent('type8', 4, undefined, 107.3, undefined, 15);
+    }
+    
+    // type9인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType9 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type9';
+    const zone2IsType9 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type9';
+    const zone3IsType9 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type9';
+    const zone4IsType9 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type9';
+    
+    if (zone1IsType9) {
+      console.log('type9-1');
+      CONFIG.setTypeZonePositionPercent('type9', 1, 17, 6.5, undefined, undefined, '%');
+    }
+    if (zone2IsType9) {
+      console.log('type9-2');
+      CONFIG.setTypeZonePositionPercent('type9', 2, 17, 107.3, undefined, undefined);
+    }
+    if (zone3IsType9) {
+      console.log('type9-3');
+      CONFIG.setTypeZonePositionPercent('type9', 3, undefined, 6.5, undefined, 15);
+    }
+    if (zone4IsType9) {
+      console.log('type9-4');
+      CONFIG.setTypeZonePositionPercent('type9', 4, undefined, 107.3, undefined, 15);
+    }
+    
+    // type6인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType6 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type6';
+    const zone2IsType6 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type6';
+    const zone3IsType6 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type6';
+    const zone4IsType6 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type6';
+    
+    if (zone1IsType6) {
+      console.log('type6-1');
+      CONFIG.setTypeZonePositionPercent('type6', 1, 28, 6.6, undefined, undefined, '%');
+    }
+    if (zone2IsType6) {
+      console.log('type6-2');
+      CONFIG.setTypeZonePositionPercent('type6', 2, 23.5, 107.5, undefined, undefined);
+    }
+    if (zone3IsType6) {
+      console.log('type6-3');
+      CONFIG.setTypeZonePositionPercent('type6', 3, undefined, 6, undefined, 17);
+    }
+    if (zone4IsType6) {
+      console.log('type6-4');
+      CONFIG.setTypeZonePositionPercent('type6', 4, undefined, 107, undefined, 17);
+    }
+    
+    // type7인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType7 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type7';
+    const zone2IsType7 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type7';
+    const zone3IsType7 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type7';
+    const zone4IsType7 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type7';
+    
+    if (zone1IsType7) {
+      console.log('type7-1');
+      CONFIG.setTypeZonePositionPercent('type7', 1, 30, 7, undefined, undefined, '%');
+    }
+    if (zone2IsType7) {
+      console.log('type7-2');
+      CONFIG.setTypeZonePositionPercent('type7', 2, 30, 107, undefined, undefined);
+    }
+    if (zone3IsType7) {
+      console.log('type7-3');
+      CONFIG.setTypeZonePositionPercent('type7', 3, undefined, 6, undefined, 17);
+    }
+    if (zone4IsType7) {
+      console.log('type7-4');
+      CONFIG.setTypeZonePositionPercent('type7', 4, undefined, 107, undefined, 17);
     }
   }
 };
@@ -293,7 +491,21 @@ function renderSlide(idx) {
         return baseFontSize; // type1: current size
       } else if (zoneData.fontType === 'type2') {
         return baseFontSize - 5; // type2: one step smaller
-      }
+                  } else if (zoneData.fontType === 'type3') {
+              return baseFontSize - 5; // type3: one step smaller
+            } else if (zoneData.fontType === 'type4') {
+              return baseFontSize - 5; // type4: one step smaller
+            } else if (zoneData.fontType === 'type5') {
+              return baseFontSize - 7.5; // type5: one and a half steps smaller
+            } else if (zoneData.fontType === 'type8') {
+              return baseFontSize - 7.5; // type8: one and a half steps smaller
+            } else if (zoneData.fontType === 'type9') {
+              return baseFontSize - 7.5; // type9: one and a half steps smaller
+            } else if (zoneData.fontType === 'type6') {
+              return baseFontSize - 7.5; // type6: one and a half steps smaller
+            } else if (zoneData.fontType === 'type7') {
+              return baseFontSize - 7.5; // type7: one and a half steps smaller
+            }
     }
     
     // Fallback to page 3 logic for backward compatibility
@@ -352,12 +564,52 @@ function renderSlide(idx) {
         textZone.classList.add('type2');
         textZone.setAttribute('data-font-type', 'type2');
       }
+      // type3 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type3') {
+        textZone.classList.add('type3');
+        textZone.setAttribute('data-font-type', 'type3');
+      }
+      // type4 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type4') {
+        textZone.classList.add('type4');
+        textZone.setAttribute('data-font-type', 'type4');
+      }
+      // type5 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type5') {
+        textZone.classList.add('type5');
+        textZone.setAttribute('data-font-type', 'type5');
+      }
+      // type8 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type8') {
+        textZone.classList.add('type8');
+        textZone.setAttribute('data-font-type', 'type8');
+      }
+      // type9 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type9') {
+        textZone.classList.add('type9');
+        textZone.setAttribute('data-font-type', 'type9');
+      }
+      // type6 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type6') {
+        textZone.classList.add('type6');
+        textZone.setAttribute('data-font-type', 'type6');
+      }
+      // type7 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type7') {
+        textZone.classList.add('type7');
+        textZone.setAttribute('data-font-type', 'type7');
+      }
       // 줄바꿈(<br> 또는 \n)마다 p 태그 생성
       const lines = zoneData.text.split(/<br\s*\/?>|\n/);
       lines.forEach(line => {
-        if (line.trim() === '') return;
         const paragraph = document.createElement('p');
-        paragraph.innerHTML = renderZoneTextWithNounSpans(line, zoneData.keywords);
+        if (line.trim() === '') {
+          // 빈 줄인 경우 줄바꿈을 위한 빈 p 태그 생성
+          paragraph.style.height = '1em';
+          paragraph.style.margin = '0.3em 0';
+        } else {
+          paragraph.innerHTML = renderZoneTextWithNounSpans(line, zoneData.keywords);
+        }
         textZone.appendChild(paragraph);
       });
       // 명사 클릭 이벤트 바인딩
