@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G1.1.5.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+  <link rel="icon" href="../assets/img/ReadBook/1.1.5/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/1.1.5/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: ['start', 'begin', 'under sea', 'ocean', 'marine life'] },
+      2: { text: '', keywords: ['marine creatures', 'sea animals', 'ocean life'] },
+      3: { text: '', keywords: ['underwater world', 'sea exploration'] },
+      4: { text: '', keywords: ['ocean discovery', 'marine biology'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/2.jpg',
+    zones: {
+      1: { text: '', keywords: ['sea introduction', 'ocean overview', 'marine environment'] },
+      2: { text: '', keywords: ['underwater ecosystem', 'sea life', 'ocean creatures'] },
+      3: { text: '', keywords: ['marine world', 'sea exploration', 'ocean discovery'] },
+      4: { text: '', keywords: ['underwater life', 'marine animals', 'sea creatures'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/3.jpg',
+    zones: {
+      1: { text: '<span class="larger-text">01. What Is Under the Sea?</span><br><br>', keywords: ['what is under sea', 'ocean introduction', 'marine life overview', 'sea creatures', 'underwater world'] },
+      2: { text: 'Scallops with fan-shaped shells clamp onto the sandy<br>floor. Stingrays glide through the water with flat<br>bodies, as if they are flying in the sky. A rosy flounder<br>cruises smoothly when, suddenly, a large fish emerges<br>from behind. A fearsome shark opens its mouth wide,<br>menacingly following its prey.', keywords: ['scallops', 'fan-shaped shells', 'clamp', 'sandy floor', 'stingrays', 'glide', 'water', 'flat bodies', 'flying', 'sky', 'rosy flounder', 'cruises', 'smoothly', 'suddenly', 'large fish', 'emerges', 'behind', 'fearsome shark', 'opens mouth', 'wide', 'menacingly', 'following', 'prey'] },
+      3: { text: 'What creatures inhabit the depths of the vast blue sea?<br>People can find slender, long, silver-hued cutlassfish<br>shimmering as they swim. A school of white-bellied<br>and blue-backed mackerel gracefully pass by. Small<br>silvery anchovies swim together, forming shimmering<br>shoals. Nearby, turtles also appear. Red jellyfish lie<br>scattered on the ocean floor, resembling the stars in<br>the sky.', keywords: ['creatures', 'inhabit', 'depths', 'vast blue sea', 'slender', 'long', 'silver-hued', 'cutlassfish', 'shimmering', 'swim', 'school', 'white-bellied', 'blue-backed', 'mackerel', 'gracefully', 'pass by', 'small silvery', 'anchovies', 'together', 'forming', 'shoals', 'nearby', 'turtles', 'appear', 'red jellyfish', 'scattered', 'ocean floor', 'resembling', 'stars', 'sky'] },
+      4: { text: 'Describe what creatures live in the vast blue sea.', keywords: ['describe', 'creatures', 'live', 'vast blue sea'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/4.jpg',
+    zones: {
+      1: { text: '', keywords: ['fish swimming', 'marine locomotion', 'ocean movement'] },
+      2: { text: '<br><br><br><br><br><br><br><br><br><br><br>How do fish swim straight? Birds have two wings,<br>allowing them to fly straight. When we observe fish,<br>we can see two wing-like shapes on the sides of their<br>bodies. These are pectoral fins.<br>The tail fin allows the fish to move forward, and the<br>pectoral fins on the sides help them change direction<br>freely while swimming.', keywords: ['how do fish swim', 'straight', 'birds', 'two wings', 'allowing', 'fly straight', 'observe fish', 'see', 'wing-like shapes', 'sides', 'bodies', 'pectoral fins', 'tail fin', 'allows', 'move forward', 'sides', 'help', 'change direction', 'freely', 'swimming'] },
+      3: { text: 'What shapes do fish living in the sea have?<br>The bodies of fish are long and pointed while round<br>in shape. If the front is pointed, they can easily cut<br>through the water. The long, round body allows them<br>to swim freely through the water.<br>Where else can people see this pointed mouth and<br>round body? Upon reflection, the shape of a fish<br>resembles the body of a bird soaring in the sky.', keywords: ['what shapes', 'fish living', 'sea', 'bodies', 'long', 'pointed', 'round', 'shape', 'front', 'pointed', 'easily cut', 'through water', 'long round body', 'allows', 'swim freely', 'where else', 'people see', 'pointed mouth', 'round body', 'reflection', 'shape', 'fish', 'resembles', 'body', 'bird', 'soaring', 'sky'] },
+      4: { text: 'Explain how fish can swim straight.', keywords: ['explain', 'how fish', 'swim straight'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/5.jpg',
+    zones: {
+      2: { text: 'This principle also applies to the appearance of fish.<br>A fish\'s head should be pointed to swim in the water.<br>What might happen if a fish does not have two<br>pectoral fins on its sides? It would be challenging for<br>the fish to maintain balance in the water and tend<br>to tilt to one side. Moreover, it would end up going in<br>the wrong direction. Fish have pointed heads and two<br>pectoral fins, allowing them to control their direction<br>freely and swim underwater.', keywords: ['principle', 'applies', 'appearance', 'fish', 'head', 'pointed', 'swim', 'water', 'what might happen', 'does not have', 'two pectoral fins', 'sides', 'challenging', 'maintain balance', 'tend', 'tilt', 'one side', 'moreover', 'end up going', 'wrong direction', 'pointed heads', 'control', 'direction', 'freely', 'underwater'] },
+      1: { text: 'What might happen if a fish\'s head is not pointed?<br>Can it swim forward smoothly? Swimming quickly will<br>likely be difficult. We can find this out by trying to run<br>with an umbrella. Fold the umbrella first, then hold<br>the end forward and run. After that, try running with<br>the umbrella fully open and extended forward.<br>Which way is easier to run? It is less exhausting when<br>the umbrella is folded. If the front is pointed, it can<br>cut through the wind or water better.', keywords: ['what might happen', 'fish head', 'not pointed', 'swim forward', 'smoothly', 'swimming quickly', 'likely', 'difficult', 'find out', 'trying', 'run', 'umbrella', 'fold', 'first', 'hold', 'end forward', 'run', 'after that', 'try running', 'fully open', 'extended forward', 'which way', 'easier', 'less exhausting', 'folded', 'front', 'pointed', 'cut through', 'wind', 'water', 'better'] },
+      3: { text: '', keywords: ['fish anatomy', 'marine biology', 'ocean science'] },
+      4: { text: 'Explain how fish are able to swim well.', keywords: ['explain', 'how fish', 'able', 'swim well'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/6.jpg',
+    zones: {
+      1: { text: 'People have built boats to catch fish or cross rivers<br>since ancient times. Have you ever seen a small<br>paddle boat with a hollowed-out center?<br>This is called a "canoe." Canoes have a pointed front<br>and move forward by paddling oars on both sides.<br>Canoes require both oars to be paddled simultaneously<br>to move forward.<br>Can the canoe still move forward with only one oar?<br>The canoe would likely be unable to move forward and<br>simply circle around.', keywords: ['people', 'built boats', 'catch fish', 'cross rivers', 'ancient times', 'ever seen', 'small paddle boat', 'hollowed-out center', 'called', 'canoe', 'canoes', 'pointed front', 'move forward', 'paddling oars', 'both sides', 'require', 'both oars', 'paddled', 'simultaneously', 'can canoe', 'still move forward', 'only one oar', 'likely', 'unable', 'simply circle around'] },
+      2: { text: '', keywords: ['boat design', 'marine technology', 'watercraft'] },
+      3: { text: '', keywords: ['canoe construction', 'paddling technique', 'water navigation'] },
+      4: { text: '', keywords: ['boat movement', 'oar mechanics', 'water transportation'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/7.jpg',
+    zones: {
+      1: { text: 'A large fish follows behind the flat-bodied flounder<br>whose eyes are both on the left side. Sharks are the<br>outlaws of the sea. The shark opens its mouth wide,<br>revealing its sharp teeth.<br>The shark, approaching directly, quickly grabs and<br>devours the flounder in one bite. Can it still catch<br>prey effectively with an injured pectoral fin?<br>Can it chase the fleeing fish and catch it in the end?', keywords: ['large fish', 'follows behind', 'flat-bodied flounder', 'eyes', 'both', 'left side', 'sharks', 'outlaws', 'sea', 'shark', 'opens mouth', 'wide', 'revealing', 'sharp teeth', 'approaching', 'directly', 'quickly grabs', 'devours', 'flounder', 'one bite', 'can it', 'still catch', 'prey', 'effectively', 'injured', 'pectoral fin', 'chase', 'fleeing fish', 'catch', 'end'] },
+      2: { text: 'A shark with a damaged pectoral fin might struggle to<br>catch prey as it could veer in unintended directions.<br>A shark unable to use one fin might go in the wrong<br>direction, missing the prey swimming right in front of<br>it. Like a golden eagle with a broken wing unable to<br>fly, a shark with an injured pectoral fin may struggle<br>to hunt properly.', keywords: ['shark', 'damaged', 'pectoral fin', 'might struggle', 'catch prey', 'could veer', 'unintended directions', 'unable', 'use one fin', 'might go', 'wrong direction', 'missing', 'prey', 'swimming', 'right in front', 'like', 'golden eagle', 'broken wing', 'unable', 'fly', 'injured', 'pectoral fin', 'may struggle', 'hunt', 'properly'] },
+      3: { text: '', keywords: ['shark hunting', 'marine predation', 'ocean food chain'] },
+      4: { text: 'Explain whether a shark with an injured pectoral<br>fin can effectively catch fish.', keywords: ['explain', 'whether', 'shark', 'injured', 'pectoral fin', 'effectively', 'catch fish'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/8.jpg',
+    zones: {
+      1: { text: '', keywords: ['penguin habitat', 'antarctic life', 'marine birds'] },
+      3: { text: 'Penguins live in Antarctica. Although they cannot<br>fly and instead swim in the sea, they are considered<br>a type of bird. On land, penguins waddle around<br>awkwardly. However, they excel at swimming and<br>diving in the water. Penguin wings have evolved into<br>a fin-like shape, allowing them to swim using their<br>wings underwater. Penguins also have webbed feet<br>with claws, enabling them to swim faster.', keywords: ['penguins', 'live', 'Antarctica', 'although', 'cannot fly', 'instead swim', 'sea', 'considered', 'type', 'bird', 'land', 'waddle around', 'awkwardly', 'however', 'excel', 'swimming', 'diving', 'water', 'penguin wings', 'evolved', 'fin-like shape', 'allowing', 'swim', 'using', 'wings', 'underwater', 'also have', 'webbed feet', 'claws', 'enabling', 'swim faster'] },
+      2: { text: 'A clam slowly crawls through the sand, exposing its<br>flesh with every movement. The fan-shaped scallop<br>opens and closes its shell-like clapping hands,<br>pushing away water as it moves forward. Aquatic<br>creatures without fins cannot move underwater freely<br>like fish. They cannot easily approach their desired<br>direction. They must navigate awkwardly in the water<br>or swim slowly, advancing little by little.', keywords: ['clam', 'slowly crawls', 'through sand', 'exposing', 'flesh', 'every movement', 'fan-shaped scallop', 'opens', 'closes', 'shell-like', 'clapping hands', 'pushing away', 'water', 'moves forward', 'aquatic creatures', 'without fins', 'cannot move', 'underwater', 'freely', 'like fish', 'easily approach', 'desired direction', 'must navigate', 'awkwardly', 'swim slowly', 'advancing', 'little by little'] },
+      4: { text: 'Explain why penguins cannot fly in the sky but are<br>skilled swimmers.', keywords: ['explain', 'why', 'penguins', 'cannot fly', 'sky', 'skilled swimmers'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/9.jpg',
+    zones: {
+      1: { text: 'A flounder is a flat, round fish moving on the seabed.<br>The flounder flutters its body like a butterfly while<br>swimming. Both eyes of a flounder are on the left side.<br>The sea is home to many fascinating fish.<br>An extremely flat object swims around underwater.<br>It looks like a flying saucer in the sky. It is a stingray<br>or a skate. People often confuse stingrays and skates<br>because they look alike.', keywords: ['flounder', 'flat', 'round fish', 'moving', 'seabed', 'flutters', 'body', 'like butterfly', 'swimming', 'both eyes', 'left side', 'sea', 'home', 'many fascinating fish', 'extremely flat object', 'swims around', 'underwater', 'looks like', 'flying saucer', 'sky', 'stingray', 'skate', 'people', 'often confuse', 'stingrays', 'skates', 'look alike'] },
+      2: { text: 'Upon closer observation, the stingray appears round.<br>The skate is square-shaped and pointed in the front.<br>The dark and cold deep sea is challenging for fish to<br>survive. Fish living in the deep sea have gradually<br>adapted their body shapes to cope with the harsh<br>environment. Fish living in areas with very little light<br>have developed larger eyes to better find prey.<br>Fish in completely dark areas no longer need vision,<br>so their eyes have become very small or nonexistent.', keywords: ['closer observation', 'stingray', 'appears round', 'skate', 'square-shaped', 'pointed', 'front', 'dark', 'cold', 'deep sea', 'challenging', 'fish', 'survive', 'living', 'gradually adapted', 'body shapes', 'cope', 'harsh environment', 'areas', 'very little light', 'developed', 'larger eyes', 'better find prey', 'completely dark areas', 'no longer need', 'vision', 'eyes', 'become', 'very small', 'nonexistent'] },
+      3: { text: 'Explain how to distinguish between the similar-<br>looking stingray and skate.', keywords: ['explain', 'how', 'distinguish', 'similar-looking', 'stingray', 'skate'], fontType: 'type2' },
+      4: { text: '', keywords: ['deep sea adaptation', 'marine evolution', 'ocean environment'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/10.jpg',
+    zones: {
+      1: { text: 'Their large mouths and fearsome teeth never let go of<br>the prey they catch. There is always a food shortage<br>in the deep sea, and it is never certain when another<br>opportunity to catch prey will arise. Therefore,<br>predators\' appearances have evolved according to the<br>environment to ensure they do not miss any potential<br>meals. The pressure of the water in the deep sea is so<br>intense that even humans cannot withstand it.', keywords: ['large mouths', 'fearsome teeth', 'never let go', 'prey', 'catch', 'always', 'food shortage', 'deep sea', 'never certain', 'another opportunity', 'arise', 'therefore', 'predators', 'appearances', 'evolved', 'according', 'environment', 'ensure', 'not miss', 'potential meals', 'pressure', 'water', 'intense', 'even humans', 'cannot withstand'] },
+      2: { text: 'Fortunately, the fish in the deep sea hold significant<br>water inside their bodies, so their shapes do not<br>change. If we submerge a hollow object deep into<br>the sea, it will be crushed. However, a can filled with<br>liquid will not break or deform, maintaining its shape<br>even in great depths.<br>Fish in the deep sea can emit light on their own. For<br>example, a hatchetfish produces light from its belly,<br>making it less noticeable to the predators. As a result,<br>it is not easily preyed upon by larger fish.', keywords: ['fortunately', 'fish', 'deep sea', 'hold', 'significant water', 'inside', 'bodies', 'shapes', 'not change', 'submerge', 'hollow object', 'deep', 'sea', 'crushed', 'however', 'can', 'filled', 'liquid', 'not break', 'deform', 'maintaining', 'shape', 'great depths', 'emit light', 'own', 'example', 'hatchetfish', 'produces light', 'belly', 'making', 'less noticeable', 'predators', 'result', 'not easily preyed', 'larger fish'] },
+      3: { text: 'Explain why fish living in the deep sea have giant<br>mouths and scary teeth.', keywords: ['explain', 'why', 'fish', 'living', 'deep sea', 'giant mouths', 'scary teeth'], fontType: 'type2' },
+      4: { text: '', keywords: ['bioluminescence', 'deep sea survival', 'marine adaptation'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/11.jpg',
+    zones: {
+      1: { text: 'The anglerfish emits light from the fishing rod-shaped<br>horn on its forehead. Fish attracted by the light<br>become the prey of the anglerfish. Fish living in the<br>ocean often have difficulty finding mates due to<br>their low numbers. Therefore, once a male and female<br>meet, they are said to live together for a lifetime.', keywords: ['anglerfish', 'emits light', 'fishing rod-shaped', 'horn', 'forehead', 'fish', 'attracted', 'light', 'become', 'prey', 'living', 'ocean', 'often', 'difficulty', 'finding mates', 'due to', 'low numbers', 'therefore', 'once', 'male', 'female', 'meet', 'said', 'live together', 'lifetime'] },
+      2: { text: '01. What Is Under the Sea?<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying</span><br><span class="larger-text">Creatures in the Sea?</span><br><br>', keywords: ['what is under sea', 'purpose', 'studying', 'creatures', 'sea', 'marine research', 'ocean science'] },
+      3: { text: 'Explain how fish living in the deep sea survive.', keywords: ['explain', 'how', 'fish', 'living', 'deep sea', 'survive'], fontType: 'type2' },
+      4: { text: 'Humans have an instinct to achieve what they do not<br>have. For example, while many dream of flying in the<br>sky as they watch birds, some wish to swim freely<br>underwater while observing fish. However, hoping for<br>something rarely makes it happen.<br>Success usually requires diligent effort. Thanks to the<br>efforts and sacrifices of many great people, we can<br>now sail the seas at will and explore ocean depths<br>with submarines.', keywords: ['humans', 'instinct', 'achieve', 'do not have', 'example', 'many dream', 'flying', 'sky', 'watch birds', 'some wish', 'swim freely', 'underwater', 'observing fish', 'however', 'hoping', 'something', 'rarely makes happen', 'success', 'usually requires', 'diligent effort', 'thanks', 'efforts', 'sacrifices', 'great people', 'can now', 'sail seas', 'will', 'explore', 'ocean depths', 'submarines'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/12.jpg',
+    zones: {
+      1: { text: 'As has been repeatedly emphasized, keen observation<br>of nature can lead to the creation of new tools and<br>technologies. The purpose of studying this topic is to<br>find ways to fulfill people\'s dreams by understanding<br>the creatures living in the sea. Knowing why fish have<br>pointed fronts or elongated oval shapes can lead to<br>the application of these traits in new technologies.', keywords: ['repeatedly emphasized', 'keen observation', 'nature', 'can lead', 'creation', 'new tools', 'technologies', 'purpose', 'studying', 'topic', 'find ways', 'fulfill', 'people dreams', 'understanding', 'creatures', 'living', 'sea', 'knowing', 'why fish have', 'pointed fronts', 'elongated oval shapes', 'lead', 'application', 'traits', 'new technologies'] },
+      2: { text: '', keywords: ['marine technology', 'ocean innovation', 'sea research'] },
+      3: { text: '', keywords: ['underwater engineering', 'marine science', 'ocean discovery'] },
+      4: { text: 'We will also discover that creatures living underwater<br>or in the sky share common characteristics. In other<br>words, both birds and fish move more efficiently<br>when their fronts are pointed. In addition, when their<br>left and right sides are symmetrical, they can move<br>directly to their desired destinations.', keywords: ['will also discover', 'creatures', 'living underwater', 'sky', 'share', 'common characteristics', 'other words', 'both birds', 'fish', 'move', 'more efficiently', 'fronts', 'pointed', 'addition', 'left', 'right sides', 'symmetrical', 'can move', 'directly', 'desired destinations'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/13.jpg',
+    zones: {
+      1: { text: '(1) Various plants and animals live in the sea besides fish.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Explain what kinds of plants and animals live in the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ocean.<br><br>(2) Many creatures manage to thrive despite little light and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scarce food in the deep sea. Explain the characteristics<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of fish living in the deep sea.', keywords: ['various plants', 'animals', 'live', 'sea', 'besides fish', 'explain', 'what kinds', 'plants', 'animals', 'ocean', 'many creatures', 'manage', 'thrive', 'despite', 'little light', 'scarce food', 'deep sea', 'characteristics', 'fish', 'living'], fontType: 'type3' },
+      2: { text: '01. What Is Under the Sea?<br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of</span><br><span class="larger-text">Creatures in the Sea?</span><br><br>', keywords: ['what is under sea', 'how can apply', 'study', 'creatures', 'sea', 'marine application', 'ocean research'] },
+      3: { text: '', keywords: ['marine biology', 'ocean science', 'sea exploration'] },
+      4: { text: 'There is a saying, "Imitation is the mother of invention."<br>One must first possess great knowledge to create<br>something new. In other words, we can eventually<br>develop new technologies by observing nature and<br>understanding various principles through imitation.<br>Of course, new tools can be created simply by using<br>shapes found in nature.', keywords: ['saying', 'imitation', 'mother', 'invention', 'one must', 'first possess', 'great knowledge', 'create', 'something new', 'other words', 'eventually develop', 'new technologies', 'observing nature', 'understanding', 'various principles', 'through imitation', 'of course', 'new tools', 'created', 'simply', 'using shapes', 'found', 'nature'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/14.jpg',
+    zones: {
+      1: { text: '', keywords: ['marine technology', 'ocean engineering', 'sea innovation'] },
+      3: { text: 'The motion of a canoe paddling forward resembles the<br>way a fish swims. A canoe with pointed ends moves<br>forward easily, and the paddles on both sides allow<br>the canoe to drive straight ahead. Canoes and many<br>other boats have shapes similar to a fish\'s body.<br>Penguins cannot fly and cannot walk quickly on land.<br>However, they are the most excellent divers among<br>birds. Penguin feathers are coated with a special<br>oil to prevent them from getting wet in the water,<br>allowing them to swim quickly.', keywords: ['motion', 'canoe', 'paddling forward', 'resembles', 'way', 'fish swims', 'pointed ends', 'moves forward', 'easily', 'paddles', 'both sides', 'allow', 'drive straight ahead', 'canoes', 'many other boats', 'shapes similar', 'fish body', 'penguins', 'cannot fly', 'cannot walk quickly', 'land', 'however', 'most excellent divers', 'among birds', 'penguin feathers', 'coated', 'special oil', 'prevent', 'getting wet', 'water', 'allowing', 'swim quickly'] },
+      2: { text: 'Moreover, even when they come out of the water,<br>water droplets do not adhere to their bodies,<br>preventing them from getting cold. This feather<br>structure of penguins is also being applied in real life.<br>The wings on airplanes are coated with expensive<br>chemical substances to prevent ice buildup, as ice on<br>wings can lead to potential crashes. Using the feather<br>structure of penguins in this context would be more<br>environmentally friendly and cost-effective.', keywords: ['moreover', 'even when', 'come out', 'water', 'water droplets', 'not adhere', 'bodies', 'preventing', 'getting cold', 'feather structure', 'penguins', 'also being applied', 'real life', 'wings', 'airplanes', 'coated', 'expensive', 'chemical substances', 'prevent', 'ice buildup', 'ice', 'wings', 'lead', 'potential crashes', 'using', 'feather structure', 'context', 'would be', 'more environmentally friendly', 'cost-effective'] },
+      4: { text: '', keywords: ['biomimicry', 'marine inspiration', 'ocean technology'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/15.jpg',
+    zones: {
+      1: { text: '(1) Most fish have excellent swimming abilities. Explain<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;why fish are good at swimming.<br><br>(2) Most creatures living in the deep sea have no eyes or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;very poor eyesight. Explain how these creatures can<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;survive under such conditions.', keywords: ['most fish', 'excellent swimming abilities', 'explain', 'why fish', 'good at swimming', 'most creatures', 'living', 'deep sea', 'no eyes', 'very poor eyesight', 'how these creatures', 'survive', 'such conditions'], fontType: 'type3' },
+      2: { text: 'Red starfish lie on the ocean floor like the stars in the sky.<br>We can see scallops with fan-shaped shells and a flat-<br>bodied stingray gracefully swimming, mimicking the<br>soaring birds in the sky. The underwater world is teeming<br>with fish, including brilliantly adorned snappers, peacefully<br>napping octopuses, gracefully swimming whales, and<br>stealthy sharks sneaking around searching for prey.<br>There is also an unlikely friendship between a stingray and<br>a turtle, as the turtle leisurely follows the stingray\'s tail.<br>If we observe various animals, we can become better at<br>drawing pictures. If we can draw well, we can also excel in<br>mathematics. How do fish living in the seas look?<br>Don\'t their head and fin shapes resemble birds flying in<br>the sky? Can fish swim well even if their heads are too big<br>and fins are too small? Explain.', keywords: ['red starfish', 'lie', 'ocean floor', 'like stars', 'sky', 'see scallops', 'fan-shaped shells', 'flat-bodied stingray', 'gracefully swimming', 'mimicking', 'soaring birds', 'underwater world', 'teeming', 'fish', 'including', 'brilliantly adorned snappers', 'peacefully napping octopuses', 'gracefully swimming whales', 'stealthy sharks', 'sneaking around', 'searching', 'prey', 'also', 'unlikely friendship', 'stingray', 'turtle', 'leisurely follows', 'tail', 'observe', 'various animals', 'become better', 'drawing pictures', 'draw well', 'excel', 'mathematics', 'how do fish', 'living', 'seas look', 'dont their head', 'fin shapes', 'resemble birds', 'flying', 'sky', 'can fish swim well', 'even if', 'heads', 'too big', 'fins', 'too small', 'explain'], fontType: 'type3' },
+      3: { text: '', keywords: ['marine observation', 'ocean study', 'sea research'] },
+      4: { text: '', keywords: ['underwater exploration', 'marine biology', 'ocean science'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/16.jpg',
+    zones: {
+      1: { text: '', keywords: ['fish anatomy', 'marine biology', 'ocean science'] },
+      2: { text: 'The fins on a fish help it move or stop moving. Their roles<br>are slightly different depending on their shape, size,<br>and location. Fish do not flip or wobble while swimming<br>because their fins help maintain the balance of their<br>bodies. As a fish swims, it alternately shakes its entire<br>body left and right, and the tail fin moves along.<br>As the tail fin pushes water, the fish moves forward.<br>The fins attached to the sides of the fish\'s gills are the<br>pectoral fins, while on the belly side, there are pelvic fins<br>and anal fins. Additionally, there is a dorsal fin on the back.<br>Fins that form pairs, such as pectoral and pelvic fins,<br>are called paired fins, while fins that do not form pairs<br>and stand straight, such as dorsal and anal fins, are called<br>unpaired fins. Explain the roles of each type of fin.', keywords: ['fins', 'fish', 'help', 'move', 'stop moving', 'roles', 'slightly different', 'depending', 'shape', 'size', 'location', 'fish', 'not flip', 'wobble', 'swimming', 'because', 'fins help', 'maintain', 'balance', 'bodies', 'fish swims', 'alternately shakes', 'entire body', 'left', 'right', 'tail fin', 'moves along', 'tail fin pushes', 'water', 'fish moves forward', 'fins attached', 'sides', 'fish gills', 'pectoral fins', 'belly side', 'pelvic fins', 'anal fins', 'additionally', 'dorsal fin', 'back', 'fins', 'form pairs', 'pectoral', 'pelvic fins', 'called', 'paired fins', 'fins', 'not form pairs', 'stand straight', 'dorsal', 'anal fins', 'called', 'unpaired fins', 'explain', 'roles', 'each type', 'fin'], fontType: 'type3' },
+      3: { text: '', keywords: ['marine locomotion', 'ocean movement', 'sea swimming'] },
+      4: { text: '', keywords: ['fish physiology', 'marine anatomy', 'ocean biology'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/17.jpg',
+    zones: {
+      1: { text: '', keywords: ['jellyfish population', 'marine ecology', 'ocean environment'] },
+      2: { text: 'The world has been at war with jellyfish since the 2000s.<br>The number of people getting stung by jellyfish while<br>swimming in the sea has dramatically increased, and<br>fishermen are catching more jellyfish than fish in their<br>nets. Scientists attribute this surge in jellyfish population<br>to the rising sea temperatures due to global warming.<br>Furthermore, jellyfish have an incredible reproductive<br>capacity, with some species laying over 100 million eggs at<br>once. The decrease in jellyfish predators also contributes<br>to the increase in their numbers. Marine animals, such<br>as sea turtles, sunfish, lancetfish, mackerel, sharks, and<br>swordfish, feed on jellyfish. However, overhunting of these<br>animals by humans has led to the proliferation of jellyfish.<br>Additionally, many natural jellyfish predators have died<br>from mistaking floating plastic or vinyl fragments in the<br>ocean for jellyfish and consuming them.<br>Explain what we can do to reduce the number of jellyfish.', keywords: ['world', 'been at war', 'jellyfish', 'since', '2000s', 'number', 'people', 'getting stung', 'jellyfish', 'while swimming', 'sea', 'dramatically increased', 'fishermen', 'catching', 'more jellyfish', 'than fish', 'nets', 'scientists', 'attribute', 'surge', 'jellyfish population', 'rising sea temperatures', 'due to', 'global warming', 'furthermore', 'jellyfish', 'incredible', 'reproductive capacity', 'some species', 'laying', 'over 100 million eggs', 'once', 'decrease', 'jellyfish predators', 'also contributes', 'increase', 'numbers', 'marine animals', 'such as', 'sea turtles', 'sunfish', 'lancetfish', 'mackerel', 'sharks', 'swordfish', 'feed on', 'jellyfish', 'however', 'overhunting', 'these animals', 'humans', 'led to', 'proliferation', 'jellyfish', 'additionally', 'many natural', 'jellyfish predators', 'died', 'from mistaking', 'floating plastic', 'vinyl fragments', 'ocean', 'for jellyfish', 'consuming them', 'explain', 'what we can do', 'reduce', 'number', 'jellyfish'], fontType: 'type3' },
+      3: { text: '', keywords: ['marine conservation', 'ocean protection', 'sea preservation'] },
+      4: { text: '', keywords: ['environmental impact', 'marine pollution', 'ocean health'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/18.jpg',
+    zones: {
+      1: { text: 'Sharks and whales are large predatory animals in the<br>ocean, boasting massive body sizes. While sharks with<br>sharp teeth may appear more menacing, whales are also<br>formidable creatures. There are several differences<br>between sharks and whales. Sharks, being fish, breathe<br>through gills, whereas whales and mammals breathe<br>through lungs. Sharks swim by moving their tails from side<br>to side, while whales propel themselves forward by moving<br>their tails up and down.<br>Whales give birth to offspring, whereas sharks lay eggs.<br>Unlike baby sharks, baby whales feed on their mother\'s<br>milk. Whales communicate through various sounds and<br>even sing, while sharks do not possess such communication<br>skills. Whales must always stay awake to breathe.<br>If a whale were to fall into a deep sleep, it could suffocate<br>and die. However, whales do sleep. Explain what methods<br>whales use to sleep.', keywords: ['sharks', 'whales', 'large predatory animals', 'ocean', 'boasting', 'massive body sizes', 'while sharks', 'sharp teeth', 'may appear', 'more menacing', 'whales', 'also formidable creatures', 'several differences', 'between sharks', 'whales', 'sharks', 'being fish', 'breathe', 'through gills', 'whereas whales', 'mammals', 'breathe', 'through lungs', 'sharks swim', 'moving', 'tails', 'from side to side', 'while whales', 'propel themselves', 'forward', 'moving', 'tails', 'up and down', 'whales', 'give birth', 'offspring', 'whereas sharks', 'lay eggs', 'unlike baby sharks', 'baby whales', 'feed on', 'mother milk', 'whales', 'communicate', 'through various sounds', 'even sing', 'while sharks', 'not possess', 'such communication skills', 'whales', 'must always', 'stay awake', 'breathe', 'if whale', 'were to fall', 'deep sleep', 'could suffocate', 'die', 'however', 'whales', 'do sleep', 'explain', 'what methods', 'whales use', 'sleep'], fontType: 'type3' },
+      2: { text: '', keywords: ['marine mammals', 'ocean giants', 'sea predators'] },
+      3: { text: '', keywords: ['whale behavior', 'shark biology', 'marine comparison'] },
+      4: { text: '', keywords: ['ocean ecology', 'marine diversity', 'sea life'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/19.jpg',
+    zones: {
+      1: { text: '<span class="larger-text">Sharks Swimming for Their Lives</span><br><br>Sharks swim constantly in the sea. The reason comes from<br>two characteristics of sharks. First, shark gills have no motor<br>function. When many types of fish breathe, they actively<br>move their gills to suck in water through their mouths and<br>expel it through the gills. During this process, oxygen in the<br>water passing through the gills is absorbed into the body.<br>However, shark gills cannot suck in and expel on their own.<br>Because of this, they must swim with their mouths open<br>to suck in water and expel it through their gills. In other<br>words, sharks have to keep swimming to be able to breathe.<br>Second, sharks do not have swim bladders. Fish have air sacs<br>called swim bladders in their bodies. Fish can float or sink by<br>controlling the amount of air in their swim bladder.<br>Then how can a shark without a swim bladder avoid sinking?<br>Sharks do not have swim bladders, but their bodies have<br>good characteristics for floating. Shark bones are made of<br>light cartilage, so their body weight is light compared to<br>their size.', keywords: ['sharks swimming', 'their lives', 'sharks swim', 'constantly', 'sea', 'reason comes', 'two characteristics', 'sharks', 'first', 'shark gills', 'no motor function', 'when many types', 'fish breathe', 'actively move', 'gills', 'suck in water', 'through mouths', 'expel it', 'through gills', 'during process', 'oxygen', 'water', 'passing through', 'gills', 'absorbed', 'body', 'however', 'shark gills', 'cannot suck in', 'expel', 'own', 'because of this', 'must swim', 'mouths open', 'suck in water', 'expel it', 'through gills', 'other words', 'sharks', 'have to keep swimming', 'able to breathe', 'second', 'sharks', 'not have', 'swim bladders', 'fish', 'have air sacs', 'called', 'swim bladders', 'bodies', 'fish can float', 'sink', 'controlling', 'amount', 'air', 'swim bladder', 'then how', 'shark', 'without swim bladder', 'avoid sinking', 'sharks', 'not have', 'swim bladders', 'bodies', 'have good characteristics', 'floating', 'shark bones', 'made of', 'light cartilage', 'body weight', 'light', 'compared to', 'size'], fontType: 'type3' },
+      2: { text: '', keywords: ['shark physiology', 'marine respiration', 'ocean breathing'] },
+      3: { text: '', keywords: ['shark anatomy', 'marine biology', 'ocean science'] },
+      4: { text: '', keywords: ['marine adaptation', 'ocean survival', 'sea evolution'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/20.jpg',
+    zones: {
+      1: { text: 'Additionally, the liver is full of light oil. Thanks to this,<br>they can prevent the body from sinking to some extent.<br>But this alone is not enough. The second reason sharks<br>keep swimming is to avoid sinking. The shape of a shark\'s<br>fin is unique. The caudal fins of many fish are symmetrical<br>up and down, and the pectoral fins are attached to the<br>body. In contrast, the shark\'s tail fin is wider at the top,<br>and its pectoral fin protrudes like a bird\'s wing. Because<br>of this fin shape, the shark receives upward force when<br>swimming.', keywords: ['additionally', 'liver', 'full of', 'light oil', 'thanks to this', 'can prevent', 'body', 'from sinking', 'some extent', 'but this alone', 'not enough', 'second reason', 'sharks', 'keep swimming', 'avoid sinking', 'shape', 'shark fin', 'unique', 'caudal fins', 'many fish', 'symmetrical', 'up and down', 'pectoral fins', 'attached', 'body', 'in contrast', 'shark tail fin', 'wider', 'top', 'its pectoral fin', 'protrudes', 'like bird wing', 'because of', 'fin shape', 'shark', 'receives', 'upward force', 'when swimming'], fontType: 'type4' },
+      2: { text: '<span class="larger-text">02. People Who Invented Ships and</span><br><span class="larger-text">Submarines</span><br><br>', keywords: ['people who invented', 'ships', 'submarines', 'marine technology', 'ocean engineering'] },
+      3: { text: '', keywords: ['ship building', 'marine history', 'ocean technology'] },
+      4: { text: 'When was the first ship ever made?<br>The Book of Genesis tells the story of "Noah," who<br>survived the flood by building an ark. The world had<br>become too noisy, with people doing many bad things.<br>Seeing this, God decided to bring punishment by<br>causing a flood. God commanded the righteous Noah<br>to build a large ark.', keywords: ['when was', 'first ship', 'ever made', 'book of genesis', 'tells story', 'noah', 'who survived', 'flood', 'building', 'ark', 'world', 'become', 'too noisy', 'people', 'doing', 'many bad things', 'seeing this', 'god decided', 'bring punishment', 'causing', 'flood', 'god commanded', 'righteous noah', 'build', 'large ark'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/21.jpg',
+    zones: {
+      1: { text: 'Noah spent 120 years building the ark. He loaded<br>the ark with his family and pairs of various animals.<br>Soon after, a massive flood that would overturn the<br>world actually occurred. The flood lasted for 40 days,<br>washing away everything in the world.<br>After the flood, Noah sent out a dove, which returned<br>with news of land. When Noah reached the land,<br>he offered sacrifices to God.', keywords: ['noah spent', '120 years', 'building', 'ark', 'loaded', 'ark', 'family', 'pairs', 'various animals', 'soon after', 'massive flood', 'would overturn', 'world', 'actually occurred', 'flood lasted', '40 days', 'washing away', 'everything', 'world', 'after flood', 'noah sent out', 'dove', 'which returned', 'news', 'land', 'when noah', 'reached', 'land', 'offered sacrifices', 'god'] },
+      2: { text: 'Only then was God\'s anger soothed, and He sent<br>a rainbow, promising never to punish people or<br>animals again. The ark built by Noah is a story that<br>comes from mythology. It is unknown whether Noah\'s<br>Ark was actually built.<br>When did humans make the first ship? The first ships<br>made by humans are said to date back to the Stone<br>Age. The Stone Age was the era when tools made of<br>stone axes or knives were used.', keywords: ['only then', 'god anger', 'soothed', 'he sent', 'rainbow', 'promising', 'never', 'punish people', 'animals', 'again', 'ark built', 'noah', 'story', 'comes from', 'mythology', 'unknown', 'whether', 'noah ark', 'actually built', 'when did', 'humans make', 'first ship', 'first ships', 'made by', 'humans', 'said to date back', 'stone age', 'stone age', 'era', 'when tools', 'made of', 'stone axes', 'knives', 'were used'] },
+      3: { text: 'Explain when humans first made and used ships.', keywords: ['explain', 'when humans', 'first made', 'used ships'], fontType: 'type2' },
+      4: { text: '', keywords: ['ancient shipbuilding', 'marine history', 'ocean technology'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/22.jpg',
+    zones: {
+      1: { text: '', keywords: ['ancient navigation', 'marine archaeology', 'ocean history'] },
+      3: { text: 'Isn\'t it fascinating that they made ships using tools<br>made of stone? How did they make ships during the<br>Stone Age? First, they used stone axes and hammers<br>to cut down large trees. People in the Stone Age used<br>fire. They burned off small branches of trees.<br>Using fire and stone axes, they hollowed out the<br>inside of the tree to make a log boat. Before that,<br>it is said that people wove together multiple logs to<br>create rafts for navigating on water.', keywords: ['isnt it fascinating', 'made ships', 'using tools', 'made of stone', 'how did', 'make ships', 'during', 'stone age', 'first', 'used stone axes', 'hammers', 'cut down', 'large trees', 'people', 'stone age', 'used fire', 'burned off', 'small branches', 'trees', 'using fire', 'stone axes', 'hollowed out', 'inside', 'tree', 'make', 'log boat', 'before that', 'said that', 'people', 'wove together', 'multiple logs', 'create rafts', 'navigating', 'water'] },
+      2: { text: 'Who were the first people to make sailboats?<br>In ancient Egypt, people used a plant called "papyrus"<br>to make boats and attach sails to them.<br>However, boats made of reeds like papyrus broke<br>easily, so they needed wood to make sturdy boats.<br>The Egyptians cut acacia wood into short pieces and<br>connected them together to make a boat.', keywords: ['who were', 'first people', 'make sailboats', 'ancient egypt', 'people used', 'plant called', 'papyrus', 'make boats', 'attach sails', 'them', 'however', 'boats made', 'reeds', 'like papyrus', 'broke easily', 'needed wood', 'make sturdy boats', 'egyptians', 'cut', 'acacia wood', 'short pieces', 'connected', 'together', 'make boat'] },
+      4: { text: 'Explain how the Egyptians made a sailboat using<br>acacia wood.', keywords: ['explain', 'how', 'egyptians', 'made', 'sailboat', 'using', 'acacia wood'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/23.jpg',
+    zones: {
+      1: { text: 'They cut acacia wood and made planks, stacking them<br>like bricks in a staggered pattern to create the shape<br>of the boat. Using acacia wood, they crafted a mast<br>and made a sail from papyrus to catch the wind.<br>The shape of this sailboat is known for its rounded<br>ends at the front and back, and such boats are still<br>common today.', keywords: ['cut', 'acacia wood', 'made planks', 'stacking them', 'like bricks', 'staggered pattern', 'create', 'shape', 'boat', 'using', 'acacia wood', 'crafted', 'mast', 'made', 'sail', 'from papyrus', 'catch', 'wind', 'shape', 'this sailboat', 'known for', 'rounded ends', 'front', 'back', 'such boats', 'still common', 'today'] },
+      2: { text: 'The Phoenicians also made sailboats, which are<br>considered the best-made boats among those made<br>before them. The Phoenicians used oars to move<br>their ships on the water when there was no wind.<br>Additionally, when the wind blew, they made sails<br>to harness its power, allowing them to move faster.<br>The Phoenicians sailed these boats to various<br>countries, engaging in trade and amassing wealth<br>while contributing to the growth of their nation.', keywords: ['phoenicians', 'also made', 'sailboats', 'which are', 'considered', 'best-made boats', 'among those', 'made before them', 'phoenicians', 'used oars', 'move', 'ships', 'water', 'when', 'no wind', 'additionally', 'when wind', 'blew', 'made sails', 'harness', 'power', 'allowing', 'move faster', 'phoenicians', 'sailed', 'these boats', 'various countries', 'engaging', 'trade', 'amassing wealth', 'while contributing', 'growth', 'their nation'] },
+      3: { text: '', keywords: ['ancient maritime', 'marine trade', 'ocean commerce'] },
+      4: { text: '', keywords: ['marine history', 'ocean exploration', 'sea navigation'] }
+    }
+  },{
+    bg: '../assets/img/ReadBook/G1.1.5/24.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'There is an air-cushion vehicle that can move quickly<br>on the water. The boat slightly floats on the water,<br>allowing it to move as if sliding. In 1955, Christopher<br>Cockerell in the UK discovered that a tin can attached<br>to a fan would slightly float on the water.<br>If we drill holes in the bottom of a boat and release<br>air, the boat can float. The air-cushion craft is slightly<br>suspended in the air, allowing it to move forward<br>faster and more easily. Today, the air-cushion vehicle<br>is known as a hovercraft. The hovercraft can move<br>quickly not only on the water but also on land.', keywords: ['air-cushion vehicle', 'hovercraft', 'Christopher Cockerell', 'float', 'suspended', 'boat', 'water', 'air', 'propulsion', 'land water travel'] },
+      2: { text: 'If an airplane was created inspired by the shape of<br>a bird, what would boats be based on? People have<br>been designing boats based on fish for a long time.<br>What serves a similar purpose to a fish\'s fins?<br>The sail and rudders attached to the boat perform<br>tasks similar to the fins. The sail catches the wind,<br>allowing the boat to cut through waves and move<br>forward, much like a tail fin. The rudder is used when<br>changing direction. Turning the steering wheel causes<br>the rudder at the back of the boat to rotate, and the<br>rudder has a shape similar to the pectoral fins on the<br>side of a fish\'s body.', keywords: ['airplane', 'bird', 'boats', 'fish', 'fins', 'sail', 'rudders', 'pectoral fins', 'wind', 'waves', 'direction', 'steering'] },
+      3: { text: '', keywords: ['marine design', 'boat engineering', 'ocean technology', 'fish inspiration', 'natural design'] },
+      4: { text: 'Explain why an air-cushion vehicle can move<br>quickly on water.', keywords: ['air-cushion vehicle', 'move quickly', 'water', 'explain', 'hovercraft', 'propulsion'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/25.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Observing how fish swim underwater led people to<br>envision creating submarines that could submerge.<br>Aristotle discovered that if we put a large container<br>shaped like a bell into the water, we can breathe<br>using the air trapped in the enclosed space.<br>This apparatus, called a diving bell, is constructed<br>with a bell-shaped chamber with a weight attached<br>to it, causing it to sink underwater. Its appearance<br>resembles an inverted bucket submerged in water.<br>Additionally, to stay underwater for an extended<br>period, a mechanism capable of drawing air from<br>above the water was needed.', keywords: ['fish', 'swim', 'submarines', 'Aristotle', 'diving bell', 'bell-shaped', 'underwater', 'breathing', 'air', 'submersion', 'ocean exploration'] },
+      4: { text: 'This is similar to how an elephant, when submerged,<br>extends its trunk above water to breathe. Leonardo<br>da Vinci utilized these ideas to create a submarine<br>and diving suit for underwater exploration.<br>Leonardo da Vinci, a highly intelligent inventor and<br>artist, chose not to publicize this fact, fearing it might<br>lead to dangerous consequences if misused.', keywords: ['elephant', 'trunk', 'Leonardo da Vinci', 'submarine', 'diving suit', 'underwater exploration', 'breathing', 'invention', 'secrecy'] },
+      3: { text: 'Identify what part of the boat serves a similar<br>purpose to a fish\'s fins.', keywords: ['boat', 'fish fins', 'similar purpose', 'identify', 'rudder', 'sail', 'propulsion'] },
+      2: { text: '', keywords: ['marine inspiration', 'ocean exploration', 'underwater technology', 'natural adaptation'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/26.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: 'The credit for creating the first submarine goes to<br>Cornelis Drebbel, a Dutchman who built a submarine<br>based on the design by William Bourne.<br>Later, in 1774, an American named John Day attempted<br>a submarine dive using a submarine he had built in<br>Plymouth Harbor.', keywords: ['first submarine', 'Cornelis Drebbel', 'William Bourne', 'John Day', 'Plymouth Harbor', 'Dutch inventor', 'submarine history', '1774'] },
+      2: { text: 'Unfortunately, John Day was unable to resurface and<br>tragically became the first person to lose his life in<br>a submarine accident.<br>Why did people create submarines? Observing fish<br>swimming comfortably underwater inspired the<br>creation of submarines. The curiosity of those who<br>wished to explore the mysterious world beneath the<br>sea, much like fish swimming, led to the development<br>of submarines.', keywords: ['John Day', 'submarine accident', 'fish swimming', 'underwater', 'mysterious world', 'sea exploration', 'curiosity', 'marine life', 'ocean discovery'] },
+      1: { text: '', keywords: ['marine history', 'ocean discovery', 'underwater exploration', 'submarine development'] },
+      4: { text: 'Explain how Aristotle\'s idea of a submarine,<br>the diving bell, was constructed.', keywords: ['Aristotle', 'submarine', 'diving bell', 'constructed', 'explain', 'bell-shaped', 'underwater breathing'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/27.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'What shape do submarines have?<br>The shape of a submarine resembles that of a fish.<br>The body is long and round, with a propeller at the<br>rear. Fish have a streamlined body. Streamlined shape<br>refers to a shape that tapers to a point at the front<br>and widens toward the back, creating an elongated<br>and rounded form. Streamlined shape helps reduce<br>resistance as the object moves forward in water.', keywords: ['submarines', 'fish shape', 'streamlined', 'propeller', 'resistance', 'water', 'aerodynamic', 'hydrodynamic', 'efficiency'] },
+      4: { text: 'Fish have a swim bladder inside their bodies. By filling<br>the swim bladder with air, the fish\'s body floats.<br>By releasing the air, the fish\'s body sinks. Submarines<br>have a ballast tank that serves a similar purpose to<br>a fish\'s swim bladder. When water is removed from<br>the ballast tank, the submarine rises. When water is<br>added, the submarine sinks. Like the tail fin of a fish,<br>submarines have a propeller at the rear, playing a role<br>in helping the submarine move forward.', keywords: ['swim bladder', 'ballast tank', 'float', 'sink', 'tail fin', 'propeller', 'buoyancy', 'submersion', 'marine propulsion'] },
+      2: { text: '', keywords: ['submarine design', 'marine engineering', 'ocean technology', 'natural adaptation'] },
+      3: { text: 'Describe the shape of a submarine.', keywords: ['describe', 'shape', 'submarine', 'streamlined', 'fish-like'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/28.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'What are submarines used for today?<br>Submarines began to be used for infiltrating enemy<br>bases or launching surprise attacks during wars.', keywords: ['submarines', 'today', 'enemy bases', 'surprise attacks', 'wars', 'military', 'naval warfare', 'stealth'] },
+      2: { text: 'In 1776, American inventor David Bushnell created<br>a submarine named "Turtle" to attack British warships<br>during the American War of Independence. This first<br>submarine, named after its turtle-like appearance,<br>attempted to attach bombs by creating holes in<br>enemy ships. However, Turtle\'s attack failed as it<br>could not pierce the bottom of the ships.', keywords: ['David Bushnell', 'Turtle', 'British warships', 'American War of Independence', 'bombs', 'failed attack', '1776', 'first submarine', 'naval warfare'] },
+      3: { text: 'Explain how submarines can be used.', keywords: ['explain', 'submarines', 'used', 'military', 'civilian', 'research'] },
+      4: { text: '', keywords: ['military submarines', 'naval warfare', 'underwater combat', 'stealth operations'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/29.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: 'Submarines are also used to salvage sunken ships<br>from the depths of the sea. They are employed for<br>observing fish during ocean exploration and are even<br>used for tourism. On an island in the South Pacific,<br>tourists can even take a submarine ride to explore<br>the underwater world. Submarines resemble sharks<br>that swim well underwater, with a pointed front and<br>a propeller at the back, similar to a shark\'s tail fin.', keywords: ['salvage', 'sunken ships', 'ocean exploration', 'tourism', 'South Pacific', 'sharks', 'pointed front', 'civilian use', 'underwater tourism'] },
+      2: { text: 'The submarine is sometimes referred to as a "U-boat."<br>In German, U-boat translates to "ship traveling<br>beneath the sea." Germany began using U-boats<br>during World War I. In World War II, submarines were<br>utilized by Germany to attack Allied ships carrying<br>troops and weapons. Faced with Germany\'s invisible<br>attacks, the Allies were in danger of losing the war.<br>However, the Allies developed radar technology to<br>detect German submarine positions and successfully<br>counterattacked, leading to victory in the war.', keywords: ['U-boat', 'German', 'World War I', 'World War II', 'Allied ships', 'radar technology', 'naval warfare', 'stealth', 'counterattack'] },
+      1: { text: '', keywords: ['civilian submarines', 'research submarines', 'tourism submarines', 'ocean exploration'] },
+      4: { text: '', keywords: ['naval history', 'military technology', 'ocean warfare', 'submarine warfare'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/30.jpg',
+    hasStartButton: false,
+    zones: {
+      4: { text: 'A sailboat is drifting on the sea with waves rolling.<br>What happens to the boat if the direction of the sail<br>attached to the sailboat is tilted to one side?<br>The sailboat will not be able to go straight. Instead,<br>it will veer to the side. If the sail is completely turned<br>to the side, the boat will eventually tip over and sink.', keywords: ['sailboat', 'waves', 'sail', 'tilted', 'veer', 'tip over', 'sailing', 'wind direction', 'boat stability'] },
+      1: { text: 'Today, there are nuclear-powered submarines that<br>use nuclear energy for propulsion. Nuclear submarines<br>do not need to surface to refuel, eliminating the<br>inconvenience of refueling. The USS Nautilus,<br>the first nuclear-powered submarine, was created by<br>the United States in 1954.<br>The submarine Nautilus, famous for being the first to<br>travel beneath the Arctic ice, is said to have stayed<br>underwater for 50 days. The submarine mentioned in<br>the book Twenty Thousand Leagues Under the Sea by<br>the French writer Jules Verne is also named Nautilus.', keywords: ['nuclear-powered submarines', 'nuclear energy', 'USS Nautilus', 'Arctic ice', 'Jules Verne', 'Twenty Thousand Leagues Under the Sea', '1954', 'nuclear propulsion', 'Arctic exploration'] },
+      3: { text: 'Explain the meaning of the term "U-boat" used as<br>another name for submarines.', keywords: ['U-boat', 'meaning', 'submarines', 'explain', 'German', 'naval terminology'] },
+      2: { text: '', keywords: ['nuclear technology', 'marine propulsion', 'ocean exploration', 'nuclear submarines'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/31.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'An oil tanker carrying oil across the vast sea has two<br>large propellers attached. The propeller is a device<br>that generates the force to move forward by splitting<br>the water.<br>What would happen if one of the propellers on the oil<br>tanker malfunctioned? Would anything happen,<br>or would everything remain unchanged?', keywords: ['oil tanker', 'propellers', 'device', 'splitting water', 'malfunctioned', 'marine propulsion', 'oil transport', 'propeller failure'] },
+      2: { text: 'It may not move straight and could drift off course.<br>If luck is not on its side, it might collide with large<br>rocks underwater and sink.<br>While scanning the depths of the sea, a submarine<br>glides smoothly amidst the fish. The submarine is<br>observing various fish in the underwater world.<br>Similar to an oil tanker, the submarine also has two<br>propellers. This allows it to maintain balance and<br>move forward steadily, even in the deep sea.', keywords: ['drift off course', 'collide', 'rocks underwater', 'submarine', 'maintain balance', 'deep sea', 'propeller balance', 'marine navigation'] },
+      3: { text: '', keywords: ['marine propulsion', 'ocean navigation', 'ship engineering', 'propeller systems'] },
+      4: { text: 'Explain how the sail should be positioned for<br>a sailboat to move forward efficiently.', keywords: ['sail', 'positioned', 'sailboat', 'move forward', 'efficiently', 'wind direction', 'sailing technique'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/32.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'What would happen if one of the propellers on the<br>submarine suddenly stopped? The submarine would<br>no longer move straight. Instead, it might drift in an<br>undesired direction. It could sway and even crash into<br>the seabed without maintaining its balance.<br>Sailboats, oil tankers, and submarines are all modeled<br>after the shape of fish. Like the fins on a fish\'s body,<br>the propellers on oil tankers and submarines help<br>them maintain balance and move forward.', keywords: ['propellers stopped', 'drift', 'undesired direction', 'crash', 'seabed', 'modeled after fish', 'propeller failure', 'marine balance', 'fish inspiration'] },
+      4: { text: 'If there were no boats or submarines, we would have<br>to swim across the water ourselves. What kind of body<br>shape is ideal for swimming? To swim well, it is better<br>to be tall. Additionally, having large hands and feet<br>allows us to push more water backward, enabling us<br>to move forward faster. Long arms and short legs are<br>advantageous for swimming. If the legs are long, the<br>back tends to sink more, making it difficult to move<br>forward. Short legs allow the body to float parallel to<br>the water, making swimming more comfortable.', keywords: ['swim across water', 'body shape', 'ideal', 'tall', 'large hands feet', 'long arms', 'short legs', 'swimming technique', 'body mechanics', 'aquatic sports'] },
+      3: { text: 'Explain why submarines have two propellers.', keywords: ['submarines', 'two propellers', 'explain', 'balance', 'propulsion', 'stability'] },
+      2: { text: '', keywords: ['swimming technique', 'body mechanics', 'aquatic sports', 'human swimming'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/33.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: 'Like birds, a smaller head is better for swimming.<br>If the head is too large, it tends to sink underwater,<br>making it challenging to move straight ahead.<br>One of the best swimmers in the world is Michael<br>Phelps from the United States.<br>This swimmer is nicknamed the "Human Fish."<br>Watching Phelps swim through the currents and excel<br>in swimming leaves everyone in awe.', keywords: ['birds', 'smaller head', 'swimming', 'Michael Phelps', 'Human Fish', 'currents', 'swimming technique', 'body proportions', 'olympic swimming'] },
+      4: { text: 'Another celebrated swimmer is Caeleb Dressel from<br>the United States. Dressel won multiple gold medals<br>at the 2020 Tokyo Olympics, excelling in sprint<br>events. Known for his power and speed, Dressel has<br>become a dominant force in swimming.<br>Through intense training and focus, he continues to<br>inspire swimmers around the globe with his incredible<br>performances.', keywords: ['Caeleb Dressel', 'gold medals', '2020 Tokyo Olympics', 'sprint events', 'power', 'speed', 'training', 'olympic swimming', 'swimming champions'] },
+      1: { text: '', keywords: ['olympic swimming', 'competitive sports', 'aquatic athletes', 'swimming excellence'] },
+      2: { text: '', keywords: ['swimming champions', 'marine sports', 'ocean athletics', 'human swimming'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/34.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'We can hear loud cheers from various places where<br>people are supporting their country\'s athletes.<br>The athletes are warming up in their respective<br>lanes. Some are doing light jumping jacks to relax,<br>while others, wearing large headphones, move their<br>bodies slowly, listening to music. Even before the<br>game begins, the athletes are getting ready on their<br>starting blocks in their lanes. Now, as soon as the<br>signal is given to indicate the start the athletes dive<br>into the water simultaneously.', keywords: ['loud cheers', 'athletes', 'warming up', 'jumping jacks', 'headphones', 'starting blocks', 'swimming competition', 'olympic games', 'aquatic sports'] },
+      2: { text: 'Everyone begins swimming with impressive strokes.<br>Those who witness the powerful swimming of the<br>athletes cheer even louder. Suddenly, a problem<br>arises. One swimmer, who was swimming rapidly,<br>seems to be in trouble. It looks like he may have<br>gotten a cramp. Unable to move his arms freely,<br>he loses direction and starts moving in different<br>directions. He needs to swim straight ahead,<br>but he is obstructing the swimmer next to him.', keywords: ['impressive strokes', 'powerful swimming', 'problem', 'cramp', 'loses direction', 'obstructing', 'swimming injury', 'competition accident', 'aquatic emergency'] },
+      3: { text: 'Explain what happens when a swimmer loses the<br>use of one arm.', keywords: ['swimmer', 'loses', 'one arm', 'explain', 'swimming technique', 'arm injury', 'aquatic movement'] },
+      4: { text: '', keywords: ['swimming competition', 'aquatic sports', 'ocean athletics', 'competitive swimming'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/35.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: 'In swimming competitions, if swimmers leave their<br>designated lane or interfere with another swimmer\'s<br>race, they get disqualified.<br>Unfortunately, the swimmer with a cramped arm has<br>been disqualified. People sometimes call someone<br>skilled in swimming an "aquatic human." They use both<br>arms and legs to part the water and move forward.<br>The arms function like a fish\'s pectoral fins, providing<br>balance in the water and aiding in movement toward<br>a desired direction.', keywords: ['swimming competitions', 'designated lane', 'disqualified', 'aquatic human', 'pectoral fins', 'balance', 'swimming technique', 'competition rules', 'marine movement'] },
+      2: { text: 'The legs function like a ship\'s propeller, pushing water<br>to propel forward. If swimmers encounter a problem<br>with one arm while swimming, they might struggle to<br>move in the desired direction, tilting their body and<br>potentially falling into the water.<br>Would a shark be able to hunt if one of its fins got<br>damaged? Due to the discomfort in the fin, the shark<br>might move in the wrong direction, missing its prey<br>right in front of its eyes.', keywords: ['legs function', 'ship propeller', 'pushing water', 'struggle', 'tilting body', 'shark hunt', 'damaged fin', 'marine propulsion', 'aquatic locomotion', 'predator hunting'] },
+      1: { text: '', keywords: ['swimming technique', 'marine biology', 'ocean sports', 'aquatic movement'] },
+      4: { text: '', keywords: ['aquatic locomotion', 'marine movement', 'ocean swimming', 'human swimming'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/36.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: 'In ancient times, people led a nomadic life, moving<br>around to find food. For them, two legs were the<br>only means of transportation. A new challenge arose<br>when they encountered vast rivers and seas that<br>were impossible to cross by walking or swimming.<br>Contemplating how to overcome these obstacles,<br>they eventually crafted boats resembling fish to<br>navigate the waters.', keywords: ['ancient times', 'nomadic life', 'two legs', 'transportation', 'vast rivers', 'seas', 'boats resembling fish', 'early navigation', 'marine history', 'water crossing'] },
+      4: { text: 'When studying how the technology of building boats<br>and submarines progressed, the goal is not limited<br>to understanding the development process. People,<br>despite fearing the unknown, have an innate desire to<br>explore uncharted territories. In these undiscovered<br>worlds, existing knowledge might become obsolete,<br>yet leveraging the accumulated knowledge allows for<br>the creation of new solutions.', keywords: ['technology', 'building boats', 'submarines', 'development process', 'unknown', 'uncharted territories', 'new solutions', 'marine innovation', 'ocean exploration', 'technological advancement'] },
+      3: { text: '', keywords: ['marine history', 'ocean exploration', 'sea technology', 'ancient navigation'] },
+      1: { text: '02. People Who Invented Ships and Submarines<br><span class="larger-text">Ⅰ. What Is the Purpose of Studying</span><br><span class="larger-text">the People Who Invented Ships and</span><br><span class="larger-text">Submarines?</span>', keywords: ['People Who Invented Ships', 'Submarines', 'Purpose of Studying', 'marine inventors', 'ocean technology'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/37.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'For example, by utilizing the principles of submarine<br>movement underwater, we can discover efficient<br>methods for moving in space with minimal energy.<br>Creatures living in the sky and the sea may have<br>different appearances, but they share various<br>commonalities. Firstly, they have pointed fronts and<br>rounded bodies, reducing resistance from air or water.<br>Additionally, their left and right sides look the same,<br>allowing them to move straight ahead.', keywords: ['submarine movement', 'underwater', 'space', 'minimal energy', 'pointed fronts', 'rounded bodies', 'resistance', 'aerodynamic design', 'hydrodynamic efficiency', 'natural adaptation'] },
+      2: { text: '<span class="larger-text">02. People Who Invented Ships and Submarines</span><br><span class="larger-text">Ⅱ. How Can We Apply the Study of</span><br><span class="larger-text">the People Who Invented Ships and</span><br><span class="larger-text">Submarines?</span><br><br>', keywords: ['People Who Invented Ships', 'Apply the Study', 'Mathematics', 'discovery', 'secrets of nature', 'raft', 'logs', 'marine application', 'ocean technology'] },
+      3: { text: '(1) The body of a fish is elongated yet round. This shape is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;said to be streamlined. List some organisms in nature<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with streamlined bodies.<br><br>(2) To achieve good results in swimming, athletes need<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;not only swimming skills but also favorable physical<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conditions. What physical conditions contribute to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;being a good swimmer? Explain.<br><br>', keywords: ['fish body', 'elongated', 'round', 'streamlined', 'organisms', 'swimming', 'physical conditions', 'aquatic adaptation', 'swimming technique', 'body mechanics'], fontType: 'type3' },
+      4: { text: 'Mathematics is not a study of invention but the study<br>of discovery. By unraveling the secrets of nature, we<br>can create machines and technological devices that<br>bring happiness to people. Although humans have the<br>ability to think and have rich imaginations, is there<br>a need to learn something new from nature? Consider<br>this example. The first method people thought to<br>cross a river was to create a raft. Connecting logs<br>side by side to make a raft allowed it to float, but it<br>required a lot of force to move forward.', keywords: ['marine application', 'ocean technology', 'sea innovation', 'mathematics', 'natural discovery', 'technological advancement', 'raft building', 'water crossing'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/38.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'This is because it does not resemble the nature of<br>water. Therefore, to create boats, people carved<br>thick logs into a streamlined shape, imitating the<br>appearance of fish. Boats made this way moved<br>forward well, even against strong currents.<br>People began to realize that by emulating the forms<br>found in nature, life became more comfortable.<br>Over time, submarines were also invented, allowing<br>free and easy underwater exploration.', keywords: ['nature of water', 'streamlined shape', 'imitating fish', 'strong currents', 'emulating nature', 'submarines', 'underwater exploration', 'boat design', 'marine innovation', 'natural inspiration'] },
+      2: { text: 'The principle of how boats and submarines float is<br>being utilized in architecture. With the increasing<br>severity of global warming, sea levels are rising,<br>leading to a gradual reduction in land.<br>To address this issue, we can consider creating<br>artificial land that floats on the water and build<br>houses on it. Since artificial land moves along with<br>changes in sea levels, there is no concern that the<br>house will be submerged.', keywords: ['boats submarines float', 'architecture', 'global warming', 'sea levels', 'artificial land', 'houses', 'floating architecture', 'climate change', 'marine engineering', 'sustainable design'] },
+      4: { text: '(1) Submarines can freely submerge into the water and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resurface. What is the principle behind submarines<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;floating and submerging underwater?<br><br>(2) Even when waves are strong, boats do not easily<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;capsize or flip over. Explain how boats can maintain<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;balance.<br><br>', keywords: ['submarines', 'submerge', 'resurface', 'principle', 'floating', 'waves', 'balance', 'buoyancy', 'ship stability', 'marine physics'], fontType: 'type3' },
+      3: { text: '', keywords: ['floating architecture', 'marine engineering', 'ocean innovation', 'sustainable technology'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/39.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'We can find many similarities when we observe birds flying<br>in the sky or fish swimming underwater. The heads of birds<br>and fish are both pointed and small. Like birds with two<br>wings, fish have two pectoral fins.<br>The body of a fish is streamlined. Streamlined shape refers<br>to a shape that tapers at the front and widens towards<br>the back, creating a long, rounded form. This streamlined<br>shape helps fish move forward in the water with less<br>effort. Imagine a shark with formidable teeth hunting for<br>prey. With its two pectoral fins and sturdy tail, the shark is<br>the lawless figure of the sea.<br>If a shark injures one of its pectoral fins and cannot use it,<br>can it properly hunt for prey? A shark cannot swim in the<br>direction it desires with an injured fin. If a shark is injured<br>in one pectoral fin and loses its tail fin, what might happen<br>to the shark? Explain.', keywords: ['birds flying', 'fish swimming', 'pointed heads', 'pectoral fins', 'streamlined', 'shark', 'hunting', 'injured fin', 'marine biology', 'aquatic adaptation', 'predator behavior', 'ocean ecology'], fontType: 'type3' },
+      2: { text: '', keywords: ['marine biology', 'ocean ecology', 'sea life', 'aquatic evolution'] },
+      3: { text: '', keywords: ['aquatic adaptation', 'marine evolution', 'ocean science', 'biological comparison'] },
+      4: { text: '', keywords: ['marine comparison', 'ocean study', 'sea research', 'biological analysis'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/40.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'People wanted to fly in the sky like birds. They wanted to<br>float on the water like ducks and explore the underwater<br>world like fish. The ability to create airplanes, boats, and<br>submarines stemmed from these dreams. What is visible to<br>people eventually became dreams.', keywords: ['fly in sky', 'birds', 'float on water', 'ducks', 'underwater world', 'fish', 'airplanes', 'boats', 'submarines', 'dreams', 'human aspiration', 'natural inspiration', 'technological dreams'] },
+      2: { text: 'The curiosity of those who wanted to explore the mysterious<br>world under the sea, much like fish swimming, led to the<br>creation of submarines. A green submarine is smoothly<br>navigating the underwater realm. The beautifully adorned<br>peacock fish seems uninterested in the submarine.<br>Meanwhile, the crab is raising its eyes curiously, glancing<br>at the submarine without much concern.<br>Oh no! The submarine\'s head is stuck on the seafloor.<br>It seems that one of the submarine\'s propellers is broken.<br>Why was the submarine unable to move forward properly<br>and ended up stuck on the seabed when one of the two<br>propellers was damaged? Explain.', keywords: ['curiosity', 'mysterious world', 'green submarine', 'peacock fish', 'crab', 'stuck seafloor', 'propellers broken', 'damaged', 'submarine accident', 'marine navigation', 'propeller failure', 'ocean exploration'] },
+      3: { text: '', keywords: ['marine exploration', 'underwater technology', 'submarine navigation', 'ocean discovery'] },
+      4: { text: '', keywords: ['ocean engineering', 'marine accidents', 'submarine mechanics', 'underwater safety'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/41.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'The reason why even heavy ships do not sink in the water<br>is due to buoyancy. To keep the ship stably afloat, it is<br>essential to maintain a well-balanced center of gravity.<br>The center of gravity should be located below the ship<br>for stable navigation. In other words, even if the ship<br>tilts slightly, it will not tip over despite rotation or strong<br>waves. To prevent the risk of accidents from the ship being<br>too light, most ships are equipped with a ballast tank.<br>When the ship is loaded with cargo, water is pumped out<br>of the ballast tank to lighten the ship. Conversely, when<br>the ship is empty, seawater is filled into the ballast tank<br>to lower the center of gravity. Every year, between 5 to<br>10 billion tons of seawater are transported to different<br>countries through ballast tanks. However, recently, various<br>environmental issues have arisen during the process of<br>filling and emptying ballast tanks. Consider what these<br>issues might be and explain potential solutions.', keywords: ['heavy ships', 'buoyancy', 'center of gravity', 'stable navigation', 'ballast tank', 'cargo', 'seawater', 'environmental issues', 'ship stability', 'marine engineering', 'ballast water', 'environmental impact', 'ocean pollution'] },
+      2: { text: '', keywords: ['ship stability', 'marine engineering', 'ocean transportation', 'vessel design'] },
+      3: { text: '', keywords: ['ballast water', 'environmental impact', 'marine pollution', 'ocean conservation'] },
+      4: { text: '', keywords: ['ship design', 'ocean safety', 'marine technology', 'vessel safety'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/42.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Both ships and submarines are designed based on the<br>appearance of fish. While fish move forward by shaking<br>their bodies and tail fins, ships and submarines create<br>forward motion by rotating the propeller at the rear.<br>Depending on the direction the propeller turns, they can<br>move forward or backward. Submarines are equipped with<br>a ballast tank that plays the role of a fish\'s swim bladder.<br>When submerging underwater, the tank is filled with water,<br>and when resurfacing, compressed air is used to push the<br>water out. Submarines can also change their direction by<br>moving the horizontal fins located at the front. However,<br>unlike fish, which have a streamlined shape, submarines<br>have a cylindrical form. Bending and connecting steel<br>plates to create this shape is not an easy task.<br>Despite the challenges, why do submarines have an overall<br>round shape? After examining cylindrical shapes found in<br>everyday life, explain the reasons for this choice.', keywords: ['ships submarines', 'fish appearance', 'shaking bodies', 'tail fins', 'propeller', 'ballast tank', 'swim bladder', 'compressed air', 'horizontal fins', 'cylindrical form', 'steel plates', 'marine design', 'submarine construction', 'ocean engineering', 'natural inspiration'] },
+      2: { text: '', keywords: ['marine design', 'submarine construction', 'ocean engineering', 'vessel architecture'] },
+      3: { text: '', keywords: ['cylindrical shape', 'steel fabrication', 'underwater technology', 'submarine mechanics'] },
+      4: { text: '', keywords: ['marine architecture', 'ocean vessels', 'submarine mechanics', 'underwater design'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/43.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: '<span class="larger-text"><u>Jules Verne, Father of Science Fiction</span><br><br>Jules Verne was a novelist born in Nantes, France in 1828.<br>At the time, Nantes was a large port city where people<br>from many countries came and went. Growing up in this<br>environment, he naturally dreamed of travel and adventure<br>from an early age.<br>He entered law school, but he loved writing so much that<br>he did not stop writing in college. It is said that there was<br>a time when he worked at the stock exchange to make<br>a living, and even then, he continued to write.<br><br>', keywords: ['Jules Verne', 'novelist', 'Nantes France', '1828', 'port city', 'travel adventure', 'law school', 'writing', 'stock exchange', 'science fiction', 'literary pioneer', 'marine literature'] },
+      2: { text: 'Jules Verne gained great popularity with the publication of<br>the novel Five Weeks in a Balloon written in 1862.<br>He later became a world-renowned writer through Twenty<br>Thousand Leagues Under the Sea, written in 1869.<br>His works reveal his incredible insight and imagination.<br>In Around the World in 80 Days, the standard time zone<br>calculation method is used, and the effects of the train\'s<br>invention on space and time are included.<br>His 1863 work Paris in the Twentieth Century describes<br>technologies that have become a reality, such as television,<br>the Internet, and the international financial system.<br><br>', keywords: ['Five Weeks in a Balloon', '1862', 'Twenty Thousand Leagues Under the Sea', '1869', 'Around the World in 80 Days', 'Paris in the Twentieth Century', 'television', 'Internet', 'financial system', 'futuristic vision', 'technological prophecy', 'marine adventure'] },
+      1: { text: '', keywords: ['science fiction', 'literary innovation', 'futuristic vision', 'marine literature'] },
+      4: { text: '', keywords: ['marine literature', 'adventure novels', 'technological prophecy', 'ocean fiction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/44.jpg',
+    hasStartButton: false,
+    zones: {
+      4: { text: 'The fact that he imagined such topics is a testament that<br>his imagination was at least 100 years ahead of his time.<br>Some call him a prophet, but his imagination is the result<br>of thorough research. As can be seen from his words,<br>"I am fortunate to have been born in an era where<br>there were encyclopedias," Jules Verne researched new<br>discoveries and inventions, recorded them in detail in<br>over 2,000 notebooks, and used this information as basic<br>material for his novels. He also traveled whenever he could<br>to obtain material for his adventure stories.<br>Jules Verne\'s novels remain popular worldwide even in<br>modern times. His novels have been adapted into works<br>in various fields, including plays, movies, and comics.<br>In addition, they have had an impact on science, culture,<br>and the economy around the world.<br><br>', keywords: ['imagination', '100 years ahead', 'prophet', 'thorough research', 'encyclopedias', '2,000 notebooks', 'adventure stories', 'popular worldwide', 'plays movies comics', 'science culture economy', 'futuristic vision', 'literary impact', 'global influence', 'technological prophecy'] },
+      2: { text: '', keywords: ['literary legacy', 'scientific imagination', 'cultural impact', 'marine literature'] },
+      3: { text: '', keywords: ['research methodology', 'creative writing', 'global influence', 'ocean fiction'] },
+      1: { text: '', keywords: ['marine literature', 'adventure fiction', 'technological vision', 'science fiction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/45.jpg',
+    zones: {
+      1: { text: '<br><br><br><br><strong><u>Describe what creatures live in the vast blue sea.</u></strong><br><br><br><br><br><br><br><br><br><br>Silver-colored cutlassfish with long bodies, chubby mackerels, and<br>small, cute anchovies live in the sea. Turtles with large shells and<br>clams with hard shells also live in the sea.', keywords: ['marine life', 'ocean creatures', 'fish species', 'sea animals'], fontType: 'type7' },
+      2: { text: '<strong><u>Explain how fish are able to swim well.</u></strong><br><br><br><br><br><br><br><br><br><br>Fish have pointed heads, allowing them to swim through the water<br>easily. Moreover, with two pectoral fins, they can swim straight and<br>change direction as they please.', keywords: ['fish swimming', 'aquatic locomotion', 'fish anatomy', 'swimming mechanism'], fontType: 'type8' },
+      3: { text: '<strong><u>Explain how fish can swim straight.</u></strong><br><br>Fish have pectoral fins on their bodies. With these pectoral fins,<br>they can swim straight like a bird\'s wings and change direction.', keywords: ['fish movement', 'pectoral fins', 'swimming direction', 'fish control'], fontType: 'type5' },
+      4: { text: '<strong><u>Explain whether a shark with an injured pectoral fin can effectively<br><strong><u>catch fish.</u></strong><br><br><br><br><br><br><br><br><br><br>If a shark injures its pectoral fin, it cannot swim in the desired direction.<br>Therefore, it cannot catch fish that swim away in different directions.', keywords: ['shark injury', 'hunting ability', 'swimming impairment', 'predator behavior'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/46.jpg',
+    zones: {
+      1: { text: '<br><u><b>Explain why penguins cannot fly in the sky but are skilled swimmers.</b></u><br><br><br><br><br><br><br><br><br><br>The wings of penguins have evolved to be similar to fins, making<br>swimming easier. They also have webbed feet, allowing them to swim<br>faster.', keywords: ['penguin adaptation', 'flightless birds', 'aquatic evolution', 'swimming ability'], fontType: 'type9' },
+      2: { text: '<br><u><b>Explain why fish living in the deep sea have giant mouths and<br><strong><u>scary teeth.</b></u><br><br><br><br><br><br><br><br><br><br>In the deep sea, there is little food available. Mouths have become<br>enlarged to catch prey more easily. They have developed fierce teeth<br>to ensure they do not miss their catch once captured.', keywords: ['deep sea adaptation', 'predator evolution', 'feeding strategy', 'survival mechanism'], fontType: 'type9' },
+      3: { text: '<u><b>Explain how to distinguish between the similar-looking stingray<br><u><b>and skate.</b></u><br><br><br><br><br><br><br><br><br><br>Stingrays have a round appearance. However, skates are square-shaped,<br>with a pointed projection at the front.', keywords: ['marine identification', 'fish classification', 'anatomical differences', 'species comparison'], fontType: 'type9' },
+      4: { text: '<u><b>Explain how fish living in the deep sea survive.</b></u><br><br><br><br><br><br><br><br><br><br>Having a lot of water inside their bodies allows them to maintain their<br>shape and survive. Furthermore, they can produce their own light to<br>avoid predators or attract prey while living in the sea.', keywords: ['deep sea survival', 'bioluminescence', 'pressure adaptation', 'marine biology'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/47.jpg',
+    zones: {
+      1: { text: '<u><b>(1) Various plants and animals live in the sea besides fish.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>Explain what kinds of plants and animals live in the ocean.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When people think of marine animals, we typically recall fish<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;such as mackerel, sharks, cutlassfish, and cephalopods like squid,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;octopus, and clams. However, mammals also inhabit the sea.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mammals are animals that give birth to offspring and nurse them<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with milk. In the sea, there are marine mammals such as dugong,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;manatees, whales, sea otters, and seals. There are also cnidarians<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in the sea, like jellyfish, sea anemones, and corals, which use<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tentacles to paralyze and catch their prey.', keywords: ['marine biodiversity', 'ocean ecosystem', 'marine mammals', 'invertebrates'], fontType: 'type7' },
+      2: { text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Among the sea plants familiar to us, seaweed stands out.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seaweed lacks clear distinctions between roots, stems, and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leaves. Examples include kelp, hijiki, laver, wakame, and more.<br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On the other hand, sea plants with distinct root, stems, and leaves<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are called seagrasses. Seaweeds are classified into green algae,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;brown algae, and red algae based on the depth and color of their<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;habitats. Green laver and sea staghorn with a green tint belong to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;green algae, while red algae include dulse and laver, displaying<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a reddish hue. Brown algae, like kelp and wakame, are categorized<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;under brown algae.', keywords: ['marine plants', 'seaweed classification', 'algae types', 'ocean vegetation'], fontType: 'type7' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/48.jpg',
+    zones: {
+      1: { text: '<u><b>(2) Many creatures manage to thrive despite little light and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>scarce food in the deep sea. Explain the characteristics<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>of fish living in the deep sea.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fish living below a depth of 200 meters are called deep-sea<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fish. Since light does not reach the deep sea, deep-sea fish must<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;always live in darkness. Due to the absence of light, most deep-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sea fish have degenerated eyes or no eyes at all. However, some<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deep-sea fish species have exceptionally large eyes to improve<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;their vision.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The deep sea exerts high water pressure. Many deep-sea fish<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;have bones as soft as cartilage to withstand this pressure.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Additionally, oxygen is often scarce in the deep sea, so deep-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sea fish may suffocate if they move too much. Despite these<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;challenges, deep-sea fish must find food. If they catch their prey,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;they cannot afford to let it go. For this reason, deep-sea fish have<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;powerful jaws and formidable teeth. Some, like the anglerfish,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;even produce light to attract and catch prey.', keywords: ['deep sea biology', 'pressure adaptation', 'bioluminescence', 'extreme environment'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/49.jpg',
+    zones: {
+      1: { text: '<u><b>(1) Most fish have excellent swimming abilities. Explain why fish<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>are good at swimming.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fish with excellent swimming abilities have a streamlined body<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shape. A streamlined body has a pointed head and tail with<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a slightly inflated midsection, forming a curved shape.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The streamlined body allows water to flow smoothly when the fish<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moves forward, enabling it to swim without exerting much force.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The tail fin, shaped like a split fan, generates the force for the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fish to move forward, while the caudal fin and pectoral fins help<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maintain the fish\'s balance and change direction while swimming.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The fish\'s skin also contributes to its swimming ability. Unlike land<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;animals covered in fur, fish with scales reduce water resistance<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and allow water to pass through more efficiently.', keywords: ['fish locomotion', 'hydrodynamics', 'swimming efficiency', 'fish anatomy'], fontType: 'type7' },
+      2: { text: '<br><br><br><u><b>(2) Most creatures living in the deep sea have no eyes or very<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>poor eyesight. Explain how these creatures can survive under<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>such conditions.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Like any other living organism, creatures in the deep sea must<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;find food to survive. Finding prey in the dark, deep sea is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;challenging. Therefore, deep-sea creatures have large mouths and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;must wait with their mouths wide open for prey to pass by. The<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mouths of marine creatures are equipped with large, sharp teeth,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ensuring that once they catch their prey it is not easily released.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Additionally, deep-sea creatures have small body sizes due to the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;constant scarcity of food, minimizing energy consumption.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To survive, it is crucial not only to eat but also to avoid danger.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Some deep-sea eels, for example, remain motionless on the ocean<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;floor while holding their breath. This allows other predators with<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;poor eyesight to overlook them as they pass.', keywords: ['deep sea survival', 'sensory adaptation', 'feeding strategies', 'energy conservation'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/50.jpg',
+    zones: {
+      1: { text: '<u><b>How do fish living in the seas look? Don\'t their head and fin<br><u><b>shapes resemble birds flying in the sky? Can fish swim well even<br><u><b>if their heads are too big and fins are too small? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>The fins of a fish vary depending on the size of the fish. If the fins<br>are too large compared to the size of the fish, it may be helpful when<br>swimming, but the fish might have difficulty stopping when needed.<br>Conversely, if the fins are too small compared to the size of the<br>fish, it becomes challenging for the fish to escape from predators,<br>and it may end up being caught. The dorsal fin, found on the back,<br>prevents body sway and aids in forward movement, while the caudal<br>fin provides propulsion. The main force for the fish moving forward<br>comes from the tail.', keywords: ['fish morphology', 'swimming mechanics', 'fin function', 'aquatic locomotion'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/51.jpg',
+    zones: {
+      1: { text: '<u><b>Fins that form pairs, such as pectoral and pelvic fins, are called<br><u><b>paired fins, while fins that do not form pairs and stand straight,<br><u><b>such as dorsal and anal fins, are called unpaired fins.<br><u><b>Explain the roles of each type of fin.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Fish use pectoral fins to maintain lateral balance. Additionally,<br>fish use pectoral fins when changing direction or stopping while<br>swimming. The pelvic fin also plays a role in maintaining the body\'s<br>balance. The dorsal and anal fins prevent body sway, allowing the fish<br>to move straight ahead.', keywords: ['fish anatomy', 'fin classification', 'swimming control', 'balance mechanism'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/52.jpg',
+    zones: {
+      1: { text: '<u><b>Marine animals, such as sea turtles, sunfish, lancetfish, mackerel,<br><u><b>sharks, and swordfish, feed on jellyfish. However, overhunting of<br><u><b>these animals by humans has led to the proliferation of jellyfish.<br><u><b>Additionally, many natural jellyfish predators have died from<br><u><b>mistaking floating plastic or vinyl fragments in the ocean for<br><u><b>jellyfish and consuming them. Explain what we can do to reduce<br><u><b>the number of jellyfish.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>One of the reasons for the increase in jellyfish population is the<br>disappearance of their natural predators due to the garbage people<br>throw into the sea. If we keep the ocean clean without littering,<br>the natural predators of jellyfish will likely return.<br>Moreover, indiscriminate capture of sea creatures that prey on<br>jellyfish should be avoided. Nature is always in balance, and the<br>increase in jellyfish results from human interference disrupting<br>that balance. Keeping the ocean clean and making efforts to protect<br>marine life will reduce the number of jellyfish.', keywords: ['marine conservation', 'ecosystem balance', 'pollution impact', 'predator-prey relationship'], fontType: 'type8' },
+      2: { text: 'Of course, these measures take time. To immediately reduce the<br>number of jellyfish, it is necessary to use nets to catch floating<br>jellyfish in the sea.', keywords: ['immediate solutions', 'jellyfish control', 'marine management'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/53.jpg',
+    zones: {
+      1: { text: '<u><b>Whales must always stay awake to breathe. If a whale were to fall<br><u><b>into a deep sleep, it could suffocate and die. However, whales do<br><u><b>sleep. Explain what methods whales use to sleep.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>When we sleep well, our brains also rest. However, the brain of<br>a whale has a unique feature. Whales sleep for about 8 hours a day,<br>allowing only half of their brain to rest. While half of the brain rests,<br>the other half remains active to breathe and detect prey.<br>Whales also take naps, similar to how we doze off. The whale\'s unique<br>sleeping method is to move slowly with the breathing hole on its back<br>exposed to the water.', keywords: ['whale behavior', 'marine mammal sleep', 'brain function', 'breathing adaptation'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/54.jpg',
+    zones: {
+      1: { text: '<strong><u>Explain when humans first made and used ships.<br><br><br><br><br><br><br><br><br><br>The first ships were built during the Stone Age when tools were made<br>of stone. Before that, rafts were made by tying wood together.', keywords: ['maritime history', 'shipbuilding evolution', 'human innovation', 'ancient technology'], fontType: 'type7' },
+      2: { text: '<br><br><strong><u>Explain why an air-cushion vehicle can move quickly on water.<br><br><br><br><br><br><br><br><br><br>When air is pumped into the bottom of the ship, it floats. This allows<br>it to sail faster than when submerged in water.', keywords: ['hydrodynamics', 'air cushion technology', 'water transportation', 'buoyancy principle'], fontType: 'type9' },
+      3: { text: '<br><br><strong><u>Explain how the Egyptians made a sailboat using acacia wood.<br><br>They cut acacia wood and made planks, stacking them like bricks in<br>a staggered pattern to create the shape of the boat. Using acacia<br>wood, they crafted a mast and made a sail from papyrus to catch<br>the wind.', keywords: ['ancient shipbuilding', 'Egyptian technology', 'sailboat construction', 'historical maritime'], fontType: 'type7' },
+      4: { text: '<strong><u>Identify what part of the boat serves a similar purpose to a fish\'s fins.<br><br><br><br><br><br><br><br><br><br>The ship\'s sail serves a function similar to the tail fin of a fish,<br>propelling it forward. Similar to the pectoral fin on the side of a fish,<br>the ship has a rudder at the rear.', keywords: ['boat anatomy', 'propulsion systems', 'marine engineering', 'comparative anatomy'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/55.jpg',
+    zones: {
+      1: { text: '<strong><u>Explain how Aristotle\'s idea of a submarine, the diving bell,<br><strong><u>was constructed.<br><br>A submarine has a heavy weight attached to a container shaped like<br>a bell, causing it to sink underwater. The air inside the container can<br>be used to breathe.', keywords: ['submarine history', 'diving bell', 'underwater technology', 'buoyancy control'], fontType: 'type8' },
+      2: { text: '<strong><u>Explain how submarines can be used.<br><br><br><br><br><br><br><br><br><br>Submarines can secretly attack enemy ships while submerged.<br>They can also be used to lift sunken ships from the seabed.<br>Submarines are employed in underwater exploration and can be<br>used to tour the underwater world.', keywords: ['submarine applications', 'military technology', 'underwater exploration', 'marine operations'], fontType: 'type8' },
+      3: { text: '<strong><u>Describe the shape of a submarine.<br><br><br><br><br><br><br><br><br><br>Submarines are designed in the shape of fish, with a long and round<br>body and a propeller at the rear.<br><br><br>', keywords: ['submarine design', 'hydrodynamic shape', 'marine engineering', 'propulsion system'], fontType: 'type8' },
+      4: { text: '<strong><u>Explain the meaning of the term "U-boat" used as another name<br><strong><u>for submarines.<br><br>The term "U-Boot" in German means a submarine, translating to<br>"ship traveling beneath the sea."<br><br><br>', keywords: ['submarine terminology', 'German naval terms', 'maritime language', 'historical context'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/56.jpg',
+    zones: {
+      1: { text: '<strong><u>Explain how the sail should be positioned for a sailboat to move<br><strong><u>forward efficiently.<br><br><br><br><br><br><br><br><br><br>The ship must be positioned to face the direction of the wind to catch<br>the wind properly. Otherwise, it may drift, capsize, or sink.', keywords: ['sailing technique', 'wind navigation', 'sail positioning', 'maritime safety'], fontType: 'type8' },
+      2: { text: '<strong><u>Explain what happens when a swimmer loses the use of one arm.<br><br><br><br><br><br><br><br><br><br>The swimmer loses its ability to swim straight. He may not move in<br>the desired direction, and his body may tilt, causing him to plunge<br>into the water.', keywords: ['swimming mechanics', 'body balance', 'propulsion loss', 'aquatic movement'], fontType: 'type8' },
+      3: { text: '<strong><u>Explain why submarines have two propellers.<br><br>Submarines have two propellers to navigate steadily in deep water<br>without wobbling.<br><br><br><br><br><br>', keywords: ['submarine stability', 'propeller design', 'underwater navigation', 'marine engineering'], fontType: 'type8' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/57.jpg',
+    zones: {
+      1: { text: '<u><b>(1) The body of a fish is elongated yet round. This shape is said to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>be streamlined. List some organisms in nature with streamlined<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>bodies.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Not only fish and shellfish but also the body of a bird is streamlined.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When a bird with a pointed beak flies, the streamlined body allows<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the air to pass smoothly. Water does not splash much when a seal<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jumps into the water due to its streamlined body. Streamlined<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leaves are also commonly seen. Although circular leaves receive<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the most sunlight, they are easily damaged by wind or rain.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That is why leaves in a streamlined shape are created. Grains such<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as rice and barley also have a streamlined shape, and even the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;large and small seeds inside fruits are streamlined.', keywords: ['streamlined design', 'natural selection', 'aerodynamics', 'biological adaptation'], fontType: 'type7' },
+      2: { text: '<u><b>(2) To achieve good results in swimming, athletes need not only<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>swimming skills but also favorable physical conditions.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>What physical conditions contribute to being a good swimmer?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Long arms are advantageous for swimming. The propulsive force<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comes from swinging the arms. On the other hand, shorter legs are<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;better. Legs receive less buoyancy compared to the torso, causing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;them to sink in the water. Short legs make it easier to maintain<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;balance in the water, allowing for faster swimming. However,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;larger feet are better. It becomes easier to understand if we think<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of the feet as performing a role similar to a fish\'s fin.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flexibility is also crucial in swimming. Swimmers stretch their<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arms straight and close to their ears to reduce water resistance.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Greater shoulder flexibility reduces water resistance. Good<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flexibility is crucial for effective dolphin kicks when moving<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;forward in swimming.', keywords: ['swimming physiology', 'athletic performance', 'body mechanics', 'sports science'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/58.jpg',
+    zones: {
+      1: { text: '<u><b>(1) Submarines can freely submerge into the water and resurface.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>What is the principle behind submarines floating and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>submerging underwater?</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submarines use buoyancy to rise to the water\'s surface and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;submerge underwater. Submarines have a dual structure,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like a donut. People live in the hole of the donut, and the bread<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;part of the donut is called the ballast tank. The ballast tank has<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doors that allow water to enter and exit.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When a submarine submerges, the doors open, allowing water<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to enter, making the submarine gradually heavier and sink<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;underwater. Conversely, when the doors are opened and the air<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is filled in the upper part of the ballast tank, water drains out,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;causing the submarine to rise.', keywords: ['submarine physics', 'buoyancy principle', 'ballast system', 'underwater mechanics'], fontType: 'type7' },
+      2: { text: '<br><br><br><br><u><b>(2) Even when waves are strong, boats do not easily capsize or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>flip over. Explain how boats can maintain balance.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ships are designed to have a certain buoyancy, considering that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;they will sink when loaded with cargo. However, when the ship is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;not loaded, it becomes lighter and rises more on the water, making<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it challenging to balance. To address this issue, research has<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;been conducted to allow the ship to balance itself even when not<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loaded, giving rise to the "ballast tank." The seawater filled in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the ballast tank is called "ballast water" or "balance water."<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The ship\'s shape also plays a crucial role in balancing it. Look at<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a cargo ship or an oil tanker loaded with heavy cargo from the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;front. The bottom is narrow, and as you go up, the width increases<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rapidly. This shape allows the ship to tilt to the side and quickly<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return to its original position.', keywords: ['ship stability', 'ballast system', 'maritime safety', 'vessel design'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/59.jpg',
+    zones: {
+      1: { text: '<u><b>If a shark injures one of its pectoral fins and cannot use it, can<br><u><b>it properly hunt for prey? A shark cannot swim in the direction it<br><u><b>desires with an injured fin. If a shark is injured in one pectoral fin<br><u><b>and loses its tail fin, what might happen to the shark? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>When a shark injures one of its fins, it cannot swim properly, making<br>it unable to hunt for prey effectively. Sharks with sturdy pectoral fins<br>and a robust tail fin can execute rapid turns as the cartilage responds<br>quickly during rotation. Sharks belong to the category of cartilaginous<br>fish, characterized by having bones that are soft and flexible.<br>Despite this specialized skeletal structure, sharks cannot have as<br>much buoyancy as a swim bladder provides, so they will sink if they<br>do not swim continuously. Cartilaginous fish, like sharks, lack muscles<br>around the gills, requiring them to swim continuously to supply water<br>to the gill openings for oxygen. The gill openings\' epidermis plays<br>a role in absorbing oxygen.', keywords: ['shark physiology', 'injury impact', 'hunting ability', 'cartilaginous fish'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/60.jpg',
+    zones: {
+      1: { text: '<u><b>Oh no! The submarine\'s head is stuck on the seafloor. It seems<br><u><b>that one of the submarine\'s propellers is broken. Why was the<br><u><b>submarine unable to move forward properly and ended up stuck<br><u><b>on the seabed when one of the two propellers was damaged?<br><u><b>Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>The propeller\'s role is crucial for a submarine to move forward in<br>a straight line. Of course, the propeller should be paired to<br>maintain balance, or a corresponding device should be provided.<br>If one propeller malfunctions, the submarine cannot steer, loses<br>forward propulsion, and can only stay in one place, rising or sinking.<br>Controlling buoyancy within the submarine is achieved using the<br>"ballast tank." When the submarine needs to float, the tank is filled<br>with air. When it needs to submerge, it is filled with water to sink<br>the submarine.', keywords: ['submarine mechanics', 'propeller function', 'underwater navigation', 'marine engineering'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/61.jpg',
+    zones: {
+      1: { text: '<u><b>Every year, between 5 to 10 billion tons of seawater are<br><u><b>transported to different countries through ballast tanks.<br><u><b>However, recently, various environmental issues have arisen<br><u><b>during the process of filling and emptying ballast tanks.<br><u><b>Consider what these issues might be and explain potential<br><u><b>solutions.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Numerous marine organisms inadvertently enter the tank while<br>filling the ballast tank with seawater. When the ship arrives at<br>its destination and empties the ballast tank, these organisms are<br>expelled. However, these organisms can have detrimental effects<br>on the original ecosystem. For instance, the zebra mussel, originally<br>residing in the Black Sea, has caused significant problems as it is<br>transported through cargo ships to Canada and the United States.', keywords: ['environmental impact', 'invasive species', 'marine pollution', 'ecosystem disruption'], fontType: 'type8' },
+      2: { text: 'Prolonged contact with seawater causes the growth of rust in the<br>ballast tank, leading to environmental pollution issues.<br>Many countries worldwide are making substantial efforts to address<br>these problems. One approach involves filling the ballast tank with<br>freshwater (unsalted water) instead of seawater. The tank\'s water can<br>be sold cheaply in areas with water scarcity. Installing purification<br>devices on ships can also help remove organisms from the ballast tank.', keywords: ['pollution control', 'water treatment', 'marine conservation', 'sustainable shipping'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.5/62.jpg',
+    zones: {
+      1: { text: '<u><b>Bending and connecting steel plates to create this shape is not<br><u><b>an easy task. Despite the challenges, why do submarines have<br><u><b>an overall round shape? After examining cylindrical shapes found<br><u><b>in everyday life, explain the reasons for this choice.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Submarines can descend to the depths of the ocean. However,<br>water pressure gradually increases as they go deeper under the sea.<br>Submarines have a rounded shape to withstand the high pressure<br>from all directions. The round shape is a sturdy structure that can<br>endure high pressure.<br>The reason carbonated drinks are stored in cylindrical containers<br>is similar. The rounded shape prevents the container from bursting<br>under internal pressure. Tanks for storing LNG (liquefied natural gas)<br>or LPG (liquefied petroleum gas) also adopt a cylindrical or spherical<br>shape. This shape evenly distributes internal pressure, ensuring<br>safety.', keywords: ['submarine design', 'pressure resistance', 'structural engineering', 'safety principles'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  }
+];
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 
