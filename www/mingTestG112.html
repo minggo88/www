@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G1.1.2.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+  <link rel="icon" href="../assets/img/ReadBook/1.1.2/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/1.1.2/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/3.jpg',
+    zones: {
+      1: { text: '01. What Is in the Sky?<br><br>You have probably seen many birds flying in the sky.<br>Many types of birds fly around in the sky. Have you<br>ever seen an eagle with its black wings spread wide,<br>soaring gracefully as it searches for prey?<br>Or perhaps a flock of mallards creating a sparkling<br>wave of water while swiftly taking off from the river<br>and flying in a V-shape?<br>A pair of cranes, with their white bodies and wingtips<br>dipped in black, look elegant and affectionate as<br>they fly. Various types of birds with different sizes,<br>shapes, and colors fly in the sky.', keywords: ['What Is in the Sky', 'birds flying', 'eagle', 'black wings', 'soaring gracefully', 'mallards', 'V-shape', 'cranes', 'white bodies', 'wingtips', 'different sizes', 'shapes', 'colors'] },
+      2: { text: 'How do birds fly? Almost everyone has probably<br>wished to fly in the sky like a bird at least once.<br>Can humans fly in the sky like birds?<br>What shapes do flying birds have? What do they<br>look like?', keywords: ['How do birds fly', 'wished to fly', 'humans fly', 'flying birds', 'shapes', 'look like'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Identify what objects are in the sky.', keywords: ['Identify', 'objects', 'sky'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/4.jpg',
+    zones: {
+      1: { text: 'A bird\'s body is perfectly adapted for flying. Bird bones<br>are hollow and very light yet strong.<br>The body is covered with light feathers, shaped like<br>rounded columns, even in the smallest parts.<br>The columns are filled with air. Can you guess how<br>a bird\'s wings are so light? The bird\'s wings evolved<br>into their current shape as the front limbs gradually<br>degenerated. Additionally, there are air sacs inside<br>their chests, making the body lighter.', keywords: ['adapted for flying', 'hollow bones', 'light yet strong', 'light feathers', 'rounded columns', 'filled with air', 'wings evolved', 'front limbs', 'air sacs', 'lighter'] },
+      2: { text: '', keywords: [] },
+      4: { text: 'Why does a bird have such a small head?<br>The size of the head has gradually decreased over<br>time to lighten the body\'s weight. The small head has<br>large eyes, and next to the eyes, there are small ears.<br>The eyes can detect distant objects well, and the ears<br>can hear sounds almost inaudible to humans.', keywords: ['small head', 'decreased over time', 'lighten body weight', 'large eyes', 'small ears', 'detect distant objects', 'hear sounds', 'inaudible to humans'] },
+      3: { text: 'Explain how a bird is so light.', keywords: ['Explain', 'bird', 'light'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/5.jpg',
+    zones: {
+      1: { text: 'Birds also have a beak, a unique body part not found<br>in other animals. Initially, a bird\'s wings were its front<br>limbs. As the front limbs evolved into wings, the beak<br>also developed to capture prey.<br>A bird\'s pointed beak protrudes, enabling it to hunt<br>for prey or make holes in trees. The shape and size of<br>a bird\'s beak vary depending on its prey or habitat.<br>While a sparrow\'s beak is small, a woodpecker\'s beak<br>is large and sturdy.', keywords: ['beak', 'unique body part', 'front limbs', 'evolved into wings', 'capture prey', 'pointed beak', 'hunt for prey', 'make holes', 'shape and size vary', 'sparrow', 'woodpecker', 'large and sturdy'] },
+      2: { text: '', keywords: [] },
+      4: { text: 'What would happen if a bird\'s head were too big?<br>Can a bird fly well with smaller wings?<br>With a head that is too large, no matter how hard<br>a bird flaps its wings, it will struggle to fly and could<br>tip forward. If a bird\'s wings are too small, it will not<br>be able to soar into the sky and might tumble to the<br>ground. Think of a pigeon on a bridge that is limping<br>and unable to fly. The pigeon likely collided with<br>a glass window while flying and injured its wings.', keywords: ['head too big', 'smaller wings', 'struggle to fly', 'tip forward', 'wings too small', 'tumble to ground', 'pigeon', 'limping', 'collided', 'glass window', 'injured wings'] },
+      3: { text: 'Explain what birds can do using their beaks.', keywords: ['Explain', 'birds', 'beaks'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/6.jpg',
+    zones: {
+      1: { text: 'If a pigeon injures its wing, can it fly again? Can it still<br>fly properly if one of its wings becomes unusable?<br>Birds have various ways of flying. Some birds can take<br>off directly from the ground, while others must run<br>or jump from a high place to take flight. The shape<br>of the wings also varies depending on the method of<br>flight. For example, seagulls have long, lightweight<br>wings, which allow them to glide with the wind.', keywords: ['injures wing', 'fly again', 'unusable', 'various ways', 'take off directly', 'run or jump', 'high place', 'shape varies', 'seagulls', 'lightweight wings', 'glide with wind'] },
+      2: { text: '', keywords: [] },
+      4: { text: 'The tiny hummingbird needs to flap its wings about<br>80 times per second to stay airborne. On the other<br>hand, swallows have wings that are longer and<br>sturdier than their bodies, allowing them to swiftly<br>ascend and descend. The swallow\'s tail feathers<br>are long and wide, enabling quick changes in flight<br>direction. Its round body promotes smooth airflow,<br>allowing it to glide through the air like an arrow.<br>Birds can easily navigate the sky thanks to their two<br>wings and rounded bodies.', keywords: ['tiny hummingbird', '80 times per second', 'stay airborne', 'swallows', 'longer and sturdier', 'swiftly ascend', 'tail feathers', 'flight direction', 'round body', 'smooth airflow', 'like an arrow', 'navigate the sky'] },
+      3: { text: 'Explain how swallows can fly well.', keywords: ['Explain', 'swallows', 'fly well'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/7.jpg',
+    zones: {
+      1: { text: 'A bird looks down from the sky. It notices a small<br>pond surrounded by grass, blooming with flowers.<br>Butterflies, bees, dragonflies, and fireflies flutter<br>above the water lilies. They circle in the pond,<br>unable to soar high into the sky.<br>Why are insects unable to fly as high as birds?<br>Insects flap their wings up and down as they fly.<br>Since their bodies are larger than their wings,<br>they need to move their wings rapidly. Meanwhile,<br>a swallow quickly shoots towards a pond and skillfully<br>snatches a dragonfly hovering above the water.', keywords: ['bird looks down', 'small pond', 'grass', 'flowers', 'butterflies', 'bees', 'dragonflies', 'fireflies', 'water lilies', 'unable to soar high', 'insects', 'bodies larger', 'move rapidly', 'swallow', 'snatches dragonfly'] },
+      2: { text: 'Have you ever seen a flock of geese flying in<br>a V-shaped formation? Why do geese fly in that<br>particular shape?<br>Geese are migratory birds that relocate with the<br>seasons, embarking on long journeys to find food.<br>Birds that travel long distances in search of food are<br>called migratory birds. Geese begin their journey<br>towards the remote north when autumn arrives.', keywords: ['flock of geese', 'V-shaped formation', 'particular shape', 'migratory birds', 'relocate', 'seasons', 'long journeys', 'find food', 'travel long distances', 'remote north', 'autumn arrives'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain the difference between the wings of birds<br>and insects.', keywords: ['Explain', 'difference', 'wings', 'birds', 'insects'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/8.jpg',
+    zones: {
+      1: { text: 'Geese must conserve their energy to cover long<br>distances. They try to stay in the air for extended<br>periods with small wing movements to save energy.<br>The lead goose flaps its wings, and the following<br>geese benefit from the updraft, requiring less effort<br>to stay airborne. They can cover long distances with<br>less effort by taking turns flapping their wings.<br>When the lead goose becomes tired, another goose<br>takes the lead to guide the flock. How do geese fly<br>without freezing, even at high altitudes where it is<br>cold?', keywords: ['conserve energy', 'cover long distances', 'extended periods', 'small wing movements', 'save energy', 'lead goose', 'updraft', 'less effort', 'taking turns', 'becomes tired', 'guide the flock', 'without freezing', 'high altitudes'] },
+      2: { text: '', keywords: [] },
+      4: { text: 'Bird feathers help birds withstand both heat and cold<br>and maintain their body temperature. When geese soar<br>high in the sky, their constant movement generates<br>heat in their bodies. Their feathers are shaped like<br>hollow, round columns, and the air inside them acts<br>like a warehouse, storing heat. The heat inside the<br>body is trapped in columns, which maintain the body<br>temperature. The down feathers on a goose\'s chest<br>and back create an air layer between the skin and<br>feathers, preventing the body from getting too cold.', keywords: ['bird feathers', 'withstand heat and cold', 'body temperature', 'constant movement', 'generates heat', 'hollow round columns', 'air inside', 'warehouse', 'storing heat', 'trapped in columns', 'down feathers', 'air layer', 'preventing too cold'] },
+      3: { text: 'Explain how geese can fly without freezing even<br>at high altitudes.', keywords: ['Explain', 'geese', 'fly without freezing', 'high altitudes'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/9.jpg',
+    zones: {
+      1: { text: 'Animals living in the sea and ocean do not freeze<br>even in the cold winter because they stay active.<br>The dissolved salt in seawater allows it to freeze at<br>lower temperatures than freshwater. Pine needles<br>also do not freeze in winter because they contain<br>a sugar-like substance.', keywords: ['animals in sea', 'ocean', 'do not freeze', 'cold winter', 'stay active', 'dissolved salt', 'seawater', 'lower temperatures', 'freshwater', 'pine needles', 'sugar-like substance'] },
+      2: { text: 'Have you ever seen images of polar bears living on<br>the ice on television or in photographs? How do polar<br>bears withstand the cold?<br>Polar bear fur is rich in oil and shaped like a hollow<br>shaft, similar to the feathers of geese. Thanks to its<br>fur, the bear\'s body heat cannot escape, allowing it<br>to endure the cold without feeling it.', keywords: ['polar bears', 'living on ice', 'television', 'photographs', 'withstand the cold', 'polar bear fur', 'rich in oil', 'hollow shaft', 'similar to feathers', 'body heat cannot escape', 'endure the cold'] },
+      3: { text: 'Explain why seawater does not freeze.', keywords: ['Explain', 'seawater', 'does not freeze'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/10.jpg',
+    zones: {
+      3: { text: 'Humans, living on land, have a wealth of knowledge<br>about terrestrial life. To survive on land, terrestrial<br>animals need a skeletal structure to support their<br>bodies, and muscles to maintain balance when<br>external forces like wind or gravity act upon them.<br>Moving on land is not easy at all. Crawling with the<br>body close to the ground consumes tremendous<br>energy due to high friction. Therefore, terrestrial<br>animals move by lifting their legs, which also requires<br>significant energy.', keywords: ['humans', 'living on land', 'wealth of knowledge', 'terrestrial life', 'survive on land', 'skeletal structure', 'support bodies', 'muscles', 'maintain balance', 'external forces', 'wind', 'gravity', 'moving on land', 'crawling', 'high friction', 'lifting legs', 'significant energy'] },
+      2: { text: 'However, creatures living in the sky can move straight<br>to their desired destinations without exerting much<br>effort. For example, once a bird takes flight, it glides<br>effortlessly with the wind. Its pointed beak reduces<br>wind resistance and symmetric wings allow it to fly<br>straight in the desired direction.', keywords: ['creatures in sky', 'move straight', 'desired destinations', 'without exerting', 'bird takes flight', 'glides effortlessly', 'pointed beak', 'reduces wind resistance', 'symmetric wings', 'fly straight', 'desired direction'] },
+      1: { text: '01. What Is in the Sky?<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying Objects</span><br><span class="larger-text">in the Sky?</span>', keywords: ['Purpose', 'Studying Objects', 'Sky'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/11.jpg',
+    zones: {
+      1: { text: 'The purpose of studying objects in the sky is to<br>overcome the limitations of our lives on land.<br>This involves borrowing the wisdom of geese flying in<br>a V-shaped formation to reduce energy consumption.<br>Participants in group bicycle races can shorten travel<br>time by forming a line like geese. Each rider shapes<br>their body to closely resemble the body of a bird,<br>allowing the air to flow smoothly.', keywords: ['purpose of studying', 'objects in sky', 'overcome limitations', 'lives on land', 'borrowing wisdom', 'geese flying', 'V-shaped formation', 'reduce energy consumption', 'group bicycle races', 'shorten travel time', 'forming a line', 'rider shapes', 'resemble bird', 'air flow smoothly'] },
+      2: { text: '', keywords: [] },
+      3: { text: '(1) Birds have pointed beaks and small heads. What might<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;happen if a bird\'s head is too large for its body?<br><br>(2) Birds that fly long distances depending on the season<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are called migratory birds. Why do migratory birds like<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geese form a V-shaped formation? Explain.', keywords: ['pointed beaks', 'small heads', 'head too large', 'migratory birds', 'long distances', 'V-shaped formation'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/12.jpg',
+    zones: {
+      3: { text: 'The ideal study of mathematics should be a series of<br>exercises to uncover nature\'s secrets. This revelation<br>of nature allows us to create various devices and tools<br>that bring happiness to people. Birds soaring freely<br>in the sky teach us many things.<br>For example, the pointed beak of a woodpecker<br>can inspire the creation of a drill for making holes.<br>Observing the lightweight bones of birds, despite<br>being hollow, can lead to the creation of sturdy and<br>lightweight wings for airplanes.', keywords: ['ideal study', 'mathematics', 'series of exercises', 'uncover secrets', 'revelation of nature', 'create devices', 'tools', 'bring happiness', 'birds soaring', 'teach us', 'pointed beak', 'woodpecker', 'inspire creation', 'drill', 'making holes', 'lightweight bones', 'hollow', 'sturdy wings', 'airplanes'] },
+      2: { text: 'Nature not only provides us with ideas for science<br>and technology but also teaches us life lessons.<br>Humans often cause harm to others for their selfish<br>desires. However, survival through selfish behavior<br>is challenging in the animal kingdom. For instance,<br>the lead goose in a V-formation expends tremendous<br>energy to lead the flock.', keywords: ['nature provides', 'ideas for science', 'technology', 'teaches life lessons', 'humans cause harm', 'selfish desires', 'survival through selfish', 'challenging', 'animal kingdom', 'lead goose', 'V-formation', 'expends energy', 'lead the flock'] },
+      1: { text: '01. What Is in the Sky?<br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of Objects</span><br><span class="larger-text">in the Sky?</span>', keywords: ['Apply', 'Study of Objects', 'Sky'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/13.jpg',
+    zones: {
+      1: { text: 'A particular goose takes the lead not because it is<br>the most experienced, healthiest, or self-sacrificing.<br>Another goose quickly fills the spot when the leader<br>in front becomes tired and drops back. A flock of<br>geese covers thousands of kilometers in this way.<br>Geese understand that they can achieve their goal<br>only by helping each other. We must learn this lesson<br>demonstrated by the geese.', keywords: ['particular goose', 'takes the lead', 'most experienced', 'healthiest', 'self-sacrificing', 'quickly fills', 'leader becomes tired', 'drops back', 'thousands of kilometers', 'achieve their goal', 'helping each other', 'learn this lesson', 'demonstrated by geese'] },
+      2: { text: '', keywords: [] },
+      3: { text: '(1) Animals and plants living in cold environments have<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mechanisms to prevent them from freezing even when<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the temperature drops. Explain why pine needles do<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;not freeze in winter.<br><br>(2) High altitudes in the sky have extremely low<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temperatures. How do birds withstand the cold?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What secrets are hidden in a bird\'s feathers? Explain.', keywords: ['cold environments', 'mechanisms', 'prevent freezing', 'temperature drops', 'pine needles', 'not freeze', 'winter', 'high altitudes', 'extremely low temperatures', 'birds withstand cold', 'secrets', 'bird feathers'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/14.jpg',
+    zones: {
+      1: { text: 'Imagine a bird looking down during its flight in the sky.<br>It sees a small pond surrounded by lush grass and blooming<br>flowers. Butterflies, bees, dragonflies, and fireflies flutter<br>above the water lilies.<br>A person may get pricked by thorns when they try to pick<br>roses for a gift. Roses have triangular-shaped sturdy<br>thorns on their stems to protect themselves and prevent<br>their beautiful flowers from being plucked.', keywords: ['bird looking down', 'flight in sky', 'small pond', 'lush grass', 'blooming flowers', 'butterflies', 'bees', 'dragonflies', 'fireflies', 'water lilies', 'get pricked', 'thorns', 'pick roses', 'gift', 'triangular-shaped', 'sturdy thorns', 'stems', 'protect themselves', 'beautiful flowers', 'being plucked'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/15.jpg',
+    zones: {
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      1: { text: 'The thorns on rose flowers are sharp triangles, very tough,<br>and play the role of guardians, ensuring the rose is<br>well-protected without easily breaking or deforming.<br>A lion, the king of the jungle, waits patiently for a long<br>time to catch its prey. The lion swiftly runs towards<br>an approaching prey, using its strong jaws to grab and<br>bite into the prey. Once caught in the lion\'s jaws, it is<br>impossible for the prey to escape. Similarly, crocodiles in<br>swamps never let their caught prey escape. Explain why.', keywords: ['thorns on rose', 'sharp triangles', 'very tough', 'role of guardians', 'well-protected', 'breaking', 'deforming', 'lion', 'king of jungle', 'waits patiently', 'catch prey', 'swiftly runs', 'strong jaws', 'grab and bite', 'impossible to escape', 'crocodiles', 'swamps', 'never let escape'], fontType: 'type4' },
+      4: { text: 'There are approximately 10,000 species of birds worldwide.<br>Ranging in size and weight from finger-sized hummingbirds<br>to ostriches larger than humans, birds exhibit diverse lifestyles,<br>such as those that live on the ground like chickens and<br>those that migrate sbr>onally.<br><br>', keywords: ['10,000 species', 'birds worldwide', 'ranging in size', 'finger-sized hummingbirds', 'ostriches', 'larger than humans', 'diverse lifestyles', 'live on ground', 'chickens', 'migrate seasonally'], fontType: 'type4' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/16.jpg',
+    zones: {
+      1: { text: 'Birds have bodies that are well-suited for flying. Although<br>their bones are hollow, the large bones have internal<br>supports, making them lightweight yet sturdy. Air sacs<br>attached to their lungs assist in easy buoyancy, and they<br>have thin yet strong legs that can support their weight.<br>Birds especially have relatively large and strong hearts<br>compared to their body size. Albatrosses, which spend<br>almost all their time in the sky, have larger hearts than<br>other birds. However, not all birds can fly despite having<br>such body structures. Give examples of birds that cannot<br>fly and explain why.', keywords: ['well-suited for flying', 'bones are hollow', 'internal supports', 'lightweight yet sturdy', 'air sacs', 'lungs', 'easy buoyancy', 'thin yet strong legs', 'support weight', 'large and strong hearts', 'body size', 'albatrosses', 'time in sky', 'larger hearts', 'not all birds fly', 'body structures', 'cannot fly', 'explain why'], fontType: 'type4' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/17.jpg',
+    zones: {
+      1: { text: 'Long ago, birds also had front limbs. However, these front<br>limbs evolved into wings, and as a result, the beak took<br>over the role of the front limbs. The inside of the beak is<br>made of bones, while the outer part is composed of keratin,<br>like the components of nails or hair. Bird beaks also play<br>a role in regulating body temperature and conserving<br>moisture. On hot days, heat from the body escapes through<br>the beak. The surface of the beak is coated with chitin,<br>which prevents moisture from evaporating.<br>When birds eat or grasp objects, they use their beaks<br>instead of their wings. Typically, a pointed triangular shape<br>comes to mind when we think of a bird\'s beak. However,<br>with a little attention, it becomes apparent that bird beak<br>shapes are highly diverse. Bird beaks are shaped to be<br>optimal for capturing and eating prey.<br>Explain the relationship between the shape of a bird\'s<br>beak and its diet.', keywords: ['long ago', 'front limbs', 'evolved into wings', 'beak took over', 'inside of beak', 'made of bones', 'outer part', 'keratin', 'nails or hair', 'regulating temperature', 'conserving moisture', 'hot days', 'heat escapes', 'coated with chitin', 'prevents evaporating', 'eat or grasp', 'instead of wings', 'pointed triangular', 'highly diverse', 'optimal for capturing', 'eating prey', 'relationship', 'shape', 'diet'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/18.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'Most mammals have fur covering their entire bodies.<br>Fur plays a crucial role in the animals\' survival. It acts as<br>a cushion, reducing impact, and also prevents heat loss<br>from the body, helping maintain a stable body temperature.<br>The condition of an animal\'s fur can also reveal its health.<br>For example, a healthy dog\'s fur is soft and glossy, while<br>an unhealthy dog may have rough and lackluster fur.<br>Although less well-known, fur also expels waste from the<br>body. Animal experiments have revealed that a significant<br>portion of heavy metals expelled by the liver is eliminated<br>through fur. Birds, on the other hand, are covered in<br>feathers. Feathers create layers of air on the body\'s<br>surface, helping to preserve body temperature and making<br>the bird lightweight, which facilitates easy flight. Explain<br>how we use feathers in our daily lives.', keywords: ['mammals have fur', 'covering bodies', 'crucial role', 'survival', 'acts as cushion', 'reducing impact', 'prevents heat loss', 'stable temperature', 'condition reveals health', 'healthy dog fur', 'soft and glossy', 'unhealthy dog', 'rough and lackluster', 'expels waste', 'animal experiments', 'heavy metals', 'liver', 'eliminated through fur', 'birds covered', 'feathers', 'layers of air', 'preserve temperature', 'lightweight', 'facilitates flight', 'use feathers daily'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/19.jpg',
+    zones: {
+      1: { text: 'Animal Behavior to Withstand the Cold<br><br>Some animals have body structures that are optimal for<br>surviving the cold. The feathers of birds and fur of polar<br>bears are hollow and contain air. The air in the feathers<br>and fur traps heat and helps maintain body temperature.<br>Then do animals not feel the cold due to their body<br>structure? That is not necessarily the case. Just as humans<br>feel cold no matter how warmly we dress, animals also<br>feel cold. Thus, animals take various actions to protect<br>themselves in cold weather.<br>Animals such as deer and polar bears move rigorously to<br>generate heat from their bodies. And polar bears seem to<br>be unaffected no matter how cold it gets, but they avoid<br>going into the water if it is too cold. Seals and otters warm<br>themselves by resting on warm rocks.<br>There are many ways to avoid losing body heat. Animals<br>such as snakes, raccoons, and badgers huddle together in<br>one place to hibernate. By keeping one\'s body close to one<br>another, they protect their body temperature from the cold<br>winter weather.', keywords: ['animal behavior', 'withstand cold', 'body structures', 'optimal surviving', 'feathers of birds', 'fur of polar bears', 'hollow contain air', 'traps heat', 'maintain temperature', 'animals feel cold', 'body structure', 'humans feel cold', 'warmly dress', 'various actions', 'protect themselves', 'deer polar bears', 'move rigorously', 'generate heat', 'unaffected', 'avoid going water', 'seals otters', 'warm rocks', 'avoid losing heat', 'snakes raccoons badgers', 'huddle together', 'hibernate', 'keeping body close', 'protect temperature', 'cold winter weather'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/20.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'Animals also crouch and shrink their bodies when the<br>weather is cold. Pelicans and swans bury their necks deep<br>between their wings and tuck their feet under their bodies<br>when they sit. Japanese macaques also sleep with their<br>feet and hands gathered together and their heads bent<br>toward their chests. This position helps them conserve<br>warmth by curling up as much as possible.<br>Unlike the deer and polar bears mentioned earlier, there<br>are animals that try to maintain their body temperature<br>by moving less. When birds are sleeping, they typically<br>fly away quickly when approached. But in winter, they fly<br>less often than in summer. This helps protect the body<br>from the cold by conserving as much energy as possible.<br>There are many different ways animals maintain their body<br>temperature in cold weather. Winter is a cold and difficult<br>season for both people and wild animals.', keywords: ['animals crouch', 'shrink bodies', 'weather is cold', 'pelicans swans', 'bury necks', 'between wings', 'tuck feet', 'under bodies', 'japanese macaques', 'sleep with feet', 'hands gathered', 'heads bent', 'toward chests', 'conserve warmth', 'curling up', 'deer polar bears', 'maintain temperature', 'moving less', 'birds sleeping', 'fly away quickly', 'approached', 'winter fly less', 'summer', 'protect body', 'conserving energy', 'different ways', 'cold weather', 'cold difficult season', 'people wild animals'], fontType: 'type4' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },{
+    bg: '../assets/img/ReadBook/G1.1.2/21.jpg',
+    zones: {
+      1: { 
+        text: '02. Wright Brothers: Inventors of the Airplane<br><br>When we see birds flying in the sky, we often wish<br>to soar through the sky like birds. Individuals have<br>harbored the desire to fly in the sky for a long time.<br>Do you know about the Wright brothers, who succeeded<br>in inventing the airplane after numerous failures?<br>The Wright brothers, born in the United States, were<br>very curious about machines from a young age.<br>Playing with a toy called a "helicopter," which they<br>had received as a gift from their father, a pastor,<br>the two brothers dreamed of flying. While playing with<br>the toy, it eventually broke. The brothers attempted<br>to create a helicopter, but it was challenging.',
+        keywords: ['Wright Brothers', 'airplane', 'inventors', 'birds', 'flying', 'helicopter', 'pastor', 'failures']
+      },
+      2: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain who was the first person to invent an airplane<br>that could fly like a bird.',
+        keywords: ['first person', 'invent', 'airplane', 'fly', 'bird'],
+        fontType: 'type2'
+      },
+      3: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 3 (PDF 페이지 2)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/22.jpg',
+    zones: {
+      1: { 
+        text: 'After failing to create the helicopter toy, the Wright<br>brothers started making kites inspired by seeing<br>children flying them. They made kites that could fly<br>higher and longer than the ones the children made.<br>When the town\'s kids saw this, they asked the Wright<br>brothers to make kites for them.',
+        keywords: ['helicopter toy', 'kites', 'children', 'flying', 'higher', 'longer']
+      },
+      2: { 
+        text: 'The Wright brothers were very skilled. They even<br>built a printing press and printed newspapers to sell<br>without the help of adults. Immersed in whatever they<br>set their minds to, the two brothers also developed<br>an interest in bicycles.<br>After initially repairing old bicycles, they eventually<br>opened a bicycle shop where they made and sold<br>bikes. Throughout all this, the two brothers never<br>gave up on their dream of flying in the sky.',
+        keywords: ['skilled', 'printing press', 'newspapers', 'bicycles', 'bicycle shop', 'dream', 'flying']
+      },
+      4: { text: '', keywords: [] },
+      3: { 
+        text: 'Research the shapes and designs of the bicycles<br>made by the Wright brothers.',
+        keywords: ['research', 'shapes', 'designs', 'bicycles', 'Wright brothers'],
+        fontType: 'type2'
+      }
+    }
+  },
+
+  // 슬라이드 4 (PDF 페이지 3)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/23.jpg',
+    zones: {
+      1: { 
+        text: 'One day, a series of events led the Wright brothers<br>to build an airplane. During that time, people were<br>attempting to fly in the sky. The Montgolfier brothers<br>in France created a hot air balloon and used it to carry<br>animals high into the sky. Lilienthal, known as the<br>"father of gliders," conducted various experiments in<br>flying but unfortunately met a tragic end.<br>At that time, realizing the dream of flying was highly<br>dangerous. Upon hearing about Lilienthal\'s death,<br>the Wright brothers were determined to fulfill their<br>dream of flying in the sky.',
+        keywords: ['airplane', 'Montgolfier brothers', 'hot air balloon', 'animals', 'Lilienthal', 'gliders', 'dangerous', 'death']
+      },
+      2: { 
+        text: 'In 1903, the Wright brothers built an airplane capable<br>of flying in the sky. A few people gathered to witness<br>their first flight. However, the aircraft could not take<br>off and crashed to the ground.',
+        keywords: ['1903', 'airplane', 'flight', 'witness', 'crashed', 'ground']
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain how a hot air balloon flies in the sky.',
+        keywords: ['hot air balloon', 'flies', 'sky', 'explain'],
+        fontType: 'type2'
+      }
+    }
+  },
+
+  // 슬라이드 5 (PDF 페이지 4)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/24.jpg',
+    zones: {
+      1: { 
+        text: 'The Wright brothers did not give up. After repairing<br>their airplane, they attempted flight again three days<br>later. Finally, they flew for 12 seconds in the aircraft<br>they named "Flyer I."<br>This event gave the two brothers the confidence<br>that they could fly in the sky. However, their second<br>airplane, which they had built, also fell to the ground<br>when the wind stopped blowing.',
+        keywords: ['not give up', 'repairing', 'flight', '12 seconds', 'Flyer I', 'confidence', 'second airplane', 'wind']
+      },
+      4: { 
+        text: 'The brothers researched an airplane that could fly<br>even without wind. A year later, news spread<br>worldwide that their third airplane had flown in<br>the sky for over 30 minutes.<br>Even long before the Wright brothers built their<br>airplane, people had always desired to fly in the<br>sky. Various methods were used, and the pursuit<br>continued.',
+        keywords: ['without wind', 'year later', 'third airplane', '30 minutes', 'worldwide', 'desired', 'various methods']
+      },
+      3: { text: '', keywords: [] },
+      2: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 6 (PDF 페이지 5)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/25.jpg',
+    zones: {
+      1: { 
+        text: 'There is a story that Kāwus, the king of ancient<br>Persia, ascended into the sky by sitting on a chair<br>carried by eagles.',
+        keywords: ['Kāwus', 'ancient Persia', 'chair', 'eagles', 'ascended']
+      },
+      4: { 
+        text: 'In Greek mythology, King Alexander the Great is said<br>to have flown aboard a box pulled by a griffin,<br>a creature with the head and wings of an eagle and<br>the body of a lion. Similar stories appear in various<br>Greek myths. For instance, Daedalus attempted to<br>escape a labyrinth with his son Icarus by attaching<br>wings made of bird feathers to their bodies and flying<br>high into the sky.',
+        keywords: ['Greek mythology', 'Alexander the Great', 'griffin', 'eagle', 'lion', 'Daedalus', 'Icarus', 'labyrinth', 'bird feathers']
+      },
+      2: { text: '', keywords: [] },
+      3: { 
+        text: 'Think about the different ways to fly in the sky<br>without an airplane.',
+        keywords: ['different ways', 'fly', 'sky', 'without airplane'],
+        fontType: 'type2'
+      }
+    }
+  },
+
+  // 슬라이드 7 (PDF 페이지 6)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/26.jpg',
+    zones: {
+      1: { 
+        text: 'Although Icarus successfully escaped, he ignored<br>his father\'s advice and continued flying higher and<br>higher. However, as he approached the sun, the wax<br>that held the feathers melted, causing Icarus to fall<br>into the sea and meet his demise.<br>In China, there is a story of a person flying into the<br>sky using a kite and escaping safely from enemies<br>by hanging onto it. There is also a story of an English<br>monk named Oliver who attached wings made of<br>a pair of feathers to his body jumped from the top<br>of a tower, and ended up breaking his legs.',
+        keywords: ['Icarus', 'father\'s advice', 'sun', 'wax melted', 'sea', 'demise', 'China', 'kite', 'enemies', 'Oliver', 'monk', 'tower', 'breaking legs']
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 8 (PDF 페이지 7)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/27.jpg',
+    zones: {
+      1: { 
+        text: 'Regardless, the Wright brothers created an airplane<br>with wings resembling a bird\'s wings. Who was the<br>first to conceive the idea that wings are necessary<br>for flight? Leonardo da Vinci, who is well-known to<br>us as a painter, observed the flight of birds, realized<br>the need for wings to fly, and even drew a design for<br>an airplane. He was intelligent enough to invent<br>a flying machine.<br>There have been inventions related to flight in many<br>countries. For example, there are records of ancient<br>inventors in China creating simple flying devices such<br>as kites.',
+        keywords: ['wings', 'bird\'s wings', 'Leonardo da Vinci', 'painter', 'flight of birds', 'design', 'airplane', 'flying machine', 'inventions', 'China', 'flying devices', 'kites']
+      },
+      2: { text: '', keywords: [] },
+      3: { 
+        text: 'Describe what a simple flying device, such as<br>an ancient Chinese kite, might have looked like.',
+        keywords: ['simple flying device', 'ancient Chinese kite', 'looked like'],
+        fontType: 'type2'
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 9 (PDF 페이지 8)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/28.jpg',
+    zones: {
+      1: { 
+        text: 'How can a heavy airplane fly in the sky?<br>The secret to an airplane\'s ability to fly lies in the two<br>wings attached to the airplane\'s fuselage.<br>The wings of birds and airplanes have an inflated<br>upper surface, allowing air above the wings to pass<br>quickly. Additionally, the lower side has more air, and<br>the upper side has less air, creating a lift that causes<br>the airplane to rise.',
+        keywords: ['heavy airplane', 'fly', 'secret', 'two wings', 'fuselage', 'inflated upper surface', 'air', 'lift', 'rise']
+      },
+      2: { 
+        text: 'This force is called "lift." The faster the air passes<br>over the wings, the stronger the lift becomes.<br>When birds flap their wings before flying, they try<br>to increase lift. Of course, if the wind is strong<br>enough, lift is generated, and birds can fly without<br>needing to run.',
+        keywords: ['lift', 'faster', 'air passes', 'stronger', 'birds flap', 'increase lift', 'wind', 'generated']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 10 (PDF 페이지 9)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/29.jpg',
+    zones: {
+      1: { 
+        text: 'Two large engines are on both sides of the airplane\'s<br>wings. The power of the engines generates lift from<br>the wings when the aircraft runs quickly on the<br>ground, causing the airplane to take off. Although the<br>appearance of a helicopter is different from that of<br>a bird, observe a helicopter flying in the sky.',
+        keywords: ['large engines', 'airplane wings', 'power', 'generates lift', 'runs quickly', 'take off', 'helicopter', 'different', 'bird']
+      },
+      2: { 
+        text: 'Even though the appearance of a helicopter differs<br>from that of a bird, it can still fly in the sky.<br>The propellers of a helicopter, like an airplane\'s wings,<br>have a convex shape on the upper part.<br>When the propellers rotate quickly, lift is generated,<br>allowing the helicopter to take off. While airplanes<br>generate lift through forward motion, helicopters<br>generate lift through rotational force.',
+        keywords: ['helicopter', 'differs', 'bird', 'propellers', 'convex shape', 'rotate quickly', 'lift generated', 'forward motion', 'rotational force']
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain how airplanes and helicopters can fly<br>in the sky.',
+        keywords: ['airplanes', 'helicopters', 'fly', 'sky'],
+        fontType: 'type2'
+      }
+    }
+  },
+
+  // 슬라이드 11 (PDF 페이지 10)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/30.jpg',
+    zones: {
+      1: { 
+        text: 'There is a small propeller on the back of a helicopter.<br>Birds change direction with their tail feathers.<br>The propeller attached to the tail of a helicopter serves<br>a similar purpose. When the large propeller spins,<br>the helicopter\'s body rotates in the opposite direction.<br>The tail propeller helps the helicopter stay in place<br>in the air without spinning. If the tail propeller<br>malfunctions, the helicopter cannot be controlled in<br>the desired direction.',
+        keywords: ['small propeller', 'helicopter', 'birds', 'tail feathers', 'direction', 'similar purpose', 'opposite direction', 'stay in place', 'malfunctions', 'controlled']
+      },
+      2: { 
+        text: '02. Wright Brothers: Inventors of the Airplane<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying the</span><br><span class="larger-text">Wright Brothers, Inventors of Airplanes?</span>',
+        keywords: ['Wright Brothers', 'Purpose of Studying', 'Inventors of Airplanes']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'For a very long time, people have dreamed of flying<br>freely in the sky, inspired by their observations of birds.<br>Of course, achieving actual flight took a considerable<br>amount of time. Those who aspired to fly in the sky<br>but could not achieve it created various stories.<br>You might have heard tales of kings flying on chairs<br>carried by birds or the stories of Daedalus and Icarus,<br>who escaped from the labyrinth using wings made of<br>bird feathers.', keywords: ['dreamed', 'flying freely', 'observations', 'birds', 'actual flight', 'considerable time', 'various stories', 'kings', 'chairs', 'Daedalus', 'Icarus', 'labyrinth', 'wings', 'bird feathers'] }
+    }
+  },
+
+  // 슬라이드 12 (PDF 페이지 11)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/31.jpg',
+    zones: {
+      1: { 
+        text: 'However, dreams do not become reality through<br>imagination alone. Because of the challenges and<br>failures of numerous individuals, we can now travel<br>the world by riding airplanes.<br>The purpose of studying the Wright brothers,<br>the inventors of the airplane, is to understand how<br>airplanes were created. Additionally, we will explore<br>the principles that allow airplanes to soar through<br>the sky.',
+        keywords: ['dreams', 'reality', 'imagination', 'challenges', 'failures', 'travel', 'world', 'purpose', 'studying', 'understand', 'created', 'principles', 'soar']
+      },
+      2: { 
+        text: 'Inspired by birds\' appearance, the Wright brothers<br>created an airplane. However, unlike birds, airplanes<br>cannot flap their wings. To solve this problem,<br>the Wright brothers tirelessly researched and<br>persevered through failures without giving up.<br>Their success in flight represents more than just<br>the invention of a new mechanical device. The Wright<br>brothers proved that by uncovering the secrets of<br>nature, they could bring happiness to humanity.',
+        keywords: ['inspired', 'birds appearance', 'flap wings', 'solve problem', 'tirelessly researched', 'persevered', 'success', 'represents', 'mechanical device', 'secrets of nature', 'happiness', 'humanity']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 13 (PDF 페이지 12)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/32.jpg',
+    zones: {
+      3: { text: '', keywords: [] },
+      2: { 
+        text: '02. Wright Brothers: Inventors of the Airplane<br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of the</span><br><span class="larger-text">Wright Brothers, Inventors of the Airplane?</span>',
+        keywords: ['Wright Brothers', 'Apply the Study', 'Inventors of the Airplane']
+      },
+      1: { 
+        text: '(1) A hot air balloon is a device that fills a giant balloon<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with hot air to make it rise into the sky.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What are the advantages and disadvantages of a hot<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;air balloon?<br><br>(2) Lift is necessary for an airplane to stay in the sky.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How does an airplane, unable to flap its wings like<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a bird, generate lift?',
+        keywords: ['hot air balloon', 'giant balloon', 'advantages', 'disadvantages', 'lift', 'necessary', 'airplane', 'stay', 'unable', 'flap wings', 'bird', 'generate'],
+        fontType: 'type3'
+      },
+      4: { text: 'Generally, when people think of devices that fly in the<br>sky, they think only of airplanes. However, besides<br>airplanes, many tools and machines can navigate<br>the sky. A hot air balloon is a device that fills a large<br>balloon with hot air to make it rise into the sky.<br>By attaching a propeller to the hot air balloon, it can<br>fly in the desired direction. Gliders are flying devices<br>inspired by birds spreading their wings and soaring<br>through the sky.', keywords: ['devices', 'fly', 'sky', 'airplanes', 'tools', 'machines', 'navigate', 'hot air balloon', 'large balloon', 'propeller', 'desired direction', 'gliders', 'birds spreading', 'soaring'] }
+    }
+  },
+
+  // 슬라이드 14 (PDF 페이지 13)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/33.jpg',
+    zones: {
+      3: { 
+        text: 'Before the Wright brothers created powered airplanes,<br>they experimented with various principles of flight<br>using gliders. With the invention of engines,<br>the development of airplanes rapidly accelerated.<br>During the First World War, airplanes played such<br>a crucial role that they determined the course of<br>the war. On the other hand, the popularity of gliders<br>declined rapidly because gliders could not ascend into<br>the sky on their own and required riders to jump from<br>high places to fly.',
+        keywords: ['powered airplanes', 'experimented', 'principles of flight', 'gliders', 'invention', 'engines', 'development', 'rapidly accelerated', 'First World War', 'crucial role', 'determined', 'course', 'popularity declined', 'ascend', 'riders', 'jump']
+      },
+      2: { 
+        text: 'These days, some people enjoy gliding as a hobby.<br>Helicopters have the advantage of being able to take<br>off without a runway, which makes them ideal for<br>rescue operations in rugged mountainous areas or<br>deserts where runways are unavailable.<br>The idea of helicopters can be found in various<br>cultures. In ancient China, children played with a toy<br>called a bamboo dragonfly, which demonstrates the<br>flight principles of helicopters.',
+        keywords: ['gliding', 'hobby', 'helicopters', 'advantage', 'take off', 'runway', 'ideal', 'rescue operations', 'rugged mountainous', 'deserts', 'unavailable', 'various cultures', 'ancient China', 'bamboo dragonfly', 'flight principles']
+      },
+      1: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 15 (PDF 페이지 14)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/34.jpg',
+    zones: {
+      3: { 
+        text: '(1) Helicopters have the advantage of being able to take<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;off and land in small areas and remain in one place.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Explain what fields utilize helicopters.<br><br>(2) Skydiving is a sport where people jump from high<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;altitudes to enjoy speed. What principles are involved<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in the parachutes worn for safety during skydiving?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also, explain what safety features a parachute has.<br><br>',
+        keywords: ['helicopters', 'advantage', 'take off', 'land', 'small areas', 'remain', 'fields', 'utilize', 'skydiving', 'sport', 'high altitudes', 'speed', 'principles', 'parachutes', 'safety', 'features'],
+        fontType: 'type3'
+      },
+      4: { 
+        text: 'The Wright brothers, born in the United States, were<br>curious about machines from a young age. The Wright<br>brothers created an airplane with wings similar to a bird.<br>Who was the first to conceive the idea that wings are<br>necessary for flight? Leonardo da Vinci, who is well-known<br>to us as a painter, observed the flight of birds.<br>He discovered the need for wings to fly and drew up<br>a design for an airplane. He was so intelligent that he<br>even invented a device that could fly in the sky.<br><br>',
+        keywords: ['Wright brothers', 'United States', 'curious', 'machines', 'young age', 'airplane', 'wings similar', 'bird', 'conceive', 'idea', 'necessary', 'flight', 'Leonardo da Vinci', 'painter', 'observed', 'discovered', 'design', 'intelligent', 'invented', 'device'],
+        fontType: 'type3'
+      },
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 16 (PDF 페이지 15)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/35.jpg',
+    zones: {
+      1: { 
+        text: 'The appearance of an airplane flying in the sky includes<br>features of birds. It has two wings, and the pointed front<br>part closely resembles a bird. An airplane with two wings<br>can fly without any worries. However, if one wing of the<br>airplane is damaged, it cannot fly in the desired direction<br>and may crash to the ground or sea.<br>Briefly explain how an airplane, designed based on the<br>appearance of birds, can fly in the sky.',
+        keywords: ['appearance', 'airplane flying', 'features', 'birds', 'two wings', 'pointed front', 'resembles', 'without worries', 'damaged', 'desired direction', 'crash', 'ground', 'sea', 'designed', 'based on appearance'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: 'While airplanes generate lift through forward motion,<br>helicopters generate lift through rotational force.<br>If we look at the back of a helicopter, we will see a small<br>propeller. Birds change direction with their tail feathers.<br>The propeller attached to the helicopter\'s tail serves<br>a similar purpose to a bird\'s tail feathers.<br>When the large propeller rotates, the helicopter\'s body<br>rotates in the opposite direction. The tail propeller helps<br>the helicopter remain in the air without spinning in place.<br>If the tail propeller malfunctions, the helicopter cannot be<br>controlled in the desired direction.',
+        keywords: ['airplanes', 'generate lift', 'forward motion', 'helicopters', 'rotational force', 'back', 'small propeller', 'birds', 'direction', 'tail feathers', 'attached', 'similar purpose', 'large propeller', 'rotates', 'opposite direction', 'remain', 'spinning', 'malfunctions', 'controlled'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 17 (PDF 페이지 16)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/36.jpg',
+    zones: {
+      1: { 
+        text: 'A rocket carrying an artificial satellite was finally launched<br>at the space center. However, there was an issue with<br>the rocket flying high in the sky.<br>One of the two wings attached to the rocket is missing.<br>Can a rocket with one wing fly straight? The rocket will<br>eventually fall into the sea. Explain why this occurs.<br><br>',
+        keywords: ['rocket', 'artificial satellite', 'launched', 'space center', 'issue', 'flying high', 'two wings', 'missing', 'one wing', 'fly straight', 'fall', 'sea', 'explain', 'occurs'],
+        fontType: 'type4'
+      },
+      4: { 
+        text: 'A kite is a toy that is attached to a string and can fly in<br>the wind. It is known to have been first created in China<br>in the 5th century BCE. At that time, materials such as<br>paper, bamboo, and string for making kites were readily<br>available in China. In East Asia, people traditionally flew<br>kites outdoors during the New Year. After launching the<br>kite into the sky, people would cut the string, sending it<br>far away. It was believed that this practice would eliminate<br>bad things and invite happiness. In ancient China, kites<br>were also used to observe enemy movements.<br><br>',
+        keywords: ['kite', 'toy', 'attached', 'string', 'fly', 'wind', 'first created', 'China', '5th century BCE', 'materials', 'paper', 'bamboo', 'readily available', 'East Asia', 'traditionally', 'outdoors', 'New Year', 'launching', 'cut string', 'far away', 'eliminate bad things', 'invite happiness', 'ancient China', 'observe', 'enemy movements'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      2: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 18 (PDF 페이지 17)
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/37.jpg',
+    zones: {
+      1: { 
+        text: 'When making a kite, it is essential to balance both the left<br>and right sides, as well as the top and bottom. If the top is<br>heavier, the kite will tilt forward; if the bottom is heavier,<br>the kite will flip. Kites in the sky rotate to the right<br>(clockwise). Explain why this happens and how a kite can<br>fly straight.',
+        keywords: ['making kite', 'essential', 'balance', 'left', 'right sides', 'top', 'bottom', 'heavier', 'tilt forward', 'flip', 'rotate', 'clockwise', 'explain', 'happens', 'fly straight'],
+        fontType: 'type4'
+      },
+      4: { 
+        text: 'Leonardo da Vinci had exceptional talents in various fields,<br>such as painting, architecture, philosophy, literature,<br>composition, sculpture, mathematics, and anatomy.<br>You may have heard of his famous works like the Mona<br>Lisa or The Last Supper. As an all-around genius,<br>he wanted to fulfill one particular wish: to fly in the sky.<br>He designed flying machines, but it is uncertain whether<br>he actually flew in them.<br><br>',
+        keywords: ['Leonardo da Vinci', 'exceptional talents', 'various fields', 'painting', 'architecture', 'philosophy', 'literature', 'composition', 'sculpture', 'mathematics', 'anatomy', 'famous works', 'Mona Lisa', 'Last Supper', 'all-around genius', 'fulfill', 'particular wish', 'fly', 'sky', 'designed', 'flying machines', 'uncertain', 'actually flew'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      2: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 19 (PDF 페이지 18) - 38.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/38.jpg',
+    zones: {
+      1: { 
+        text: 'He expressed his desire to fly in the sky with the following<br>sentence: "Once you have tasted flight, you will forever<br>walk the earth with your eyes turned skyward, for there<br>you have been, and there you will always long to return."<br>Leonardo da Vinci designed various inventions such as<br>parachutes, giant crossbows, helicopters, and tanks, but<br>most were not built. Explain why.',
+        keywords: ['expressed', 'desire', 'fly', 'sky', 'sentence', 'tasted flight', 'forever walk', 'earth', 'eyes turned skyward', 'long to return', 'Leonardo da Vinci', 'designed', 'various inventions', 'parachutes', 'giant crossbows', 'helicopters', 'tanks', 'not built', 'explain'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: 'The Role of Kites in Human History<br><br>A kite is a toy made by attaching a tree branch to paper<br>and tying it to a thread to fly it in the sky. Kite flying<br>is enjoyed in many places around the world. Especially<br>in the East, it is believed that flying a kite can prevent<br>misfortune and bring good luck. When did people start<br>flying kites? There are many stories, but it is believed that<br>the first countries to fly kites were China and Greece.',
+        keywords: ['Role of Kites', 'Human History', 'kite', 'toy', 'tree branch', 'paper', 'thread', 'fly', 'sky', 'kite flying', 'enjoyed', 'many places', 'world', 'East', 'believed', 'prevent misfortune', 'good luck', 'people start', 'many stories', 'first countries', 'China', 'Greece'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 20 (PDF 페이지 19) - 39.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/39.jpg',
+    zones: {
+      1: { 
+        text: '<br>In China, there is a record that Luban or Mozi made a kite<br>about 2,400 years ago. It is said that around the same time<br>in Greece, Archytas attempted to carve a tree into the<br>shape of a bird and fly it into the sky.<br>Since Luban, Mozi, and Archytas were war engineers,<br>we can assume that early kites were produced for war<br>purposes. There are also records of actual kites being used<br>in war. One of China\'s famous idioms is "四面楚歌" which<br>translates to "surrounded by Chu songs."<br>It describes a situation where one is completely cornered,<br>with no way out or options to escape.',
+        keywords: ['China', 'record', 'Luban', 'Mozi', 'kite', '2400 years ago', 'Greece', 'Archytas', 'carve tree', 'shape of bird', 'fly', 'sky', 'war engineers', 'early kites', 'war purposes', 'actual kites', 'used in war', 'famous idioms', '四面楚歌', 'surrounded by Chu songs', 'completely cornered', 'no way out', 'escape'],
+        fontType: 'type4'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 21 (PDF 페이지 20) - 40.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/40.jpg',
+    zones: {
+      1: { 
+        text: '<br>When Xiang Yu of ancient China\'s Chu Dynasty went to<br>war with Liu Bang of the Han Dynasty, he was surrounded<br>by Liu Bang\'s soldiers. According to old records, at this<br>time, Han Xin, a general of the Han Dynasty, sent a soldier<br>on a kite made of cowhide. The soldier on the kite sang<br>a sorrowful song from the state of Chu, and upon hearing<br>the song, the soldiers of the state of Chu were unable to<br>muster up the strength to fight, and Xiang Yu ended up<br>losing. Of course, kites were not only used in war.<br>There are claims that kites were used to build pyramids in<br>ancient Egypt. Kites also appear in the history of science.<br>Benjamin Franklin discovered that lightning is an electrical<br>phenomenon by flying a kite during a lightning storm.<br>Using this, he invented the lightning rod. Kites, a familiar<br>means of recreation, have played various roles in human<br>history.',
+        keywords: ['Xiang Yu', 'ancient China', 'Chu Dynasty', 'war', 'Liu Bang', 'Han Dynasty', 'surrounded', 'soldiers', 'old records', 'Han Xin', 'general', 'soldier', 'kite', 'cowhide', 'sorrowful song', 'state of Chu', 'hearing', 'unable', 'muster strength', 'fight', 'losing', 'not only war', 'claims', 'build pyramids', 'ancient Egypt', 'history of science', 'Benjamin Franklin', 'discovered', 'lightning', 'electrical phenomenon', 'lightning storm', 'invented', 'lightning rod', 'familiar means', 'recreation', 'various roles', 'human history'],
+        fontType: 'type4'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 슬라이드 1 (PDF 페이지 1) - 41.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/41.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Identify what objects are in the sky.<br><br><br><br><br><br><br><br><br><br>In the sky, sparrows, cranes, and mallards are flying around.<br>Clouds also float in the sky. Airplanes fly high in the sky.',
+        keywords: ['identify', 'objects', 'sky', 'sparrows', 'cranes', 'mallards', 'flying', 'clouds', 'float', 'airplanes', 'high'],
+        fontType: 'type5'
+      },
+      2: { 
+        text: '<strong><u>Explain how a bird is so light.<br><br><br><br><br><br><br><br><br><br>Birds have hollow bones inside. The feathers covering their bodies are<br>also very light. They have air sacs inside their bodies, making them<br>even lighter.',
+        keywords: ['explain', 'bird', 'light', 'hollow bones', 'feathers', 'covering', 'bodies', 'air sacs', 'lighter'],
+        fontType: 'type8'
+      },
+      4: { 
+        text: '<strong><u>Explain what birds can do using their beaks.<br><br><br><br><br><br><br><br><br><br><br>Birds can catch prey with their beaks. They can also pick up leaves<br>and twigs using their beaks. With their sturdy beaks, they can even<br>make holes in trees.',
+        keywords: ['explain', 'birds', 'beaks', 'catch prey', 'pick up', 'leaves', 'twigs', 'sturdy', 'holes', 'trees'],
+        fontType: 'type8'
+      },
+      3: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 2 (PDF 페이지 2) - 42.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/42.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Explain how swallows can fly well.<br><br><br><br><br><br><br><br><br><br>Swallows have long and sturdy wings, allowing them to fly fast.<br>They can quickly change direction using their forked tails, and their<br>rounded bodies ensure smooth airflow.',
+        keywords: ['explain', 'swallows', 'fly well', 'long', 'sturdy wings', 'fly fast', 'change direction', 'forked tails', 'rounded bodies', 'smooth airflow'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '<strong><u>Explain the difference between the wings of birds and insects.<br><br><br><br><br><br><br><br><br><br>Bird wings are large and covered with feathers, enabling them to fly<br>far. In contrast, insect wings are thin and small, limiting their flight<br>range.',
+        keywords: ['explain', 'difference', 'wings', 'birds', 'insects', 'large', 'feathers', 'fly far', 'thin', 'small', 'flight range'],
+        fontType: 'type8'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 3 (PDF 페이지 3) - 43.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/43.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Explain how geese can fly without freezing, even at high altitudes.<br><br><br><br><br><br><br><br><br><br>Cranes keep moving so their bodies do not freeze. Moreover, their<br>bodies are covered with hollow feathers, preventing heat from<br>escaping. The down feathers on their chest and back also keep them<br>warm.',
+        keywords: ['explain', 'geese', 'fly', 'without freezing', 'high altitudes', 'cranes', 'keep moving', 'hollow feathers', 'preventing heat', 'down feathers', 'warm'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '<strong><u>Explain why seawater does not freeze.<br><br><br><br><br><br><br><br><br><br>Seawater does not easily freeze because it is always in motion.<br>Additionally, dissolved salt lowers the freezing point, allowing it<br>to freeze at lower temperatures than pure water.',
+        keywords: ['explain', 'seawater', 'not freeze', 'always in motion', 'dissolved salt', 'freezing point', 'lower temperatures', 'pure water'],
+        fontType: 'type8'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 4 (PDF 페이지 4) - 44.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/44.jpg',
+    zones: {
+      1: { 
+        text: '(1) <strong><u>Birds have pointed beaks and small heads. What might happen<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>if a bird\'s head is too large for its body?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Most animals, including humans, birds, horses, and tigers, have<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;their heads at the highest part of their bodies. When the head is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;positioned higher, it can see farther, making it easier to detect<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;approaching dangers. Then, what happens if the head size is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;larger than the body size? Let\'s examine this using several disks<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of different sizes.',
+        keywords: ['birds', 'pointed beaks', 'small heads', 'head size', 'body size', 'animals', 'humans', 'horses', 'tigers', 'highest part', 'positioned higher', 'see farther', 'detect dangers', 'disks', 'different sizes'],
+        fontType: 'type7'
+      },
+      2: { 
+        text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If we place the largest disk at the bottom and stack smaller disks<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on top, the tower does not collapse easily. On the contrary, if we<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;place the smallest disk at the bottom and stack larger disks on<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top, the tower quickly falls apart. Consider the disk placed at the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top as the bird\'s head.<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If the head is large, the bird will not stand properly and lean<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;forward every time it walks. When flying in the sky, a heavy head<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;will cause it to tilt downward constantly. A bird that can neither<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;walk nor fly properly will find survival challenging.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Among the existing birds, the bird with the largest head is the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shoebill. It is 100-150 cm high and its wingspan reaches 220-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;260 cm when spread. The shoebill\'s beak is exceptionally large,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;measuring 20 cm in width and height.',
+        keywords: ['largest disk', 'bottom', 'smaller disks', 'collapse', 'smallest disk', 'larger disks', 'falls apart', 'bird\'s head', 'large head', 'stand properly', 'lean forward', 'heavy head', 'tilt downward', 'survival challenging', 'shoebill', 'wingspan', 'exceptionally large', 'beak'],
+        fontType: 'type7'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 5 (PDF 페이지 5) - 45.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/45.jpg',
+    zones: {
+      1: { 
+        text: '(2) <strong><u>Birds that fly long distances depending on the season are<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>called migratory birds. Why do migratory birds like geese form<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>a V-shaped formation? Explain.<br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When geese fly in a V-shaped formation, they can cover longer<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;distances more easily because they mutually support each other<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with their strength. The leading goose initiates by flapping its<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wings, and the following geese experience the upward force (lift),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requiring less effort to fly. When the leading goose gets tired,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;another goose from behind takes its place. Flying in this formation<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and taking turns leading allows them to cover longer distances<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with less effort.',
+        keywords: ['birds', 'fly long distances', 'season', 'migratory birds', 'geese', 'V-shaped formation', 'cover longer distances', 'mutually support', 'leading goose', 'flapping wings', 'upward force', 'lift', 'less effort', 'takes place', 'taking turns'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For example, research has shown that when pelicans fly in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a V-shaped formation, their heart rate and wing flapping<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frequency decrease by 10-14% compared to flying alone.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This principle is applied when airplanes fly in formation,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;forming a V-shaped pattern. This can reduce fuel consumption<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by as much as 18%. Birds also adopt V-shaped flight patterns,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sometimes flying in a straight line.<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When forming a V-shaped pattern, the geese behind synchronize<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;their wings, flapping with the leading goose. When flying in a<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;straight line, they flap their wings out of sync with the leading<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;goose.',
+        keywords: ['research', 'pelicans', 'heart rate', 'wing flapping frequency', 'decrease', 'flying alone', 'principle', 'airplanes', 'formation', 'fuel consumption', 'reduce', 'adopt', 'flight patterns', 'straight line', 'synchronize', 'out of sync'],
+        fontType: 'type8'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 6 (PDF 페이지 6) - 46.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/46.jpg',
+    zones: {
+      1: { 
+        text: '(1) <strong><u>Animals and plants living in cold environments have<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>mechanisms to prevent them from freezing even when the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>temperature drops. Explain why pine needles do not freeze<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>in winter<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pine needles do not freeze even in winter because of the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;presence of "biological antifreeze." As the name suggests,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;antifreeze is a liquid that does not freeze. Water expands when<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it freezes, posing a high risk of cell destruction in extremely cold<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conditions. This is similar to the phenomenon where a beverage in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a glass bottle placed in the freezer may cause the bottle to break.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;However, water containing other substances freezes at even lower<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temperatures.',
+        keywords: ['animals', 'plants', 'cold environments', 'mechanisms', 'prevent freezing', 'temperature drops', 'pine needles', 'winter', 'biological antifreeze', 'liquid', 'water expands', 'cell destruction', 'extremely cold', 'glass bottle', 'freezer', 'other substances', 'lower temperatures'],
+        fontType: 'type7'
+      },
+      2: { 
+        text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is comparable to how saltwater freezes at lower<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temperatures than pure water. Pine trees are well aware of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this fact. When the temperature drops, the concentration of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;substances such as amino acids and sucrose increases inside the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cells of pine needles. As a result, the sap does not freeze easily.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Even if it does, the ice crystals that form are tiny, preventing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;significant cell damage.',
+        keywords: ['comparable', 'saltwater', 'pure water', 'pine trees', 'well aware', 'concentration', 'amino acids', 'sucrose', 'increases', 'cells', 'sap', 'freeze easily', 'ice crystals', 'tiny', 'preventing', 'cell damage'],
+        fontType: 'type7'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 7 (PDF 페이지 7) - 47.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/47.jpg',
+    zones: {
+      1: { 
+        text: '(2) <strong><u>High altitudes in the sky have extremely low temperatures.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>How do birds withstand the cold? What secrets are hidden in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>a bird\'s feathers? Explain.<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Birds flying high in the sky hardly feel the cold. This is because<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continuous wing flapping consumes a lot of energy, generating<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;significant heat in their bodies. Even when they are not flying,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;birds rarely feel the cold. The secret lies in the thick layer of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;down feathers that forms over the chest, abdomen, and back and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extends from the chest to the belly.',
+        keywords: ['high altitudes', 'extremely low temperatures', 'birds', 'withstand cold', 'secrets', 'feathers', 'hardly feel cold', 'continuous wing flapping', 'consumes energy', 'generating heat', 'not flying', 'rarely feel cold', 'thick layer', 'down feathers', 'chest', 'abdomen', 'back', 'belly'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When we think of feathers, we typically envision a stiff central<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shaft with orderly arranged smaller feathers. Feathers assist<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;birds in flying efficiently. The down feathers on the lower part of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the neck, chest, lower abdomen, and under the wings of ducks and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geese provide excellent insulation.<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;These down feathers consist of numerous barbules that extend<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to form a round shape, similar to dandelion seeds. These barbules<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;play a role in trapping air, preventing heat from escaping<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the body. Consequently, winter birds can thrive even in cold<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;environments.',
+        keywords: ['feathers', 'stiff central shaft', 'orderly arranged', 'smaller feathers', 'assist', 'flying efficiently', 'lower part', 'neck', 'lower abdomen', 'under wings', 'ducks', 'geese', 'excellent insulation', 'numerous barbules', 'extend', 'round shape', 'dandelion seeds', 'trapping air', 'preventing heat', 'escaping', 'winter birds', 'thrive', 'cold environments'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 8 (PDF 페이지 8) - 48.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/48.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>The lion swiftly runs towards an approaching prey, using its strong<br><strong><u>jaws to grab and bite into the prey. Once caught in the lion\'s jaws,<br><strong><u>it is impossible for the prey to escape. Similarly, crocodiles in<br><strong><u>swamps never let their caught prey escape. Explain why.<br><br><br><br><br><br><br><br><br><br><br><br>Lions\' and crocodiles\' teeth are shaped like sharp triangles. Thus,<br>when lions or crocodiles bite their prey, the triangular teeth<br>concentrate force at the tip, exerting greater force with the same<br>strength. Triangular teeth are extremely sturdy, making it difficult<br>for prey to escape. For lions and crocodiles, which primarily feed on<br>tough meat, strong teeth are essential for tearing and eating well.<br>Additionally, great white sharks, well-known as man-eating sharks,<br>have sharp, triangular teeth because they need to tear off the tough,<br>sturdy muscles of their prey. The saw used in everyday life also has<br>a triangular shape. As a result, when pushing the saw backward,<br>it moves smoothly, and the wood is cut efficiently when pulling it<br>forward with force.',
+        keywords: ['lion', 'swiftly runs', 'approaching prey', 'strong jaws', 'grab', 'bite', 'caught', 'escape', 'crocodiles', 'swamps', 'sharp triangles', 'triangular teeth', 'concentrate force', 'tip', 'greater force', 'extremely sturdy', 'difficult', 'primarily feed', 'tough meat', 'strong teeth', 'tearing', 'eating well', 'great white sharks', 'man-eating sharks', 'sturdy muscles', 'saw', 'triangular shape', 'moves smoothly', 'cut efficiently'],
+        fontType: 'type3'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 9 (PDF 페이지 9) - 49.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/49.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Birds especially have relatively large and strong hearts compared<br><strong><u>to their body size. Albatrosses, which spend almost all their time<br><strong><u>in the sky, have larger hearts than other birds.<br><strong><u>However, not all birds can fly despite such body structures.<br><strong><u>Give examples of birds that cannot fly and explain why.<br><br><br><br><br><br><br><br><br><br><br><br>Chickens can hover briefly in the air by fluttering their wings but<br>cannot fly. Chickens, domesticated by humans for about 3,000 to<br>4,000 years, no longer need to escape from predators. Consequently,<br>although they have wings, they cannot fly.<br>Ostriches have sturdy and long legs, allowing them to escape from<br>predators easily. Since ostriches did not need to fly, their wings<br>naturally degenerated. Penguin wings evolved into a shape suitable<br>for swimming. In the distant past, penguins might have been able<br>to fly. However, flying requires more energy than swimming, leading<br>penguins to evolve into their current form by giving up flight.',
+        keywords: ['birds', 'relatively large', 'strong hearts', 'body size', 'albatrosses', 'spend time', 'sky', 'larger hearts', 'body structures', 'cannot fly', 'examples', 'chickens', 'hover briefly', 'fluttering wings', 'domesticated', 'humans', '3000 to 4000 years', 'escape', 'predators', 'ostriches', 'sturdy', 'long legs', 'easily', 'wings naturally degenerated', 'penguin wings', 'evolved', 'shape suitable', 'swimming', 'distant past', 'able to fly', 'requires more energy', 'current form', 'giving up flight'],
+        fontType: 'type3'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 10 (PDF 페이지 10) - 50.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/50.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Bird beaks are shaped to be optimal for capturing and eating<br><strong><u>prey. Explain the relationship between the shape of a bird\'s beak<br><strong><u>and its diet.<br><br><br><br><br><br><br><br><br><br><br><br>The beaks of carnivores, such as eagles and hawks, are short, sturdy,<br>and curved in a hook shape suitable for tearing large prey.<br>Birds belonging to the duck family, such as geese, have flat beaks to<br>filter out water and mud, making it easier to eat food. The Eurasian<br>curlew, a bird that catches and eats worms and crabs in the marsh,<br>has a thin, long beak that curves downward. A sparrow\'s beak is<br>pointed and robust, suitable for pecking at grains.',
+        keywords: ['bird beaks', 'shaped', 'optimal', 'capturing', 'eating prey', 'relationship', 'shape', 'diet', 'carnivores', 'eagles', 'hawks', 'short', 'sturdy', 'curved', 'hook shape', 'tearing', 'large prey', 'duck family', 'geese', 'flat beaks', 'filter out', 'water', 'mud', 'easier', 'eat food', 'Eurasian curlew', 'catches', 'worms', 'crabs', 'marsh', 'thin', 'long beak', 'curves downward', 'sparrow', 'pointed', 'robust', 'pecking', 'grains'],
+        fontType: 'type3'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 11 (PDF 페이지 11) - 51.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/51.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Feathers create layers of air on the body\'s surface, helping to<br><strong><u>preserve body temperature and making the bird lightweight,<br><strong><u>which facilitates easy flight. Explain how we use feathers in<br><strong><u>our daily lives.<br><br><br><br><br><br><br><br><br><br><br><br>Feathers can be used to make warm clothing. The feathers of geese<br>and quails have a hollow structure. People used to fill them with ink<br>to use as pens. In ancient times, arrows had feathers to ensure they<br>flew straight.<br>We can make fishing hooks from the rachis of large feathers from<br>peacocks. A fishing hook is attached to the fishing line to make it<br>float on the water, indicating whether a fish has bitten the bait.<br>Colorful feathers are also used as decorations on hats or clothing,<br>and feathers can be utilized to create various art pieces. Recently,<br>technology has been developed to create lasers using the shining<br>principle of bird feathers.',
+        keywords: ['feathers', 'create layers', 'air', 'body surface', 'preserve', 'body temperature', 'lightweight', 'facilitates', 'easy flight', 'daily lives', 'warm clothing', 'geese', 'quails', 'hollow structure', 'fill with ink', 'pens', 'ancient times', 'arrows', 'flew straight', 'fishing hooks', 'rachis', 'large feathers', 'peacocks', 'fishing line', 'float', 'water', 'indicating', 'fish', 'bitten', 'bait', 'colorful feathers', 'decorations', 'hats', 'clothing', 'art pieces', 'technology', 'lasers', 'shining principle'],
+        fontType: 'type3'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 12 (PDF 페이지 12) - 52.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/52.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Explain who was the first person to invent an airplane that could<br><strong><u>fly like a bird.<br><br><br><br><br><br><br><br><br><br><br>The Wright brothers, who were born in the United States, invented<br>the first airplane.',
+        keywords: ['explain', 'first person', 'invent', 'airplane', 'fly like bird', 'Wright brothers', 'United States', 'invented', 'first airplane'],
+        fontType: 'type6'
+      },
+      2: { 
+        text: '<strong><u>Research the shapes and designs of the bicycles made by the<br><strong><u>Wright brothers.<br><br><br><br><br><br><br><br><br><br><br>The wheels were circular. The body of the bicycle had a triangular shape.',
+        keywords: ['research', 'shapes', 'designs', 'bicycles', 'Wright brothers', 'wheels', 'circular', 'body', 'bicycle', 'triangular shape'],
+        fontType: 'type6'
+      },
+      4: { 
+        text: '<strong><u>Explain how a hot air balloon flies in the sky.<br><br><br><br><br><br><br><br><br><br><br>Air rises when heated. Therefore, by heating the air inside a balloon,<br>the hot air balloon can ascend and fly in the sky.',
+        keywords: ['explain', 'hot air balloon', 'flies', 'sky', 'air rises', 'heated', 'heating air', 'inside balloon', 'ascend', 'fly'],
+        fontType: 'type8'
+      },
+      3: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 13 (PDF 페이지 13) - 53.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/53.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Think about the different ways to fly in the sky without an airplane.<br><br>If we attach a string to the legs of many birds and hang them,<br>we might be able to fly. We can also create a hot air balloon with<br>a giant balloon to fly in the sky.',
+        keywords: ['think about', 'different ways', 'fly', 'sky', 'without airplane', 'attach string', 'legs', 'many birds', 'hang', 'might be able', 'create', 'hot air balloon', 'giant balloon'],
+        fontType: 'type8'
+      },
+      3: { 
+        text: '<strong><u>Describe what a simple flying device, such as an ancient Chinese<br><strong><u>kite, might have looked like.<br><br><br><br><br><br><br><br><br><br><br>Simple flying devices, such as ancient Chinese kites, were most likely<br>modeled after natural forms, such as birds or butterflies. They were<br>usually made of lightweight bamboo or wooden frames with cloth or<br>paper attached to them to catch the airflow and were often equipped<br>with tails or decorations to help them fly steadily.<br>',
+        keywords: ['describe', 'simple flying device', 'ancient Chinese kite', 'looked like', 'most likely', 'modeled after', 'natural forms', 'birds', 'butterflies', 'lightweight', 'bamboo', 'wooden frames', 'cloth', 'paper', 'attached', 'catch airflow', 'equipped', 'tails', 'decorations', 'fly steadily'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '<strong><u>Explain how airplanes and helicopters can fly in the sky.<br><br>Airplanes and helicopters can fly in the sky using aerodynamics.<br>Airplanes use thrust generated by forward motion, while helicopters<br>utilize rotating blades for lift.',
+        keywords: ['explain', 'airplanes', 'helicopters', 'fly', 'sky', 'aerodynamics', 'thrust', 'generated', 'forward motion', 'utilize', 'rotating blades', 'lift'],
+        fontType: 'type8'
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 14 (PDF 페이지 14) - 54.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/54.jpg',
+    zones: {
+      1: { 
+        text: '(1) <strong><u> A hot air balloon is a device that fills a giant balloon with hot<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>air to make it rise into the sky. What are the advantages and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>disadvantages of a hot air balloon?<br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When people first created hot air balloons, their primary interest<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;was that "people could float in the sky." As a result, to this day,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hot air balloons only move up and down. The disadvantage of a<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hot air balloon that has ascended into the sky is that it cannot<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;be steered in any direction. People who needed to change<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction during flight made the structure elongated to reduce air<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resistance and attached a propeller for propulsion and direction<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changes.',
+        keywords: ['hot air balloon', 'device', 'fills', 'giant balloon', 'hot air', 'rise', 'sky', 'advantages', 'disadvantages', 'first created', 'primary interest', 'people', 'float', 'this day', 'move up and down', 'disadvantage', 'ascended', 'steered', 'any direction', 'change direction', 'flight', 'structure', 'elongated', 'reduce', 'air resistance', 'attached', 'propeller', 'propulsion', 'direction changes'],
+        fontType: 'type7'
+      },
+      2: { 
+        text: '<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is what we call an airship. Hot air balloons, which utilize<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the buoyancy of the air, are not only large in size but also have<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the drawback of carrying very few people relative to their size.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moreover, hot air balloons cannot fly on windy days. To reduce<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weight, facilities such as restrooms were not installed, so there is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the inconvenience of having to use the restroom before riding the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hot air balloon. Riding a hot air balloon gives the feeling of flying<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in the sky with the wind blowing directly at you.<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Furthermore, ascending slowly into the sky and leisurely floating<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in the air allows you to calmly appreciate beautiful landscapes.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Since hot air balloons use less fuel compared to airplanes, they<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can fly for a very long time. The control method is also simple,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so even beginners can easily operate a hot air balloon with some<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;training.',
+        keywords: ['airship', 'utilize', 'buoyancy', 'air', 'large in size', 'drawback', 'carrying', 'very few people', 'relative', 'size', 'windy days', 'reduce weight', 'facilities', 'restrooms', 'not installed', 'inconvenience', 'use restroom', 'before riding', 'riding', 'feeling', 'flying', 'wind blowing', 'directly', 'ascending slowly', 'leisurely floating', 'calmly appreciate', 'beautiful landscapes', 'less fuel', 'compared', 'airplanes', 'very long time', 'control method', 'simple', 'beginners', 'easily operate', 'training'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 15 (PDF 페이지 15) - 55.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/55.jpg',
+    zones: {
+      1: { 
+        text: '(2) <strong><u>Lift is necessary for an airplane to stay in the sky. How does<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>an airplane, unable to flap its wings like a bird, generate lift?<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lift refers to the force acting vertically against fluid flow, such as<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;air or water, around an object\'s surface when the fluid flows.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For an airplane to experience lift, there must be a pressure<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;difference above and below the wings. The wings of an airplane<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;have a convex shape on the top. When an airplane is flying, the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pressure below the wings is greater than the pressure above,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allowing the airplane to stay aloft without falling.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To generate lift, birds or airplanes need to fly rapidly through<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the air. Birds achieve this by flapping their wings vigorously,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;propelling them forward. Airplanes with fixed wings obtain thrust<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from the engine. Airplanes can only ascend into the sky when they<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;acquire enough thrust so that lift surpasses gravity.',
+        keywords: ['lift', 'necessary', 'airplane', 'stay', 'sky', 'unable', 'flap wings', 'bird', 'generate lift', 'force', 'acting vertically', 'fluid flow', 'air', 'water', 'object surface', 'fluid flows', 'experience lift', 'pressure difference', 'above', 'below', 'wings', 'convex shape', 'top', 'flying', 'pressure below', 'greater', 'pressure above', 'stay aloft', 'falling', 'rapidly', 'through air', 'achieve', 'flapping', 'vigorously', 'propelling', 'forward', 'fixed wings', 'obtain thrust', 'engine', 'ascend', 'acquire', 'enough thrust', 'surpasses gravity'],
+        fontType: 'type3'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 16 (PDF 페이지 16) - 56.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/56.jpg',
+    zones: {
+      1: { 
+        text: '(1) <strong><u>Helicopters have the advantage of being able to take off and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>land in small areas and remain in one place. Explain what<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>fields utilize helicopters.<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Helicopters have played a significant role in numerous wars. They<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are capable of vertical takeoff and landing without the need for<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;runways, and they are effective in rapidly deploying soldiers or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;war materials to the battlefield. They can accomplish tasks that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;airplanes cannot. For instance, they can rescue people stranded<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on high mountains or extinguish mountain fires.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;They are also used in delivering relief supplies to areas affected<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by natural disasters and rescuing people. Additionally, helicopters<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are useful for transporting heavy loads to mountaintops, such as<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;construction materials or components for transmission towers.',
+        keywords: ['helicopters', 'advantage', 'take off', 'land', 'small areas', 'remain', 'one place', 'fields', 'utilize', 'significant role', 'numerous wars', 'capable', 'vertical takeoff', 'landing', 'need', 'runways', 'effective', 'rapidly deploying', 'soldiers', 'war materials', 'battlefield', 'accomplish tasks', 'airplanes cannot', 'rescue people', 'stranded', 'high mountains', 'extinguish', 'mountain fires', 'delivering', 'relief supplies', 'areas affected', 'natural disasters', 'rescuing people', 'transporting', 'heavy loads', 'mountaintops', 'construction materials', 'components', 'transmission towers'],
+        fontType: 'type7'
+      },
+      2: { 
+        text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In regions with many mountains, helicopters transport emergency<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patients. Distances that take several hours by car can be covered<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in a matter of minutes using a helicopter, increasing the likelihood<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of saving lives. Helicopters are also employed for patrol purposes.<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Due to their high-speed flight, airplanes find it challenging to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examine ground situations closely. However, helicopters can<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;freely adjust their flight speed, allowing for detailed observations<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of the surroundings. During aerial patrols, if there is suspicion<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;about a specific area, a helicopter can hover in the airspace,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;closely inspecting the vicinity.',
+        keywords: ['regions', 'many mountains', 'transport', 'emergency patients', 'distances', 'several hours', 'car', 'covered', 'matter of minutes', 'helicopter', 'increasing', 'likelihood', 'saving lives', 'employed', 'patrol purposes', 'high-speed flight', 'challenging', 'examine', 'ground situations', 'closely', 'freely adjust', 'flight speed', 'allowing', 'detailed observations', 'surroundings', 'aerial patrols', 'suspicion', 'specific area', 'hover', 'airspace', 'closely inspecting', 'vicinity'],
+        fontType: 'type7'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 17 (PDF 페이지 17) - 57.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/57.jpg',
+    zones: {
+      1: { 
+        text: '(2) <strong><u>Skydiving is a sport where people jump from high altitudes to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>enjoy speed. What principles are involved in the parachutes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>worn for safety during skydiving? Also, explain what safety<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>features a parachute has.<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parachutes are based on the mathematical principle that they<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shrink when folded and expand when unfolded. Parachutes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;utilize air resistance to slow down the rate of descent. The wider<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a parachute is unfolded, the greater the air resistance and the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;slower the descent. However, if a parachute remains unfolded,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it can be inconvenient.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Even a slight breeze can cause a person to be dragged by the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parachute. Therefore, when the parachute is not used, it is folded<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and stored in a bag. It is crucial to fold the parachute in a way<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;that minimizes its volume while ensuring it unfolds quickly in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;emergencies. Scientists have addressed this issue by applying the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;principles of origami.',
+        keywords: ['skydiving', 'sport', 'people jump', 'high altitudes', 'enjoy speed', 'principles', 'involved', 'parachutes', 'worn', 'safety', 'safety features', 'parachute', 'mathematical principle', 'shrink', 'folded', 'expand', 'unfolded', 'utilize', 'air resistance', 'slow down', 'rate of descent', 'wider', 'greater', 'slower', 'descent', 'remains unfolded', 'inconvenient', 'slight breeze', 'cause', 'person', 'dragged', 'not used', 'stored', 'bag', 'crucial', 'fold', 'minimizes', 'volume', 'ensuring', 'unfolds quickly', 'emergencies', 'scientists', 'addressed', 'issue', 'applying', 'principles of origami'],
+        fontType: 'type3'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 18 (PDF 페이지 18) - 58.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/58.jpg',
+    zones: {
+      1: { 
+        text: '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parachutes have holes intentionally created so that air can pass<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;through. The holes allow air to move up and down, and the air<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moving upward escapes through them. Without these holes,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the parachute cannot control the descent speed and may drift<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unpredictably before landing. The holes in the parachute also play<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a vital role in controlling direction.<br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parachutes consist of a main parachute and a reserve parachute.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If an issue arises with the main parachute, deploying the reserve<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parachute can help escape emergency situations.',
+        keywords: ['parachutes', 'holes', 'intentionally created', 'air', 'pass through', 'allow', 'move up and down', 'moving upward', 'escapes', 'without', 'holes', 'cannot control', 'descent speed', 'drift', 'unpredictably', 'landing', 'vital role', 'controlling direction', 'consist', 'main parachute', 'reserve parachute', 'issue arises', 'deploying', 'help escape', 'emergency situations'],
+        fontType: 'type4'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 19 (PDF 페이지 19) - 59.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/59.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Briefly explain how an airplane, designed based on the<br><strong><u>appearance of birds, can fly in the sky.<br><br><br><br><br><br><br><br><br><br><br><br>An airplane is an object created by observing birds flying in the sky.<br>When a bird flaps its wings, a force lifts it upward, allowing it to<br>soar in the sky. Since an airplane\'s wings cannot move, it generates<br>the lifting force using engines. The airplane uses the power of the<br>engines to run along the runway, ascending into the sky swiftly.<br>Similar to how a bird\'s tail feathers help maintain balance and<br>direction, an airplane\'s tail serves a similar purpose. The airplane\'s<br>tail consists of horizontal and vertical tail fins. The horizontal tail fin<br>generates a force that lowers the rear part of the airplane, allowing it<br>to ascend, or it can produce a force that raises the front part of the<br>airplane, causing the airplane\'s nose to descend.',
+        keywords: ['briefly explain', 'airplane', 'designed', 'based on', 'appearance', 'birds', 'fly', 'sky', 'object', 'created', 'observing', 'birds flying', 'bird flaps', 'wings', 'force', 'lifts', 'upward', 'allowing', 'soar', 'wings cannot move', 'generates', 'lifting force', 'engines', 'power', 'run along', 'runway', 'ascending', 'swiftly', 'similar', 'tail feathers', 'maintain balance', 'direction', 'tail', 'serves', 'similar purpose', 'consists', 'horizontal', 'vertical', 'tail fins', 'horizontal tail fin', 'lowers', 'rear part', 'ascend', 'produce', 'raises', 'front part', 'nose', 'descend'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: 'Therefore, the tail plays a crucial role when the airplane ascends or<br>descends. The vertical tail fin stabilizes the airplane, ensuring it can<br>fly straight. If this fin is turned to the right, the airplane turns right,<br>and if turned to the left, it turns left. Nowadays, even if one of the<br>engines attached to the airplane\'s wings malfunctions, there is a<br>special device on the airplane to ensure there is no problem flying.',
+        keywords: ['therefore', 'tail', 'plays', 'crucial role', 'airplane', 'ascends', 'descends', 'vertical tail fin', 'stabilizes', 'ensuring', 'fly straight', 'fin', 'turned', 'right', 'turns right', 'turned', 'left', 'turns left', 'nowadays', 'engines', 'attached', 'wings', 'malfunctions', 'special device', 'ensure', 'no problem', 'flying'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 20 (PDF 페이지 20) - 60.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/60.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>A rocket carrying an artificial satellite was finally launched at the<br><strong><u>space center. However, there was an issue with the rocket flying<br><strong><u>high in the sky. One of the two wings attached to the rocket is<br><strong><u>missing. Can a rocket with one wing fly straight? The rocket will<br><strong><u>eventually fall into the sea. Explain why this occurs.<br><br><br><br><br><br><br><br><br><br><br><br>To have a rocket fly in the desired direction after being launched<br>from the ground, a device to adjust the direction is equipped at the<br>tail of the rocket. Like an arrow, two paired wings are attached to the<br>rocket\'s tail, and if one wing is damaged, the rocket cannot fly in the<br>desired direction. The term "fairing" emerged in 2009 with the failure<br>of the first launch of Naro-1. When a space launch vehicle carries<br>a satellite into orbit, the space launch vehicle must penetrate the<br>Earth\'s atmosphere at supersonic speeds, generating high pressure<br>and heat. If the artificial satellite is directly exposed to this pressure<br>and heat, it will be severely damaged.',
+        keywords: ['rocket', 'carrying', 'artificial satellite', 'finally launched', 'space center', 'issue', 'flying high', 'sky', 'two wings', 'attached', 'missing', 'one wing', 'fly straight', 'eventually fall', 'sea', 'explain', 'occurs', 'desired direction', 'launched', 'ground', 'device', 'adjust direction', 'equipped', 'tail', 'arrow', 'paired wings', 'damaged', 'cannot fly', 'fairing', 'emerged', '2009', 'failure', 'first launch', 'Naro-1', 'space launch vehicle', 'carries', 'satellite', 'orbit', 'penetrate', 'Earth\'s atmosphere', 'supersonic speeds', 'generating', 'high pressure', 'heat', 'directly exposed', 'severely damaged'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: 'The fairing refers to the pointed part covering the satellite at<br>the front of the launch vehicle, protecting the satellite from such<br>pressure and heat. Structurally, the fairing must be very strong<br>to ensure the safety of the artificial satellite during atmospheric<br>penetration, and it must be securely attached to the launch vehicle.<br>However, when the launch vehicle reaches space with almost no<br>air pressure, the fairing must separate from the launch vehicle to<br>increase its velocity, which is a challenging technological aspect.<br>The cover of the fairing consists of two parts. If only one part<br>separates and the other does not, significant problems can occur.',
+        keywords: ['fairing', 'refers', 'pointed part', 'covering', 'satellite', 'front', 'launch vehicle', 'protecting', 'pressure', 'heat', 'structurally', 'very strong', 'ensure', 'safety', 'artificial satellite', 'atmospheric penetration', 'securely attached', 'reaches', 'space', 'almost no', 'air pressure', 'separate', 'increase', 'velocity', 'challenging', 'technological aspect', 'cover', 'consists', 'two parts', 'only one part', 'separates', 'other', 'does not', 'significant problems', 'occur'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 21 (PDF 페이지 21) - 61.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/61.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Kites in the sky rotate to the right (clockwise). Explain why this<br><strong><u>happens and how a kite can fly straight.<br><br><br><br><br><br><br><br><br><br><br><br>A seesaw or a two-pan balance tips with the heavier side moving<br>downward. A kite works similarly. It rotates clockwise because the<br>right side of the kite is heavier.<br>To balance the kite, the heavier side needs to be made lighter, or the<br>lighter side needs to be made heavier. We can do this by hanging<br>something on the lighter side (left side) of the kite. This is like<br>balancing a scale by placing more weight on the lighter side.<br>Therefore, cutting a long strip of paper and attaching a tail to the left<br>side of the kite will work.',
+        keywords: ['kites', 'sky', 'rotate', 'right', 'clockwise', 'explain', 'happens', 'fly straight', 'seesaw', 'two-pan balance', 'tips', 'heavier side', 'moving downward', 'kite works', 'similarly', 'rotates clockwise', 'right side', 'heavier', 'balance', 'kite', 'made lighter', 'lighter side', 'made heavier', 'hanging', 'something', 'left side', 'balancing', 'scale', 'placing', 'more weight', 'therefore', 'cutting', 'long strip', 'paper', 'attaching', 'tail', 'will work'],
+        fontType: 'type3'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 22 (PDF 페이지 22) - 62.jpg
+  {
+    bg: '../assets/img/ReadBook/G1.1.2/62.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Leonardo da Vinci designed various inventions such as<br><strong><u>parachutes, giant crossbows, helicopters, and tanks, but most<br><strong><u>were not built. Explain why.<br><br><br><br><br><br><br><br><br><br><br><br>When Leonardo da Vinci lived, no power engine was sufficient to<br>make his conceived inventions move. Therefore, his inventions were<br>not actually physically made. Moreover, Leonardo da Vinci was known<br>as a pacifist. He felt sorry for caged birds and sometimes bought<br>them to set them free.<br>He was concerned that his designed inventions might be used to harm<br>people. Considering this, there might have been inventions he could<br>have created at that time.<br>Some of Leonardo da Vinci\'s blueprints remained at the idea level and<br>were not scientifically thought out in detail. Therefore, even if they<br>were made, they might not have adequately functioned and could<br>have been discarded.',
+        keywords: ['Leonardo da Vinci', 'designed', 'various inventions', 'parachutes', 'giant crossbows', 'helicopters', 'tanks', 'most', 'not built', 'explain', 'lived', 'no power engine', 'sufficient', 'conceived inventions', 'move', 'therefore', 'inventions', 'not actually', 'physically made', 'moreover', 'known', 'pacifist', 'felt sorry', 'caged birds', 'sometimes bought', 'set them free', 'concerned', 'designed inventions', 'might be used', 'harm people', 'considering', 'might have been', 'could have created', 'that time', 'blueprints', 'remained', 'idea level', 'not scientifically', 'thought out', 'detail', 'even if', 'made', 'might not', 'adequately functioned', 'could have been', 'discarded'],
+        fontType: 'type3'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  }
+];
+
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 
