@@ -275,12 +275,6 @@ body {
     right: 3vw;
     max-width: 44vw;
   }
-  
-  /* 가로 모드에서 type3~type9 폰트 사이즈 */
-  .text-zone.type3 p,.text-zone.type4 p,.text-zone.type5 p,.text-zone.type6 p,.text-zone.type7 p,.text-zone.type8 p,.text-zone.type9 p,
-  .text-zone[data-font-type="type3"] p,.text-zone[data-font-type="type4"] p,.text-zone[data-font-type="type5"] p,.text-zone[data-font-type="type6"] p,.text-zone[data-font-type="type7"] p,.text-zone[data-font-type="type8"] p,.text-zone[data-font-type="type9"] p {
-    font-size: 1.53vw !important; /* 1.8vw * 0.85 = 1.53vw */
-  }
 }
 
 /* 세로 모드 (portrait) */
@@ -311,12 +305,6 @@ body {
     bottom: 10vh;
     right: 5vw;
     max-width: 40vw;
-  }
-  
-  /* 세로 모드에서 type3~type9 폰트 사이즈 */
-  .text-zone.type3 p,.text-zone.type4 p,.text-zone.type5 p,.text-zone.type6 p,.text-zone.type7 p,.text-zone.type8 p,.text-zone.type9 p,
-  .text-zone[data-font-type="type3"] p,.text-zone[data-font-type="type4"] p,.text-zone[data-font-type="type5"] p,.text-zone[data-font-type="type6"] p,.text-zone[data-font-type="type7"] p,.text-zone[data-font-type="type8"] p,.text-zone[data-font-type="type9"] p {
-    font-size: 1.87vh !important; /* 2.2vh * 0.85 = 1.87vh */
   }
 }
 
