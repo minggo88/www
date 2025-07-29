@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G1.1.3.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/2.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '<span class="larger-text">>> G1.1.3</span><br><span class="larger-text">Hunting with Wings and Beaks</span><br><br><span class="larger-text">01. Birds Are Great Hunters</span><br><span class="larger-text">02. Arrows Resemble Birds</span><br><br>Take a close look at how an arrow flies. A bird with<br>a pointed beak appears to be flying straight up in<br>the sky with its two wings. Like a bird\'s beak,<br>the pointed arrowhead allows the arrow to fly far,<br>cutting through the wind in the sky. Additionally,<br>the arrow\'s feathers, similar to a bird\'s two wings,<br>assist the arrow in flying straight by riding the wind.<br>The principle behind an arrow\'s straight flight is<br>the same as a bird\'s flight across the sky.', keywords: ['G1.1.3', 'Hunting with Wings and Beaks', 'Birds Are Great Hunters', 'Arrows Resemble Birds', 'arrow flies', 'pointed beak', 'two wings', 'arrowhead', 'feathers', 'straight flight', 'bird flight', 'wind'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/3.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '<span class="larger-text">01. Birds Are Great Hunters</span><br><br>A black bird soars through the sky as if patrolling<br>the heavens with large gestures. It is a golden eagle,<br>its entire body covered in dark brown feathers,<br>with two large, menacing black wings.<br>When the golden eagle spreads its wings, it appears<br>even larger than an adult human. The eagle gazes<br>down with sharp eyes and spots its prey from a high<br>altitude. It quietly sails toward a thin, young fox with<br>its long wings.', keywords: ['Birds Are Great Hunters', 'black bird', 'soars sky', 'patrolling heavens', 'golden eagle', 'dark brown feathers', 'menacing black wings', 'spreads wings', 'larger than human', 'sharp eyes', 'high altitude', 'young fox', 'long wings'] },
+      2: { text: 'In an instant, the golden eagle seizes the young fox<br>with its sharp talons. The golden eagle is incredibly<br>powerful and moves remarkably fast. The eagle\'s<br>beak, shaped like a hook, is large and sharp.<br>How does the eagle hunt so effortlessly? The golden<br>eagle\'s excellent vision allows it to spot prey easily,<br>even from a great distance.', keywords: ['instant', 'seizes fox', 'sharp talons', 'incredibly powerful', 'moves fast', 'hook-shaped beak', 'large sharp', 'hunt effortlessly', 'excellent vision', 'spot prey', 'great distance'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Describe what a giant golden eagle looks like.', keywords: ['giant golden eagle', 'looks like', 'describe'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/4.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Even a rabbit hiding in the grass cannot escape<br>the sharp eyes of the golden eagle. The golden eagle,<br>with its large wings, can fly without giving the rabbit<br>any chance to escape. The eagle can hover silently,<br>even without flapping its wings, enabling it to<br>approach its prey without making a sound.', keywords: ['rabbit hiding', 'grass', 'cannot escape', 'sharp eyes', 'large wings', 'fly', 'no chance escape', 'hover silently', 'without flapping', 'approach prey', 'no sound'] },
+      2: { text: 'The golden eagle can instantly locate its prey<br>regardless of its height. Once it reaches its prey,<br>it extends its two talons forward, swiftly seizing<br>the prey, and soars back into the sky.', keywords: ['instantly locate', 'prey', 'regardless height', 'reaches prey', 'extends talons', 'swiftly seizing', 'soars back', 'sky'] },
+      3: { text: 'Explain how the golden eagle finds prey while<br>soaring high in the sky.', keywords: ['golden eagle', 'finds prey', 'soaring high', 'sky'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/5.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Young golden eagles learn to hunt by watching their<br>mother. Imagine a golden eagle descending from the<br>sky, attempting to catch a fox. However, can the eagle<br>capture the fox properly if one of its wings is injured?', keywords: ['young golden eagles', 'learn hunt', 'watching mother', 'descending sky', 'attempting catch', 'fox', 'capture properly', 'wing injured'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'The golden eagle may fail in hunting with a damaged<br>wing because it cannot fly straight toward the fox.<br>Both wings must be sturdy for the golden eagle to fly<br>and swerve properly. A bird with unequal wing spans<br>cannot fly straight.', keywords: ['fail hunting', 'damaged wing', 'cannot fly straight', 'sturdy wings', 'swerve properly', 'unequal wing spans'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/6.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'A bird with an injured wing fails to hunt, which leads<br>to starvation and death. Birds that cannot fly well<br>struggle to hunt and survive.<br>Once a young golden eagle learns to fly and hunt<br>independently, it prepares to leave its mother\'s<br>shelter. It embarks on a lonely journey into the high<br>sky, seeking its own shelter and food.', keywords: ['injured wing', 'fails hunt', 'starvation death', 'cannot fly well', 'struggle hunt', 'survive', 'learn fly', 'hunt independently', 'leave mother', 'lonely journey', 'high sky', 'seeking shelter', 'food'] },
+      2: { text: 'Should we fold a paper airplane that can fly like a bird?<br>Prepare a rectangular piece of paper. Fold it in half<br>along the short side and unfold. Next, fold two corners<br>into a triangle shape along the line created by the<br>fold. Now, refold the paper along the first line you<br>folded (the half-line). If you fold both flaps upward in<br>half, you get a fantastic paper plane.', keywords: ['paper airplane', 'fly like bird', 'rectangular paper', 'fold half', 'short side', 'unfold', 'fold corners', 'triangle shape', 'refold', 'flaps upward', 'fantastic paper plane'] },
+      3: { text: 'Explain what happens if a golden eagle injures one<br>of its wings.', keywords: ['golden eagle', 'injures wing', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/7.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'The paper plane will not fly straight but swirl around<br>with lopsided wings. Try folding or crumpling one wing<br>and then try flying it. Does it fly as well as before?<br>Unable to maintain balance, the crooked plane will<br>quickly fall to the ground.', keywords: ['paper plane', 'not fly straight', 'swirl around', 'lopsided wings', 'crumpling wing', 'maintain balance', 'crooked plane', 'fall ground'] },
+      2: { text: 'Are you familiar with the bird called cormorant?<br>"Cormorant" is a contraction probably derived from<br>the Latin corvus marinus, meaning "sea raven."<br>This was because people thought they looked like<br>aquatic crows or ravens.', keywords: ['cormorant', 'contraction', 'Latin corvus marinus', 'sea raven', 'aquatic crows', 'ravens'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain how the name for the "cormorant" bird<br>originated.', keywords: ['cormorant bird', 'name originated', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/8.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Supposedly, cormorants do not cry much unless it is<br>winter when they are searching for a mate.<br>A cormorant glides low over the water and dives in<br>swiftly to catch fish. It can see schools of fish even<br>from up in the sky with its excellent vision. Its nostrils<br>are deeply hidden to filter out the salt in seawater so<br>it can enter the sea unbothered. Furthermore, their<br>webbed feet allow it to kick away the seawater easily<br>while flying and swim well underwater.<br>How do cormorants catch fish? A cormorant catches<br>fish swiftly using its long, curved beak and long neck.<br>Its wide beak allows it to swallow even large fish<br>easily. Since a cormorant can swallow its prey whole,<br>it does not need a tongue. It possesses exceptional<br>diving skills, making it easy to capture prey<br>effortlessly.', keywords: ['cormorants', 'do not cry', 'winter', 'searching mate', 'glides low', 'dives swiftly', 'catch fish', 'schools of fish', 'excellent vision', 'nostrils hidden', 'filter salt', 'seawater', 'webbed feet', 'kick seawater', 'swim underwater', 'long curved beak', 'long neck', 'wide beak', 'swallow whole', 'no tongue', 'diving skills', 'capture prey', 'effortlessly'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/9.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'There is a tale about a friendship between a fisherman<br>and a cormorant. A beautiful river called "Li Jiang"<br>flowed through the ancient Chinese region of Guilin.<br>This river, filled with fish, attracted many cormorants<br>hunting for fish. Some fishermen in that area even<br>used cormorants to catch fish.', keywords: ['tale', 'friendship', 'fisherman', 'cormorant', 'Li Jiang', 'ancient Chinese', 'Guilin', 'filled fish', 'attracted cormorants', 'hunting fish', 'used cormorants'] },
+      2: { text: 'In the early dawn, a fisherman loaded several<br>cormorants onto his boat and rowed up the river.<br>Once in the middle of the river, he anchored the boat<br>and gently tied the necks of the cormorant with a string.<br>The string around their necks restricted the cormorant<br>from wholly swallowing the fish they caught. When a<br>cormorant returned with a catch, the fisherman would<br>retrieve the fish from the neck. After all the fishing,<br>the fisherman would untie the strings from the necks<br>and share the fish with them. This friendship between<br>the fisherman and the cormorant continued.', keywords: ['early dawn', 'loaded cormorants', 'boat', 'rowed river', 'middle river', 'anchored boat', 'tied necks', 'string', 'restricted swallowing', 'returned catch', 'retrieve fish', 'untie strings', 'share fish', 'friendship continued'] },
+      3: { text: 'Explain how the cormorant catches and eats fish.', keywords: ['cormorant', 'catches eats fish', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/10.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'As time passed, the cormorant became weaker and<br>could not catch fish on its own. Nevertheless,<br>the fisherman still took the cormorant on his boat and<br>went out to catch fish, just like before.<br>The fisherman inserted his hand into the cormorant\'s<br>neck to help it swallow the fish properly. The story<br>of the friendship between the fisherman and<br>the cormorant became a legend in the Guilin region,<br>which is still famous for its fishing.', keywords: ['time passed', 'weaker', 'could not catch', 'nevertheless', 'took cormorant', 'boat', 'catch fish', 'inserted hand', 'neck', 'help swallow', 'friendship', 'legend', 'Guilin region', 'famous fishing'] },
+      2: { text: 'How did people fish with cormorants?<br>As mentioned earlier, it was crucial to tie the lower<br>part of the cormorant\'s long neck with a string<br>to prevent it from swallowing the fish. Once this<br>preparation was complete, the fisherman loaded the<br>cormorant onto a boat and traveled upriver to a place<br>with many fish. There, they released the cormorant.<br>The cormorant, skilled at catching fish, caught them so<br>quickly, but it could not swallow them. The fisherman<br>opened the cormorant\'s beak to retrieve the fish<br>caught in its throat.', keywords: ['fish with cormorants', 'tie lower part', 'long neck', 'string', 'prevent swallowing', 'preparation complete', 'loaded cormorant', 'boat', 'traveled upriver', 'many fish', 'released cormorant', 'skilled catching', 'quickly', 'could not swallow', 'opened beak', 'retrieve fish', 'throat'] },
+      3: { text: 'Describe how the fisherman used cormorants to<br>catch fish.', keywords: ['fisherman', 'used cormorants', 'catch fish', 'describe'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/11.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'This fishing method takes advantage of the bird\'s<br>behavior of swallowing fish whole without chewing.<br>It is a unique fishing method that effectively utilizes<br>the cormorant\'s ability to dive deep underwater.<br>After fishing, the fisherman untied the string around<br>the cormorant\'s neck and allowed the bird to eat some<br>of the fish it had caught.', keywords: ['fishing method', 'swallowing whole', 'without chewing', 'unique method', 'dive deep underwater', 'untied string', 'eat some fish'] },
+      2: { text: '01. Birds Are Great Hunters<br><span class="larger-text">Ⅰ. What Is the Purpose of Studying Birds</span><br><span class="larger-text">That Are Great Hunters?</span><br><br>', keywords: ['Birds Are Great Hunters', 'Purpose of Studying', 'Nature', 'excellent teacher', 'turn to nature', 'fly', 'airplanes', 'characteristics', 'principles', 'survival', 'eagles', 'excellent vision', 'symmetrical wings'] },
+      3: { text: 'Explain how cormorant fishing utilizes the habits<br>and characteristics of the bird.', keywords: ['cormorant fishing', 'utilizes habits', 'characteristics', 'bird'], fontType: 'type2' },
+      4: { text: 'Nature is an excellent teacher for humans. When it<br>feels impossible to find an answer, turn to nature.<br>People who wanted to fly looked to birds and created<br>airplanes based on their appearance. Observing the<br>characteristics of birds allowed people to grasp<br>various principles necessary for survival. For example,<br>eagles have excellent vision, allowing them to spot prey<br>from a great distance easily, and their symmetrical<br>wings enable them to fly straight to their prey.', keywords: ['Nature', 'excellent teacher', 'impossible find answer', 'turn to nature', 'wanted fly', 'looked birds', 'created airplanes', 'appearance', 'observing characteristics', 'grasp principles', 'survival', 'eagles', 'excellent vision', 'spot prey', 'great distance', 'symmetrical wings', 'fly straight'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/12.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'We study birds that are skilled hunters to understand<br>how humans, such vulnerable creatures, have managed<br>to survive to this day. As mentioned earlier, airplanes<br>have two identical wings in size and shape, allowing<br>them to fly straight without tilting to one side.<br>Also, humans form alliances with birds for survival.<br>In ancient China, people used cormorants to fish.', keywords: ['study birds', 'skilled hunters', 'understand', 'vulnerable creatures', 'survive', 'identical wings', 'size shape', 'fly straight', 'tilting', 'alliances', 'ancient China', 'used cormorants'] },
+      2: { text: 'Fishermen provided a safe haven for the cormorant.<br>In return, the cormorant hunted fish for them.<br>Of course, the fish caught were shared amicably<br>between humans and the cormorant.<br>This was possible due to an unspoken trust between<br>them. We should remember that humans were able<br>to survive not by trying to dominate other living<br>organisms, but by coexisting with them.', keywords: ['safe haven', 'hunted fish', 'shared amicably', 'unspoken trust', 'survive', 'dominate', 'living organisms', 'coexisting'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/13.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '(1) A bird\'s two wings have the same size and shape. What<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;might happen if one wing is smaller than the other?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Explain.<br><br>(2) Most living organisms are symmetrical on the left and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right. Closely observe and describe where symmetry<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;occurs.', keywords: ['two wings', 'same size shape', 'smaller wing', 'living organisms', 'symmetrical', 'left and right', 'symmetry occurs'], fontType: 'type3' },
+      
+      2: { text: '<span class="larger-text">01. Birds Are Great Hunters</span><br><span class="larger-text">Ⅱ. How Can We Apply the Study of Birds</span><br><span class="larger-text">That Are Great Hunters?</span><br><br>', keywords: ['Apply the Study', 'Birds Great Hunters', 'skilled hunters', 'pointed beaks', 'cut through air', 'symmetrical wings', 'desired locations', 'strong talons', 'tools devices', 'inspired'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Birds that are skilled hunters share many similar<br>features. Their pointed beaks cut through the air and<br>fly swiftly, and their symmetrical wings help them<br>fly straight to their desired locations. Additionally,<br>to make sure they don\'t drop their catch, birds have<br>strong talons. Humans have created various tools<br>and devices inspired by these characteristics.', keywords: ['skilled hunters', 'similar features', 'pointed beaks', 'cut through air', 'fly swiftly', 'symmetrical wings', 'fly straight', 'desired locations', 'strong talons', 'created tools', 'devices', 'inspired characteristics'] }
+    }
+  }, 
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/14.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: 'Biomimetics is creating new technologies that make<br>our lives more convenient by imitating forms found in<br>nature. What are some examples of biomimetics using<br>the hunting skills of birds?<br>Hang gliders, which people enjoy as a hobby, are<br>designed to look like birds. They have a pointed front<br>and symmetrical wings, allowing them to ride the<br>wind and fly anywhere. The claw machine\'s claws are<br>shaped exactly like a bird\'s feet.', keywords: ['Biomimetics', 'new technologies', 'convenient', 'imitating nature', 'hunting skills', 'Hang gliders', 'hobby', 'pointed front', 'symmetrical wings', 'ride wind', 'fly anywhere', 'claw machine', 'bird feet'] },
+      1: { text: '', keywords: [] },
+      4 : { text: 'The spread-out claws fold in as they descend to grab<br>a doll. Similar to how fishermen use cormorant to fish,<br>humans can also utilize alliances with other animals.<br>In the East, birds of prey, like falcons, are used to<br>hunt small animals like pheasants or rabbits.<br>When people herd the prey into one place, the falcon<br>swiftly swoops in and captures it. This strategy<br>increases the success rate of hunting.', keywords: ['spread-out claws', 'fold in', 'descend grab', 'doll', 'fishermen cormorant', 'alliances animals', 'birds of prey', 'falcons', 'hunt animals', 'pheasants rabbits', 'herd prey', 'swoops captures', 'success rate'] },
+      2: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/15.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '(1) Birds that prey on other animals have sharp claws.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Can a bird survive if its claws are injured? Explain.<br><br>(2) Humans and other animals coexist by helping each<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;other. Find an example of humans forming alliances<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with animals and explain it.', keywords: ['prey animals', 'sharp claws', 'bird survive', 'claws injured', 'coexist helping', 'forming alliances', 'animals'], fontType: 'type3' },
+      2: { text: 'If you fold one wing of a paper airplane larger than the<br>other, it will not fly straight but will spin around instead.<br>Try folding or crumpling one wing and see if the paper<br>airplane flies as well as before. A paper airplane without<br>balance will fall straight to the ground.', keywords: ['fold wing', 'paper airplane', 'larger', 'fly straight', 'spin around', 'crumpling', 'without balance', 'fall ground'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/16.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Eagles have excellent eyesight, allowing them to easily<br>spot prey even from a distance. They can approach their<br>prey silently thanks to their two large wings.<br>An eagle silently soaring towards a rabbit extends its<br>sharp talons and catches it. The terrified turtle runs away<br>frantically. However, an eagle with an injured wing cannot<br>catch the rabbit and unintentionally ends up on the back<br>of the turtle. An eagle with an injured wing cannot hunt<br>a rabbit. What principle is hidden in the two wings that<br>help the eagle fly straight toward its desired prey?<br>Explain.', keywords: ['excellent eyesight', 'spot prey', 'distance', 'approach silently', 'two large wings', 'soaring towards', 'sharp talons', 'catches', 'terrified turtle', 'injured wing', 'principle hidden', 'fly straight'], fontType: 'type4' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'The principle by which an airplane flies is similar to how<br>birds fly. To ascend into the air, the lifting force, known<br>as lift, must be greater than the force of gravity acting<br>towards the Earth\'s center for both airplanes and birds.<br>Additionally, the forward thrust, the force propelling<br>them forward, must exceed the resistance forces such as<br>air resistance and friction for them to continue moving<br>forward.<br><br>', keywords: ['airplane flies', 'similar birds', 'ascend air', 'lifting force', 'lift', 'gravity', 'Earth center', 'forward thrust', 'propelling forward', 'resistance forces', 'air resistance', 'friction'], fontType: 'type4' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/17.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'If we examine a bird\'s wings closely, the upper surface<br>is curved while the lower surface is flat. Furthermore,<br>the back of the wings is flat, which allows for greater lift.<br>The length and width of wings vary among bird species.<br>Longer wings with narrower width are advantageous for<br>flight. Birds like swallows, which fly swiftly, have pointed<br>wingtips with densely packed feathers.<br>On the other hand, large birds of prey, like eagles, often<br>have wings with feathers that split and extend at the tips.<br>Explain the reason behind this.', keywords: ['examine wings', 'upper surface curved', 'lower surface flat', 'greater lift', 'length width vary', 'longer wings', 'narrower width', 'advantageous flight', 'swallows', 'pointed wingtips', 'densely packed', 'large birds prey', 'eagles', 'feathers split extend'], fontType: 'type4' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Birds have various beak shapes depending on their diet.<br>Similarly, their feet exhibit diverse forms based on their<br>lifestyles. Typically, a bird has four toes, three facing<br>forward and one backward. Birds of prey, such as eagles<br>and hawks, have strong, sturdy legs with sharp, curved<br>talons for gripping.<br><br>', keywords: ['beak shapes', 'depending diet', 'feet exhibit', 'diverse forms', 'lifestyles', 'four toes', 'three forward', 'one backward', 'birds prey', 'eagles hawks', 'strong sturdy legs', 'sharp curved talons', 'gripping'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/18.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: 'Aquatic birds, like geese, ducks, and cormorants, have<br>webbed feet. A membrane connects the toes and spreads<br>out when the toes are spread, aiding in swimming.<br>Some birds have partially connected toes with individual<br>membranes between each toe.<br><br>', keywords: ['Aquatic birds', 'geese ducks cormorants', 'webbed feet', 'membrane connects', 'toes spread', 'aiding swimming', 'partially connected', 'individual membranes'], fontType: 'type4' },
+      1: { text: '', keywords: [] },
+      4: { text: 'This "lobate foot" propels the bird forward in water and<br>prevents slipping on land. Now, think of the feet of a bird<br>perched on a tree branch. Describe the shape of its toes.<br><br>', keywords: ['lobate foot', 'propels forward', 'water', 'prevents slipping', 'land', 'feet bird', 'perched tree branch', 'shape toes'] , fontType: 'type4'},
+      2: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/19.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Birds can only fly forward. While they can certainly change<br>direction abruptly when encountering obstacles during<br>flight, they cannot suddenly stop or move backward.<br>Additionally, birds cannot hover in one place.<br>On windy days, birds seemingly hover in the sky. However,<br>it is not because the bird wants to stop. It is because the<br>wind is too strong, preventing it from moving forward.<br>Of course, there are exceptions, like hummingbirds,<br>which can hover in place and even fly backward.<br><br>', keywords: ['fly forward', 'change direction', 'abruptly', 'encountering obstacles', 'suddenly stop', 'move backward', 'hover one place', 'windy days', 'seemingly hover', 'wind too strong', 'preventing moving', 'exceptions', 'hummingbirds', 'fly backward'], fontType: 'type3' },
+      4: { text: 'Insects can also fly because they have wings. However,<br>unlike birds, some insects can swiftly change direction<br>and hover in place. Birds resemble airplanes, while insects<br>are similar to helicopters. Observe the wing movements<br>of insects and birds, and explain why insects can fly more<br>freely than birds.<br><br>', keywords: ['Insects fly', 'wings', 'unlike birds', 'swiftly change direction', 'hover place', 'resemble airplanes', 'similar helicopters', 'wing movements', 'insects birds', 'fly more freely'], fontType: 'type3' }
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/20.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '<strong><u>Asymmetrically structured bird feathers<br><br>Why can birds fly so well? This is because their body is<br>symmetrical. When we look at a bird from the front, both<br>sides appear the same when viewed from the center.<br>This structure is called symmetry, and because the<br>bird\'s body has a symmetrical structure, it can maintain<br>balance while flying in the sky. If one of a bird\'s wings is<br>asymmetric and smaller than the other, the bird cannot<br>balance and fly. However, not everything that makes up<br>the body of a flying bird is symmetrical.', keywords: ['birds fly well', 'body symmetrical', 'front both sides', 'appear same', 'center', 'structure symmetry', 'maintain balance', 'flying sky', 'wings asymmetric', 'smaller', 'cannot balance', 'not everything', 'flying bird'], fontType: 'type3' },
+      2: { text: 'If we look closely at different parts of the body, we can<br>find asymmetrical features. Feathers are a representative<br>example. If we look at a bird\'s feathers, the length of the<br>barbs on both sides from the center is different.<br>Why is this? It\'s because this structure also helps the bird<br>fly more efficiently. Earlier, it was mentioned that a bird\'s<br>body needs to be symmetrical for effective flight, so it might<br>seem strange that asymmetrical feathers can actually be<br>advantageous.', keywords: ['look closely', 'different parts', 'asymmetrical features', 'Feathers', 'representative example', 'bird feathers', 'length barbs', 'both sides', 'center different', 'structure helps', 'fly efficiently', 'symmetrical', 'effective flight', 'strange', 'asymmetrical feathers', 'advantageous'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/21.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Regarding this, the following research results were obtained.<br>Two types of sticks are prepared, each with a square plate<br>attached. One type attaches the square plate symmetrically<br>to the center of the stick, while the other type attaches<br>it asymmetrically. Then, arrange the sticks of the same<br>type in a row and expose them to the wind. As a result,<br>the symmetrical sticks quiver unstably and fail to maintain<br>their shape.', keywords: ['research results', 'Two types sticks', 'square plate attached', 'attaches symmetrically', 'center stick', 'attaches asymmetrically', 'arrange sticks', 'same type', 'expose wind', 'symmetrical sticks', 'quiver unstably', 'fail maintain shape'], fontType: 'type9' },
+      2: { text: 'Asymmetrical sticks, on the other hand, rise in one<br>direction and align neatly like the slats of a window blind.<br>By the same principle, the feathers of flying birds are<br>asymmetrical, so they can maintain their shape even<br>when hit by the wind. For this reason, flying birds have<br>asymmetrical feathers, while flightless birds, such as<br>ostriches, have symmetrical feathers.', keywords: ['Asymmetrical sticks', 'rise one direction', 'align neatly', 'slats window blind', 'same principle', 'feathers flying birds', 'asymmetrical', 'maintain shape', 'hit by wind', 'flying birds', 'asymmetrical feathers', 'flightless birds', 'ostriches', 'symmetrical feathers'], fontType: 'type9' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/22.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '<span class="larger-text">02. Arrows Resemble Birds</span><br><br>Archery is a sport where archers pull a bowstring and<br>shoot arrows toward a target from a certain distance.<br>The target has concentric circles, and the closer<br>the arrow lands in the center, the higher the score.<br>Therefore, hitting the smaller circles closer to the<br>center earns more points, increasing the chances of<br>winning.', keywords: ['Arrows Resemble Birds', 'Archery', 'sport', 'archers', 'pull bowstring', 'shoot arrows', 'target', 'certain distance', 'concentric circles', 'closer center', 'higher score', 'smaller circles', 'more points', 'chances winning'] },
+      2: { text: '', keywords: [] },
+      4: { text: 'Imagine an archery field. Female representatives<br>from two countries, each wearing uniforms with their<br>national flags, are competing fiercely for the gold<br>medal. The two teams are tied at 2-2 with only the<br>last set remaining. The winner of this set will become<br>the gold medalist. First, the Mexican player calmly<br>shoots an arrow and scores 9 points.', keywords: ['archery field', 'Female representatives', 'two countries', 'uniforms', 'national flags', 'competing fiercely', 'gold medal', 'tied 2-2', 'last set', 'winner', 'gold medalist', 'Mexican player', 'calmly shoots', '9 points'] },
+      3: { text: 'Explain how archery is played.', keywords: ['archery', 'played', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/23.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Next, the Indian player takes a deep breath and<br>shoots her arrow. Unfortunately, it is 8 points.<br>Both players shoot their second arrows. The Mexican<br>player scores 8 points, and the Indian player scores<br>7 points. So far, the Mexican player has 17 points,<br>and the Indian player has 15 points, with the Mexican<br>player leading by 2 points. Now, it is time to shoot the<br>last arrow. The Mexican player shoots first. It slightly<br>misses the center, scoring 7 points.', keywords: ['Indian player', 'deep breath', 'shoots arrow', '8 points', 'second arrows', 'Mexican player', '8 points', 'Indian player', '7 points', '17 points', '15 points', 'leading 2 points', 'last arrow', 'shoots first', 'misses center', '7 points'] },
+      
+      4: { text: 'The Mexican player looks disappointed. The Indian<br>player takes a deep breath, relieved. If she scores 10<br>points with the last arrow, she can win. It is time for<br>her to shoot the final arrow. She gazes intently at the<br>target, assumes a perfect posture, and releases the<br>arrow. All the spectators hold their breath, watching<br>the arrow soar through the air. The arrow gracefully<br>hits the exact center of the target. How many points<br>is it? It is a perfect score of 10 points. It is the<br>moment the Indian player secures the gold medal.', keywords: ['Mexican player', 'disappointed', 'Indian player', 'deep breath', 'relieved', '10 points', 'last arrow', 'win', 'final arrow', 'gazes intently', 'target', 'perfect posture', 'releases arrow', 'spectators', 'hold breath', 'soar through air', 'gracefully hits', 'exact center', 'perfect score', 'secures gold medal'] }
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/24.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: 'Indians are renowned as a nation skilled in archery<br>from ancient times. The use of bows and arrows for<br>hunting and warfare gave rise to a unique cultural<br>practice in archery. This national spirit has been<br>passed down to the present day, and Indian archers<br>have achieved remarkable success in the Olympics<br>and world championships.', keywords: ['Indians renowned', 'nation skilled', 'archery', 'ancient times', 'bows arrows', 'hunting warfare', 'unique cultural practice', 'national spirit', 'passed down', 'present day', 'Indian archers', 'remarkable success', 'Olympics', 'world championships'] },
+      2: { text: 'Moreover, exceptional archery coaches from India<br>have trained athletes worldwide, promoting the<br>excellence of Indian archery globally. That is why<br>Indian coaches are often seen alongside foreign<br>athletes at the Olympics and world championships.', keywords: ['exceptional coaches', 'India', 'trained athletes', 'worldwide', 'promoting excellence', 'Indian archery', 'globally', 'Indian coaches', 'foreign athletes', 'Olympics', 'world championships'] },
+      4: { text: 'Explain why Indian athletes excel in archery.', keywords: ['Indian athletes', 'excel archery', 'explain'], fontType: 'type2' },
+      1: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/25.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Now, take a closer look at bows and arrows. Bows and<br>arrows, designed to target distant animals or enemies,<br>were much easier tools for attack than knives or<br>spears. All one needed to do was stand in place and<br>pull the bowstring. Bows and arrows have traditionally<br>been crafted using bamboo, and sometimes, various<br>materials were mixed to create them.', keywords: ['closer look', 'bows arrows', 'target distant', 'animals enemies', 'easier tools', 'attack', 'knives spears', 'stand in place', 'pull bowstring', 'traditionally crafted', 'bamboo', 'various materials', 'mixed create'] },
+      2: { text: 'It is said that arrows were made from bamboo or<br>bush clover, which were also used for making whips.<br>A pointed arrowhead is attached at one end of the<br>arrow. In ancient times, craftsmen used materials<br>such as stone, bone, or wood for arrowheads.<br>At the other end, feathers are attached to help the<br>arrow fly straight, typically two pheasant feathers.<br>Take a closer look at the way the arrow flies.<br>Can you see the resemblance between the arrow\'s<br>flight and a bird soaring through the sky?', keywords: ['arrows made', 'bamboo', 'bush clover', 'making whips', 'pointed arrowhead', 'attached one end', 'ancient times', 'craftsmen', 'stone bone wood', 'arrowheads', 'other end', 'feathers attached', 'fly straight', 'pheasant feathers', 'arrow flies', 'resemblance', 'arrow flight', 'bird soaring', 'through sky'] },
+      3: { text: 'Describe the shape of an arrow made from bamboo<br>or bush clover.', keywords: ['shape arrow', 'bamboo', 'bush clover', 'describe'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/26.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'The pointed beak of a bird soaring through the sky<br>looks similar to the arrowhead. Like a bird\'s beak,<br>the pointed arrowhead helps the arrow cut through<br>the air and fly far. The feathers on the arrow,<br>like a bird\'s wings, catch the wind and help the arrow<br>fly straight. The principle behind the arrow flying<br>directly resembles how a bird soars through the sky.', keywords: ['pointed beak', 'bird soaring', 'arrowhead', 'cut through air', 'fly far', 'feathers', 'bird wings', 'catch wind', 'fly straight', 'bird soars', 'principle', 'arrow flying'] },
+      2: { text: 'Notice the arrowhead has a pointed triangular shape.<br>In ancient times, arrowheads were crafted by shaping<br>stones or wood. Initially, some arrowheads were<br>blunt. Arrowheads became sharper and more pointed<br>over time because pointier arrowheads flew more<br>effectively.', keywords: ['arrowhead', 'pointed triangular shape', 'ancient times', 'crafted', 'shaping stones', 'wood', 'blunt', 'sharper', 'pointier', 'flew effectively'] },
+      3: { text: 'Explain why the arrowhead is pointed like a bird\'s<br>beak.', keywords: ['arrowhead pointed', 'bird beak', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/27.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'What would happen if the arrowhead were large,<br>heavy, and blunt?<br>The arrowhead would be too heavy for it to fly far<br>and would likely fall to the ground.', keywords: ['arrowhead large', 'heavy', 'blunt', 'too heavy', 'fly far', 'fall to ground'] },
+      2: { text: 'What would happen if the arrow had no feathers?<br>Without feathers, the arrow would fly unstably in the<br>wrong direction. What if there were only one feather<br>instead of two? Also, can the arrow fly well if the<br>feathers are too small? The arrow might veer to one<br>side if there is only one feather. If the feathers are<br>too small, the arrow will not catch the wind and will<br>quickly fall to the ground.', keywords: ['arrow no feathers', 'fly unstably', 'wrong direction', 'one feather', 'two', 'feathers too small', 'veer one side', 'catch wind', 'quickly fall'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain the role of feathers attached to the back<br>of the arrow.', keywords: ['role feathers', 'attached back', 'arrow', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/28.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Blunt arrows would not fly well and seem unlikely to<br>travel far. Could people really hunt animals effectively<br>with such arrows? Using a pointed arrow, hunters can<br>hunt prey from a distance, making it fly straight and<br>kill with a single shot.', keywords: ['Blunt arrows', 'fly well', 'travel far', 'hunt animals', 'effectively', 'pointed arrow', 'hunters', 'distance', 'fly straight', 'single shot'] },
+      2: { text: 'However, to capture animals alive without killing<br>them, the arrowhead should not be sharp.<br>Blunt arrowheads were used to stun the prey without<br>killing it, allowing it to be captured alive. Arrows with<br>a whistle attached to the arrowhead also have blunt<br>tips and make a sound.', keywords: ['capture animals alive', 'without killing', 'arrowhead not sharp', 'Blunt arrowheads', 'stun prey', 'captured alive', 'whistle attached', 'blunt tips', 'make sound'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/29.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Imagine a majestic hawk flying up in the sky.<br>Can the hawk stay in the sky for a long time if it has<br>a large beak? Probably not. It would likely stay up<br>briefly and then descend. What if one of the hawk\'s<br>wings is larger than the other?', keywords: ['majestic hawk', 'flying sky', 'stay sky', 'long time', 'large beak', 'stay up briefly', 'descend', 'hawk wings', 'larger than other'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Explain when blunt-tipped arrowheads are used.', keywords: ['blunt-tipped arrowheads', 'used', 'explain'], fontType: 'type2' },
+      4: { text: 'It would indeed be challenging to fly in the desired<br>direction. A bird with wings of different sizes,<br>like a hawk, struggles to flap its wings evenly,<br>making it difficult not only to catch prey but also to soar<br>high in the sky. The feathers on an arrow resemble<br>a bird\'s wings. If an arrow is fletched with feathers<br>of different shapes, it will not fly in the intended<br>direction when shot from a bow. Just like a pair of<br>wings on a bird of the same size, a pair of identical<br>feathers allows the arrow to fly in the desired direction.', keywords: ['challenging fly', 'desired direction', 'wings different sizes', 'hawk struggles', 'flap wings evenly', 'difficult catch prey', 'soar high', 'feathers arrow', 'resemble bird wings', 'fletched', 'different shapes', 'intended direction', 'pair wings', 'same size', 'identical feathers'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/30.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '02. Arrows Resemble Birds<br><span class="larger-text">Ⅰ. What Is the Purpose of Studying Arrows</span><br><span class="larger-text">That Resemble Birds?</span><br><br>', keywords: ['Arrows Resemble Birds', 'Purpose of Studying', 'characteristic distinguishing', 'humans', 'create use tools', 'chimpanzees', 'branches', 'termites', 'sea otters', 'shellfish', 'entirely new tools', 'Homo habilis', 'person uses tools', 'Fossils', 'primitive humans', 'toolmaking', 'human behavior'] },
+      
+      2: { text: 'Then how did they come up with the idea of making<br>tools? They probably did not suddenly think, "Let us<br>make a knife" or "Let us make an arrow." Instead,<br>observing birds succeed in hunting might have<br>sparked the idea. Faced with repeated failed hunts,<br>early humans likely envied the success of birds in<br>hunting. They believed that creating arrows modeled<br>after birds would greatly help their hunting.', keywords: ['idea making tools', 'suddenly think', 'make knife', 'make arrow', 'observing birds', 'succeed hunting', 'sparked idea', 'repeated failed hunts', 'early humans', 'envied success', 'creating arrows', 'modeled after birds', 'help hunting'] },
+      3: { text: 'The most significant characteristic distinguishing<br>humans from other animals is the ability to create<br>and use tools. While chimpanzees use branches to<br>catch termites, and sea otters crack open shellfish<br>on their bellies, they do not create entirely new tools<br>as humans do. Among primitive humans, Homo habilis<br>means "person who uses tools" or "person who uses<br>hands." Fossils of these primitive humans reveal that<br>toolmaking has been a part of human behavior for<br>a very long time.', keywords: ['significant characteristic', 'distinguishing humans', 'other animals', 'ability create', 'use tools', 'chimpanzees', 'branches', 'catch termites', 'sea otters', 'crack shellfish', 'entirely new tools', 'Homo habilis', 'person uses tools', 'person uses hands', 'Fossils', 'primitive humans', 'toolmaking', 'human behavior', 'very long time'] },
+      4: { text: '', keywords: [] },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/31.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'People study arrows representing the shape of a bird<br>to create something that enhances our daily lives by<br>harnessing the wisdom of nature.<br>Compare the arrow with the bird\'s features.<br>The pointed arrowhead resembles a bird\'s beak,<br>and the feathers attached to the back of the arrow<br>resemble the symmetric wings of a bird.', keywords: ['study arrows', 'representing shape', 'bird', 'enhances daily lives', 'harnessing wisdom', 'nature', 'Compare arrow', 'bird features', 'pointed arrowhead', 'resembles bird beak', 'feathers attached', 'back arrow', 'symmetric wings'] },
+      2: { text: 'Of course, success in hunting does not rely solely<br>on arrows. A bow is also needed to shoot the arrow<br>accurately towards the target. Due to humans\' high<br>intelligence compared to other animals, they can craft<br>powerful bows using various materials.', keywords: ['success hunting', 'rely solely', 'arrows', 'bow needed', 'shoot arrow', 'accurately', 'target', 'humans high intelligence', 'other animals', 'craft powerful bows', 'various materials'] },
+      3: { text: '', keywords: [] },
+      4: { text: '(1) Do all arrowheads need to be pointed? When would<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people use blunt arrowheads? Explain.<br><br>(2) Explain why it is challenging to hit the center of the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target in archery.<br><br>', keywords: ['arrowheads pointed', 'blunt arrowheads', 'challenging hit center', 'target archery'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/32.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '02. Arrows Resemble Birds<br><span class="larger-text">Ⅱ. How Can We Apply the Study of Arrows</span><br><span class="larger-text">That Resemble Birds?</span><br><br>', keywords: ['Arrows Resemble Birds', 'Apply Study Arrows', 'tools hunting', 'instruments war', 'misfortune humans', 'Shooting arrows', 'distance', 'reducing enemy numbers', 'dense forests', 'hide behind trees', 'stealthily attack', 'triangular pointed arrowheads', 'various shapes', 'arrow purpose'] },
+      
+      2: { text: 'For example, when hunting wild boars or deer,<br>serrated arrowheads were used to prevent the arrow<br>from coming out once it had pierced. Additionally,<br>there were arrows with blunt tips. Nobles in ancient<br>times enjoyed hunting as a hobby, and to avoid<br>indiscriminate killing, they used these arrows.<br>Animals hit by such arrows would lose consciousness<br>but could recover and resume normal activities after<br>some time. On the battlefield, whistles were attached<br>to arrowheads to send signals to people at a distance.', keywords: ['hunting wild boars', 'deer', 'serrated arrowheads', 'prevent arrow', 'coming out', 'pierced', 'arrows blunt tips', 'Nobles ancient times', 'hunting hobby', 'avoid indiscriminate killing', 'lose consciousness', 'recover', 'normal activities', 'battlefield', 'whistles attached', 'send signals', 'people distance'] },
+      3: { text: 'Bows and arrows were not only tools for hunting<br>but were sometimes used as instruments of war,<br>bringing misfortune to humans. Shooting arrows from<br>a distance allowed for reducing the enemy\'s numbers,<br>and in dense forests, one could hide behind trees to<br>stealthily attack opponents. Many people associate<br>arrows with triangular pointed arrowheads, but the<br>various shapes depend on the arrow\'s purpose.', keywords: ['Bows arrows', 'tools hunting', 'instruments war', 'bringing misfortune', 'humans', 'Shooting arrows', 'distance', 'reducing enemy numbers', 'dense forests', 'hide behind trees', 'stealthily attack', 'triangular pointed arrowheads', 'various shapes', 'arrow purpose'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/33.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Although the arrow may seem simple, it has numerous<br>mathematical principles. The feathers attached to<br>the back of the arrow, which help it fly straight, were<br>used as a design principle for rockets and missiles.<br>One can study how large to make rocket wings using<br>arrows.', keywords: ['arrow seem simple', 'numerous mathematical principles', 'feathers attached', 'back arrow', 'fly straight', 'design principle', 'rockets missiles', 'study', 'rocket wings'] },
+      2: { text: 'If the arrow feathers are too small, the arrow will not<br>receive enough wind and will not fly straight.<br>On the other hand, making the feathers too large<br>increases resistance, causing the arrow to veer off<br>in the wrong direction.', keywords: ['arrow feathers', 'too small', 'receive enough wind', 'fly straight', 'feathers too large', 'increases resistance', 'veer off', 'wrong direction'] },
+      3: { text: '', keywords: [] },
+      4: { text: '(1) Not all birds can fly in the sky despite having wings.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Explain the characteristics of birds that cannot fly.<br><br>(2) Arrows can be shot far using a bow. Explain how to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;make a bow.<br><br>', keywords: ['birds fly sky', 'having wings', 'characteristics birds', 'cannot fly', 'Arrows shot far', 'using bow', 'make bow'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/34.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Bows and arrows, designed to hit distant animals or<br>enemies, were much easier to use to attack than knives or<br>spears. All one had to do was stand in place and pull the<br>bowstring.<br>Archery involves shooting arrows to hit a distant target.<br>A player pulls the bowstring. People watch quietly,<br>lowering their voices. If we examine the arrow closely,<br>we will see feathers attached to the end. The arrowhead is<br>sharp and pointed. The arrow finally hits the target.<br><br>', keywords: ['Bows arrows', 'hit distant animals', 'enemies', 'easier use', 'attack', 'knives spears', 'stand in place', 'pull bowstring', 'Archery', 'shooting arrows', 'distant target', 'player pulls', 'watch quietly', 'lowering voices', 'examine arrow', 'feathers attached', 'arrowhead sharp pointed', 'hits target'], fontType: 'type3' },
+      4: { text: 'The spectators are all standing and applauding. You might<br>vividly recall watching archers shoot arrows on television,<br>thanks to the advanced broadcasting equipment capturing<br>the arrow\'s flight in the archery arena.<br>What shape does the arrow take when it flies? What role do<br>the wings attached to the arrow have when flying?<br>Why is the arrowhead shaped like a sharp triangle? Explain.<br><br>', keywords: ['spectators standing', 'applauding', 'vividly recall', 'watching archers', 'television', 'advanced broadcasting', 'capturing arrow flight', 'archery arena', 'shape arrow flies', 'wings attached', 'role flying', 'arrowhead shaped', 'sharp triangle'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/35.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'About 30,000 years ago, early humans hunted to obtain<br>food. However, capturing fast animals with stone axes<br>or spears was challenging. Moreover, there were many<br>instances of them being attacked and eaten by fierce<br>animals in the process. They needed hunting tools that<br>could fly farther and were more powerful than stone axes<br>or spears. After much consideration, early humans created<br>bows and arrows.<br><br>', keywords: ['30,000 years ago', 'early humans', 'hunted obtain food', 'capturing fast animals', 'stone axes', 'spears', 'challenging', 'attacked eaten', 'fierce animals', 'hunting tools', 'fly farther', 'more powerful', 'consideration', 'created bows arrows'], fontType: 'type3' },
+      4: { text: 'With the use of bows, humans could easily hunt prey from<br>a distance, easing concerns about obtaining food.<br>The better the bow\'s elasticity, the more powerful and<br>farther the arrow can fly. For an arrow to fly accurately to<br>its target, the front must be slightly heavier, and feathers<br>should be at the back to provide direction.<br>While arrowheads are generally triangular or pointed,<br>sometimes arrows with different shapes are also used.<br>Think about the shapes of arrowheads and explain why<br>they are designed in a certain way.<br><br>', keywords: ['use bows', 'easily hunt prey', 'distance', 'easing concerns', 'obtaining food', 'bow elasticity', 'powerful farther', 'arrow fly', 'fly accurately', 'target', 'front heavier', 'feathers back', 'provide direction', 'arrowheads triangular pointed', 'different shapes', 'designed certain way'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/36.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'The highlight of medieval society was the knights.<br>Knights were soldiers who fought for lords. Boys aspiring<br>to become knights would follow them around, running<br>errands and learning martial arts. When their skills were<br>recognized, they would be appointed as knights.<br>In medieval society, nobles constantly fought each other<br>to acquire more land and property. Knights played<br>a significant role during these times.<br><br>', keywords: ['highlight medieval society', 'knights', 'soldiers fought', 'lords', 'Boys aspiring', 'become knights', 'follow around', 'running errands', 'learning martial arts', 'skills recognized', 'appointed knights', 'nobles constantly fought', 'acquire land property', 'significant role'], fontType: 'type3' },
+      4: { text: 'However, with the emergence of the longbow, knights<br>began to lose their prominence. Faced with thousands of<br>arrows flying from a distance, knights were often injured<br>or killed before even entering combat.<br>The arrows were powerful enough to penetrate steel-plate<br>armor, making them a formidable force. To shoot arrows<br>without hindrance, archers needed their own means of<br>defense. Explain how they defended themselves.<br><br>', keywords: ['emergence longbow', 'knights lose prominence', 'thousands arrows', 'flying distance', 'injured killed', 'entering combat', 'powerful enough', 'penetrate steel-plate armor', 'formidable force', 'shoot arrows', 'without hindrance', 'archers', 'means defense', 'defended themselves'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/37.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'People frequently used bows and arrows for hunting and<br>warfare because they allowed for long-range attacks<br>without having to approach the enemy.<br>Even before the invention of the bow, weapons, such<br>as small hand axes or short spears, were undoubtedly<br>capable of long-range attacks. Even today, some tribes<br>use hollowed-out wood and blow into it to shoot poisoned<br>darts for hunting. However, these tools cannot reach far<br>distances comparable to arrows.<br><br>', keywords: ['frequently used', 'bows arrows', 'hunting warfare', 'long-range attacks', 'approach enemy', 'invention bow', 'small hand axes', 'short spears', 'capable', 'tribes', 'hollowed-out wood', 'blow', 'poisoned darts', 'reach far distances'], fontType: 'type3' },
+      2: { text: 'Movies set in medieval times often feature the use of<br>a long-range weapon known as a catapult. Catapults were<br>employed to throw stones to demolish castle walls or<br>break down fortress gates. They remained one of the most<br>powerful weapons until the advent of gunpowder weapons<br>after the medieval period.<br>What principle does a catapult use to launch heavy stones<br>over long distances? Research the types of catapults and<br>explain the principles behind each.<br><br>', keywords: ['Movies medieval times', 'long-range weapon', 'catapult', 'throw stones', 'demolish castle walls', 'break fortress gates', 'powerful weapons', 'advent gunpowder', 'principle catapult', 'launch heavy stones', 'long distances', 'types catapults', 'principles behind'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/38.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '<strong><u>Archery, a Sport Where You Score Points by Shooting<br><strong><u>a Bow<br><br>Archery is a sport where players compete to score points<br>by shooting arrows at a target at a certain distance.<br>Around 1538, Henry VIII of England held archery<br>competitions across England and also introduced the sport<br>to Europe and the Americas. It was after the 1930s that<br>archery, which gained attention as a sport, became active<br>around the world.', keywords: ['Archery sport', 'players compete', 'score points', 'shooting arrows', 'target', 'certain distance', '1538', 'Henry VIII', 'England', 'archery competitions', 'introduced sport', 'Europe Americas', '1930s', 'gained attention', 'became active'], fontType: 'type3' },
+      2: { text: 'Archery targets are usually made by tightly braiding straw<br>rope and then covering it with a piece of cloth on which<br>concentric circles are drawn. The score decreases as<br>the concentric circles move from the center outward.<br>The number of concentric circles is 5 for British-style<br>targets and 10 for FITA (International Federation of<br>Archery) targets. The diameter of the target for long<br>distances (90 m, 70 m, 60 m) is 122 cm, while the diameter<br>of the target for short distances (50 m, 30 m) is 80 cm.', keywords: ['Archery targets', 'tightly braiding', 'straw rope', 'covering cloth', 'concentric circles', 'score decreases', 'center outward', '5 British-style', '10 FITA', 'International Federation', 'diameter target', 'long distances', '90m 70m 60m', '122 cm', 'short distances', '50m 30m', '80 cm'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/39.jpg',
+    hasStartButton: false,
+    zones: {
+      3: { text: 'The scores for the British and American targets decrease<br>from the center outward: 9 points, 7 points, 5 points, and<br>1 point. In FITA targets, the center is worth 10 points,<br>with each point decreasing as you move toward the outer<br>concentric circles. The size of the target depends on the<br>distance.<br>', keywords: ['scores British American', 'decrease center outward', '9 points', '7 points', '5 points', '1 point', 'FITA targets', 'center worth 10', 'decreasing', 'outer concentric circles', 'size target', 'depends distance'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      4: { text: 'Archery competitions are largely divided into target archery,<br>field archery, and compound archery. Target archery is<br>an event officially adopted in the Olympics that involves<br>shooting an arrow at a basic target from a fixed distance.<br>', keywords: ['Archery competitions', 'target archery', 'field archery', 'compound archery', 'event officially adopted', 'Olympics', 'shooting arrow', 'basic target', 'fixed distance'], fontType: 'type3' },
+      1: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/40.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '<br>Field archery is a competition in which players compete for<br>a total score of 112 shots, with 4 shots per course. There<br>are 28 courses with the longest distance being 75 m and<br>the shortest being 6 m.<br>Compound archery is the same as target archery in terms<br>of the competition format, but the bow used is different.<br>In compound archery, a bow with circular pulleys on both<br>ends is used. Due to the action of the pulleys, less force<br>is required to pull the bowstring, but the arrow flies much<br>faster.', keywords: ['Field archery', 'competition', 'total score', '112 shots', '4 shots per course', '28 courses', 'longest distance', '75 m', 'shortest', '6 m', 'Compound archery', 'same target archery', 'competition format', 'bow used different', 'circular pulleys', 'both ends', 'action pulleys', 'less force', 'pull bowstring', 'arrow flies faster'], fontType: 'type4' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/41.jpg',
+    zones: {
+      1: { text: '<br><br><br><br><u><b>Describe what a giant golden eagle looks like.</b></u><br><br><br><br><br><br><br><br><br><br>The golden eagle is covered in thick brown feathers. It has large,<br>black wings and sharp claws. We can also see a sharp beak shaped<br>like a hook.', keywords: ['giant golden eagle', 'thick brown feathers', 'large black wings', 'sharp claws', 'sharp beak', 'hook shaped'], fontType: 'type7' },
+      2: { text: '<br><br><u><b>Explain how the golden eagle finds prey while soaring high<br><u><b>in the sky.</b></u><br><br>The golden eagle has excellent eyesight. That is why even things<br>that are far away look big. With the ability to see very far, the golden<br>eagle can also find prey well from high places.', keywords: ['golden eagle', 'excellent eyesight', 'soaring high', 'find prey', 'far away', 'high places'], fontType: 'type8' },
+      4: { text: '<br><br><br><u><b>Explain what happens if a golden eagle injures one of its wings.</b></u><br><br><br><br><br><br><br><br><br><br>A bird needs sturdy wings to fly straight. If its wings are injured,<br>it cannot fly straight, leading to a failed hunt. Ultimately, it may<br>starve to death because it is unable to obtain food.<br><br>', keywords: ['golden eagle', 'injured wing', 'sturdy wings', 'fly straight', 'failed hunt', 'starve', 'obtain food'], fontType: 'type8' },
+      3: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/42.jpg',
+    zones: {
+      1: { text: '<u><b>Explain how the name for the "cormorant" bird originated.</b></u><br><br><br><br><br><br><br><br><br><br>The name "cormorant" derived from the Latin corvus marinus,<br>meaning "sea raven". This name was given because people thought<br>they looked like aquatic crows or ravens.', keywords: ['cormorant', 'Latin origin', 'corvus marinus', 'sea raven', 'aquatic crows', 'ravens'], fontType: 'type8' },
+      3: { text: '<br><u><b>Explain how the cormorant catches and eats fish.</b></u><br><br><br><br><br><br><br><br><br><br>The cormorant swiftly catches fish using its long and curved beak.<br>Then, it opens its beak wide to swallow the fish whole.<br><br>', keywords: ['cormorant', 'catches fish', 'long curved beak', 'swallow whole', 'swiftly'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/43.jpg',
+    zones: {
+      1: { text: '<u><b>Describe how the fisherman used cormorants to catch fish.</b></u><br><br><br><br><br><br><br><br><br><br>Tie a string around the cormorant\'s neck. This way, the fish it<br>swallows will not slide down its throat. The fisherman only needs to<br>pull out the fish caught in the cormorant\'s neck.', keywords: ['fisherman', 'cormorants', 'string around neck', 'fish caught', 'pull out fish'], fontType: 'type8' },
+      2: { text: '<u><b>Explain how cormorant fishing utilizes the habits and<br><u><b>characteristics of the bird.</b></u><br><br><br><br><br><br><br><br><br><br>The cormorant has a habit of swallowing fish without chewing,<br>preventing the fish from spoiling. It can also dive deep into the water.', keywords: ['cormorant fishing', 'swallowing fish', 'without chewing', 'prevent spoiling', 'dive deep'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/44.jpg',
+    zones: {
+      1: { text: '(1) <u><b>A bird\'s two wings have the same size and shape. What might<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>happen if one wing is smaller than the other? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When a bird flaps its wings with different sizes on each side,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;its body tilts to one side. Imagine running with a large fan in our<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left hand and the right hand empty. Think about how the fan<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;causes the tilt, preventing us from running straight and causing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a slight deviation to the left.', keywords: ['bird wings', 'same size shape', 'different sizes', 'body tilts', 'wing flaps', 'deviation'], fontType: 'type7' },
+      2: { text: '<br><br><br><br><br>A bird\'s wings are important when flying and landing on the<br>ground or a branch. During flight, if we tilt the wings spread<br>horizontally or vertically, it creates air resistance, slowing<br>down the speed. However, if one wing is larger, the greater<br>air resistance on the larger wing side prevents the bird from<br>accurately reaching the target.', keywords: ['wings', 'flying landing', 'air resistance', 'tilt wings', 'larger wing', 'prevent reaching target'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/45.jpg',
+    zones: {
+      1: { text: '(2) <u><b>Most living organisms are symmetrical on the left and right.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>Closely observe and describe where symmetry occurs.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When seen from the front, the left and right sides are<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;symmetrical. The symmetrical pointed beak divides the wind,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allowing the bird to fly straight.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The two wings also form a symmetry, helping the bird fly straight<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in the desired direction. Birds have eyes and ears on both sides<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of their heads, allowing them to detect the location of prey or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enemies. The two legs and the talons are also symmetrical,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and the bird\'s toes are arranged to form symmetry. However,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the shape of wing feathers does not exhibit symmetry.', keywords: ['living organisms', 'symmetrical', 'left right sides', 'pointed beak', 'two wings', 'eyes ears', 'legs talons', 'wing feathers'], fontType: 'type8' },
+      2: { text: 'Feathers are not symmetrical because the bird would not<br>generate enough lift to fly if they were. Birds that fly at<br>incredibly high speeds, like falcons, have a greater degree of<br>asymmetry in their feathers than birds that fly at slower speeds.<br>On the other hand, down feathers, which only serve as insulation,<br>have a perfectly symmetrical arrangement on both sides of the<br>feather shaft.', keywords: ['feathers', 'not symmetrical', 'lift to fly', 'high speeds', 'falcons', 'asymmetry', 'down feathers', 'insulation'], fontType: 'type8'},
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/46.jpg',
+    zones: {
+      1: { text: '(1) <u><b>Birds that prey on other animals have sharp claws. Can a bird<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>survive if its claws are injured? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A bird with injured talons would struggle to survive in the wild.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Without functioning talons, the bird\'s ability to catch prey<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weakens, and it might lose its grip on the captured prey quickly.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Those who have experienced the pain of cutting their fingernails<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;too short may understand the significance. The inability to hunt<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;means the bird cannot acquire its food, and it is also unable to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;steal from others.', keywords: ['birds', 'sharp claws', 'injured talons', 'survive wild', 'catch prey', 'inability hunt', 'acquire food'], fontType: 'type7' },
+      2: { text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Birds use their wings to flutter and engage in talon-to-talon<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;combat. When their talons are injured, they cannot launch proper<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attacks and are more likely to get injured. Some birds use wing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flapping to aid takeoff. If their talons are injured, they cannot<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;escape quickly from predators.', keywords: ['wings', 'talon combat', 'injured talons', 'launch attacks', 'wing flapping', 'takeoff', 'escape predators'], fontType: 'type7' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/47.jpg',
+    zones: {
+      1: { text: '(2) <u><b>Humans and other animals coexist by helping each other.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>Find an example of humans forming alliances with animals<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>and explain it.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The oldest alliance between humans and animals dates back<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;about 30,000 years ago when primitive humans allied with wolves<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dogs). Humans and dogs increased their hunting success rates<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;through this alliance. Dogs received assistance from humans in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;guarding the animals they hunted, preventing other predators<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from taking them. In return, dogs protected women and children<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;when men were away from the village. This alliance has continued<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to this day.', keywords: ['humans animals', 'alliances', 'primitive humans', 'wolves dogs', 'hunting success', 'guarding', 'protect', 'village'], fontType: 'type8' },
+      2: { text: 'There is also an alliance between the cormorant and fishermen.<br>Observing cormorant fishing might give the impression that<br>the cormorant is having its catch stolen by the fisherman.<br>However, the fisherman provides enough food for the cormorant.<br>Moreover, if the cormorant cannot hunt due to old age,<br>the fisherman shares the fish caught with the cormorant.', keywords: ['cormorant', 'fishermen', 'alliance', 'cormorant fishing', 'provides food', 'old age', 'shares fish'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/48.jpg',
+    zones: {
+      1: { text: '<u><b>An eagle with an injured wing cannot hunt a rabbit. What principle<br><u><b>is hidden in the two wings that help the eagle fly straight toward<br><u><b>its desired prey? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>For a golden eagle to fly straight toward its prey, it requires sturdy<br>wings that maintain balance on both sides. Of course, the wings must<br>adhere to certain physical principles. The wings play a role in lifting<br>the eagle into the air. To ascend, the eagle needs the force of lift,<br>which is generated when it flaps its wings downward.<br>When flapping upward, the upper part of the wings is streamlined,<br>receiving less air resistance. Unlike an airplane\'s airfoil, the eagle\'s<br>wings can rotate vertically, maximizing vertical positioning for<br>flapping. Flapping upward requires much less force than flapping<br>downward, resulting in a lift force much smaller than the reactive<br>force trying to fall when flapping downward. Therefore, with frequent<br>flapping, lift accumulates, causing birds like the golden eagle to<br>ascend gradually.', keywords: ['eagle', 'injured wing', 'hunt rabbit', 'two wings', 'fly straight', 'sturdy wings', 'balance', 'physical principles', 'lift force', 'flapping'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/49.jpg',
+    zones: {
+      1: { text: '<u><b>Birds like swallows, which fly swiftly, have pointed wingtips with<br><u><b>densely packed feathers. On the other hand, large birds of prey,<br><u><b>like eagles, often have wings with feathers that split and extend<br><u><b>at the tips. Explain the reason behind this.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>Birds with enormous wings, like eagles that engage in soaring (flying<br>without wing movement), experience a sudden change in the airflow<br>at the tips of their wings. This creates a disruptive air vortex that<br>hinders forward movement. However, soaring birds with large wings<br>have feathers at the wingtips that are split and protrude, reducing<br>the strength of the air vortex.<br>Interestingly, this principle observed in eagles is also utilized<br>in airplanes. Many airplane wings have tips that curve upward,<br>offsetting the air vortex generated at the wingtips during flight<br>and enabling fuel savings.', keywords: ['swallows', 'eagles', 'pointed wingtips', 'densely packed feathers', 'split feathers', 'enormous wings', 'soaring', 'air vortex', 'airplanes', 'fuel savings'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/50.jpg',
+    zones: {
+      1: { text: '<u><b>Some birds have partially connected toes with individual membranes<br><u><b>between each toe. This "lobate foot" propels the bird forward in<br><u><b>water and prevents slipping on land. Now, think of the feet of<br><u><b>a bird perched on a tree branch. Describe the shape of its toes.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Let\'s think through our experiences. How should we grip the bar to<br>hang on a horizontal bar for an extended period? The four fingers<br>should wrap around the top of the bar, while the thumb should wrap<br>around the bottom. This principle is also found in the toes of birds<br>perched on branches. These birds typically have hind toes longer than<br>other bird species, and their front toes point forward, allowing them<br>to grasp branches firmly.<br>To note, the toes of woodpeckers, which hang on tree trunks and drill<br>holes in wood, are a bit different. Two toes point forward, while the<br>other two point backward.', keywords: ['birds', 'connected toes', 'membranes', 'lobate foot', 'water propulsion', 'tree branch', 'hind toes', 'front toes', 'grasp branches', 'woodpeckers'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/51.jpg',
+    zones: {
+      1: { text: '<u><b>Birds resemble airplanes, while insects are similar to helicopters.<br><u><b>Observe the wing movements of insects and birds and explain<br><u><b>why insects can fly more freely than birds.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>Birds can only move their wings up and down. Therefore, it is very<br>challenging for a bird to slow down or change direction suddenly.<br>When an insect flutters its wings, it creates a vortex around it,<br>lifting the insect.<br>If we closely observe the wing movements of insects, we will notice<br>that the wings can move freely in any direction—up, down, forward,<br>or backward. The two pairs of wings may cross or tangle, and at times,<br>they may move in a less coordinated manner. This wing movement<br>creates vortices around the insect. Insects utilize these vortices<br>effectively. The reason insects can fly more freely than birds is not<br>only because their bodies are lightweight but also because their<br>wings can move freely in any direction.', keywords: ['birds', 'insects', 'airplanes', 'helicopters', 'wing movements', 'up down', 'vortex', 'any direction', 'lightweight', 'freely'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/52.jpg',
+    zones: {
+      1: { text: '<u><b>Explain how archery is played.</b></u><br><br><br><br><br><br><br><br><br><br>Archery is a sport where you pull the bowstring and shoot arrows<br>toward a distant target. The closer you hit the inside of the target,<br>the higher the score.', keywords: ['archery', 'sport', 'bowstring', 'shoot arrows', 'distant target', 'higher score'], fontType: 'type6' },
+      2: { text: '<br><br><u><b>Explain why Indian athletes excel in archery.</b></u><br><br>Indians have been making bows and arrows since ancient times for<br>hunting and warfare. Due to this long-standing tradition, Indians have<br>excelled in archery to this day.', keywords: ['Indian athletes', 'excel archery', 'ancient times', 'hunting warfare', 'long-standing tradition'], fontType: 'type6' },
+      4: { text: '<u><b>Describe the shape of an arrow made from bamboo or bush clover.</b></u><br><br><br><br><br><br><br><br><br><br>Arrows are made from thin and long wood. The front of the arrow has<br>a pointed tip. At the back of the arrow, two feathers made from bird<br>feathers are attached.', keywords: ['arrow', 'bamboo', 'bush clover', 'thin long wood', 'pointed tip', 'feathers'], fontType: 'type6' },
+      3: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/53.jpg',
+    zones: {
+      1: { text: '<u><b>Explain why the arrowhead is pointed like a bird\'s beak.</b></u><br><br><br><br><br><br><br><br><br><br>The pointed arrowhead allows it to easily cut through the wind as it<br>flies.', keywords: ['arrowhead', 'pointed', 'bird beak', 'cut wind', 'flies'], fontType: 'type8' },
+      2: { text: '<u><b>Explain the role of feathers attached to the back of the arrow.</b></u><br><br><br><br><br><br><br><br><br><br>Arrow feathers help the arrow fly straight to its intended destination.', keywords: ['feathers', 'arrow', 'fly straight', 'intended destination'], fontType: 'type8' },
+      4: { text: '<u><b>Explain when blunt-tipped arrowheads are used.</b></u><br><br>It is used to stun, not kill, animals close by. Arrows with whistles at<br>the front have a blunt tip.<br><br><br><br><br><br><br>', keywords: ['blunt-tipped', 'arrowheads', 'stun', 'not kill', 'whistles'], fontType: 'type8' },
+      3: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/54.jpg',
+    zones: {
+      1: { text: '(1) <u><b>Do all arrowheads need to be pointed? When would people use<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>blunt arrowheads? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The shape of arrowheads varies depending on the purpose. To kill<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prey with one arrow, the arrowhead must be sharp. On the other<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hand, to capture animals alive, the arrowhead must be blunt.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Animals struck by such arrows either faint or experience intense<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pain, preventing them from fleeing. Hunters can then approach<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quickly and capture the immobilized animal.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arrowheads used in survival games are also blunt. Arrowheads<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;made of resilient sponge reduce the impact on a person when hit.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Some arrowheads are blunt and have a hollow groove, creating<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sound as they fly. Sometimes, a pointed arrowhead is attached to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a flute, making the arrow travel further.', keywords: ['arrowheads', 'pointed', 'blunt', 'purpose', 'kill prey', 'capture alive', 'survival games', 'sponge', 'hollow groove', 'flute'], fontType: 'type7' },
+      2: { text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In traditional Chinese arrows, there are "muduan jian" and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"wufeng jian." Muduan jian refers to wooden-tipped arrows used<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in archery exams. Wufeng jian is an arrow used for cavalry combat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;training, with the arrowhead wrapped in cloth.', keywords: ['Chinese arrows', 'muduan jian', 'wufeng jian', 'wooden-tipped', 'archery exams', 'cavalry combat'], fontType: 'type7'},
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/55.jpg',
+    zones: {
+      1: { text: '(2) <u><b>Explain why it is challenging to hit the center of the target in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>archery.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An arrow leaving the bow experiences an invisible force acting<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on it: gravity, which pulls objects toward the Earth\'s center. Due<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to gravity, the arrow flies in a parabolic trajectory. In archery<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;competitions, archers can be seen slightly raising the arrow tip<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;when aiming. The arrow, flying slightly upward, follows a parabolic<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path and falls into the target.', keywords: ['challenging', 'target center', 'archery', 'gravity', 'parabolic trajectory', 'raising arrow tip', 'parabolic path'], fontType: 'type8' },
+      2: { text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To hit the center of the target accurately, archers need to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;calculate precisely how much they should lift the arrow tip.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Even with accurate calculations of the shooting angle, archers<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;face another challenge.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When the arrow flies, it encounters air resistance, causing it to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deviate slightly. This effect is more pronounced when there is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wind. Thus, due to gravity, wind, and air resistance, hitting the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;center of the target is challenging for archers.', keywords: ['calculate', 'shooting angle', 'air resistance', 'wind', 'deviate', 'challenging'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/56.jpg',
+    zones: {
+      1: { text: '(1) <u><b>Not all birds can fly in the sky despite having wings.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>Explain the characteristics of birds that cannot fly.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are approximately 40 bird species worldwide that cannot<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fly. Let\'s explore familiar ones like chickens, ostriches, and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;penguins. Chickens can momentarily fly a few meters when<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threatened, but they are not considered flyers. Despite having the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;necessary structures for flight—wings, air sacs around the lungs,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and porous bones—chickens, raised by humans for thousands of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;years, have lost the ability to fly. With no need to find food or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;escape predators, chickens seem to have forgotten how to fly.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ostriches weigh between 65 kg and 150 kg and have long, sturdy<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;legs. While their ancestors could fly, ostriches evolved to run<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;faster and more conveniently using their long legs.', keywords: ['birds', 'cannot fly', '40 species', 'chickens', 'ostriches', 'penguins', 'threatened', 'necessary structures', 'lost ability', 'long legs'], fontType: 'type7' },
+      2: { text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Consequently, ostriches, with wings intact, became flightless<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;birds. Penguins primarily inhabit the frigid Antarctic region,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where food is always scarce. Struggling to find food in the air<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and on land, penguins adapted by becoming skilled underwater<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swimmers.<br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Through this adaptation, their wings regressed, and penguins<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;became flightless birds. Despite their large size relative to height,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;penguins have fat stored inside to endure the cold. Their feathers<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are finely structured, preventing water from seeping in, and they<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;have an oily coating to repel moisture easily. Thanks to these<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adaptations, penguins remain unfrozen after diving in and out of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the water.', keywords: ['ostriches', 'flightless birds', 'Antarctic', 'scarce food', 'underwater swimmers', 'wings regressed', 'fat stored', 'finely structured feathers', 'oily coating'], fontType: 'type7' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/57.jpg',
+    zones: {
+      1: { text: '(2) <u><b>Arrows can be shot far using a bow. Explain how to make<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>a bow.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We\'ll examine the process of making the longbow, a traditional<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Western bow. The longbow is crafted primarily from strong wood<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;such as yew, oak, or elm, along with animal sinew and natural<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fibers. The bow-making process starts with refining the materials.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mulberry wood is cut to an appropriate size, soaked in water for<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ten days to remove sap, then boiled for a day to make it flexible.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The boiled mulberry wood is then bent into a crescent shape and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tied to maintain the form.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bamboo, which occupies the central part of the bow, and zelkova<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wood for the handle are prepared in a similar manner. Buffalo<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horn, cut to the right size and thickness, is heated over a fire and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;straightened. Dried cattle tendons are pounded to make them<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resemble threads. Fish bladders are used to make glue.', keywords: ['arrows', 'bow', 'longbow', 'traditional Western', 'strong wood', 'yew oak elm', 'animal sinew', 'mulberry wood', 'bamboo', 'buffalo horn', 'cattle tendons', 'fish bladders'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/58.jpg',
+    zones: {
+      1: { text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After the materials are prepared, bamboo and mulberry wood are<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attached first. Buffalo horn is added, followed by attaching the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oak handle. The tendons, mixed with glue, are applied to the bow.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lastly, the bow is completed by carving the bow to create the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nock, the part where the bowstring is connected.', keywords: ['materials', 'bamboo', 'mulberry wood', 'buffalo horn', 'oak handle', 'tendons glue', 'carving', 'nock', 'bowstring'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/59.jpg',
+    zones: {
+      1: { text: '<u><b>What shape does the arrow take when it flies? What role do<br><u><b>the wings attached to the arrow have when flying?<br><u><b>Why is the arrowhead shaped like a sharp triangle? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>The wings attached to an arrow are designed to stabilize its flight.<br>Arrows without wings tend to exhibit severe lateral or vertical<br>movement during flight, and the feathers and wings attached at<br>the rear of the arrow create air resistance, reducing the arrow\'s<br>movement. Additionally, the wings of the arrow induce rotation,<br>contributing to the stable movement of the arrow. This is referred<br>to as the "gyro effect." Arrows have been used for hunting animals<br>or during wars.<br>The reason the arrows were sharp was because they needed to<br>threaten opponents. While squares and other polygons disperse force<br>in multiple directions, the triangle concentrates force in one place,<br>so arrowheads are shaped like sharp triangles.', keywords: ['arrow', 'wings', 'stabilize flight', 'lateral vertical movement', 'air resistance', 'rotation', 'gyro effect', 'hunting', 'sharp triangle', 'concentrate force'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/60.jpg',
+    zones: {
+      1: { text: '<u><b>While arrowheads are generally triangular or pointed, sometimes<br><u><b>arrows with different shapes are also used.<br><u><b>Think about the shapes of arrowheads and explain why they are<br><u><b>designed in a certain way.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>You may have seen arrowheads with pointed triangular shapes.<br>In addition to this shape, there are arrowheads with split ends like<br>a trident. While these arrowheads may have less power, they are<br>efficient in causing multiple wounds. Also, arrowheads shaped like ax<br>blades are used for cutting down prey or enemies. In ancient times,<br>arrowheads made of reeds and resembling flutes were also used.<br>When these arrows flew through the air, the flute shape produced<br>a sound. These arrowheads were employed to convey urgent<br>information. Today, with technological advancements, various<br>arrowheads have been developed. Some arrowheads have foldable<br>blades that open upon impact with the target, while others, like in<br>movie scenes, have hooks that unfold and secure the arrow when<br>embedded in wood.', keywords: ['arrowheads', 'triangular pointed', 'different shapes', 'split ends', 'trident', 'multiple wounds', 'ax blades', 'ancient times', 'reed flutes', 'sound', 'technological advancements', 'foldable blades', 'hooks'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/61.jpg',
+    zones: {
+      1: { text: '<u><b>To shoot arrows without hindrance, archers needed their own<br><u><b>means of defense. Explain how they defended themselves.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>When shooting arrows from a castle, archers can shoot without<br>receiving any attacks. However, actual battles often occurred on<br>wide-open terrain. Archers could safely attack from behind shields<br>with the assistance of infantry holding shields.<br>When assistance from infantry was not available, archers carried<br>the shields themselves. These large shields, about 1.5 m in height,<br>were not designed to be carried in hand. Archers would use stakes to<br>secure the shield to the ground before the battle started. Then they<br>would hide behind it to reload their bows or evade enemy attacks.<br>In the medieval period, there were also large shields called "mantlets"<br>that could defend multiple people simultaneously. The center of<br>these shields had a groove, allowing archers to shoot arrows through<br>the gap safely.', keywords: ['archers', 'defense', 'castle', 'wide-open terrain', 'shields', 'infantry', 'large shields', 'stakes', 'mantlets', 'groove', 'shoot safely'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.3/62.jpg',
+    zones: {
+      1: { text: '<u><b>What principle does a catapult use to launch heavy stones over<br><u><b>long distances? Research the types of catapults and explain<br><u><b>the principles behind each.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>In ancient times, trebuchets, which utilized the principles of pulleys,<br>were widely used. This involved attacking by placing a heavier object<br>on the opposite side of the rock or projectile to be thrown.<br>As the rubber band continued to rotate, it required more force as<br>the length gradually shortened. After turning it for a while, releasing<br>the hand caused the rubber band to return to its original length,<br>propelling the object. There were also trebuchets made in the form<br>of giant bows, much like shooting arrows.', keywords: ['catapult', 'heavy stones', 'long distances', 'trebuchets', 'pulleys', 'heavier object', 'rubber band', 'rotate', 'force', 'giant bows'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  }
+];
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 
