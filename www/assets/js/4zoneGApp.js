@@ -1,4 +1,41 @@
 // 4구역 위치 제어 함수 및 전체화면 고정 위치 계산 포함
+
+// 전역 에러 핸들러 - ERR_FAILED 및 YouTube 관련 오류 무시
+window.addEventListener('error', function(e) {
+    // ERR_FAILED 또는 YouTube 관련 오류인지 확인
+    if (e.message && (e.message.includes('ERR_FAILED') || 
+        e.message.includes('youtube') || 
+        e.message.includes('googlevideo') ||
+        e.filename && e.filename.includes('youtube'))) {
+        
+        console.log('YouTube 관련 오류 무시됨:', e.message);
+        
+        // 오류 이벤트 중단
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // 사용자에게 알림 (선택사항)
+        if (e.message.includes('ERR_FAILED') && e.message.includes('googlevideo')) {
+            console.warn('YouTube 비디오 로딩 중 일시적 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        }
+        
+        return false;
+    }
+});
+
+// 네트워크 오류도 처리
+window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && e.reason.message && 
+        (e.reason.message.includes('ERR_FAILED') || 
+         e.reason.message.includes('youtube') ||
+         e.reason.message.includes('googlevideo'))) {
+        
+        console.log('YouTube 관련 Promise 오류 무시됨:', e.reason.message);
+        e.preventDefault();
+        return false;
+    }
+});
+
 const CONFIG = {
   setZonePositionPx: (zoneNumber, top, left, right, bottom) => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
@@ -215,7 +252,7 @@ const CONFIG = {
     }
     if (zone2IsType3) {
       console.log('type3-2');
-      CONFIG.setTypeZonePositionPercent('type3', 2, 21, 106.6, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type3', 2, 21, 108, undefined, undefined);
     }
     if (zone3IsType3) {
       console.log('type3-3');
@@ -223,7 +260,7 @@ const CONFIG = {
     }
     if (zone4IsType3) {
       console.log('type3-4');
-      CONFIG.setTypeZonePositionPercent('type3', 4, undefined, 106.6, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type3', 4, undefined, 108, undefined, 17);
     }
     
     // type4인 경우 모든 존(1,2,3,4) 설정
@@ -238,7 +275,7 @@ const CONFIG = {
     }
     if (zone2IsType4) {
       console.log('type4-2');
-      CONFIG.setTypeZonePositionPercent('type4', 2, 17, 107, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type4', 2, 17, 108, undefined, undefined);
     }
     if (zone3IsType4) {
       console.log('type4-3');
@@ -246,7 +283,7 @@ const CONFIG = {
     }
     if (zone4IsType4) {
       console.log('type4-4');
-      CONFIG.setTypeZonePositionPercent('type4', 4, undefined, 107, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type4', 4, undefined, 108, undefined, 17);
     }
     
     // type5인 경우 모든 존(1,2,3,4) 설정
@@ -261,7 +298,7 @@ const CONFIG = {
     }
     if (zone2IsType5) {
       console.log('type5-2');
-      CONFIG.setTypeZonePositionPercent('type5', 2, 38, 106.6, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type5', 2, 38, 108, undefined, undefined);
     }
     if (zone3IsType5) {
       console.log('type5-3');
@@ -269,7 +306,7 @@ const CONFIG = {
     }
     if (zone4IsType5) {
       console.log('type5-4');
-      CONFIG.setTypeZonePositionPercent('type5', 4, undefined, 106.6, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type5', 4, undefined, 108, undefined, 17);
     }
     
     // type8인 경우 모든 존(1,2,3,4) 설정
@@ -284,7 +321,7 @@ const CONFIG = {
     }
     if (zone2IsType8) {
       console.log('type8-2');
-      CONFIG.setTypeZonePositionPercent('type8', 2, 20, 107.3, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type8', 2, 20, 108, undefined, undefined);
     }
     if (zone3IsType8) {
       console.log('type8-3');
@@ -292,7 +329,7 @@ const CONFIG = {
     }
     if (zone4IsType8) {
       console.log('type8-4');
-      CONFIG.setTypeZonePositionPercent('type8', 4, undefined, 107.3, undefined, 15);
+      CONFIG.setTypeZonePositionPercent('type8', 4, undefined, 108, undefined, 15);
     }
     
     // type9인 경우 모든 존(1,2,3,4) 설정
@@ -307,7 +344,7 @@ const CONFIG = {
     }
     if (zone2IsType9) {
       console.log('type9-2');
-      CONFIG.setTypeZonePositionPercent('type9', 2, 17, 107.3, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type9', 2, 17, 108, undefined, undefined);
     }
     if (zone3IsType9) {
       console.log('type9-3');
@@ -315,7 +352,7 @@ const CONFIG = {
     }
     if (zone4IsType9) {
       console.log('type9-4');
-      CONFIG.setTypeZonePositionPercent('type9', 4, undefined, 107.3, undefined, 15);
+      CONFIG.setTypeZonePositionPercent('type9', 4, undefined, 108, undefined, 15);
     }
     
     // type6인 경우 모든 존(1,2,3,4) 설정
@@ -330,7 +367,7 @@ const CONFIG = {
     }
     if (zone2IsType6) {
       console.log('type6-2');
-      CONFIG.setTypeZonePositionPercent('type6', 2, 23.5, 107.5, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type6', 2, 23.5, 108, undefined, undefined);
     }
     if (zone3IsType6) {
       console.log('type6-3');
@@ -338,7 +375,7 @@ const CONFIG = {
     }
     if (zone4IsType6) {
       console.log('type6-4');
-      CONFIG.setTypeZonePositionPercent('type6', 4, undefined, 107, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type6', 4, undefined, 108, undefined, 17);
     }
     
     // type7인 경우 모든 존(1,2,3,4) 설정
