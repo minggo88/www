@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로딩 중...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .loading-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .loading-image {
+            max-width: 300px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .loading-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            animation: slideInUp 0.8s ease-out 0.5s both;
+        }
+
+        .loading-subtitle {
+            font-size: 16px;
+            color: #666;
+            animation: slideInUp 0.8s ease-out 0.7s both;
+        }
+
+        .loading-dots {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .loading-dots span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #667eea;
+            margin: 0 3px;
+            animation: dots 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes dots {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .loading-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+
+            .loading-image {
+                max-width: 250px;
+            }
+
+            .loading-text {
+                font-size: 20px;
+            }
+
+            .loading-subtitle {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .loading-image {
+                max-width: 200px;
+            }
+
+            .loading-text {
+                font-size: 18px;
+            }
+
+            .loading-subtitle {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <img src="assets/img/ReadBook/loading.jpg" alt="로딩 중" class="loading-image">
+        <div class="loading-text">로딩 중입니다...</div>
+        <div class="loading-subtitle">잠시만 기다려주세요</div>
+        <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <script>
+        // 페이지 로드 완료 후 자동으로 메인 페이지로 이동 (선택사항)
+        // setTimeout(() => {
+        //     window.location.href = '2.1.1/4zone.html';
+        // }, 3000);
+
+        // 로딩 애니메이션 효과
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.loading-container');
+            const image = document.querySelector('.loading-image');
+            
+            // 이미지 로드 완료 시 추가 효과
+            image.addEventListener('load', function() {
+                container.style.animation = 'fadeIn 1s ease-in-out';
+            });
+
+            // 이미지 로드 실패 시 대체 텍스트
+            image.addEventListener('error', function() {
+                this.style.display = 'none';
+                const errorText = document.createElement('div');
+                errorText.textContent = '로딩 이미지를 불러올 수 없습니다';
+                errorText.style.color = '#ff6b6b';
+                errorText.style.fontSize = '16px';
+                errorText.style.marginTop = '20px';
+                container.insertBefore(errorText, container.firstChild);
+            });
+        });
+    </script>
+</body>
+</html> 
