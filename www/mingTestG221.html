@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G2.2.1.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/2.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/3.jpg',
+    zones: {
+      1: { text: '<span class="larger-text">01. Beautiful Motifs Found in Nature</span><br><br><span class="larger-text">The Mulberry Tree</span><br><br><span class="larger-text">01. The Mulberry Tree</span><br><span class="larger-text">02. The Mulberry Tree</span><br><br>Did you know that there are many motifs hidden in<br>nature? If we pay just a little attention to nature,<br>we can discover beautiful motifs. We have all seen<br>a silkworm before. A silkworm refers to the larva of<br>a silk moth. Silkworms have unique motifs on their<br>bodies depending on their species. The body of the<br>spotted silkworm has fascinating shapes that look<br>like eyes, crescents, and stars. The tiger silkworm has<br>black stripes like a tiger. The discus silkworm has<br>a round, brown motif on its back that looks like a disc.', keywords: ['G2.2.1', 'The Mulberry Tree', 'motifs', 'nature', 'silkworm', 'silk moth', 'spotted silkworm', 'tiger silkworm', 'discus silkworm'] },
+      2: { text: 'Like this, silkworms are named according to the various<br>motifs that appear on their bodies. Silkworms feed on<br>mulberry leaves.<br>Have you ever seen a mulberry tree in a mountain<br>or park? In May, the mulberry tree bears black fruits<br>called mulberries. When these mulberries turn ripe,<br>they are black and have a sweet taste.', keywords: ['silkworms', 'motifs', 'mulberry leaves', 'mulberry tree', 'mulberries', 'sweet taste'] },
+      3: { text: 'Explain how silkworms are typically named.', keywords: ['silkworms', 'named', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/4.jpg',
+    zones: {
+      1: { text: 'Mulberries can be eaten just like ordinary fruits,<br>but they are also widely used to make alcohol or jams.<br>The mulberry tree is a useful tree. It not only provides<br>mulberry fruit, but also provides leaves that feed<br>silkworms. Even the roots are valuable. The bark of<br>the roots can cleanse and cool down our lungs. In this<br>way, everything from the mulberry, from the roots to<br>the fruit, can be used.<br>There are exciting stories related to the mulberry<br>tree. In ancient China, there was a man named Cai<br>Jing. One day, a guest named Wang Fangping was to<br>visit his house. Cai Jing\'s household busily prepared<br>to welcome the guest. Servants cleaned every nook<br>and cranny of the house and beautiful flowers were<br>arranged for decoration.', keywords: ['mulberries', 'alcohol', 'jams', 'mulberry tree', 'useful tree', 'roots', 'bark', 'Cai Jing', 'Wang Fangping'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain how the mulberry tree is used in our daily<br>lives.', keywords: ['mulberry tree', 'daily lives', 'used', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/5.jpg',
+    zones: {
+      1: { text: 'A feast full of delicious food was being prepared in<br>the kitchen. After a long preparation, it was finally<br>time for guests to arrive. Cai Jing went out early to<br>greet the guest. However, no one was outside.<br>Even after waiting for a long time, the guest did not<br>come. Disappointed, Cai Jing came back into the yard<br>and spoke to the servants.<br>"Clear everything. It seems our guest may not come<br>after all."<br>Just at that moment, beautiful music echoed from the<br>sky, and these words rang out.<br>"I never break my promise."<br>Surprised, Cai Jing looked up at the sky. Between the<br>clouds, a carriage drawn by four dragons appeared.<br>The carriage gracefully came down into Cai Jing\'s<br>yard. Soon, the banners of the carriage were lowered,<br>and Wang Fangping descended.', keywords: ['feast', 'delicious food', 'guests', 'Cai Jing', 'servants', 'beautiful music', 'promise', 'carriage', 'four dragons', 'Wang Fangping'] },
+      2: { text: 'He shouted towards the sky.<br>"Is anyone there? Accompany Lady Magu here."<br>Shortly after, a beautiful young lady named Magu<br>came down to Cai Jing\'s yard, accompanied by<br>her maids.', keywords: ['sky', 'Lady Magu', 'beautiful young lady', 'Magu', 'maids'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/6.jpg',
+    zones: {
+      1: { text: 'Wang Fangping also came with food and drinks<br>from the sky. His servants set up a new table where<br>extraordinary fruits and dishes, which could not be<br>seen on Earth, were beautifully arranged on golden<br>trays. The wine glasses and bottles were made<br>entirely of precious jewels. Cai Jing thoroughly<br>enjoyed the heavenly foods and had a good time.<br>However, when the atmosphere was getting lively,<br>Lady Magu suddenly said, "It seems like it has been<br>a long time since I started serving the gods in the sky.<br>In the meantime, I have seen the mulberry field turn<br>into the sea three times."', keywords: ['Wang Fangping', 'food', 'drinks', 'sky', 'extraordinary fruits', 'golden trays', 'precious jewels', 'heavenly foods', 'Lady Magu', 'gods', 'mulberry field', 'sea'] },
+      2: { text: 'Cai Jing and the servants were all surprised and<br>looked at Magu. Magu appeared to be no older than<br>sixteen or seventeen years old. It took thousands<br>of years for a mulberry field to turn into the sea.<br>How old could Magu possibly be, if she had seen the<br>transformation three times?', keywords: ['Cai Jing', 'servants', 'surprised', 'Magu', 'sixteen', 'seventeen years old', 'thousands of years', 'transformation'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/7.jpg',
+    zones: {
+      1: { text: 'As time passed and evening fell, Wang Fangping<br>and Lady Magu returned to the sky. Cai Jing and his<br>household only then came to their senses.<br>One servant even pinched himself to make sure it was<br>all real. Isn\'t this an exciting story?<br>In this way, people in China, Japan, and Korea have<br>believed since ancient times that divine beings live in<br>the heavens. These beings are considered to neither<br>grow old nor die. The two people Cai Jing met were<br>divine beings.', keywords: ['evening', 'Wang Fangping', 'Lady Magu', 'sky', 'Cai Jing', 'household', 'servant', 'pinched', 'China', 'Japan', 'Korea', 'divine beings', 'heavens'] },
+      2: { text: 'The famous proverb "桑田碧海 (sang tian bi hai),"<br>originated from this story. It means "a mulberry tree<br>field transforms into a blue sea."<br>The proverb is often used to express that the world<br>has changed a lot with time. Perhaps Lady Magu<br>mentioned the mulberry tree because it was so widely<br>loved by people and was planted a lot.', keywords: ['proverb', 'sang tian bi hai', 'mulberry tree', 'blue sea', 'world', 'changed', 'time', 'Lady Magu', 'widely loved', 'planted'] },
+      3: { text: 'Explain when the proverb "桑田碧海 (sang tian bi hai)"<br>is commonly used.', keywords: ['proverb', 'sang tian bi hai', 'commonly used', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/8.jpg',
+    zones: {
+      1: { text: 'The silkworm, like the mulberry tree, provides<br>significant help to humans. After feeding on the leaves<br>of a mulberry tree, the silkworm spits out silk and<br>makes a case around its body. This is called a cocoon.<br>Fine silk fabric can be made from the soft threads<br>of the cocoon. Silk is highly valued for its lightness,<br>beauty, softness, and warmth. It has been used to<br>make clothes for kings, queens, and nobles. Silk is still<br>highly noted as a precious fabric.', keywords: ['silkworm', 'mulberry tree', 'humans', 'leaves', 'silk', 'cocoon', 'silk fabric', 'lightness', 'beauty', 'softness', 'warmth', 'kings', 'queens', 'nobles', 'precious fabric'] },
+      2: { text: 'We said that silkworms grow by feeding on mulberry<br>leaves, right? Raising silkworms using mulberry trees<br>is called "sericulture." In the East, culturing silkworms<br>has long been considered a noble job, and many<br>people made efforts to spread it widely. In particular,<br>a place to raise silkworms was set up in the palace<br>in the area where there were a lot of mulberry trees,<br>and the queen even raised silkworms herself to set<br>an example to the people. Then, how do we raise<br>silkworms? While the average human lives around<br>70 to 80 years, silkworms have a very short life, only<br>living to about 55 days.', keywords: ['silkworms', 'mulberry leaves', 'sericulture', 'East', 'noble job', 'palace', 'queen', 'example', 'average human', '70 to 80 years', 'short life', '55 days'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why people still love silk to this day.', keywords: ['people', 'love silk', 'this day', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/9.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'The age of silkworms cannot be counted like human<br>years. Silkworms die before they even reach the age<br>of one in human years. This is why we count their<br>life in "instars." A silkworm\'s age is counted by the<br>number of times it sheds its skin. When a silkworm<br>hatches from the egg, it is in its first instar. A first-<br>instar silkworm is called a caterpillar. Caterpillars are<br>covered with black fur all over their bodies. They are<br>black, small, and look like ants. Silkworms sleep a lot.<br>After feeding on a lot of mulberry leaves, they must<br>take a nap. But this is not because they are lazy.', keywords: ['silkworms', 'human years', 'instars', 'sheds skin', 'hatches', 'egg', 'first instar', 'caterpillar', 'black fur', 'ants', 'sleep', 'mulberry leaves', 'nap', 'lazy'] },
+      4: { text: 'Silkworms\' skin cannot grow as fast as their body,<br>so they have to shed their skin. This process of skin-<br>shedding is called "molting." Silkworms prepare for<br>molting while they sleep. Molting is like moving to<br>a bigger new house because the old one is too small.<br>After a silkworm has molted, we can see that it is<br>much larger than before.', keywords: ['skin', 'grow', 'body', 'shed skin', 'molting', 'sleep', 'bigger house', 'old one', 'small', 'molted', 'larger'] }
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/10.jpg',
+    zones: {
+      3: { text: 'Explain how we can count a silkworm\'s age which<br>only lives about 55 days.', keywords: ['silkworm', 'age', 'lives', '55 days', 'explain'], fontType: 'type2' },
+      2: { text: '', keywords: [] },
+      1: { text: 'Each time a silkworm molts, it is one instar older.<br>One instar is one year in human terms. A silkworm<br>molts four times in total, growing to the fifth instar.<br>When it becomes the fifth instar, it no longer eats<br>mulberry leaves. Instead, it finds a suitable place,<br>starts spitting white silk from its mouth, and wraps<br>it around its body to create an oval-shaped cocoon.<br>When the cocoon is complete, it becomes a pupa inside.<br>The pupa silkworm sleeps inside the cocoon. This time,<br>it is a nap to become a beautiful moth. While it sleeps,<br>the pupa\'s body transforms, and it becomes an adult<br>moth.', keywords: ['silkworm', 'molts', 'instar', 'human terms', 'fifth instar', 'mulberry leaves', 'white silk', 'oval-shaped cocoon', 'pupa', 'beautiful moth', 'adult moth'] },
+      4: { text: 'A fully-grown silkworm is called an adult moth.<br>When it transforms into a moth, it breaks out by<br>piercing through the ends of the cocoon. Just as we<br>humans marry when we become adults, a moth also<br>meets and mates with another moth. After mating,<br>the female moth lays 500 to 600 eggs. The caterpillars<br>hatched from the eggs then live similar lives to their<br>parents. A caterpillar builds a cocoon to protect itself<br>from predators and the changing environment.<br>At this stage, the length of the silk spun by one<br>caterpillar is an astonishing 1,500 meters.', keywords: ['fully-grown silkworm', 'adult moth', 'transforms', 'piercing', 'cocoon', 'humans', 'marry', 'mates', 'female moth', '500 to 600 eggs', 'caterpillars', 'parents', 'predators', 'environment', '1,500 meters'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/11.jpg',
+    zones: {
+      1: { text: 'In addition to silkworms, many things in nature have<br>unique motifs. People have imitated these natural<br>motifs to create beautiful crafts for practical use.<br>In the East, there is a traditional craft known as knot<br>craft. People usually think of knots as a way to tie<br>strings or ropes. However, knots have been used as<br>decoration since ancient times in the East.', keywords: ['silkworms', 'nature', 'unique motifs', 'natural motifs', 'beautiful crafts', 'practical use', 'East', 'traditional craft', 'knot craft', 'knots', 'strings', 'ropes', 'decoration', 'ancient times'] },
+      2: { text: 'When wrapping a gift, finishing it with a beautiful<br>knot made from string or cloth can make it look even<br>more sophisticated. In Chinese tradition, decorative<br>knots made with red string, known as "Chinese knots,"<br>are often used. This craft, which creates various<br>shapes with strings of different colors, embodies both<br>beauty and symbolic meaning.<br>These strings are typically from yarn or cotton threads,<br>and they are especially often made by twisting silk<br>thread. They commonly appear in traditional Chinese<br>ceremonies and indoor decorations, and in Western<br>culture, silk ribbons or decorative cords are also used<br>to create various knots for decoration.', keywords: ['wrapping gift', 'beautiful knot', 'string', 'cloth', 'sophisticated', 'Chinese tradition', 'decorative knots', 'red string', 'Chinese knots', 'various shapes', 'colors', 'beauty', 'symbolic meaning', 'yarn', 'cotton threads', 'twisting silk thread', 'ceremonies', 'indoor decorations', 'Western culture', 'silk ribbons', 'decorative cords'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/12.jpg',
+    zones: {
+      1: { text: 'The strings used for making knots are often called "knot<br>cords" or "knot strings." Creating various shapes with<br>colorful knot cords is the essence of knot-making craft.<br>Knot cords can be made from various threads, such as<br>yarn or hemp. However, they are traditionally made by<br>twisting multiple layers of silk thread extracted from<br>silkworm cocoons.<br>Among knot cords, there are flat-shaped cords and<br>round-shaped cords. The flat-shaped cords are mainly<br>used for items like belts. The round-shaped cords are<br>primarily used for making decorative knots.', keywords: ['knot cords', 'knot strings', 'various shapes', 'colorful', 'essence', 'knot-making craft', 'threads', 'yarn', 'hemp', 'traditionally', 'twisting', 'multiple layers', 'silk thread', 'silkworm cocoons', 'flat-shaped cords', 'round-shaped cords', 'belts', 'decorative knots'] },
+      2: { text: 'Knots were often used as decorations at the ends of<br>fans or musical instruments. They appeared not only<br>in royal ceremonies and indoor decorations but also<br>at the ends of pouches that children carried.<br>Knots were traditional crafts in China, widely used<br>in daily life and as decorative items. They served<br>multiple purposes and were also used as beautiful<br>decorations. Chinese knots were often made in red<br>to symbolize auspiciousness and good fortune.', keywords: ['knots', 'decorations', 'fans', 'musical instruments', 'royal ceremonies', 'indoor decorations', 'pouches', 'children', 'traditional crafts', 'China', 'daily life', 'decorative items', 'multiple purposes', 'beautiful decorations', 'Chinese knots', 'red', 'auspiciousness', 'good fortune'] },
+      3: { text: 'What were flat-shaped chords and round-shaped<br>chords used for?', keywords: ['flat-shaped chords', 'round-shaped chords', 'used for'], fontType: 'type2' },
+      4: { text: 'Explain how knots are used in traditional clothing<br>or tools.', keywords: ['knots', 'traditional clothing', 'tools', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/13.jpg',
+    zones: {
+      1: { text: 'How do we make traditional knots?<br>To make a traditional knot, we first need to dye silk<br>thread. The original silk thread is white. Dyeing is<br>a process of giving thread vibrant colors to make it<br>even more beautiful. First, silk thread taken from the<br>silkworm cocoon is boiled in soapy water to make it<br>clean. Afterward, it is rinsed multiple times with clean<br>water so that it can be dyed properly.<br>Finally, soak the thread in water filled with dye<br>collected from different colored flowers and plants.<br>This will color the thread in bright colors.<br>Twist several strands of the beautifully dyed silk<br>thread to create a cord. Once the cord is complete,<br>it is finally time to make different types of knots.', keywords: ['traditional knots', 'dye silk thread', 'original silk thread', 'white', 'dyeing', 'vibrant colors', 'beautiful', 'silkworm cocoon', 'boiled', 'soapy water', 'clean', 'rinsed', 'clean water', 'dyed properly', 'soak', 'dye', 'colored flowers', 'plants', 'bright colors', 'twist', 'strands', 'beautifully dyed', 'cord', 'different types'] },
+      2: { text: 'First, fold the cord in half to make two strands.<br>The aim is to tie or twist these two strands of the<br>cord to create a knot. However, it does not end here.<br>A tassel needs to be attached to the end of the knot.<br>A tassel is multiple strands of thread tied together for<br>decoration. There are many various types of tassels,<br>named according to their appearance.<br>When a tassel is made, combine it with the knotted<br>cord, and a traditional knot is finally complete.<br>Then how many different types of knots are there?<br>We often use knots when we tie our shoelaces or tie<br>strings to package boxes. About three or four knots<br>are commonly used, although it depends on each<br>person. Other than the basic knots, there are well over<br>thirty knots used in traditional knot craft. Knots have<br>slightly different characteristics depending on the<br>person making them and the region they are made in,<br>so there is an endless variety of knots.', keywords: ['fold cord', 'two strands', 'tie', 'twist', 'create knot', 'tassel', 'attached', 'multiple strands', 'thread', 'decoration', 'various types', 'tassels', 'appearance', 'combine', 'knotted cord', 'traditional knot', 'complete', 'different types', 'shoelaces', 'package boxes', 'three or four knots', 'commonly used', 'basic knots', 'thirty knots', 'traditional knot craft', 'characteristics', 'person making', 'region', 'endless variety'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/14.jpg',
+    zones: {
+      1: { text: 'Knots used in traditional knot-making crafts are<br>categorized according to their motifs, with types<br>such as the "lotus knot," "butterfly knot," and<br>"chrysanthemum knot." Each knot served a different<br>purpose depending on its shape. For instance,<br>the lotus knot, with its round and delicate flower<br>shape, was often used for pouches and ornaments.<br>Designs like the butterfly knot and the grapevine<br>knot were also widely used in accessories and indoor<br>decorations. In China, knots were traditionally made in<br>red to symbolize luck and prosperity. The strawberry<br>knot, shaped like a round strawberry, was used for<br>wall hangings or as summer decorations on windows.', keywords: ['knots', 'traditional knot-making crafts', 'categorized', 'motifs', 'lotus knot', 'butterfly knot', 'chrysanthemum knot', 'different purpose', 'shape', 'round', 'delicate flower', 'pouches', 'ornaments', 'grapevine knot', 'accessories', 'indoor decorations', 'China', 'traditionally', 'red', 'luck', 'prosperity', 'strawberry knot', 'round strawberry', 'wall hangings', 'summer decorations', 'windows'] },
+      2: { text: 'The cushion-shaped branch knot was mainly used<br>for decorative hairpins or as fan embellishments.<br>Additionally, in traditional clothing, the dragonfly knot<br>was used to secure decorative elements.<br>The dragonfly knot has an adorable appearance,<br>as if a dragonfly is resting on the garment.<br>Upon examining the motifs that make up these<br>traditional knots, we can see that they are inspired by<br>nature and everyday life. They are extremely diverse,<br>featuring flowers, trees, animals, and jewelry,<br>as well as cushions. These motifs were widely used<br>for traditional knots, and also for fabrics, embroidery,<br>folding screens, utensils, and even for rice cakes and<br>roof tiles.', keywords: ['cushion-shaped branch knot', 'decorative hairpins', 'fan embellishments', 'traditional clothing', 'dragonfly knot', 'secure', 'decorative elements', 'adorable appearance', 'dragonfly', 'resting', 'garment', 'examining', 'motifs', 'traditional knots', 'inspired', 'nature', 'everyday life', 'extremely diverse', 'flowers', 'trees', 'animals', 'jewelry', 'cushions', 'widely used', 'fabrics', 'embroidery', 'folding screens', 'utensils', 'rice cakes', 'roof tiles'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain how traditional knots were used based on<br>their motifs.', keywords: ['traditional knots', 'used', 'motifs', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/15.jpg',
+    zones: {
+      1: { text: 'However, each of these motifs has its own hidden<br>meaning. For example, the plum blossom motif, which<br>was widely used in clothing, paintings, and pottery,<br>symbolizes courage, patience, and nobility. In the<br>past, people gave the plum blossom a special meaning<br>as it bloomed even in the cold winter.<br>The butterfly motif also symbolizes the desire for<br>a long and healthy life. This is because the Chinese<br>character for "butterfly" has the same pronunciation<br>as the character that means "eighty-year-old elder."<br>Additionally, fruits with many seeds, like grapes or<br>pomegranates, symbolize the hope to have many<br>children. The vine motif, which looks like vines<br>spreading, signifies the wish for prosperity and<br>continuity of a family line.', keywords: ['motifs', 'hidden meaning', 'plum blossom motif', 'clothing', 'paintings', 'pottery', 'courage', 'patience', 'nobility', 'special meaning', 'bloomed', 'cold winter', 'butterfly motif', 'desire', 'long', 'healthy life', 'Chinese character', 'butterfly', 'pronunciation', 'eighty-year-old elder', 'fruits', 'many seeds', 'grapes', 'pomegranates', 'hope', 'many children', 'vine motif', 'vines spreading', 'prosperity', 'continuity', 'family line'] },
+      4: { text: 'Nature is filled with beautiful motifs. Motifs can be<br>found everywhere, whether it is the motifs in the<br>flowers and leaves of plants or on the bodies of animals,<br>motifs engraved in rocks, or the clouds embroidering<br>the sky. Whether it is a living thing or a non-living<br>thing, there is a reason for motifs. Living organisms<br>use motifs for survival and the continuation of their<br>species. The motifs in non-living things tell us the<br>history of the Earth.', keywords: ['nature', 'beautiful motifs', 'found everywhere', 'flowers', 'leaves', 'plants', 'bodies', 'animals', 'engraved', 'rocks', 'clouds', 'embroidering', 'sky', 'living thing', 'non-living thing', 'reason', 'living organisms', 'survival', 'continuation', 'species', 'non-living things', 'history', 'Earth'] },
+      2: { text: '01. Beautiful Motifs Found in Nature<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying</span><br><span class="larger-text">Beautiful Motifs Found in Nature?</span><br><br>', keywords: ['beautiful motifs', 'nature', 'purpose', 'studying', 'found everywhere', 'flowers', 'leaves', 'plants', 'bodies', 'animals', 'engraved', 'rocks', 'clouds', 'embroidering', 'sky', 'living thing', 'non-living thing', 'reason', 'living organisms', 'survival', 'continuation', 'species', 'non-living things', 'history', 'Earth'] },
+      3: { text: 'Explain the meanings behind knot motifs.', keywords: ['meanings', 'knot motifs', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/16.jpg',
+    zones: {
+      1: { text: 'The beautiful motifs found in nature are also widely<br>used to decorate objects of everyday life. Soft silk<br>fabrics are decorated with motifs of lotus flowers,<br>grapes, and cranes. We can see knots made in the<br>shape of butterflies or dragonflies. Each motif carries<br>its own meaning. For example, people embroidered<br>cranes on fabric in hopes of a long life and drew<br>grapes hoping for many children. Through the motifs<br>created by our ancestors, we can find out how they<br>observed nature. Of course, to do all of these things,<br>we must carefully observe nature, identify motifs,<br>and understand the characteristics of motifs.<br>This is the purpose of studying this topic. For instance,<br>ancient people may have looked at the plum blossoms<br>flowering even in the cold winter and thought of<br>patience, courage, and nobility.', keywords: ['beautiful motifs', 'nature', 'widely used', 'decorate', 'objects', 'everyday life', 'soft silk fabrics', 'lotus flowers', 'grapes', 'cranes', 'knots', 'butterflies', 'dragonflies', 'meaning', 'embroidered', 'long life', 'many children', 'ancestors', 'observed nature', 'carefully observe', 'identify motifs', 'characteristics', 'purpose', 'studying', 'ancient people', 'plum blossoms', 'cold winter', 'patience', 'courage', 'nobility'] },
+      2: { text: '(1) The proverb "Time is money" is a lesson telling us<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to use time wisely. Find proverbs or famous sayings<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;related to time and explain the meanings behind them.<br><br>(2) Silk is the fabric made by weaving threads extracted<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from silkworm cocoons. Describe briefly the advantages<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and disadvantages of silk fabric which are made of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;protein components.', keywords: ['proverb', 'Time is money', 'lesson', 'use time wisely', 'proverbs', 'famous sayings', 'time', 'meanings', 'silk', 'fabric', 'weaving threads', 'silkworm cocoons', 'advantages', 'disadvantages', 'silk fabric', 'protein components'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/17.jpg',
+    zones: {
+      1: { text: '01. Beautiful Motifs Found in Nature<br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of</span><br><span class="larger-text">Beautiful Motifs Found in Nature?</span><br><br>One common trait of the things people cherish is that<br>they hold precious memories. Just as we value an old<br>hairpin given by a friend as a birthday gift more than<br>an expensive new one, objects become more valuable<br>when they carry meaningful memories.<br>Motifs not only enhance the value of objects, but<br>also serve as a pathway to understanding people and<br>society. The study of cultural anthropology aims to<br>shed light on human history by studying the traditions<br>and development of cultures, such as lifestyle, language,<br>academia, art, and religion. Cultural anthropologists<br>unravel the way of life of ancient people by studying<br>the motifs engraved in artworks.', keywords: ['beautiful motifs', 'nature', 'apply', 'study', 'common trait', 'people cherish', 'precious memories', 'value', 'old hairpin', 'friend', 'birthday gift', 'expensive', 'objects', 'valuable', 'meaningful memories', 'motifs', 'enhance', 'value', 'pathway', 'understanding', 'people', 'society', 'cultural anthropology', 'shed light', 'human history', 'traditions', 'development', 'cultures', 'lifestyle', 'language', 'academia', 'art', 'religion', 'cultural anthropologists', 'unravel', 'way of life', 'ancient people', 'engraved', 'artworks'] },
+      2: { text: 'For instance, if images of grains, fruits, and oxen are<br>drawn on vessels and fabrics, we can guess that the<br>people of that time took part in agriculture.<br>By studying items decorated with motifs of fish,<br>boats, nets, and waves in a particular region, we can<br>guess that the region used to be a seaside village.<br>In the past, only nobles could read and write, so<br>history books were recorded from their perspective.<br>In contrast, commoners were mostly unable to read<br>and could not record their culture in writing. However,<br>they had excellent artistic skills. They tell us how they<br>lived through motifs or pictures.', keywords: ['images', 'grains', 'fruits', 'oxen', 'drawn', 'vessels', 'fabrics', 'guess', 'people', 'time', 'agriculture', 'studying items', 'decorated', 'motifs', 'fish', 'boats', 'nets', 'waves', 'particular region', 'seaside village', 'past', 'nobles', 'read', 'write', 'history books', 'recorded', 'perspective', 'contrast', 'commoners', 'unable', 'culture', 'writing', 'excellent artistic skills', 'lived', 'pictures'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/18.jpg',
+    zones: {
+      1: { text: '(1) People tie materials like thread or string to form a knot.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Explain how knots are used in daily life.<br><br>(2) Sometimes people engrave motifs on fabrics or bowls<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to express their wishes. What motif would you like to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;engrave and why?', keywords: ['people', 'tie materials', 'thread', 'string', 'form knot', 'knots', 'used', 'daily life', 'engrave motifs', 'fabrics', 'bowls', 'express wishes', 'motif', 'engrave'], fontType: 'type3' },
+      2: { text: 'Tangram is a puzzle made by cutting a square into seven<br>pieces and rearranging them to form various shapes.<br>Time flies when people play tangram and it is also fun to<br>play alone. In the past, it was common to provide guests<br>with a tangram board while food was being prepared.<br>This made sure that guests would not feel bored. Tangram<br>has been widely used as a tool to develop children\'s minds,<br>as it is said to improve intellectual abilities.', keywords: ['tangram', 'puzzle', 'cutting square', 'seven pieces', 'rearranging', 'various shapes', 'time flies', 'play tangram', 'fun', 'play alone', 'past', 'common', 'provide guests', 'tangram board', 'food', 'prepared', 'guests', 'feel bored', 'widely used', 'tool', 'develop', 'children minds', 'improve', 'intellectual abilities'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/19.jpg',
+    zones: {
+      1: { text: '<br>Tangram is sometimes called the "wisdom board" because it<br>uses various wisdom to create new shapes. People enjoyed<br>tangram in the East, as well as in the West.<br>However, there is another interesting puzzle known as the<br>"devil\'s puzzle," developed by a German mathematician.<br>Why was such a frightening name given to this puzzle?<br>Try to guess why and explain.', keywords: ['tangram', 'wisdom board', 'various wisdom', 'create new shapes', 'enjoyed', 'East', 'West', 'interesting puzzle', 'devil puzzle', 'German mathematician', 'frightening name', 'puzzle', 'guess', 'explain'], fontType: 'type4' },
+      2: { text: 'Fabric can be broadly classified into natural fibers and<br>man-made fibers depending on the materials used in<br>production. Natural fibers, such as cotton, hemp bark,<br>silk thread, and animal fur, are materials obtained directly<br>from nature.<br>On the other hand, man-made fibers are made by humans.<br>Natural fibers can be further divided into plantbased<br>fibers, animal-based fibers, and mineral-based fibers.<br>Similarly, man-made fibers are divided into regenerated<br>fibers, synthetic fibers, and inorganic fibers.', keywords: ['fabric', 'broadly classified', 'natural fibers', 'man-made fibers', 'materials', 'production', 'cotton', 'hemp bark', 'silk thread', 'animal fur', 'obtained directly', 'nature', 'made by humans', 'further divided', 'plantbased fibers', 'animal-based fibers', 'mineral-based fibers', 'regenerated fibers', 'synthetic fibers', 'inorganic fibers'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/20.jpg',
+    zones: {
+      1: { text: 'Synthetic fibers are made using materials from petroleum.<br>Compared to natural fibers, synthetic fibers are light,<br>durable, and do not wrinkle easily, but they are less<br>resistant to heat and do not absorb water well.<br>Nylon, a representative synthetic fiber, is strong against<br>friction, making it suitable for making stockings, swimwear,<br>and skiwear. The natural fiber made from the hairs on<br>cotton seeds is called "cotton fiber." Briefly explain the<br>advantages and disadvantages of cotton fiber.', keywords: ['synthetic fibers', 'materials', 'petroleum', 'compared', 'natural fibers', 'light', 'durable', 'wrinkle easily', 'less resistant', 'heat', 'absorb water', 'nylon', 'representative', 'synthetic fiber', 'strong', 'friction', 'suitable', 'stockings', 'swimwear', 'skiwear', 'natural fiber', 'hairs', 'cotton seeds', 'cotton fiber', 'advantages', 'disadvantages'], fontType: 'type3' },
+      2: { text: 'Frogs look completely different from when they just hatch<br>to when they are tadpoles. In the same way, amphibians<br>such as toads and salamanders also experience important<br>changes in appearance between their young and adult<br>stages. In the animal kingdom, some species go through<br>extreme transformations from their young stage to the<br>adult stage, and this process is known as metamorphosis.', keywords: ['frogs', 'completely different', 'hatch', 'tadpoles', 'amphibians', 'toads', 'salamanders', 'important changes', 'appearance', 'young', 'adult stages', 'animal kingdom', 'species', 'extreme transformations', 'young stage', 'adult stage', 'process', 'metamorphosis'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/21.jpg',
+    zones: {
+      1: { text: 'If we look at butterflies, for instance, the caterpillar hatches<br>from the egg and transforms into an adult through the<br>pupal stage, known as "complete metamorphosis." Insects<br>that go through complete metamorphosis, such as beetles,<br>butterflies, ants, and dragonflies, have distinct differences<br>in appearance between their young and adult stages.<br>On the other hand, animals that go through "incomplete<br>metamorphosis" do not go through a pupal stage.<br>From the beginning, these animals look similar to their<br>adult forms and only grow in size as they mature. Insects<br>like cicadas, dragonflies, grasshoppers, and mantises go<br>through incomplete metamorphosis. Now, explore why<br>insects shed their skin during metamorphosis and write<br>the reasons down.', keywords: ['butterflies', 'caterpillar', 'hatches', 'egg', 'transforms', 'adult', 'pupal stage', 'complete metamorphosis', 'insects', 'beetles', 'ants', 'dragonflies', 'distinct differences', 'appearance', 'young', 'adult stages', 'incomplete metamorphosis', 'pupal stage', 'beginning', 'look similar', 'adult forms', 'grow', 'size', 'mature', 'cicadas', 'grasshoppers', 'mantises', 'explore', 'shed skin', 'metamorphosis', 'reasons'], fontType: 'type3' },
+      2: { text: 'Motifs connect our past and present cultures. Just as we<br>can read the thoughts of an artist by appreciating their art,<br>traditional motifs allow us to consider the thoughts and<br>lifestyles of our ancestors.', keywords: ['motifs', 'connect', 'past', 'present cultures', 'read thoughts', 'artist', 'appreciating', 'art', 'traditional motifs', 'consider', 'thoughts', 'lifestyles', 'ancestors'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/22.jpg',
+    zones: {
+      1: { text: 'We may have various thoughts when we see pottery<br>engraved with gracefully spreading vine motifs.<br>First, we would be captivated by the beauty we see.<br>Then, we would become curious about why ancient people<br>carved vine motifs. Perhaps they expressed the hope for<br>their descendants to prosper and live for a long time.<br>We can also tell a friend\'s emotions by looking at what<br>picture they draw. A friend who draws beautiful cosmos<br>flowers might be waiting for someone.<br>What if a friend draws a single white rose blooming among<br>a field of red roses? Think about what this friend might be<br>feeling and write it down.', keywords: ['various thoughts', 'pottery', 'engraved', 'gracefully spreading', 'vine motifs', 'captivated', 'beauty', 'curious', 'ancient people', 'carved', 'expressed', 'hope', 'descendants', 'prosper', 'live', 'long time', 'friend emotions', 'picture', 'draw', 'beautiful cosmos flowers', 'waiting', 'someone', 'single white rose', 'blooming', 'field', 'red roses', 'feeling'], fontType: 'type3' },
+      2: { text: '<span class="larger-text"><u>Fiber Made from Sheep\'s Fur </span><br><br>Natural fibers are fibers made from natural materials.<br>Among them, fibers made from animal hair or fur are called<br>animal fibers. Wool is a representative example.<br>Wool is a fiber made from the hair of sheep. Wool is curly,<br>so it is stretchy and resilient. Even if we pull it, it quickly<br>returns to its original shape. It is also a popular material<br>for making winter clothes and blankets because it is soft<br>and insulative. Because it absorbs moisture well, it is<br>also suitable for making clothes to wear during sweaty<br>summers. Although wool has many advantages, it also has<br>the disadvantage of shrinking when washed in hot water.<br>Another drawback is that it must be washed with special<br>detergent.', keywords: ['natural fibers', 'natural materials', 'animal hair', 'fur', 'animal fibers', 'wool', 'representative example', 'fiber', 'hair', 'sheep', 'curly', 'stretchy', 'resilient', 'pull', 'quickly returns', 'original shape', 'popular material', 'winter clothes', 'blankets', 'soft', 'insulative', 'absorbs moisture', 'suitable', 'clothes', 'sweaty summers', 'advantages', 'disadvantage', 'shrinking', 'washed', 'hot water', 'drawback', 'special detergent'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/23.jpg',
+    zones: {
+      1: { text: '<br>It is difficult to know exactly when humans began using<br>wool cloth. However, Mesopotamians are also known to<br>have worn wool, so it can be assumed that it is over 5,000<br>years old. Wool was widely produced in Europe after the<br>Roman era. Rome encouraged its colonies to raise sheep.<br>Since then, wool has been produced steadily. At first,<br>it was processed by hand, but machines were gradually<br>introduced. After the Industrial Revolution in the 18th<br>century, wool production increased rapidly. In the 19th<br>century, Britain began raising sheep on a large scale in its<br>colony of Australia.<br>In this process, Australia\'s wool industry gradually<br>developed. Currently, Australia is the world\'s number one<br>wool exporter. Sheep raised for wool are different from<br>wild sheep. Wild sheep do not have as much hair as sheep<br>raised by humans. Additionally, when the hair grows too<br>long, it falls out as the sheep sheds. However, sheep raised<br>as livestock have a lot of fur. And since they cannot shed<br>their fur on their own, a person has to cut their fur. If left<br>unattended, the fur will grow continuously and could be<br>life-threatening.', keywords: ['difficult', 'humans', 'began using', 'wool cloth', 'Mesopotamians', 'worn wool', 'assumed', '5,000 years old', 'widely produced', 'Europe', 'Roman era', 'Rome', 'encouraged', 'colonies', 'raise sheep', 'produced steadily', 'processed', 'hand', 'machines', 'gradually introduced', 'Industrial Revolution', '18th century', 'wool production', 'increased rapidly', '19th century', 'Britain', 'raising sheep', 'large scale', 'colony', 'Australia', 'process', 'wool industry', 'gradually developed', 'currently', 'world number one', 'wool exporter', 'sheep raised', 'wool', 'different', 'wild sheep', 'much hair', 'raised by humans', 'hair grows', 'long', 'falls out', 'sheds', 'livestock', 'lot of fur', 'cannot shed', 'fur', 'person', 'cut fur', 'left unattended', 'grow continuously', 'life-threatening'], fontType: 'type4'  },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/24.jpg',
+    zones: {
+      3: { text: 'Rome is the capital of Italy. It is larger than Boston<br>in the United States, but smaller than London, the<br>capital of the United Kingdom. However, 2,000 years<br>ago, Rome was not a small city. The Roman Empire,<br>reaching vast lands from Britain and Northern Europe<br>to Turkey, the Middle East, and Africa, was a massive<br>empire. We call the Rome of that time the Roman<br>Empire. When we talk about Rome in Greek and Roman<br>mythology, we are talking about the Roman Empire.<br>The Roman Empire originally began as a small city-<br>state. However, Rome was skilled at fighting wars,<br>thus expanding its territory through battles and<br>becoming a mighty empire.', keywords: ['Rome', 'capital', 'Italy', 'Boston', 'London', 'Roman Empire', 'Britain', 'Northern Europe', 'Turkey', 'Middle East', 'Africa', 'massive empire', 'Greek', 'Roman mythology', 'city-state', 'skilled', 'fighting wars', 'expanding territory', 'battles', 'mighty empire'] },
+      2: { text: 'Then what was the secret to the Roman Empire\'s<br>success in war? To win in war, brave soldiers are<br>essential. However, it is more important to know<br>how these soldiers were led.', keywords: ['secret', 'Roman Empire', 'success', 'war', 'brave soldiers', 'essential', 'important', 'soldiers', 'led'] },
+      4: { text: '', keywords: [] },
+      1: { text: '<span class="larger-text">02. Motifs and Strategies of the Roman </span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Army</span>', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/25.jpg',
+    zones: {
+      1: { text: 'An excellent commander is needed to win a war.<br>The commander must be able to study everything<br>related to the war. This includes the ground and<br>weather conditions where the battle will take place,<br>as well as the health and mindset of the soldiers.<br>There also needs to be a plan for how the soldiers will<br>fight on the battlefield. It is important to have an eye<br>that can know the movements of the enemy.<br>It is equally important to motivate the soldiers so<br>that they can show their skills. Even if there are many<br>capable soldiers, it is difficult to win a war without<br>an excellent commander. "Strategy" is a way to<br>lead the soldiers to win the war by looking at every<br>situation carefully.', keywords: ['excellent commander', 'win war', 'study everything', 'ground', 'weather conditions', 'battle', 'health', 'mindset', 'soldiers', 'plan', 'battlefield', 'movements', 'enemy', 'motivate', 'skills', 'capable soldiers', 'strategy', 'lead soldiers', 'situation'] },
+      2: { text: '"Tactic" is the detailed way a commander decides<br>where to place each teammate and how and when<br>to attack the other team. Strategy and tactics have<br>similar meanings, but tactic is a sub-concept of<br>strategy.', keywords: ['tactic', 'detailed way', 'commander', 'decides', 'place', 'teammate', 'attack', 'other team', 'strategy', 'tactics', 'similar meanings', 'sub-concept'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/26.jpg',
+    zones: {
+      1: { text: 'There is a world-famous tactic from a long time<br>ago, in 1592, when Japan tried to invade the Korean<br>Peninsula. At that time, the Korean Peninsula was<br>called Joseon. Joseon was not as strong as Japan<br>in terms of military power. But there was a brilliant<br>general named Yi Sun-sin. Thanks to his clever<br>tactics, the Korean Peninsula won the war.<br>One tactic he used was called "Crane Wing Formation"<br>which is the arrangement of ships in the shape of<br>a crane spreading its wings to attack enemy ships.<br>In the Battle of Hansando, General Yi Sun-sin first<br>lined up all his ships side by side. Then when the<br>enemy ships started to come forward to attack,<br>he suddenly changed the formation. The ships in the<br>middle moved back, and the ships on the sides moved<br>forward. They surrounded the enemy in a circle just<br>like a bird with its wings spread out.', keywords: ['world-famous tactic', '1592', 'Japan', 'invade', 'Korean Peninsula', 'Joseon', 'strong', 'military power', 'brilliant general', 'Yi Sun-sin', 'clever tactics', 'Crane Wing Formation', 'arrangement', 'ships', 'crane', 'spreading wings', 'attack', 'enemy ships', 'Battle of Hansando', 'lined up', 'side by side', 'come forward', 'suddenly changed', 'formation', 'middle', 'moved back', 'sides', 'moved forward', 'surrounded', 'circle', 'bird', 'wings spread out'] },
+      2: { text: 'The distracted Japanese army started moving their<br>ships even faster as they tried to catch up with the<br>retreating Joseon ships. Then, General Yi Sun-sin,<br>realizing that he had drawn in a fair number of enemy<br>ships, signaled the ships on both sides to attack.<br>Caught off guard by the sudden attack, the Japanese<br>army was surprised and confused. They suffered a big<br>defeat and fled in a hurry. Thanks to the crane wing<br>formation tactic, which is highly praised even to this<br>day, only 3 Joseon soldiers died and 10 were injured.<br>There was no damage to the ships at all.', keywords: ['distracted', 'Japanese army', 'moving ships', 'faster', 'catch up', 'retreating', 'Joseon ships', 'General Yi Sun-sin', 'realizing', 'drawn in', 'fair number', 'enemy ships', 'signaled', 'both sides', 'attack', 'caught off guard', 'sudden attack', 'surprised', 'confused', 'big defeat', 'fled', 'hurry', 'crane wing formation tactic', 'highly praised', '3 Joseon soldiers', 'died', '10 injured', 'no damage', 'ships'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Briefly explain the crane wing formation tactic<br>that General Yi Sun-sin used during the 1592<br>Japanese Invasion of Korea.', keywords: ['crane wing formation tactic', 'General Yi Sun-sin', '1592', 'Japanese Invasion', 'Korea', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/27.jpg',
+    zones: {
+      1: { text: 'Now, let\'s go back to the Roman Empire. The Roman<br>Empire won wars everywhere they went, expanding<br>their territories. The key to their victories was also<br>excellent tactics. Take a look at the motif in the<br>tactic that led the Roman army to victory. During<br>the time when kings ruled, the Roman army was not<br>as powerful as it would later become. In those days,<br>most wars used pretty much the same tactic–soldiers<br>fighting closely together.<br>This densely packed formation was called "acies."<br>They would arrange the acies with three rows in<br>the front and three rows in the back, with cavalry<br>soldiers on horses on both sides. The acies tactic was<br>essentially just lining up soldiers neatly. The acies<br>tactic had a higher chance of winning in war with<br>a greater number of soldiers.', keywords: ['Roman Empire', 'won wars', 'everywhere', 'expanding territories', 'key', 'victories', 'excellent tactics', 'motif', 'tactic', 'Roman army', 'victory', 'kings ruled', 'powerful', 'later become', 'wars', 'same tactic', 'soldiers', 'fighting closely together', 'densely packed formation', 'acies', 'arrange', 'three rows', 'front', 'back', 'cavalry soldiers', 'horses', 'both sides', 'lining up', 'neatly', 'higher chance', 'winning', 'greater number'] },
+      2: { text: 'However, during the Samnite Wars, the Roman army<br>realized they needed a new tactic. So they came up<br>with the manipulus tactic. The key feature of this<br>tactic was dividing the soldiers of the acies into ten<br>groups to enhance mobility.', keywords: ['Samnite Wars', 'Roman army', 'realized', 'needed', 'new tactic', 'came up', 'manipulus tactic', 'key feature', 'dividing', 'soldiers', 'acies', 'ten groups', 'enhance mobility'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Briefly explain the acies tactic used by the Roman<br>army.', keywords: ['acies tactic', 'Roman army', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/28.jpg',
+    zones: {
+      1: { text: 'During the Samnite Wars, the age of kings had ended<br>in Rome and the age of the republic had begun.<br>The Samnites were a people living in high mountains.<br>They often started wars to seize the lands of<br>neighboring peoples. Rome fought against the<br>Samnites to help their neighboring tribes, but the two<br>nations were evenly matched. As a result, war broke<br>out three times. Because most battles took place<br>in the mountains, the acies tactic did not help the<br>Roman army much.', keywords: ['Samnite Wars', 'age of kings', 'ended', 'Rome', 'age of republic', 'begun', 'Samnites', 'people', 'living', 'high mountains', 'started wars', 'seize', 'lands', 'neighboring peoples', 'fought against', 'help', 'neighboring tribes', 'two nations', 'evenly matched', 'result', 'war broke out', 'three times', 'battles', 'took place', 'mountains', 'acies tactic', 'did not help', 'Roman army'] },
+      2: { text: 'Soldiers could not respond quickly to enemy attacks<br>when they used the acies tactic. Also, the problem<br>was that the soldiers were grouped together, so if one<br>side collapsed, the entire formation collapsed, leading<br>to several defeats. However, when the soldiers were<br>arranged in the manipulus formation, it was different.<br>Even if one manipulus fell, it did not affect the others<br>much. There was a large gap between each manipulus,<br>big enough for a unit to pass through.', keywords: ['soldiers', 'could not respond', 'quickly', 'enemy attacks', 'used', 'acies tactic', 'problem', 'grouped together', 'one side collapsed', 'entire formation collapsed', 'leading', 'several defeats', 'arranged', 'manipulus formation', 'different', 'one manipulus fell', 'did not affect', 'others', 'large gap', 'between', 'each manipulus', 'big enough', 'unit', 'pass through'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/29.jpg',
+    zones: {
+      1: { text: 'Thus, even if the manipulus in the front or on the side<br>all fell, the remaining soldiers could still fight against<br>the enemies.<br>Shall we take a closer look at the manipulus formation?<br>Most countries lined up soldiers with weapons in<br>two rows, but Rome changed this when they created<br>the manipulus formation. They arranged soldiers<br>with weapons in three rows. They all held a long<br>spear called a "hasta." This is why they were called<br>"hastati." The first row of the manipulus formation<br>belonged to the hastati.', keywords: ['manipulus', 'front', 'side', 'all fell', 'remaining soldiers', 'could still fight', 'enemies', 'closer look', 'manipulus formation', 'most countries', 'lined up', 'soldiers', 'weapons', 'two rows', 'Rome', 'changed', 'created', 'arranged', 'three rows', 'held', 'long spear', 'hasta', 'called', 'hastati', 'first row', 'belonged'] },
+      2: { text: 'We have seen soldiers in movies about the Roman era<br>holding a large shield in their left hand and a long<br>spear in their right hand. Those soldiers are holding<br>a hasta. The hasta was mainly used for stabbing,<br>but sometimes they would hold it over the shoulder<br>to threaten or throw at the enemy.', keywords: ['seen soldiers', 'movies', 'Roman era', 'holding', 'large shield', 'left hand', 'long spear', 'right hand', 'soldiers', 'hasta', 'mainly used', 'stabbing', 'sometimes', 'hold', 'over shoulder', 'threaten', 'throw', 'enemy'] },
+      3: { text: 'Explain what makes the manipulus tactic better<br>than the acies tactic.', keywords: ['manipulus tactic', 'better', 'acies tactic', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/30.jpg',
+    zones: {
+      1: { text: 'However, the Samnites used throwing spears. These<br>spears were relatively short and could be thrown<br>during battle. They were very threatening as soldiers<br>could hide behind trees to attack. The Samnites\'<br>throwing spears caused significant damage to the<br>Roman army. So, in response, the Romans created<br>a spear that could be thrown from a distance called<br>the "pilum." After that, the Roman army started using<br>pila more than the traditional hasta spear.<br>The second row of the manipulus formation was<br>where young soldiers called "principes" stood.', keywords: ['Samnites', 'used', 'throwing spears', 'relatively short', 'could be thrown', 'during battle', 'very threatening', 'soldiers', 'hide', 'behind trees', 'attack', 'throwing spears', 'caused', 'significant damage', 'Roman army', 'response', 'Romans', 'created', 'spear', 'thrown', 'distance', 'pilum', 'started using', 'pila', 'more than', 'traditional', 'hasta spear', 'second row', 'manipulus formation', 'young soldiers', 'principes', 'stood'] },
+      2: { text: 'In fact, the term "principes" means "soldiers standing<br>in the front row." During the early days of creating<br>the manipulus formation, they actually did stand<br>in the front row. However, as battles continued,<br>the order changed. It was more advantageous to place<br>experienced hastati soldiers in the front row instead<br>of the principes.', keywords: ['term', 'principes', 'means', 'soldiers standing', 'front row', 'early days', 'creating', 'manipulus formation', 'actually', 'did stand', 'battles continued', 'order changed', 'more advantageous', 'place', 'experienced', 'hastati soldiers', 'instead', 'principes'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/31.jpg',
+    zones: {
+      1: { text: 'Furthermore, there were not enough of the new pila<br>to distribute to everyone. Because of this, the pila<br>were first given to the hastati, who could use them<br>well. As a result, the strongest hastati soldiers using<br>pila stood in the front row.', keywords: ['furthermore', 'not enough', 'new pila', 'distribute', 'everyone', 'pila', 'first given', 'hastati', 'could use', 'well', 'result', 'strongest', 'hastati soldiers', 'using pila', 'stood', 'front row', 'principes', 'meaning', 'soldiers standing', 'next row', 'behind', 'triarii', 'older soldiers', 'third row', 'means', 'three types', 'soldiers', 'formed', 'manipulus formation', 'three rows'] },
+      2: { text: '<i>The principes, meaning<br><i>"soldiers standing in the front row," then stood in the<br><i>next row behind the hastati.<br><i>The triarii, or older soldiers stood in the third row.<br><i>Triarii means "soldiers standing in the third row."<br><i>In this way, the three types of soldiers formed the<br><i>manipulus formation with three rows.</i>', keywords: ['principes', 'meaning', 'soldiers standing', 'front row', 'stood', 'next row', 'behind', 'hastati', 'triarii', 'older soldiers', 'third row', 'means', 'three types', 'soldiers', 'formed', 'manipulus formation', 'three rows'] },
+      3: { text: 'Explain why principes, meaning "soldiers standing<br>in the front row," came to stand in the second row.', keywords: ['principes', 'soldiers standing', 'front row', 'came to stand', 'second row', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/32.jpg',
+    zones: {
+      1: { text: 'The infantry called "velites" stood at the front of the<br>manipulus. During the battles, their duty was to hurl<br>spears from the front lines to reduce the enemy\'s<br>numbers. Soldiers such as the hastati, principes,<br>and triarii were clad in sturdy armor and armed with<br>weapons. In this way, the Roman army was made up of<br>a total of four types of soldiers and cavalry on horses.<br>', keywords: ['infantry', 'velites', 'stood', 'front', 'manipulus', 'battles', 'duty', 'hurl spears', 'front lines', 'reduce', 'enemy numbers', 'soldiers', 'hastati', 'principes', 'triarii', 'clad', 'sturdy armor', 'armed', 'weapons', 'Roman army', 'made up', 'total', 'four types', 'soldiers', 'cavalry', 'horses', 'Rome', 'originally', 'small nation', 'located', 'banks', 'Tiber River', 'gradually', 'conquered', 'surrounding nations', 'eventually', 'claiming', 'entire', 'Italian peninsula', 'victory', 'three Samnite Wars', 'particular', 'Romans', 'great courage'] },
+      2: { text: 'Rome was originally a small nation located along the<br>banks of the Tiber River. Gradually, it conquered<br>surrounding nations, eventually claiming the entire<br>Italian peninsula. The victory in the three Samnite<br>Wars, in particular, gave the Romans great courage.', keywords: ['Rome', 'originally', 'small nation', 'located', 'banks', 'Tiber River', 'gradually', 'conquered', 'surrounding nations', 'eventually', 'claiming', 'entire', 'Italian peninsula', 'victory', 'three Samnite Wars', 'particular', 'Romans', 'great courage'] },
+      3: { text: 'Describe the four types of soldiers that made up<br>the Roman army.', keywords: ['four types', 'soldiers', 'Roman army', 'describe'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/33.jpg',
+    zones: {
+      1: { text: 'This led the Romans to hope that they could conquer<br>the world. At this time, the biggest obstacle to Rome\'s<br>global expansion was General Hannibal of Carthage.<br>Carthage was an ancient city located in the present-<br>day area of Tunisia. Located across Sicily, it stood<br>against Rome, growing into a powerful force in the<br>Mediterranean. Carthage and Rome fought three<br>major wars, known as the First, Second and Third<br>Punic Wars.', keywords: ['led', 'Romans', 'hope', 'conquer', 'world', 'biggest obstacle', 'Rome global expansion', 'General Hannibal', 'Carthage', 'ancient city', 'located', 'present-day area', 'Tunisia', 'across Sicily', 'stood against', 'Rome', 'growing', 'powerful force', 'Mediterranean', 'fought', 'three major wars', 'First', 'Second', 'Third', 'Punic Wars'] },
+      2: { text: 'Rome was ultimately victorious after these three<br>wars, securing power over the Mediterranean. Rome<br>won the First Punic War, fought in Sicily for control<br>of the Mediterranean Sea. The victorious Rome made<br>Sicily its colony.<br>Hannibal was still a young child at that time. After<br>being defeated by Rome, he went with his family to<br>the Iberian Peninsula in present-day southern Spain,<br>which was a colony of Carthage. Hannibal\'s father<br>rose to power in Iberia and ruled over the region.', keywords: ['Rome', 'ultimately victorious', 'three wars', 'securing power', 'Mediterranean', 'won', 'First Punic War', 'fought', 'Sicily', 'control', 'Mediterranean Sea', 'victorious Rome', 'made', 'colony', 'Hannibal', 'young child', 'defeated', 'went', 'family', 'Iberian Peninsula', 'southern Spain', 'colony', 'Carthage', 'father', 'rose to power', 'Iberia', 'ruled', 'region'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/34.jpg',
+    zones: {
+      1: { text: 'Having strengthened his position in Iberia, Hannibal<br>started the Second Punic War. At that time, Rome<br>was focused on its naval power in the Mediterranean,<br>as they were skilled in naval battles. Hannibal took<br>advantage of this by attacking the land while Rome<br>was focused on the sea. He gathered the nations in<br>conflict with Rome and crossed the Alps north of<br>Rome, a strategy later used by figures like Hasdrubal<br>and Napoleon.', keywords: ['strengthened', 'position', 'Iberia', 'Hannibal', 'started', 'Second Punic War', 'Rome', 'focused', 'naval power', 'Mediterranean', 'skilled', 'naval battles', 'took advantage', 'attacking', 'land', 'focused', 'sea', 'gathered', 'nations', 'conflict', 'crossed', 'Alps', 'north', 'strategy', 'later used', 'figures', 'Hasdrubal', 'Napoleon'] },
+      2: { text: 'Meanwhile, Hannibal\'s father taught the young<br>Hannibal that he must destroy Rome when he grew up.<br>According to the book Parallel Lives, at just 9 years<br>old, Hannibal swore to the Carthaginian god Tanit that<br>he would defeat Rome. As a young man, he worked<br>as a governor in the former Carthaginian colony of<br>Spain, following in his father\'s and brother-in-law\'s<br>footsteps, building up his military strength.', keywords: ['meanwhile', 'father', 'taught', 'young Hannibal', 'must destroy', 'Rome', 'grew up', 'according', 'book', 'Parallel Lives', '9 years old', 'swore', 'Carthaginian god', 'Tanit', 'defeat Rome', 'young man', 'worked', 'governor', 'former', 'Carthaginian colony', 'Spain', 'following', 'brother-in-law', 'footsteps', 'building up', 'military strength'] },
+      4: { text: '', keywords: [] },
+      3: { text: 'Explain why Hannibal chose to avoid the coast and<br>move along the rugged Alps.', keywords: ['Hannibal', 'chose', 'avoid', 'coast', 'move along', 'rugged Alps', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/35.jpg',
+    zones: {
+      1: { text: 'Rome was surprised and confused at the unexpected<br>attack. This is the famous Battle of Cannae.<br>In this battle, the Roman army suffered a severe blow.<br>About 60,000 Roman soldiers lost their lives, and<br>more than 10,000 who were at the camp were<br>captured as prisoners. In contrast, the damage to the<br>Carthaginian army led by Hannibal was only about<br>5,000 soldiers. It was a big victory for Hannibal.', keywords: ['Rome', 'surprised', 'confused', 'unexpected attack', 'famous', 'Battle of Cannae', 'battle', 'Roman army', 'suffered', 'severe blow', '60,000', 'Roman soldiers', 'lost lives', '10,000', 'camp', 'captured', 'prisoners', 'contrast', 'damage', 'Carthaginian army', 'led by', 'Hannibal', '5,000 soldiers', 'big victory'] },
+      2: { text: 'What tactics helped Hannibal win? At the time,<br>Hannibal\'s army had an excellent cavalry unit. Cavalry<br>means soldiers who fight on horses. To fight well,<br>these soldiers needed land where horses could run<br>well. So, Hannibal lured the Roman army into a place<br>where the horses could run well. The Roman army,<br>which had many more soldiers than the Carthaginian<br>army, lined up their soldiers in the usual manipulus<br>formation. However, they placed more soldiers in the<br>center than usual.', keywords: ['tactics', 'helped', 'Hannibal', 'win', 'time', 'army', 'excellent', 'cavalry unit', 'cavalry', 'means', 'soldiers', 'fight', 'horses', 'fight well', 'needed', 'land', 'horses', 'could run', 'well', 'lured', 'Roman army', 'place', 'horses', 'could run', 'many more soldiers', 'Carthaginian army', 'lined up', 'usual', 'manipulus formation', 'however', 'placed', 'more soldiers', 'center', 'than usual'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/36.jpg',
+    zones: {
+      1: { text: 'By doing this, the Roman army thought they would<br>not be pushed back even if the Carthaginian army<br>attacked fiercely because the Carthaginian army<br>had fewer soldiers. So the Roman army overlapped<br>their manipulus rows several times more than usual.<br>This became the reason for the Roman army\'s defeat.<br>Because they focused their attack only on the center,<br>the formation of the soldiers bent like a bow.<br>Seeing this, Hannibal came up with another tactic.<br>He realized that if they clashed with the heavily<br>guarded center of the Roman army, it would be hard<br>to break through due to the large number of soldiers.<br>Hannibal moved the Carthaginian soldiers to the sides<br>and attacked the wings of the Roman army.', keywords: ['doing this', 'Roman army', 'thought', 'not be pushed back', 'Carthaginian army', 'attacked fiercely', 'fewer soldiers', 'overlapped', 'manipulus rows', 'several times', 'more than usual', 'became', 'reason', 'defeat', 'focused', 'attack', 'only', 'center', 'formation', 'soldiers', 'bent', 'like bow', 'seeing this', 'Hannibal', 'came up', 'another tactic', 'realized', 'clashed', 'heavily guarded', 'center', 'hard', 'break through', 'large number', 'soldiers', 'moved', 'Carthaginian soldiers', 'sides', 'attacked', 'wings'] },
+      3: { text: '', keywords: [] },
+      2: { text: 'The Carthaginian army defeated the Roman army on<br>both sides and then started attacking the Romans<br>from behind. When the attack came from an unexpected<br>direction, the Roman army fell into chaos and started<br>gathering in one place. As a result, the soldiers in the<br>center were surrounded and killed.<br>Completely surrounded by the Carthaginian army,<br>the Roman army could not escape and died one by<br>one. It was all thanks to Hannibal\'s brilliant strategy<br>of understanding the Roman army\'s strategy and<br>using it against them.', keywords: ['Carthaginian army', 'defeated', 'Roman army', 'both sides', 'started attacking', 'Romans', 'from behind', 'attack', 'came', 'unexpected direction', 'fell into chaos', 'gathering', 'one place', 'result', 'soldiers', 'center', 'surrounded', 'killed', 'completely surrounded', 'could not escape', 'died', 'one by one', 'thanks', 'brilliant strategy', 'understanding', 'strategy', 'using it against them'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/37.jpg',
+    zones: {
+      2: { text: 'Rome also had a great general who showed excellent<br>tactics. He was a young general named Scipio<br>Africanus. He learned the methods that Hannibal used<br>during the Second Punic War. So he went back the<br>way Hannibal came and attacked Iberia. He followed<br>Hannibal\'s surprise attack on the northern region that<br>Rome had not paid much attention to.<br>Hannibal lost the strategic ground that had supported<br>his strength because of this attack. Encouraged by<br>this victory, Scipio crossed back to North Africa and<br>attacked Carthage.', keywords: ['Rome', 'great general', 'showed', 'excellent tactics', 'young general', 'Scipio Africanus', 'learned', 'methods', 'Hannibal', 'used', 'Second Punic War', 'went back', 'way', 'came', 'attacked', 'Iberia', 'followed', 'surprise attack', 'northern region', 'not paid attention', 'lost', 'strategic ground', 'supported', 'strength', 'attack', 'encouraged', 'victory', 'crossed back', 'North Africa', 'attacked Carthage'] },
+      1: { text: 'The strength of the Roman tactic was that if one<br>manipulus fell, it would not affect the others.<br>However, in this battle, they could not use this<br>advantage because there was no gap between the<br>rows. Also, the soldiers were not used to the changed<br>formation, leading to their defeat in the battle.<br>However, even Hannibal\'s luck did not last forever.', keywords: ['strength', 'Roman tactic', 'one manipulus fell', 'not affect', 'others', 'battle', 'could not use', 'advantage', 'no gap', 'rows', 'soldiers', 'not used', 'changed formation', 'leading', 'defeat', 'Hannibal luck', 'not last forever'] },
+      3: { text: 'Explain why Hannibal won in the Battle of Cannae.', keywords: ['Hannibal', 'won', 'Battle of Cannae', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/38.jpg',
+    zones: {
+      1: { text: 'Moreover, he cut off all supplies going to Hannibal.<br>To fight on enemy land, soldiers need food and<br>weapons sent to them from home. With all supplies<br>cut off, the Carthaginian army was unable to continue<br>fighting. Politicians in Carthage, facing Scipio\'s attack,<br>negotiated with Rome. They said they would call<br>Hannibal back to Carthage. Eventually, Hannibal had<br>to end his fight with Rome and return to Carthage.', keywords: ['moreover', 'cut off', 'supplies', 'going', 'Hannibal', 'fight', 'enemy land', 'soldiers', 'need', 'food', 'weapons', 'sent', 'home', 'all supplies', 'cut off', 'Carthaginian army', 'unable', 'continue fighting', 'politicians', 'Carthage', 'facing', 'Scipio attack', 'negotiated', 'Rome', 'said', 'call', 'back', 'eventually', 'had to end', 'fight', 'return'] },
+      2: { text: 'However, Hannibal did not give up after coming home.<br>He started a war with Rome once again. Rome, of course,<br>sent Hannibal\'s rival Scipio to Carthage. Scipio was<br>a very smart commander. He thought of a way to<br>improve the manipulus tactic. He decided to send in<br>a special mobile unit that could move separately in<br>the gaps. When the battle started, these units quickly<br>moved behind the enemy, causing confusion and chaos.', keywords: ['Hannibal', 'not give up', 'coming home', 'started', 'war', 'Rome', 'once again', 'course', 'sent', 'rival', 'Scipio', 'Carthage', 'very smart', 'commander', 'thought', 'way', 'improve', 'manipulus tactic', 'decided', 'send in', 'special mobile unit', 'could move', 'separately', 'gaps', 'battle started', 'units', 'quickly moved', 'behind', 'enemy', 'causing', 'confusion', 'chaos'] },
+      3: { text: 'Explain why Scipio used the mobile unit along with<br>the manipulus tactic.', keywords: ['Scipio', 'used', 'mobile unit', 'manipulus tactic', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/39.jpg',
+    zones: {
+      1: { text: 'The intense battle between the Roman army and the<br>Carthaginian army continued. Eventually, Hannibal<br>and Scipio met for their final fight at Carthage\'s<br>Zama. This is called the Battle of Zama.<br>However, Hannibal no longer had strong cavalry.<br>The cavalry from other countries that had helped<br>Hannibal were now supporting Rome. Scipio lined up<br>his soldiers in the traditional manipulus formation.', keywords: ['intense battle', 'Roman army', 'Carthaginian army', 'continued', 'eventually', 'Hannibal', 'Scipio', 'met', 'final fight', 'Carthage', 'Zama', 'called', 'Battle of Zama', 'however', 'no longer', 'strong cavalry', 'cavalry', 'other countries', 'helped', 'now supporting', 'Rome', 'lined up', 'soldiers', 'traditional', 'manipulus formation'] },
+      2: { text: 'However, the elite infantry, which usually stood in<br>the front, was sent to the very back. Scipio created<br>much wider pathways between each manipulus<br>than usual. He changed the formation like this to<br>prevent Hannibal from using the elephants in his<br>army. Elephants could cause significant damage in<br>a crowded battle where soldiers are tightly packed.<br>To avoid being trampled by the massive elephants,<br>soldiers had to move around and break the formation.<br>But Scipio prevented this by creating a path for the<br>elephants to pass through. That is why even the<br>tightly standing elite infantry was pulled back.', keywords: ['elite infantry', 'usually stood', 'front', 'sent', 'very back', 'Scipio', 'created', 'much wider', 'pathways', 'between', 'each manipulus', 'than usual', 'changed', 'formation', 'prevent', 'Hannibal', 'using', 'elephants', 'army', 'could cause', 'significant damage', 'crowded battle', 'soldiers', 'tightly packed', 'avoid', 'being trampled', 'massive elephants', 'had to move', 'around', 'break', 'formation', 'prevented', 'creating', 'path', 'elephants', 'pass through', 'why', 'tightly standing', 'elite infantry', 'pulled back'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/40.jpg',
+    zones: {
+      2: { text: '02. Motifs and Strategies of the Roman Army<br><br><span class="larger-text">I. What Is the Purpose of Studying the</span><br><span class="larger-text">Motifs and Strategies of the Roman</span><br><span class="larger-text">Army?</span><br><br>', keywords: ['motifs', 'strategies', 'Roman army', 'purpose', 'studying', 'human history', 'history of wars', 'war', 'refers', 'actions', 'violence', 'force', 'used', 'between', 'countries', 'political groups', 'main reason', 'wars happen', 'people greed', 'one country', 'invades', 'another', 'take', 'more land', 'resources', 'wars occur', 'many innocent people', 'sacrificed', 'enormous damage', 'property', 'most countries', 'know', 'historical experience', 'actual wars', 'very rare'] },
+      1: { text: 'Hannibal, the general who seemed like he would<br>conquer Rome through the Battle of Cannae,<br>eventually suffered a complete defeat due to the<br>failure of the Battle of Zama. As a result, he could not<br>witness the destruction of Rome, which had been his<br>lifelong wish, and he could not keep the promise he<br>made to the gods. This is how Rome won the Second<br>Punic War as well.', keywords: ['Hannibal', 'general', 'seemed', 'would conquer', 'Rome', 'Battle of Cannae', 'eventually', 'suffered', 'complete defeat', 'due to', 'failure', 'Battle of Zama', 'result', 'could not witness', 'destruction', 'lifelong wish', 'could not keep', 'promise', 'made', 'gods', 'how', 'Rome', 'won', 'Second Punic War'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Human history is also the history of wars. War refers<br>to actions where violence or force is used between<br>countries or political groups. The main reason wars<br>happen is people\'s greed.<br>One country invades another to take more land and<br>resources. When wars occur, many innocent people<br>are sacrificed, and there is enormous damage to<br>property. Most countries know this through historical<br>experience, so actual wars are very rare.', keywords: ['human history', 'history of wars', 'war', 'refers', 'actions', 'violence', 'force', 'used', 'between', 'countries', 'political groups', 'main reason', 'wars happen', 'people greed', 'one country', 'invades', 'another', 'take', 'more land', 'resources', 'wars occur', 'many innocent people', 'sacrificed', 'enormous damage', 'property', 'most countries', 'know', 'historical experience', 'actual wars', 'very rare'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/41.jpg',
+    zones: {
+      3: { text: 'However, if we go back to ancient Roman times,<br>wars were almost a part of daily life. In an age without<br>advanced weapons like tanks, fighter jets, submarines,<br>or nuclear bombs, wars were fought by people using<br>swords, spears, and shields. Naturally, countries with<br>more soldiers often won in wars. But great generals<br>defeated large enemy armies with clever tactics and<br>strategies.', keywords: ['however', 'go back', 'ancient Roman times', 'wars', 'almost', 'part', 'daily life', 'age', 'without', 'advanced weapons', 'tanks', 'fighter jets', 'submarines', 'nuclear bombs', 'fought', 'people', 'using', 'swords', 'spears', 'shields', 'naturally', 'countries', 'more soldiers', 'often won', 'great generals', 'defeated', 'large enemy armies', 'clever tactics', 'strategies'] },
+      2: { text: 'The efficiency of organizing and using soldiers<br>determined the outcome of wars. Studying the tactics<br>and motifs of the Roman army that once ruled the<br>world is not just about learning how to win in wars.<br>Just like excellent generals understood the flow of<br>war and overcame the disadvantage in numbers,<br>understanding how the world works helps us solve<br>problems that come our way.', keywords: ['efficiency', 'organizing', 'using soldiers', 'determined', 'outcome', 'wars', 'studying', 'tactics', 'motifs', 'Roman army', 'once ruled', 'world', 'not just', 'learning', 'how to win', 'wars', 'excellent generals', 'understood', 'flow', 'war', 'overcame', 'disadvantage', 'numbers', 'understanding', 'world works', 'helps', 'solve problems', 'come our way'] },
+      1: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/42.jpg',
+    zones: {
+      2: { text: '02. Motifs and Strategies of the Roman Army<br><br><span class="larger-text">II. How Can We Apply the Study of the</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Motifs and Strategies of the Roman</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Army?</span><br><br>', keywords: ['motifs', 'strategies', 'Roman army', 'apply', 'study', 'won', 'many wars', 'efficiently', 'arranging soldiers', 'still use', 'motifs', 'tactics', 'Romans', 'used', 'notable example', 'seating arrangement', 'theaters', 'prevent', 'screen', 'blocked', 'person', 'front', 'theater seats', 'arranged', 'slope', 'rises higher', 'towards back', 'thanks', 'arrangement', 'enjoy', 'movie', 'no matter', 'where we sit', 'seating arrangement', 'inspired', 'Roman army tactics', 'soldiers', 'shields', 'usually stood', 'front', 'weapons', 'stood behind'] },
+      1: { text: '(1) When soldiers are fighting battles at sea using ships,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;explain why attacking from the back is more effective<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;than attacking from the front.<br><br>(2) The enemy is attacking on horseback. Explain why<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a spear is more advantageous than a sword in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defending against their attacks.', keywords: ['soldiers', 'fighting battles', 'sea', 'using ships', 'explain', 'attacking', 'back', 'more effective', 'attacking', 'front', 'enemy', 'attacking', 'horseback', 'spear', 'more advantageous', 'sword', 'defending', 'attacks'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: 'The Roman army won many wars by efficiently<br>arranging soldiers. We still use the motifs in the<br>tactics that the Romans used. One notable example<br>is the seating arrangement in theaters. To prevent<br>the screen from being blocked by the person in front,<br>theater seats are arranged along a slope that rises<br>higher towards the back. Thanks to this arrangement,<br>we can enjoy a movie no matter where we sit. This<br>seating arrangement was inspired by Roman army<br>tactics, where soldiers with shields usually stood in<br>front, and those with weapons stood behind.', keywords: ['Roman army', 'won', 'many wars', 'efficiently', 'arranging soldiers', 'still use', 'motifs', 'tactics', 'Romans', 'used', 'notable example', 'seating arrangement', 'theaters', 'prevent', 'screen', 'blocked', 'person', 'front', 'theater seats', 'arranged', 'slope', 'rises higher', 'towards back', 'thanks', 'arrangement', 'enjoy', 'movie', 'no matter', 'where we sit', 'seating arrangement', 'inspired', 'Roman army tactics', 'soldiers', 'shields', 'usually stood', 'front', 'weapons', 'stood behind'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/43.jpg',
+    zones: {
+      1: { text: 'The soldier in front bends down, supporting the shield,<br>while allowing the soldier behind to have a clear view<br>of the enemy.<br>Watching a movie feels different depending on the<br>seat. If we want to see the screen fully, we would sit<br>a little to the front. If we want to enjoy the movie at<br>a comfortable eye level, we would sit a little to the<br>back.', keywords: ['soldier', 'front', 'bends down', 'supporting', 'shield', 'allowing', 'soldier behind', 'clear view', 'enemy', 'watching movie', 'feels different', 'depending', 'seat', 'see screen', 'fully', 'sit', 'little', 'front', 'enjoy movie', 'comfortable eye level', 'back'] },
+      2: { text: 'Sitting in the front row may give a feeling of being<br>inside the movie, but it has the drawback of making<br>it hard to see the entire screen. On the other hand,<br>sitting in the back not only shows the screen but also<br>the other viewers, making it difficult to focus on the<br>movie. Try to choose a seat that suits your personal<br>tastes when at a movie theater.', keywords: ['sitting', 'front row', 'give feeling', 'being inside', 'movie', 'drawback', 'making', 'hard to see', 'entire screen', 'other hand', 'sitting', 'back', 'shows', 'screen', 'other viewers', 'difficult', 'focus', 'movie', 'choose', 'seat', 'suits', 'personal tastes', 'movie theater'] },
+      3: { text: '', keywords: [] },
+      4: { text: '(1) In ancient times, when armies went on expeditions to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conquer other countries, they took more soldiers than<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;their opponents. Explain why they did that.<br><br>(2) Even with fewer soldiers than the opponent, an army<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can win a war by using the terrain wisely. Explain how<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to defeat the enemy using a narrow canyon.<br><br>', keywords: ['ancient times', 'armies', 'expeditions', 'conquer', 'other countries', 'took', 'more soldiers', 'opponents', 'explain', 'fewer soldiers', 'opponent', 'army', 'win war', 'using terrain', 'wisely', 'defeat', 'enemy', 'narrow canyon'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/44.jpg',
+    zones: {
+      1: { text: 'General Hannibal won a great victory against Rome with<br>a tactic using elephants. However, in the Second Punic<br>War, he ended up losing because of the elephants.<br>Due to General Scipio\'s wisdom, the elephants from the<br>Carthaginian army attacked their own side. Eventually,<br>Carthage was completely destroyed by the Third Punic<br>War. On the other hand, Rome was able to move forward<br>in the world by defeating Carthage, the powerhouse of<br>the Mediterranean. Elephants were used in wars because<br>armies used dense formations.<br>When kings ruled countries, it was common for armies to<br>form dense formations for battles. Dense formations are<br>called "phalanx" in Greek and "acies" in Latin. What did<br>dense formations look like back then? What were their<br>advantages and disadvantages? Write them down.', keywords: ['General Hannibal', 'won', 'great victory', 'Rome', 'tactic', 'using elephants', 'Second Punic War', 'ended up losing', 'elephants', 'General Scipio', 'wisdom', 'Carthaginian army', 'attacked', 'own side', 'eventually', 'Carthage', 'completely destroyed', 'Third Punic War', 'other hand', 'Rome', 'able', 'move forward', 'world', 'defeating', 'powerhouse', 'Mediterranean', 'elephants', 'used', 'wars', 'armies', 'dense formations'], fontType: 'type3' },
+      2: { text: '', keywords: ['kings', 'ruled countries', 'common', 'armies', 'form', 'dense formations', 'battles', 'phalanx', 'Greek', 'acies', 'Latin', 'dense formations', 'look like', 'back then', 'advantages', 'disadvantages', 'write down'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/45.jpg',
+    zones: {
+      1: { text: 'The ancient Chinese military book, The Art of War by Sun<br>Tzu, contains more practical information than any other<br>book from the East or West. In this book, Sun Tzu included<br>all the experiences he gained from participating in many<br>wars. The Art of War is a book written for commanders,<br>who at the time would be kings and generals.<br>Depending on the decisions and actions of the commander,<br>the country and the army could either prosper or face<br>destruction. We might have heard the saying, "If you know<br>the enemy and know yourself, you need not fear the result<br>of a hundred battles."<br>This saying comes from Sun Tzu\'s book. The Art of War<br>says that the best victory is to defeat the enemy without<br>actually fighting a real war. The book introduces five<br>elements to determine victory. Feel free to write down any<br>thoughts on what these elements might be.', keywords: ['ancient Chinese', 'military book', 'Art of War', 'Sun Tzu', 'contains', 'practical information', 'any other book', 'East', 'West', 'included', 'experiences', 'gained', 'participating', 'many wars', 'written', 'commanders', 'time', 'kings', 'generals', 'depending', 'decisions', 'actions', 'commander', 'country', 'army', 'either prosper', 'face destruction', 'heard', 'saying', 'know enemy', 'know yourself', 'need not fear', 'result', 'hundred battles'], fontType: 'type3' },
+      2: { text: '', keywords: ['saying', 'comes', 'Sun Tzu book', 'Art of War', 'says', 'best victory', 'defeat', 'enemy', 'without', 'actually fighting', 'real war', 'book', 'introduces', 'five elements', 'determine victory', 'feel free', 'write down', 'thoughts', 'elements', 'might be'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/46.jpg',
+    zones: {
+      1: { text: 'When people face a crisis, they often discover their hidden<br>talents. If we look at wars throughout history, we can<br>understand the meaning of this saying. Losing a war means<br>losing precious family and friends. Even the country people<br>live in can disappear. People who passionately dedicate<br>everything to prevent this from happening become heroes<br>of war. General Yi Sun-sin, who defeated the Japanese<br>navy with 13 ships against their 133 ships, and Hannibal,<br>who obtained victory by crossing the cold and rugged Alps,<br>displayed excellent strategies and tactics in challenging<br>situations. In today\'s society, the fierce competition to<br>survive is sometimes compared to a war.<br>Business leaders always think about how to win against<br>other companies and become the best in the world.<br>They even start reading ancient military strategy books.<br>Briefly explain what is in China\'s military strategy book<br>The Thirty-Six Stratagems. Choose your favorite strategy<br>and write it down.', keywords: ['people', 'face crisis', 'often discover', 'hidden talents', 'look', 'wars', 'throughout history', 'understand', 'meaning', 'saying', 'losing war', 'means', 'losing', 'precious family', 'friends', 'country', 'people live', 'disappear', 'passionately dedicate', 'everything', 'prevent', 'happening', 'become heroes', 'war', 'General Yi Sun-sin', 'defeated', 'Japanese navy', '13 ships', '133 ships', 'Hannibal', 'obtained victory', 'crossing', 'cold', 'rugged Alps', 'displayed', 'excellent strategies', 'tactics', 'challenging situations', 'today society', 'fierce competition', 'survive', 'sometimes compared', 'war'], fontType: 'type3' },
+      2: { text: '', keywords: ['business leaders', 'always think', 'how to win', 'other companies', 'become', 'best', 'world', 'even start', 'reading', 'ancient military', 'strategy books', 'briefly explain', 'China military', 'strategy book', 'Thirty-Six Stratagems', 'choose', 'favorite strategy', 'write down'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/46.jpg',
+    zones: {
+      1: { text: 'When people face a crisis, they often discover their hidden<br>talents. If we look at wars throughout history, we can<br>understand the meaning of this saying. Losing a war means<br>losing precious family and friends. Even the country people<br>live in can disappear. People who passionately dedicate<br>everything to prevent this from happening become heroes<br>of war. General Yi Sun-sin, who defeated the Japanese<br>navy with 13 ships against their 133 ships, and Hannibal,<br>who obtained victory by crossing the cold and rugged Alps,<br>displayed excellent strategies and tactics in challenging<br>situations. In today\'s society, the fierce competition to<br>survive is sometimes compared to a war.<br>Business leaders always think about how to win against<br>other companies and become the best in the world.<br>They even start reading ancient military strategy books.<br>Briefly explain what is in China\'s military strategy book<br>The Thirty-Six Stratagems. Choose your favorite strategy<br>and write it down.', keywords: ['people', 'face crisis', 'often discover', 'hidden talents', 'look', 'wars', 'throughout history', 'understand', 'meaning', 'saying', 'losing war', 'means', 'losing', 'precious family', 'friends', 'country', 'people live', 'disappear', 'passionately dedicate', 'everything', 'prevent', 'happening', 'become heroes', 'war', 'General Yi Sun-sin', 'defeated', 'Japanese navy', '13 ships', '133 ships', 'Hannibal', 'obtained victory', 'crossing', 'cold', 'rugged Alps', 'displayed', 'excellent strategies', 'tactics', 'challenging situations', 'today society', 'fierce competition', 'survive', 'sometimes compared', 'war', 'business leaders', 'always think', 'how to win', 'other companies', 'become', 'best', 'world', 'even start', 'reading', 'ancient military', 'strategy books', 'briefly explain', 'China military', 'strategy book', 'Thirty-Six Stratagems', 'choose', 'favorite strategy', 'write down'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/47.jpg',
+    zones: {
+      1: { text: 'In war, defeating the enemy and protecting oneself are<br>equally important. Roman soldiers used a shield called<br>"scutum." Along with weapons like gladius and pilum,<br>the scutum was a symbol of the Roman army, representing<br>both its prosperity and decline. Scutum simply means<br>"shield" in Latin, but over time, it has come to refer to the<br>square shields used by Romans. To make a scutum, Romans<br>layered several pieces of wood, covered them with leather,<br>and added iron to the center for extra defense.<br>Scuta had a curved shape on the sides and were almost<br>big enough to cover the entire body. The shield often had<br>lightning-shaped motifs or the legion\'s name and number<br>written on it. With this shield alone, the Roman army was<br>unbeatable. Think about how Roman soldiers might have<br>used this shield in battle.', keywords: ['war', 'defeating', 'enemy', 'protecting oneself', 'equally important', 'Roman soldiers', 'used', 'shield', 'scutum', 'along with', 'weapons', 'gladius', 'pilum', 'symbol', 'Roman army', 'representing', 'prosperity', 'decline', 'simply means', 'shield', 'Latin', 'over time', 'come to refer', 'square shields', 'Romans', 'make', 'layered', 'several pieces', 'wood', 'covered', 'leather', 'added iron', 'center', 'extra defense', 'scuta', 'curved shape', 'sides', 'almost big enough', 'cover', 'entire body', 'often had', 'lightning-shaped motifs', 'legion name', 'number', 'written', 'shield alone', 'unbeatable', 'think', 'Roman soldiers', 'might have used', 'battle'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/48.jpg',
+    zones: {
+      1: { text: '<span class="larger-text"><u>Qìzhǎnmǎsù – Make a Dear Sacrifice for Justice</span><br><br>"Qìzhǎnmǎsù" is a Chinese idiom that means "to behead<br>a beloved person while weeping." This comes from China\'s<br>Romance of the Three Kingdoms. Zhuge Kongming,<br>a strategist of the Shu Dynasty, was worried about which<br>general to send before an important battle with the Wei<br>Dynasty. At that time, his subordinate Mǎsù volunteered<br>to go into battle. Mǎsù was Zhuge Kongming\'s favorite<br>general and was smart and knew the art of war. However,<br>because it was a battle where defeat would result in great<br>losses, Zhuge Kongming hesitated.<br>Mǎsù then begged to be let go because if he was defeated,<br>he would be executed. That is how much he wanted to<br>make a difference. Zhuge Kongming eventually allowed<br>Mǎsù to go, but he gave one command. He told him to<br>guard the road where the enemy would pass. But Mǎsù<br>disobeyed his orders and camped on the mountain.<br>As he learned from his book on war, he believed that<br>setting up camp higher than the enemy would give him<br>an advantage in battle. His lieutenant tried to stop him,<br>but he did not give in. Then, the Wei army surrounded<br>the mountain and cut off the waterway.', keywords: ['Qìzhǎnmǎsù', 'Make Dear Sacrifice', 'Justice', 'Chinese idiom', 'means', 'behead', 'beloved person', 'weeping', 'comes', 'China', 'Romance Three Kingdoms', 'Zhuge Kongming', 'strategist', 'Shu Dynasty', 'worried', 'general', 'send', 'important battle', 'Wei Dynasty', 'time', 'subordinate', 'Mǎsù', 'volunteered', 'go into battle', 'favorite general', 'smart', 'knew', 'art of war', 'however', 'battle', 'defeat', 'result', 'great losses', 'hesitated', 'begged', 'let go', 'defeated', 'executed', 'how much', 'wanted', 'make difference', 'eventually', 'allowed', 'go', 'gave', 'one command', 'told', 'guard', 'road', 'enemy', 'would pass', 'disobeyed', 'orders', 'camped', 'mountain', 'learned', 'book', 'war', 'believed', 'setting up camp', 'higher', 'enemy', 'give', 'advantage', 'battle', 'lieutenant', 'tried', 'stop', 'did not give in', 'Wei army', 'surrounded', 'mountain', 'cut off', 'waterway'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/49.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'In the end, the Shu army, which ran out of food and water,<br>was cruelly defeated by the Wei army. Mǎsù barely<br>survived and returned to Zhuge Kongming. However, Mǎsù,<br>who disobeyed orders and lost the war, was to be executed<br>according to military law. In the end, Zhuge Kongming<br>endured his sadness and executed Mǎsù. This is because<br>he believed that the discipline of the Shu Dynasty military<br>should not be broken down due to personal affection.<br>In this way, the idiom "Qìzhǎnmǎsù" means abandoning<br>personal feelings in favor of fair discipline.<br>There is one more lesson from this story. The truth is that<br>if we only stick to theory without considering real-world<br>conditions, we can end up in big trouble. This applies not<br>only to war but to all areas of life.<br><br>', keywords: ['end', 'Shu army', 'ran out', 'food', 'water', 'cruelly defeated', 'Wei army', 'Mǎsù', 'barely survived', 'returned', 'Zhuge Kongming', 'however', 'disobeyed orders', 'lost war', 'executed', 'according', 'military law', 'end', 'endured', 'sadness', 'executed', 'believed', 'discipline', 'Shu Dynasty military', 'should not', 'broken down', 'due to', 'personal affection', 'this way', 'idiom', 'Qìzhǎnmǎsù', 'means', 'abandoning', 'personal feelings', 'favor', 'fair discipline', 'one more lesson', 'story', 'truth', 'only stick', 'theory', 'without considering', 'real-world conditions', 'can end up', 'big trouble', 'applies', 'not only', 'war', 'all areas', 'life'] , fontType: 'type3'},
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/50.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/51.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/52.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/53.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/54.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/55.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/55.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/57.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/58.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/59.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/60.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/61.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.1/62.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  }
+];
+  </script>
+   
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 

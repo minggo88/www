@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G1.1.6.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: ['title', 'introduction', 'start'] },
+      2: { text: '', keywords: ['welcome', 'beginning'] },
+      3: { text: '', keywords: ['preparation'] },
+      4: { text: '', keywords: ['ready'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/2.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/3.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '<span class="larger-text">01. How People Observe Nature</span><br><br>When most people think about studying mathematics,<br>they envision practicing calculations or solving<br>problems. However, desirable mathematics study<br>should consist of a series of exercises aimed at<br>uncovering nature\'s secrets. We should always keep<br>this in mind: To discover nature\'s secrets, we must<br>observe it.', keywords: ['How People Observe Nature', 'studying mathematics', 'practicing calculations', 'solving problems', 'desirable mathematics study', 'series of exercises', 'uncovering nature secrets', 'discover nature secrets', 'observe'] },
+      2: { text: 'When we talk about observation, we might only think<br>of seeing things with our eyes. However, merely<br>saying, "It is beautiful! It looks amazing!" based on<br>what we see is not very helpful for observing nature.<br>To make correct observations, we need to first classify<br>nature. Living organisms can be broadly divided<br>into plants and animals. Although unable to move<br>independently, plants can produce nutrients through<br>photosynthesis.', keywords: ['talk about observation', 'seeing things', 'eyes', 'It is beautiful', 'looks amazing', 'not helpful', 'observing nature', 'correct observations', 'classify nature', 'Living organisms', 'broadly divided', 'plants animals', 'unable move independently', 'produce nutrients', 'photosynthesis'] },
+      3: { text: 'Explain the benefits of classifying nature before<br>making observations.', keywords: ['benefits', 'classifying nature', 'making observations', 'explain', 'classification', 'systematic approach'], fontType: 'type2' },
+      4: { text: '', keywords: ['reflection', 'understanding'] },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/4.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Unlike plants, animals can move freely. Animals can go<br>wherever they want. However, because they cannot<br>produce nutrients on their own, they need to consume<br>plants or prey on other animals to obtain energy.', keywords: ['Unlike plants', 'animals move freely', 'go wherever', 'cannot produce nutrients', 'consume plants', 'prey on animals', 'obtain energy'] },
+      2: { text: 'Which do you think is happier: plants or animals?<br>Animals, being able to move, might seem happier<br>because they can meet friends, play, and enjoy<br>various delicious foods. However, plants have to live<br>their entire lives in the place where they were born,<br>and if no one comes to visit, they always seem lonely<br>and unhappy.', keywords: ['happier plants animals', 'Animals able move', 'seem happier', 'meet friends', 'play', 'enjoy delicious foods', 'plants live entire lives', 'place where born', 'no one comes visit', 'seem lonely unhappy'] },
+      3: { text: '', keywords: ['comparison', 'perspective'] },
+      4: { text: 'If you were a plant, how would you spend your day?', keywords: ['were plant', 'spend your day', 'imagination', 'perspective', 'plant life'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/5.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Animals starve to death if they do not move.<br>Animals must constantly roam to find food and meet<br>mates to reproduce. For an animal, not moving is<br>equivalent to death. Considering that animals must<br>move throughout their lives, they must be tired.<br>Some people may envy plants that do not get hungry<br>even if they do not move.', keywords: ['Animals starve death', 'do not move', 'constantly roam', 'find food', 'meet mates', 'reproduce', 'not moving', 'equivalent death', 'move throughout lives', 'must be tired', 'envy plants', 'not get hungry'] },
+      2: { text: 'Some argue that animals are superior because they<br>can eat plants. However, when we consider that plants<br>feed the animals living on Earth, we could say that<br>plants are superior.<br>Life on Earth is possible because the sun continuously<br>supplies energy. However, we could not harness this<br>precious energy without plants.', keywords: ['animals superior', 'eat plants', 'plants feed animals', 'living on Earth', 'plants superior', 'Life on Earth possible', 'sun continuously supplies', 'energy', 'harness precious energy', 'without plants'] },
+      4: { text: '', keywords: ['ecosystem', 'balance'] },
+      3: { text: 'Explain what would happen on Earth if plants were<br>to disappear.', keywords: ['happen on Earth', 'plants disappear', 'explain', 'ecosystem impact', 'survival'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/6.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Plants undergo photosynthesis using sunlight,<br>carbon dioxide, and water to produce glucose.<br>In photosynthesis, oxygen is generated, allowing all<br>living organisms to breathe. Plants provide nutrients<br>for animals and generously supply oxygen for breathing.<br>Additionally, by absorbing carbon dioxide from the<br>Earth\'s atmosphere, plants help maintain a stable<br>temperature on the planet. If the amount of carbon<br>dioxide in the Earth increases, global warming will<br>occur, making it impossible for animals to survive.', keywords: ['Plants undergo photosynthesis', 'sunlight', 'carbon dioxide', 'water', 'produce glucose', 'oxygen generated', 'living organisms breathe', 'provide nutrients', 'supply oxygen', 'absorbing carbon dioxide', 'Earth atmosphere', 'maintain stable temperature', 'global warming', 'impossible animals survive'] },
+      2: { text: 'Then, can plants not move at all? While it is true that<br>plants cannot move freely like animals, they do have<br>the ability to move to some extent. There is a type<br>of grass called "mimosa," which has neatly arranged<br>small leaves. Mimosa has the characteristic of quickly<br>folding its leaves when touched.<br>When an insect approaches to eat and touches the<br>leaves, the mimosa instantly folds its leaves, startling<br>the insect and causing it to flee. The mimosa\'s leaf-folding quality is a self-protective mechanism.', keywords: ['plants not move', 'cannot move freely', 'ability to move', 'some extent', 'type of grass', 'mimosa', 'neatly arranged', 'small leaves', 'characteristic', 'quickly folding leaves', 'touched', 'insect approaches', 'touches leaves', 'instantly folds', 'startling insect', 'flee', 'leaf-folding quality', 'self-protective mechanism'] },
+      3: { text: '', keywords: ['plant movement', 'behavior'] },
+      4: { text: '', keywords: ['observation', 'discovery'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/7.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'In the vicinity of country roads, there are many<br>pumpkins that are planted. Pumpkins are vine plants<br>that do not grow tall like trees but instead wrap<br>themselves around other objects on the ground, roofs,<br>or fences using their tendrils. The thin tendrils at the<br>end of the pumpkin\'s stem diligently coil around any<br>object they touch. As the tendrils grow like springs,<br>they pull the branches along with them. Though not<br>fast, pumpkins can move slightly on their own.', keywords: ['vicinity country roads', 'pumpkins planted', 'vine plants', 'not grow tall', 'trees', 'wrap themselves', 'other objects', 'ground roofs fences', 'using tendrils', 'thin tendrils', 'pumpkin stem', 'diligently coil', 'object they touch', 'grow like springs', 'pull branches', 'move slightly'] },
+      2: { text: 'Have you ever been to a strawberry field?<br>Initially, the strawberries grow sparsely, but they<br>spread and cover the entire field over time. The stems<br>of strawberries move around on the ground.<br>Once the stem grows to a certain extent, roots emerge<br>from the nodes, anchoring the stem and allowing it to<br>continue growing. At first, only one strawberry was<br>planted, but later it looks like several strawberries<br>were planted.', keywords: ['strawberry field', 'Initially strawberries', 'grow sparsely', 'spread cover', 'entire field', 'over time', 'stems strawberries', 'move around ground', 'stem grows', 'certain extent', 'roots emerge', 'nodes', 'anchoring stem', 'continue growing', 'one strawberry planted', 'several strawberries'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/8.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'When exploring the grassy field outside the house<br>after the sun sets, we can witness fascinating plant<br>behavior. Clovers fold their leaves neatly, while<br>dandelions, which were in full bloom, become buds<br>again. During the day, they spread their leaves wide<br>to capture sunlight for nutrient production, but at<br>night, they fold them to prevent moisture loss.<br>This movement in plants, resembling sleep, is called<br>"sleep movement."', keywords: ['exploring grassy field', 'outside house', 'sun sets', 'witness fascinating', 'plant behavior', 'Clovers fold leaves', 'neatly', 'dandelions', 'full bloom', 'become buds', 'During day', 'spread leaves wide', 'capture sunlight', 'nutrient production', 'night', 'fold prevent', 'moisture loss', 'movement plants', 'resembling sleep', 'sleep movement'] },
+      
+      2: { text: 'Now, we shall explore some exciting characteristics of<br>animals. Unlike plants, animals have well-developed<br>sensory organs and the ability to move on their own,<br>leading to fascinating behaviors. Hedgehogs, for<br>instance, are covered with spines all over their bodies<br>except for their bellies.<br>Usually, they keep their spines flat and move around.<br>But when they sense danger, they curl up and erect<br>their spines.', keywords: ['explore exciting characteristics', 'animals', 'Unlike plants', 'well-developed', 'sensory organs', 'ability move', 'fascinating behaviors', 'Hedgehogs', 'covered with spines', 'all over bodies', 'except bellies', 'keep spines flat', 'move around', 'sense danger', 'curl up', 'erect spines'] },
+      
+      3: { text: 'Explain what the term "sleep movement" in plants<br>refers to.', keywords: ['sleep movement', 'plants', 'refers to', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/9.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'The spines of a baby hedgehog are hidden beneath<br>the skin while it is in its mother\'s womb. It takes<br>about three days after birth for the spines to emerge<br>gradually. An example of an animal with spines on its<br>body is the sea urchin. Resembling a chestnut burr,<br>sea urchins have muscles attached to each spine,<br>allowing them to move using the spines.', keywords: ['spines baby hedgehog', 'hidden beneath skin', 'mother womb', 'three days', 'after birth', 'spines emerge', 'gradually', 'example animal', 'spines on body', 'sea urchin', 'Resembling chestnut burr', 'muscles attached', 'each spine', 'move using spines'] },
+      3: { text: 'While the spines can be used for attacking enemies,<br>they also play a role in protecting the hedgehog\'s<br>body. Thanks to their spines, hedgehogs are not hurt<br>even if they fall from a high height. People might<br>wonder, do mother hedgehogs not get pricked by the<br>spines when giving birth to their babies?', keywords: ['spines used attacking', 'enemies', 'play role protecting', 'hedgehog body', 'Thanks spines', 'not hurt', 'fall high height', 'People wonder', 'mother hedgehogs', 'not get pricked', 'giving birth babies'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/10.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'The armadillo is an animal that has a shell on its back.<br>The shell, shaped like bands or plates, is attached to<br>soft skin, making movement comfortable.<br>While the head, shoulders, and buttocks are armored<br>with the shell for protection, there is no way to shield<br>the chest and belly.', keywords: ['armadillo', 'animal shell back', 'shell shaped', 'bands or plates', 'attached soft skin', 'movement comfortable', 'head shoulders buttocks', 'armored shell', 'protection', 'no way shield', 'chest belly'] },
+      2: { text: 'When threatened, the three-banded armadillo quickly<br>curls up into a tight ball, transforming into a sturdy<br>sphere. Thanks to this behavior, it can safeguard<br>the chest and belly. Humans also diligently care<br>for their babies. Since babies cannot do anything<br>independently, they must be fed milk and carried<br>in arms.', keywords: ['threatened', 'three-banded armadillo', 'quickly curls up', 'tight ball', 'transforming', 'sturdy sphere', 'Thanks behavior', 'safeguard chest belly', 'Humans diligently care', 'babies', 'cannot do anything', 'independently', 'fed milk', 'carried in arms'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Find an organism that resembles a chestnut burr.', keywords: ['organism resembles', 'chestnut burr', 'find'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/11.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'However, the offspring of animals such as cows,<br>horses, giraffes, and others are slightly different from<br>human babies. These animal babies are exposed to<br>danger from the moment they are born.<br>They never know when or where a predator might<br>appear. Therefore, within an hour or two of being<br>born, the offspring of these animals can stand up and<br>walk on their own. For example, a zebra foal can not<br>only stand straight within an hour of birth but can<br>also run quickly. This is a survival strategy adopted by<br>animals in nature to ensure their survival.', keywords: ['offspring animals', 'cows horses giraffes', 'slightly different', 'human babies', 'animal babies', 'exposed danger', 'moment born', 'never know', 'predator might appear', 'within hour two', 'stand up walk', 'zebra foal', 'stand straight', 'hour of birth', 'run quickly', 'survival strategy', 'adopted animals', 'ensure survival'] },
+      4: { text: '', keywords: [] },
+      2: { text: 'Most mammals have fur, which allows them to protect<br>their bodies and stay warm. They can lower their<br>body temperature by sweating or panting when the<br>weather gets hot. Animals that maintain a constant<br>body temperature are called "homeothermic animals."<br>On the contrary, animals like reptiles, whose body<br>temperature varies depending on the external<br>temperature, are called "poikilothermic animals."<br>Fur serves various purposes beyond keeping the body<br>warm.', keywords: ['Most mammals', 'fur', 'protect bodies', 'stay warm', 'lower body temperature', 'sweating panting', 'weather gets hot', 'maintain constant', 'body temperature', 'homeothermic animals', 'animals like reptiles', 'temperature varies', 'external temperature', 'poikilothermic animals', 'Fur serves', 'various purposes', 'keeping body warm'] },
+      3: { text: 'Explain the differences between human babies<br>and animal offspring.', keywords: ['differences', 'human babies', 'animal offspring', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/12.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Male animals groom themselves to be chosen by<br>females. For example, the mane of a male lion serves<br>this purpose. If the lion is healthy, its fur shines and<br>appears beautiful. Therefore, a lioness can judge<br>a male lion\'s strength and good genes by looking at<br>his mane compared to other males.', keywords: ['Male animals groom', 'chosen by females', 'mane male lion', 'serves purpose', 'lion healthy', 'fur shines', 'appears beautiful', 'lioness judge', 'male lion strength', 'good genes', 'looking at mane', 'compared other males'] },
+      2: { text: 'Fur also serves a role as protective coloration.<br>The fur of an Arctic fox is dark brown in summer<br>but turns snowy white in winter, blending with the<br>surroundings. This change in fur color makes them<br>less noticeable to predators, ensuring relative safety.<br>It also allows them to approach their prey without<br>being detected. The fur of polar bears is white for<br>the same reason.', keywords: ['Fur serves role', 'protective coloration', 'Arctic fox', 'dark brown summer', 'turns snowy white', 'winter', 'blending surroundings', 'change fur color', 'less noticeable', 'predators', 'ensuring relative safety', 'approach prey', 'without being detected', 'polar bears', 'white same reason'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why fur is essential to animals.', keywords: ['fur essential', 'animals', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/13.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'In the animal kingdom, fighting is actually rare.<br>Animals instinctively think that animals with a larger<br>size are stronger. Hippos, for example, open their<br>mouths wide and face each other, and the smaller<br>hippos will voluntarily retreat.<br>Fur also plays a role in making animals appear larger.<br>Skunks raise the fur on their bodies and tails when<br>they encounter a threat to make themselves look<br>bigger than they actually are. The pufferfish does the<br>same. When it senses danger, the pufferfish inflates<br>its body by filling it with water, threatening and<br>driving away the opponent.', keywords: ['animal kingdom', 'fighting actually rare', 'Animals instinctively think', 'larger size stronger', 'Hippos', 'open mouths wide', 'face each other', 'smaller hippos', 'voluntarily retreat', 'Fur plays role', 'making animals appear larger', 'Skunks raise fur', 'bodies tails', 'encounter threat', 'look bigger', 'pufferfish', 'senses danger', 'inflates body', 'filling with water', 'threatening driving away'] },
+      2: { text: '01. How People Observe Nature<br><span class="larger-text">Ⅰ. What Is the Purpose of Studying</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How People Observe Nature?</span><br><br><br>We can discover various similarities and differences<br>by observing nature and classifying what has been<br>observed in categories such as living and non-living,<br>plants and animals. For instance, plants can produce<br>nutrients through photosynthesis but cannot move<br>to different locations, while animals can move freely<br>but need to eat to survive. Understanding how people<br>observe nature allows us to uncover these facts.', keywords: ['How People Observe Nature', 'Purpose of Studying', 'discover similarities differences', 'observing nature', 'classifying', 'living non-living', 'plants animals', 'plants produce nutrients', 'photosynthesis', 'cannot move', 'different locations', 'animals move freely', 'need eat survive', 'Understanding', 'uncover facts'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/14.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'There is another purpose for studying this topic.<br>Through various observation methods, we can learn<br>how living and non-living things interact and how<br>plants and animals support each other.<br>The components of nature are intricately interconnected,<br>much like the parts of a car working together.<br>For example, for a plant to thrive, bloom flowers,<br>and bear fruit, it requires help from various sources.', keywords: ['another purpose', 'studying topic', 'various observation methods', 'living non-living things', 'interact', 'plants animals', 'support each other', 'components nature', 'intricately interconnected', 'parts car', 'working together', 'plant thrive', 'bloom flowers', 'bear fruit', 'requires help', 'various sources'] },
+      2: { text: 'Plants receive nutrients produced by microorganisms<br>in the soil while they obtain carbon dioxide needed<br>for photosynthesis in the air. To bear fruit, they<br>rely on insects or birds to successfully pollinate the<br>stigma. Plants return the favor to their helpers in<br>various ways, such as providing sweet nectar to the<br>insects that aid in pollination and dropping fruits and<br>leaves to nourish microorganisms in the soil.', keywords: ['Plants receive nutrients', 'produced microorganisms', 'soil', 'obtain carbon dioxide', 'needed photosynthesis', 'air', 'bear fruit', 'rely insects birds', 'successfully pollinate', 'stigma', 'return favor', 'helpers', 'providing sweet nectar', 'insects aid', 'pollination', 'dropping fruits leaves', 'nourish microorganisms'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/15.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '(1) Plants generate nutrients and oxygen necessary for<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;living organisms through photosynthesis. What would<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;happen if all plants disappeared from Earth? Explain.<br><br>(2) Animals must constantly search for food to survive.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find examples of animals that cannot move on their own.', keywords: ['Plants generate nutrients', 'oxygen necessary', 'living organisms', 'photosynthesis', 'plants disappeared', 'Earth', 'Animals constantly search', 'food survive', 'examples animals', 'cannot move'], fontType: 'type3' },
+      2: { text: '<span class="larger-text">01. How People Observe Nature</span><br><span class="larger-text">Ⅱ. How Can We Apply the Study of</span><br><span class="larger-text">How People Observe Nature?</span><br><br>Without the assistance of other organisms, humans<br>would not have been able to survive in harsh natural<br>environments. Plants not only provide us with<br>food and shelter but also share ideas for advanced<br>industrial technologies. For example, the mimosa plant<br>can fold its leaves rapidly when touched. Insects or<br>birds attempting to eat its leaves are often startled<br>and flee. According to scientific research, mimosa<br>plants use electrical signals to fold their leaves.', keywords: ['How Can We Apply', 'Study How People Observe Nature', 'Without assistance', 'other organisms', 'humans', 'survive harsh', 'natural environments', 'Plants provide', 'food shelter', 'share ideas', 'advanced industrial technologies', 'mimosa plant', 'fold leaves rapidly', 'touched', 'Insects birds', 'attempting eat', 'startled flee', 'scientific research', 'electrical signals'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/16.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'By applying the principle of plants exchanging<br>information using electrical signals, we can find ways<br>to enable a person with limited mobility to control<br>a robotic arm or leg with small movements.<br>When attacked by caterpillars, plants release chemical<br>substances that can be used to create insecticides.<br>Utilizing animals\' survival strategies can also lead to<br>the development of advanced industrial technologies.<br>For instance, frogs go into hibernation when winter<br>arrives.', keywords: ['applying principle', 'plants exchanging information', 'electrical signals', 'enable person', 'limited mobility', 'control robotic arm', 'small movements', 'attacked caterpillars', 'plants release', 'chemical substances', 'create insecticides', 'Utilizing animals', 'survival strategies', 'development', 'advanced industrial technologies', 'frogs hibernation', 'winter arrives'] },
+      2: { text: 'The mechanism of frog hibernation can be applied to<br>preserve humans cryogenically. Despite significant<br>advancements in modern medicine, there are still<br>diseases for which the causes and treatments have<br>yet to be discovered. Of course, there will come a day<br>when these diseases can be treated.<br>Until then, if it is possible to preserve patients in<br>a cryogenic state, we could realize humanity\'s eternal<br>hope of extending life.', keywords: ['mechanism frog hibernation', 'applied preserve', 'humans cryogenically', 'significant advancements', 'modern medicine', 'diseases', 'causes treatments', 'yet discovered', 'come day', 'diseases treated', 'preserve patients', 'cryogenic state', 'realize humanity', 'eternal hope', 'extending life'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/17.jpg',
+    hasStartButton: false,
+    zones: {
+     
+      1: { text: '(1) Armadillos are covered with a tough shell all over<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;their bodies, making it easy to defend against enemy<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attacks. How could we utilize this survival strategy of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;armadillos?<br><br>(2) In the animal world, fights do not occur frequently as<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;we would imagine. How do animals convey that the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opponent is stronger without engaging in a fight?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Explain.<br><br>', keywords: ['Armadillos covered', 'tough shell', 'defend against', 'enemy attacks', 'utilize survival strategy', 'animal world', 'fights not occur', 'frequently', 'animals convey', 'opponent stronger', 'engaging fight'], fontType: 'type3' },
+      2: { text: 'Most people envision practicing calculations or solving<br>problems when thinking of studying mathematics.<br>However, a desirable mathematics study should consist of<br>a series of exercises aimed at uncovering nature\'s secrets.<br>We should never forget this point. To uncover the secrets<br>of nature, we need to observe it. When we talk about<br>observation, we often think only of seeing things with our<br>eyes. However, merely looking at what we see and saying,<br>"It is beautiful! It looks interesting!" does not contribute<br>much to observing nature.<br><br>', keywords: ['envision practicing calculations', 'solving problems', 'studying mathematics', 'desirable mathematics study', 'series exercises', 'uncovering nature secrets', 'never forget', 'uncover secrets', 'need observe', 'talk about observation', 'seeing things', 'eyes', 'merely looking', 'It is beautiful', 'looks interesting', 'not contribute', 'observing nature'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/18.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'To make accurate observations, we need to first classify<br>nature. Living organisms can be broadly categorized into<br>animals and plants. Plants cannot move on their own, but<br>they provide significant assistance for the survival of<br>animals. On the other hand, animals can go wherever they<br>want, but they cannot produce nutrients on their own.<br>What do you think is the superior organism between plants<br>and animals? Write down the reasons.<br><br>', keywords: ['accurate observations', 'classify nature', 'Living organisms', 'broadly categorized', 'animals plants', 'Plants cannot move', 'provide significant assistance', 'survival animals', 'animals go wherever', 'cannot produce nutrients', 'superior organism', 'plants animals', 'Write down reasons'], fontType: 'type4' },
+      4: { text: 'Unlike plants, animals have well-developed sensory organs<br>and can move on their own, leading to interesting behaviors.<br>Hedgehogs, for example, are covered with spines all over<br>their bodies except for their bellies. They usually keep<br>their spines flat, but when they sense danger, they curl<br>their bodies and erect the spines. Spines serve not only to<br>attack predators but also to protect themselves from harm.<br>Due to their spines, hedgehogs remain unharmed even<br>when falling from high heights.<br><br>', keywords: ['Unlike plants', 'well-developed sensory organs', 'move on their own', 'interesting behaviors', 'Hedgehogs', 'covered with spines', 'bodies except bellies', 'keep spines flat', 'sense danger', 'curl bodies', 'erect spines', 'serve attack predators', 'protect themselves', 'remain unharmed', 'falling high heights'], fontType: 'type4' }
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/19.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Another example of an animal with spines is the sea urchin.<br>The sea urchin, which looks like a chestnut burr, has muscles<br>attached to each of its spines, allowing it to move using<br>them. Most mammals, including humans, have fur on their<br>bodies. While fur helps maintain warmth, humans have<br>less fur than other animals, making it disadvantageous for<br>temperature regulation. How do people with less fur than<br>animals cope with the cold? Explain.', keywords: ['example animal spines', 'sea urchin', 'looks like chestnut burr', 'muscles attached', 'spines', 'move using them', 'Most mammals', 'including humans', 'fur on bodies', 'helps maintain warmth', 'humans less fur', 'other animals', 'disadvantageous', 'temperature regulation', 'people less fur', 'cope with cold'], fontType: 'type3' },
+      
+      2: { text: 'Plants try to avoid being eaten by birds, insects, or herbivores<br>in various ways. Cacti, surrounded by spines, deter animals<br>from approaching. The wolfsbane, commonly found in<br>China, Korea, and Russia, contains potent toxins in its<br>roots, which were historically used in poison recipes.<br>Ingesting the roots of the wolfsbane can lead to heart<br>failure and death.', keywords: ['Plants try avoid', 'eaten by birds', 'insects herbivores', 'various ways', 'Cacti', 'surrounded spines', 'deter animals', 'approaching', 'wolfsbane', 'commonly found', 'China Korea Russia', 'contains potent toxins', 'roots', 'historically used', 'poison recipes', 'Ingesting roots', 'heart failure death'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/20.jpg',
+    hasStartButton: false,
+    zones: {
+      
+      1: { text: '', keywords: [] },
+      2: { text: 'Sometimes, plants produce chemical substances that make<br>them unpalatable for self-defense. As a result, caterpillars,<br>for instance, exhibit gruesome behavior by not eating tree<br>leaves but preying on their own kind.<br>Find an example where plants utilize other animals for their<br>defense and explain.', keywords: ['plants produce', 'chemical substances', 'unpalatable', 'self-defense', 'caterpillars', 'exhibit gruesome behavior', 'not eating tree leaves', 'preying own kind', 'Find example', 'plants utilize', 'other animals', 'defense explain'], fontType: 'type4' },
+      3: { text: 'The lantana plant, well-known for its ability to change<br>flower colors seven times, is entirely toxic.<br>Contact with its leaves can cause skin inflammation, and<br>consuming its fruits may result in vomiting and diarrhea.<br>', keywords: ['lantana plant', 'well-known', 'ability change', 'flower colors', 'seven times', 'entirely toxic', 'Contact leaves', 'cause skin inflammation', 'consuming fruits', 'result vomiting diarrhea'], fontType: 'type4' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/21.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Before animals engage in fights, they often showcase their<br>strength to intimidate potential adversaries.<br>For instance, in chimpanzee societies, the dominant<br>individual, usually the alpha, might shake branches and<br>create noise with leaves, displaying power without directly<br>attacking other chimpanzees. When challengers observe<br>these displays, they often retreat, leading to very few<br>actual physical confrontations.', keywords: ['Before animals engage', 'fights', 'showcase strength', 'intimidate potential adversaries', 'chimpanzee societies', 'dominant individual', 'alpha', 'shake branches', 'create noise', 'leaves', 'displaying power', 'without directly attacking', 'challengers observe', 'displays', 'retreat', 'few actual', 'physical confrontations'], fontType: 'type3' },
+      2: { text: 'A similar behavior can be seen in stag. Initially, they engage<br>in vocal challenges, making loud sounds, and if the opponent<br>does not retreat, they may proceed to a showdown by<br>locking antlers. Typically, the confrontation concludes at<br>this stage, but if not, it could escalate into a potentially<br>harmful physical fight. Squirrel monkeys in South America<br>also engage in frequent conflicts, yet actual fights are<br>relatively rare. Explain why actual physical fights are<br>infrequent in animal societies.', keywords: ['similar behavior', 'stag', 'engage vocal challenges', 'making loud sounds', 'opponent not retreat', 'proceed showdown', 'locking antlers', 'confrontation concludes', 'escalate potentially', 'harmful physical fight', 'Squirrel monkeys', 'South America', 'frequent conflicts', 'actual fights', 'relatively rare', 'physical fights', 'infrequent animal societies'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/22.jpg',
+    hasStartButton: false,
+    zones: {
+      
+      1: { text: '<span class="larger-text"><u>Homeostasis: Maintaining the Physical Condition</u></span><br><span class="larger-text"><u>in Balance</u></span><br><br>Our body temperature does not drop even if we eat cold<br>food, and our body temperature does not rise even if we<br>eat hot food. Regardless of the season or weather, our<br>body temperature is always the same. Physical conditions,<br>such as body temperature, the amount of chemicals in<br>the body, and blood pressure, always remain constant.<br>In biology, this property is called "homeostasis."<br>The human body undergoes various reactions to maintain<br>homeostasis. When the weather is cold and body<br>temperature falls below normal, the human body secretes<br>less sweat and constricts blood vessels to avoid losing<br>heat. Conversely, when the weather is hot, sweat secretion<br>increases and blood vessels dilate to dissipate heat.', keywords: ['Homeostasis', 'Maintaining Physical Condition', 'Balance', 'body temperature', 'not drop', 'eat cold food', 'not rise', 'eat hot food', 'Regardless season weather', 'always same', 'Physical conditions', 'amount chemicals', 'blood pressure', 'remain constant', 'biology', 'property called', 'homeostasis', 'human body', 'various reactions', 'maintain homeostasis', 'weather cold', 'falls below normal', 'secretes less sweat', 'constricts blood vessels', 'avoid losing heat', 'weather hot', 'sweat secretion increases', 'blood vessels dilate', 'dissipate heat'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/23.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Due to homeostasis, the amount of water in the human<br>body remains constant. When the body lacks water,<br>the kidneys produce less urine and absorb more water.<br>Conversely, when there is a large amount of water,<br>urine volume increases, and less water is absorbed.<br>Homeostasis also regulates the amount of glucose in the<br>blood. The human body secretes hormones called insulin<br>and glucagon. Insulin reduces blood sugar levels, while<br>glucagon increases them. When we eat carbohydrates,<br>our blood sugar level increases, and as insulin is secreted,<br>sugar is transported to the liver.', keywords: ['Due homeostasis', 'amount water', 'human body', 'remains constant', 'body lacks water', 'kidneys produce', 'less urine', 'absorb more water', 'large amount water', 'urine volume increases', 'less water absorbed', 'regulates amount glucose', 'blood', 'secretes hormones', 'insulin glucagon', 'Insulin reduces', 'blood sugar levels', 'glucagon increases', 'eat carbohydrates', 'blood sugar level', 'insulin secreted', 'sugar transported', 'liver'], fontType: 'type4' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/24.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: 'Conversely, when the body needs energy and uses glucose<br>in the blood, glucagon is secreted, causing the sugar stored<br>in the liver to move into the blood. In this way, the amount<br>of glucose in the blood is maintained in balance through<br>the actions of insulin and glucagon.', keywords: ['Conversely', 'body needs energy', 'uses glucose', 'blood', 'glucagon secreted', 'sugar stored', 'liver', 'move into blood', 'amount glucose', 'maintained balance', 'actions insulin glucagon'], fontType: 'type4' },
+      2: { text: 'Maintaining homeostasis is important for humans<br>to continue their life activities. Most diseases occur<br>when homeostasis is out of balance. In modern society,<br>homeostasis is disrupted due to unhealthy lifestyle habits,<br>which is why extra care is needed.', keywords: ['Maintaining homeostasis', 'important humans', 'continue life activities', 'Most diseases occur', 'homeostasis out balance', 'modern society', 'disrupted', 'unhealthy lifestyle habits', 'extra care needed'], fontType: 'type4' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/25.jpg',
+   zones: {
+    1: { text: '<span class="larger-text">02. Motifs Make Plants and Animals Unique</span>', keywords: ['motifs', 'plants', 'animals', 'unique', 'chapter', 'title'] }, 
+    2: { text: 'Have you ever observed the leaves of corn, bamboo,<br>or rice plants? Not only do they extend lengthwise,<br>but their veins also spread uniformly in one<br>direction. This type of leaf vein pattern, observed<br>in monocotyledonous plants, is known as "parallel<br>venation."', keywords: ['corn', 'bamboo', 'rice plants', 'parallel venation', 'monocotyledonous', 'leaf veins', 'pattern'] },
+     3: { text: 'One of the most prominent motifs in plants is leaf<br>veins. Leaf veins are crucial in transporting the<br>glucose or starch produced through photosynthesis<br>to other parts of the plant. They also facilitate the<br>transfer of water and minerals absorbed by the<br>roots to the leaves. The most common motif of leaf<br>veins we can observe in our surroundings is "netted<br>venation." We can easily see this intricate and tangled<br>appearance of leaf veins, resembling a net, in the<br>leaves of dicotyledonous plants. Peas, apple trees,<br>persimmons, tomatoes, and sweet potatoes exhibit<br>netted venation.', keywords: ['leaf veins', 'photosynthesis', 'netted venation', 'dicotyledonous plants', 'glucose', 'starch', 'transport', 'water', 'minerals'] },
+     4: { text: 'Explain the role of veins in plant leaves.', keywords: ['veins', 'plant leaves', 'role', 'explain', 'function', 'transport'], fontType: 'type2' }
+     
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/26.jpg',
+   zones: {
+     1: { text: 'Leaves with netted venation have veins branching<br>out in all directions, making them easy to tear by<br>hand in any direction. However, leaves with parallel<br>venation are easy to tear along the direction of the<br>veins but not across, perpendicular to the veins. Thus,<br>if we forcibly try to tear leaves with parallel veins, our<br>fingers may slip and we might get hurt.', keywords: ['netted venation', 'parallel venation', 'tear', 'veins', 'directions'] },
+     2: { text: 'While it might be easy to think of the veins of a ginkgo<br>leaf as parallel veins, a closer look reveals an entirely<br>different shape. The ginkgo leaf has a single line<br>continuously branching into two. This type of vein<br>pattern is called dichotomous venation.<br>On the other hand, the veins in a maple leaf are called<br>palmate venation.', keywords: ['ginkgo leaf', 'dichotomous venation', 'maple leaf', 'palmate venation', 'branching'] },
+     3: { text: 'Explain the differences between parallel and<br>dichotomous venation.', keywords: ['parallel', 'dichotomous venation', 'differences', 'explain'], fontType: 'type2' },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/27.jpg',
+   zones: {
+     1: { text: 'Leaves with netted venation appear as small veins<br>branching out from a single large vein. In contrast,<br>Leaves with palmate venation involve multiple large<br>veins branching out simultaneously, creating a shape<br>resembling the palm of a hand.<br>The shapes of leaf veins vary depending on plant<br>species, and the leaves on the stem also look<br>different. Observe the arrangement of leaves on the<br>stems of various plants. Forsythia, false acasia, and<br>privet have leaves emerging in pairs facing each other<br>along the stem.', keywords: ['netted venation', 'palmate venation', 'leaf arrangement', 'forsythia', 'false acasia', 'privet'] },
+     2: { text: 'This is called opposite phyllotaxy. On the other hand,<br>plants like oak and cherry exhibit alternate phyllotaxy,<br>where leaves emerge one at a time alternatingly along<br>the stem. Whorled phyllotaxy is similar to opposite<br>phyllotaxy, but multiple leaves emerge at the same<br>height along the stem. This can be seen in plants like<br>bellflower or stringy stonecrop. Whorled phyllotaxy<br>allows all leaves to receive even amount of sunlight.', keywords: ['opposite phyllotaxy', 'alternate phyllotaxy', 'whorled phyllotaxy', 'oak', 'cherry', 'bellflower', 'sunlight'] },
+     3: { text: 'Explain how to differentiate between pine and<br>pine nut trees based on how their leaves emerge.', keywords: ['pine', 'pine nut trees', 'leaves emerge', 'differentiate'], fontType: 'type2' },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/28.jpg',
+   zones: {
+     1: { text: 'When multiple leaves cluster together on a part of the<br>stem, like in the case of the ginkgo tree or pine tree,<br>it is called whorled phyllotaxy.<br>What motifs and secrets lie inside the cells of plants<br>and animals? Living organisms are composed of small,<br>room-shaped cells, where phenomena that represent<br>the characteristics of living things occur. Cells are so<br>small we cannot see them with the naked eye.<br>We need a microscope to observe them properly.<br>The person who first discovered cells was the British<br>scientist Robert Hooke. He used a microscope he had<br>made to observe a piece of cork.', keywords: ['whorled phyllotaxy', 'ginkgo tree', 'pine tree', 'cells', 'living organisms', 'microscope', 'Robert Hooke', 'cork'] },
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: 'When he thinly sliced the cork and observed it,<br>he found small rooms attached in a honeycomb pattern.<br>Seeing the resemblance to small rooms in a monastery,<br>Hooke named them cells. The human body is said to<br>be made up of about 36 trillion cells.', keywords: ['cork', 'honeycomb pattern', 'monastery', 'cells', 'human body', '36 trillion cells'] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/29.jpg',
+   zones: {
+     1: { text: 'Just as various shapes of houses, cars, and more<br>can be created using blocks, numerous cells come<br>together to form living organisms. Cell research<br>became active more than 200 years after Hooke<br>discovered cells. In 1831, the British botanist Robert<br>Brown discovered the nucleus in cells, and many<br>scientists then advocated the following "cell theory."', keywords: ['blocks', 'living organisms', 'cell research', 'Robert Brown', 'nucleus', 'cell theory'] },
+     2: { text: 'Plant cells and animal cells have some similarities,<br>but they also have many differences. Both plant and<br>animal cells share common features such as a nucleus,<br>cell membrane, cytoplasm, and mitochondria. However,<br>plant cells have chloroplasts and a cell wall, absent<br>in animal cells. The nucleus, typically round in shape,<br>regulates the cellular activities of both types of cells.<br>It contains genetic material (DNA) that determines<br>the organism\'s shape, characteristics, and heredity.', keywords: ['plant cells', 'animal cells', 'nucleus', 'cell membrane', 'cytoplasm', 'mitochondria', 'chloroplasts', 'cell wall', 'DNA'] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/30.jpg',
+   zones: {
+     1: { text: 'The cell membrane, which surrounds the entire cell,<br>protects the cell and regulates the flow of various<br>substances. The part of the cell that fills it, excluding<br>the nucleus, is called the cytoplasm. The mitochondria<br>within the cytoplasm break down nutrients to<br>generate energy. Plant cells have chloroplasts, which<br>use light to produce nutrients. These small, green,<br>granule-shaped chloroplasts are mainly found in cells<br>that make up plant leaves.', keywords: ['cell membrane', 'cytoplasm', 'mitochondria', 'nutrients', 'energy', 'chloroplasts', 'light', 'granule-shaped'] },
+     2: { text: 'However, because animal cells lack chloroplasts, they<br>always need that nutrients should be supplied from<br>outside. There is a thick and rigid wall outside the<br>cell membrane of plant cells. This wall, called the<br>cell wall, protects plant cells and helps maintain the<br>cell\'s shape. The intricate motifs inside the cells hold<br>secrets unique to plants and animals.', keywords: ['animal cells', 'chloroplasts', 'nutrients', 'cell wall', 'thick', 'rigid', 'motifs', 'secrets'] },
+     3: { text: '', keywords: [] },
+     4: { text: 'Explain the differences between animal cells and<br>plant cells.', keywords: ['animal cells', 'plant cells', 'differences', 'explain'], fontType: 'type2' }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/31.jpg',
+   zones: {
+     1: { text: '02. Motifs Make Plants and Animals Unique<br><span class="larger-text">Ⅰ. What Is the Purpose of Studying Motifs</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That Make Plants and Animals Unique?</span><br><br>Humans communicate through speech to convey to<br>others where they are in pain. However, plants cannot<br>speak, and although animals make sounds to signal<br>that they are sick, we do not understand the exact<br>meaning of the sounds, making it difficult to tell<br>whether animals and plants are sick.<br>Then, how can we know if other organisms are in pain?<br>Every living being possesses distinctive motifs, and<br>when there is a health issue, motifs that are not<br>usually visible may appear.', keywords: ['motifs', 'plants', 'animals', 'unique', 'humans', 'communicate', 'pain', 'sick', 'organisms', 'health issue'] },
+     2: { text: 'In other words, animals and plants communicate with<br>us through motifs. For instance, when the leaves<br>of a plant start drying from the tips, it signifies<br>a lack of water. The unique traits of motifs in plants<br>and animals reflect the processes of life\'s creation<br>and extinction. We study this topic to unravel the<br>secrets of nature through the various motifs of living<br>organisms. What relationship exists between motifs<br>and the secrets of nature?', keywords: ['communicate', 'motifs', 'leaves', 'drying', 'water', 'life creation', 'extinction', 'nature', 'secrets'] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/32.jpg',
+   zones: {
+     1: { text: 'Nature is composed of fractal structures where the<br>whole is contained within its parts. Therefore, motifs<br>in plants can also be observed in animals. Of course,<br>the same motifs can manifest in humans as well.<br>Furthermore, both plants and animals are made up of<br>the basic unit called cells. Understanding how cells<br>function in living organisms allows us to comprehend<br>the mechanisms the entire living entity operates.', keywords: ['nature', 'fractal structures', 'motifs', 'plants', 'animals', 'humans', 'cells', 'basic unit', 'function', 'mechanisms'] },
+     2: { text: '', keywords: [] },
+     3: { text: '(1) Plant leaves reveal veins that serve a role similar to the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blood vessels in animals. Explain how the shapes of leaf<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;veins differ depending on the type of plant.<br><br>(2) The cell is the basic unit that makes up both plants and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;animals. Explain the differences between plant cells<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and animal cells.<br><br>', keywords: ['plant leaves', 'veins', 'blood vessels', 'animals', 'leaf veins', 'type of plant', 'cell', 'basic unit', 'plant cells', 'animal cells'], fontType: 'type3' },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/33.jpg',
+   zones: {
+     1: { text: '02. Motifs Make Plants and Animals Unique<br><span class="larger-text">Ⅱ. How Can We Apply the Study of Motifs</span><br><span class="larger-text"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That Make Plants and Animals Unique?</span><br><br>', keywords: ['motifs', 'plants', 'animals', 'unique', 'veins', 'tree leaves', 'channels', 'water', 'minerals', 'glucose', 'starch', 'photosynthesis', 'urban design', 'city', 'utilities'] },
+     2: { text: 'Large areas can be designed by referring to the netted<br>venation of apple or persimmon trees. On the other<br>hand, when designing a city on an elongated piece of<br>land, we can refer to the parallel venation of corn or<br>bamboo. Nature achieves maximum efficiency with<br>minimal effort, so designing a city using various leaf<br>venations can reduce construction costs.', keywords: ['large areas', 'netted venation', 'apple', 'persimmon trees', 'elongated land', 'parallel venation', 'corn', 'bamboo', 'maximum efficiency', 'construction costs'] },
+     3: { text: 'The veins in tree leaves act as channels, bringing<br>water and minerals absorbed from the roots to the<br>leaves and transporting glucose or starch produced<br>through photosynthesis to other parts of the plant.<br>Various leaf vein patterns can be used in urban<br>design. When designing a city, we should consider not<br>only the arrangement of buildings but also the layout<br>of utilities, including water and sewage systems,<br>electricity, and roads.', keywords: ['veins', 'tree leaves', 'channels', 'water', 'minerals', 'glucose', 'starch', 'photosynthesis', 'urban design', 'city', 'utilities', 'electricity', 'roads'] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/34.jpg',
+   zones: {
+     1: { text: 'Tree leaves are uniquely arranged to capture sunlight<br>evenly. This arrangement can also be utilized to build<br>solar power plants. To maximize the efficiency of<br>solar power generation, many solar panels need to be<br>installed, and they all need to receive ample sunlight.<br>However, this requires a large area of land.<br>Solar panels can be installed most efficiently in small<br>areas of land by utilizing the patterns of sprouting<br>leaves. We can create laundry drying racks by using<br>the arrangement of sprouted leaves, ensuring even<br>sunlight exposure.', keywords: ['tree leaves', 'sunlight', 'solar power plants', 'solar panels', 'efficiency', 'sprouting leaves', 'laundry drying racks'] },
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: '(1) Both plants and animals are composed of cells, the basic<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unit of life. What advantages and disadvantages might<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arise if an organism is comprised of an enormous<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number of cells?<br><br>(2) Each type of tree has different leaves. Why does each<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leaf tear in a different direction? Explain.<br><br>', keywords: ['plants', 'animals', 'cells', 'basic unit', 'life', 'advantages', 'disadvantages', 'organism', 'enormous number', 'tree', 'leaves', 'tear', 'direction'], fontType: 'type3' }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/35.jpg',
+   zones: {
+     
+     1: { text: 'The person who first discovered cells was the British<br>scientist Robert Hooke. He observed a piece of cork using<br>a microscope he had created. He discovered small rooms<br>attached in a honeycomb pattern when he thinly sliced<br>the cork and observed it. Seeing the resemblance to small<br>rooms in a monastery, Hooke named them cells. It is said<br>that the human body is made up of about 36 trillion cells.<br>Just as various shapes of houses, cars, and more can be<br>created using blocks, numerous cells come together to<br>form a living organism.<br>Living organisms are composed of numerous cells, and<br>their size is determined by the number of cells they have.<br>The growth of an organism is synonymous with an increase<br>in the number of cells. If, during the growth of an organism,<br>the number of cells does not increase and only the size of<br>the cells grows, what problems might arise? Explain.', keywords: ['Robert Hooke', 'British scientist', 'cells', 'cork', 'microscope', 'honeycomb pattern', 'monastery', '36 trillion cells', 'blocks', 'living organism', 'growth', 'problems'], fontType: 'type3' },
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/36.jpg',
+   zones: {
+     1: { text: 'The phenomenon where one mother cell divides into two<br>daughter cells is called cell division. The growth of plants<br>also occurs through cell division, leading to an increase in<br>the number of cells. Unicellular organisms like amoebas<br>and Euglena reproduce through cell division. The body<br>splits in half, with each part regenerating the lost portion,<br>resulting in a return to the original form. This reproductive<br>method is called binary fission. Organisms reproducing<br>through binary fission have a very rapid reproductive rate.<br>Starting with one individual, the population doubles with<br>each division: 1 becomes 2, 2 becomes 4, 4 becomes 8, 16,<br>and so on.', keywords: ['cell division', 'mother cell', 'daughter cells', 'plants', 'unicellular organisms', 'amoebas', 'Euglena', 'binary fission', 'reproductive rate'], fontType: 'type3' },
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/37.jpg',
+   zones: {
+     1: { text: '<br>Imagine a small glass jar with a single amoeba that undergoes<br>cell division once a day. By the seventh day, the glass jar is<br>completely filled with amoebas. How full do you think the<br>jar is on the sixth day? Explain.', keywords: ['glass jar', 'amoeba', 'cell division', 'seventh day', 'sixth day', 'explain'], fontType: 'type4' },
+     2: { text: 'Plants typically start as tiny seeds, and a shoot emerges.<br>Roots and stems grow, followed by the development<br>of leaves. Water and nutrients absorbed by the roots<br>are transported to the leaves, which are used for<br>photosynthesis. A fully grown plant blossoms and bears<br>fruits.', keywords: ['plants', 'seeds', 'shoot', 'roots', 'stems', 'leaves', 'water', 'nutrients', 'photosynthesis', 'blossoms', 'fruits'], fontType: 'type3' },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+    bg: '../assets/img/ReadBook/G1.1.6/38.jpg',
+   zones: {
+     1: { text: '<br>Generally, seeds are found inside the fruit. However,<br>in cases like strawberries or pineapples, the seeds are<br>located outside of the fruit. The number of seeds varies<br>for each fruit. Peaches and mangoes have one large seed<br>in the center, while persimmons, apples, and pomegranates<br>contain multiple seeds. We often consume the part<br>surrounding the seed, but there are instances, like with<br>rice, wheat, and beans, where we eat the seeds directly.<br>When fruits begin to form, they are usually green. But as<br>time passes, fruits take on various colors, such as red,<br>orange, blue, black, and more. Explain why fruits change<br>color to become more noticeable to birds or herbivores.', keywords: ['seeds', 'fruit', 'strawberries', 'pineapples', 'peaches', 'mangoes', 'persimmons', 'apples', 'pomegranates', 'rice', 'wheat', 'beans', 'colors', 'birds', 'herbivores'], fontType: 'type4' },
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/39.jpg',
+   zones: {
+     1: { text: '', keywords: [] },
+     2: { text: '', keywords: [] },
+     3: { text: 'Most cells are so tiny that they can only be observed<br>under a microscope. Cells constantly communicate with<br>the surrounding environment, and since each cell is small,<br>the surface area of all cells is increased, allowing nutrients<br>to be absorbed quickly. Additionally, they can efficiently<br>expel carbon dioxide and waste. At this very moment,<br>numerous cells in our bodies are undergoing cell division,<br>creating new cells while, simultaneously, an equal number<br>of cells are dying and disappearing. Dead cells either get<br>consumed by other cells that play a role in removing debris<br>from our bodies or naturally shed away.<br><br>', keywords: ['cells', 'microscope', 'communicate', 'environment', 'surface area', 'nutrients', 'carbon dioxide', 'waste', 'cell division', 'dying', 'debris'], fontType: 'type3' },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/40.jpg',
+   zones: {
+     1: { text: 'The white flakes on the skin are dead skin cells, and dead<br>cells from the stomach or intestines exit the body with<br>feces. Imagine if the dead cells did not exit the body and<br>remained. Describe what might happen if dead cells did<br>not leave our bodies.', keywords: ['white flakes', 'skin', 'dead skin cells', 'stomach', 'intestines', 'feces', 'dead cells', 'body'], fontType: 'type3' },
+     2: { text: '<span class="larger-text"><u>Why Do Organisms Reproduce Sexually?</u></span><br><br>The reproduction methods of living things can be broadly<br>divided into sexual and asexual reproduction. Sexual<br>reproduction is a method in which females and males mate<br>with each other and produce offspring. On the other hand,<br>asexual reproduction refers to self-cloning without mating<br>between males and females.', keywords: ['organisms', 'reproduce sexually', 'reproduction methods', 'sexual reproduction', 'asexual reproduction', 'females', 'males', 'offspring', 'self-cloning'], fontType: 'type3' },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+   bg: '../assets/img/ReadBook/G1.1.6/41.jpg',
+   zones: {
+     1: { text: '<br>For example, when part of a plant is cut off and planted in<br>the ground, it can grow. Another example is the body of<br>a single-celled organism that splits into two and<br>replicates itself. As many people know, most plants<br>reproduce sexually. This may seem obvious, but it is not<br>easy to clearly explain why. Scholars argue that sexual<br>reproduction is advantageous for the maintenance of<br>species. The biggest difference between sexual and<br>asexual reproduction is genetic diversity. Genes contain<br>information about living things, such as their shape, color,<br>and size. During sexual reproduction, genes from both<br>parents are mixed and passed on to the offspring.', keywords: ['plant', 'cut off', 'planted', 'single-celled organism', 'splits', 'replicates', 'sexual reproduction', 'scholars', 'species', 'genetic diversity', 'genes', 'parents', 'offspring'], fontType: 'type4' },
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+    bg: '../assets/img/ReadBook/G1.1.6/42.jpg',
+   zones: {
+     1: { text: '<br>On the other hand, a cloned organism resulting from asexual<br>reproduction has the same genes as the original organism.<br>In other words, organisms that reproduce sexually have<br>more diverse genetic information, so even within the same<br>species, each species has slightly different characteristics.<br>Accordingly, animals that reproduce asexually have a lower<br>chance of survival when their environment changes or they<br>are attacked by pathogens such as viruses.<br>For example, if there are genes for being weak to the cold<br>and genes for being able to withstand the cold, the offspring<br>of organisms that reproduce sexually will have at least<br>one of the two genes. Therefore, even when the weather<br>gets colder, offspring with cold-resistant genes survive.<br>However, if an organism with a gene that is sensitive to<br>cold reproduces asexually, the cloned organisms are also<br>vulnerable to the cold and can die.', keywords: ['cloned organism', 'asexual reproduction', 'genes', 'original organism', 'sexual reproduction', 'genetic information', 'species', 'characteristics', 'survival', 'environment', 'pathogens', 'viruses', 'cold', 'weather', 'cold-resistant genes', 'vulnerable'] , fontType: 'type4'},
+     2: { text: '', keywords: [] },
+     3: { text: '', keywords: [] },
+     4: { text: '', keywords: [] }
+   }
+ },
+ {
+    bg: '../assets/img/ReadBook/G1.1.6/43.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/44.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/45.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/46.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/47.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/48.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/49.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/50.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/51.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/52.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/53.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/54.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/55.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/56.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/57.jpg', 
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/58.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/59.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/60.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/61.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.6/62.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: ['chapter', 'overview'] },
+      2: { text: '', keywords: ['content', 'preview'] },
+      3: { text: '', keywords: ['summary'] },
+      4: { text: '', keywords: ['introduction'] }
+    }
+  },
+
+];
+
+  </script>
+   
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 
