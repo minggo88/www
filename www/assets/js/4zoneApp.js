@@ -880,11 +880,25 @@ function renderYoutubeResults(items) {
                 const itemDiv = this.closest('.yt-result-item');
                 
                 // 기존 플레이어가 있으면 제거
-                if (currentPlayer && typeof currentPlayer.destroy === 'function') {
-                    currentPlayer.destroy();
-                }
-                if (currentPlayerContainer && currentPlayerContainer.parentNode) {
-                    currentPlayerContainer.remove();
+                try {
+                    if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+                        currentPlayer.destroy();
+                    }
+                    if (currentPlayerContainer && currentPlayerContainer.parentNode) {
+                        // iframe 요소 직접 제거
+                        const iframe = currentPlayerContainer.querySelector('iframe');
+                        if (iframe) {
+                            iframe.src = '';
+                            iframe.remove();
+                        }
+                        currentPlayerContainer.remove();
+                    }
+                } catch (error) {
+                    console.warn('Previous player cleanup error:', error);
+                    // 에러가 발생해도 컨테이너는 제거
+                    if (currentPlayerContainer && currentPlayerContainer.parentNode) {
+                        currentPlayerContainer.remove();
+                    }
                 }
                 
                 // 같은 아이템을 다시 클릭한 경우 플레이어만 제거하고 종료
@@ -949,12 +963,35 @@ function renderYoutubeResults(items) {
                 `;
                 
                 closeBtn.onclick = () => {
-                    if (currentPlayer && typeof currentPlayer.destroy === 'function') {
-                        currentPlayer.destroy();
+                    try {
+                        // YouTube 플레이어 정리
+                        if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+                            currentPlayer.destroy();
+                        }
+                        
+                        // iframe 요소 직접 제거
+                        const iframe = playerContainer.querySelector('iframe');
+                        if (iframe) {
+                            iframe.src = '';
+                            iframe.remove();
+                        }
+                        
+                        // 컨테이너 제거
+                        playerContainer.remove();
+                        currentPlayer = null;
+                        currentPlayerContainer = null;
+                        
+                        // 가비지 컬렉션 유도
+                        if (window.gc) {
+                            window.gc();
+                        }
+                    } catch (error) {
+                        console.warn('YouTube player cleanup error:', error);
+                        // 에러가 발생해도 컨테이너는 제거
+                        playerContainer.remove();
+                        currentPlayer = null;
+                        currentPlayerContainer = null;
                     }
-                    playerContainer.remove();
-                    currentPlayer = null;
-                    currentPlayerContainer = null;
                 };
                 
                 playerContainer.appendChild(closeBtn);
@@ -974,24 +1011,45 @@ function renderYoutubeResults(items) {
                 
                 // YouTube 플레이어 생성
                 if (window.YT && window.YT.Player) {
-                    currentPlayer = new YT.Player(playerDiv, {
-                        width: '100%',
-                        height: minHeight,
-                        videoId: vid,
-                        playerVars: { 'autoplay': 1, 'controls': 1 },
-                        events: {
-                            'onReady': function (event) { 
-                                event.target.playVideo(); 
-                                // 플레이어 크기 강제 설정
-                                const iframe = playerDiv.querySelector('iframe');
-                                if (iframe) {
-                                    iframe.style.width = '100% !important';
-                                    iframe.style.height = '100% !important';
-                                    iframe.style.minHeight = '600px !important';
+                    try {
+                        currentPlayer = new YT.Player(playerDiv, {
+                            width: '100%',
+                            height: minHeight,
+                            videoId: vid,
+                            playerVars: { 
+                                'autoplay': 1, 
+                                'controls': 1,
+                                'rel': 0,
+                                'modestbranding': 1,
+                                'fs': 1
+                            },
+                            events: {
+                                'onReady': function (event) { 
+                                    try {
+                                        event.target.playVideo(); 
+                                        // 플레이어 크기 강제 설정
+                                        const iframe = playerDiv.querySelector('iframe');
+                                        if (iframe) {
+                                            iframe.style.width = '100% !important';
+                                            iframe.style.height = '100% !important';
+                                            iframe.style.minHeight = '600px !important';
+                                        }
+                                    } catch (error) {
+                                        console.warn('YouTube player ready error:', error);
+                                    }
+                                },
+                                'onError': function (event) {
+                                    console.warn('YouTube player error:', event.data);
                                 }
                             }
-                        }
-                    });
+                        });
+                    } catch (error) {
+                        console.error('YouTube player creation error:', error);
+                        // 에러 발생 시 플레이어 컨테이너 제거
+                        playerContainer.remove();
+                        currentPlayer = null;
+                        currentPlayerContainer = null;
+                    }
                 }
             };
         });
@@ -1007,5 +1065,34 @@ document.addEventListener('keydown', function(event) {
   } else if (event.key === 'ArrowRight') {
     event.preventDefault();
     nextSlide();
+  }
+});
+
+// 페이지 떠날 때 YouTube 플레이어 정리
+window.addEventListener('beforeunload', function() {
+  try {
+    // 모든 YouTube iframe 정리
+    const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
+    iframes.forEach(iframe => {
+      iframe.src = '';
+    });
+    
+    // 현재 플레이어 정리
+    if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+      currentPlayer.destroy();
+    }
+  } catch (error) {
+    console.warn('Page unload cleanup error:', error);
+  }
+});
+
+// 페이지 숨김 시 플레이어 일시정지
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden && currentPlayer && typeof currentPlayer.pauseVideo === 'function') {
+    try {
+      currentPlayer.pauseVideo();
+    } catch (error) {
+      console.warn('Player pause error:', error);
+    }
   }
 }); 
