@@ -628,11 +628,6 @@ window.onload = () => {
   createPageIndicator();
   hideAddressBar();
   
-  // YouTube API 상태 확인
-  setTimeout(() => {
-    checkYouTubeAPIStatus();
-  }, 1000);
-  
         // 갤럭시 탭 S9에서 페이지 인디케이터 색상 초기 설정
       setTimeout(() => {
         const pageIndicator = document.getElementById('page-indicator');
@@ -772,244 +767,6 @@ const channels = {
     }
 };
 
-// YouTube API 로딩 대기 함수
-function waitForYouTubeAPI() {
-    return new Promise((resolve, reject) => {
-        console.log('YouTube API 로딩 상태 확인 중...');
-        
-        // 이미 로드된 경우
-        if (window.YT && window.YT.Player) {
-            console.log('YouTube API 이미 로드됨');
-            resolve();
-            return;
-        }
-        
-        // API 로딩 대기
-        let attempts = 0;
-        const maxAttempts = 50; // 5초 (100ms * 50)
-        
-        const checkAPI = () => {
-            attempts++;
-            console.log(`YouTube API 확인 시도 ${attempts}/${maxAttempts}`);
-            
-            if (window.YT && window.YT.Player) {
-                console.log('YouTube API 로드 완료');
-                resolve();
-            } else if (attempts >= maxAttempts) {
-                console.error('YouTube API 로딩 시간 초과');
-                reject(new Error('YouTube API를 로드할 수 없습니다. 인터넷 연결을 확인해주세요.'));
-            } else {
-                setTimeout(checkAPI, 100);
-            }
-        };
-        
-        checkAPI();
-    });
-}
-
-// YouTube API 상태 확인 함수
-function checkYouTubeAPIStatus() {
-    const status = {
-        YT: !!window.YT,
-        YTPlayer: !!(window.YT && window.YT.Player),
-        iframeAPI: !!document.querySelector('script[src*="youtube.com/iframe_api"]')
-    };
-    
-    console.log('YouTube API 상태:', status);
-    return status;
-}
-
-// 네트워크 연결 확인
-function checkNetworkConnection() {
-    return new Promise((resolve, reject) => {
-        if (navigator.onLine || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            resolve();
-        } else {
-            reject(new Error('네트워크 연결을 확인해주세요.'));
-        }
-    });
-}
-
-// YouTube 플레이어 생성 함수
-async function createYouTubePlayer(playerDiv, vid, minHeight) {
-    try {
-        console.log('YouTube 플레이어 생성 시작:', { vid, minHeight });
-        
-        // 모바일 환경 감지
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-        
-        // 네트워크 연결 확인
-        if (!navigator.onLine && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-            throw new Error('네트워크 연결을 확인해주세요.');
-        }
-
-        // YouTube API 대기
-        console.log('YouTube API 대기 중...');
-        await waitForYouTubeAPI();
-        console.log('YouTube API 로드 완료');
-
-        // 비디오 ID 유효성 검사
-        if (!vid || vid.trim() === '') {
-            throw new Error('유효하지 않은 비디오 ID입니다.');
-        }
-        
-        return new Promise((resolve, reject) => {
-            console.log('YT.Player 생성 중...');
-            
-            const player = new YT.Player(playerDiv, {
-                'width': '100%',
-                'height': minHeight,
-                'videoId': vid,
-                'playerVars': {
-                    'autoplay': 1,
-                    'controls': 1,
-                    'rel': 0,
-                    'modestbranding': 1,
-                    'fs': 1,
-                    'origin': window.location.origin,
-                    'enablejsapi': 1,
-                    'widget_referrer': window.location.origin,
-                    'iv_load_policy': 3,
-                    'cc_load_policy': 0,
-                    'disablekb': 0,
-                    'playsinline': 1, // 모바일에서 중요
-                    'showinfo': 0,
-                    'vq': isMobile ? 'small' : 'medium', // 모바일에서는 낮은 화질
-                    'loop': 0,
-                    'start': 0,
-                    'end': 0,
-                    // 추가 안정성 설정
-                    'host': 'https://www.youtube.com',
-                    'version': 3
-                },
-                'events': {
-                    'onReady': function(event) {
-                        try {
-                            console.log('YouTube 플레이어 준비 완료');
-                            
-                            const iframe = event.target.getIframe();
-                            if (iframe) {
-                                // 모바일 환경 감지
-                                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-                                
-                                // iframe에 추가 속성 설정
-                                iframe.setAttribute('allowfullscreen', 'true');
-                                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-                                
-                                // 모바일 최적화된 보안 속성
-                                if (isMobile) {
-                                    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox allow-forms');
-                                    iframe.setAttribute('loading', 'eager'); // 모바일에서는 즉시 로딩
-                                } else {
-                                    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox');
-                                    iframe.setAttribute('loading', 'lazy');
-                                }
-                                
-                                // 추가 보안 헤더 설정
-                                iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
-                                
-                                // 추가 안정성 설정
-                                iframe.setAttribute('title', 'YouTube video player');
-                                iframe.setAttribute('frameborder', '0');
-                                
-                                // 모바일 터치 이벤트 최적화
-                                if (isMobile) {
-                                    iframe.style.touchAction = 'manipulation';
-                                    iframe.style.webkitUserSelect = 'none';
-                                    iframe.style.userSelect = 'none';
-                                }
-                            }
-                            resolve(event.target);
-                        } catch (error) {
-                            console.error('YouTube 플레이어 초기화 오류:', error);
-                            reject(error);
-                        }
-                    },
-                    'onError': function(event) {
-                        console.error('YouTube 플레이어 오류:', event.data);
-                        let errorMessage = '비디오를 로드할 수 없습니다.';
-                        
-                        // 오류 코드에 따른 메시지
-                        switch(event.data) {
-                            case 2:
-                                errorMessage = '잘못된 요청입니다.';
-                                break;
-                            case 5:
-                                errorMessage = 'HTML5 플레이어를 사용할 수 없습니다.';
-                                break;
-                            case 100:
-                                errorMessage = '비디오를 찾을 수 없습니다.';
-                                break;
-                            case 101:
-                            case 150:
-                                errorMessage = '이 비디오는 임베드할 수 없습니다.';
-                                break;
-                        }
-                        
-                        reject(new Error(errorMessage));
-                    },
-                    'onStateChange': function(event) {
-                        console.log('Player state changed:', event.data);
-                        // 상태별 로그
-                        switch(event.data) {
-                            case -1: console.log('unstarted'); break;
-                            case 0: console.log('ended'); break;
-                            case 1: console.log('playing'); break;
-                            case 2: console.log('paused'); break;
-                            case 3: console.log('buffering'); break;
-                            case 5: console.log('video cued'); break;
-                        }
-                    }
-                }
-            });
-            
-            // 타임아웃 설정 (30초)
-            setTimeout(() => {
-                reject(new Error('플레이어 로딩 시간 초과'));
-            }, 30000);
-        });
-    } catch (error) {
-        console.error('YouTube 플레이어 생성 실패:', error);
-        throw error;
-    }
-}
-
-// 점진적 iframe 제거 함수 (사용자 제안)
-function closeYouTube() {
-    const iframe = document.querySelector('iframe');
-    
-    if (iframe) {
-        console.log('점진적 iframe 제거 시작');
-        
-        // 1. 먼저 빈 페이지로 이동 (연결 정리)
-        iframe.src = 'about:blank';
-        console.log('1단계: iframe src를 about:blank로 설정');
-        
-        // 2. 브라우저가 정리할 시간 주기
-        setTimeout(() => {
-            iframe.style.display = 'none';
-            console.log('2단계: iframe 숨김 (100ms 후)');
-        }, 100);
-        
-        // 3. 완전히 제거
-        setTimeout(() => {
-            if (iframe.parentNode) {
-                iframe.remove();
-                console.log('3단계: iframe 완전 제거 (500ms 후)');
-            }
-        }, 500);
-    }
-}
-
-// 긴급 iframe 제거 함수 (즉시 숨김)
-function hideYouTube() {
-    const iframe = document.querySelector('iframe');
-    if (iframe) {
-        iframe.style.display = 'none';
-        console.log('긴급 iframe 숨김');
-    }
-}
-
 // 채널 ID로 검색
 async function searchInChannel(channelKey, searchTerm) {
     const channel = channels[channelKey];
@@ -1105,10 +862,7 @@ function renderYoutubeResults(items) {
             </div>
         `;
         document.body.appendChild(modal);
-        document.getElementById('search-modal-close').onclick = () => { 
-            closeYouTube(); // 점진적 제거 사용
-            modal.remove(); 
-        };
+        document.getElementById('search-modal-close').onclick = () => { modal.remove(); };
     } else {
         modal.style.display = 'flex';
     }
@@ -1125,12 +879,11 @@ function renderYoutubeResults(items) {
                 const vid = this.dataset.videoid;
                 const itemDiv = this.closest('.yt-result-item');
                 
-                // 기존 플레이어가 있으면 점진적 제거
+                // 기존 플레이어가 있으면 제거
                 if (currentPlayer && typeof currentPlayer.destroy === 'function') {
                     currentPlayer.destroy();
                 }
                 if (currentPlayerContainer && currentPlayerContainer.parentNode) {
-                    closeYouTube(); // 점진적 제거 사용
                     currentPlayerContainer.remove();
                 }
                 
@@ -1173,7 +926,7 @@ function renderYoutubeResults(items) {
                 
                 playerContainer.appendChild(playerDiv);
                 
-                // 닫기 버튼 추가 - 점진적 제거 사용
+                // 닫기 버튼 추가
                 const closeBtn = document.createElement('button');
                 closeBtn.innerHTML = '×';
                 closeBtn.style.cssText = `
@@ -1199,7 +952,6 @@ function renderYoutubeResults(items) {
                     if (currentPlayer && typeof currentPlayer.destroy === 'function') {
                         currentPlayer.destroy();
                     }
-                    closeYouTube(); // 점진적 제거 사용
                     playerContainer.remove();
                     currentPlayer = null;
                     currentPlayerContainer = null;
@@ -1221,122 +973,30 @@ function renderYoutubeResults(items) {
                 }, 100);
                 
                 // YouTube 플레이어 생성
-                createYouTubePlayer(playerDiv, vid, minHeight).then(player => {
-                    currentPlayer = player;
-                    console.log('YouTube 플레이어 생성 성공');
-                }).catch(error => {
-                    console.error('플레이어 생성 실패:', error);
-                    
-                    // 사용자에게 오류 메시지 표시
-                    const errorDiv = document.createElement('div');
-                    errorDiv.style.cssText = `
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        background: rgba(0,0,0,0.8);
-                        color: white;
-                        padding: 20px;
-                        border-radius: 8px;
-                        text-align: center;
-                        z-index: 10012;
-                        max-width: 80%;
-                    `;
-                    errorDiv.innerHTML = `
-                        <div style="font-size: 1.2em; margin-bottom: 10px;">❌ ${error.message}</div>
-                        <div style="font-size: 0.9em; opacity: 0.8;">비디오 ID: ${vid}</div>
-                        <button onclick="this.parentElement.remove()" style="margin-top: 10px; padding: 5px 15px; background: #fff; color: #000; border: none; border-radius: 4px; cursor: pointer;">닫기</button>
-                    `;
-                    
-                    playerContainer.appendChild(errorDiv);
-                    
-                    // 5초 후 자동으로 오류 메시지 제거
-                    setTimeout(() => {
-                        if (errorDiv.parentNode) {
-                            errorDiv.remove();
+                if (window.YT && window.YT.Player) {
+                    currentPlayer = new YT.Player(playerDiv, {
+                        width: '100%',
+                        height: minHeight,
+                        videoId: vid,
+                        playerVars: { 'autoplay': 1, 'controls': 1 },
+                        events: {
+                            'onReady': function (event) { 
+                                event.target.playVideo(); 
+                                // 플레이어 크기 강제 설정
+                                const iframe = playerDiv.querySelector('iframe');
+                                if (iframe) {
+                                    iframe.style.width = '100% !important';
+                                    iframe.style.height = '100% !important';
+                                    iframe.style.minHeight = '600px !important';
+                                }
+                            }
                         }
-                    }, 5000);
-                });
+                    });
+                }
             };
         });
     }, 100);
 }
-
-// 전역 에러 핸들러 - ERR_FAILED 및 YouTube 관련 오류 무시
-window.addEventListener('error', function(e) {
-    // ERR_FAILED 또는 YouTube 관련 오류인지 확인
-    if (e.message && (e.message.includes('ERR_FAILED') || 
-        e.message.includes('youtube') || 
-        e.message.includes('googlevideo') ||
-        e.filename && e.filename.includes('youtube'))) {
-        
-        console.log('YouTube 관련 오류 무시됨:', e.message);
-        
-        // 오류 이벤트 중단
-        e.preventDefault();
-        e.stopPropagation();
-        
-        // 사용자에게 알림 (선택사항)
-        if (e.message.includes('ERR_FAILED') && e.message.includes('googlevideo')) {
-            console.warn('YouTube 비디오 로딩 중 일시적 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-        }
-        
-        return false;
-    }
-});
-
-// 네트워크 오류도 처리
-window.addEventListener('unhandledrejection', function(e) {
-    if (e.reason && e.reason.message && 
-        (e.reason.message.includes('ERR_FAILED') || 
-         e.reason.message.includes('youtube') ||
-         e.reason.message.includes('googlevideo'))) {
-        
-        console.log('YouTube 관련 Promise 오류 무시됨:', e.reason.message);
-        e.preventDefault();
-        return false;
-    }
-});
-
-// 모바일 환경에서 앱 종료 방지
-window.addEventListener('pagehide', function(event) {
-    // 모바일 환경에서만 적용
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        try {
-            // YouTube 플레이어 정리
-            const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
-            iframes.forEach(iframe => {
-                iframe.src = 'about:blank';
-                iframe.style.display = 'none';
-            });
-            
-            console.log('모바일 환경에서 앱 종료 시 정리 완료');
-        } catch (error) {
-            console.warn('Mobile app cleanup error:', error);
-        }
-    }
-});
-
-// 모바일 터치 이벤트 최적화
-document.addEventListener('touchstart', function(event) {
-    // 터치 이벤트 최적화
-    if (event.target.tagName === 'IFRAME') {
-        event.preventDefault();
-    }
-}, { passive: false });
-
-// 모바일에서 뒤로가기 버튼 처리
-window.addEventListener('popstate', function(event) {
-    // 모바일 환경에서만 적용
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        try {
-            closeYouTube(); // 점진적 제거 사용
-            console.log('모바일 뒤로가기 시 플레이어 정리 완료');
-        } catch (error) {
-            console.warn('Mobile back button cleanup error:', error);
-        }
-    }
-});
 
 // 키보드 이벤트 처리
 document.addEventListener('keydown', function(event) {
