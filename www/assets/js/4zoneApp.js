@@ -1010,50 +1010,272 @@ function renderYoutubeResults(items) {
                 }, 100);
                 
                 // YouTube 플레이어 생성
-                if (window.YT && window.YT.Player) {
-                    try {
-                        currentPlayer = new YT.Player(playerDiv, {
-                            width: '100%',
-                            height: minHeight,
-                            videoId: vid,
-                            playerVars: { 
-                                'autoplay': 1, 
-                                'controls': 1,
-                                'rel': 0,
-                                'modestbranding': 1,
-                                'fs': 1
-                            },
-                            events: {
-                                'onReady': function (event) { 
-                                    try {
-                                        event.target.playVideo(); 
-                                        // 플레이어 크기 강제 설정
-                                        const iframe = playerDiv.querySelector('iframe');
-                                        if (iframe) {
-                                            iframe.style.width = '100% !important';
-                                            iframe.style.height = '100% !important';
-                                            iframe.style.minHeight = '600px !important';
-                                        }
-                                    } catch (error) {
-                                        console.warn('YouTube player ready error:', error);
-                                    }
-                                },
-                                'onError': function (event) {
-                                    console.warn('YouTube player error:', event.data);
-                                }
+                createYouTubePlayer(playerDiv, vid, minHeight)
+                    .then(player => {
+                        currentPlayer = player;
+                        console.log('YouTube player created successfully');
+                    })
+                    .catch(error => {
+                        console.error('Failed to create YouTube player:', error);
+                        
+                        // 사용자에게 오류 메시지 표시
+                        const errorMessage = document.createElement('div');
+                        errorMessage.style.cssText = `
+                            padding: 20px;
+                            text-align: center;
+                            color: #666;
+                            font-size: 14px;
+                            background: #f8f8f8;
+                            border-radius: 8px;
+                            margin: 10px 0;
+                        `;
+                        errorMessage.innerHTML = `
+                            <div style="margin-bottom: 10px;">⚠️ 비디오를 로드할 수 없습니다</div>
+                            <div style="font-size: 12px; color: #999;">
+                                ${error.message}<br>
+                                네트워크 연결을 확인하거나 잠시 후 다시 시도해주세요.
+                            </div>
+                        `;
+                        
+                        // 플레이어 컨테이너에 오류 메시지 표시
+                        playerContainer.innerHTML = '';
+                        playerContainer.appendChild(errorMessage);
+                        
+                        // 5초 후 컨테이너 제거
+                        setTimeout(() => {
+                            try {
+                                playerContainer.remove();
+                                currentPlayer = null;
+                                currentPlayerContainer = null;
+                            } catch (cleanupError) {
+                                console.warn('Error cleanup failed:', cleanupError);
                             }
-                        });
-                    } catch (error) {
-                        console.error('YouTube player creation error:', error);
-                        // 에러 발생 시 플레이어 컨테이너 제거
-                        playerContainer.remove();
-                        currentPlayer = null;
-                        currentPlayerContainer = null;
-                    }
-                }
+                        }, 5000);
+                    });
             };
         });
     }, 100);
+}
+
+// YouTube API 로딩 상태 확인 및 대기 함수
+function waitForYouTubeAPI() {
+    return new Promise((resolve, reject) => {
+        if (window.YT && window.YT.Player) {
+            resolve();
+            return;
+        }
+        
+        // YouTube API 로딩 대기
+        let attempts = 0;
+        const maxAttempts = 50; // 5초 대기 (100ms * 50)
+        
+        const checkAPI = () => {
+            attempts++;
+            if (window.YT && window.YT.Player) {
+                resolve();
+            } else if (attempts >= maxAttempts) {
+                reject(new Error('YouTube API failed to load'));
+            } else {
+                setTimeout(checkAPI, 100);
+            }
+        };
+        
+        checkAPI();
+    });
+}
+
+// 네트워크 연결 상태 확인
+function checkNetworkConnection() {
+    return new Promise((resolve) => {
+        if (navigator.onLine) {
+            resolve(true);
+        } else {
+            resolve(false);
+        }
+    });
+}
+
+// YouTube 플레이어 생성 함수 개선
+async function createYouTubePlayer(playerDiv, vid, minHeight) {
+    try {
+        // 네트워크 연결 확인 - 로컬 환경에서는 건너뛰기
+        if (!navigator.onLine && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            throw new Error('네트워크 연결을 확인해주세요.');
+        }
+
+        // YouTube API 로딩 대기
+        await waitForYouTubeAPI();
+        
+        // 기존 플레이어 정리
+        if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+            try {
+                currentPlayer.destroy();
+            } catch (error) {
+                console.warn('기존 플레이어 정리 오류:', error);
+            }
+        }
+
+        // 플레이어 컨테이너 정리
+        playerDiv.innerHTML = '';
+        
+        // 로딩 표시
+        playerDiv.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100%; background: #000; color: white;">비디오 로딩 중...</div>';
+
+        return new Promise((resolve, reject) => {
+            try {
+                // 모바일 환경 감지
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+                
+                currentPlayer = new YT.Player(playerDiv, {
+                    height: minHeight || '315',
+                    width: '100%',
+                    videoId: vid,
+                    playerVars: {
+                        'autoplay': 0,
+                        'controls': 1,
+                        'rel': 0,
+                        'modestbranding': 1,
+                        'fs': 1,
+                        'origin': window.location.origin,
+                        'enablejsapi': 1,
+                        'widget_referrer': window.location.origin,
+                        'iv_load_policy': 3,
+                        'cc_load_policy': 0,
+                        'disablekb': 0,
+                        'playsinline': 1, // 모바일에서 중요
+                        'showinfo': 0,
+                        'vq': isMobile ? 'small' : 'medium', // 모바일에서는 낮은 화질
+                        'loop': 0,
+                        'start': 0,
+                        'end': 0,
+                        // 추가 안정성 설정
+                        'host': 'https://www.youtube.com',
+                        'enablejsapi': 1,
+                        'version': 3,
+                        // 모바일 최적화
+                        'modestbranding': 1,
+                        'fs': 1
+                    },
+                    'events': {
+                        'onReady': function (event) {
+                            try {
+                                console.log('YouTube player ready');
+                                
+                                // 로딩 표시 제거
+                                playerDiv.innerHTML = '';
+                                playerDiv.appendChild(event.target.getIframe());
+                                
+                                const iframe = event.target.getIframe();
+                                if (iframe) {
+                                    // 모바일 환경 감지
+                                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+                                    
+                                    // iframe에 추가 속성 설정
+                                    iframe.setAttribute('allowfullscreen', 'true');
+                                    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+                                    
+                                    // 모바일 최적화된 보안 속성
+                                    if (isMobile) {
+                                        iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox allow-forms');
+                                        iframe.setAttribute('loading', 'eager'); // 모바일에서는 즉시 로딩
+                                    } else {
+                                        iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox');
+                                        iframe.setAttribute('loading', 'lazy');
+                                    }
+                                    
+                                    // 추가 보안 헤더 설정
+                                    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+                                    
+                                    // 추가 안정성 설정
+                                    iframe.setAttribute('title', 'YouTube video player');
+                                    iframe.setAttribute('frameborder', '0');
+                                    
+                                    // 모바일 터치 이벤트 최적화
+                                    if (isMobile) {
+                                        iframe.style.touchAction = 'manipulation';
+                                        iframe.style.webkitUserSelect = 'none';
+                                        iframe.style.userSelect = 'none';
+                                    }
+                                }
+                                resolve(event.target);
+                            } catch (error) {
+                                console.warn('YouTube player ready error:', error);
+                                reject(error);
+                            }
+                        },
+                        'onError': function (event) {
+                            console.warn('YouTube player error:', event.data);
+                            let errorMessage = 'Unknown error';
+                            
+                            // YouTube 오류 코드에 따른 메시지
+                            switch(event.data) {
+                                case 2:
+                                    errorMessage = '잘못된 비디오 ID입니다';
+                                    break;
+                                case 5:
+                                    errorMessage = 'HTML5 플레이어 오류';
+                                    break;
+                                case 100:
+                                    errorMessage = '비디오를 찾을 수 없습니다';
+                                    break;
+                                case 101:
+                                case 150:
+                                    errorMessage = '비디오 임베딩이 허용되지 않습니다';
+                                    break;
+                                default:
+                                    errorMessage = `오류 코드: ${event.data}`;
+                            }
+                            
+                            // 사용자에게 오류 메시지 표시
+                            playerDiv.innerHTML = `
+                                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; background: #f5f5f5; color: #333; padding: 20px; text-align: center;">
+                                    <div style="font-size: 18px; margin-bottom: 10px;">⚠️ 비디오 로딩 실패</div>
+                                    <div style="font-size: 14px; margin-bottom: 15px;">${errorMessage}</div>
+                                    <button onclick="location.reload()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">다시 시도</button>
+                                </div>
+                            `;
+                            
+                            reject(new Error(`YouTube player error: ${errorMessage}`));
+                        },
+                        'onStateChange': function (event) {
+                            // 플레이어 상태 변경 모니터링
+                            const states = {
+                                '-1': 'unstarted',
+                                '0': 'ended',
+                                '1': 'playing',
+                                '2': 'paused',
+                                '3': 'buffering',
+                                '5': 'video cued'
+                            };
+                            console.log('Player state changed:', states[event.data] || event.data);
+                            
+                            // 버퍼링 상태에서 오래 걸리면 사용자에게 알림
+                            if (event.data === 3) {
+                                setTimeout(() => {
+                                    if (currentPlayer && currentPlayer.getPlayerState && currentPlayer.getPlayerState() === 3) {
+                                        console.log('버퍼링이 오래 걸리고 있습니다. 네트워크 상태를 확인해주세요.');
+                                    }
+                                }, 10000); // 10초 후 체크
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('YouTube API loading error:', error);
+                playerDiv.innerHTML = `
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; background: #f5f5f5; color: #333; padding: 20px; text-align: center;">
+                        <div style="font-size: 18px; margin-bottom: 10px;">⚠️ YouTube API 로딩 실패</div>
+                        <div style="font-size: 14px; margin-bottom: 15px;">인터넷 연결을 확인하고 페이지를 새로고침해주세요.</div>
+                        <button onclick="location.reload()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">새로고침</button>
+                    </div>
+                `;
+                throw error;
+            }
+        });
+    } catch (error) {
+        console.error('YouTube API loading error:', error);
+        throw error;
+    }
 }
 
 // 키보드 이벤트 처리
@@ -1095,4 +1317,88 @@ document.addEventListener('visibilitychange', function() {
       console.warn('Player pause error:', error);
     }
   }
+});
+
+// 모바일 환경에서 앱 종료 방지
+window.addEventListener('pagehide', function(event) {
+  // 모바일 환경에서만 적용
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    try {
+      // YouTube 플레이어 정리
+      if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+        currentPlayer.destroy();
+      }
+      
+      // 모든 iframe 정리
+      const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
+      iframes.forEach(iframe => {
+        iframe.src = '';
+      });
+      
+      console.log('모바일 환경에서 앱 종료 시 정리 완료');
+    } catch (error) {
+      console.warn('Mobile app cleanup error:', error);
+    }
+  }
+});
+
+// 모바일 터치 이벤트 최적화
+document.addEventListener('touchstart', function(event) {
+  // 터치 이벤트 최적화
+  if (event.target.tagName === 'IFRAME') {
+    event.preventDefault();
+  }
+}, { passive: false });
+
+// 모바일에서 뒤로가기 버튼 처리
+window.addEventListener('popstate', function(event) {
+  // 모바일 환경에서만 적용
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    try {
+      // YouTube 플레이어 정리
+      if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+        currentPlayer.destroy();
+      }
+      
+      console.log('모바일 뒤로가기 시 플레이어 정리 완료');
+    } catch (error) {
+      console.warn('Mobile back button cleanup error:', error);
+    }
+  }
+}); 
+
+// 전역 에러 핸들러 - ERR_FAILED 및 YouTube 관련 오류 무시
+window.addEventListener('error', function(e) {
+    // ERR_FAILED 또는 YouTube 관련 오류인지 확인
+    if (e.message && (e.message.includes('ERR_FAILED') || 
+        e.message.includes('youtube') || 
+        e.message.includes('googlevideo') ||
+        e.filename && e.filename.includes('youtube'))) {
+        
+        console.log('YouTube 관련 오류 무시됨:', e.message);
+        
+        // 오류 이벤트 중단
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // 사용자에게 알림 (선택사항)
+        if (e.message.includes('ERR_FAILED') && e.message.includes('googlevideo')) {
+            console.warn('YouTube 비디오 로딩 중 일시적 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        }
+        
+        return false;
+    }
+});
+
+// 네트워크 오류도 처리
+window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && e.reason.message && 
+        (e.reason.message.includes('ERR_FAILED') || 
+         e.reason.message.includes('youtube') ||
+         e.reason.message.includes('googlevideo'))) {
+        
+        console.log('YouTube 관련 Promise 오류 무시됨:', e.reason.message);
+        e.preventDefault();
+        return false;
+    }
 }); 
