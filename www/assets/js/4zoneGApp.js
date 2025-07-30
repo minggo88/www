@@ -1310,12 +1310,38 @@ function renderYoutubeResults(items) {
                 `;
                 
                 closeBtn.onclick = () => {
+                    // 1. 먼저 플레이어 정리
                     if (currentPlayer && typeof currentPlayer.destroy === 'function') {
                         currentPlayer.destroy();
                     }
-                    playerContainer.remove();
-                    currentPlayer = null;
-                    currentPlayerContainer = null;
+                    
+                    // 2. iframe을 점진적으로 제거
+                    const iframe = playerDiv.querySelector('iframe');
+                    if (iframe) {
+                        // 먼저 빈 페이지로 이동 (연결 정리)
+                        iframe.src = 'about:blank';
+                        
+                        // 3. 브라우저가 정리할 시간 주기
+                        setTimeout(() => {
+                            iframe.style.display = 'none';
+                        }, 100);
+                        
+                        // 4. 완전히 제거
+                        setTimeout(() => {
+                            if (iframe.parentNode) {
+                                iframe.remove();
+                            }
+                        }, 500);
+                    }
+                    
+                    // 5. 컨테이너 제거
+                    setTimeout(() => {
+                        if (playerContainer.parentNode) {
+                            playerContainer.remove();
+                        }
+                        currentPlayer = null;
+                        currentPlayerContainer = null;
+                    }, 600);
                 };
                 
                 playerContainer.appendChild(closeBtn);
