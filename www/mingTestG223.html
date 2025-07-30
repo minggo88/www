@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G2.2.3.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+   "bg": "../assets/img/ReadBook/G2.2.3/1.jpg", // 배경 이미지
+   "hasStartButton": true,
+   "zones": {
+     "1": { "text": "", "keywords": [] },
+     "2": { "text": "", "keywords": [] },
+     "3": { "text": "", "keywords": [] },
+     "4": { "text": "", "keywords": [] }
+   }
+ },
+ {
+   "bg": "../assets/img/ReadBook/G2.2.3/2.jpg",
+   "zones": {
+     "1": { "text": "", "keywords": [] },
+     "2": { "text": "", "keywords": [] },
+     "3": { "text": "", "keywords": [] },
+     "4": { "text": "", "keywords": [] }
+   }
+ },
+ {
+   "bg": "../assets/img/ReadBook/G2.2.3/3.jpg",
+   "zones": {
+     "1": { "text": "01. Solid Motifs and Beautiful Motifs", "keywords": ["Solid Motifs", "Beautiful Motifs"] },
+     "2": { "text": "Have you ever heard of checkered clothes?<br>Checkered motifs are one of the grid motifs used in <br>fabrics. They are called checkered because they look <br>like the motifs on a checkerboard. The most famous <br>checkered motif may be the kilt.", "keywords": ["checkered clothes", "grid motifs", "fabrics", "checkerboard", "kilt"] },
+     "3": { "text": "Some patterns are very solid. To be exact, they create <br>a strong structure and give a sturdy feeling. Have you <br>ever heard of grid motif? The grid motif is a motif <br>created when horizontal and vertical lines drawn at <br>regular intervals intersect, like a checkerboard or <br>chessboard. People in both the East and West have <br>liked grid motifs since ancient times. That is why we <br>can see grid motifs everywhere in our daily lives.<br>If we look at palaces or temples, we can find grid <br>motifs on windows and doors. Nowadays, we can see<br>a lot of grid motifs in fabrics.", "keywords": ["patterns", "solid", "strong structure", "sturdy feeling", "grid motif", "horizontal", "vertical lines", "regular intervals", "checkerboard", "chessboard", "East", "West", "ancient times", "daily lives", "palaces", "temples", "windows", "doors", "fabrics"] },
+     "4": { "text": "", "keywords": [] }
+   }
+ },
+ {
+   "bg": "../assets/img/ReadBook/G2.2.3/4.jpg",
+   "zones": {
+     "1": { "text": "A kilt is a checkered motif skirt worn as part of <br>traditional attire by Scottish men. The motif used in <br>this fabric is called tartan. Tartan motifs are different <br>depending on a person's region, social class, and <br>family. A lot could be expressed with just one motif. <br>How interesting is that? Then, how did the kilt come <br>to be? The Scottish traditional clothing, the tartan, <br>has a relatively short history of only about 300 years.", "keywords": ["kilt", "checkered motif", "skirt", "traditional attire", "Scottish men", "tartan", "region", "social class", "family", "300 years"] },
+     "2": { "text": "", "keywords": [] },
+     "3": { "text": "", "keywords": [] },
+     "4": { "text": "Originally, the traditional clothing of the Scottish <br>Highland people was plaid. Plaid is a large and thick <br>blanket. People wore it by draping it over their <br>shoulders, wrapping it around their bodies, and <br>securing it with a belt at the waist. It was suitable <br>for the Scottish people who had to endure a cold <br>climate. However, it had the disadvantage of being <br>uncomfortable to move in.", "keywords": ["Scottish Highland", "plaid", "large", "thick blanket", "draping", "shoulders", "wrapping", "belt", "waist", "cold climate", "uncomfortable", "move"] }
+   }
+ },
+ {
+   "bg": "../assets/img/ReadBook/G2.2.3/5.jpg",
+   "zones": {
+     "1": { "text": "Then in 1727, a British man named Thomas Rawlinson <br>came to Scotland to set up a blacksmith shop.<br>He hired Scottish people as employees. They came to <br>work in traditional plaid attire. However, they faced<br>a problem. The plaid was too bulky for the tough work <br>of handling iron, and people even started getting <br>injured due to the uncomfortable clothing.<br>Seeing this, Rawlinson thought about how to solve <br>the problem. Eventually, he asked a tailor to make <br>clothing similar to plaid but more comfortable to work <br>in. That is how the current traditional Scottish attire, <br>the kilt, came to be. Later, the kilt widely spread <br>throughout Scotland and became a national tradition. <br>It was a recreation of the uncomfortable traditional <br>attire, adapted to suit the changing society.", "keywords": ["1727", "British", "Thomas Rawlinson", "Scotland", "blacksmith shop", "Scottish people", "employees", "plaid attire", "problem", "bulky", "tough work", "handling iron", "injured", "uncomfortable clothing", "tailor", "comfortable", "kilt", "national tradition", "recreation", "changing society"] },
+     "2": { "text": "", "keywords": [] },
+     "3": { "text": "", "keywords": [] },
+     "4": { "text": "", "keywords": [] }
+   }
+ },
+ {
+  "bg": "../assets/img/ReadBook/G2.2.3/6.jpg",
+   "zones": {
+     "1": { "text": "", "keywords": [] },
+     "2": { "text": "We have briefly looked at grid motifs made by humans.<br>Now, let us explore grid motifs made by nature.<br>In fact, natural grid motifs are not easy to see.<br>Fill a transparent cup with cool water and take<br>a closer look. Even after careful observation, we will <br>only see clear water, as if there is nothing else inside. <br>However, water has a secret invisible to our eyes. <br>When magnified under a microscope, water is made of <br>tiny particles, molecules so small they cannot be seen <br>with our naked eyes. The smallest unit that possesses <br>the properties of a matter is called a molecule.<br>Water is made up of countless molecules, but it is not <br>just water. But not just water. Everything in the world <br>is made up of countless tiny molecules.", "keywords": ["grid motifs", "humans", "nature", "natural", "transparent cup", "cool water", "careful observation", "clear water", "secret", "invisible", "microscope", "tiny particles", "molecules", "naked eyes", "smallest unit", "properties", "matter", "molecule", "countless", "world"] },
+     "4": { "text": "Describe how the kilt became the traditional <br>Scottish attire.", "keywords": ["kilt", "traditional", "Scottish attire"], "fontType": "type2" },
+     "3": { "text": "", "keywords": [] }
+   }
+ },
+ {
+    "bg": "../assets/img/ReadBook/G2.2.3/7.jpg",
+    "zones": {
+      "1": { "text": "Then, is a molecule the smallest unit that exists?<br>No, it is not. A molecule can be further divided into <br>smaller particles called atoms. Atoms, in turn, can be <br>separated into a nucleus and electrons. The nucleus <br>itself breaks down into positively charged protons and <br>neutral neutrons.<br>Physicists are continually researching how far matter <br>can be broken down and what the fundamental <br>particles that make up matter are.", "keywords": ["molecule", "smallest unit", "divided", "smaller particles", "atoms", "separated", "nucleus", "electrons", "positively charged", "protons", "neutral", "neutrons", "physicists", "researching", "matter", "broken down", "fundamental particles"] },
+      "2": { "text": "Atoms are always looking to bond with other atoms to <br>become stable molecules because they are unstable <br>when they are by themselves. Atoms can bond in <br>many ways, but we will focus on a covalent bond. <br>A strong chemical bond created when atoms share <br>electrons is called a covalent bond. For example, <br>a hydrogen atom has one electron, and when two <br>hydrogen atoms share their electrons, they form <br>a stable hydrogen molecule. The reason molecules <br>become stable in this process is that energy is <br>released when atoms form covalent bonds.", "keywords": ["atoms", "bond", "stable molecules", "unstable", "covalent bond", "strong chemical bond", "share electrons", "hydrogen atom", "electron", "hydrogen molecule", "stable", "energy", "released"] },
+      "4": { "text": "Briefly explain what a molecule is.", "keywords": ["molecule", "explain"], "fontType": "type2" },
+      "3": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/8.jpg",
+    "zones": {
+      "1": { "text": "Some atoms share two or three pairs of electrons.<br>The more pairs of electrons shared in a covalent bond, <br>the stronger the bond becomes. Diamond, the hardest <br>substance in the world, is a great example of this.<br>A diamond can only be cut using another diamond. <br>The name \"diamond\" comes from the Greek word <br>\"adamas,\" meaning \"invincible.\" Diamonds are made <br>up only of carbon atoms.", "keywords": ["atoms", "share", "pairs", "electrons", "covalent bond", "stronger", "bond", "diamond", "hardest substance", "world", "cut", "Greek word", "adamas", "invincible", "carbon atoms"] },
+      "2": { "text": "Carbon atoms each share a pair of electrons with <br>four neighboring carbon atoms, forming four covalent <br>bonds. So, what kind of motif does a diamond <br>molecule have? Imagine representing the carbon <br>atoms as circles and connecting the atoms that form <br>covalent bonds with lines. The four lines extending <br>from one circle to the surrounding circles create<br>a grid motif. Materials with this grid motif are strong <br>and hard. Graphite is also made of carbon atoms,<br>but it does not have this grid motif, which is why it is <br>not as hard as diamonds.", "keywords": ["carbon atoms", "share", "pair", "electrons", "four neighboring", "four covalent bonds", "motif", "diamond molecule", "circles", "connecting", "lines", "four lines", "extending", "surrounding circles", "grid motif", "materials", "strong", "hard", "graphite", "carbon atoms", "not as hard"] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/9.jpg",
+    "zones": {
+      "1": { "text": "Do any motifs come to mind on windy days?<br>The wind creates a beautiful motif. Think about<br>a pinwheel we make in art class with colored paper. <br>When we hold up the finished pinwheel and run,<br>the wind makes it spin around. If we look at the <br>spinning pinwheel from the front, we can see lovely <br>motifs.", "keywords": ["motifs", "windy days", "wind", "beautiful motif", "pinwheel", "art class", "colored paper", "finished pinwheel", "run", "spin around", "spinning pinwheel", "front", "lovely motifs"] },
+      "2": { "text": "Depending on the color of the paper and the lines <br>or shapes drawn on it, various motifs appear on the <br>pinwheel. People in Eastern cultures have enjoyed <br>this type of play since ancient times. There is an old <br>book that describes the pinwheels as follows:<br>\"Five colored papers are glued and attached to both <br>sides of a thin bamboo branch. However, the paper <br>shapes vary, being square, round, large, and small,<br>so the shapes are not consistent. Make a loose hole <br>in the middle of the bamboo branch and insert a nail <br>so that it can spin freely. Children run with it against <br>the direction of the wind and it spins round and <br>round. These are widely sold even in the streets.\"", "keywords": ["color", "paper", "lines", "shapes", "various motifs", "pinwheel", "Eastern cultures", "ancient times", "old book", "describes", "five colored papers", "glued", "attached", "thin bamboo branch", "square", "round", "large", "small", "not consistent", "loose hole", "middle", "nail", "spin freely", "children", "run", "direction", "wind", "spins", "widely sold", "streets"] },
+      "4": { "text": "Briefly explain why diamonds are hard.", "keywords": ["diamonds", "hard", "explain"], "fontType": "type2" },
+      "3": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/10.jpg",
+    "zones": {
+      "1": { "text": "Pinwheels are popular among kids even to this day. <br>When we go to the amusement park, there is always<br>a child asking to buy a pinwheel with a cute character <br>on it. However, in the past, many people mainly played <br>with pinwheels during the \"Yuanxiao jie (元宵節),\" <br>which means \"first full moon of the lunar new year.\" <br>This day marks the first appearance of the full moon <br>in the lunar calendar, specifically on the 15th day of <br>the first lunar month.<br>Eastern countries have traditionally considered rice <br>farming to be important. That is why many customs <br>and games developed around the hope for a good <br>harvest. Pinwheels are one of these traditions.", "keywords": ["pinwheels", "popular", "kids", "amusement park", "child", "cute character", "past", "Yuanxiao jie", "first full moon", "lunar new year", "lunar calendar", "15th day", "first lunar month", "Eastern countries", "rice farming", "customs", "games", "good harvest", "traditions"] },
+      "2": { "text": "The most important thing in rice farming is the right <br>weather. Rice needs help from nature to grow well. <br>Rain should come down in just the right amount <br>at just the right time. This is why the wind is so <br>important. The wind is what brings the rain. Farmers <br>hoped for the wind to blow well and bring rain, which <br>would allow their rice to grow well. So, when the first <br>full moon of the lunar new year came, children played <br>with pinwheels, wishing for just the right amount of <br>rain throughout the year for a good harvest.", "keywords": ["important", "rice farming", "right weather", "rice", "nature", "grow well", "rain", "right amount", "right time", "wind", "important", "brings rain", "farmers", "hoped", "blow well", "bring rain", "grow well", "first full moon", "lunar new year", "children", "played", "pinwheels", "wishing", "good harvest"] },
+      "4": { "text": "Explain why the 15th day of the first lunar month <br>is called \"Yuanxiao jie (元宵節).\"", "keywords": ["15th day", "first lunar month", "Yuanxiao jie"], "fontType": "type2" },
+      "3": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/11.jpg",
+    "zones": {
+      "1": { "text": "There are many ways to play with pinwheels.<br>Like many kids do nowadays, we can hold them in our <br>hands and run. In the past, people used to run with <br>pinwheels in their mouths. However, this is a very <br>dangerous way to play with them. The pinwheel stick <br>can cause an injury in our mouths.<br>One way to set up a pinwheel is to attach it to the <br>end of a long stick. This makes the pinwheel spin on <br>its own when it is placed in a high spot. We can also <br>try flying it like a kite. Playing with friends is another <br>option. Compete to see whose pinwheel spins better. <br>We can even take turns passing the pinwheel like<br>a baton and play together, similar to a relay race at<br>a sports event.", "keywords": ["many ways", "play", "pinwheels", "kids", "nowadays", "hold", "hands", "run", "past", "people", "mouths", "dangerous", "pinwheel stick", "injury", "attach", "end", "long stick", "spin", "high spot", "flying", "kite", "friends", "option", "compete", "spins better", "take turns", "passing", "baton", "play together", "relay race", "sports event"] },
+      "2": { "text": "", "keywords": [] },
+      "3": { "text": "Explain why people in the past made and spun <br>pinwheels.", "keywords": ["people", "past", "made", "spun", "pinwheels"], "fontType": "type2" },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/12.jpg",
+    "zones": {
+      "1": { "text": "Making a pinwheel is very easy. How about making <br>a pinwheel with four wings? We will need square-<br>shaped colored paper, a straw, and a pin.", "keywords": ["making", "pinwheel", "very easy", "four wings", "square-shaped", "colored paper", "straw", "pin"] },
+      "4": { "text": "First, fold the colored paper diagonally and unfold it <br>again. Mark the center point created in the middle <br>with a pencil. Then, cut along the folded parts from <br>the four corners of the paper. Cut towards the center <br>point until about three-fifths of the way. Finally, hold <br>only the right corners of the cut surface, making them <br>curve gently toward the center point without folding. <br>Insert a pin into the center of the paper and secure <br>it on the straw. Once this is done, blow some air onto <br>the completed pinwheel. We will be able to see the <br>beautiful motif created by the wind on the finished <br>pinwheel.", "keywords": ["fold", "colored paper", "diagonally", "unfold", "mark", "center point", "middle", "pencil", "cut", "folded parts", "four corners", "paper", "three-fifths", "hold", "right corners", "cut surface", "curve gently", "center point", "folding", "insert", "pin", "center", "secure", "straw", "blow", "air", "completed pinwheel", "beautiful motif", "wind", "finished pinwheel"] },
+      "3": { "text": "", "keywords": [] },
+      "2": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/13.jpg",
+    "zones": {
+      "1": { "text": "We can find interesting motifs not only in traditional <br>toys like pinwheels but also in traditional foods like <br>rice cakes. In China, there is a long-standing tradition <br>of eating a special rice cake during the Dragon Boat <br>Festival, which falls on the 5th day of the 5th month <br>in the lunar calendar. These rice cakes often have <br>cloud or wave-like motifs that symbolize longevity. <br>The Dragon Boat Festival, celebrated on the 5th day <br>of the 5th lunar month, is a traditional holiday in <br>China and other East Asian countries.", "keywords": ["interesting motifs", "traditional toys", "pinwheels", "traditional foods", "rice cakes", "China", "long-standing tradition", "special rice cake", "Dragon Boat Festival", "5th day", "5th month", "lunar calendar", "cloud", "wave-like motifs", "symbolize", "longevity", "traditional holiday", "East Asian countries"] },
+      "2": { "text": "When the Dragon Boat Festival arrived, Chinese <br>women would wash their hair with fragrant herbal <br>water, while the men would celebrate with dragon <br>boat races. In fact, the Dragon Boat Festival is closely <br>related to farming. The fifth lunar month marks the <br>end of rice planting.<br>When the festival arrives, farmers, having completed <br>their planting, hold ceremonies to the heavens, <br>praying for a bountiful harvest that year and for the <br>crops they planted to grow well.", "keywords": ["Dragon Boat Festival", "arrived", "Chinese women", "wash", "hair", "fragrant herbal water", "men", "celebrate", "dragon boat races", "closely related", "farming", "fifth lunar month", "marks", "end", "rice planting", "festival", "farmers", "completed", "planting", "hold ceremonies", "heavens", "praying", "bountiful harvest", "year", "crops", "planted", "grow well"] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/14.jpg",
+    "zones": {
+      "1": { "text": "Just as dumplings are enjoyed during Lunar New <br>Year and mooncakes are eaten for the Mid-Autumn <br>Festival, the Dragon Boat Festival also has a special <br>holiday food: zongzi, sticky rice dumplings wrapped<br>in bamboo leaves.<br>Zongzi are typically triangular or cylindrical shapes <br>that were traditionally associated with seafaring and <br>river trade. Thus, the Dragon Boat Festival symbolizes <br>not only agriculture but also the importance of <br>navigation and trade along the rivers.", "keywords": ["dumplings", "enjoyed", "Lunar New Year", "mooncakes", "eaten", "Mid-Autumn Festival", "Dragon Boat Festival", "special holiday food", "zongzi", "sticky rice dumplings", "wrapped", "bamboo leaves", "triangular", "cylindrical shapes", "traditionally associated", "seafaring", "river trade", "symbolizes", "agriculture", "importance", "navigation", "trade", "rivers"] },
+      "2": { "text": "In ancient China, the Dragon Boat Festival was also <br>called Double Fifth Day (五月五, Duanwu jie) because <br>it falls on the 5th day of the 5th lunar month.<br>This holiday commemorates the poet Qu Yuan, with <br>traditions of dragon boat racing and eating zongzi. <br>Beyond a simple celebration, the Dragon Boat Festival <br>was seen as a day to ward off evil spirits and pray for <br>blessings.", "keywords": ["ancient China", "Dragon Boat Festival", "called", "Double Fifth Day", "Duanwu jie", "falls", "5th day", "5th lunar month", "holiday", "commemorates", "poet", "Qu Yuan", "traditions", "dragon boat racing", "eating zongzi", "beyond", "simple celebration", "seen", "day", "ward off", "evil spirits", "pray", "blessings"] },
+      "3": { "text": "Explain why Chinese people considered the <br>Dragon Boat Festival important.", "keywords": ["Chinese people", "considered", "Dragon Boat Festival", "important"], "fontType": "type2" },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/15.jpg",
+    "zones": {
+      "1": { "text": "Mugwort is a plant that grows on mountains. Its leaves <br>are elongated, with silver hairs on the underside.<br>The slightly bitter taste from the leaves aids in <br>digestion and blood circulation. Mugwort is often used <br>during the Dragon Boat Festival;<br>the leaves are boiled, ground into powder, and <br>sometimes added to traditional foods like zongzi. <br>Mugwort is also considered to ward off evil spirits,<br>so it was customary to hang it around the home <br>during the festival.", "keywords": ["mugwort", "plant", "grows", "mountains", "leaves", "elongated", "silver hairs", "underside", "slightly bitter taste", "aids", "digestion", "blood circulation", "often used", "Dragon Boat Festival", "boiled", "ground", "powder", "added", "traditional foods", "zongzi", "considered", "ward off", "evil spirits", "customary", "hang", "home", "festival"] },
+      "2": { "text": "The motif was pressed on the rice cake using a mold. <br>A rice cake mold is a tool that stamps various designs <br>onto the rice cake. In the past, each household used <br>to have its own rice cake mold to decorate rice cakes. <br>Besides cartwheel motifs, motifs like plum blossoms, <br>dragons, and Chinese characters symbolizing good <br>fortune and longevity were commonly pressed onto <br>rice cakes.", "keywords": ["motif", "pressed", "rice cake", "mold", "rice cake mold", "tool", "stamps", "various designs", "past", "household", "own", "decorate", "cartwheel motifs", "plum blossoms", "dragons", "Chinese characters", "symbolizing", "good fortune", "longevity", "commonly pressed"] },
+      "3": { "text": "Explain why mugwort is used during the Dragon <br>Boat Festival.", "keywords": ["mugwort", "used", "Dragon Boat Festival"], "fontType": "type2" },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/16.jpg",
+    "zones": {
+      "1": { "text": "Depending on the purpose of the rice cake, different <br>motifs were molded on them. For example, during <br>Chinese New Year, rice cakes with fish motifs <br>symbolizing abundance are eaten. On birthdays, cakes <br>are often decorated with the \"shou\" (壽) symbol to <br>represent longevity, while on weddings or special <br>occasions, peony motifs symbolizing prosperity are <br>added.<br>Why did people make motifs on rice cakes? There are <br>four reasons. The first is to decorate the rice cakes <br>beautifully. If there are flower or fish motifs on plain <br>cakes, they look even prettier. It is like the saying, <br>\"You eat with your eyes first.\"", "keywords": ["purpose", "rice cake", "different motifs", "molded", "Chinese New Year", "fish motifs", "symbolizing abundance", "eaten", "birthdays", "cakes", "decorated", "shou", "symbol", "represent longevity", "weddings", "special occasions", "peony motifs", "symbolizing prosperity", "added", "make motifs", "four reasons", "first", "decorate", "beautifully", "flower", "fish motifs", "plain cakes", "prettier", "saying", "eat with your eyes first"] },
+      "4": { "text": "The second reason was to prevent the rice cakes <br>from slipping. People liked to pile up food generously <br>because they believed it would bring prosperity.<br>So, when giving rice cakes to others or placing them <br>on a festive table, they would stack them high. <br>However, the rice cakes were slippery due to the oil. <br>Yet, by using rice cake motifs, they did not slip easily. <br>The motifs created on the surface made the rice <br>cakes uneven.", "keywords": ["second reason", "prevent", "rice cakes", "slipping", "people", "liked", "pile up", "food", "generously", "believed", "bring prosperity", "giving", "others", "placing", "festive table", "stack", "high", "slippery", "oil", "using", "rice cake motifs", "not slip easily", "motifs", "created", "surface", "made", "uneven"] },
+      "3": { "text": "", "keywords": [] },
+      "2": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/17.jpg",
+    "zones": {
+      "1": { "text": "Thirdly, rice cake motifs made it easier to produce<br>a large quantity of rice cakes at once. By spreading <br>out a large lump of rice cake, placing it on wooden <br>molds of rice cake, and pressing down, people could <br>cut multiple rice cakes at the same time following<br>the given shape.<br>Lastly, rice cake motifs symbolized family heritage.<br>By pressing the family's motif onto the rice cake,<br>it was easy to identify which household made the <br>rice cake. People in those times had unique rice cake <br>motifs that represented their families.", "keywords": ["thirdly", "rice cake motifs", "easier", "produce", "large quantity", "rice cakes", "once", "spreading", "large lump", "placing", "wooden molds", "pressing down", "cut", "multiple", "same time", "following", "given shape", "lastly", "symbolized", "family heritage", "pressing", "family's motif", "easy", "identify", "household", "made", "people", "times", "unique", "represented", "families"] },
+      "2": { "text": "01. Solid Motifs and Beautiful Motifs<br><br><span class=\"larger-text\">Ⅰ. What Is the Purpose of Studying Solid</span><br><span class=\"larger-text\">Motifs and Beautiful Motifs?</span><br><br>People have drawn pictures or symbols since long ago <br>in an attempt to fill their sense of emptiness.<br>In prehistoric times, people left pictures of everyday <br>life on cave walls, while people nowadays draw motifs <br>to decorate objects. Motifs contain the unique culture<br>of the people who draw them. Additionally,<br>the development of science has provided a stepping <br>stone for creating new technologies using motifs. <br>Let's explore what this means with some examples.", "keywords": ["Solid Motifs", "Beautiful Motifs", "purpose", "studying", "people", "drawn", "pictures", "symbols", "long ago", "attempt", "fill", "sense", "emptiness", "prehistoric times", "left pictures", "everyday life", "cave walls", "nowadays", "draw motifs", "decorate objects", "motifs", "contain", "unique culture", "draw", "development", "science", "provided", "stepping stone", "creating", "new technologies", "explore", "examples"] },
+      "3": { "text": "Explain the four reasons for pressing motifs on <br>rice cakes.", "keywords": ["four reasons", "pressing motifs", "rice cakes"], "fontType": "type2" },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/18.jpg",
+    "zones": {
+      "1": { "text": "The kilt, a traditional Scottish garment worn by men, <br>came from the transformation of plaid. By studying <br>the motifs on the tartan, we can catch a glimpse of <br>their distinctive culture. The designs and colors of <br>tartan are different depending on a person's family, <br>class, and region.<br>The hardest material found in nature is a diamond. <br>Diamond can be harder than graphite, which is also <br>made of carbon, because carbon atoms are tightly <br>connected to each other in a grid motif.", "keywords": ["kilt", "plaid", "studying", "motifs", "tartan", "distinctive culture", "designs", "colors", "region", "hardest material", "diamond", "graphite", "carbon", "grid motif"] },
+      "2": { "text": "In China, the molds used for rice cakes also incorporate <br>cultural and scientific principles. Motifs such as the <br>\"shou (壽)\" character for longevity and the \"fu (福)\" <br>character for luck help us understand Chinese culture. <br>Additionally, the motifs on the rice cakes' surface <br>make it easier to stack and store them. By studying <br>this topic, we aim to understand people and society <br>through motifs and create things that make people's <br>lives more comfortable.", "keywords": ["China", "molds", "rice cakes", "incorporate", "cultural", "scientific principles", "motifs", "shou", "character", "longevity", "fu", "luck", "help", "understand", "Chinese culture", "additionally", "surface", "easier", "stack", "store", "studying", "topic", "aim", "people", "society", "through motifs", "create", "things", "make", "lives", "comfortable"] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/19.jpg",
+    "zones": {
+      "1": { "text": "(1) Cultural characteristics are reflected in the language <br>people use and the clothes they wear. Discuss what <br>traditional attire looks like in different countries.<br><br>(2) Motifs formed by the intersection of multiple horizontal <br>and vertical lines are called grid motifs. Look around us <br>to find grid motifs.", "keywords": ["cultural characteristics", "reflected", "language", "people use", "clothes", "wear", "discuss", "traditional attire", "different countries", "motifs", "formed", "intersection", "multiple", "horizontal", "vertical lines", "called", "grid motifs", "look around", "find"], "fontType": "type3" },
+      "2": { "text": "01. Solid Motifs and Beautiful Motifs<br><br><span class=\"larger-text\">Ⅱ. How Can We Apply the Study of Solid</span><br><span class=\"larger-text\">Motifs and Beautiful Motifs?</span><br><br>Human history is divided into the Stone Age, Bronze <br>Age, and Iron Age based on the materials people used <br>to create tools. The Stone Age literally means the <br>time when people used stones to create tools such as <br>knives, axes, and hammers. Bronze is a metal made by <br>combining copper and tin. The Bronze Age was an era <br>when bronze was used to make weapons, mirrors, and <br>vessels. The Iron Age began following the discovery of <br>refining iron.<br>However, the times we live in can almost be called the <br>Plastic Age because plastic is widely used in our daily <br>lives. Since the mid-1980s, the amount of plastic <br>used by people is more than the amount of iron used.", "keywords": ["Solid Motifs", "Beautiful Motifs", "How Can We Apply", "Study", "human history", "divided", "Stone Age", "Bronze Age", "Iron Age", "based", "materials", "people used", "create tools", "literally means", "time", "stones", "knives", "axes", "hammers", "bronze", "metal", "made", "combining", "copper", "tin", "era", "weapons", "mirrors", "vessels", "began", "following", "discovery", "refining iron", "times", "live", "called", "Plastic Age", "plastic", "widely used", "daily lives", "mid-1980s", "amount", "more than", "iron used"] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/20.jpg",
+    "zones": {
+      "1": { "text": "Plastics can be classified into thermoplastic and <br>thermosetting plastics based on their characteristics. <br>Thermoplastics become soft when heated and harden <br>again when cooled. On the other hand, thermosetting <br>plastics, once shaped with heat, remain firm even <br>when reheated. The properties are determined by the <br>motifs formed by the components and molecules that <br>make up the plastic. Thanks to its unique molecular <br>structure, thermosetting plastic is strong against heat <br>and vibrations. Also, its light weight makes it suitable <br>for materials like car parts, dishes, helmets, fishing <br>rods, and bathtubs. Recently, heat-resistant plastics <br>have been invented and are used in items such as car <br>engines and boilers.", "keywords": ["plastics", "classified", "thermoplastic", "thermosetting plastics", "based", "characteristics", "thermoplastics", "become soft", "heated", "harden", "cooled", "other hand", "once shaped", "heat", "remain firm", "reheated", "properties", "determined", "motifs", "formed", "components", "molecules", "make up", "plastic", "thanks", "unique", "molecular structure", "strong", "against", "vibrations", "light weight", "suitable", "materials", "car parts", "dishes", "helmets", "fishing rods", "bathtubs", "recently", "heat-resistant plastics", "invented", "used", "items", "car engines", "boilers"] },
+      "2": { "text": "(1) Although graphite and diamond are both made of carbon, <br>they have entirely different colors and strengths. <br>Explain why diamond is harder than graphite.<br><br>(2) People have made motifs on food to show their wishes. <br>If you were making bread, what motifs would you like <br>to carve into it?", "keywords": ["graphite", "diamond", "both made", "carbon", "entirely different", "colors", "strengths", "explain", "diamond", "harder", "graphite", "people", "made motifs", "food", "show", "wishes", "making bread", "motifs", "carve"], "fontType": "type3" },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/21.jpg",
+    "zones": {
+      "1": { "text": "When we make butter cookies, we add plenty of butter to <br>the dough. However, since butter has a lot of oil, the dough <br>easily spreads out sideways. This makes it hard to create <br>pretty shapes. That is why chefs use the method of putting <br>the butter cookie dough in the freezer for a while and <br>then taking it out. This way, the dough does not spread too <br>much, and we can make beautiful shapes.<br>However, this method also has a drawback. The dough, <br>which was briefly frozen in the freezer and then shaped <br>with force, becomes very tough. Flour dough gets tough <br>the more people handle it. So, butter cookies are a tricky <br>treat that requires careful handling of the dough.<br>It is better to use a pastry bag if possible to avoid touching <br>it too much. However, if we use a pastry bag, the butter's <br>oil makes the dough spread out again. What method should <br>we use? What is the secret to making butter cookies that <br>are not tough but are crispy and have beautiful shapes?<br>The answer lies in the wave motif. Explain why.", "keywords": ["make", "butter cookies", "add", "plenty", "butter", "dough", "however", "oil", "easily spreads", "sideways", "makes", "hard", "create", "pretty shapes", "chefs", "use", "method", "putting", "butter cookie dough", "freezer", "while", "taking out", "way", "not spread", "too much", "beautiful shapes", "method", "drawback", "briefly frozen", "shaped", "force", "becomes", "very tough", "flour dough", "gets tough", "more", "people handle", "butter cookies", "tricky treat", "requires", "careful handling", "better", "use", "pastry bag", "possible", "avoid touching", "too much", "butter's oil", "makes", "dough", "spread out", "again", "what method", "should", "use", "secret", "making", "not tough", "crispy", "beautiful shapes", "answer", "lies", "wave motif", "explain why"], "fontType": "type3" },
+      "2": { "text": "", "keywords": [] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/22.jpg",
+    "zones": {
+      "1": { "text": "Structures made with the same materials can have a <br>different level of strength depending on how the materials <br>are arranged. Let's explore using matchsticks. First, create <br>different shapes with three matchsticks. If we lay three <br>matchsticks side by side, we can make a long shape, but it <br>easily breaks when a little force is applied from above.<br>The same is true for making a \"T\" shape. However, if we <br>make a triangle, the shape remains stable.<br>What shape should we make with five matchsticks?<br>First, create a triangle with three matchsticks, and then <br>attach the remaining two matchsticks to form another <br>triangle. If we have six matchsticks, start by creating<br>a triangle shape on the base. Then, tilt the remaining three <br>matchsticks to create a pyramid shape. Now, try to make <br>the sturdiest shape using nine matchsticks. Explain why <br>this is the sturdiest.", "keywords": ["structures", "made", "same materials", "different level", "strength", "depending", "how", "materials", "arranged", "explore", "using", "matchsticks", "first", "create", "different shapes", "three matchsticks", "lay", "side by side", "make", "long shape", "easily breaks", "little force", "applied", "above", "same", "true", "making", "T shape", "however", "triangle", "shape", "remains stable", "what shape", "should", "make", "five matchsticks", "create", "triangle", "three matchsticks", "attach", "remaining", "two matchsticks", "form", "another triangle", "six matchsticks", "start", "creating", "triangle shape", "base", "tilt", "remaining", "three matchsticks", "pyramid shape", "try", "make", "sturdiest shape", "using", "nine matchsticks", "explain why", "sturdiest"], "fontType": "type3" },
+      "2": { "text": "", "keywords": [] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/23.jpg",
+    "zones": {
+      "1": { "text": "We can make a pinwheel with just a square piece of paper <br>and a stick. When we hold the pinwheel and run, the wings <br>spin around. If we leave the pinwheel standing still,<br>it turns by itself whenever the wind blows.<br>How does the wind make the pinwheel spin? The force <br>of the air is called air pressure, and when there is a <br>difference in air pressure between two points, the wind <br>blows through. It is like when we press down on a cream <br>puff from the top, and the cream comes out to the side; <br>the wind flows from high pressure to low pressure.<br>The wind has two faces. The gentle spring breeze or the <br>refreshing wind that blows once in a while during a hot <br>summer puts us in a pleasant mood. However, powerful <br>winds like typhoons or tornadoes can destroy people's <br>homes and cause harm. Wind is an endlessly available<br>eco-friendly energy. Explain what technologies use the <br>wind for energy.", "keywords": ["make", "pinwheel", "square piece", "paper", "stick", "hold", "pinwheel", "run", "wings", "spin around", "leave", "standing still", "turns", "itself", "whenever", "wind blows", "how", "wind", "make", "pinwheel spin", "force", "air", "called", "air pressure", "difference", "air pressure", "two points", "wind", "blows through", "like", "press down", "cream puff", "top", "cream", "comes out", "side", "wind", "flows", "high pressure", "low pressure", "wind", "two faces", "gentle", "spring breeze", "refreshing wind", "blows", "once", "while", "hot summer", "puts", "pleasant mood", "however", "powerful winds", "typhoons", "tornadoes", "destroy", "people's homes", "cause harm", "wind", "endlessly available", "eco-friendly energy", "explain", "technologies", "use", "wind", "energy"], "fontType": "type3" },
+      "2": { "text": "", "keywords": [] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/24.jpg",
+    "zones": {
+      "1": { "text": "Nature puts on a new set of clothes every time the seasons <br>change. For instance, trees dress up in fresh, bright green <br>when spring arrives. In the summer, they change to a deep, <br>dark green. In the fall, they adorn themselves in vibrant <br>outfits with red, yellow, and brown colors. When winter <br>comes, they shed all their clothes and patiently wait for <br>spring to come again.<br>We can also tell the change of seasons by looking at how <br>people dress. In spring, instead of the thick clothes worn <br>during winter, we switch to lighter and more colorful <br>outfits. During the hot summer, we wear even lighter and <br>shorter-sleeved clothes, and as fall and winter approach, <br>we bring out the thicker clothes again. However, the <br>fashionable colors for clothes differ for each season. <br>Bright, primary colors are in style during spring and fall, <br>while cool and refreshing whites and blues are popular in <br>the summer. In winter, people mostly wear dark-colored <br>clothes. Now, think and write about what kinds of motifs <br>might be trendy in clothes for each season.", "keywords": ["nature", "puts on", "new set", "clothes", "every time", "seasons change", "instance", "trees", "dress up", "fresh", "bright green", "spring", "arrives", "summer", "change", "deep", "dark green", "fall", "adorn", "themselves", "vibrant outfits", "red", "yellow", "brown colors", "winter", "comes", "shed", "all", "clothes", "patiently wait", "spring", "come again", "tell", "change", "seasons", "looking", "how", "people dress", "spring", "instead", "thick clothes", "worn", "winter", "switch", "lighter", "more colorful", "outfits", "hot summer", "wear", "even lighter", "shorter-sleeved", "clothes", "fall", "winter", "approach", "bring out", "thicker clothes", "again", "however", "fashionable colors", "clothes", "differ", "each season", "bright", "primary colors", "style", "spring", "fall", "while", "cool", "refreshing", "whites", "blues", "popular", "summer", "winter", "people", "mostly wear", "dark-colored", "clothes", "think", "write", "what kinds", "motifs", "might", "trendy", "clothes", "each season"], "fontType": "type3" },
+      "2": { "text": "", "keywords": [] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/25.jpg",
+    "zones": {
+      "1": { "text": "<span class='larger-text'><b><u>How the Wind Blows</span><br><br>What is wind? Simply put, it is a phenomenon of air <br>flowing. Air flows from areas of high pressure to areas of <br>low pressure. Here, atmospheric pressure can be said to be <br>the force with which the air is pressed. In general, as the <br>amount of air increases in a space of the same size, the <br>atmospheric pressure increases. When the wind blows, the <br>pressure in places where the pressure was high decreases, <br>and the pressure in places where the pressure was low <br>increases. As a result, the air pressure in both places <br>becomes similar. Like this, the principle of equilibrium <br>often appears in science. If we think about this, it becomes <br>easier to understand natural phenomena.<br>Have you heard the words sea breeze and land breeze?<br>A sea breeze is a wind that blows from the sea to the land. <br>Conversely, a land breeze is a wind that blows from the <br>land to the sea. When we go to the beach, a sea breeze <br>blows during the day and a land breeze blows at night. <br>Let's find out why. When the sun rises at the beach during <br>the day, the land heats up faster than the sea.<br>When the ground is hot, the air nearby also gets warmer. <br>When a gas gets hot, the distance between molecules <br>increases. According to this property, air molecules near <br>the ground are distributed more sparsely than in the sky.", "keywords": ["How", "Wind", "Blows", "what", "wind", "simply put", "phenomenon", "air", "flowing", "air", "flows", "areas", "high pressure", "areas", "low pressure", "here", "atmospheric pressure", "said", "force", "which", "air", "pressed", "general", "amount", "air", "increases", "space", "same size", "atmospheric pressure", "increases", "when", "wind", "blows", "pressure", "places", "where", "pressure", "high", "decreases", "pressure", "places", "where", "pressure", "low", "increases", "result", "air pressure", "both places", "becomes similar", "like this", "principle", "equilibrium", "often appears", "science", "think", "becomes", "easier", "understand", "natural phenomena", "heard", "words", "sea breeze", "land breeze", "sea breeze", "wind", "blows", "sea", "land", "conversely", "land breeze", "wind", "blows", "land", "sea", "go", "beach", "sea breeze", "blows", "during", "day", "land breeze", "blows", "night", "find out", "why", "sun", "rises", "beach", "during", "day", "land", "heats up", "faster", "sea", "ground", "hot", "air", "nearby", "gets warmer", "gas", "gets hot", "distance", "between", "molecules", "increases", "according", "property", "air molecules", "near", "ground", "distributed", "more sparsely", "sky"], "fontType": "type4" },
+      "2": { "text": "", "keywords": [] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+           {
+      "bg": "../assets/img/ReadBook/G2.2.3/26.jpg",
+      "zones": {
+        "1": { "text": "The degree to which the material filling a space is dense<br>or sparse is called density. High density means that<br>the material is tightly packed. Liquids and gases have<br>a tendency to rise upward when their density is low.<br>The air near the ground is less dense than the air in the <br>sky, so it rises to the sky. Ultimately, the air pressure on <br>land becomes lower than that on the sea. Thus, the wind <br>blows from the high-pressure ocean to the low-pressure <br>land. At night, this phenomenon happens in reverse.<br>At night, the land gets colder faster than the sea. Because <br>the ocean is hotter than the land, the air pressure near<br>the ocean is lower than on land. So, unlike during the day, <br>the wind blows from the land to the sea.", "keywords": ["degree", "material", "filling", "space", "dense", "sparse", "called", "density", "high density", "means", "tightly packed", "liquids", "gases", "tendency", "rise upward", "density", "low", "air", "ground", "less dense", "sky", "rises", "ultimately", "air pressure", "land", "becomes lower", "sea", "thus", "wind", "blows", "high-pressure", "ocean", "low-pressure", "night", "phenomenon", "happens", "reverse", "gets colder", "faster", "because", "hotter", "near", "lower", "unlike", "during", "day"] , "fontType": "type4"},
+        "2": { "text": "<span class='larger-text'><b>02. Wave Motifs Made by Nature</span><br><br>", "keywords": ["Wave Motifs", "Made", "Nature", "nowadays", "many people", "live", "apartments", "shared housing", "why", "many", "use", "blinds", "windows", "prevent", "people outside", "looking in", "block", "sunlight", "blinds", "made", "connecting", "narrow", "scale-shaped", "slats", "strings", "know", "China", "something similar", "blinds", "existed", "since", "ancient times", "called", "bamboo blinds", "traditional Chinese", "shades", "made", "thin bamboo", "woven together", "thread", "even today", "widely used", "rural areas", "block out", "hot sun", "sitting", "porch", "bamboo blinds", "lowered", "summer", "allows", "gentle", "cooling breeze", "come in"] },
+        "3": { "text": "", "keywords": [] },
+        "4": { "text": "Nowadays, many people live in apartments or shared <br>housing. This is why many use blinds on their windows <br>to prevent people outside from looking in and to <br>block sunlight. Blinds are made by connecting narrow, <br>scale-shaped slats with strings. Did you know that in <br>China, something similar to blinds has existed since <br>ancient times?<br>It is called the \"bamboo blinds,\" the traditional Chinese <br>shades made from thin bamboo woven together with <br>thread. Even today, it is widely used in rural areas <br>to block out the hot sun. Sitting on a porch with the <br>bamboo blinds lowered in the summer allows a gentle, <br>cooling breeze to come in.", "keywords": [] }
+      }
+    },
+    {
+      "bg": "../assets/img/ReadBook/G2.2.3/27.jpg",
+      "zones": {
+        "1": { "text": "An Eastern blind makes our lives more comfortable. <br>If we look closely at the Eastern blind, we can see <br>numerous gaps between the woven reeds or bamboo, <br>allowing the wind to pass freely through these gaps.<br>So, when we put up an Eastern blind, sunlight is <br>blocked while the wind can flow in, creating a cool <br>atmosphere, especially in the hot summer. An Eastern <br>blind has another advantage. When we put Western <br>blinds or curtains on a window, we cannot see outside, <br>and people outside cannot see inside.", "keywords": ["Eastern blind", "makes", "lives", "more comfortable", "look closely", "see", "numerous gaps", "between", "woven reeds", "bamboo", "allowing", "wind", "pass freely", "through", "gaps", "put up", "sunlight", "blocked", "while", "can flow in", "creating", "cool", "atmosphere", "especially", "hot summer", "another advantage", "put", "Western blinds", "curtains", "window", "cannot see", "outside", "people outside", "cannot see", "inside"] },
+        "2": { "text": "So, when we put up an Eastern blind, sunlight is <br>blocked while the wind can flow in, creating a cool <br>atmosphere, especially in the hot summer. An Eastern <br>blind has another advantage. When we put Western <br>blinds or curtains on a window, we cannot see outside, <br>and people outside cannot see inside.<br>However, an Eastern blind is different. People cannot <br>see the inside from the outside, but we can see the <br>outside from the inside. This phenomenon occurs due <br>to the difference in brightness between the inside <br>and outside created by the Eastern blind. In a dark <br>room, we can easily see outside, but from the outside, <br>people cannot see into the room.", "keywords": ["put up", "Eastern blind", "sunlight", "blocked", "while", "wind", "can flow in", "creating", "cool", "atmosphere", "especially", "hot summer", "another advantage", "put", "Western blinds", "curtains", "window", "cannot see", "outside", "people outside", "cannot see", "inside", "however", "different", "people", "cannot", "see", "inside", "from", "outside", "but", "can see", "outside", "from", "inside", "phenomenon", "occurs", "due", "difference", "brightness", "between", "inside", "outside", "created", "dark", "room", "easily see", "outside", "from", "outside", "people", "cannot see", "into", "room"] },
+        "3": { "text": "Explain how the Eastern blind is more convenient <br>than the Western blind.", "keywords": ["explain", "Eastern blind", "more convenient", "Western blind"], "fontType": "type2" },
+        "4": { "text": "", "keywords": [] }
+      }
+    },
+    {
+    "bg": "../assets/img/ReadBook/G2.2.3/28.jpg",
+    "zones": {
+      "1": { "text": "Now let's explore how Eastern blinds have been <br>used historically. Eastern blinds were widely used as <br>decorations hung on walls along with traditional knots. <br>Various motifs were created to make Eastern blinds. <br>The beautiful motifs on Eastern blinds decorated plain <br>walls like artwork. In rural areas, Eastern blinds were <br>used to spread and dry grains, peppers, eggplants, and <br>dried radishes. In winter, sweet potatoes or potatoes <br>were placed on Eastern blinds for storage. Eastern <br>blinds were very useful for drying food because they <br>allow good airflow. Good airflow prevents mold and <br>ensures that the food dries evenly.", "keywords": ["Eastern blinds", "historically", "widely used", "decorations", "hung", "walls", "traditional knots", "various motifs", "created", "beautiful motifs", "decorated", "plain walls", "artwork", "rural areas", "spread", "dry", "grains", "peppers", "eggplants", "dried radishes", "winter", "sweet potatoes", "potatoes", "placed", "storage", "useful", "drying food", "good airflow", "prevents mold", "dries evenly"] },
+      "2": { "text": "The materials used to make Eastern blinds vary <br>depending on their purpose. Valuable bamboo was <br>mainly used for decorative Eastern blinds that hung <br>on walls or covered windows. On the other hand, <br>Eastern blinds used for drying food were often made <br>of bush clovers found in mountains and fields.<br>Silver grasses and hemp cores were commonly used.<br>A hemp core refers to the peeled stem of hemp. Hemp <br>is a plant that is used as a material for hemp cloth. <br>There were many different types of Eastern blinds, <br>such as the small Eastern blind used for storing <br>brushes by scholars.", "keywords": ["materials", "make", "Eastern blinds", "vary", "depending", "purpose", "valuable bamboo", "mainly used", "decorative", "hung", "walls", "covered windows", "other hand", "drying food", "often made", "bush clovers", "found", "mountains", "fields", "silver grasses", "hemp cores", "commonly used", "hemp core", "refers", "peeled stem", "hemp", "plant", "material", "hemp cloth", "many different types", "small", "storing", "brushes", "scholars"] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/29.jpg",
+    "zones": {
+      "1": { "text": "There was even an Eastern blind used for the <br>\"palanquin,\" a carriage used by kings, nobles, and <br>brides on their wedding day. To prevent others from <br>peering inside, an Eastern blind was attached to the <br>palanquin door. These were called palanquin blinds. <br>In the past, it was important to keep the dignity of <br>the king, so courtiers could not look directly at the <br>king's face. When meeting the king, courtiers bowed <br>their heads, sometimes extending their Eastern blinds <br>between them and the king to make sure they could <br>not see the king's face directly.", "keywords": ["Eastern blind", "palanquin", "carriage", "kings", "nobles", "brides", "wedding day", "prevent", "others", "peering inside", "attached", "palanquin door", "called", "palanquin blinds", "past", "important", "keep", "dignity", "king", "courtiers", "could not look", "directly", "king's face", "meeting", "bowed", "heads", "sometimes", "extending", "between", "make sure", "not see", "directly"] },
+      "2": { "text": "In the past, men and women could not talk face to <br>face. It was considered impolite. The higher the status <br>of a person, the more they had to be careful of their <br>manners. However, there were situations where men <br>and women eventually had to face each other, like <br>visiting the doctor for treatment. Eastern blinds were <br>a useful tool in these instances. When the queen or <br>princess was sick, they would hang an Eastern blind in <br>the room before calling the palace doctor. In the past, <br>men and women were not considered equal.<br>Even if a woman was intelligent and talented, she did <br>not have the opportunity to take part in politics just <br>because she was a woman. Moreover, only men could <br>inherit the throne.", "keywords": ["past", "men", "women", "could not talk", "face to face", "considered", "impolite", "higher", "status", "person", "more", "careful", "manners", "however", "situations", "where", "eventually", "had to face", "each other", "like", "visiting", "doctor", "treatment", "Eastern blinds", "useful tool", "instances", "queen", "princess", "sick", "hang", "Eastern blind", "room", "before", "calling", "palace doctor", "not considered equal", "even if", "woman", "intelligent", "talented", "did not have", "opportunity", "take part", "politics", "just because", "woman", "moreover", "only men", "could", "inherit", "throne"] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/30.jpg",
+    "zones": {
+      "1": { "text": "So, even if there was an adult princess, many times<br>a young prince would become the king. In such cases, <br>the young king's mother or grandmother would help <br>him rule the country. However, they were not allowed <br>to talk directly to male officials.<br>This is how they came up with the idea of using an <br>Eastern blind. When the young king sat facing his <br>officials, his mother or grandmother would be behind <br>him with an Eastern blind separating them. This was <br>called \"chui lian ting zheng\" meaning \"to help rule <br>behind an Eastern blind.\"", "keywords": ["even if", "adult princess", "many times", "young prince", "would become", "king", "such cases", "young king's", "mother", "grandmother", "would help", "rule", "country", "however", "not allowed", "talk directly", "male officials", "how", "came up", "idea", "using", "Eastern blind", "when", "young king", "sat", "facing", "officials", "mother", "grandmother", "would be", "behind", "Eastern blind", "separating", "called", "chui lian ting zheng", "meaning", "help rule", "behind", "Eastern blind"] },
+      "2": { "text": "A lot of care and effort goes into making an Eastern <br>blind. It takes a lot of work to even get the materials <br>ready. A type of bamboo with strong and flexible <br>qualities is suitable for weaving an Eastern blind. <br>This bamboo is also used to make high quality arrows. <br>However, getting the bamboo is just the beginning.<br>In winter, the bamboo needs to be dried in the sun <br>for two months. After that, it goes through an endless <br>cycle of dew and frost, making the bamboo tougher <br>and more resilient. Finally, the bamboo is finely <br>chopped and boiled with lye. Lye is water melted with <br>the ash made by burning plants, and it helps remove <br>any remaining impurities or stains on the bamboo.", "keywords": ["lot", "care", "effort", "goes into", "making", "Eastern blind", "takes", "work", "get", "materials", "ready", "type", "bamboo", "strong", "flexible", "qualities", "suitable", "weaving", "also used", "make", "high quality", "arrows", "however", "getting", "bamboo", "just", "beginning", "winter", "needs", "dried", "sun", "two months", "after that", "goes through", "endless", "cycle", "dew", "frost", "making", "bamboo", "tougher", "more resilient", "finally", "finely", "chopped", "boiled", "lye", "water", "melted", "ash", "burning plants", "helps", "remove", "remaining", "impurities", "stains"] },
+      "3": { "text": "Explain the role of the Eastern blind in the East.", "keywords": ["explain", "role", "Eastern blind", "East"], "fontType": "type2" },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/31.jpg",
+    "zones": {
+      "1": { "text": "Upon closer look at an Eastern blind, we can see there <br>are subtle motifs inside. These are letters and shapes <br>which were sometimes added in the process of making <br>an Eastern blind. The letters had special meanings. <br>For example, the Chinese character meaning \"joy\" was <br>made into a motif inside, wishing only good things <br>to happen in the household. When the Chinese letter <br>meaning \"life\" was used, it was a wish for a healthy <br>and long life.<br>Other letters representing happiness, wealth, and <br>success were also often used as motifs in an Eastern <br>blind. Some Eastern blinds had hexagonal motifs like <br>a turtle's shell. Turtles have been loved by Eastern <br>people since ancient times as one of the ten animals <br>that live a long life. This motif on the Eastern blind <br>expresses a wish to live a long and healthy life, just <br>like a turtle. People made these motifs while praying <br>for such wishes to come true.", "keywords": ["closer look", "Eastern blind", "see", "subtle motifs", "inside", "letters", "shapes", "sometimes", "added", "process", "making", "special meanings", "example", "Chinese character", "meaning", "joy", "made into", "motif", "inside", "wishing", "only good things", "happen", "household", "Chinese letter", "meaning", "life", "wish", "healthy", "long life", "other letters", "representing", "happiness", "wealth", "success", "often used", "motifs", "Eastern blinds", "hexagonal motifs", "turtle's shell", "turtles", "loved", "Eastern people", "ancient times", "one", "ten animals", "live", "long life", "motif", "expresses", "wish", "live", "long", "healthy life", "just like", "turtle", "made", "motifs", "while", "praying", "wishes", "come true"] },
+      "2": { "text": "", "keywords": [] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/32.jpg",
+    "zones": {
+      "1": { "text": "There are different methods of adding motifs to <br>the Eastern blind depending on its type. The most <br>common method is to draw motifs with ink or paint <br>after making the Eastern blind. Sometimes, when <br>weaving the Eastern blind, each bamboo strip is <br>skillfully intertwined to create a motif.<br>Craftsmen use the flexible nature of bamboo to <br>create as natural-looking motifs as possible.", "keywords": ["different methods", "adding motifs", "Eastern blind", "depending", "type", "most", "common method", "draw motifs", "ink", "paint", "after making", "Eastern blind", "sometimes", "when", "weaving", "Eastern blind", "each", "bamboo strip", "skillfully", "intertwined", "create", "motif", "craftsmen", "use", "flexible nature", "bamboo", "create", "natural-looking motifs", "possible"] },
+      "4": { "text": "The motifs on an Eastern blind can be considered <br>motifs that resemble nature. A lot of effort is needed <br>to create natural and beautiful motifs. People must <br>practice for a long time to develop their skills and also <br>have a unique artistic sense.<br>The beautiful motifs on an Eastern blind contain the <br>craftsmanship of a skilled artist trained over the <br>years. It is evidence of the effort and dedication <br>put into making a single Eastern blind. Additionally, <br>excellent materials from nature, such as reeds and <br>bamboo, are necessary. People have been creating <br>essential daily items and beautiful works of art using <br>natural materials throughout history.", "keywords": ["motifs", "Eastern blind", "can be considered", "motifs", "resemble nature", "lot", "effort", "needed", "create", "natural", "beautiful motifs", "people", "must", "practice", "long time", "develop", "skills", "also", "have", "unique", "artistic sense", "beautiful motifs", "Eastern blind", "contain", "craftsmanship", "skilled artist", "trained", "over", "years", "evidence", "effort", "dedication", "put into", "making", "single", "Eastern blind", "additionally", "excellent materials", "nature", "such as", "reeds", "bamboo", "necessary", "people", "have been", "creating", "essential", "daily items", "beautiful works", "art", "using", "natural materials", "throughout history"] },
+      "3": { "text": "", "keywords": [] },
+      "2": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/33.jpg",
+    "zones": {
+      "1": { "text": "Are there other things in nature besides wood that <br>can help us? This time, let's explore items made using <br>another natural material—metal.<br>Metal refers to substances like iron, zinc, aluminum, <br>copper, gold, and silver. When they harden and <br>become solid, they each give off a unique color and <br>conduct electricity and heat well.", "keywords": ["other things", "nature", "besides wood", "can help", "time", "explore", "items", "made using", "another", "natural material", "metal", "metal", "refers", "substances", "like", "iron", "zinc", "aluminum", "copper", "gold", "silver", "when", "harden", "become solid", "each", "give off", "unique color", "conduct", "electricity", "heat", "well"] },
+      "2": { "text": "If we hit metal with a hammer, it becomes thin and <br>spreads out. This property is called malleability. <br>Another characteristic of metal is ductility, where <br>it stretches out thin and long when force is applied. <br>People have been using the different characteristics <br>of metal to create many things since ancient times. <br>Metal is loved as a material for making farming tools, <br>kitchen utensils, and other items that make our lives <br>more convenient. Beautiful jewelry like earrings and <br>rings, as well as stunning artwork, can also be crafted <br>from metal. There are three ways to work with metal: <br>casting, forging, and carving.", "keywords": ["hit", "metal", "hammer", "becomes thin", "spreads out", "property", "called", "malleability", "another", "characteristic", "metal", "ductility", "where", "stretches out", "thin", "long", "when", "force", "applied", "people", "have been using", "different", "characteristics", "metal", "create", "many things", "since", "ancient times", "metal", "loved", "material", "making", "farming tools", "kitchen utensils", "other items", "make", "lives", "more convenient", "beautiful jewelry", "like", "earrings", "rings", "as well as", "stunning artwork", "can also be", "crafted", "metal", "three ways", "work with", "metal", "casting", "forging", "carving"] },
+      "3": { "text": "Explain why Eastern people put motifs on Eastern <br>blinds.", "keywords": ["explain", "Eastern people", "put motifs", "Eastern blinds"], "fontType": "type2" },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/34.jpg",
+    "zones": {
+      "1": { "text": "First, let us explore casting. When metal is very hot,<br>it melts into a liquid. As time passes and it cools,<br>it becomes solid again. Casting is a method that uses <br>this characteristic of metal. Casting is the oldest <br>method used since the Bronze Age. Most artifacts <br>discovered from the Bronze Age were made using <br>casting. There are bronze knives, bronze arrowheads, <br>bronze mirrors, bronze bells, and more. Bronze is made <br>by melting copper and tin together.<br>Let's find out how things are made through casting. <br>First, we need two large stones. Make a mold by <br>carving one stone into the shape of half the object <br>that needs to be made. Then, carve the other stone <br>into the remaining half shape. Join the two molds <br>together. It is like a waffle maker forming one shape. <br>There is a hole between the two molds. Pour molten <br>bronze through this hole, melted over a hot fire.", "keywords": ["first", "explore", "casting", "when", "metal", "very hot", "melts", "into", "liquid", "time passes", "cools", "becomes solid", "again", "casting", "method", "uses", "characteristic", "metal", "casting", "oldest", "method", "used", "since", "Bronze Age", "most", "artifacts", "discovered", "Bronze Age", "were made", "using", "casting", "bronze knives", "bronze arrowheads", "bronze mirrors", "bronze bells", "more", "bronze", "made", "melting", "copper", "tin", "together", "find out", "how", "things", "made", "through", "casting", "first", "need", "two large stones", "make", "mold", "carving", "one stone", "into", "shape", "half", "object", "needs", "made", "then", "carve", "other stone", "into", "remaining", "half shape", "join", "two molds", "together", "like", "waffle maker", "forming", "one shape", "hole", "between", "two molds", "pour", "molten", "bronze", "through", "hole", "melted", "over", "hot fire"] },
+      "2": { "text": "", "keywords": [] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/35.jpg",
+    "zones": {
+      "1": { "text": "Once the bronze cools and hardens, the molds are <br>separated, and the object inside is removed. This is <br>how bronze items like knives or arrowheads are made. <br>Carving molds by hand from stones was quite difficult <br>work. During the Iron Age, people started using baked <br>clay molds instead of stones. These molds made from <br>stones or clay are called forms.<br>", "keywords": ["bronze", "cools", "hardens", "molds", "separated", "object", "inside", "removed", "bronze items", "like", "knives", "arrowheads", "carving", "by hand", "from stones", "quite", "difficult", "work", "Iron Age", "started", "using", "baked", "clay molds", "instead", "stones", "made from", "stones", "clay", "called", "forms", "forging", "method", "mainly used", "blacksmiths", "involves", "heating", "metal", "hot fire", "shaping", "hammer", "create", "desired shape", "most items", "iron", "after", "made using", "method"] },
+      "2": { "text": "Forging is a method mainly used by blacksmiths.<br>It involves heating metal in a hot fire and shaping<br>it with a hammer to create the desired shape.<br>Most items made of iron after the Iron Age were<br>made using this method.", "keywords": [] },
+      "3": { "text": "Explain what property of metal casting uses.", "keywords": ["explain", "property", "metal", "casting", "uses"], "fontType": "type2" },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/36.jpg",
+    "zones": {
+      "1": { "text": "Let's explore the process of making iron objects <br>through forging. First, iron is placed in a furnace and <br>heated until it becomes red-hot and soft like caramel. <br>Then, using tongs, it is taken out and placed on<br>a stand called an anvil. Hammering on it shapes the <br>metal. If the iron cools, the process is repeated until <br>the desire object is formed.", "keywords": ["explore", "process", "making", "iron objects", "through", "forging", "first", "iron", "placed", "furnace", "heated", "until", "becomes", "red-hot", "soft", "like caramel", "then", "using", "tongs", "taken out", "placed", "stand", "called", "anvil", "hammering", "shapes", "metal", "if", "iron", "cools", "process", "repeated", "until", "desire object", "formed"] },
+      "2": { "text": "Finally, carving involves creating motifs on the metal.<br>Sharp tools like a chisel are used to carve or cut the <br>metal. Different carving methods are used.<br>The most familiar method to us is carving various <br>motifs or letters onto the metal. Another technique is <br>carving the metal and placing another metal inside for<br>decoration, known as \"inlaying.\" There is also a method <br>of attaching very thin gold thread or small gold beads <br>to the metal. Using this method, called \"filigree,\" <br>delicate motifs can be created.", "keywords": ["finally", "carving", "involves", "creating", "motifs", "metal", "sharp tools", "like", "chisel", "used", "carve", "cut", "metal", "different", "carving methods", "used", "most", "familiar method", "carving", "various", "motifs", "letters", "onto", "metal", "another technique", "carving", "metal", "placing", "another metal", "inside", "decoration", "known as", "inlaying", "also", "method", "attaching", "very thin", "gold thread", "small", "gold beads", "metal", "using", "method", "called", "filigree", "delicate motifs", "can be created"] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/37.jpg",
+    "zones": {
+      "1": { "text": "Forging and casting were mainly used to make <br>weapons, farming tools, and household items. <br>However, carving was more about artistic expression <br>than practical use. It was used in creating jewelry <br>such as necklaces, earrings, bracelets, crowns, <br>and other ornamental items. Nowadays, advanced <br>machines called lathes allow accurate metal shaping. <br>Using a lathe can also be said to be a type of carving <br>as well. Using a lathe makes it easy to shape or drill <br>holes in metal materials by rotating them.", "keywords": ["forging", "casting", "mainly used", "make", "weapons", "farming tools", "household items", "however", "carving", "more about", "artistic expression", "than", "practical use", "used", "creating", "jewelry", "such as", "necklaces", "earrings", "bracelets", "crowns", "other", "ornamental items", "nowadays", "advanced", "machines", "called", "lathes", "allow", "accurate", "metal shaping", "using", "lathe", "can also", "said", "type", "carving", "as well", "using", "lathe", "makes", "easy", "shape", "drill", "holes", "metal materials", "rotating"] },
+      "2": { "text": "We can create everyday items and art pieces with <br>beautiful motifs with clay as well. \"Clay figurine\" is <br>an artifact with a unique beauty. The term is usually <br>used to describe various clay-made objects like <br>humans, animals, houses, vessels, and instruments. <br>Clay figurines were often found buried in ancient <br>tombs, especially in the royal tombs.", "keywords": ["create", "everyday items", "art pieces", "beautiful motifs", "clay", "as well", "clay figurine", "artifact", "unique beauty", "term", "usually", "used", "describe", "various", "clay-made objects", "like", "humans", "animals", "houses", "vessels", "instruments", "clay figurines", "often found", "buried", "ancient", "tombs", "especially", "royal tombs"] },
+      "3": { "text": "Explain the techniques of inlaying and filigree to <br>create motifs on metal.", "keywords": ["explain", "techniques", "inlaying", "filigree", "create motifs", "metal"], "fontType": "type2" },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/38.jpg",
+    "zones": {
+      "1": { "text": "Why did people make clay figurines and bury them <br>in tombs? We can learn more about the culture and <br>thoughts of the ancient people from artifacts.<br>The artifacts from old tombs tell us about what people <br>thought about death at the time. People believed <br>that when a person died, they went to the afterlife. <br>They thought that in the afterlife, people lived just <br>like they did when they were alive. That is why they <br>buried the things the dead used in their tombs.", "keywords": ["why", "people", "make", "clay figurines", "bury", "tombs", "learn more", "culture", "thoughts", "ancient people", "from", "artifacts", "artifacts", "old tombs", "tell us", "what", "people", "thought", "death", "time", "people", "believed", "when", "person", "died", "went", "afterlife", "thought", "afterlife", "people", "lived", "just like", "when", "were alive", "why", "buried", "things", "dead", "used", "tombs"] },
+      "4": { "text": "In their tombs, clay figurines were often found along <br>with everyday items like dishes and decorations.<br>These everyday items were buried to make life <br>comfortable in the afterlife. However, things like <br>houses, carts, and animals were too big to bury <br>together. So, they made clay figurines to represent <br>those things and buried them instead.", "keywords": ["tombs", "clay figurines", "often found", "along with", "everyday items", "like", "dishes", "decorations", "everyday items", "buried", "make", "life", "comfortable", "afterlife", "however", "things", "like", "houses", "carts", "animals", "too big", "bury", "together", "made", "clay figurines", "represent", "those things", "buried", "instead"] },
+      "3": { "text": "Explain why people in the past made clay figurines <br>and buried them in tombs.", "keywords": ["explain", "people", "past", "made", "clay figurines", "buried", "tombs"], "fontType": "type2" },
+      "2": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/39.jpg",
+    "zones": {
+      "1": { "text": "However, upon taking a close look at clay figurines, <br>we may have questions. Unlike the other artifacts, <br>such as gold crowns or ceramics that show the <br>sophisticated craftsmanship of the time, clay <br>figurines look like something children made for fun. <br>Why did they make clay figurines in such a hasty <br>manner? Understanding the meaning behind the clay <br>figurine helps us understand the reason.", "keywords": ["however", "taking", "close look", "clay figurines", "may have", "questions", "unlike", "other", "artifacts", "such as", "gold crowns", "ceramics", "show", "sophisticated", "craftsmanship", "time", "clay", "figurines", "look like", "something", "children", "made", "fun", "why", "make", "clay figurines", "such", "hasty", "manner", "understanding", "meaning", "behind", "clay figurine", "helps", "understand", "reason"] },
+      "2": { "text": "In fact, clay figurines were not only crafted during <br>one specific period. Since ancient times, people in <br>various countries made clay figurines to conduct <br>rituals to honor the gods. During challenging times, <br>people would hold ceremonies, praying to the heavens <br>for help. They prayed for good health, successful <br>harvests, and other blessings. Clay figurines were <br>made with the sincere wish of people. This sort of <br>object is called a mystical object.<br>As a result, people did not work hard to make clay <br>figurines exactly like real-life figures. Their meaning <br>was more important than what they looked like. <br>Perhaps, the people who made them thought that the <br>simple appearance of the clay figurines made their <br>wishes seem more sincere.", "keywords": ["fact", "clay figurines", "not only", "crafted", "during", "one specific", "period", "since", "ancient times", "people", "various countries", "made", "clay figurines", "conduct", "rituals", "honor", "gods", "during", "challenging times", "people", "would hold", "ceremonies", "praying", "heavens", "help", "prayed", "good health", "successful", "harvests", "other", "blessings", "clay figurines", "made", "sincere wish", "people", "sort", "object", "called", "mystical object", "result", "people", "did not work", "hard", "make", "clay figurines", "exactly like", "real-life figures", "meaning", "more important", "than", "what", "looked like", "perhaps", "people", "who made", "thought", "simple appearance", "clay figurines", "made", "wishes", "seem", "more sincere"] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/40.jpg",
+    "zones": {
+              "2": { "text": "Excavations of ancient tombs often reveal important <br>items that give us more information about the past. <br>For instance, there are pottery jars decorated with <br>clay figurine. Although we do not yet know the exact <br>purpose of these jars, historians guess that they <br>might have been used to hold grains. These jars could <br>have been used in rituals to pray for a prosperous <br>harvest. Also, the wave motif appears in almost every <br>era and region, but its specific shape varies slightly. <br>In ancient times, the popular motifs changed with <br>the times. These facts become important clues in <br>guessing the age of artifacts. When new pottery is <br>excavated, studying the motif allows us to guess the <br>era it was made.", "keywords": ["excavations", "ancient tombs", "often reveal", "important", "items", "more information", "past", "instance", "pottery jars", "decorated", "clay figurine", "exact", "purpose", "jars", "historians", "guess", "hold", "grains", "rituals", "pray", "prosperous", "harvest", "wave motif", "appears", "almost every", "era", "region", "specific shape", "varies", "slightly", "ancient times", "popular motifs", "changed", "times", "facts", "become", "important clues", "guessing", "age", "artifacts", "new pottery", "excavated", "studying", "motif", "allows", "guess", "era"] },
+      "1": { "text": "", "keywords": [] },
+      "4": { "text": "Explain why ancient people made clay figurines.", "keywords": ["explain", "ancient people", "made", "clay figurines"], "fontType": "type2" },
+      "3": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/41.jpg",
+    "zones": {
+      "1": { "text": "02. Wave Motifs Made by Nature<br><br><span class=\"larger-text\">I. What Is the Purpose of Studying Wave</span><br><span class=\"larger-text\">Motifs Made by Nature?</span><br><br>", "keywords": ["Wave Motifs", "Made by Nature", "What Is the Purpose", "Studying", "Wave Motifs", "Made by Nature", "wave motif", "likely", "most commonly used", "motif", "ancient times", "up till now", "find", "wave motif", "any", "ethnic group", "art", "world", "wave motif", "been", "symbolically used", "many", "religious", "artistic works", "generally", "wave", "motif", "symbolizes", "abundance", "good fortune", "clear", "weather", "water", "been considered", "fundamental", "element", "universe", "since", "ancient times", "also", "represents", "beginning", "life", "additionally", "element", "absolutely needed", "farm crops"] },
+      "2": { "text": "In ancient times, people believed a good or bad <br>harvest was determined entirely by the gods. During <br>that time, people made motifs representing the rain <br>or water that they needed to farm, in hopes of a good <br>harvest. In other words, the wave motif carried the <br>simple and earnest wishes of farmers. People in the <br>East believed that dreaming of waves brought good <br>luck. They drew the wave motif on pouches used to <br>carry money or items, believing that carrying it would <br>bring good fortune.", "keywords": ["ancient times", "believed", "good", "bad", "harvest", "determined", "entirely", "gods", "time", "motifs", "representing", "rain", "water", "needed", "farm", "hopes", "good", "harvest", "other words", "wave motif", "carried", "simple", "earnest wishes", "farmers", "East", "believed", "dreaming", "waves", "brought", "good", "luck", "drew", "wave motif", "pouches", "carry", "money", "items", "believing", "carrying", "would", "bring", "good fortune"] },
+      "3": { "text": "The wave motif is likely the most commonly used <br>motif from ancient times up till now. We can find <br>the wave motif in any ethnic group or art in the <br>world. The wave motif has been symbolically used in <br>many religious or artistic works. Generally, the wave <br>motif symbolizes abundance, good fortune, and clear <br>weather. Water has been considered the fundamental <br>element of the universe since ancient times, and it <br>also represents the beginning of life. Additionally, it is <br>an element that is absolutely needed to farm crops.", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/42.jpg",
+    "zones": {
+      "1": { "text": "To ancient people, the sea was always pure and <br>clean, so it symbolized a clear mind. Eastern people <br>wore clothes with wave motifs to remind them to <br>live an honest and upright life. We study this topic to <br>understand the role of various motifs in people's lives. <br>It is worth emphasizing many times that motifs serve <br>as excellent materials for understanding people and <br>society.", "keywords": ["ancient people", "sea", "always", "pure", "clean", "symbolized", "clear mind", "Eastern people", "wore", "clothes", "wave motifs", "remind", "live", "honest", "upright life", "study", "topic", "understand", "role", "various motifs", "people's lives", "worth", "emphasizing", "many times", "motifs", "serve", "excellent materials", "understanding", "people", "society"] },
+      "2": { "text": "(1) Since ancient times, people have molded clay to create <br>dolls. However, the appearance of these dolls is often <br>somewhat exaggerated. Explain why.<br><br>(2) In ancient societies that lived by farming, what motif <br>was mainly used? What was the reason for using this <br>motif?", "keywords": ["since", "ancient times", "people", "molded", "clay", "create", "dolls", "however", "appearance", "dolls", "often", "somewhat", "exaggerated", "explain why", "ancient societies", "lived", "farming", "what motif", "mainly used", "what", "reason", "using", "motif"], "fontType": "type3" },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/43.jpg",
+    "zones": {
+      "3": { "text": "Elevators are a means of transportation that people <br>today use at least once a day. As tall buildings are <br>built one after another, the importance of elevators <br>is increasing. Elevators are believed to have <br>originated from the ancient Greek natural philosopher <br>Archimedes. However, people have known the basic <br>knowledge and principles of elevators for a long time. <br>We know this from the use of fixed pulleys to move <br>large stones and wood to build temples before the <br>time of Archimedes.", "keywords": ["elevators", "means", "transportation", "today", "use", "at least", "once", "day", "tall buildings", "built", "one after another", "importance", "increasing", "believed", "originated", "ancient Greek", "natural philosopher", "Archimedes", "however", "known", "basic", "knowledge", "principles", "long time", "fixed pulleys", "move", "large stones", "wood", "build", "temples", "before", "time", "Archimedes"] },
+      "1": { "text": "02. Wave Motifs Made by Nature<br><br><span class=\"larger-text\">Ⅱ. How Can We Apply the Study of Wave</span><br><span class=\"larger-text\">Motifs Made by Nature?</span><br><br>", "keywords": ["Wave Motifs", "Made by Nature", "How Can We Apply", "Study", "Wave", "Motifs Made by Nature", "even", "convenient", "elevators", "have", "disadvantages", "example", "phone calls", "often", "cut short", "inside", "elevator", "because", "steel plates", "surrounding", "block", "communication signals", "usually", "problem", "solved", "installing", "signal repeaters"] },
+      "2": { "text": "Even these convenient elevators have disadvantages. <br>For example, phone calls are often cut short inside<br>the elevator because the steel plates surrounding it <br>block communication signals. Usually, this problem is <br>solved by installing signal repeaters.", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/44.jpg",
+    "zones": {
+      "3": { "text": "When radio waves or light are sent to the atoms that <br>make up a material, the method of allowing radio <br>waves of a specific wavelength to pass is called <br>\"electromagnetically induced transparency (EIT).\"<br>In simple terms, it creates an effect similar to making <br>a material transparent only for specific wavelengths <br>using wave motifs. Metamaterials are materials <br>designed to exhibit properties not yet found in <br>nature, such as metal plates with wave motifs.<br>The unique properties of metamaterials arise from <br>their structure and the motifs engraved on their <br>surface or interior.", "keywords": ["radio waves", "light", "sent", "atoms", "make up", "material", "method", "allowing", "radio", "waves", "specific wavelength", "pass", "called", "electromagnetically induced transparency", "EIT", "simple terms", "creates", "effect", "similar", "making", "material", "transparent", "only", "specific wavelengths", "using", "wave motifs", "metamaterials", "materials", "designed", "exhibit", "properties", "not yet found", "nature", "such as", "metal plates", "wave motifs", "unique properties", "metamaterials", "arise", "structure", "motifs", "engraved", "surface", "interior"] },
+      "2": { "text": "(1) Blinds and curtains essentially do the same thing. <br>Compare the advantages and disadvantages of blinds <br>and curtains.<br><br>(2) A blacksmith shapes hot iron by striking it with a hammer <br>hundreds of times to create the desired shape. Why <br>does pounding it more often result in a harder object?", "keywords": ["blinds", "curtains", "essentially", "same thing", "compare", "advantages", "disadvantages", "blinds", "curtains", "blacksmith", "shapes", "hot iron", "striking", "hammer", "hundreds", "times", "create", "desired shape", "why", "pounding", "more often", "result", "harder object"], "fontType": "type3" },
+      "1": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/45.jpg",
+    "zones": {
+      "2": { "text": "Ancient pottery often has wave motifs. That is why historians <br>also call the wave motif the key to the secret door. <br>However, if people carve the wave motif at the end of the <br>key as well, thieves find it difficult to open the door.<br>What could this possibly mean? The history of locks and <br>keys goes back a long time. The Egyptians used locks as <br>early as 4,000 years ago. The person known for inventing <br>the metal lock is thought to be a Roman. However, locks <br>and keys similar to the ones we use today were made in <br>the late 18th to the 19th century.<br>The history of locks and keys is also the history of locksmiths <br>and thieves. Locksmiths had to create locks that would not <br>easily open. But thieves had to make keys that could open <br>any lock. However, in human history, there were locks that <br>thieves could not easily open. There are many interesting <br>inventions, one of which is the cylinder-shaped lock.<br>How does this unique lock prevent people from opening it <br>easily? Feel free to make guesses and explain.", "keywords": ["ancient pottery", "often", "wave motifs", "why", "historians", "also call", "wave motif", "key", "secret door", "however", "people", "carve", "wave motif", "end", "key", "as well", "thieves", "find", "difficult", "open", "door", "what could", "possibly mean", "history", "locks", "keys", "goes back", "long time", "Egyptians", "used", "locks", "early", "4000 years ago", "person", "known", "inventing", "metal lock", "thought", "Roman", "however", "locks", "keys", "similar", "ones", "use today", "made", "late 18th", "19th century", "history", "locks", "keys", "also", "history", "locksmiths", "thieves", "locksmiths", "had to", "create", "locks", "would not", "easily open", "but", "thieves", "had to", "make", "keys", "could open", "any lock", "however", "human history", "were", "locks", "thieves", "could not", "easily open", "many", "interesting", "inventions", "one", "which", "cylinder-shaped lock", "how", "unique lock", "prevent", "people", "opening", "easily", "feel free", "make guesses", "explain"], "fontType": "type3" },
+      "1": { "text": "", "keywords": [] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/46.jpg",
+    "zones": {
+      "1": { "text": "Using the force of flowing water to generate electricity is <br>called hydroelectric power. Hydroelectric power is mainly <br>achieved by installing dams in rivers or lakes, trapping <br>water, and then releasing it through gates.<br>During this process, turbines are installed in the waterway, <br>and as the water flows, they spin the generator to produce <br>electricity. Tidal power also uses the force of water, <br>but it uses the difference in the height of the sea level <br>during high tide and low tide. Solar thermal power focuses <br>sunlight in one place using reflectors, capturing the heat <br>generated to produce electricity. On the other hand, solar <br>power uses solar cells to directly convert sunlight into <br>electrical energy without the need for a generator.<br>Wind power involves turning a generator using the force of <br>the wind to generate electricity. In wind power, the most <br>important element is the blades that catch the wind and <br>turn the turbine. Explain the design of blades that can use <br>the power of the wind.", "keywords": ["using", "force", "flowing water", "generate electricity", "called", "hydroelectric power", "hydroelectric power", "mainly", "achieved", "installing", "dams", "rivers", "lakes", "trapping", "water", "then", "releasing", "through", "gates", "during", "process", "turbines", "installed", "waterway", "as", "water", "flows", "spin", "generator", "produce", "electricity", "tidal power", "also uses", "force", "water", "but", "uses", "difference", "height", "sea level", "during", "high tide", "low tide", "solar thermal power", "focuses", "sunlight", "one place", "using", "reflectors", "capturing", "heat", "generated", "produce electricity", "other hand", "solar", "power", "uses", "solar cells", "directly", "convert", "sunlight", "into", "electrical energy", "without", "need", "generator", "wind power", "involves", "turning", "generator", "using", "force", "wind", "generate electricity", "wind power", "most", "important element", "blades", "catch", "wind", "turn", "turbine", "explain", "design", "blades", "can use", "power", "wind"], "fontType": "type3" },
+      "4": { "text": "Everyone has the experience of playing with dolls as a <br>child. Dolls stimulate emotions and creativity in children. <br>By talking to dolls, children understand their own feelings <br>and learn about relationships between people. Different <br>dolls, from small and cute ones to large and funny ones, <br>give us a sense of comfort.<br><br>", "keywords": ["everyone", "experience", "playing", "dolls", "child", "dolls", "stimulate", "emotions", "creativity", "children", "talking", "dolls", "children", "understand", "own feelings", "learn", "relationships", "between people", "different", "dolls", "small", "cute ones", "large", "funny ones", "give us", "sense", "comfort"], "fontType": "type3" },
+      "3": { "text": "", "keywords": [] },
+      "2": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/47.jpg",
+    "zones": {
+      "1": { "text": "The first dolls were probably made for religious purposes. <br>The historic sculpture called Venus of Willendorf exaggerates <br>a woman's chest and abdomen. The person who created <br>this sculpture may have wished for fertility and abundance, <br>thinking of a pregnant woman. There are also dolls made <br>for practical purposes. The famous nutcracker doll was <br>originally used for cracking nuts but was later elaborately <br>made for sale as gifts and decorations for nobles.<br>Russia's traditional matryoshka doll has smaller dolls <br>nested inside a larger one. What meaning might be hidden <br>in matryoshka dolls? Research and write about it.<br><br>", "keywords": ["first dolls", "probably", "made", "religious purposes", "historic sculpture", "called", "Venus of Willendorf", "exaggerates", "woman's chest", "abdomen", "person", "created", "sculpture", "may have", "wished", "fertility", "abundance", "thinking", "pregnant woman", "also", "dolls", "made", "practical purposes", "famous", "nutcracker doll", "originally", "used", "cracking nuts", "but", "later", "elaborately", "made", "sale", "gifts", "decorations", "nobles", "Russia's", "traditional", "matryoshka doll", "smaller dolls", "nested", "inside", "larger one", "what meaning", "might", "hidden", "matryoshka dolls", "research", "write"], "fontType": "type4" },
+      "4": { "text": "By studying the wave motifs used since ancient times, <br>we can discover that the shapes of these motifs are <br>different depending on the time and region. People in the <br>past expressed their way of life and hopes through these <br>motifs. Differences in lifestyle, thinking, and attitudes <br>toward art brought about different motifs.<br><br>", "keywords": ["studying", "wave motifs", "used", "since", "ancient times", "discover", "shapes", "motifs", "different", "depending", "time", "region", "people", "past", "expressed", "way of life", "hopes", "through", "motifs", "differences", "lifestyle", "thinking", "attitudes", "toward art", "brought about", "different motifs"], "fontType": "type3" },
+      "3": { "text": "", "keywords": [] },
+      "2": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/48.jpg",
+    "zones": {
+      "3": { "text": "For instance, think of tribes living on an island and those <br>living along a river. For island people, water, especially the <br>sea, is a dangerous place. Even on calm days, strong winds <br>can bring enormous waves crashing onto the land.<br>Many might not return after going out to sea to catch fish. <br>On the other hand, for people around the river, water is<br>a beloved presence. Except during heavy rain, the river <br>flows quietly and gently toward the sea. Think about the <br>wave motifs drawn by islanders and motifs drawn by <br>people living near the river. Draw each of them and explain <br>the reasons behind the shapes.<br><br>", "keywords": ["instance", "think", "tribes", "living", "island", "those", "living", "along", "river", "island people", "water", "especially", "sea", "dangerous place", "even", "calm days", "strong winds", "can bring", "enormous waves", "crashing", "onto", "land", "many", "might not", "return", "after", "going out", "sea", "catch fish", "other hand", "people", "around", "river", "water", "beloved presence", "except", "during", "heavy rain", "river", "flows", "quietly", "gently", "toward", "sea", "think about", "wave motifs", "drawn", "islanders", "motifs", "drawn", "people", "living", "near", "river", "draw", "each", "explain", "reasons", "behind", "shapes"], "fontType": "type3" },
+      "2": { "text": "<strong><u>States and Properties of Matter<br><br>The states of matter can be broadly divided into three <br>states: solid, liquid, and gas. Liquids and gases are flowing <br>substances, and both states are sometimes called \"fluids.\" <br>Unlike fluids, solids do not flow. Also, the size and shape do <br>not change in solid. This is because the particles that make <br>up the solid are held tightly to each other.<br>When a solid is heated, the force that holds the particles <br>together weakens. As a result, it turns into a liquid,<br>a substance that can flow. This phenomenon, where a solid <br>changes into a liquid by receiving heat, is called \"melting.\" <br>Because liquids can flow, their shape changes depending <br>on the container that holds them.", "keywords": ["States", "Properties", "Matter", "states", "matter", "can be", "broadly divided", "three", "states", "solid", "liquid", "gas", "liquids", "gases", "flowing", "substances", "both states", "sometimes", "called", "fluids", "unlike", "fluids", "solids", "do not flow", "also", "size", "shape", "do", "not change", "solid", "because", "particles", "make", "up", "solid", "held", "tightly", "each other", "when", "solid", "heated", "force", "holds", "particles", "together", "weakens", "result", "turns into", "liquid", "substance", "can flow", "phenomenon", "where", "solid", "changes into", "liquid", "receiving", "heat", "called", "melting", "because", "liquids", "can flow", "shape", "changes", "depending", "container", "holds"], "fontType": "type3" },
+      "1": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    "bg": "../assets/img/ReadBook/G2.2.3/49.jpg",
+    "zones": {
+      "1": { "text": "But the volume does not change. Here, volume refers to <br>the amount of space that a substance occupies.<br>When enough heat is applied to a liquid, the particles <br>move freely without holding on to each other. The state of <br>matter at this time is called \"gas,\" and this change process <br>is called \"vaporization.\" Gas particles spread out in space <br>because their particles are free. In other words, the volume <br>of the gas changes depending on the size of the space <br>containing the gas. Because liquids and gases can flow, <br>they have a property that solids do not have.<br>This property is \"viscosity,\" which is a sticky property. <br>Generally, when heat is applied to a solid, it changes in<br>the following order: solid → liquid → gas. However,<br>if the atmospheric pressure is low enough, it can change <br>directly from a solid to a gas. This phenomenon of a solid <br>changing into a gas is called \"sublimation.\"<br>What happens if we continue to heat the gas? Electrons <br>pop out from the atoms that make up the gas. This state <br>is called \"plasma\" and is also called the fourth state of <br>matter. Most of the substances around us are solid, liquid, <br>and gas, but plasma is the most abundant in the entire <br>universe. Also, ordinary gases do not conduct electricity. <br>However, plasma conducts electricity because electrons <br>move freely. A product that uses this principle is a neon sign.", "keywords": ["but", "volume", "does not change", "here", "volume", "refers", "amount", "space", "substance", "occupies", "when", "enough heat", "applied", "liquid", "particles", "move freely", "without", "holding on", "each other", "state", "matter", "time", "called", "gas", "change process", "called", "vaporization", "gas particles", "spread out", "space", "because", "particles", "free", "other words", "volume", "gas", "changes", "depending", "size", "space", "containing", "gas", "because", "liquids", "gases", "can flow", "have", "property", "solids", "do not have", "property", "viscosity", "which", "sticky property", "generally", "when", "heat", "applied", "solid", "changes", "following order", "solid", "liquid", "gas", "however", "if", "atmospheric pressure", "low enough", "can change", "directly", "solid", "gas", "phenomenon", "solid", "changing into", "gas", "called", "sublimation", "what happens", "if", "continue", "heat", "gas", "electrons", "pop out", "from", "atoms", "make up", "gas", "state", "called", "plasma", "also called", "fourth state", "matter", "most", "substances", "around us", "solid", "liquid", "gas", "but", "plasma", "most abundant", "entire", "universe", "also", "ordinary gases", "do not", "conduct electricity", "however", "plasma", "conducts electricity", "because", "electrons", "move freely", "product", "uses", "principle", "neon sign"], "fontType": "type3" },
+      "2": { "text": "", "keywords": [] },
+      "3": { "text": "", "keywords": [] },
+      "4": { "text": "", "keywords": [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/50.jpg',
+    zones: {
+     
+      1: { text: '<br><br><u>Describe how the kilt became the traditional Scottish attire.</u><br><br><br><br><br><br><br><br><br><br>In the Scottish Highlands, people wore warm clothing called plaid.<br>However, it was inconvenient to wear when working because one could<br>not move freely. So, Rawlinson asked a tailor to make comfortable<br>clothes. This became the traditional Scottish attire known as the kilt.<br><br>', keywords: ['kilt', 'Scottish', 'plaid', 'Rawlinson', 'tailor'], fontType: 'type7' },
+      2: { text: '<br><u>Briefly explain why diamonds are hard.</u><br><br><br><br><br><br><br><br><br><br>Covalent bonds connect carbon atoms that make up diamonds.<br>When one carbon atom bonds with four other carbon atoms, it creates<br>a grid motif. Diamonds are very hard because of this grid motif.<br><br>', keywords: ['diamonds', 'hard', 'covalent bonds', 'carbon atoms', 'grid motif'], fontType: 'type7' },
+      3: { text: '<br><u>Briefly explain what a molecule is.</u><br><br>The smallest unit that possesses the properties of a matter is called<br>a molecule. For example, hydrogen and oxygen combine to form<br>a water molecule. However, the characteristics of hydrogen or oxygen<br>cannot be observed in the water.', keywords: ['molecule', 'hydrogen', 'oxygen', 'water'], fontType: 'type8'},
+      4: { text: '<u>Explain why the 15th day of the first lunar month is called<br><u>"Yuanxiao jie (元宵節)."</u><br><br><u>"Yuanxiao jie (元宵節)" means "first full moon of the lunar new year."<br>This day marks the first appearance of the full moon in the lunar<br>calendar, specifically on the 15th day of the first lunar month.</u><br>', keywords: ['Yuanxiao jie', 'lunar', 'full moon'], fontType: 'type7'}
+    
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/51.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '<strong><u>Explain why people in the past made and spun pinwheels.</u></strong><br><br><br><br><br><br><br><br><br><br>For successful farming, the right amount of rain should fall at<br>the right time. People in the past believed that wind brought rain.<br>So, they played with pinwheels, hoping for good winds and<br>a successful harvest.</u>', keywords: ['pinwheels', 'farming', 'rain', 'wind', 'harvest'], fontType: 'type8' },
+      2: { text: '<strong><u>Explain why mugwort is used during the Dragon Boat Festival.</u></strong><br><br>Mugwort is considered to ward off evil spirits, so it was customary<br>to hang it around the home during the festival.', keywords: ['mugwort', 'Dragon Boat Festival', 'evil spirits'], fontType: 'type8' },
+      3: { text: '<strong><u>Explain why Chinese people considered the Dragon Boat Festival<br><u>important.</u></strong><br><br>The fifth month in the lunar calendar marks the end of rice-planting<br>season. Therefore, when the Dragon Boat Festival arrives, farmers<br>who have finished planting hold a ritual to pray for abundant harvests.<br>In the past, the Dragon Boat Festival was considered an important<br>holiday due to the importance of agriculture.<br><br>', keywords: ['Dragon Boat Festival', 'lunar calendar', 'rice-planting', 'agriculture'], fontType: 'type8' },
+      4: { text: '<br><strong><u>Explain the four reasons for pressing motifs on rice cakes.</u></strong><br><br><br><br><br><br><br><br><br>First, we can beautifully decorate rice cakes by adding motifs.<br>Second, rice cakes can be stacked without slipping, thanks to the<br>motifs. Third, using wooden molds of rice cake, we can make lots of<br>rice cakes. Fourth, we can identify which house made the rice cake<br>through the motifs.<br><br>', keywords: ['rice cakes', 'motifs', 'decoration', 'wooden molds'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/52.jpg',
+    zones: {
+      1: { 
+        text: '(1) <u><strong>Cultural characteristics are reflected in the language people<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>use and the clothes they wear. Discuss what traditional attire<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>looks like in different countries.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Korea, there is a traditional attire called "hanbok." Hanbok<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;harmonizes straight lines and curves, with various types designed<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for adults, children, and seasons. In Japan, the traditional attire<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is known as a "kimono." Kimonos evolved from the undergarments<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of the Heian-era nobility and are characterized by their layered<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clothing. In China, there is a traditional costume called "qipao."<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qipao comes in diverse motifs, from simple to elaborate, and suits<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;various body types.',
+        keywords: ['traditional attire', 'hanbok', 'kimono', 'qipao'],
+        fontType: 'type7'
+      },
+      2: { 
+        text: '(2) <u><strong>Motifs formed by the intersection of multiple horizontal and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>vertical lines are called grid motifs. Look around us to find<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>grid motifs.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grid motifs can be found in checkered clothing, carpets, iron<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fences, checkerboards, and more.',
+        keywords: ['grid motifs', 'horizontal', 'vertical', 'checkered', 'carpets', 'iron fences', 'checkerboards'],
+        fontType: 'type7'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/53.jpg',
+    zones: {
+      1: { 
+        text: '<br><u><strong>(1) Although graphite and diamond are both made of carbon,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>they have entirely different colors and strengths. Explain why<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>diamond is harder than graphite.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is because two molecular structures are different. A diamond<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;has a structure where carbon atoms are connected in a grid motif.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In contrast, graphite has a layered structure with carbon atoms<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connected in a honeycomb motif. Because the bonding between<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carbon atoms in diamond is stronger than the bonding between<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the planes forming graphite, diamond is harder than graphite.',
+        keywords: ['graphite', 'diamond', 'carbon', 'molecular structures', 'grid motif', 'honeycomb motif'],
+        fontType: 'type7'
+      },
+      2: { 
+        text: '<br><u><strong>(2) People have made motifs on food to show their wishes. If you<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>were making bread, what motif would you like to carve into it?</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can engrave our meaning into the motif. For instance, a friend<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;who wants to be first place can engrave the number 1, while<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a friend hoping to be prettier can engrave a flower.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A friend aiming for popularity may choose to engrave a star shape,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;symbolizing becoming a superstar among people.',
+        keywords: ['food motifs', 'bread', 'wishes', 'number 1', 'flower', 'star shape', 'superstar'],
+        fontType: 'type7'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/54.jpg',
+    zones: {
+      1: { 
+        text: '<u><strong>What is the secret to making butter cookies that are not tough<br><u>but are crispy and have beautiful shapes? The answer lies in<br><u>the wave motif. Explain why.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Place the butter cookie dough into a pastry bag with a star-shaped<br>nozzle. Then, squeeze the bag, and the dough comes out with a wave<br>motif. When we just squeezed the dough, it spread everywhere due<br>to the oiliness. However, surprisingly, the dough with the wave motif<br>did not spread sideways.<br>The reason is that we expanded the surface area of the dough.<br>The surface area becomes wider when we create a wave motif on<br>the butter cookie dough. Expanding the surface creates a force that<br>maintains the dough in that state. If we look at butter cookies sold in<br>stores, most have a wave motif, right? That motif reflects the efforts<br>of chefs trying to make good butter cookies.',
+        keywords: ['butter cookies', 'wave motif', 'surface area', 'pastry bag', 'star-shaped nozzle', 'dough'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '<u><strong>Try to make the sturdiest shape using nine matchsticks.<br><u>Explain why this is the sturdiest.</strong></u><br><br>Let\'s explore the method of placing matchsticks on a flat surface and<br>creating a three-dimensional shape with matchsticks.<br>As shown in the left picture below, we can create a sturdy structure<br>by connecting the matchsticks to form a triangle shape. Additionally,<br>there is a method of creating a diamond shape with matchsticks,<br>as shown in the right image below.',
+        keywords: ['matchsticks', 'triangle shape', 'diamond shape', 'sturdy structure', 'three-dimensional'],
+        fontType: 'type8'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/55.jpg',
+    zones: {
+      1: { 
+        text: '<u><strong>Wind is an endlessly available eco-friendly energy. Explain what<br><u>technologies use the wind for energy.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>In the past, people sailed by attaching sails to ships, harnessing<br>the power of the wind. Additionally, people in the past constructed<br>windmills to thresh grains and lift water. Wind power generation<br>refers to converting natural wind energy into mechanical energy to<br>generate electricity using windmills. Wind power generation not only<br>incurs low costs to produce electricity but also does not produce fuel<br>or waste, thereby avoiding environmental pollution.<br>Utilizing the wind can also reduce flight time. Jet streams are fast<br>and narrow air currents that occur at high altitudes. Riding these<br>jet streams during flight allows fuel conservation, and we can reach<br>destinations more quickly. Recently, technology has been developed<br>to reduce fine dust by installing dust removal filters in places where<br>the wind flows.',
+        keywords: ['wind energy', 'windmills', 'wind power generation', 'jet streams', 'sails', 'dust removal filters'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '<u><strong>Think and write about what kinds of motifs might be trendy in<br><u>clothes for each season.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>In spring, floral-motif clothing will be in fashion. From floral motifs,<br>we can feel the freshness of nature. Attire adorned with charming<br>animal motifs is also acceptable. During summer, clothes featuring<br>refreshing wave motifs or fish motifs will be trendy.<br>Attire with water droplet motifs that help us forget the heat is also<br>recommended for the summer. When leaves fall in autumn, clothing<br>with leaf motifs is suitable. In winter, it seems that clothing without<br>motifs is more fitting. There is no correct answer to this problem.<br>We can gain insight by observing how creatively children think.',
+        keywords: ['seasonal motifs', 'floral motifs', 'wave motifs', 'animal motifs', 'fish motifs', 'water droplet motifs', 'leaf motifs'],
+        fontType: 'type8'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/56.jpg',
+    zones: {
+      
+      1: { 
+        text: '<u><strong>Explain how the Eastern blind is more convenient than the<br><u><strong>Western blind.</strong></u><br><br>The Eastern blinds and the Western blinds are common in that wind<br>flows well between the gaps. However, there are differences as well.<br>Western blinds cannot be used to see the inside from the outside.<br>Of course, from the inside, we cannot see out either. However, it is<br>different for Eastern blinds. When we spread out the Eastern blinds,<br>we cannot see inside from outside, but we can see the outside from<br>the inside. That is why Eastern blinds are more convenient than the<br>Western blinds.<br><br>',
+        keywords: ['Eastern blinds', 'Western blinds'],
+        fontType: 'type6'
+      },
+      2: { text: '<br><br><u><strong>Explain why Eastern people put motifs on Eastern blinds.</strong></u><br><br>The motifs on the Eastern blinds contain people\'s wishes.<br>The characters on the Eastern blinds represent wishes for a healthy<br>and long life, happiness, and a life filled only with joy.', keywords: ['Eastern blinds', 'motifs', 'wishes', 'healthy', 'long life', 'happiness'],
+      fontType: 'type6' },
+      3: { 
+        text: '<u><strong>Explain the role of the Eastern blind in the East.</strong></u><br><br>In the East, the Eastern blind was widely used for decorative purposes<br>along with knots. In rural areas, they were used for drying food such<br>as grains and vegetables. There were also small Eastern blinds used<br>by scholars to store brushes, and palanquins were covered with<br>palanquin blinds. There were also Eastern blinds used for "chui lian<br>ting zheng.<br>"',
+        keywords: ['Eastern blind', 'decorative purposes', 'drying food', 'grains', 'vegetables', 'scholars', 'brushes', 'palanquins'],
+        fontType: 'type8'
+      },
+      4: { text: '<u><strong>Explain what property of metal casting uses.</strong></u><br><br><br><br><br><br><br><br><br><br>Most of the metals encountered in everyday life are in a solid state.<br>When metals are heated, they turn into a liquid state, and when they<br>cool down, they return to a solid state. Metal casting utilizes this<br>property of metals.<br>', keywords: ['metal casting', 'solid state', 'liquid state'],
+      fontType: 'type8' },
+     }
+
+    },
+ 
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/57.jpg',
+    zones: {
+      1: { 
+        text: '<u><strong>Explain the techniques of inlaying and filigree to create motifs on<br><u><strong>metal.</strong></u><br><br><br><br><br><br><br><br><br><br>The inlaying technique involves carving into the metal and decorating<br>it by putting another metal inside. Filigree is a method of attaching<br>thin gold threads or small gold beads to the metal. Using this method,<br>delicate motifs can be created.',
+        keywords: ['inlaying technique', 'filigree', 'metal decoration', 'gold threads', 'gold beads', 'delicate motifs'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '<u><strong>Explain why people in the past made clay figurines and buried<br><u><strong>them in tombs.</strong></u><br><br><br><br><br><br><br><br><br><br>In the past, people believed that when someone died, they went to<br>the afterlife and continued to live just like when they were alive.<br>So, the things used by the dead were made into clay figurines and<br>buried together in their tombs.<br><br>',
+        keywords: ['clay figurines', 'afterlife', 'tombs'],
+        fontType: 'type8'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '<u><strong>Explain why ancient people made clay figurines.</strong></u><br><br>Clay figurine is an item related to the rituals offered to the gods.<br>People made clay figurines, putting their wishes into them. Therefore,<br>the shapes were not considered too important. The emotions when<br>making clay figurines were more crucial.<br><br><br><br>', keywords: ['clay figurines', 'rituals', 'gods', 'wishes', 'emotions'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/58.jpg',
+    zones: {
+      1: { 
+        text: '<br><br><u><strong>(1) Since ancient times, people have molded clay to create dolls.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><strong>However, the appearance of these dolls is often somewhat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><strong>exaggerated. Explain why.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In ancient times, when people crafted clay figurines as a symbolic<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gesture of praying for rain to the gods, it was more important to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;convey one\'s emotions rather than achieve intricate craftsmanship.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That is why clay figurines often appear less refined and somewhat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;messy. When making these clay figurines, their appearances may<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;have been exaggerated for reflecting the earnest desires of the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;makers.',
+        keywords: ['clay dolls', 'exaggerated', 'praying for rain', 'emotions', 'clay figurines', 'craftsmanship'],
+        fontType: 'type6'
+      },
+      2: { 
+        text: '<br><br><br><br><u><strong>(2) In ancient societies that lived by farming, what motif was<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><strong>mainly used? What was the reason for using this motif?</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In ancient farming societies, motifs representing rain or water,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;symbolizing a bountiful harvest, were frequently depicted.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Korea, cloud motifs and pinwheel motifs were commonly used.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For a successful harvest, abundant rain and favorable winds<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;were essential. Hence, motifs depicting clouds bringing rain and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pinwheels indicating the direction of the wind would have been<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employed to convey these agricultural wishes.',
+        keywords: ['farming societies', 'rain motifs', 'water motifs', 'cloud motifs', 'pinwheel motifs', 'bountiful harvest', 'agricultural wishes'],
+        fontType: 'type6'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/59.jpg',
+    zones: {
+      1: { 
+        text: '<br><u><strong>(1) Blinds and curtains essentially do the same thing. Compare<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><strong>the advantages and disadvantages of blinds and curtains.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Blinds can adjust the amount of sunlight coming in by adjusting<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the angle, and they can be easily cleaned with a mop or tissue<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;without disassembly. However, wooden blinds have lower<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insulation efficiency compared to curtains, and they may develop<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mold in humid conditions.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Curtains come in various styles, allowing for diverse interior<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atmospheres. Additionally, they provide good insulation, helping<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;save winter heating costs. However, when they get dirty, curtains<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;must be disassembled for washing, and the cleaning process<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;varies depending on the material, making it inconvenient.',
+        keywords: ['blinds', 'curtains', 'advantages', 'disadvantages', 'insulation', 'sunlight', 'mold', 'interior', 'heating costs'],
+        fontType: 'type6'
+      },
+      2: { 
+        text: '<br><br><br><br><br><u><strong>(2) A blacksmith shapes hot iron by striking it with a hammer<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><strong>hundreds of times to create the desired shape. Why does<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><strong>pounding it more often result in a harder object?</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are many impurities in iron before it is struck with a hammer,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and these impurities reduce the strength of the iron.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Striking the iron causes these impurities to be expelled. Moreover,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;during the hammering process, the molecular structure of the iron<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changes, becoming more solid in the process.',
+        keywords: ['blacksmith', 'iron', 'hammer', 'impurities', 'molecular structure', 'strength'],
+        fontType: 'type6'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/60.jpg',
+    zones: {
+      1: { 
+        text: '<u><strong>In human history, there were locks that thieves could not easily<br><u>open. There are many interesting inventions, one of which is the<br><u>cylinder-shaped lock. How does this unique lock prevent people<br><u>from opening it easily? Feel free to make guesses and explain.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>We can uncover its secret by disassembling the cylinder-shaped<br>lock. Inside the lock, on the outside, there is a large cylindrical shape.<br>Inside, there is a smaller cylindrical shape. On the inside of the<br>smaller cylinder, there is a groove where we can insert the key.<br>This small cylinder is called the cylinder plug. The outer cylinder is<br>the frame that surrounds the cylinder plug. It is called the cylinder.<br>There are five aligned holes on the top of the cylinder and the<br>cylinder plug. At the top of each hole, there is a spring. Next, there<br>are driver pins. Finally, there are bottom pins of different lengths.<br>When the keyhole of the cylinder plug is empty, the door remains<br>locked. At this time, the five bottom pins contact the bottom of the<br>holes due to the spring force.',
+        keywords: ['cylinder lock', 'cylinder plug', 'driver pins', 'bottom pins', 'spring', 'cylindrical shape', 'groove', 'keyhole'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '<br><br>Now, let\'s briefly examine the shape of the key. The key has five<br>raised and five indented surfaces. This shape is called teeth.<br>The jagged five bottom pins perfectly match the shape of the teeth<br>of the key. When we insert the key into the keyhole of the cylinder<br>plug, a remarkable change occurs. Due to the teeth of the key,<br>the bottom pins move upward.<br>This aligns the boundary surface between the driver and bottom pins<br>in a straight line. It corresponds to the boundary surface between<br>the cylinder and the cylinder plug. At this point, turning the key to<br>the right makes the cylinder plug rotate to the side. This causes the<br>holes in the cylinder plug to misalign with the holes in the cylinder.<br>All five become mismatched. Consequently, the previously connected<br>bottom pins and driver pins are separated. When this happens, the<br>door opens.',
+        keywords: ['key teeth', 'boundary surface', 'cylinder plug rotation', 'pin alignment', 'misalign', 'door opens'],
+        fontType: 'type4'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.3/61.jpg',
+    zones: {
+      1: { 
+        text: '<u><strong>In wind power, the most important element is the blades that<br><u><strong>catch the wind and turn the turbine. Explain the design of blades<br><u><strong>that can use the power of the wind.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Most of the wings installed in wind power plants resemble the blades<br>of a fan. The wings should have a wide width to receive a significant<br>amount of wind. As the width of the wings increases, the wings<br>become heavier. Consequently, the wind must blow harder to make<br>the heavier wings rotate, decreasing power generation efficiency.<br>Moreover, there is a risk that the pillars supporting the wings may not<br>withstand the weight of the wings and could collapse.<br>One possible solution is to keep the width of the wings the same but<br>consider engraving wave motifs or diagonal motifs on the wings. This<br>way, the surface area of the wings exposed to the wind increases,<br>allowing them to rotate well even in light winds.',
+        keywords: ['wind power', 'turbine blades', 'power generation efficiency', 'wave motifs', 'diagonal motifs', 'surface area', 'wings'],
+        fontType: 'type8'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+  "bg": "../assets/img/ReadBook/G2.2.3/62.jpg",
+  "zones": {
+    "1": {
+      "text": "<u><strong>Russia's traditional matryoshka doll has smaller dolls nested<br><u><strong>inside a larger one. What meaning might be hidden in matryoshka<br><u><strong>dolls? Research and write about it.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Matryoshka is the nickname for \"Matryona,\" a commonly used female<br>name in Russia. The concept of nesting dolls, where smaller dolls are<br>continuously nested inside larger ones, is inspired by the structure of<br>eggs, reflecting a cultural background where food was once scarce.<br>In other words, matryoshka dolls embody a desire for abundance.<br>When all the dolls are taken out and lined up, they create a large<br>family, symbolizing wealth and prosperity. Therefore, matryoshka<br>dolls have become a representation of fertility and abundance.<br>There is a famous proverb that goes like this:<br>\"Dance as if no one is watching. Sing as if no one is listening. Live as<br>if the earth is heaven.\"<br>As a work of art, matryoshka dolls express the Russian people's<br>freedom, as depicted in this proverb.",
+      "keywords": ["matryoshka doll", "Matryona", "abundance", "fertility", "Russian culture", "nesting dolls", "eggs", "wealth", "prosperity", "freedom"],
+      "fontType": "type8"
+    },
+    "2": {
+      "text": "<u><strong>Think about the wave motifs drawn by islanders and motifs drawn<br><u><strong>by people living near the river. Draw each of them and explain<br><u><strong>the reasons behind the shapes.</strong></u><br><br>Island inhabitants would have depicted motifs as serene ripples,<br>as shown in ⓐ. Furthermore, inspired by the ocean's tantrums, they<br>may have drawn motifs resembling the colossal motifs created by its<br>fury similar to ⓑ. We can also think of images like ⓒ, contemplating<br>scenes where the wind blows and high waves persistently surge.<br><br><br><br><br><br><br><br><br><br><br><br>People living near the river would have drawn a wave motif composed<br>of gently curving lines, as depicted in the illustration below.",
+      "keywords": ["islanders", "wave motifs", "river motifs", "ocean waves", "serene ripples", "colossal motifs", "high waves", "gently curving lines"],
+      "fontType": "type8"
+    },
+    "3": {
+      "text": "",
+      "keywords": []
+    },
+    "4": {
+      "text": "",
+      "keywords": []
+    }
+  }
+}
+];
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 
