@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G2.2.2.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  // 슬라이드 1 (첫 번째 슬라이드)
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  // 슬라이드 2 (PDF 페이지 2)
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 3 (PDF 페이지 3) - 31,2
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/3.jpg',
+    zones: {
+      1: { text: '<span class="larger-text">01. Natural Motifs in Eastern Culture</span><br><br>', keywords: ['Natural Motifs', 'Eastern Culture', 'scientist', 'ancestors', 'natural events', 'typhoons', 'earthquakes', 'thunder'] },
+      2: { text: 'Our ancestors wondered how they could escape this<br>fear. The solution they came up with was to follow<br>the laws of nature and copy what nature looked like.<br>So, people started to revere nature.<br>Especially, mountains, lakes, clouds, and the sea were<br>considered sacred in both the East and the West.<br>They believed that gods lived in natural things.<br>Natural events were seen as the actions of gods.<br>Gods were thought of as beings with personalities,<br>much like humans.', keywords: ['ancestors', 'laws of nature', 'revere nature', 'mountains', 'lakes', 'clouds', 'sea', 'sacred', 'gods', 'personalities'] },
+      3: { text: 'In the past, there was no separate profession called<br>"scientist." There were also hardly any books that<br>explained science in an easy way. So, our ancestors<br>did not know the scientific reasons behind natural<br>events.<br>What was nature to them? Maybe it was something<br>they revered and found mysterious, but at the same<br>time, it might have been something they were afraid<br>of. Natural events like typhoons, earthquakes, and<br>thunder made people feel uneasy.', keywords: ['past', 'separate profession', 'scientist', 'hardly any books', 'explained science', 'easy way', 'ancestors', 'scientific reasons', 'natural events', 'nature', 'revered', 'mysterious', 'afraid', 'typhoons', 'earthquakes', 'thunder', 'feel uneasy'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 4 (PDF 페이지 4) - 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/4.jpg',
+    zones: {
+      1: { text: 'The natural phenomena they observed were seen<br>as expressions of the emotions gods felt as they<br>watched human actions. This marks the beginning of<br>Eastern nature worship philosophy. Eastern culture<br>worshiped nature. They went even further thinking<br>that "people are a part of nature." The weather, like<br>people, is always changing. Sometimes it is hot and<br>sometimes it is cold. Some days it rains, and on other<br>days, it snows. The weather is quite unpredictable.<br>People are similar in many ways. People can be very<br>kind and generous at times, and they can also be cruel<br>at other times. Sometimes, people can be in a really<br>good mood, and just like that, they can suddenly be<br>in a bad mood. People and the weather have a lot in<br>common.', keywords: ['natural phenomena', 'emotions', 'gods', 'Eastern nature worship', 'philosophy', 'people are part of nature', 'weather', 'unpredictable'] },
+      2: { text: 'People in the East realized these things and lived<br>very closely with nature. Let us explore in detail<br>how people in the East thought about nature and<br>embraced it through the motifs found in their culture.<br>First, let\'s look at the animal motifs used in the East.<br>Ancient Eastern people highly valued the tiger among<br>all animals. There is a saying, "The tiger is the king<br>of beasts in the mountains." At the time, people even<br>compared brave warriors to tigers. Warriors often<br>wore clothes with tiger motifs or drawings.<br>They also painted pictures of tigers on the walls<br>around their homes. This was done to keep harmful<br>spirits from coming near their homes. Some people<br>even brought real tiger skins into their homes.<br>However, capturing a tiger was very difficult, so seat<br>cushions made of tiger skin could only be used by<br>high-ranking nobles.', keywords: ['motifs', 'animal motifs', 'tiger', 'king of beasts', 'warriors', 'tiger motifs', 'harmful spirits', 'tiger skins', 'nobles'] },
+      3: { text: 'Explain why people in the past believed that gods<br>lived in nature.', keywords: ['explain', 'gods', 'nature', 'past'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 5 (PDF 페이지 5) - 234
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/5.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'The sky was also a source of fear and respect for<br>people. Ancient people, in particular, envied birds.<br>Birds are creatures that fly in the sky and are close<br>to the sun, moon, and stars. Birds can soar freely to<br>wherever they want. Nature is home to many types of<br>birds. In the East, the crane was considered a sacred<br>bird, believed to be ridden by the gods. That is why<br>people would sometimes compare someone who lived<br>a frugal and noble life to a crane.', keywords: ['sky', 'fear', 'respect', 'birds', 'sun', 'moon', 'stars', 'crane', 'sacred bird', 'gods', 'frugal', 'noble life'] },
+      3: { text: 'Tigers often appear on talismans as well. Talismans are<br>special papers that people write on or draw pictures,<br>symbols, or letters in red to chase away evil spirits<br>and ward off disasters. People believed that using<br>talismans can drive away bad energy and bring good<br>luck. But here is the interesting part. The tigers on<br>talismans are not scary and are drawn in a funny way.<br>This is a sense of humor unique to Eastern cultures.', keywords: ['Tigers', 'talismans', 'special papers', 'evil spirits', 'disasters', 'bad energy', 'good luck', 'funny way', 'sense of humor', 'Eastern cultures'] },
+      4: { text: 'Briefly explain why ancient people in the East put<br>tigers on talismans.', keywords: ['explain', 'ancient people', 'East', 'tigers', 'talismans'], fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 6 (PDF 페이지 6) - 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/6.jpg',
+    zones: {
+      2: { text: 'The crane, known for living as long as 80 years,<br>is a symbol of long life. So, people often carved crane<br>motifs on pictures, sculptures, and crafts. Just as<br>warriors wore clothes with tiger motifs, Korean<br>scholars from the past, known as "seonbi," enjoyed<br>wearing clothes with crane motifs.<br>Cranes also convey a beautiful, feminine feeling.<br>Because of this, they were widely used in everyday<br>items and embroidery designs favored by women.<br>People used the crane motif hoping for long life,<br>happiness, and abundance to come their way.', keywords: ['crane', '80 years', 'symbol', 'long life', 'motifs', 'sculptures', 'crafts', 'Korean scholars', 'seonbi', 'feminine feeling', 'embroidery', 'happiness', 'abundance'] },
+      1: { text: 'There are many records about cranes in old documents.<br>In one document, a crane is described as follows:<br>"A crane develops a thick coat of feathers after 60<br>years. Its feathers are as white as snow, so they do<br>not get dirty even in muddy waters. After 160 years,<br>male and female cranes meet, and a new life is born.<br>For 1,600 years, it drinks water but does not eat.<br>To drink water, it has a long beak that is wide in the<br>front and short in the back. It is the leader of winged<br>animals and gods ride on them."<br>A crane is not a mythical creature like a dragon or<br>a unicorn. It is an ordinary bird in nature. However,<br>in the past, it was considered a sacred and mysterious<br>being, receiving much love.', keywords: ['records', 'old documents', 'feathers', 'white as snow', 'muddy waters', '160 years', '1,600 years', 'long beak', 'leader', 'winged animals', 'mythical creature', 'dragon', 'unicorn', 'sacred', 'mysterious'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain what meaning Eastern people gave the crane.', keywords: ['explain', 'meaning', 'Eastern people', 'crane'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/7.jpg',
+    zones: {
+      1: { text: 'Have you heard of a type of art called "Lacquerware<br>Inlaid with Mother-of-pearl?" The lacquerware inlaid<br>with mother-of-pearl is a traditional Eastern craft<br>where shells, like clamshells, are stuck onto wooden<br>furniture to make motifs. Lacquer is coated on top to<br>finish it. The motifs are made using the shiny inner<br>shells of abalones and clams. When we look at the<br>motifs, it makes us feel like we are deep down under<br>the sea. The lacquerware inlaid with mother-of-pearl<br>was often used on decorative dishes, cabinets, and<br>boxes, mainly by the nobles.', keywords: ['Lacquerware', 'Mother-of-pearl', 'traditional Eastern craft', 'shells', 'clamshells', 'wooden furniture', 'motifs', 'lacquer', 'abalones', 'clams', 'decorative dishes', 'cabinets', 'boxes', 'nobles'] },
+      2: { text: 'The lacquerware inlaid with mother-of-pearl started<br>in ancient China during the Tang Dynasty, and became<br>very popular when it came to Korea and Japan.<br>Wealthy people in those times had furniture with<br>beautiful lacquerware inlaid with mother-of-pearl<br>motifs of cranes, pine trees, and clouds. Pine trees<br>stay green all year round, so they symbolize strong<br>will and long life. Today, we use lacquerware inlaid<br>with mother-of-pearl motifs on clothes and pictures<br>too. Wearing clothes with lacquerware inlaid with<br>mother-of-pearl motifs that emit subtle yet vibrant<br>colors, like a rainbow, draws people\'s attention.<br>The sparkling clam shells seem to capture the sky and<br>clouds perfectly. There is a harmony of light that is<br>impossible to express with paint or pastels.', keywords: ['Tang Dynasty', 'China', 'Korea', 'Japan', 'wealthy people', 'furniture', 'cranes', 'pine trees', 'clouds', 'strong will', 'long life', 'clothes', 'pictures', 'rainbow', 'sparkling', 'harmony of light', 'paint', 'pastels'] },
+      3: { text: 'Briefly explain the lacquerware inlaid with<br>mother-of-pearl.', keywords: ['explain', 'lacquerware', 'mother-of-pearl'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 8 (PDF 페이지 8) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/8.jpg',
+    zones: {
+      1: { text: 'Whether in the past or present, what people want<br>most is to live a long and healthy life. While we cannot<br>live forever, thanks to advancements in science, the<br>average lifespan of humans has almost doubled in<br>just 100 years. Are there animals that live longer than<br>humans, who typically live to around 80 years?<br>People have been curious about this for a long time.<br>That is why the study of animal lifespans has dated<br>back over 2,000 years. Even the Greek philosopher<br>Aristotle was deeply interested in the lifespan of<br>animals. After much research, he said, "Elephants live<br>longer than mice because they are larger and have<br>more moisture in their bodies, and they live until all<br>the moisture is gone." When we think of animals that<br>live a long time, we often think of turtles.', keywords: ['past', 'present', 'long and healthy life', 'advancements in science', 'average lifespan', '100 years', 'animals', 'humans', '80 years', 'curious', 'study of animal lifespans', '2,000 years', 'Greek philosopher', 'Aristotle', 'Elephants', 'mice', 'larger', 'moisture', 'turtles'] },
+      2: { text: 'Indeed, turtles have a very long lifespan. Red-eared<br>slider turtles, kept as pets, can live anywhere from<br>20 to 40 years. The average lifespan of the Galapagos<br>giant tortoise living in the Galapagos Islands is 180<br>years. However, turtles are not the longest-living<br>animals in the animal kingdom.<br>There are animals that live even longer than turtles,<br>like the Greenland shark found in the North Atlantic<br>near Greenland, Canada, and Norway.', keywords: ['turtles', 'long lifespan', 'Red-eared slider turtles', 'pets', '20 to 40 years', 'Galapagos giant tortoise', 'Galapagos Islands', '180 years', 'longest-living animals', 'animal kingdom', 'Greenland shark', 'North Atlantic', 'Greenland', 'Canada', 'Norway'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 9 (PDF 페이지 9) - 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/9.jpg',
+    zones: {
+      1: { text: 'The Greenland shark is a huge shark that can grow to<br>a length of up to 5 meters. An interesting fact is that<br>this shark only grows about 1 cm per year. A Danish<br>research team studied 28 Greenland sharks and came<br>up with astonishing results. They revealed that these<br>sharks can live from 274 to 512 years.<br>There are many animals that live longer than humans.<br>Ocean clams live for over 300 years, and the Arctic<br>whale, which can grow up to 20 meters, is also an<br>animal that lives for over 200 years.', keywords: ['Greenland shark', 'huge shark', '5 meters', '1 cm per year', 'Danish research team', '28 Greenland sharks', 'astonishing results', '274 to 512 years', 'animals', 'live longer than humans', 'Ocean clams', '300 years', 'Arctic whale', '20 meters', '200 years'] },
+      2: { text: 'Why did people in Eastern cultures consider turtles<br>as a symbol of long life among all the other animals?<br>This is probably because turtles were animals they<br>frequently encountered. Greenland sharks or Arctic<br>whales are not commonly found in East Asia.<br>This is why turtles are seen as symbols of long life<br>and patience and treasured in the East. However,<br>Egypt views turtles from a different perspective.<br>In ancient Egyptian records, turtles were recorded as<br>evil beings. The meaning given to the same animal can<br>vary depending on the era and region.', keywords: ['Eastern cultures', 'turtles', 'symbol of long life', 'frequently encountered', 'Greenland sharks', 'Arctic whales', 'East Asia', 'symbols', 'patience', 'treasured', 'East', 'Egypt', 'different perspective', 'ancient Egyptian records', 'evil beings', 'era', 'region'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Write down animals that live longer than humans.', keywords: ['write down', 'animals', 'live longer', 'humans'], fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 10 (PDF 페이지 10) - 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/10.jpg',
+    zones: {
+      1: { text: 'India is probably the country that likes turtles the<br>most. The world of ancient Hinduism is fascinating.<br>In depictions of the Hindu universe, a giant snake<br>supports a turtle, and on the turtle\'s back, four elephants<br>hold up the Earth. Quite an interesting picture, isn\'t it?<br>In fact, this picture carries a special meaning.', keywords: ['India', 'country', 'likes turtles', 'ancient Hinduism', 'fascinating', 'Hindu universe', 'giant snake', 'supports', 'turtle', 'four elephants', 'Earth', 'interesting picture', 'special meaning'] },
+      2: { text: 'There is an old story that has been passed down in<br>India. Once upon a time, a great flood threatened to<br>destroy the world. In their panic, the gods accidentally<br>dropped many treasures into the water. At this moment,<br>Vishnu, one of the protective Hindu gods, appeared.<br>He could transform into various forms, and his second<br>form was Kurma, the turtle. So, Vishnu transformed<br>into Kurma, dived into the sea, and carried the<br>Mandara mountain on his back to support the Earth.<br>The legend tells of how a god transformed into<br>a turtle to save the world. That is why people in India<br>consider turtles as sacred beings and love them.', keywords: ['old story', 'passed down', 'India', 'great flood', 'destroy the world', 'panic', 'gods', 'treasures', 'water', 'Vishnu', 'protective Hindu gods', 'transform', 'various forms', 'Kurma', 'turtle', 'dived into the sea', 'Mandara mountain', 'support the Earth', 'legend', 'god transformed', 'save the world', 'sacred beings', 'love them'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why Hindus consider turtles as important<br>beings.', keywords: ['explain', 'Hindus', 'consider', 'turtles', 'important beings'], fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 11 (PDF 페이지 11) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/11.jpg',
+    zones: {
+      1: { text: 'However, turtles sometimes have a negative meaning.<br>In China, there are cases where someone might be<br>called a "turtle egg," which means an illegitimate or<br>disrespectful person.<br>How did this expression come about?<br>To find the answer, take a closer look at the behavior<br>of turtles. When sea turtles are ready to lay eggs,<br>they climb to a sandy beach. They then dig a hole<br>in the sand and lay their eggs. Unlike most animals,<br>which keep their eggs warm and wait for the young to<br>hatch, turtles bury their eggs in the sand and return<br>to the sea. People used to think of this behavior as<br>turtles being bad parents who abandon their children<br>and run away.', keywords: ['turtles', 'negative meaning', 'China', 'turtle egg', 'illegitimate', 'disrespectful person', 'expression', 'behavior', 'sea turtles', 'lay eggs', 'sandy beach', 'dig a hole', 'sand', 'most animals', 'keep eggs warm', 'young', 'hatch', 'bury eggs', 'return to sea', 'bad parents', 'abandon children', 'run away'] },
+      2: { text: 'Now, let\'s explore examples of turtle motifs in the<br>East. First, let\'s head to Taiwan and the southern<br>region of China. People here eat red turtle-shaped<br>rice cakes during public holidays or on the 30th day<br>after a baby is born. The color red is believed to ward<br>off evil spirits and attract wealth, while the turtle<br>shape symbolizes good luck and long life.<br>Have you ever seen a cemetery on a mountain?<br>Eastern cemeteries often have round shapes like low<br>hills. This symbolically represents the shape of<br>a turtle\'s back. People also place turtle statues as<br>bases of memorial stones. It is a wish for a long,<br>healthy, and happy life. However, there is something<br>interesting about these turtle bases on memorial<br>stones. If we look closely, the statue has a turtle\'s<br>body, but the head is shaped like a dragon.', keywords: ['turtle motifs', 'East', 'Taiwan', 'southern region', 'China', 'red turtle-shaped rice cakes', 'public holidays', '30th day', 'baby is born', 'red color', 'ward off evil spirits', 'attract wealth', 'turtle shape', 'good luck', 'long life', 'cemetery', 'mountain', 'Eastern cemeteries', 'round shapes', 'low hills', 'turtle\'s back', 'turtle statues', 'bases', 'memorial stones', 'long healthy happy life', 'turtle bases', 'turtle\'s body', 'head shaped like dragon'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 12 (PDF 페이지 12) - 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/12.jpg',
+    zones: {
+      1: { text: 'The statues are made in this way because the dragon<br>and the turtle have another meaning. The dragon<br>represents masculine or bright energy, while the<br>turtle symbolizes feminine or dark energy.<br>This design reflects a wish for a harmonious balance<br>between these opposing energies to last forever.', keywords: ['statues', 'dragon', 'turtle', 'meaning', 'masculine', 'bright energy', 'symbolizes', 'feminine', 'dark energy', 'design', 'reflects', 'wish', 'harmonious balance', 'opposing energies', 'last forever'] },
+      2: { text: 'In ancient Eastern cultures, scholars loved nature and<br>wanted to live in harmony with it. For them, even<br>a single flower or blade of grass had meaning.<br>For example, the lotus flower was very loved as it was<br>thought to be a symbol of the creation of life and<br>prosperity. This was because the lotus seed had<br>a strong life and could sprout even after being asleep<br>for 700 years. In India, the lotus was sometimes seen<br>as a symbol of the creator god. In Buddhist culture,<br>the lotus especially plays a significant role.<br>There are many stories and legends about the lotus.<br>One story is about Siddhartha Gautama, the founder<br>of Buddhism.', keywords: ['ancient Eastern cultures', 'scholars', 'loved nature', 'harmony', 'single flower', 'blade of grass', 'meaning', 'lotus flower', 'symbol', 'creation of life', 'prosperity', 'lotus seed', 'strong life', 'sprout', 'asleep', '700 years', 'India', 'creator god', 'Buddhist culture', 'significant role', 'stories', 'legends', 'Siddhartha Gautama', 'founder', 'Buddhism'] },
+      3: { text: 'Explain why "turtle egg" in Chinese culture can<br>mean an illegitimate or disrespectful person.', keywords: ['explain', 'turtle egg', 'Chinese culture', 'illegitimate', 'disrespectful person'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/13.jpg',
+    zones: {
+      1: { text: 'The story takes place before Siddhartha\'s birth.<br>It is said that one day, a white elephant with a lotus<br>flower in its mouth entered Siddhartha\'s mother\'s<br>belly. Afterward, Siddhartha was born. As soon as he<br>was born, he fell onto a lotus flower. This is why most<br>Buddhist statues depict him sitting or standing on<br>a lotus flower. There is another reason people in<br>the East loved lotus flowers. The following is from<br>a writing called On the Love of the Lotus written<br>by Zhou Dunyi, a Song Dynasty scholar.', keywords: ['story', 'Siddhartha\'s birth', 'white elephant', 'lotus flower', 'mouth', 'mother\'s belly', 'Siddhartha was born', 'fell onto', 'Buddhist statues', 'sitting', 'standing', 'East', 'loved lotus flowers', 'On the Love of the Lotus', 'Zhou Dunyi', 'Song Dynasty scholar'] },
+      2: { text: '"I love the lotus flower. It sprouts from the mud,<br>yet it is not dirty. Crystal-clear ripples flow around<br>it, yet it remains still and elegant. The stalk is empty<br>in the center, but it remains upright. It neither climbs<br>with vines nor spreads branches. The farther we get,<br>the clearer we can smell its aroma. It stands upright<br>with dignity in the water. It is a flower that can only<br>be appreciated from a distance and should not be<br>touched carelessly."<br>We can feel the scholar\'s wish to be like the lotus<br>flower through his writing. Now, look at a lotus flower<br>and write down how you feel when you look at it.', keywords: ['I love the lotus flower', 'sprouts from mud', 'not dirty', 'Crystal-clear ripples', 'still and elegant', 'stalk', 'empty in center', 'upright', 'climbs with vines', 'spreads branches', 'aroma', 'dignity', 'water', 'appreciated from distance', 'not touched carelessly', 'scholar\'s wish', 'writing', 'look at lotus flower', 'write down', 'feel'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain what the lotus flower symbolized in the East.', keywords: ['explain', 'lotus flower', 'symbolized', 'East'], fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 14 (PDF 페이지 14) - 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/14.jpg',
+    zones: {
+      1: { text: 'Bamboo trees have straight stems with joints and do<br>not break easily. Even if a bamboo bends, it quickly<br>returns to its original shape. Its leaves stay green all<br>year round and do not wither easily even in winter.<br>For this reason, people in the past used to compare<br>a person who was honest, humble, and moral to<br>a bamboo tree.<br>A brush, inkstick, paper, and inkstone are needed to<br>write calligraphy or paint an ink-and-brush painting.<br>An inkstone is a tool used for grinding the inkstick.<br>The inkstick, made by mixing water with soot, is used<br>for writing or drawing.', keywords: ['Bamboo trees', 'straight stems', 'joints', 'break easily', 'bamboo bends', 'original shape', 'leaves', 'green', 'year round', 'wither', 'winter', 'honest', 'humble', 'moral', 'bamboo tree', 'brush', 'inkstick', 'paper', 'inkstone', 'calligraphy', 'ink-and-brush painting', 'grinding', 'water', 'soot', 'writing', 'drawing'] },
+      2: { text: 'It is easier if we think of the inkstick and inkstone<br>as paint and palette respectively. However, water is<br>needed to grind inkstick with an inkstone. The water<br>dropper used to hold water to wet the inkstone.<br>The water dropper is usually made of ceramics and<br>it comes in various shapes such as circles, triangles,<br>and squares. In an effort to decorate these water<br>droppers beautifully, many people draw motifs on<br>them. Pine tree and plum blossom motifs are often<br>used. However, occasionally, we can also find bamboo<br>motifs on water droppers, too.<br>What could this bamboo motif mean? During the Tang<br>Dynasty in China, the second emperor Taizong said,<br>"When a person wants to write, they must gather the<br>mind, straighten the heart, and focus."', keywords: ['inkstick', 'inkstone', 'paint', 'palette', 'water', 'grind', 'water dropper', 'hold water', 'wet', 'ceramics', 'various shapes', 'circles', 'triangles', 'squares', 'decorate', 'beautifully', 'motifs', 'Pine tree', 'plum blossom motifs', 'bamboo motifs', 'Tang Dynasty', 'China', 'emperor Taizong', 'write', 'gather the mind', 'straighten the heart', 'focus'] },
+      3: { text: 'Explain why people commonly compare an honest<br>and moral person to a bamboo tree.', keywords: ['explain', 'people', 'compare', 'honest', 'moral person', 'bamboo tree'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 15 (PDF 페이지 15) - 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/15.jpg',
+    zones: {
+      1: { text: 'In this way, for the scholars of the past, writing or<br>painting with a brush was not just a simple hobby.<br>Instead, it was a process of training the mind.<br>Therefore, it was important to get rid of distracting<br>thoughts and purify the mind while they ground<br>inkstick with an inkstone.<br>Even so, if their minds were not clear, they would<br>continue the practice for hours. When they ran out<br>of water, they would use the water dropper to fill<br>the inkstone with water. They would look at the<br>bamboo motifs drawn on the water dropper to remind<br>themselves of their commitment to keeping a clear<br>and moral mind.', keywords: ['scholars', 'past', 'writing', 'painting', 'brush', 'simple hobby', 'process', 'training the mind', 'important', 'get rid of', 'distracting thoughts', 'purify the mind', 'ground inkstick', 'inkstone', 'minds not clear', 'continue practice', 'hours', 'ran out of water', 'water dropper', 'fill', 'water', 'bamboo motifs', 'remind themselves', 'commitment', 'clear and moral mind'] },
+      2: { text: 'Another natural motif loved in the East is the cloud<br>motif. Cloud motifs are also often found in Western<br>or Scythian civilizations. However, it was most widely<br>used in the three East Asian countries of Korea,<br>China, and Japan.', keywords: ['natural motif', 'loved', 'East', 'cloud motif', 'Cloud motifs', 'Western', 'Scythian civilizations', 'most widely used', 'three East Asian countries', 'Korea', 'China', 'Japan'] },
+      3: { text: 'Describe the mindset the scholars had when they<br>used an inkstone to grind inkstick.', keywords: ['describe', 'mindset', 'scholars', 'inkstone', 'grind inkstick'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 16 (PDF 페이지 16) - 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/16.jpg',
+    zones: {
+      1: { text: 'People in the East mainly lived by farming.<br>Since farming is greatly affected by the weather,<br>people always had to check for the possibility of<br>floods and droughts. When a drought seemed to be<br>coming, they held rituals. If a flood seemed to be<br>coming, they held ceremonies to ease the wrath of<br>the heavens. During such times, clouds were<br>considered sacred beings that could bring or take<br>away rain. That is why people in the East used cloud<br>motifs, hoping for good weather.', keywords: ['People in the East', 'lived by farming', 'farming', 'affected by weather', 'check', 'possibility', 'floods', 'droughts', 'drought', 'coming', 'held rituals', 'flood', 'ceremonies', 'ease the wrath', 'heavens', 'clouds', 'sacred beings', 'bring', 'take away rain', 'cloud motifs', 'hoping', 'good weather'] },
+      2: { text: '01. Natural Motifs in Eastern Culture<br><span class="larger-text">Ⅰ. What Is the Purpose of Studying the</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Natural Motifs in Eastern Culture?</span><br><br>', keywords: ['Natural Motifs', 'Eastern Culture', 'Purpose of Studying', 'Natural Motifs in Eastern Culture', 'motifs created', 'people', 'reflect', 'culture', 'time', 'lived', 'depicting', 'natural phenomena', 'animals', 'plants', 'understand', 'ancient people', 'viewed nature', 'Eastern cultures', 'believed', 'nature', 'personality', 'tried to live', 'following', 'examples', 'set by nature'] },
+      3: { text: 'Explain the reason why people in the East used<br>cloud motifs.', keywords: ['explain', 'reason', 'people in the East', 'cloud motifs'], fontType: 'type2' },
+      4: { text: 'The motifs created by people reflect the culture<br>of the time in which they lived. Motifs depicting<br>natural phenomena, animals, and plants allow us to<br>understand how ancient people viewed nature.<br>People in Eastern cultures believed that nature had<br>its own personality, and they tried to live by following<br>the examples set by nature.', keywords: ['motifs created', 'people', 'reflect', 'culture', 'time', 'lived', 'depicting', 'natural phenomena', 'animals', 'plants', 'understand', 'ancient people', 'viewed nature', 'Eastern cultures', 'believed', 'nature', 'personality', 'tried to live', 'following', 'examples', 'set by nature'] }
+    }
+  },
+
+  // 슬라이드 17 (PDF 페이지 17) - 34
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/17.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'The purpose of study this topic is to understand<br>the meaning found in motifs to understand the<br>characteristics of Eastern culture. Furthermore,<br>through motifs, we must learn the correct attitude<br>toward life that nature teaches us.<br>Let\'s take animal motifs as an example. In Eastern<br>culture, common motifs include animals such as tigers,<br>cranes, and mythical creatures like dragons. People<br>expressed their desire to be as brave as a tiger by<br>drawing tiger images or tiger stripes on their clothes.', keywords: ['purpose of study', 'topic', 'understand', 'meaning', 'motifs', 'characteristics', 'Eastern culture', 'Furthermore', 'learn', 'correct attitude', 'life', 'nature teaches', 'animal motifs', 'example', 'common motifs', 'animals', 'tigers', 'cranes', 'mythical creatures', 'dragons', 'People', 'expressed', 'desire', 'brave as tiger', 'drawing', 'tiger images', 'tiger stripes', 'clothes'] },
+      4: { text: 'People also believed that hanging a tiger painting on<br>the wall or drawing a tiger in murals could ward off<br>harmful energies. On the other hand, cranes had<br>a noble and humble reputation. Therefore, we often<br>find crane images in the clothing or homes of scholars.<br>The imaginary dragon was considered the most sacred<br>and mysterious. Therefore, dragons were mainly used<br>to represent people in high positions, such as kings,<br>who ordinary people could not meet. By now, we should<br>be able to understand that culture is embedded in motifs.', keywords: ['People also believed', 'hanging', 'tiger painting', 'wall', 'drawing tiger', 'murals', 'ward off', 'harmful energies', 'other hand', 'cranes', 'noble', 'humble reputation', 'Therefore', 'crane images', 'clothing', 'homes', 'scholars', 'imaginary dragon', 'considered', 'most sacred', 'mysterious', 'dragons', 'mainly used', 'represent people', 'high positions', 'kings', 'ordinary people', 'could not meet', 'understand', 'culture', 'embedded', 'motifs'] }
+    }
+  },
+
+  // 슬라이드 18 (PDF 페이지 18) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/18.jpg',
+    zones: {
+      1: { text: '(1) The lacquerware Inlaid with mother-of-pearl refers to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;craftwork created by sticking materials like shells to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wooden furniture to form motifs. Describe how you feel<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;when you look at the lacquerware Inlaid with mother-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of-pearl.<br><br>(2) People in the East wanted to resemble the things in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nature. What animal do you want to resemble, and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;why?', keywords: ['lacquerware Inlaid with mother-of-pearl', 'refers to', 'craftwork', 'created', 'sticking materials', 'shells', 'wooden furniture', 'form motifs', 'Describe', 'feel', 'look at', 'People in the East', 'wanted', 'resemble', 'things in nature', 'animal', 'want to resemble', 'why'], fontType: 'type3' },
+      2: { text: '01. Natural Motifs in Eastern Culture<br><span class="larger-text">Ⅱ. How Can We Apply the Natural Motifs</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in Eastern Culture?</span><br><br><br><br>Proverbs contain the wisdom of our ancestors.<br>For instance, the proverb "An oak leaf tells a pine<br>needle that it is rustling" refers to a person who<br>criticizes others for small faults while being unaware<br>of their own larger flaws. This proverb also teaches<br>the lesson of looking at ourselves first before pointing<br>out the faults of others. Cultural heritage, such as<br>crafts and artworks left by our ancestors, also offers<br>everyday wisdom. Scholars used to practice calligraphy<br>when their minds were troubled or filled with worries.<br>They would carefully grind inksticks while calming<br>their minds and use the ink to write, providing them<br>with a moment to reflect on themselves.', keywords: ['Natural Motifs', 'Eastern Culture', 'How Can We Apply', 'Natural Motifs in Eastern Culture', 'Proverbs', 'contain', 'wisdom', 'ancestors', 'instance', 'proverb', 'oak leaf', 'tells', 'pine needle', 'rustling', 'refers to', 'person', 'criticizes others', 'small faults', 'unaware', 'larger flaws', 'teaches', 'lesson', 'looking at ourselves', 'pointing out', 'faults of others', 'Cultural heritage', 'crafts', 'artworks', 'left by ancestors', 'offers', 'everyday wisdom', 'Scholars', 'practice calligraphy', 'minds troubled', 'filled with worries', 'carefully grind inksticks', 'calming minds', 'ink to write', 'providing', 'moment', 'reflect on themselves'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 19 (PDF 페이지 19) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/19.jpg',
+    zones: {
+      1: { text: 'In our lives today, motifs that were once exclusive to<br>Eastern culture have now spread across the world.<br>Clothing decorated with lotus flowers, bamboo,<br>or blankets with large tigers embroidered in them<br>are popular due to their unique designs. What is<br>even more astonishing is that people instinctively<br>understand the meanings in these motifs, even<br>without being taught. Placing a tiger-motif blanket is<br>believed to ward off evil spirits.<br>Eastern motifs, inspired by nature, have a magical<br>power over time and space. To create something new,<br>we must first observe and understand a lot of things.<br>Studying the motifs of nature in Eastern culture<br>naturally helps us understand the motifs in Western<br>culture as well.', keywords: ['lives today', 'motifs', 'exclusive', 'Eastern culture', 'spread across world', 'Clothing', 'decorated', 'lotus flowers', 'bamboo', 'blankets', 'large tigers', 'embroidered', 'popular', 'unique designs', 'astonishing', 'people instinctively', 'understand meanings', 'motifs', 'without being taught', 'tiger-motif blanket', 'believed', 'ward off evil spirits', 'Eastern motifs', 'inspired by nature', 'magical power', 'time and space', 'create something new', 'observe', 'understand', 'Studying motifs', 'nature', 'Eastern culture', 'naturally helps', 'Western culture'] },
+      2: { text: '(1) People have different views about living a long life.<br>Would we be happy if we could live up to be 200 years<br>old? Explain why or why not.<br><br>(2) Elephants are sometimes thought of as guardians of<br>wealth. Explain why people have such beliefs.', keywords: ['People', 'different views', 'living long life', 'happy', 'could live', '200 years old', 'Explain why or why not', 'Elephants', 'sometimes thought', 'guardians of wealth', 'Explain why', 'people', 'such beliefs'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 20 (PDF 페이지 20) - 1
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/20.jpg',
+    zones: {
+      1: { text: 'Since ancient times, fish have been widely used to symbolize<br>abundance. Fish are often portrayed in a lively manner,<br>swimming against rough currents. Among them, the carp<br>is frequently used in the shape of locks. This is due to the<br>carp\'s ecological behavior of laying a large number of eggs.<br>Crafting items in the shape of a carp expresses a wish for<br>having many children. Additionally, carp are known to sleep<br>with their eyes open. Thus, carp-shaped items also express<br>a wish to study diligently without falling asleep and to<br>become a successful person.<br>The fish motif carries another layer of meaning. Fishermen<br>often face the challenges of rough seas and fierce waves<br>in their line of work. The fish motif is a wish for protection<br>against dangers and the overcoming of hardships out at<br>sea. The peony is a splendid and beautiful flower. It is<br>often referred to as the king of flowers due to its majestic<br>and dignified appearance. Why did ancient people choose<br>the peony motif?', keywords: ['ancient times', 'fish', 'widely used', 'symbolize abundance', 'portrayed', 'lively manner', 'swimming', 'rough currents', 'carp', 'frequently used', 'shape of locks', 'ecological behavior', 'laying', 'large number of eggs', 'Crafting items', 'carp shape', 'expresses wish', 'having many children', 'Additionally', 'carp', 'known to sleep', 'eyes open', 'carp-shaped items', 'express wish', 'study diligently', 'falling asleep', 'become successful person', 'fish motif', 'carries', 'layer of meaning', 'Fishermen', 'face challenges', 'rough seas', 'fierce waves', 'line of work', 'wish for protection', 'dangers', 'overcoming hardships', 'out at sea', 'peony', 'splendid', 'beautiful flower', 'referred to', 'king of flowers', 'majestic', 'dignified appearance', 'ancient people', 'choose', 'peony motif'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 21 (PDF 페이지 21) - 1
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/21.jpg',
+    zones: {
+      1: { text: 'People in the past found it difficult to explain natural<br>events scientifically, so they believed that gods lived<br>in nature. They thought that natural disasters such as<br>typhoons and droughts happened because of the unstable<br>nature of these gods. Ancient people in the East treated<br>natural elements as if they were human. For instance,<br>the sprouting of seedlings from the soil was expressed<br>as "a small life born from the earth." They developed the<br>habit of treating nature like humans, influenced by the<br>belief that everything existed for a reason.<br>Recently, there was controversy in India over the<br>personification of the glaciers in the Himalayas. In other<br>words, it was decided that glaciers would be treated as<br>if they were human beings. Damaging or causing harm<br>to the glaciers is considered equivalent to causing harm<br>to a person. Furthermore, the meadows, forests, lakes,<br>and other areas in the Himalayan region have also been<br>granted this right. Explain why the Indian government<br>granted human rights to natural elements.', keywords: ['People in the past', 'difficult', 'explain', 'natural events', 'scientifically', 'believed', 'gods lived', 'nature', 'thought', 'natural disasters', 'typhoons', 'droughts', 'happened', 'unstable nature', 'gods', 'Ancient people', 'East', 'treated', 'natural elements', 'human', 'instance', 'sprouting', 'seedlings', 'soil', 'expressed', 'small life born', 'earth', 'developed habit', 'treating nature', 'like humans', 'influenced', 'belief', 'everything existed', 'reason', 'Recently', 'controversy', 'India', 'personification', 'glaciers', 'Himalayas', 'decided', 'glaciers', 'treated', 'human beings', 'Damaging', 'causing harm', 'glaciers', 'considered equivalent', 'causing harm', 'person', 'Furthermore', 'meadows', 'forests', 'lakes', 'areas', 'Himalayan region', 'granted', 'right', 'Explain', 'Indian government', 'granted human rights', 'natural elements'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 22 (PDF 페이지 22) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/22.jpg',
+    zones: {
+      1: { text: 'Myths are stories about gods passed down from one<br>nation or ethnic group to another. It is believed that myths<br>originated from the process of expressing supernatural<br>forces or phenomena encountered in daily life through the<br>concept of gods. The interest in myths was sparked when<br>people started including imaginary animals in their stories<br>to make them more exciting.<br>Imaginary animals each have unique abilities. A dragon can<br>stir up storms and occasionally breathe fire. A unicorn\'s<br>large horn is said to cure diseases and get rid of poison.<br>A phoenix lives for 500 years and then dies by setting<br>itself on fire, only to be reborn from its own ashes.<br>The Sphinx, a creature that is half-human, half-lion, is also<br>a mythical animal. Now, imagine that we are gods. Write<br>down what kind of animal you would create and keep as<br>pets, and describe the abilities this animal would have.', keywords: ['Myths', 'stories about gods', 'passed down', 'nation', 'ethnic group', 'believed', 'myths originated', 'process', 'expressing', 'supernatural forces', 'phenomena', 'encountered', 'daily life', 'concept of gods', 'interest in myths', 'sparked', 'people started', 'including', 'imaginary animals', 'stories', 'more exciting', 'Imaginary animals', 'unique abilities', 'dragon', 'stir up storms', 'occasionally', 'breathe fire', 'unicorn', 'large horn', 'cure diseases', 'get rid of poison', 'phoenix', 'lives', '500 years', 'dies', 'setting itself on fire', 'reborn', 'own ashes', 'Sphinx', 'creature', 'half-human', 'half-lion', 'mythical animal', 'imagine', 'gods', 'Write down', 'kind of animal', 'create', 'keep as pets', 'describe', 'abilities', 'animal would have'], fontType: 'type3' },
+      2: { text: 'Buddhism is a religion founded by Siddhartha Gautama<br>around the 5th to 6th centuries BCE in India. In Buddhism,<br>the term "Buddha" refers to someone who has gained<br>enlightenment. Buddhism is a religion that helps people<br>understand the truth through the teachings of Siddhartha.<br>Originating in India, Buddhism spread to East Asia and<br>became an important element of Eastern cultures.<br>A key concept that symbolizes Buddhism is samsara,<br>the endless cycle of birth and death. The important point<br>here is that everything in the world depends on each other.<br>In simpler terms, someone who commits many wrong<br>acts in their life may be reborn as a humble insect in the<br>next life. For Buddhists, the natural environment is not<br>something to rule over or conquer, but a place where<br>humans must belong. Write down what motifs are mainly<br>used in Buddhism.', keywords: ['Buddhism', 'religion', 'founded', 'Siddhartha Gautama', '5th to 6th centuries BCE', 'India', 'Buddhism', 'term Buddha', 'refers to', 'someone', 'gained enlightenment', 'religion', 'helps people', 'understand truth', 'teachings', 'Siddhartha', 'Originating', 'India', 'Buddhism spread', 'East Asia', 'became', 'important element', 'Eastern cultures', 'key concept', 'symbolizes', 'Buddhism', 'samsara', 'endless cycle', 'birth and death', 'important point', 'everything', 'world', 'depends', 'each other', 'simpler terms', 'someone', 'commits', 'wrong acts', 'life', 'reborn', 'humble insect', 'next life', 'Buddhists', 'natural environment', 'not something', 'rule over', 'conquer', 'place', 'humans must belong', 'Write down', 'motifs', 'mainly used', 'Buddhism'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 23 (PDF 페이지 23) - 1
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/23.jpg',
+    zones: {
+      1: { text: '<span class="larger-text"><u>The Symbolism of the White Elephant</span><br><br>Except for areas full of snow and ice, such as the North<br>Pole or Antarctica, it is very difficult to see white<br>animals in nature. This is because they are easily visible<br>and, therefore, less likely to survive. However, on rare<br>occasions, white animals are born.<br>The color of an animal is determined by the pigment in<br>its body. If a mutation occurs and the pigment is missing<br>or lacking, it is born white. This phenomenon is called<br>albinism. Perhaps because white animals are so rare,<br>people often consider them to be mysterious and sacred.<br>One example is the white elephant of Southeast Asia.<br>In India, white elephants symbolize great wisdom.<br>Also, in Hinduism and Buddhism, white elephants are<br>revered and considered sacred. In Buddhism, a white<br>elephant with six tusks is seen as an incarnation of<br>Bodhisattva. This is because, in the prenatal dream of<br>Maya, the mother of the Buddha, a white elephant with six<br>tusks entered her side. This scene is depicted in pictures<br>called The Eight Great Events in the Life of Buddha.<br>In this way, in Buddhism, white elephants are noble beings.', keywords: ['Symbolism', 'White Elephant', 'Except', 'areas full', 'snow and ice', 'North Pole', 'Antarctica', 'very difficult', 'see white animals', 'nature', 'easily visible', 'therefore', 'less likely', 'survive', 'However', 'rare occasions', 'white animals', 'born', 'color of animal', 'determined', 'pigment', 'body', 'mutation occurs', 'pigment missing', 'lacking', 'born white', 'phenomenon', 'called albinism', 'Perhaps', 'white animals', 'so rare', 'people often consider', 'mysterious', 'sacred', 'One example', 'white elephant', 'Southeast Asia', 'India', 'white elephants', 'symbolize', 'great wisdom', 'Also', 'Hinduism', 'Buddhism', 'white elephants', 'revered', 'considered sacred', 'Buddhism', 'white elephant', 'six tusks', 'seen as', 'incarnation', 'Bodhisattva', 'prenatal dream', 'Maya', 'mother of Buddha', 'white elephant', 'six tusks', 'entered her side', 'scene', 'depicted', 'pictures', 'called', 'Eight Great Events', 'Life of Buddha', 'this way', 'Buddhism', 'white elephants', 'noble beings'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 슬라이드 24 (PDF 페이지 24) - 12
+{
+  bg: '../assets/img/ReadBook/G2.2.2/24.jpg',
+  zones: {
+    1: { text: '<br><br><br><br><br>In Thailand, a Buddhist country, a white elephant is<br>worshiped as a guardian deity. However, strangely enough,<br>the white elephant also symbolizes a possession that<br>is useless or troublesome. Let\'s find out why. It is said<br>that once upon a time in Thailand, the king gave a white<br>elephant to a subject he hated. When elephants are raised<br>in Southeast Asia, they are made to work like cows or<br>horses. Elephants are large and strong, making them very<br>useful workers. However, the white elephant is a sacred<br>animal given by the king.<br>So, it cannot be used to work and must be treated with<br>respect. The subject has no choice but to raise the white<br>elephant, pampering it and feeding it expensive food. In<br>the end, raising a white elephant ends up in bankruptcy.<br>Also, in economics, a business with high costs and no<br>profits is often referred to as a white elephant.', keywords: ['Thailand', 'Buddhist country', 'white elephant', 'worshiped', 'guardian deity', 'However', 'strangely enough', 'symbolizes', 'possession', 'useless', 'troublesome', 'find out why', 'once upon a time', 'king', 'gave', 'subject', 'hated', 'elephants', 'raised', 'Southeast Asia', 'made to work', 'cows', 'horses', 'large and strong', 'useful workers', 'sacred animal', 'given by king', 'cannot be used', 'work', 'treated with respect', 'subject', 'no choice', 'raise', 'pampering', 'feeding', 'expensive food', 'end', 'raising', 'ends up', 'bankruptcy', 'economics', 'business', 'high costs', 'no profits', 'often referred to', 'white elephant'], fontType: 'type7' },
+    2: { text: '<span class="larger-text">02. Western Motifs That Became Geometric</span><br><br>There was an interesting experiment on a TV show<br>once. The TV crew traveled around the world asking<br>people questions to find out how they would answer<br>based on their countries and ethnicities.<br>Are you curious what these questions were? There<br>were three questions. First, they showed pictures of<br>a monkey, a banana, and a bear. People were asked<br>to choose two among these and pair them together.<br>The second question involved a picture of a smiling<br>boy. Two pictures were shown, and they asked if the<br>boy looked happy. However, there was a difference<br>between the two pictures. In one, people behind<br>the boy were also smiling, while in the other, people<br>behind the boy had angry expressions. Lastly, they<br>showed a wooden cylinder, a plastic cylinder, and<br>a wooden rectangular prism. The question was to<br>choose a pair that was similar.', keywords: ['Western Motifs', 'Became Geometric', 'interesting experiment', 'TV show', 'TV crew', 'traveled around world', 'asking people questions', 'find out', 'answer', 'based on', 'countries', 'ethnicities', 'curious', 'questions', 'three questions', 'First', 'showed pictures', 'monkey', 'banana', 'bear', 'People asked', 'choose two', 'pair them together', 'second question', 'involved', 'picture', 'smiling boy', 'Two pictures', 'shown', 'asked', 'boy looked happy', 'However', 'difference', 'between', 'two pictures', 'one', 'people behind', 'boy', 'also smiling', 'other', 'people behind boy', 'angry expressions', 'Lastly', 'showed', 'wooden cylinder', 'plastic cylinder', 'wooden rectangular prism', 'question', 'choose pair', 'similar'] },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+{
+    bg: '../assets/img/ReadBook/G2.2.2/25.jpg',
+    zones: {
+      1: { text: 'What were your answers to these three questions?<br>It would be even more interesting to compare<br>your answers with the answers of other people.<br>The analysis of people\'s answers worldwide was<br>fascinating. The responses divided people into two<br>main groups. The first group paired the monkey and<br>banana in the first question, thinking they were<br>a pair because monkeys like bananas.<br>For the second question, they gave different<br>answers for the two pictures of the smiling boy.<br>They responded that the boy among the angry<br>people did not look happy, while the boy among<br>the smiling people did. In the last question,<br>they paired the wooden cylinder and wooden<br>rectangular prism because both were made of<br>wood.', keywords: ['answers', 'three questions', 'compare', 'analysis', 'worldwide', 'fascinating', 'responses', 'divided people', 'two main groups', 'first group', 'monkey and banana', 'monkeys like bananas', 'second question', 'different answers', 'smiling boy', 'angry people', 'not look happy', 'smiling people', 'last question', 'wooden cylinder', 'wooden rectangular prism', 'made of wood'] },
+      2: { text: 'However, the answers from the second group were<br>completely different. They paired the monkey with<br>the bear in the first question because they are both<br>animals. For the second question, they gave the same<br>answer for both pictures. They said that the smiling<br>boy appeared to be happy, regardless of whether the<br>people around him were smiling or angry. In the third<br>question, they paired a wooden cylinder with a plastic<br>cylinder. The reason was that the shape was more<br>important than the material.', keywords: ['However', 'answers', 'second group', 'completely different', 'monkey with bear', 'first question', 'both animals', 'second question', 'same answer', 'both pictures', 'smiling boy', 'appeared happy', 'regardless', 'people around him', 'smiling or angry', 'third question', 'wooden cylinder', 'plastic cylinder', 'shape more important', 'material'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 26 (PDF 페이지 2) - 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/26.jpg',
+    zones: {
+      1: { text: 'How fascinating is it that people can have such<br>different ways of thinking? However, an even more<br>surprising discovery was made. There were notable<br>differences between the two groups.<br>The first group had many Eastern people while the<br>second group had many Western people. What is even<br>more impressive is that, regardless of their ethnicity,<br>the results varied based on the region they lived in.', keywords: ['fascinating', 'people', 'different ways', 'thinking', 'However', 'surprising discovery', 'notable differences', 'two groups', 'first group', 'Eastern people', 'second group', 'Western people', 'impressive', 'regardless', 'ethnicity', 'results varied', 'region', 'lived in'] },
+      2: { text: 'Ethnicity is the classification of people based on<br>geographical and physical characteristics. Common<br>examples include Caucasians, East Asians, and Black<br>people. What could explain the different results in<br>the experiment? Eastern languages have historically<br>emphasized actions. As a result, more attention was<br>given to a monkey "eating" a banana rather than<br>classifying it as an "animal". In contrast, Western<br>languages tend to emphasize nouns. That is why they<br>focused more on the fact that both the monkey and<br>the bear are classified as "animals."', keywords: ['Ethnicity', 'classification', 'people', 'geographical', 'physical characteristics', 'Common examples', 'Caucasians', 'East Asians', 'Black people', 'explain', 'different results', 'experiment', 'Eastern languages', 'historically', 'emphasized actions', 'result', 'attention', 'monkey eating banana', 'classifying', 'animal', 'contrast', 'Western languages', 'emphasize nouns', 'focused', 'fact', 'monkey and bear', 'classified', 'animals'] },
+      3: { text: 'Explain the reasons why people paired monkeys<br>with bananas or monkeys with bears.', keywords: ['explain', 'reasons', 'people', 'paired monkeys', 'bananas', 'monkeys with bears'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 27 (PDF 페이지 3) - 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/27.jpg',
+    zones: {
+      1: { text: 'Additionally, Eastern people place importance on<br>their relationships with others. As a result, they<br>often prioritize the collective welfare over individual<br>interests. This can be seen in the close-knit family<br>structures and communities in countries like South<br>Korea, where families live together and share close<br>bonds with neighbors. On the other hand, Western<br>cultures put more importance on individual happiness.<br>They think that while community is important, personal<br>happiness comes first. This is why in the West, it is less<br>common for extended families, such as grandparents,<br>parents, sons, and grandsons, to live together.', keywords: ['Additionally', 'Eastern people', 'place importance', 'relationships', 'others', 'result', 'prioritize', 'collective welfare', 'individual interests', 'close-knit family', 'structures', 'communities', 'countries', 'South Korea', 'families live together', 'share close bonds', 'neighbors', 'other hand', 'Western cultures', 'individual happiness', 'think', 'community important', 'personal happiness', 'comes first', 'West', 'less common', 'extended families', 'grandparents', 'parents', 'sons', 'grandsons', 'live together'] },
+      2: { text: 'For Westerners, it is natural to expect children to<br>grow up to be independent adults. These cultural<br>aspects influenced the different answers to the<br>second question. Western people focused only on<br>the boy in the photo, regardless of the people around<br>him. In contrast, Eastern people considered the<br>expressions of the people in the background because<br>it is important for them to understand the feelings of<br>people around them. We can understand why people<br>had different answers to the third question when<br>we think of these reasons. In this way, Eastern and<br>Western cultures have many differences in language<br>and culture.', keywords: ['Westerners', 'natural', 'expect children', 'grow up', 'independent adults', 'cultural aspects', 'influenced', 'different answers', 'second question', 'Western people', 'focused only', 'boy in photo', 'regardless', 'people around him', 'contrast', 'Eastern people', 'considered', 'expressions', 'people in background', 'important', 'understand feelings', 'people around them', 'understand', 'people', 'different answers', 'third question', 'think', 'reasons', 'way', 'Eastern and Western cultures', 'many differences', 'language', 'culture'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why the answers of the two groups were<br>different for the photo of the smiling boy.', keywords: ['explain', 'answers', 'two groups', 'different', 'photo', 'smiling boy'], fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 28 (PDF 페이지 4) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/28.jpg',
+    zones: {
+      1: { text: 'Of course, these differences are not very visible<br>in today\'s world. With the advancement of<br>transportation, the internet, and smartphones, it has<br>become easier for people to experience each other\'s<br>cultures. Cultures from all around the world are now<br>intermingled, forming a vast cultural space known as<br>a global village. So, how is all of this related to motifs?<br>In reality, motifs are not created randomly. They<br>capture the thoughts and lifestyles of the people who<br>made them.', keywords: ['course', 'differences', 'not very visible', 'today\'s world', 'advancement', 'transportation', 'internet', 'smartphones', 'become easier', 'people', 'experience', 'each other\'s cultures', 'Cultures', 'all around world', 'intermingled', 'forming', 'vast cultural space', 'known as', 'global village', 'how', 'related to motifs', 'reality', 'motifs', 'not created randomly', 'capture', 'thoughts', 'lifestyles', 'people who made them'] },
+      2: { text: 'The differences between the East and the West<br>can be seen in motifs. Think about how the turtle<br>symbolizes long life and the bamboo symbolizes<br>strength in the East. Now that we have explored<br>Eastern motifs, let\'s take a look at Western motifs.<br>First, let\'s look at one of the most common patterns<br>in the West, which is stripes. Grab a pencil, draw<br>a line on a piece of paper, then look around. We can<br>find lines everywhere, on desks, wardrobes, chairs,<br>and ceilings.', keywords: ['differences', 'East and West', 'can be seen', 'motifs', 'Think about', 'turtle', 'symbolizes', 'long life', 'bamboo', 'symbolizes', 'strength', 'East', 'explored', 'Eastern motifs', 'take a look', 'Western motifs', 'First', 'look at', 'most common patterns', 'West', 'stripes', 'Grab pencil', 'draw line', 'piece of paper', 'look around', 'find lines', 'everywhere', 'desks', 'wardrobes', 'chairs', 'ceilings'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 29 (PDF 페이지 5) - 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/29.jpg',
+    zones: {
+      1: { text: 'In this way, lines are always present in nature and<br>daily life. We can understand the shapes of objects<br>through lines. When we draw a picture, think about<br>sketching it first with a pencil. The feeling of the<br>motif created by the line is different depending on<br>the thickness, length, and color of the line used.<br>Let\'s look at an example. A straight line is one that<br>does not bend or curve. When we see a straight line,<br>we might think of someone who is determined and<br>strict. That is why we use the word "straightforward."<br>We express someone who is extremely honest or does<br>not hold back as being "straightforward."<br>Straight lines can be classified into horizontal,<br>vertical, and diagonal lines based on their direction,<br>and each line gives a different feeling. A horizontal<br>line is a line that lies lik the horizon where the sky<br>meets the sea. The calmness of the sea or the fields<br>gives a sense of stability to the viewer.', keywords: ['this way', 'lines', 'always present', 'nature', 'daily life', 'understand', 'shapes', 'objects', 'through lines', 'draw picture', 'think about', 'sketching', 'first', 'pencil', 'feeling', 'motif created', 'line', 'different', 'depending on', 'thickness', 'length', 'color', 'line used', 'look at example', 'straight line', 'does not bend', 'curve', 'see straight line', 'might think', 'someone', 'determined', 'strict', 'use word', 'straightforward', 'express', 'extremely honest', 'does not hold back', 'being straightforward', 'Straight lines', 'classified', 'horizontal', 'vertical', 'diagonal lines', 'based on direction', 'each line', 'gives different feeling', 'horizontal line', 'lies lik horizon', 'sky meets sea', 'calmness', 'sea', 'fields', 'gives sense', 'stability', 'viewer'] },
+      2: { text: 'On the other hand, a vertical line is a straight line<br>standing tall towards the sky. When we see a vertical<br>line, we feel like it is reaching up to the sky.<br>This line is often used to express things like honesty,<br>unity, and consistency. Finally, a diagonal line is a line<br>drawn at an angle. It looks like rain falling on a windy<br>day. It gives a sense of intense change and activity,<br>similar to a storm. Diagonal lines are often used to<br>show an unstable state.', keywords: ['other hand', 'vertical line', 'straight line', 'standing tall', 'towards sky', 'see vertical line', 'feel like', 'reaching up', 'sky', 'line', 'often used', 'express things', 'honesty', 'unity', 'consistency', 'Finally', 'diagonal line', 'line drawn', 'angle', 'looks like', 'rain falling', 'windy day', 'gives sense', 'intense change', 'activity', 'similar to storm', 'Diagonal lines', 'often used', 'show', 'unstable state'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain what feeling a straight line gives based on<br>its direction.', keywords: ['explain', 'feeling', 'straight line', 'gives', 'based on', 'direction'], fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 30 (PDF 페이지 6) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/30.jpg',
+    zones: {
+      1: { text: 'Just now, we drew lines with a pencil. In fact, we do<br>not always need a pencil to draw lines. We can draw<br>lines with our bodies too. By observing the lines of<br>a person\'s body, we can understand their feelings and<br>thoughts.<br>For example, when a father sees his child running<br>to him from afar, he will stretch out his arms<br>horizontally. This is him preparing to hug the child.<br>Seeing this, the child will feel comfort and warmth.<br>The horizontal lines we make with our arms give<br>a cozy feeling, as if they look like they can hug<br>anything.', keywords: ['Just now', 'drew lines', 'pencil', 'fact', 'do not always need', 'pencil', 'draw lines', 'can draw lines', 'our bodies', 'observing', 'lines', 'person\'s body', 'understand', 'feelings', 'thoughts', 'example', 'father', 'sees child', 'running', 'him', 'from afar', 'stretch out', 'arms', 'horizontally', 'preparing', 'hug child', 'Seeing this', 'child', 'feel comfort', 'warmth', 'horizontal lines', 'make with arms', 'give', 'cozy feeling', 'look like', 'can hug', 'anything'] },
+      2: { text: 'This is why when people want to express that they do<br>not want to fight, they often unknowingly stretch out<br>their arms.<br>What about the vertical lines our bodies make?<br>Standing face to face with both hands upright during<br>a conversation is a behavior that shows confidence.<br>Psychologists say that when people unconsciously<br>behave this way, it is a sign that they think they are<br>above the other person. Many CEOs, lawyers, and<br>doctors are said to have this habit.', keywords: ['this is why', 'people', 'want to express', 'do not want', 'fight', 'often', 'unknowingly', 'stretch out', 'arms', 'What about', 'vertical lines', 'our bodies make', 'Standing', 'face to face', 'both hands', 'upright', 'during conversation', 'behavior', 'shows confidence', 'Psychologists', 'say', 'people', 'unconsciously', 'behave this way', 'sign', 'they think', 'above', 'other person', 'Many CEOs', 'lawyers', 'doctors', 'said to have', 'this habit'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 슬라이드 31 (PDF 페이지 7) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/31.jpg',
+    zones: {
+      1: { text: 'One characteristic of Western motifs is the frequent<br>use of the stripe motif. The stripe motif refers to a<br>series of parallel lines. The stripe motif first appeared<br>in European history in the mid-13th century, during<br>the time of the Crusades. When King Louis of France<br>was defeated in the Crusades and returned as a prisoner,<br>the Carmelite monks who came with him were wearing<br>striped cloaks. Discrimination and prejudice against<br>the stripe motif began from that moment.<br>In the 19th century, some scholars claimed that people<br>criticized striped cloaks at that time because of religious<br>reasons. They believed that striped cloaks resembled<br>those worn in the East, particularly by Muslim believers.<br>However, this is merely a personal opinion based on<br>religious and racial assumptions, with no factual basis.<br>Strip motifs have faced discrimination in the past.', keywords: ['One characteristic', 'Western motifs', 'frequent use', 'stripe motif', 'stripe motif refers', 'series', 'parallel lines', 'stripe motif', 'first appeared', 'European history', 'mid-13th century', 'during time', 'Crusades', 'King Louis', 'France', 'defeated', 'Crusades', 'returned', 'prisoner', 'Carmelite monks', 'came with him', 'wearing', 'striped cloaks', 'Discrimination', 'prejudice', 'stripe motif', 'began', 'that moment', '19th century', 'some scholars', 'claimed', 'people', 'criticized', 'striped cloaks', 'that time', 'religious reasons', 'believed', 'striped cloaks', 'resembled', 'those worn', 'East', 'particularly', 'Muslim believers', 'However', 'merely', 'personal opinion', 'based on', 'religious', 'racial assumptions', 'no factual basis', 'Strip motifs', 'faced discrimination', 'past'] },
+      2: { text: 'In medieval times, some people were sentenced to<br>death simply for wearing striped clothes. Those who<br>were cast out of society were often forced to wear<br>clothes with two colors or stripes. These biases and<br>forms of discrimination were heavily influenced by<br>language. The words for "striped" and "various" were<br>the same in medieval Latin. That is why people saw<br>the stripe motif in a negative light. Today, we might<br>find this confusing. This is because we think that<br>being different is not a bad thing.', keywords: ['medieval times', 'some people', 'sentenced to death', 'simply', 'wearing', 'striped clothes', 'Those who', 'cast out', 'society', 'often forced', 'wear clothes', 'two colors', 'stripes', 'These biases', 'forms of discrimination', 'heavily influenced', 'language', 'words', 'striped', 'various', 'same', 'medieval Latin', 'That is why', 'people saw', 'stripe motif', 'negative light', 'Today', 'might find', 'confusing', 'because', 'think', 'being different', 'not bad thing'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 32 (PDF 페이지 8) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/32.jpg',
+    zones: {
+      1: { text: 'However, in medieval culture, they considered God to<br>be the only one who could be set apart from ordinary<br>people. This belief was not just a religious teaching,<br>but almost like a law. As a result, being "different"<br>was seen as immoral and an attack on the law.<br>As time passed, the meaning of the stripe motif<br>gradually changed. Nowadays, many people associate<br>striped clothing with prison uniforms. In the past,<br>prison uniforms were often black and white stripes.<br>However, it is difficult to say that the image of prison<br>uniforms automatically leads us to view the stripe<br>motif negatively.', keywords: ['However', 'medieval culture', 'considered God', 'only one', 'could be set apart', 'ordinary people', 'belief', 'not just', 'religious teaching', 'almost like law', 'result', 'being different', 'seen as immoral', 'attack on law', 'time passed', 'meaning', 'stripe motif', 'gradually changed', 'Nowadays', 'many people', 'associate', 'striped clothing', 'prison uniforms', 'past', 'prison uniforms', 'often', 'black and white stripes', 'However', 'difficult to say', 'image', 'prison uniforms', 'automatically leads', 'view', 'stripe motif', 'negatively'] },
+      2: { text: 'Some people think that the stripe motif has a meaning<br>of protection. It is like a fence that protects us from<br>evil spirits and devils. Many pajamas we wear to<br>bed also have stripe motifs. Some say it is meant to<br>protect us from having nightmares while we sleep.<br>Nowadays, the stripe motif is often used to signal<br>danger in road signs and crosswalks we see on the<br>streets. But in fact, the stripe motif did not have any<br>meaning in the beginning. People just decided on<br>their meaning and role based on what they wanted.', keywords: ['Some people think', 'stripe motif', 'has meaning', 'protection', 'like fence', 'protects us', 'evil spirits', 'devils', 'Many pajamas', 'wear to bed', 'also have', 'stripe motifs', 'Some say', 'meant to protect', 'having nightmares', 'while we sleep', 'Nowadays', 'stripe motif', 'often used', 'signal danger', 'road signs', 'crosswalks', 'see on streets', 'But in fact', 'stripe motif', 'did not have', 'any meaning', 'beginning', 'People', 'just decided', 'their meaning', 'role', 'based on', 'what they wanted'] },
+      3: { text: 'Explain why the stripe motif was used with<br>a negative meaning in the West.', keywords: ['explain', 'stripe motif', 'used with', 'negative meaning', 'West'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 33 (PDF 페이지 9) - 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/33.jpg',
+    zones: {
+      1: { text: 'Stripe motifs are commonly used on clothes and<br>everyday items. However, there are also motifs drawn<br>on our skin called tattoos. Tattoos involve engraving<br>words, drawings, or motifs on the skin with ink after<br>creating a wound. Some people dislike tattoos, and<br>just seeing them makes them uncomfortable.<br>What could be the reason for this? This might be<br>because tattoos remind people of iron brands.<br>In the past, criminals or people who caused problems<br>in society were branded with hot irons.', keywords: ['Stripe motifs', 'commonly used', 'clothes', 'everyday items', 'However', 'also motifs', 'drawn', 'our skin', 'called tattoos', 'Tattoos', 'involve', 'engraving', 'words', 'drawings', 'motifs', 'skin', 'ink', 'after creating', 'wound', 'Some people', 'dislike tattoos', 'just seeing them', 'makes them', 'uncomfortable', 'What could be', 'reason', 'This might be', 'because', 'tattoos remind', 'people', 'iron brands', 'past', 'criminals', 'people', 'caused problems', 'society', 'branded', 'hot irons'] },
+      2: { text: 'However, the history of tattoos goes back even<br>further. Ancient civilizations also had tattoos.<br>But ancient tattoos were not just simple drawings.<br>They were a part of a lifestyle that included beautiful<br>motifs, symbols, and culture.', keywords: ['However', 'history of tattoos', 'goes back', 'even further', 'Ancient civilizations', 'also had tattoos', 'But ancient tattoos', 'were not', 'just simple drawings', 'They were', 'part of lifestyle', 'included', 'beautiful motifs', 'symbols', 'culture'] },
+      3: { text: 'Explain the meaning behind the stripe motifs<br>drawn on prison uniforms and pajamas.', keywords: ['explain', 'meaning behind', 'stripe motifs', 'drawn on', 'prison uniforms', 'pajamas'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 34 (PDF 페이지 10) - 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/34.jpg',
+    zones: {
+      2: { text: 'The modern meaning of tattoos came from Polynesia.<br>The word "tatau," which means "picture" changed<br>into the word "tattoo." Polynesia is a region scattered<br>over 1,000 islands in the central and southern Pacific,<br>including places like New Zealand, Samoa, Easter<br>Island, and Hawaii. However, Polynesian tattoos are<br>quite unique. A person gets tattoos all over their body<br>throughout their lifetime. It involves the process of<br>repeatedly marking and modifying the body until it is<br>completely covered. Through these constant efforts,<br>intricate geometric motifs are eventually perfected.<br>There are not many written records documenting<br>Polynesian culture, and the tattoos on their bodies<br>might be their only historical record.', keywords: ['modern meaning', 'tattoos', 'came from', 'Polynesia', 'word tatau', 'means picture', 'changed into', 'word tattoo', 'Polynesia', 'region scattered', '1,000 islands', 'central', 'southern Pacific', 'including places', 'New Zealand', 'Samoa', 'Easter Island', 'Hawaii', 'However', 'Polynesian tattoos', 'quite unique', 'person gets tattoos', 'all over body', 'throughout lifetime', 'involves process', 'repeatedly marking', 'modifying body', 'until', 'completely covered', 'Through', 'constant efforts', 'intricate geometric motifs', 'eventually perfected', 'not many', 'written records', 'documenting', 'Polynesian culture', 'tattoos on bodies', 'might be', 'only historical record'] },
+      1: { text: 'In October 1991, something amazing happened near<br>the border of Austria and Italy. A frozen human body<br>from about 5,000 years ago was discovered in the<br>Alps glaciers. The body was buried with clothes,<br>a bow, arrows, items made of bronze, and flint.<br>It seemed like a person from the Bronze Age had been<br>trapped in a snowstorm while out hunting. However,<br>very strange markings were found on his body, drawn<br>with many lines on his kidney and the inside of his<br>left knee. Scholars have long wondered what these<br>tattoos might mean. However, based on their location,<br>it is only speculated that they were made for healing<br>purposes.', keywords: ['October 1991', 'something amazing', 'happened near', 'border', 'Austria', 'Italy', 'frozen human body', '5,000 years ago', 'discovered', 'Alps glaciers', 'body', 'buried with', 'clothes', 'bow', 'arrows', 'items', 'made of bronze', 'flint', 'seemed like', 'person', 'Bronze Age', 'been trapped', 'snowstorm', 'while out hunting', 'However', 'very strange markings', 'found on body', 'drawn', 'many lines', 'kidney', 'inside', 'left knee', 'Scholars', 'long wondered', 'tattoos might mean', 'However', 'based on location', 'only speculated', 'made for', 'healing purposes'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain how we came to use the word "tattoo."', keywords: ['explain', 'how', 'came to use', 'word tattoo'], fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 35 (PDF 페이지 11) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/35.jpg',
+    zones: {
+      1: { text: 'So, why did tattoos develop in Polynesia?<br>To find out, let\'s first explore their environment and<br>culture. The islands near the equator in the Pacific<br>were mostly formed by volcanic activity. As a result,<br>they consist of tall peaks, wide valleys, and fertile<br>land. The environment is a paradise of lush grass<br>and trees, with a beautiful coral sea full of colorful<br>tropical fish. Polynesians have lived in this beautiful<br>place, enjoying the protection of peaceful nature.', keywords: ['So', 'why did tattoos', 'develop', 'Polynesia', 'To find out', 'first explore', 'their environment', 'culture', 'islands', 'near equator', 'Pacific', 'mostly formed', 'volcanic activity', 'result', 'consist', 'tall peaks', 'wide valleys', 'fertile land', 'environment', 'paradise', 'lush grass', 'trees', 'beautiful coral sea', 'full of', 'colorful tropical fish', 'Polynesians', 'lived', 'beautiful place', 'enjoying', 'protection', 'peaceful nature'] },
+      2: { text: 'Thanks to the mild natural environment, the people<br>here did not need much energy to go about their daily<br>lives. This naturally led them to an interest in the arts.<br>The captivating natural surroundings also stimulated<br>their sensitivity. Therefore, everything they created,<br>from canoes to utensils, was adorned with decorations.<br>They even drew motifs on their bodies. Among these,<br>there were many geometric patterns, such as the<br>sawtooth motif, which resembles the sun, and diagonal<br>motifs where the direction changes regularly.', keywords: ['Thanks to', 'mild natural environment', 'people here', 'did not need', 'much energy', 'go about', 'daily lives', 'naturally led', 'interest', 'arts', 'captivating', 'natural surroundings', 'stimulated', 'their sensitivity', 'Therefore', 'everything', 'created', 'from canoes', 'utensils', 'adorned', 'decorations', 'even drew', 'motifs', 'their bodies', 'Among these', 'many geometric patterns', 'sawtooth motif', 'resembles sun', 'diagonal motifs', 'direction changes', 'regularly'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 36 (PDF 페이지 12) - 134
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/36.jpg',
+    zones: {
+      1: { text: 'Polynesia was abundant in food, so people did not<br>struggle to find food. Living surrounded by beauty,<br>they could also develop their artistic talents.<br>This allowed them to create tattoos with beautiful<br>motifs. Among them, Tonga and Samoa are regions<br>that have elevated tattooing to the level of art.<br>Tonga warriors adorned themselves with geometric<br>pattern tattoos from the waist to the knees, featuring<br>repeated triangles and lines. Tattooing in this region<br>was not something anyone could do.', keywords: ['Polynesia', 'abundant', 'food', 'people', 'did not struggle', 'find food', 'Living surrounded', 'beauty', 'could develop', 'artistic talents', 'allowed them', 'create tattoos', 'beautiful motifs', 'Among them', 'Tonga', 'Samoa', 'regions', 'elevated tattooing', 'level of art', 'Tonga warriors', 'adorned themselves', 'geometric pattern tattoos', 'waist to knees', 'featuring', 'repeated triangles', 'lines', 'Tattooing', 'this region', 'not something', 'anyone could do'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Only experienced priests who had accumulated<br>knowledge over a long period could perform tattooing.<br>The process followed strict rules and rituals as well.<br>In ancient Samoa, tattoos played a significant role<br>in warfare and religious ceremonies. They believed<br>that tattoos could instill fear in enemies and protect<br>against danger and misfortune. Like male warriors,<br>women also had tattoos, but they were limited to<br>geometric flower motifs on their hands and the lower<br>part of their bodies.', keywords: ['Only experienced priests', 'had accumulated', 'knowledge', 'long period', 'could perform', 'tattooing', 'process followed', 'strict rules', 'rituals', 'well', 'ancient Samoa', 'tattoos played', 'significant role', 'warfare', 'religious ceremonies', 'believed', 'tattoos could', 'instill fear', 'enemies', 'protect against', 'danger', 'misfortune', 'Like male warriors', 'women', 'also had tattoos', 'limited to', 'geometric flower motifs', 'hands', 'lower part', 'their bodies'] },
+      4: { text: 'Explain the role of tattoos in ancient Samoa.', keywords: ['explain', 'role', 'tattoos', 'ancient Samoa'], fontType: 'type2' }
+    }
+  },
+  // 슬라이드 37 (PDF 페이지 13) - 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/37.jpg',
+    zones: {
+      1: { text: 'Western sailors who visited Polynesia were amazed<br>by their tattoos and documented what they saw.<br>However, at that time, most Europeans showed little<br>interest in tattoos, considering them primitive and<br>useless. Nevertheless, European influence later had<br>a significant impact on Polynesian tattoos. Tattoos<br>carried the culture and spirit of Polynesia, and as<br>European colonization spread, tattoos gradually took<br>on meanings of resistance. The colonial government<br>noticed this and made tattoos illegal. As a result,<br>tattoos started disappearing from the Pacific islands.<br>However, an interesting event happened in Europe at<br>the same time, where tattoos were becoming a trend.<br>Many sailors celebrated successful voyages by getting<br>tattoos.', keywords: ['Western sailors', 'visited Polynesia', 'amazed', 'their tattoos', 'documented', 'what they saw', 'However', 'that time', 'most Europeans', 'showed little interest', 'tattoos', 'considering them', 'primitive', 'useless', 'Nevertheless', 'European influence', 'later had', 'significant impact', 'Polynesian tattoos', 'Tattoos carried', 'culture', 'spirit', 'Polynesia', 'European colonization', 'spread', 'tattoos gradually', 'took on meanings', 'resistance', 'colonial government', 'noticed this', 'made tattoos illegal', 'result', 'tattoos started', 'disappearing', 'Pacific islands', 'However', 'interesting event', 'happened', 'Europe', 'same time', 'tattoos', 'becoming trend', 'Many sailors', 'celebrated', 'successful voyages', 'getting tattoos'] },
+      2: { text: 'Europeans who saw these tattoos in person were<br>fascinated. Later, tattoos became popular among<br>British marines. Some even learned the art directly<br>from Polynesian tattoo artists. Upon returning to<br>Europe, they opened tattoo shops in port cities,<br>which were bustling not only with sailors but also<br>with ordinary citizens. The geometric motifs found in<br>Polynesian tattoos captivated Westerners.', keywords: ['Europeans', 'saw these tattoos', 'in person', 'fascinated', 'Later', 'tattoos became popular', 'British marines', 'Some even learned', 'art directly', 'Polynesian tattoo artists', 'Upon returning', 'Europe', 'opened tattoo shops', 'port cities', 'bustling', 'not only', 'sailors', 'also', 'ordinary citizens', 'geometric motifs', 'found in', 'Polynesian tattoos', 'captivated', 'Westerners'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why tattoos became a trend in Europe.', keywords: ['explain', 'tattoos', 'became trend', 'Europe'], fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 38 (PDF 페이지 14) - 34
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/38.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Then, what mathematical principles can we discover<br>in such geometric motifs? The answer is symmetry.<br>People instinctively like symmetry. If a picture on<br>the wall is crooked, we somehow feel uneasy, and if<br>a book on the shelf is upside down, we feel the need<br>to correct it for peace of mind. We feel as if things<br>might go wrong without symmetry.<br>The most familiar symmetrical shape to us is our<br>bodies. If we divide our body in half, the left and right<br>sides are similar. Of course, our bodies do not have<br>perfect symmetry. The heart is slightly to the left in<br>our chest, and our face is not exactly the same on<br>the left and right sides. However, overall, our body<br>maintains balance. Nature also has many living beings<br>that show symmetry. Insects like butterflies, bees,<br>and ants, as well as plants like trees and flowers,<br>generally show symmetry.', keywords: ['Then', 'mathematical principles', 'discover', 'geometric motifs', 'answer', 'symmetry', 'People instinctively', 'like symmetry', 'picture on wall', 'crooked', 'somehow feel uneasy', 'book on shelf', 'upside down', 'feel need', 'correct it', 'peace of mind', 'feel as if', 'things might go wrong', 'without symmetry', 'most familiar', 'symmetrical shape', 'our bodies', 'divide our body', 'half', 'left and right sides', 'similar', 'course', 'bodies', 'do not have', 'perfect symmetry', 'heart', 'slightly to left', 'chest', 'face', 'not exactly same', 'left and right sides', 'However', 'overall', 'body maintains', 'balance', 'Nature', 'many living beings', 'show symmetry', 'Insects', 'butterflies', 'bees', 'ants', 'plants', 'trees', 'flowers', 'generally show', 'symmetry'] },
+      4: { text: 'Have you ever heard of the word "paisley"? Paisley<br>refers to a droplet-shaped pattern that originated in<br>Persia. It was extremely popular in Western fashion<br>during the 18th and 19th centuries. Since then, it has<br>spread worldwide and continues to be used in the<br>designs of clothing, carpets, and more. Some scholars<br>believe that the paisley motif originated from the<br>cypress tree, a symbol of Zoroastrianism.<br>When we look at paisley, it looks like a tall evergreen<br>tree swaying in the wind and bending. In a way, it<br>even looks like droplets. Some people interpret the<br>bent tree as a symbol of a spirit that is soft, yet<br>strong at the same time.', keywords: ['Have you heard', 'word paisley', 'Paisley refers', 'droplet-shaped pattern', 'originated', 'Persia', 'extremely popular', 'Western fashion', 'during', '18th and 19th centuries', 'Since then', 'spread worldwide', 'continues', 'used in', 'designs', 'clothing', 'carpets', 'more', 'Some scholars', 'believe', 'paisley motif', 'originated from', 'cypress tree', 'symbol', 'Zoroastrianism', 'When we look', 'paisley', 'looks like', 'tall evergreen tree', 'swaying', 'wind', 'bending', 'way', 'even looks like', 'droplets', 'Some people', 'interpret', 'bent tree', 'symbol', 'spirit', 'soft', 'yet strong', 'same time'] }
+    }
+  },
+
+  // 슬라이드 39 (PDF 페이지 15) - 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/39.jpg',
+    zones: {
+      1: { text: 'Shall we explore symmetry a bit more? When we fold<br>a square piece of paper in half, it completely overlaps.<br>If we unfold it, we can see a line in the middle.<br>Folding along a single line and completely overlapping<br>in this way is called line symmetry. The line in the<br>middle that provides a base is called the line of<br>symmetry. If we rotate something 180 degrees around<br>a single point and it completely overlaps, it is called<br>point symmetry.', keywords: ['Shall we explore', 'symmetry', 'bit more', 'When we fold', 'square piece', 'paper', 'half', 'completely overlaps', 'unfold it', 'can see', 'line', 'middle', 'Folding along', 'single line', 'completely overlapping', 'this way', 'called', 'line symmetry', 'line', 'middle', 'provides base', 'called', 'line of symmetry', 'rotate something', '180 degrees', 'around', 'single point', 'completely overlaps', 'called', 'point symmetry'] },
+      2: { text: 'The examples of line symmetry and point symmetry<br>can be easily found around us. The letters N, S, and<br>Z remain the same when rotated halfway, making<br>them symmetric figures for a point. Additionally, the<br>letter O, when folded in half, perfectly overlaps, and<br>when rotated halfway, it returns to its original shape.<br>Therefore, the letter O is both a symmetric figure for<br>a line and a symmetric figure for a point.', keywords: ['examples', 'line symmetry', 'point symmetry', 'can be easily found', 'around us', 'letters N, S, Z', 'remain same', 'when rotated', 'halfway', 'making them', 'symmetric figures', 'point', 'Additionally', 'letter O', 'when folded', 'half', 'perfectly overlaps', 'when rotated', 'halfway', 'returns', 'original shape', 'Therefore', 'letter O', 'both', 'symmetric figure', 'line', 'symmetric figure', 'point'] },
+      3: { text: 'Identify and write down the symmetry in our body.', keywords: ['identify', 'write down', 'symmetry', 'our body'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 40 (PDF 페이지 16) - 1234
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/40.jpg',
+    zones: {
+      1: { text: 'Symmetry can also be seen in buildings. In the heart<br>of Helsinki, the capital of Finland, is the Helsinki<br>Cathedral. Although it is called a cathedral, it is the<br>central headquarters of the Lutheran Church in<br>Finland. The large dome in the center of the building<br>is surrounded by four smaller domes, and the statues<br>of Jesus\' twelve disciples are placed on the roof.<br>The overall shape of the building forms a cross, giving<br>a similar feeling no matter which direction we look<br>from. This is because the cross is both a symmetric<br>figure for a line and a symmetric figure for a point.', keywords: ['Symmetry', 'can also be seen', 'buildings', 'heart of Helsinki', 'capital', 'Finland', 'Helsinki Cathedral', 'Although', 'called cathedral', 'central headquarters', 'Lutheran Church', 'Finland', 'large dome', 'center', 'building', 'surrounded by', 'four smaller domes', 'statues', 'Jesus twelve disciples', 'placed on roof', 'overall shape', 'building forms', 'cross', 'giving', 'similar feeling', 'no matter', 'which direction', 'look from', 'because', 'cross', 'both', 'symmetric figure', 'line', 'symmetric figure', 'point'] },
+      2: { text: '02. Western Motifs That Became Geometric<br><span class="larger-text">I. What Is the Purpose of Studying</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;Western Motifs That Became Geometric?</span><br><br>', keywords: ['Western Motifs', 'Became Geometric', 'What Is Purpose', 'Studying', 'Western Motifs', 'Became Geometric', 'One psychologist', 'explained', 'why', 'Eastern and Western people', 'react differently', 'same event', 'According to him', 'Eastern people', 'good at', 'integrated thinking', 'because', 'lived accepting', 'current situation', 'according to', 'rules', 'traditional society', 'Also', 'Eastern cultures', 'been involved', 'farming', 'long time', 'people', 'accustomed to', 'working', 'team', 'practice', 'made them skilled', 'noticing', 'psychological states', 'feelings', 'others'] },
+      4: { text: 'One psychologist explained why Eastern and Western<br>people react differently to the same event. According<br>to him, Eastern people are good at integrated thinking<br>because they have lived accepting the current<br>situation according to the rules of traditional society.<br>Also, Eastern cultures have been involved in farming<br>for a long time, so people are accustomed to working<br>as a team. This practice has made them skilled at<br>noticing the psychological states and feelings of others.', keywords: [] },
+      3: { text: 'Explain the symmetry found in the letter "O."', keywords: ['explain', 'symmetry', 'found in', 'letter O'], fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 41 (PDF 페이지 17) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/41.jpg',
+    zones: {
+      1: { text: 'Eastern people value relationships with others,<br>and they are not too surprised even if something<br>unexpected happens.<br>In contrast, Western people are accustomed to thinking<br>according to the Greek tradition. They can engage in<br>conversations with strangers easily and are familiar<br>with democracy and logic. Westerners consider the<br>individual characteristics and inner aspects of objects<br>important, but they are not particularly interested in<br>understanding the relationships between objects.', keywords: ['Eastern people', 'value relationships', 'others', 'not too surprised', 'even if', 'something unexpected', 'happens', 'contrast', 'Western people', 'accustomed to', 'thinking', 'according to', 'Greek tradition', 'can engage', 'conversations', 'strangers', 'easily', 'familiar with', 'democracy', 'logic', 'Westerners', 'consider', 'individual characteristics', 'inner aspects', 'objects', 'important', 'not particularly interested', 'understanding', 'relationships', 'between objects'] },
+      2: { text: 'As explained earlier, the difference in thinking<br>between Eastern and Western people has also<br>influenced the motifs they created. For example, in<br>Eastern paintings, the background is often left empty.<br>On the other hand, Western paintings carefully fill<br>in the background with colors. Eastern paintings<br>stimulate imagination, while Western paintings<br>develop the ability to accept reality as it is.<br>We study this topic to understand how Western<br>motifs, developed through geometric motifs, have<br>influenced the progress of society and science.', keywords: ['explained earlier', 'difference', 'thinking', 'between', 'Eastern and Western people', 'also influenced', 'motifs', 'they created', 'example', 'Eastern paintings', 'background', 'often left empty', 'other hand', 'Western paintings', 'carefully fill', 'background', 'colors', 'Eastern paintings', 'stimulate imagination', 'while', 'Western paintings', 'develop ability', 'accept reality', 'as it is', 'study this topic', 'understand', 'how', 'Western motifs', 'developed through', 'geometric motifs', 'influenced', 'progress', 'society', 'science'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 42 (PDF 페이지 18) - 23
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/42.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      3: { text: '(1) There is a dinosaur, crocodile and wolf drawn in the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;picture. Choose two animals and explain the reason<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for pairing them.<br><br>(2) Does the color of our skin affect how we understand<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;an event? Explain.<br><br>', keywords: ['dinosaur', 'crocodile', 'wolf', 'drawn', 'picture', 'Choose two animals', 'explain reason', 'pairing them', 'color of skin', 'affect', 'how we understand', 'event', 'Explain'], fontType: 'type3' },
+      2: { text: '02. Western Motifs That Became Geometric<br><br><span class="larger-text">Ⅱ. How Can We Apply Western Motifs</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That Became Geometric?</span><br><br>', keywords: ['Western Motifs', 'Became Geometric', 'How Can We Apply', 'Western Motifs', 'Became Geometric', 'beginning', 'Western motifs', 'looked like', 'natural forms', 'gradually simplified', 'systematized', 'over time', 'evolving into', 'geometric motifs', 'motifs lost', 'original form', 'gained', 'mathematical principle', 'called symmetry'] },
+      4: { text: 'In the beginning, Western motifs looked like natural<br>forms, but they gradually simplified and systematized<br>over time, evolving into geometric motifs. The motifs<br>lost their original form, but gained a mathematical<br>principle called "symmetry."', keywords: ['beginning', 'Western motifs', 'looked like', 'natural forms', 'gradually simplified', 'systematized', 'over time', 'evolving into', 'geometric motifs', 'motifs lost', 'original form', 'gained', 'mathematical principle', 'called symmetry'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/43.jpg',
+    zones: {
+      1: { text: 'Whether living or non-living, everything in nature<br>is based on a design of symmetry. When we see<br>symmetrical shapes or structures, we feel safe.<br>Symmetrical shapes are also easy to create.<br>When a shape perfectly overlaps when folded in<br>half, it is called line symmetry. If it looks the same<br>after rotating half a turn around a point, it is called<br>point symmetry. People use these symmetries when<br>creating buildings. Why do we create buildings with<br>symmetry? When constructing a building, the first<br>thing we do is set up columns.', keywords: ['Whether living', 'non-living', 'everything', 'nature', 'based on', 'design', 'symmetry', 'When we see', 'symmetrical shapes', 'structures', 'feel safe', 'Symmetrical shapes', 'also easy', 'create', 'When shape', 'perfectly overlaps', 'folded', 'half', 'called', 'line symmetry', 'looks same', 'after rotating', 'half turn', 'around point', 'called', 'point symmetry', 'People use', 'these symmetries', 'creating buildings', 'Why', 'create buildings', 'symmetry', 'When constructing', 'building', 'first thing', 'set up', 'columns'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Columns play an essential role in supporting the<br>weight of the building. If the columns are not<br>symmetrically placed, the weight of the building may<br>lean towards one column. If a column cannot bear<br>the weight and collapses, it can lead to injuries or<br>even deaths. Symmetry is also important in rotating<br>objects like wheels. If one of the symmetric blades<br>of a fan breaks, the fan wobbles severely. The fan<br>will eventually break down if it is kept running in this<br>state.', keywords: ['Columns play', 'essential role', 'supporting', 'weight', 'building', 'columns', 'not symmetrically placed', 'weight', 'building', 'may lean', 'towards one column', 'column', 'cannot bear', 'weight', 'collapses', 'can lead', 'injuries', 'even deaths', 'Symmetry', 'also important', 'rotating objects', 'like wheels', 'one', 'symmetric blades', 'fan breaks', 'fan wobbles', 'severely', 'fan', 'eventually break down', 'kept running', 'this state'] }
+    }
+  },
+
+  // 슬라이드 44 (PDF 페이지 20) - 23
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/44.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'Tattoos were widely loved by Polynesian people. The motifs<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;used for tattoos were mostly inspired by nature. They used<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geometric motifs like shark teeth, waves, turtle shells, and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lizards, as shown in the picture below.', keywords: ['Tattoos', 'widely loved', 'Polynesian people', 'motifs used', 'tattoos', 'mostly inspired', 'nature', 'used', 'geometric motifs', 'shark teeth', 'waves', 'turtle shells', 'lizards', 'shown', 'picture below'], fontType: 'type3' },
+      3: { text: '(1) Members of primitive tribes painted motifs on their<br>faces and bodies when they went to hunt or prepare<br>for war with other tribes. Explain why they did this.<br><br>(2) Find numbers from 0 to 9 that have symmetry.<br>Describe the type of symmetry each of those numbers<br>have.', keywords: ['Members', 'primitive tribes', 'painted motifs', 'faces', 'bodies', 'went to hunt', 'prepare for war', 'other tribes', 'Explain why', 'did this', 'Find numbers', '0 to 9', 'have symmetry', 'Describe', 'type of symmetry', 'each', 'those numbers', 'have'], fontType: 'type3' },
+      
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 45 (PDF 페이지 21) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/45.jpg',
+    zones: {
+      1: { text: 'When representing the shapes of nature through geometric<br>motifs, it is important to capture their key characteristics.<br>For example, to depict a fish, we can emphasize its oval<br>body and triangular tail fin.<br>For a lion, we could just highlight the mane around its<br>neck. Then how could we represent the sun, tree, whale,<br>and camel in motifs? Write about which points to focus on<br>when drawing them.', keywords: ['When representing', 'shapes', 'nature', 'through', 'geometric motifs', 'important', 'capture', 'key characteristics', 'example', 'depict fish', 'emphasize', 'oval body', 'triangular tail fin', 'lion', 'could highlight', 'mane', 'around neck', 'Then how', 'represent', 'sun', 'tree', 'whale', 'camel', 'motifs', 'Write about', 'which points', 'focus on', 'drawing them'], fontType: 'type3' },
+      2: { text: 'When a single point moves, the trail it leaves behind is<br>called a line. While a point gives a still feeling, a line gives<br>a constant feeling of movement. Lines create different<br>feelings based on their thickness and direction.<br>A straight line expresses male energy, simplicity, strength,<br>and honesty. Think of the vertical lines we can see from<br>tall trees or high mountains. They make us think of words<br>like "power," "dignity," and "rise." On the other hand,<br>horizontal lines give a sense of calm and comfort. Diagonal<br>lines make us feel tension and activeness.', keywords: ['When single point', 'moves', 'trail', 'leaves behind', 'called line', 'While point', 'gives', 'still feeling', 'line gives', 'constant feeling', 'movement', 'Lines create', 'different feelings', 'based on', 'thickness', 'direction', 'straight line', 'expresses', 'male energy', 'simplicity', 'strength', 'honesty', 'Think of', 'vertical lines', 'see from', 'tall trees', 'high mountains', 'make us think', 'words like', 'power', 'dignity', 'rise', 'other hand', 'horizontal lines', 'give sense', 'calm', 'comfort', 'Diagonal lines', 'make us feel', 'tension', 'activeness'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 46 (PDF 페이지 22) - 14
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/46.jpg',
+    zones: {
+      1: { text: 'A thick, straight line feels strong and stable, creating<br>a peaceful atmosphere. In contrast, a thin line gives<br>a delicate and light feeling while also creating a sharp<br>and nervous atmosphere. The angle formed when two<br>straight lines meet creates a cold and sharp feeling.<br>Now, what kind of feeling and atmosphere do curves<br>create? Explain using various curves as examples.', keywords: ['thick', 'straight line', 'feels strong', 'stable', 'creating', 'peaceful atmosphere', 'contrast', 'thin line', 'gives', 'delicate', 'light feeling', 'while also creating', 'sharp', 'nervous atmosphere', 'angle formed', 'two straight lines', 'meet', 'creates', 'cold', 'sharp feeling', 'Now', 'what kind', 'feeling', 'atmosphere', 'curves create', 'Explain using', 'various curves', 'examples'], fontType: 'type4' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Three friends who had not seen each other in a long time<br>promise to go on a trip together. The doctor suggested<br>flying to Africa to explore the jungle.<br>However, the scientist wanted to travel the world by boat,<br>and the teacher suggested taking a train for a tour across<br>the country. After a long discussion, the three friends<br>decided to travel by boat.<br><br>', keywords: ['Three friends', 'had not seen', 'each other', 'long time', 'promise', 'go on trip', 'together', 'doctor suggested', 'flying to Africa', 'explore jungle', 'However', 'scientist wanted', 'travel world', 'by boat', 'teacher suggested', 'taking train', 'tour across', 'country', 'After', 'long discussion', 'three friends', 'decided', 'travel by boat'], fontType: 'type3' }
+    }
+  },
+
+  // 슬라이드 47 (PDF 페이지 23) - 23
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/47.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      3: { text: 'However, during their journey, they encountered a storm<br>and ended up on a remote island inhabited by a primitive<br>tribe. The people of the tribe have tattoos on their arms.<br>Just then, the tribe\'s chief came to them and said,<br>"To stay on this island, you must have a tattoo on your arm<br>that represents your job."<br>Write down what kind of images the doctor, scientist,<br>and teacher would have tattooed on their arms.<br><br>', keywords: ['However', 'during journey', 'encountered storm', 'ended up', 'remote island', 'inhabited', 'primitive tribe', 'people of tribe', 'have tattoos', 'arms', 'Just then', 'tribe\'s chief', 'came to them', 'said', 'To stay', 'this island', 'must have', 'tattoo', 'your arm', 'represents', 'your job', 'Write down', 'what kind', 'images', 'doctor', 'scientist', 'teacher', 'would have tattooed', 'their arms'], fontType: 'type3' },
+      2: { text: 'If a shape completely overlaps when folded along a line,<br>it is called line symmetry. We call it reflection symmetry,<br>too, because the reflected image in a mirror looks exactly<br>like the original object. The line used as a reference in line<br>symmetry is called the line of symmetry. When we rotate a<br>shape halfway around a point, and it matches the original,<br>it is called point symmetry.<br>In everyday life, we can often see line and point symmetry.<br>Reflections in a lake, a rolling ball, and even living things<br>like people, dogs, and horses show symmetry.<br>Even the alphabet has symmetry. When we fold the letter<br>"A" vertically, it completely overlaps, and when we fold "B"<br>horizontally, the halves match perfectly. The letter "O" in<br>the alphabet, when folded either horizontally or vertically,<br>completely overlaps. It even stays the same when we<br>rotate it halfway. Find objects around us that have both<br>line and point symmetry and write them down.', keywords: ['shape completely overlaps', 'folded along line', 'called line symmetry', 'call it', 'reflection symmetry', 'too', 'because', 'reflected image', 'mirror', 'looks exactly', 'like original object', 'line used', 'reference', 'line symmetry', 'called', 'line of symmetry', 'When we rotate', 'shape halfway', 'around point', 'matches original', 'called point symmetry', 'everyday life', 'often see', 'line and point symmetry', 'Reflections', 'lake', 'rolling ball', 'even living things', 'like people', 'dogs', 'horses', 'show symmetry', 'Even alphabet', 'has symmetry', 'fold letter A', 'vertically', 'completely overlaps', 'fold B', 'horizontally', 'halves match', 'perfectly', 'letter O', 'alphabet', 'folded either', 'horizontally', 'vertically', 'completely overlaps', 'even stays same', 'rotate halfway', 'Find objects', 'around us', 'have both', 'line and point symmetry', 'write them down'], fontType: 'type3' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 48 (PDF 페이지 24) - 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/48.jpg',
+    zones: {
+      1: { text: 'The Story of 0 and Irrational Numbers<br>When we study numbers, at first, we learn natural numbers<br>like 1, 2, 3, 4, 5, and so on. A natural number is a number<br>that can be created by starting from 1 and adding them<br>one by one. After learning natural numbers, we learn about<br>0, which represents nothing.<br>When and where was 0 created? 0 is said to have been<br>made in India around the 7th century. In Indian Hinduism,<br>nothingness is considered sacred. The god Shiva is<br>also worshiped as a being of nothingness. By naturally<br>accepting nothing, they were able to create the number 0.<br>The 0 made in India was brought to the West.<br>However, in the West, 0 was not recognized as a number<br>for a long time. Westerners believed that all things in the<br>world are God\'s perfect creation, so there can be no gaps.<br>Accepting the concept of nothingness was an insult to<br>God. Let\'s look at one more story about numbers.<br>After learning 0 as mentioned earlier, we learn fractions<br>such as , . We can use fractions to represent numbers<br>between neighboring natural numbers.', keywords: ['Story of 0', 'Irrational Numbers', 'When we study', 'numbers', 'at first', 'learn', 'natural numbers', 'like 1 2 3 4 5', 'so on', 'natural number', 'number', 'can be created', 'starting from 1', 'adding them', 'one by one', 'After learning', 'natural numbers', 'learn about', '0', 'represents nothing', 'When and where', '0 created', '0 said', 'have been made', 'India', 'around 7th century', 'Indian Hinduism', 'nothingness', 'considered sacred', 'god Shiva', 'also worshiped', 'being of nothingness', 'naturally accepting', 'nothing', 'able to create', 'number 0', '0 made', 'India', 'brought to', 'West', 'However', 'West', '0 was not recognized', 'number', 'long time', 'Westerners believed', 'all things', 'world', 'God\'s perfect creation', 'there can be', 'no gaps', 'Accepting concept', 'nothingness', 'insult to God', 'look at', 'one more story', 'numbers', 'After learning 0', 'mentioned earlier', 'learn fractions', 'can use fractions', 'represent numbers', 'between', 'neighboring', 'natural numbers'], fontType: 'type3' },
+      2: { text: 'But did you know that there are numbers that cannot<br>be expressed as fractions? These numbers are called<br>"irrational numbers." It might be a bit difficult to explain,<br>but in mathematics, an irrational number is one that<br>cannot be expressed as a ratio of integers.<br>The diagonal length of a square whose width and height<br>are 1 is an example of an irrational number. It is said<br>that people in the past were also aware of the existence<br>of irrational numbers. However, in ancient Greece,<br>irrational numbers were not accepted. This was due to the<br>Pythagorean ideology that was prevalent in society at the<br>time. They believed that all things are made up of numbers<br>and that all numbers can be expressed as a ratio of<br>integers. In other words, an irrational number cannot exist.<br>When studying geometry, irrational numbers inevitably<br>appear. The Pythagorean school of thought, which did not<br>recognize irrational numbers, became a major obstacle to<br>the study of geometry. In this way, the ideas and culture<br>of an era have a great influence on the development of<br>academics.', keywords: ['But did you know', 'there are numbers', 'cannot be expressed', 'fractions', 'These numbers', 'called', 'irrational numbers', 'might be', 'bit difficult', 'explain', 'mathematics', 'irrational number', 'one that', 'cannot be expressed', 'ratio of integers', 'diagonal length', 'square', 'width and height', 'are 1', 'example', 'irrational number', 'said', 'people in past', 'also aware', 'existence', 'irrational numbers', 'However', 'ancient Greece', 'irrational numbers', 'not accepted', 'due to', 'Pythagorean ideology', 'prevalent', 'society', 'time', 'believed', 'all things', 'made up', 'numbers', 'all numbers', 'can be expressed', 'ratio of integers', 'other words', 'irrational number', 'cannot exist', 'When studying', 'geometry', 'irrational numbers', 'inevitably appear', 'Pythagorean school', 'thought', 'did not recognize', 'irrational numbers', 'became', 'major obstacle', 'study of geometry', 'this way', 'ideas and culture', 'era', 'have great influence', 'development', 'academics'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/49.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/50.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/51.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/52.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/53.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/54.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/55.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/55.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/57.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/58.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/59.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/60.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/61.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.2/62.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  }
+
+  
+];
+
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 
