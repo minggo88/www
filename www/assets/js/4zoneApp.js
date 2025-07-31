@@ -878,7 +878,7 @@ function renderYoutubeResults(items) {
                 const vid = this.dataset.videoid;
                 if (vid) {
                     // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
-                    const isWebView = /WebView|wv|Android.*Version\\/[0-9]|iPhone.*Safari\\/[0-9]/.test(navigator.userAgent);
+                    const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
                     
                     // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
                     const popupOptions = isWebView ? 
