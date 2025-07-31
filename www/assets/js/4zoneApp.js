@@ -829,7 +829,9 @@ function renderYoutubeResults(items) {
         html = items.map((item, idx) => `
             <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
                 <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
-                    <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
+                    <img src="${item.snippet.thumbnails.default.url}" 
+                         style="width:120px;height:90px;margin-right:1em;object-fit:cover;border-radius:8px;"
+                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiB2aWV3Qm94PSIwIDAgMTIwIDkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjZjBmMGYwIi8+CjxwYXRoIGQ9Ik02MCA0NUw0NSA2MEg3NUw2MCA0NVoiIGZpbGw9IiNjY2NjY2MiLz4KPHN2Zz4K'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center';">
                 </div>
                 <div>
                     <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
@@ -870,128 +872,173 @@ function renderYoutubeResults(items) {
     // 검색 결과를 표시
     document.getElementById('search-iframe-wrap').innerHTML = html;
     
-    let currentPlayer = null;
-    let currentPlayerContainer = null;
-    
     setTimeout(() => {
         document.querySelectorAll('.yt-thumb-title').forEach(el => {
             el.onclick = function() {
                 const vid = this.dataset.videoid;
-                const itemDiv = this.closest('.yt-result-item');
-                
-                // 기존 플레이어가 있으면 제거
-                if (currentPlayer && typeof currentPlayer.destroy === 'function') {
-                    currentPlayer.destroy();
-                }
-                if (currentPlayerContainer && currentPlayerContainer.parentNode) {
-                    currentPlayerContainer.remove();
-                }
-                
-                // 같은 아이템을 다시 클릭한 경우 플레이어만 제거하고 종료
-                if (itemDiv.querySelector('.yt-inline-player')) {
-                    return;
-                }
-                
-                // 더 큰 높이로 설정 (최소 600px, 화면 높이의 70%)
-                const minHeight = Math.max(600, window.innerHeight * 0.7);
-                
-                // 플레이어 컨테이너 생성
-                const playerContainer = document.createElement('div');
-                playerContainer.className = 'yt-inline-player';
-                playerContainer.style.cssText = `
-                    width: 100% !important;
-                    height: ${minHeight}px !important;
-                    min-height: 600px !important;
-                    max-height: 800px !important;
-                    background: #000;
-                    border-radius: 12px;
-                    margin: 20px 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    position: relative;
-                    animation: slideDown 0.3s ease-out;
-                    box-sizing: border-box;
-                `;
-                
-                const playerDiv = document.createElement('div');
-                playerDiv.style.cssText = `
-                    width: 100% !important;
-                    height: 100% !important;
-                    min-height: 600px !important;
-                    border-radius: 12px;
-                    overflow: hidden;
-                    box-sizing: border-box;
-                `;
-                
-                playerContainer.appendChild(playerDiv);
-                
-                // 닫기 버튼 추가
-                const closeBtn = document.createElement('button');
-                closeBtn.innerHTML = '×';
-                closeBtn.style.cssText = `
-                    position: absolute;
-                    right: 12px;
-                    top: 12px;
-                    font-size: 2rem;
-                    font-weight: bold;
-                    background: rgba(0,0,0,0.7);
-                    border: none;
-                    color: #fff;
-                    z-index: 10011;
-                    cursor: pointer;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                `;
-                
-                closeBtn.onclick = () => {
-                    if (currentPlayer && typeof currentPlayer.destroy === 'function') {
-                        currentPlayer.destroy();
+                if (vid) {
+                    // Plyr 기반 최대화된 뷰어 창 생성
+                    const popup = window.open(
+                        '',
+                        'youtube_viewer',
+                        'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes'
+                    );
+                    
+                    // 팝업이 차단된 경우 처리
+                    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+                        alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
+                        return;
                     }
-                    playerContainer.remove();
-                    currentPlayer = null;
-                    currentPlayerContainer = null;
-                };
-                
-                playerContainer.appendChild(closeBtn);
-                
-                // 아이템 바로 다음에 플레이어 삽입
-                itemDiv.parentNode.insertBefore(playerContainer, itemDiv.nextSibling);
-                currentPlayerContainer = playerContainer;
-                
-                // 클릭한 리스트가 가장 위로 스크롤
-                setTimeout(() => {
-                    itemDiv.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start',
-                        inline: 'nearest'
-                    });
-                }, 100);
-                
-                // YouTube 플레이어 생성
-                if (window.YT && window.YT.Player) {
-                    currentPlayer = new YT.Player(playerDiv, {
-                        width: '100%',
-                        height: minHeight,
-                        videoId: vid,
-                        playerVars: { 'autoplay': 1, 'controls': 1 },
-                        events: {
-                            'onReady': function (event) { 
-                                event.target.playVideo(); 
-                                // 플레이어 크기 강제 설정
-                                const iframe = playerDiv.querySelector('iframe');
-                                if (iframe) {
-                                    iframe.style.width = '100% !important';
-                                    iframe.style.height = '100% !important';
-                                    iframe.style.minHeight = '600px !important';
+                    
+                    // Plyr 기반 커스텀 뷰어 HTML 생성
+                    popup.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>YouTube Video Viewer</title>
+                            <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+                            <style>
+                                body {
+                                    margin: 0;
+                                    padding: 0;
+                                    font-family: Arial, sans-serif;
+                                    background: #000;
+                                    overflow: hidden;
                                 }
-                            }
-                        }
-                    });
+                                .video-container {
+                                    position: relative;
+                                    width: 100vw;
+                                    height: 100vh;
+                                    display: flex;
+                                    flex-direction: column;
+                                }
+                                .close-btn {
+                                    position: absolute;
+                                    top: 10px;
+                                    right: 10px;
+                                    background: rgba(0,0,0,0.7);
+                                    color: white;
+                                    border: none;
+                                    border-radius: 50%;
+                                    width: 40px;
+                                    height: 40px;
+                                    font-size: 20px;
+                                    cursor: pointer;
+                                    z-index: 1000;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: background 0.2s;
+                                }
+                                .close-btn:hover {
+                                    background: rgba(255,0,0,0.8);
+                                }
+                                .plyr {
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                                .plyr__video-wrapper {
+                                    height: 100vh !important;
+                                }
+                                .plyr__video {
+                                    height: 100vh !important;
+                                }
+                                .loading {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    color: white;
+                                    font-size: 18px;
+                                    z-index: 999;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="video-container">
+                                <button class="close-btn" onclick="window.close()">×</button>
+                                <div class="loading">로딩 중...</div>
+                                <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${vid}"></div>
+                            </div>
+                            <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+                            <script>
+                                // 창을 최대화
+                                try {
+                                    window.moveTo(0, 0);
+                                    window.resizeTo(screen.availWidth, screen.availHeight);
+                                    window.focus();
+                                    
+                                    // 추가로 최대화 시도
+                                    setTimeout(() => {
+                                        try {
+                                            window.resizeTo(screen.availWidth, screen.availHeight);
+                                            window.moveTo(0, 0);
+                                        } catch (e) {
+                                            console.log('추가 최대화 실패:', e);
+                                        }
+                                    }, 100);
+                                    
+                                    // ESC 키로 최대화 해제 방지
+                                    document.addEventListener('keydown', function(e) {
+                                        if (e.key === 'Escape') {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                        }
+                                    });
+                                    
+                                    // Plyr 플레이어 초기화
+                                    try {
+                                        const player = new Plyr('#player', {
+                                            controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                                            autoplay: true,
+                                            muted: false,
+                                            hideControls: true,
+                                            resetOnEnd: true,
+                                            keyboard: { focused: true, global: true },
+                                            tooltips: { controls: true, seek: true },
+                                            captions: { active: true, language: 'auto', update: true },
+                                            fullscreen: { enabled: true, fallback: true, iosNative: true }
+                                        });
+                                        
+                                        // 플레이어 이벤트 리스너
+                                        player.on('ready', () => {
+                                            console.log('Plyr player is ready');
+                                            // 로딩 텍스트 제거
+                                            const loading = document.querySelector('.loading');
+                                            if (loading) loading.style.display = 'none';
+                                        });
+                                        
+                                        player.on('error', (event) => {
+                                            console.error('Plyr player error:', event);
+                                        });
+                                        
+                                        // 자동으로 전체화면 모드로 전환
+                                        setTimeout(() => {
+                                            try {
+                                                player.fullscreen.enter();
+                                            } catch (e) {
+                                                console.log('전체화면 전환 실패:', e);
+                                            }
+                                        }, 1000);
+                                        
+                                    } catch (error) {
+                                        console.error('Plyr 초기화 오류:', error);
+                                        // 오류 발생 시 기본 YouTube iframe으로 대체
+                                        document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                                        
+                                        // 로딩 텍스트 제거
+                                        const loading = document.querySelector('.loading');
+                                        if (loading) loading.style.display = 'none';
+                                    }
+                                    
+                                } catch (e) {
+                                    console.log('창 최대화 실패:', e);
+                                }
+                            </script>
+                        </body>
+                        </html>
+                    `);
+                    popup.document.close();
                 }
             };
         });
@@ -1008,4 +1055,4 @@ document.addEventListener('keydown', function(event) {
     event.preventDefault();
     nextSlide();
   }
-}); 
+});
