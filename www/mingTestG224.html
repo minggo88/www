@@ -1,195 +1,622 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로딩 중...</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>G2.2.4.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #ffffff;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .loading-container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .loading-image {
-            max-width: 300px;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        .loading-text {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-            animation: slideInUp 0.8s ease-out 0.5s both;
-        }
-
-        .loading-subtitle {
-            font-size: 16px;
-            color: #666;
-            animation: slideInUp 0.8s ease-out 0.7s both;
-        }
-
-        .loading-dots {
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .loading-dots span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #667eea;
-            margin: 0 3px;
-            animation: dots 1.4s infinite ease-in-out both;
-        }
-
-        .loading-dots span:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-
-        .loading-dots span:nth-child(2) {
-            animation-delay: -0.16s;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes dots {
-            0%, 80%, 100% {
-                transform: scale(0);
-            }
-            40% {
-                transform: scale(1);
-            }
-        }
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .loading-container {
-                padding: 30px 20px;
-                margin: 20px;
-            }
-
-            .loading-image {
-                max-width: 250px;
-            }
-
-            .loading-text {
-                font-size: 20px;
-            }
-
-            .loading-subtitle {
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .loading-image {
-                max-width: 200px;
-            }
-
-            .loading-text {
-                font-size: 18px;
-            }
-
-            .loading-subtitle {
-                font-size: 12px;
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="loading-container">
-        <img src="assets/img/ReadBook/loading.jpg" alt="로딩 중" class="loading-image">
-        <div class="loading-text">로딩 중입니다...</div>
-        <div class="loading-subtitle">잠시만 기다려주세요</div>
-        <div class="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
     </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
 
-    <script>
-        // 페이지 로드 완료 후 자동으로 메인 페이지로 이동 (선택사항)
-        // setTimeout(() => {
-        //     window.location.href = '2.1.1/4zone.html';
-        // }, 3000);
-
-        // 로딩 애니메이션 효과
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.querySelector('.loading-container');
-            const image = document.querySelector('.loading-image');
-            
-            // 이미지 로드 완료 시 추가 효과
-            image.addEventListener('load', function() {
-                container.style.animation = 'fadeIn 1s ease-in-out';
-            });
-
-            // 이미지 로드 실패 시 대체 텍스트
-            image.addEventListener('error', function() {
-                this.style.display = 'none';
-                const errorText = document.createElement('div');
-                errorText.textContent = '로딩 이미지를 불러올 수 없습니다';
-                errorText.style.color = '#ff6b6b';
-                errorText.style.fontSize = '16px';
-                errorText.style.marginTop = '20px';
-                container.insertBefore(errorText, container.firstChild);
-            });
-        });
-    </script>
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/3.jpg',
+    zones: {
+      1: { text: '01. Motifs Seen in Animal Mating<br><br>', keywords: ['motifs', 'animal mating', 'humans', 'males', 'females', 'eggs'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Humans can be divided into women and men. They<br>marry, have babies, and live their lives. Animals are<br>similar to humans. Just as humans are divided into<br>women and men, animals can be divided into females<br>and males. And like humans getting married, animals<br>also mate. The only difference is that some animals<br>lay eggs instead of giving birth to young. Like men<br>and women dress up to look good for each other,<br>animals also groom themselves. We can see different<br>motifs in this process.', keywords: ['humans', 'women', 'men', 'animals', 'females', 'males', 'mate', 'eggs', 'groom', 'motifs'] },
+      4: { text: 'When mating season comes around, male animals<br>adorn themselves to be the most beautiful they<br>can be. They decorate their bodies with the most<br>beautiful motifs and colors they can create.<br>Afterward, they proudly display their beauty in front<br>of the female animals. The males hope that the<br>females will choose them as mates. However, winning<br>the heart of a female takes work. The male must<br>defeat countless competitors.', keywords: ['mating season', 'male animals', 'beautiful motifs', 'colors', 'female animals', 'competitors'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/4.jpg',
+    zones: {
+      1: { text: 'This is why male animals make so much effort to<br>create more beautiful and colorful motifs. Only the<br>males that catch the eyes of females can pass on<br>their genes to the next generation.<br>Let\'s look at the mating of fish as an example.<br>Male fish each have their own mating colors. Mating<br>coloration refers to the bright colors and motifs that<br>appear on an animal\'s body during the mating season.<br>A fish will develop colorful motifs on its body once<br>it is ready to mate. One fish famous for its mating<br>coloration is the male three-spined stickleback.<br>The male three-spined stickleback has gorgeous and<br>colorful mating coloration.', keywords: ['male animals', 'colorful motifs', 'genes', 'mating colors', 'three-spined stickleback'] },
+      2: { text: 'The body of a male three-spined stickleback is<br>typically glossy, yellow-brown. However, when it<br>is time for mating, its back turns blue, and its belly<br>turns red. Then, the male begins to build a nest. It is<br>preparing a place for the female to lay eggs once the<br>mating is done. When the nest is ready, the male looks<br>for a female. When the female is attracted to the<br>male\'s splendid mating coloration, the male dances in<br>a zigzag motion to catch the female\'s attention.', keywords: ['three-spined stickleback', 'blue', 'red', 'nest', 'zigzag dance'] },
+      3: { text: 'Explain why male animals have bright and colorful<br>motifs.', keywords: ['male animals', 'bright', 'colorful motifs', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/5.jpg',
+    zones: {
+      1: { text: 'Once the male successfully wins the heart of the<br>female, he leads her to the nest he has prepared<br>beforehand. The female carefully studies the nest,<br>making sure it is safe enough to lay eggs and raise<br>young fish. They can only begin mating if the female<br>likes the nest. For mating to be successful, the motifs<br>of the nest are just as important as the motifs on<br>the male fish\'s body.', keywords: ['male', 'female', 'nest', 'eggs', 'motifs'] },
+      4: { text: 'It is not only the male three-spined stickleback that<br>builds nests for mating. There are birds known for<br>their excellent nest-building skills. One such bird is<br>the bowerbird. Widely known as the "gardener bird,"<br>this bird is an expert nest builder. The male bowerbird<br>is responsible for building the nest.<br>He works hard to decorate a nest that will attract<br>a female. The male lures the female with his artistic<br>creations and food. They are much like us humans.<br>A bowerbird\'s nest is larger and more extravagant<br>than the nests of other birds. They are like huge<br>palaces or mansions for birds.', keywords: ['bowerbird', 'gardener bird', 'nest building', 'artistic creations', 'palaces'] },
+      3: { text: '', keywords: [] },
+      2: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/6.jpg',
+    zones: {
+      1: { text: 'When we hear the word "nest," we usually imagine<br>a small, round shape made of grass or twigs. However,<br>the nests of bowerbirds are different.<br>Some bowerbirds build nests with rounded roofs that<br>look like Islamic palaces. They even create small paths<br>leading into the nest, and both sides of the paths are<br>beautifully decorated with things like red berries and<br>stones. The male bowerbirds are amazingly dedicated<br>to their work.', keywords: ['nest', 'bowerbirds', 'Islamic palaces', 'paths', 'red berries', 'stones'] },
+      2: { text: 'Male bowerbirds build elaborate nests for mating.<br>A flashy nest is easy to see from a distance, increasing<br>the chance that a female will come by. When a female<br>approaches and admires the well-built nest, the male<br>starts to show unusual behaviors.<br>He might pick up and shake decorations, make loud<br>sounds, or hop around as if saying, "Look at me!<br>Choose me!" These actions, aimed at winning the<br>heart of the female, are called mating behaviors.', keywords: ['elaborate nests', 'flashy nest', 'unusual behaviors', 'decorations', 'mating behaviors'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why bowerbirds are called gardener birds.', keywords: ['bowerbirds', 'gardener birds', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/7.jpg',
+    zones: {
+      1: { text: 'Bowerbirds\' nests are beautiful, but there is more<br>to learn about them. Scientists have discovered<br>the hidden secrets of the nests through research.<br>They were curious about what the nests looked like<br>to female bowerbirds. So, they placed a camera at<br>the eye level of the females and filmed the nest.<br>The results were astonishing.<br>There were marvelous mathematical principles hidden<br>in the nests. As mentioned earlier, a bowerbird\'s nest<br>has a small path in the front. When seen from above<br>by humans, the sizes of the decorations were all<br>different. However, in the photos, all the decorations<br>looked the same size.', keywords: ['bowerbirds nests', 'scientists', 'camera', 'mathematical principles', 'decorations'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'What could have happened? The secret lies in<br>perspective. Perspective is a commonly used<br>technique when we draw. Our eyes see objects close<br>to us as larger and objects far away as smaller.<br>If we apply this to a drawing, we can create a sense<br>of distance by drawing things close to us larger and<br>things far away smaller. The male bowerbird applies<br>the fact that objects appear smaller when they are<br>farther away.', keywords: ['perspective', 'technique', 'objects', 'distance', 'bowerbird'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/8.jpg',
+    zones: {
+      1: { text: 'It places the smallest decoration at the very front<br>and the largest at the furthest back. At first glance,<br>it might feel like decorations of the same size are<br>placed side by side. This mix-up that our eyes make is<br>called an optical illusion.<br>Why do male bowerbirds use an illusion to build a nest?<br>This is all because of mating. In the eyes of female<br>bowerbirds, the nests appear to be adorned with<br>decorations of an even size. Female bowerbirds think<br>that male bowerbirds who make beautiful nests are<br>good mates.', keywords: ['smallest decoration', 'optical illusion', 'mating', 'beautiful nests', 'good mates'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'However, the decorations have different sizes as they<br>are brought from nature. This is why the male uses<br>an unnatural perspective to make the decorations look<br>the same size to the female\'s eyes.<br>Very clever, right? Maybe the females consider the<br>intelligence of the males more important than the size<br>of the decorations.', keywords: ['decorations', 'unnatural perspective', 'female eyes', 'intelligence', 'males'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/9.jpg',
+    zones: {
+      1: { text: 'People call the male birds-of-paradise the most<br>beautiful birds in the world. Even such a beautiful<br>bird must display mating behavior to find a mate.<br>While male bowerbirds build a nest, male birds-of-<br>paradise make a stage. Their mating behavior is like<br>a dance. To show off their dancing skills, they need<br>a stage. The way male birds-of-paradise make a stage<br>is quite interesting.', keywords: ['birds-of-paradise', 'beautiful birds', 'mating behavior', 'stage', 'dance'] },
+      2: { text: 'Firstly, a male bird-of-paradise chooses a suitable<br>area to create a stage. Secondly, it carefully cleans<br>the area, removing even the smallest branch. It is fun<br>to see the male bird-of-paradise even decorating<br>the space with berries and leaves.<br>After creating a stage, it starts singing a song to<br>call the female. When the female arrives, he flutters<br>around performing different dances. The female<br>becomes his only audience, watching his dance<br>performance until the end. However, it is too early to<br>relax just yet.', keywords: ['suitable area', 'cleans', 'berries', 'leaves', 'singing', 'dances', 'audience'] },
+      3: { text: 'Explain the mathematical principles hidden in the<br>bowerbird\'s nest.', keywords: ['mathematical principles', 'bowerbird nest', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/10.jpg',
+    zones: {
+      1: { text: 'Just because the male bird\'s performance is done<br>does not mean the female bird will decide to mate<br>with him. The female does not decide on a mate after<br>watching the dance of a single male. After watching<br>several performances, she selects the male she is<br>most attracted to. Her mate will be the best dancer<br>with the most vivid motifs on its feathers.', keywords: ['male bird', 'performance', 'female bird', 'several performances', 'best dancer', 'vivid motifs'] },
+      2: { text: 'There are also surprising hidden motifs in the mating<br>world of insects. There are types of light in the world<br>that are invisible to our eyes, such as infrared and<br>ultraviolet rays. To see ultraviolet rays, we humans<br>need a special camera to capture them. We can see<br>something unique when butterflies are photographed<br>with this camera. The wings of butterflies shine with<br>a beautiful rainbow motif when exposed to ultraviolet<br>rays. Unlike humans, butterflies can see ultraviolet<br>rays. They can see each other\'s hidden motifs without<br>an ultraviolet camera. However, a fun fact is that<br>mainly male butterflies have these motifs. These<br>motifs are meant to attract females for mating.', keywords: ['hidden motifs', 'insects', 'ultraviolet rays', 'butterflies', 'rainbow motif', 'male butterflies'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain what male birds-of-paradise do to be<br>chosen by female birds-of-paradise.', keywords: ['male birds-of-paradise', 'female birds-of-paradise', 'chosen', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/11.jpg',
+    zones: {
+      1: { text: 'Male butterflies attract the attention of females<br>with colorful wing motifs that can only be seen under<br>ultraviolet light. Different butterfly species, like the<br>swallowtail, northern blue, and fritillary butterflies,<br>show different wing motifs. Butterflies in the East<br>Asia region especially showcase extremely colorful<br>wing motifs. These butterflies need unique ways to<br>recognize each other as they live together in an area<br>with many different butterfly species. Colors and the<br>ability to see ultraviolet light are key in the evolution<br>and reproduction of butterflies.', keywords: ['male butterflies', 'colorful wing motifs', 'ultraviolet light', 'East Asia', 'evolution', 'reproduction'] },
+      2: { text: 'Think of a firefly. A firefly is an insect that glows light<br>from the end of its body. People think that all fireflies<br>give off the same light, but fireflies give off different<br>lights depending on their species. They use this light<br>as a signal to find a mate.<br>Each type of firefly has a set signal that they use.<br>Fireflies are hard for us to see. They can only live in<br>clean environments with clear water and good air.<br>When we see fireflies, it means that the area is clean<br>and unpolluted.', keywords: ['firefly', 'glows light', 'different lights', 'signal', 'clean environments', 'unpolluted'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why butterflies in the East Asia region<br>have colorful wing motifs.', keywords: ['butterflies', 'East Asia region', 'colorful wing motifs', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/12.jpg',
+    zones: {
+      1: { text: 'How do fireflies give off light? Fireflies give off<br>light mainly for mating. The males show off their<br>fascinating and beautiful skills to attract females for<br>mating. Inside a firefly\'s body, there is a substance<br>called luciferin. This luciferin reacts with oxygen in<br>the air through an enzyme, resulting in the light that<br>fireflies give off. Even more surprising is that firefly<br>eggs, caterpillars, and larvae can give off a weak<br>light. They use light not only for mating but also when<br>facing threats.', keywords: ['fireflies', 'light', 'mating', 'luciferin', 'oxygen', 'enzyme', 'eggs', 'caterpillars', 'larvae'] },
+      2: { text: 'The firefly\'s light scares away other insects and<br>animals. It is also a way for them to communicate<br>with each other. However, we can see their brightest,<br>most powerful light when males try hard to attract<br>the attention of females. The light from fireflies as<br>they flutter and dance gracefully in a grassy valley<br>during mating season creates a beautiful motif on<br>a dark night.', keywords: ['firefly light', 'scares away', 'communicate', 'brightest light', 'flutter', 'dance', 'beautiful motif'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain the reason fireflies give off light.', keywords: ['fireflies', 'give off light', 'reason', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/13.jpg',
+    zones: {
+      1: { text: 'Why do animals put so much effort into mating?<br>The reason is simple. It is to leave the next generation<br>of their species. Animals and all living organisms work<br>hard to leave offspring that resemble themselves.<br>The desire to spread their species is an instinct<br>shared by all living things. Instincts are innate<br>behaviors that living organisms perform without<br>needing to learn or practice them.', keywords: ['animals', 'mating', 'next generation', 'offspring', 'instinct', 'innate behaviors'] },
+      4: { text: 'When mating season arrives, instinct is why animals<br>naturally develop motifs on their bodies and show<br>mating behavior. So far, we have studied the motifs<br>in animals\' mating process. However, these animals<br>share a common trait: Males are the ones that show<br>mating behavior to females. Also, females choose<br>the male with the most outstanding mating behavior.<br>They select the healthiest and most intelligent male<br>through motifs and dances.', keywords: ['mating season', 'instinct', 'motifs', 'mating behavior', 'males', 'females', 'healthiest', 'intelligent'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Explain why animals put so much time and effort<br>into mating.', keywords: ['animals', 'time', 'effort', 'mating', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/14.jpg',
+    zones: {
+      3: { text: 'So, why do the females get to choose? Humans like<br>to marry and raise babies together. However, in the<br>animal kingdom, it is rare for both females and males<br>to raise their young together. Most male animals<br>either die or move somewhere else after mating.<br>Some males even sacrifice their bodies to make sure<br>their young grow well. Some males leave to mate with<br>another female again, aiming to spread their species<br>more widely. In this case, the remaining female raises<br>the young or eggs alone. The only wish of the female<br>is for her young to survive out in dangerous nature.', keywords: ['females choose', 'humans', 'animal kingdom', 'male animals', 'sacrifice', 'female raises', 'dangerous nature'] },
+      2: { text: 'If a female meets a healthy and intelligent male,<br>the chances of giving birth to healthy and intelligent<br>offspring increases. This is why a female bowerbird<br>carefully inspects the nest built by a male. It is to<br>decide if the nest is good enough to raise their young<br>alone.<br>When we look at the male three-spined stickleback,<br>we can determine how much effort a female puts into<br>choosing a healthy male. As mentioned earlier,<br>the male three-spined stickleback performs a dance<br>as part of its mating behavior.', keywords: ['healthy', 'intelligent male', 'offspring', 'female bowerbird', 'nest', 'three-spined stickleback', 'dance'] },
+      1: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/15.jpg',
+    zones: {
+      1: { text: 'Scientists who studied this dance wondered how<br>female fish chose their mates. Some scientists<br>believed that the first male fish to dance and show<br>off its colors would be selected. However, they were<br>wrong. Research proved that males that danced first<br>were unsuccessful in mating. What could be the<br>reason? This is due to the sharp eye of the female<br>three-spined stickleback.', keywords: ['scientists', 'dance', 'female fish', 'first male fish', 'unsuccessful', 'sharp eye'] },
+      4: { text: 'Three-spined sticklebacks display brighter colors the<br>healthier they are. Weaker males try to display bright<br>colors by gathering their strength for just a moment.<br>However, females can easily spot weak males at<br>a glance. Although these males can show bright colors<br>for a moment, their colors fade over time. Females are<br>well aware of this fact.', keywords: ['three-spined sticklebacks', 'brighter colors', 'healthier', 'weaker males', 'colors fade', 'females aware'] },
+      3: { text: '', keywords: [] },
+      2: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/16.jpg',
+    zones: {
+      1: { text: 'This is why they wait for males who can maintain<br>their bright colors over time rather than a male that is<br>colorful in the beginning. As a result, only the healthy<br>males, who pass the keen eye of the females, succeed<br>in mating. The next generation that receives these<br>genes will later show more beautiful body colors than<br>the other males. Through this process, the appearance<br>of male animals has gradually evolved to what female<br>animals like. That is why the tail feathers of male<br>peacocks are becoming more and more flamboyant.<br>They are so big that it is hard for them to even move.', keywords: ['maintain bright colors', 'healthy males', 'keen eye', 'genes', 'evolved', 'peacocks', 'flamboyant'] },
+      2: { text: '01. Motifs Seen in Animal Mating<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying the</span><br><span class="larger-text">Motifs Seen in Animal Mating?</span><br><br>', keywords: ['motifs', 'animal mating', 'instincts', 'innate responses', 'genetic behavioral patterns', 'reproduction'] },
+      4: { text: 'Instincts are the innate responses of living things<br>without relying on education or experience after birth.<br>Instinct has to do with many parts of our lives, such<br>as wanting to eat when hungry and sleep when we<br>get tired. All living things can adapt to nature without<br>special learning, thanks to the genetic behavioral<br>patterns inherited from their parents. Among the<br>many instincts of living things, the most important is<br>the instinct for reproduction.', keywords: ['instincts', 'innate responses', 'living things', 'genetic behavioral patterns', 'reproduction'] },
+      3: { text: 'Explain how the female three-spined stickleback<br>chooses a mate.', keywords: ['female three-spined stickleback', 'chooses', 'mate', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/17.jpg',
+    zones: {
+      1: { text: 'Leaving behind descendants who resemble their own<br>species is equally important as surviving in nature.<br>Animals work hard to pass on excellent genetic traits<br>to their young, allowing them to adapt and survive in<br>harsh natural environments. In reproduction, animals<br>use motifs to find genetically superior mates.<br>For instance, male three-spined sticklebacks use<br>their bright mating coloration to attract female three-<br>spined sticklebacks. However, female three-spined<br>sticklebacks are cautious about choosing a mate.<br>They carefully observe how long a male\'s bright colors<br>last while they dance. This is to filter out weak male<br>fish.', keywords: ['descendants', 'genetic traits', 'harsh environments', 'reproduction', 'motifs', 'genetically superior', 'mating coloration', 'filter out'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Unlike humans, who can show off their skills with<br>writing and language, animals flaunt how magnificent<br>they are by using various motifs. By studying this<br>topic, we can understand the critical roles that motifs<br>play in the maintenance of species.', keywords: ['humans', 'skills', 'writing', 'language', 'animals', 'magnificent', 'motifs', 'maintenance of species'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/18.jpg',
+    zones: {
+      1: { text: '(1) In nature, male animals often have more colorful<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;motifs than females. Explain why male animals adorn<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;themselves beautifully.<br><br>(2) Having colorful motifs makes it difficult to survive<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in nature as it attracts the attention of predators.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nevertheless, why do male animals keep their motifs?', keywords: ['nature', 'male animals', 'colorful motifs', 'females', 'predators', 'survive'], fontType: 'type3' },
+      2: { text: '01. Motifs Seen in Animal Mating<br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of Motifs</span><br><span class="larger-text">Seen in Animal Mating?</span><br><br>', keywords: ['motifs', 'animal mating', 'humans', 'character', 'appearance', 'personality', 'first impression', 'psychologists'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'We humans value character over appearance. However,<br>it is not easy to understand someone\'s personality<br>and character at a glance. Psychologists have found<br>that our first impression of someone is formed<br>within four seconds of meeting them, and once this<br>impression is established, it is difficult to alter.', keywords: ['humans', 'character', 'appearance', 'personality', 'first impression', 'psychologists'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/19.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'A person\'s image is determined by things such as<br>their appearance, clothing, way of speaking, and<br>manners. While our appearance cannot be changed,<br>other aspects can change with effort. Among them,<br>clothing is a language that shows someone\'s social<br>status and ability to care for themselves.', keywords: ['person image', 'appearance', 'clothing', 'speaking', 'manners', 'social status'] },
+      4: { text: 'The style, formality, shape, and color of clothing<br>based on the time, place, and situation are referred<br>to as a "dress code." For example, the dress code that<br>requires the highest formality is called "white tie."<br>Men are required to wear a white bow tie with a shirt,<br>waistcoat, and even a tailcoat.', keywords: ['style', 'formality', 'dress code', 'white tie', 'bow tie', 'shirt', 'waistcoat', 'tailcoat'] },
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/20.jpg',
+    zones: {
+      3: { text: 'Women wear evening dresses with long trains and<br>designs that accentuate their chest and back.<br>It is typical for women to wear gloves that extend<br>up to the elbows. Think of grand party scenes that<br>we see in movies. The dress code is a promise<br>between people attending the gathering and a form<br>of consideration for others. Of course, in everyday<br>situations, we only have to dress modestly enough not<br>to make anyone uncomfortable.', keywords: ['women', 'evening dresses', 'long trains', 'gloves', 'elbows', 'grand party', 'dress code', 'consideration'] },
+      2: { text: '(1) Perspective is a technique of drawing nearby objects<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;larger and distant ones smaller. How would we describe<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the feeling of looking at a picture that ignores perspective?<br><br>(2) Desires are the emotional or mental drives to want<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;something or achieve a specific goal. Explain what<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kinds of desires people may have.', keywords: ['perspective', 'technique', 'drawing', 'objects', 'desires', 'emotional', 'mental drives', 'goal'], fontType: 'type3' },
+      1: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/21.jpg',
+    zones: {
+      1: { text: 'According to the theory of natural selection, organisms<br>adapt their bodies to better fit their natural environment.<br>Therefore, only those organisms that have succeeded in<br>evolution can spread their offspring and pass on their<br>changed traits.<br>We can understand this through the example of birds.<br>In many bird species, females have darker feathers than<br>males. This adaptation helps them remain less visible to<br>predators and other animals while incubating their eggs.', keywords: ['natural selection', 'organisms', 'evolution', 'offspring', 'birds', 'darker feathers', 'adaptation', 'predators'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'However, Darwin had other questions after this discovery.<br>He found different types of evolution that are difficult<br>to explain by natural selection alone. One example is the<br>evolution of flashy feathers in male birds. Such evolution<br>is not ideal for males to survive because the more showy<br>their feathers are, the more likely they are to be noticed<br>by predators. Male peacocks, with their vast and colorful<br>tails, find it difficult to escape quickly in emergencies.<br>Considering these issues, Darwin introduced the concept<br>of "sexual selection" as an addition to the theory of natural<br>selection. What do people think this theory is about?<br>Explain.<br><br>', keywords: ['Darwin', 'evolution', 'flashy feathers', 'male birds', 'peacocks', 'sexual selection', 'theory'], fontType: 'type4' },
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/22.jpg',
+    zones: {
+      1: { text: 'All living things want to leave offspring that look like<br>themselves. Animals living deep in the sea are no<br>exception. Food is abundant in shallow waters where there<br>is plenty of sunlight. As a result, many organisms gather<br>there, and mating actively happens.<br>However, the deeper the sea gets, the less sunlight there<br>is. Less sunlight leads to less food, which means a small<br>number of organisms live in the deep sea.', keywords: ['living things', 'offspring', 'deep sea', 'shallow waters', 'sunlight', 'organisms'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Finding a mate in a small population is like searching for<br>a needle in a haystack. This is why organisms in the deep<br>sea must find unique mating methods. Some types of<br>deep-sea squid show strange behavior when they meet<br>their species. Typically, for animals, a male and female will<br>mate when they meet, but in the case of the deep-sea<br>squid, a male will attach his sperm pocket to another male<br>and a female. Two males cannot mate and give birth to<br>young. Explain why the deep-sea squid acts like this.<br><br>', keywords: ['small population', 'needle in haystack', 'deep sea', 'unique mating methods', 'deep-sea squid', 'strange behavior', 'sperm pocket'], fontType: 'type3' },
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/23.jpg',
+    zones: {
+      3: { text: 'Sunlight is so important in our lives that we call it the<br>origin of life. Depending on its wavelength, sunlight can<br>be classified into infrared rays, visible rays, and ultraviolet<br>rays. Wavelength refers to the length of a periodically<br>repeating shape in a wave.<br>Visible rays, familiar to us, are the light that human eyes<br>can see. Visible rays are wavelengths with colors ranging<br>from red to violet. Ultraviolet rays, just outside the violet<br>color, have the shortest wavelength but the most energy.<br><br>', keywords: ['sunlight', 'origin of life', 'wavelength', 'infrared rays', 'visible rays', 'ultraviolet rays', 'human eyes'], fontType: 'type3' },
+      2: { text: '<br>On the contrary, infrared rays, located just outside the red<br>color, have the longest wavelength and the least energy.<br>If we compare the different rays to hammering a nail,<br>ultraviolet rays can be thought of as hammering quickly,<br>while infrared rays are like hammering slowly. Visible<br>rays allow us to tell apart colors when we look at objects.<br>Although ultraviolet and infrared rays are invisible to our<br>eyes, they are widely used in our daily lives. Write down<br>some technologies that use ultraviolet and infrared rays.', keywords: ['infrared rays', 'longest wavelength', 'least energy', 'hammering nail', 'colors', 'invisible', 'technologies'], fontType: 'type4' },
+      1: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/24.jpg',
+    zones: {
+      1: { text: 'Abraham Maslow, often considered the founder of<br>humanistic psychology, classified human desires into<br>five levels. According to him, the most primitive needs<br>are physiological needs. These include the basic needs<br>necessary to survive, such as eating, sleeping, and leaving<br>offspring. The next level is the safety needs for health and<br>a stable life.', keywords: ['Abraham Maslow', 'humanistic psychology', 'human desires', 'five levels', 'physiological needs', 'safety needs'], fontType: 'type3' },
+      2: { text: 'When physiological and safety needs are met, people crave<br>communication and the building of friendships.<br>This is called the need for love and belonging. After we<br>get closer to people, we crave their respect and want to<br>be recognized in society. This fourth level is known as the<br>need for esteem. Finally, the fifth level is the need for<br>self-actualization. Maslow said that, ultimately, we humans<br>want to leave our mark on the world.<br>In this way, we humans have many different needs.<br>Explain the positive and negative effects that come from<br>people having these needs.', keywords: ['physiological', 'safety needs', 'love and belonging', 'esteem', 'self-actualization', 'positive', 'negative effects'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/25.jpg',
+    zones: {
+      1: { text: '<strong><b>How to Show Perspective<br><br>Look at the sun high in the sky. Then take a coin and reach<br>out towards the sun. The sun is blocked, right?<br>Does this happen because the sun is as small as a coin?<br>That is not true. This is because the farther away an<br>object is, the smaller it appears. This is called a "feeling<br>of perspective." The art technique of expressing a sense<br>of perspective is also called "perspective." Perspective<br>is widely used in art today. However, the introduction of<br>perspective into art is not that old when we look at human<br>history.', keywords: ['perspective', 'sun', 'coin', 'object', 'art technique', 'human history'], fontType: 'type3' },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: 'Perspective is a technique that has been systematically<br>developed in the West. Of course, in the past in the East,<br>there were paintings that depicted distant objects in<br>small sizes. However, Eastern works were not painted with<br>the purpose of realistically representing the observed<br>scenery. Eastern painters drew something large or small<br>in the process of artistic expression. So, it is not called<br>perspective with a mathematical system like today. The<br>first person to devise perspective was Filippo Brunelleschi,<br>an Italian architect during the Renaissance.<br><br>', keywords: ['systematically developed', 'West', 'East', 'paintings', 'Eastern painters', 'mathematical system', 'Filippo Brunelleschi', 'Renaissance'], fontType: 'type3' },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/26.jpg',
+    zones: {
+      1: { text: 'He created a system of perspective through mathematical<br>calculations. Brunelleschi\'s perspective was passed on<br>to the Italian painter Masaccio. People who saw his work<br>Holy Trinity for the first time were very surprised by the<br>realistic depth of expression. Afterward, many painters<br>further developed perspective. Leonardo da Vinci was also<br>interested in perspective through air.<br>The further away the light is, the more it is absorbed by<br>the air. So, the farther the distance, the blurrier the colors<br>and outlines appear. The art technique that reflects this<br>principle is called atmospheric perspective. Peter Paul<br>Rubens of Belgium and Joseph Mallord William Turner of<br>England are representative painters who used atmospheric<br>perspective. However, perspective is not a rule that must<br>be followed in art. It is said that impressionist painters<br>Cézanne and Gauguin did not use perspective to show<br>the purpose of their work.', keywords: ['mathematical calculations', 'Brunelleschi', 'Masaccio', 'Holy Trinity', 'Leonardo da Vinci', 'atmospheric perspective', 'Rubens', 'Turner', 'Cézanne', 'Gauguin'], fontType: 'type4' },
+      2: { text: '02. Nature Speaks to Us Through Motifs<br><br>', keywords: ['nature', 'motifs', 'communicate', 'words', 'languages', 'animals', 'flowers', 'trees', 'plants', 'spring'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'We communicate with other people through words.<br>Although the languages we speak vary from<br>country to country, the fact that we use sound to<br>communicate is universal. Animals also share their<br>languages. However, flowers and trees cannot speak.<br>Therefore, no matter how hot the sun or how strong<br>a storm is, they can only suffer in silence.<br>Plants stand still in the cold winter, patiently waiting<br>for spring. Yet, if we pay a little attention and observe<br>closely, we will realize that plants can communicate.<br>They just do not use voices like humans, so we cannot<br>hear them.', keywords: ['communicate', 'words', 'languages', 'animals', 'flowers', 'trees', 'plants', 'spring', 'nature'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/27.jpg',
+    zones: {
+      1: { text: 'Then, how do plants communicate with us?<br>Plants communicate through their entire bodies.<br>They use the motifs on leaves and flowers, the colors<br>and shapes of fruits, and the colors and motifs of<br>growth rings. Farmers have known this fact for<br>a long time. Therefore, they can determine whether<br>a cabbage is healthy or not just by looking at the<br>motifs of the cabbage leaves.', keywords: ['plants', 'communication', 'bodies', 'motifs', 'leaves', 'flowers', 'colors', 'shapes', 'fruits', 'growth rings', 'farmers', 'cabbage', 'health'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'What can we learn from the growth rings of trees?', keywords: [] , fontType: 'type2' },
+      4: { text: 'They can also tell whether a tree is hungry or thirsty<br>by looking at its fruits. Plants keep a diary through<br>their bodies. The story of a tree is hidden in growth<br>rings. By studying these motifs, we can determine<br>how old the tree is, when it experienced sudden<br>growth spurts, and when it gained weight. We can<br>also read about which winter brought heavy snow and<br>which summer had lots of rain. In this way, nature<br>communicates with us through motifs.', keywords: ['tree', 'hungry', 'thirsty', 'fruits', 'diary', 'bodies', 'story', 'growth rings', 'age', 'growth spurts', 'weight', 'winter', 'heavy snow', 'summer', 'rain', 'nature', 'communication', 'motifs']}
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/28.jpg',
+    zones: {
+      1: { text: 'The same applies to animals. When we observe the<br>motifs on an animal\'s body, we can learn the secrets<br>of life. When we are hiking the mountains, there are<br>times when a twig of a tree suddenly moves on its<br>own. The twig has not moved.<br>It is, in fact, an inchworm. An inchworm moves<br>forward by stretching its body out, repeatedly<br>pressing its tail toward its head. The inchworm gets<br>its name because it looks as if the length is being<br>measured using a tape measure.', keywords: ['animals', 'motifs', 'body', 'secrets', 'life', 'hiking', 'mountains', 'twig', 'tree', 'inchworm', 'movement', 'stretching', 'tail', 'head', 'name', 'length', 'tape measure'] },
+      2: { text: 'Why do inchworms mimic tree branches? They need to<br>protect themselves from predators such as birds and<br>praying mantises. When these predators try to catch<br>inchworms, they remain motionless, pretending to be<br>tree twigs. They avoid being discovered this way,<br>and the predators pass by without recognizing them.<br>This method of adapting to the environment by<br>mimicking other animals or surroundings is called<br>"mimicry." For instance, as its name suggests, the<br>leaf fish uses its leaf-like appearance to hide from<br>predators. Similarly, the newly hatched larva of<br>the swallowtail butterfly mimics bird droppings to<br>camouflage itself from potential threats.', keywords: ['inchworms', 'mimic', 'tree branches', 'protection', 'predators', 'birds', 'praying mantises', 'motionless', 'twigs', 'discovery', 'method', 'adaptation', 'environment', 'mimicry', 'leaf fish', 'appearance', 'swallowtail butterfly', 'larva', 'bird droppings', 'camouflage', 'threats'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/29.jpg',
+    zones: {
+      1: { text: 'Inchworms have another way to avoid predators called<br>cryptic coloration. This means that the color of its<br>body is similar to its surroundings, so other animals<br>do not easily notice it. Due to their cryptic coloration,<br>we cannot see the cicadas, which cry loudly in the<br>middle of summer.', keywords: ['inchworms', 'avoidance', 'predators', 'cryptic coloration', 'body color', 'surroundings', 'animals', 'notice', 'cicadas', 'crying', 'summer'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Owls, which are mainly active at night, also have<br>cryptic coloration. An owl\'s body is covered with<br>motifs that look like tree bark, making it difficult for<br>us to see them when they are napping inside a tree.<br>An owl perched on a gravel bank by the river is even<br>more astonishing. The gravel motif, made of white<br>and brown stones, appears to be engraved all over its<br>body.', keywords: ['owls', 'night activity', 'cryptic coloration', 'body', 'motifs', 'tree bark', 'napping', 'tree', 'gravel bank', 'river', 'gravel motif', 'white stones', 'brown stones', 'engraving'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/30.jpg',
+    zones: {
+      1: { text: 'What other animals have cryptic coloration?<br>The mossy frog is covered with the colors of moss and<br>rock. With this level of cryptic coloration, it can easily<br>avoid the eyes of birds and snakes.<br>In the summer, a rock ptarmigan is covered with dark<br>brown feathers all over the body except the stomach.<br>In winter, it changes into white feathers. Thanks to its<br>cryptic coloration that changes with the seasons, the<br>rock ptarmigan can evade predators.', keywords: ['animals', 'cryptic coloration', 'mossy frog', 'colors', 'moss', 'rock', 'avoidance', 'eyes', 'birds', 'snakes', 'summer', 'rock ptarmigan', 'dark brown feathers', 'body', 'stomach', 'winter', 'white feathers', 'seasons', 'evasion', 'predators'] },
+      2: { text: 'Have you ever wanted an invisibility cloak like<br>the ones we see in movies? Imagine putting on an<br>invisibility cloak and wandering through a crowd.<br>Wouldn\'t it be fascinating? The cryptic coloration of<br>animals plays the role of invisibility cloaks. It allows<br>them to hide in their surroundings and avoid the eyes<br>of people and other animals.', keywords: ['invisibility cloak', 'movies', 'imagination', 'wandering', 'crowd', 'fascination', 'cryptic coloration', 'animals', 'role', 'hiding', 'surroundings', 'avoidance', 'eyes', 'people'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/31.jpg',
+    zones: {
+      1: { text: 'Why do the skin colors of frogs or toads change to<br>match the surrounding colors?<br>This is because of a substance called melatonin.<br>Melatonin is a neurotransmitter released in the brains<br>of animals. In humans, it mainly regulates sleep.', keywords: ['skin colors', 'frogs', 'toads', 'matching', 'surrounding colors', 'substance', 'melatonin', 'neurotransmitter', 'brains', 'animals', 'humans', 'regulation', 'sleep'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Briefly explain why animals have cryptic coloration.', keywords: [], fontType: 'type2'  },
+      4: { text: 'There is a 13-hour time difference between Eastern<br>Standard Time in the United States and China.<br>If it is 10 AM in China, it is 9 PM the previous day in<br>the Eastern United States. So, when we travel from<br>China to the United States, our day and night become<br>reversed, making it difficult to sleep.<br>This symptom is called jet lag. Using melatonin can<br>help treat jet lag and insomnia. The same melatonin<br>makes cryptic coloration for animals. It is produced in<br>the human brain as well. However, human skin color<br>has no connection to melatonin. Imagine if we could<br>use cryptic coloration, too. Spies in movies would not<br>need wigs and sunglasses for disguises, would they?', keywords: ['time difference', 'Eastern Standard Time', 'United States', 'China', 'travel', 'day', 'night', 'reversal', 'sleep difficulty', 'symptom', 'jet lag', 'melatonin', 'treatment', 'insomnia', 'cryptic coloration', 'animals', 'human brain', 'skin color', 'connection', 'imagination', 'spies', 'movies', 'wigs', 'sunglasses', 'disguises']}
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/32.jpg',
+    zones: {
+      1: { text: 'Animals have developed cryptic coloration by adapting<br>to nature and evolving. It is their survival strategy.<br>In the past, people used this strategy, too.<br>There is a type of clothing called a tweed jacket made<br>in Scotland. Initially worn by hunters, it was made<br>with colors resembling trees or grass. Hunters would<br>wear these jackets, hide behind trees or in the grass,<br>and patiently wait for prey. The animals would be<br>hunted as they were unaware of the hiding hunters.<br>The clothing played the role of cryptic coloration for<br>humans.', keywords: ['animals', 'development', 'cryptic coloration', 'adaptation', 'nature', 'evolution', 'survival strategy', 'past', 'people', 'strategy', 'clothing', 'tweed jacket', 'Scotland', 'hunters', 'colors', 'trees', 'grass', 'hiding', 'patience', 'prey', 'hunting', 'awareness', 'role', 'humans'] },
+      3: { text: 'The hummingbird is a small bird that feeds on nectar<br>and small insects. However, it is so busy searching<br>for nectar that it flaps its wings dozens of times per<br>second. When a hummingbird is flying, it does not<br>make typical bird sounds like "flap flap" or "flutter<br>flutter," as other birds do. Instead, it makes a humming<br>sound when it flies. It is named hummingbird because<br>it makes the cheerful sound of flapping wings like a bee.', keywords: ['hummingbird', 'small bird', 'nectar', 'insects', 'busy', 'searching', 'wings', 'flapping', 'dozens of times', 'second', 'flying', 'bird sounds', 'humming sound', 'naming', 'cheerful sound', 'bee'] },
+      2: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/33.jpg',
+    zones: {
+      1: { text: 'The hummingbird is the smallest bird in the world.<br>Depending on the species, the smallest ones have<br>a body length of only about 5 cm. That is even<br>smaller than insects like dragonflies. Although they<br>sometimes face hardships, such as being preyed upon<br>by praying mantis or getting caught in spider webs,<br>hummingbirds are no doubt a type of bird.<br>However, this tiny bird can do several astonishing<br>things that even larger birds cannot match.<br>While hovering in one place, hummingbirds suck<br>nectar from flowers while they are in the air.<br>Maintaining a stationary position in the air with the<br>power of their wings is very challenging.', keywords: ['hummingbird', 'smallest bird', 'species', 'body length', '5 cm', 'insects', 'dragonflies', 'hardships', 'preying', 'praying mantis', 'spider webs', 'tiny bird', 'astonishing things', 'larger birds', 'hovering', 'nectar', 'flowers', 'air', 'stationary position', 'power', 'wings', 'challenge'] },
+      2: { text: 'When other birds flap their wings, they soar into the<br>air or drift with the airflow. To better understand this,<br>think of a helicopter that can stay in one place and<br>an airplane that must keep flying forward.', keywords: ['birds', 'wing flapping', 'soaring', 'air', 'drifting', 'airflow', 'understanding', 'helicopter', 'stationary position', 'airplane', 'forward flight'] },
+      3: { text: 'The hummingbird is a small bird that feeds on<br>nectar and insects. Explain how the hummingbird<br>got its name.', keywords: ['hummingbird', 'nectar', 'insects', 'name'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/34.jpg',
+    zones: {
+      1: { text: 'Moreover, hummingbirds can freely change their<br>direction, going front, back, right, left, up, and down.<br>A hummingbird\'s wings can rotate to some extent<br>around the shoulder joint, unlike other birds that can<br>only move their wings up and down.<br>The Anna\'s hummingbird, in particular, is famous for<br>being the fastest animal on Earth in relation to its<br>size. It is said to reach a speed of up to 90 km per<br>hour when descending to the ground. This speed<br>is comparable to the rate of a car on a high-speed<br>highway. Considering its small size, it moves 383<br>times its body length in one second.', keywords: ['hummingbirds', 'change direction', 'wings rotate', 'shoulder joint', 'Anna\'s hummingbird', 'fastest animal', '90 km per hour', 'high-speed highway', '383 times'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Many scientists have shown interest in the astonishing<br>and mysterious flight of the hummingbird. Recent<br>research has revealed that honeybees fly by twisting<br>their shoulder bones to rotate. Unlike other birds that<br>flap their wings up and down to ascend, hummingbirds<br>can flap their wings even when inverted. This flight<br>pattern is very similar to that of insects. This is why<br>scientists guess that hummingbirds may have evolved<br>by adopting the flight methods of insects.', keywords: ['scientists', 'interest', 'astonishing flight', 'mysterious flight', 'hummingbird', 'recent research', 'honeybees', 'twisting', 'shoulder bones', 'rotation', 'birds', 'wing flapping', 'ascending', 'inverted', 'flight pattern', 'insects', 'evolution', 'flight methods'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/35.jpg',
+    zones: {
+      1: { text: 'The oldest observatory in the East, the Cheomseongdae,<br>is located in the Gyeongju region of South Korea.<br>It was built during the reign of Queen Seondeok of<br>the Silla period. In the olden days, people observed<br>the movement of stars using the Cheomseongdae.<br>By following the motions of stars, people also<br>predicted the nation\'s future. This led to each<br>country having a government official to interpret the<br>movement of stars to predict the future.<br>As time passed and science advanced, it became<br>possible for people to understand the secrets of the<br>stars without the need for observatories like the<br>Cheomseongdae. Even without physically traveling<br>to space, various mathematical calculations and<br>scientific methods allowed people to unlock the<br>mysteries hidden in the stars.', keywords: ['oldest observatory', 'East', 'Cheomseongdae', 'Gyeongju region', 'South Korea', 'Queen Seondeok', 'Silla period', 'olden days', 'people', 'star movement', 'observations', 'star motions', 'prediction', 'nation future', 'countries', 'government officials', 'interpretation', 'time passage', 'science advancement', 'understanding', 'secrets', 'stars', 'observatories', 'physical travel', 'space', 'mathematical calculations', 'scientific methods', 'mysteries'] },
+      2: { text: 'These mysteries are of how stars are formed, what<br>they are made of, and what happens inside them.<br>As a result, we have reached enough progress to send<br>exploration robots to Mars. However, we are still far<br>from unlocking all the secrets of the vast and endless<br>universe. Human research on space still has a long<br>way to go. All the various stars and materials that<br>make up the universe are called celestial bodies.<br>Even artificial satellites launched into space,<br>including Earth, can be considered celestial bodies.', keywords: ['mysteries', 'star formation', 'composition', 'internal processes', 'progress', 'exploration robots', 'Mars', 'secrets', 'vast universe', 'endless universe', 'human research', 'space', 'long way', 'stars', 'materials', 'universe', 'celestial bodies', 'artificial satellites', 'space launch', 'Earth'] },
+      4: { text: 'Explain the meaning of celestial bodies.', keywords: ['celestial bodies', 'meaning', 'explain'], fontType: 'type2' },
+      3: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/36.jpg',
+    zones: {
+      1: { text: 'These celestial bodies are located very far away<br>from Earth. Until now, we have mainly used<br>electromagnetic waves to study the state of celestial<br>bodies. Electromagnetic waves, in the form of a pair<br>of periodically varying electric and magnetic fields,<br>travel through space. We call this phenomenon<br>electromagnetic waves. Sunlight, light from lamps,<br>and radio waves are all electromagnetic waves.<br>What happens when these electromagnetic waves<br>hit a wall? We can find out by experimenting with<br>a flashlight. When we shine a flashlight on a wall,<br>the light cannot pass through. Instead, it reflects.', keywords: ['celestial bodies', 'distance', 'Earth', 'electromagnetic waves', 'study', 'state', 'electric fields', 'magnetic fields', 'space travel', 'phenomenon', 'sunlight', 'lamp light', 'radio waves', 'wall impact', 'experimentation', 'flashlight', 'light reflection'] },
+      2: { text: 'It is the same when electromagnetic waves clash with<br>celestial bodies. Using electromagnetic waves, we can<br>only observe the surface of celestial bodies.<br>It is not easy to know what the inside of a celestial<br>body looks like and what is happening inside.<br>We urgently need new waves that can pass through<br>the surface without causing significant changes to<br>investigate the interior of a celestial body.', keywords: ['electromagnetic waves', 'clash', 'celestial bodies', 'surface observation', 'interior', 'appearance', 'internal processes', 'new waves', 'surface penetration', 'significant changes', 'interior investigation'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/37.jpg',
+    zones: {
+      3: { text: 'One day, the famous physicist Einstein announced<br>that there was a wave that fit the characteristics<br>mentioned above. It is the "spacetime churn,"<br>known as gravitational waves. This wave was first<br>introduced in one of Einstein\'s famous theories, the<br>general theory of relativity. According to the general<br>theory of relativity, every object with mass bends its<br>surrounding spacetime. What does this mean?<br>Let\'s take the example of the Earth revolving around<br>the Sun. The Earth\'s movement around the Sun is<br>called revolution. In the past, it was believed that the<br>reason for the Earth\'s revolution was the gravitational<br>pull between the Sun and the Earth.', keywords: ['Einstein', 'famous physicist', 'announcement', 'wave', 'characteristics', 'spacetime churn', 'gravitational waves', 'famous theories', 'general theory of relativity', 'objects', 'mass', 'spacetime bending', 'Earth', 'Sun', 'revolution', 'movement', 'gravitational pull'] },
+      2: { text: 'It was thought that the Earth was constantly being<br>pulled back by the Sun, preventing it from escaping.<br>However, Einstein found a different explanation for<br>the cause of the revolution. He argued that large<br>celestial bodies, like the Sun, bend the spacetime<br>surrounding it.<br>Imagine placing a heavy bowling ball on a trampoline.<br>The trampoline bends around the bowling ball. Now,<br>roll a light golf ball on the trampoline. The golf ball<br>will start circling the bowling ball.', keywords: ['Earth', 'pulling back', 'Sun', 'escape prevention', 'Einstein', 'different explanation', 'revolution cause', 'large celestial bodies', 'spacetime bending', 'heavy bowling ball', 'trampoline', 'light golf ball', 'circling'] },
+      1: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/38.jpg',
+    zones: {
+      3: { text: 'For this reason, Einstein said that the Earth orbited<br>around the Sun. However, there are cases where a star<br>explodes or clashes with something, experiencing<br>a shock. In such instances, waves generated in the<br>bent spacetime spread widely. It is like throwing<br>a stone into a pond, and ripples spread, forming<br>circles. The waves made in this process are called<br>gravitational waves. However, because the changes in<br>the distance caused by gravitational waves are very<br>small, an exceptional method is needed to observe<br>them. After much research, scientists have developed<br>instruments to measure gravitational waves.', keywords: ['Einstein', 'Earth orbit', 'Sun', 'star explosions', 'clash', 'shock', 'wave generation', 'bent spacetime', 'spreading', 'stone throwing', 'pond', 'ripples', 'circles', 'gravitational waves', 'distance changes', 'small changes', 'exceptional method', 'observation', 'research', 'scientists', 'instrument development', 'measurement'] },
+      2: { text: 'In various countries, observatories have been built to<br>detect gravitational waves. The representative ones<br>are LIGO in the United States and Virgo in Europe.<br>Three scientists, Rainer Weiss, Barry Barish, and Kip<br>Thorne, who conducted research at LIGO, directly<br>confirmed gravitational waves in 2015. As a result<br>of their contributions, they were awarded the Nobel<br>Prize in Physics in 2017.', keywords: ['countries', 'observatories', 'gravitational wave detection', 'LIGO', 'United States', 'Virgo', 'Europe', 'scientists', 'Rainer Weiss', 'Barry Barish', 'Kip Thorne', 'research', 'confirmation', '2015', 'contributions', 'Nobel Prize', 'Physics', '2017'] },
+      1: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/39.jpg',
+    zones: {
+      1: { text: 'So, by what principle can gravitational waves be<br>measured? Gravitational waves do not reflect or<br>refract like electromagnetic waves when they clash<br>with other matter. Instead, they cause changes in<br>the spacetime around the clashing matter. Therefore,<br>measuring how much spacetime have changed around<br>the matter allows us to measure gravitational waves.<br>The instrument used for this purpose is called a laser<br>interferometer. We can think of it as a tool that can<br>measure with very high accuracy. The official name of<br>LIGO is the "Laser Interferometer Gravitational-Wave<br>Observatory."', keywords: ['gravitational waves', 'measurement principle', 'reflection', 'refraction', 'electromagnetic waves', 'matter clash', 'spacetime changes', 'matter', 'measurement', 'instrument', 'laser interferometer', 'tool', 'high accuracy', 'official name', 'LIGO', 'observatory'] },
+      2: { text: 'When the length of space has changed with the<br>passing of a gravitational wave, we can determine<br>the value of the gravitational wave by measuring<br>the changed length using a laser interferometer.<br>The laser interferometer is used to make up for the<br>shortcomings of light. When light shines, the rays<br>initially travel straight, but they gradually spread in<br>all directions and weaken as they go further.<br>Just think about shining a lantern far away. As the<br>light gradually spreads sideways, the brightness<br>becomes weaker. The technology developed to<br>overcome this drawback of light is called a laser.<br>Laser beams have the property of traveling straight<br>in one direction. The intensity of the laser beam is<br>very strong, and it does not spread sideways, so it can<br>travel over long distances.', keywords: ['space length', 'gravitational wave passage', 'value determination', 'measurement', 'changed length', 'laser interferometer', 'light shortcomings', 'light rays', 'straight travel', 'spreading', 'weakening', 'lantern', 'sideways spreading', 'brightness', 'technology development', 'light drawback', 'laser', 'laser beams', 'straight travel', 'direction', 'intensity', 'sideways spreading', 'long distances'] },
+      3: { text: 'Explain what gravitational waves are.', keywords: [] , fontType: 'type2'},
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/40.jpg',
+    zones: {
+      3: { text: 'However, what happens if two light waves meet?<br>When two light waves clash, a noticeable change<br>occurs. It is like when two waves meet, a new wave<br>motif is created where each wave mixes.<br>When two waves meet each other like this and create<br>a new wave, it is called interference. The motif seen<br>at this time is called an interference fringe.', keywords: ['two light waves', 'meeting', 'clash', 'noticeable change', 'new wave', 'motif creation', 'wave mixing', 'interference', 'interference fringe'] },
+      2: { text: '02. Nature Speaks to Us Through Motifs<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying Nature</span><br><span class="larger-text">That Speaks to Us Through Motifs?</span><br><br>', keywords: ['nature speaks', 'motifs', 'studying nature'] },
+      1: { text: '', keywords: [] },
+      4: { text: 'We can tell a friend\'s mood by looking at their facial<br>expression. Sometimes, we can sense the other<br>person\'s emotions even during a conversation.<br>Different animals and plants also communicate with<br>us. Dogs and cats show friendliness by rubbing their<br>bodies against us.', keywords: ['friend mood', 'facial expression', 'emotions', 'animals', 'plants', 'communicate', 'dogs', 'cats', 'friendliness'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/41.jpg',
+    zones: {
+      1: { text: 'Plants give us information about their health through<br>the colors and motifs of their leaves.<br>It is worth emphasizing several times that people<br>can communicate with nature through motifs.<br>Mathematics is the study of unraveling the secrets<br>of nature. To solve the secrets of nature, we must<br>be able to hear what nature is telling us. To listen to<br>the whispers of nature, we must first study plants<br>and animals closely. Inchworms and leaf fish, for<br>example, use cryptic coloration to escape the eyes of<br>predators. An owl can hide itself perfectly by blending<br>seamlessly with the tree bark it is perched on.', keywords: ['plants', 'health', 'colors', 'motifs', 'leaves', 'communicate with nature', 'mathematics', 'secrets of nature', 'whispers of nature', 'inchworms', 'leaf fish', 'cryptic coloration', 'owl', 'tree bark'] },
+      2: { text: 'We can find various characteristics in the behavior of<br>the animal as well as the motif on the animal\'s body.<br>The hummingbird, for example, can flap its wings so<br>fast it can change direction freely between front,<br>back, right, left, up, and down. By using different<br>motifs and behavioral patterns found in nature, we<br>can develop advanced industrial technologies to bring<br>happiness to people. This is precisely why we study<br>this topic.', keywords: ['characteristics', 'animal behavior', 'animal body', 'hummingbird', 'flap wings', 'change direction', 'motifs', 'behavioral patterns', 'advanced industrial technologies', 'happiness'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/42.jpg',
+    zones: {
+      1: { text: '(1) Various motifs are drawn on military uniforms so that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;soldiers on a mission are not detected by the enemy.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When performing operations in the jungle and desert,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;what motifs of military uniforms should be worn in each<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case? Explain.<br><br>(2) Explain why the gaps in the growth ring of trees<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;growing in colder regions are narrower than those<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;growing in hotter regions.', keywords: ['motifs', 'military uniforms', 'soldiers', 'enemy', 'jungle', 'desert', 'growth ring', 'trees', 'colder regions', 'hotter regions'], fontType: 'type3' },
+      2: { text: '02. Nature Speaks to Us Through Motifs<br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of Nature</span><br><span class="larger-text">That Speaks to Us Through Motifs?</span><br><br>', keywords: ['nature speaks', 'motifs', 'apply study'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Ordinary light spreads in all directions. When we<br>turn on a light bulb, the entire room becomes bright.<br>Sometimes, we need to brighten a specific area with<br>intense light. While lenses can focus light at one<br>point, the light quickly spreads again.<br>However, lasers created using Einstein\'s proposed<br>theory in 1917 do not spread and travel in a straight<br>line to distant places.', keywords: ['ordinary light', 'light bulb', 'bright', 'lenses', 'focus light', 'lasers', 'Einstein', '1917', 'straight line'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/43.jpg',
+    zones: {
+      1: { text: 'Today, lasers are widely used in our daily lives.<br>In Blu-ray or DVD players, lasers are used to read<br>information. Barcode scanners use lasers to read and<br>process information. Additionally, eye doctors use<br>lasers for LASIK surgery to correct vision.<br>Laser range finders calculate distance by measuring<br>the time it takes for light given off towards an object<br>to return.', keywords: ['lasers', 'daily lives', 'Blu-ray', 'DVD players', 'barcode scanners', 'eye doctors', 'LASIK surgery', 'vision', 'laser range finders', 'calculate distance'] },
+      4: { text: 'Laser range finders are highly accurate and can<br>measure the distance of objects that are hundreds of<br>kilometers away. Lasers are also used to cut materials<br>like wood boards or steel sheets.<br>It is possible to carve detailed motifs with lasers, and<br>it is easy to cut through thick materials. Unlike cutting<br>wood with a saw, where the blade dulls and becomes<br>blunt over time, lasers do not have this issue,<br>resulting in lower maintenance costs.', keywords: ['laser range finders', 'highly accurate', 'hundreds of kilometers', 'cut materials', 'wood boards', 'steel sheets', 'carve detailed motifs', 'thick materials', 'saw', 'blade dulls', 'lower maintenance costs'] },
+      3: { text: '', keywords: [] },
+      2: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/44.jpg',
+    zones: {
+      3: { text: '(1) Gravitational waves can be said to be ripples that occur<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in spacetime. Explain why astronomers worked hard to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;discover gravitational waves.<br><br>(2) Ripples spread out in concentric circles if we toss<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a stone onto calm water. Explain what motif would<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;appear if we threw another stone into the same area?<br><br>', keywords: ['gravitational waves', 'ripples', 'spacetime', 'astronomers', 'discover', 'concentric circles', 'stone', 'calm water', 'motif'], fontType: 'type3' },
+      4: { text: 'A laser beam has the property of traveling straight in one<br>direction. The intensity of the laser beam is powerful and<br>does not spread, allowing it to travel over long distances.<br>A laser interferometer is a device that uses laser beams<br>to measure distance. The interference phenomenon of<br>laser light is more pronounced than that of ordinary light.<br>Calculating the length of a given space by using these<br>interference fringes is possible.<br><br>', keywords: ['laser beam', 'traveling straight', 'intensity', 'powerful', 'long distances', 'laser interferometer', 'measure distance', 'interference phenomenon', 'laser light', 'ordinary light', 'interference fringes'], fontType: 'type3' },
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/45.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'The gravitational wave detectors LIGO and Virgo can detect<br>even the slightest change in the length of spacetime.<br>It is a very challenging task to find each gravitational<br>wave coming from space. However, powerful gravitational<br>waves coming from star explosions can be easily detected.<br>Still, LIGO and Virgo have disadvantages, leading to<br>the development of other forms of gravitational wave<br>detectors. For instance, the Einstein Telescope is being<br>built underground at a depth of 250 to 300 meters.<br><br>(1) What might a gravitational wave detector look like in<br>reality? Imagine and describe it.<br>(2) How does the Einstein Telescope differ from LIGO and<br>Virgo? Explain.<br><br>', keywords: ['LIGO', 'Virgo', 'gravitational wave detectors', 'slightest change', 'spacetime', 'star explosions', 'disadvantages', 'Einstein Telescope', 'underground', '250 to 300 meters'], fontType: 'type4' },
+      4: { text: 'Mimicry is a type of camouflage used by animals for self-<br>protection or hunting, where their appearance or color<br>becomes similar to their surrounding environment.<br>Through mimicry, weaker animals can protect themselves,<br>and predators can successfully hunt.<br>Biologist Henry Walter Bates from the United Kingdom<br>discovered a phenomenon during his 11-year observation<br>of insects. He found that insects with weak strength and<br>poor defense abilities camouflage themselves to resemble<br>dangerous animals to avoid risks.<br><br>', keywords: ['mimicry', 'camouflage', 'animals', 'self-protection', 'hunting', 'appearance', 'color', 'surrounding environment', 'weaker animals', 'predators', 'Henry Walter Bates', 'United Kingdom', 'insects', 'weak strength', 'defense abilities', 'dangerous animals'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/46.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      1: { text: '<br>For example, some caterpillars have motifs resembling a<br>snake\'s head to prevent being seen by birds and behave<br>similarly to snakes. This phenomenon is called Batesian<br>mimicry, named after the discoverer.<br>On the other hand, Müllerian mimicry is when two or more<br>animals share similar motifs as warning colors, confusing<br>predators with little experience. For instance, tropical<br>poisonous butterflies have identical wing motifs, allowing<br>them to escape predator attacks. How do weak animals<br>that cannot use mimicry protect themselves? Write down<br>your thoughts.', keywords: ['caterpillars', 'motifs', 'snake head', 'birds', 'Batesian mimicry', 'Müllerian mimicry', 'warning colors', 'predators', 'tropical poisonous butterflies', 'wing motifs', 'weak animals'], fontType: 'type4' },
+      3: { text: '', keywords: [] },
+      2: { text: 'For a long, long time, people have watched the sky.<br>They watched the daily sunrise to determine that a year<br>consists of 365 days. By watching the Moon every night,<br>they also discovered that its shape repeats monthly.<br>Additionally, people predicted the future of nations and<br>people by watching the movements of the stars.<br>As the Moon is relatively close to the Earth, it can be seen<br>with the naked eye, leading people to create many stories<br>about it.<br><br>', keywords: ['people', 'watched sky', 'daily sunrise', '365 days', 'Moon', 'shape repeats', 'monthly', 'predicted future', 'nations', 'movements of stars', 'close to Earth', 'naked eye', 'stories'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/47.jpg',
+    zones: {
+      1: { text: '<br>The Moon does not give out light on its own. However,<br>the Moon appears to shine because of the sun\'s rays.<br>Just as the Earth orbits the sun once a year, the Moon<br>orbits the Earth once a month. Depending on the Moon\'s<br>position, the shape of the illuminated part of the Moon<br>changes. Draw the Moon\'s shape as seen from Earth when<br>it is in positions ⓐ to ⓗ in the following figure.<br><br>', keywords: ['Moon', 'light', 'shine', 'sun rays', 'Earth orbits', 'once a year', 'Moon orbits', 'once a month', 'position', 'illuminated part', 'shape', 'positions'], fontType: 'type4' },
+      3: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      4: { text: 'When an airplane has an accident or crashes, the first<br>thing we should try to find is the black box. By its name,<br>we might think the black box is black, but it is orange.<br>The term "black box" was first used in physics. Initially,<br>it meant a device or circuit designed to analyze the<br>relationship between the cause and result.<br><br>', keywords: ['airplane', 'accident', 'crashes', 'black box', 'orange', 'physics', 'device', 'circuit', 'analyze', 'relationship', 'cause', 'result'], fontType: 'type3' },
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/48.jpg',
+    zones: {
+      1: { text: '<br>The term changed to mean a device recording a plane\'s<br>flight history, machinery functioning, and cockpit<br>conversations. In other words, the black box is a device<br>that remains undamaged even in shocks or fires, providing<br>information about the flight situation just before the<br>accident. Typically installed beneath the airplane\'s tail,<br>the black box has a frequency transmitter that allows it<br>to be found even in deep water. Moreover, the black box<br>is strong enough to withstand 3,400 times its weight and<br>endure temperatures over 1000 °C for 30 minutes.<br>Explain why the black box is painted orange.<br><br>', keywords: ['device recording', 'flight history', 'machinery functioning', 'cockpit conversations', 'undamaged', 'shocks', 'fires', 'flight situation', 'airplane tail', 'frequency transmitter', 'deep water', '3,400 times', '1000 °C', '30 minutes'], fontType: 'type4' },
+      3: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      4: { text: '<strong><b><u>How to Find the Time in Different Parts of the World<br><br>The Earth is rotating on its own. This phenomenon is called<br>rotation. It is also rotating around the Sun at the same<br>time. This is called revolution. Because of the Earth\'s<br>movement, the part facing the Sun becomes day, and the<br>opposite side becomes night. In other words, the time of<br>day varies from place to place on Earth.<br>This difference in time between regions of the world is<br>called the "time zone difference." The time zone difference<br>is determined based on the prime meridian connecting the<br>North Pole, the former Greenwich Observatory in England,<br>and the South Pole.<br><br>', keywords: ['time', 'different parts', 'world', 'Earth rotating', 'rotation', 'revolution', 'Sun', 'day', 'night', 'time zone difference', 'prime meridian', 'North Pole', 'Greenwich Observatory', 'England', 'South Pole'], fontType: 'type3' },
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/49.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'The angle moved from east to west on Earth relative to<br>the prime meridian is called "longitude." In other words,<br>longitude is a position on the Earth expressed with 0° on<br>the prime meridian and 180° on the other side.<br>If we move 10° east from the prime meridian, it becomes<br>10° east longitude. If we move 20° west, it becomes 20°<br>west longitude. The time of each region on Earth changes<br>depending on longitude. The calculation method is as follows.<br>If the location changes 15° to the east at a certain point,<br>the time increases by 1 hour, and if the location changes to<br>the west by 15°, the time decreases by 1 hour.<br><br>', keywords: ['angle', 'east to west', 'Earth', 'prime meridian', 'longitude', 'position', '0°', '180°', '10° east longitude', '20° west longitude', 'time', 'region', '15°', '1 hour'] , fontType: 'type3' },
+      4: { text: 'For example, if the prime meridian time is 00:00 on March<br>3, the time at 15° E is March 3, 01:00, and the time at<br>15° W is March 2, 23:00. The 180° longitude point is called<br>the International Date Line. If we move from east to west<br>based on this point, one day is subtracted, and if we move<br>from west to east, one day is added. According to this<br>principle, if we know the longitude of each region, we can<br>find the current time.<br>However, some countries require caution. Countries such<br>as the United States and Canada use daylight saving<br>time depending on the period of the year. During daylight<br>saving time, one hour must be subtracted from the time<br>calculated in longitude. For example, if the US time<br>determined by longitude is 9:30, the actual US time during<br>daylight saving time is 8:30.<br><br>', keywords: ['prime meridian time', '00:00', 'March 3', '15° E', '01:00', '15° W', '23:00', '180° longitude', 'International Date Line', 'east to west', 'one day subtracted', 'west to east', 'one day added', 'longitude', 'current time', 'United States', 'Canada', 'daylight saving time', '9:30', '8:30'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/50.jpg',
+    zones: {
+      1: { text: '<strong><u>Explain why male animals have bright and colorful motifs.</strong></u><br><br><br><br><br><br><br><br>This is for courtship. The male adorns itself with beautiful motifs<br>to attract the female\'s attention. The more elaborate the motif,<br>the more noticeable it is to the female.', keywords: ['male animals', 'bright', 'colorful motifs', 'courtship', 'beautiful motifs', 'female attention', 'elaborate motif', 'noticeable', 'female'], fontType: 'type5' },
+      2: { text: '<br><strong><u>Explain why bowerbirds are called gardener birds.</strong></u><br><br><br><br><br><br><br><br><br>Bowerbirds construct large and impressive nests using branches,<br>flowers, and fruits. Additionally, they create small paths in front of<br>their nests. These paths are adorned with various flowers and fruits<br>of different colors, resembling a gardener\'s touch. Hence, they are<br>nicknamed gardener birds.', keywords: ['bowerbirds', 'gardener birds', 'nests', 'branches', 'flowers', 'fruits', 'paths', 'colors', 'large nests', 'impressive nests', 'small paths', 'various flowers', 'different colors', 'gardener touch', 'nickname'], fontType: 'type9' },
+      3: { text: '<strong><u>Explain the mathematical principles hidden in the bowerbird\'s nest.</strong></u><br><br>When viewed from the female\'s eye level, the decorations on the path<br>in front of the nest appear to have consistent sizes.<br>However, in reality, the sizes of these decorations vary. This illusion is<br>created by using a perspective, placing smaller decorations closer and<br>larger ones farther away.', keywords: ['mathematical principles', 'bowerbird nest', 'female eye level', 'decorations', 'consistent sizes', 'perspective', 'illusion', 'reality', 'sizes', 'smaller decorations', 'larger decorations', 'path', 'nest'], fontType: 'type8'   },
+      4: { text: '<br><strong><u>Explain what male birds-of-paradise do to be chosen by female<br><strong><u>birds-of-paradise.</strong></u><br><br><br><br><br><br><br><br>First, the male creates a stage where it can showcase an impressive<br>dance. It cleans the area meticulously, not allowing a small twig or<br>fallen leaf. Then, it decorates the surroundings with tree fruits and<br>leaves before singing to attract the female. When the female arrives,<br>perform a captivating dance to win her over.', keywords: ['male birds-of-paradise', 'female birds-of-paradise', 'stage', 'impressive dance', 'cleans area', 'decorates', 'singing', 'captivating dance', 'small twig', 'fallen leaf', 'tree fruits', 'leaves', 'surroundings', 'area'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/51.jpg',
+    zones: {
+      1: { text: '<strong><u>Explain why butterflies in the East Asia region have colorful wing<br><strong><u>motifs.</strong></u><br><br><br><br><br><br><br><br><br>Because so many different species of butterflies live together in<br>the same area, they needed a way to distinguish each other. They<br>recognize and find their mates through the motifs on their wings.', keywords: ['butterflies', 'East Asia region', 'colorful wing motifs', 'different species', 'distinguish', 'recognize', 'mates', 'species', 'area', 'way', 'wings', 'motifs'], fontType: 'type8' },
+      2: { text: '<strong><u>Explain the reason fireflies give off light.</strong></u><br><br><br><br><br><br><br><br><br>Fireflies emit light to engage in courtship. The longer a given signal is<br>shown with a strong light, the higher the chance of being chosen by<br>a female. Fireflies\' light is also used to scare enemies. It is also used<br>as a means of communication between colleagues.', keywords: ['fireflies', 'give off light', 'courtship', 'signal', 'strong light', 'female', 'scare enemies', 'communication', 'light', 'signal', 'chance', 'enemies', 'colleagues', 'means'], fontType: 'type8' },
+      3: { text: '<strong><u>Explain why animals put so much time and effort into mating.</strong></u><br><br><br><br><br><br><br><br><br><br>It is precisely to leave offspring. All living organisms, not just animals,<br>instinctively seek to propagate and leave behind offspring that<br>resemble them.<br><br>', keywords: ['animals', 'time', 'effort', 'mating', 'leave offspring', 'living organisms', 'propagate', 'resemble', 'offspring', 'organisms', 'instinctively'], fontType: 'type8' },
+      4: { text: '<strong><u>Explain how the female three-spined stickleback chooses a mate.</strong></u><br><br><br><br><br><br><br><br>The female three-spined stickleback observes the male\'s body<br>color over time. The duration for which the male maintains vibrant<br>and beautiful colors is crucial. Only a healthy male can sustain an<br>attractive body color for an extended period.<br><br>', keywords: ['female three-spined stickleback', 'chooses mate', 'male body color', 'vibrant colors', 'beautiful colors', 'healthy male', 'attractive body color', 'body color', 'duration', 'colors', 'period', 'male'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/52.jpg',
+    zones: {
+      
+      1: { text: '<br>(1) <strong><u>In nature, male animals often have more colorful motifs<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>than females. Explain why male animals adorn themselves<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>beautifully.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In most cases, the pairing of a male and female in the animal<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kingdom is primarily determined by the intentions of the female.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That means the male must exert more effort to find a mate,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and even if he persists, the male must seek another mate if the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;female rejects him. Generally, in the animal kingdom, males and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;females do not jointly care for offspring, and the responsibility of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;giving birth and nurturing their young falls mainly on the female.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Therefore, the role of the female in the reproduction of species<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is more significant than that of the male. For this reason, males<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signal their health and vitality to females by displaying vibrant<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;motifs, striving to be chosen.</strong></u>', keywords: ['nature', 'male animals', 'colorful motifs', 'females', 'animal kingdom', 'pairing', 'female intentions', 'offspring', 'reproduction', 'health', 'vitality', 'cases', 'pairing', 'intentions', 'effort', 'mate', 'rejects', 'kingdom', 'responsibility', 'birth', 'nurturing', 'young', 'role', 'species', 'reason', 'signal', 'vibrant motifs'], fontType: 'type7' },
+      2: { text: '<br>(2) <strong><u>Having colorful motifs makes it difficult to survive in nature<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>as it attracts the attention of predators. Nevertheless, why do<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>male animals keep their motifs?</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The purpose is to succeed in reproduction and maintain the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;species. While lacking vibrant colors or motifs may provide an<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;advantage in surviving predators, the organism cannot sustain<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the species without offspring. In other words, rather than<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;safeguarding a life that will eventually end, the focus is on<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;successful mating to ensure the continuation of the species by<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;possessing striking motifs.</strong></u>', keywords: ['colorful motifs', 'survive', 'nature', 'predators', 'male animals', 'reproduction', 'maintain species', 'vibrant colors', 'offspring', 'successful mating', 'striking motifs', 'attention', 'difficult', 'advantage', 'organism', 'sustain', 'words', 'safeguarding', 'life', 'focus', 'continuation', 'purpose'], fontType: 'type7' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/53.jpg',
+    zones: {
+      1: { text: '<br>(1) <strong><u>Perspective is a technique of drawing nearby objects larger<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>and distant ones smaller. How would we describe the feeling<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>of looking at a picture that ignores perspective?</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The sensation feels unrealistic, and distinguishing the distance<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of objects is challenging. When drawing a landscape, if we depict<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;something far away as big as something close, it becomes difficult<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to discern what is far and what is near.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;However, like in surrealistic art, expressing a piece without being<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;confined by perspective can evoke a unique feeling.</strong></u>', keywords: ['perspective', 'technique', 'drawing', 'nearby objects', 'distant ones', 'unrealistic', 'distance', 'landscape', 'surrealistic art', 'unique feeling', 'sensation', 'objects', 'challenging', 'landscape', 'depict', 'something', 'difficult', 'discern', 'art', 'piece', 'feeling'], fontType: 'type7' },
+      2: { text: '(2) <strong><u>Desires are the emotional or mental drives to want something<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>or achieve a specific goal. Explain what kinds of desires<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>people may have.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Firstly, like other organisms, there are appetites and sleep desires.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Appetite is the desire to eat when hungry, and the desire for<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sleep is to rest when tired. Among the desires unique to humans<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is a desire for worldly desires. Worldly desires is the longing to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;acquire many objects or wealth.</strong></u>', keywords: ['desires', 'emotional', 'mental drives', 'specific goal', 'organisms', 'appetites', 'sleep desires', 'hungry', 'tired', 'humans', 'worldly desires', 'wealth', 'drives', 'goal', 'appetites', 'sleep', 'rest', 'longing', 'objects', 'wealth'], fontType: 'type7' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/54.jpg',
+    zones: {
+      1: { text: '<strong><u>Darwin introduced the concept of "sexual selection" as an addition<br><strong><u>to the theory of natural selection. What do people think this<br><strong><u>theory is about? Explain.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Only males chosen by females can transmit their genes to offspring.<br>Therefore, males evolve with favorable traits to be selected by<br>females, known as sexual selection theory. The traditional theory<br>of natural selection claimed evolution as an adaptation to the<br>environment just for survival. Many exceptions that could not<br>be explained by this were explained by sexual selection theory.<br>However, Darwin\'s theory of evolution has several issues. Let\'s<br>examine one of them. Darwin believed that when animals or humans<br>marry, the parents\' traits blend and are passed on to their offspring.<br>For example, if a tall father marries a short mother, the child\'s height<br>will be average. However, in reality, it is not always the case. A tall<br>child or a short child can be born. Nevertheless, Darwin\'s assertion is<br>highly regarded today as a groundbreaking study. His theory laid the<br>foundation for numerous scientists to embark on new research.', keywords: ['Darwin', 'sexual selection', 'natural selection', 'males', 'females', 'genes', 'offspring', 'evolution', 'traits', 'environment', 'survival', 'theory', 'concept', 'addition', 'favorable traits', 'traditional theory', 'adaptation', 'exceptions', 'issues', 'animals', 'humans', 'parents traits', 'blend', 'father', 'mother', 'child height', 'reality', 'case', 'assertion', 'groundbreaking study', 'foundation', 'scientists', 'research'], fontType: 'type8' },
+      2: { text: '<strong><u>Two males cannot mate and give birth to young. Explain why the<br><strong><u>deep-sea squid acts like this.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Deep-sea squid have a solitary lifestyle, making encounters between<br>females and males rare. Furthermore, the appearance of females and<br>males is quite similar. Therefore, rather than waiting for an uncertain<br>mate, engaging in visible mating would be more advantageous for<br>reproduction. The short lifespan of deep-sea squid may also have<br>influenced such behavior. Engaging in mating without distinction<br>between females and males could increase the reproduction success<br>rate compared to not mating and dying.', keywords: ['males', 'mate', 'birth', 'young', 'deep-sea squid', 'solitary lifestyle', 'encounters', 'females', 'appearance', 'similar', 'uncertain mate', 'reproduction', 'short lifespan', 'behavior', 'success rate', 'lifestyle', 'encounters', 'appearance', 'visible mating', 'advantageous', 'lifespan', 'distinction', 'dying'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/55.jpg',
+    zones: {
+      1: { text: '<strong><u>Although ultraviolet and infrared rays are invisible to our eyes,<br><strong><u>they are widely used in our daily lives. Write down some<br><strong><u>technologies that use ultraviolet and infrared rays.</strong></u><br><br>Infrared rays do not have a significant impact on the human body.<br>A representative technology that utilizes infrared rays is the thermal<br>imaging camera. The thermal imaging camera detects temperature<br>differences using infrared rays and converts them into images visible<br>to the human eye. This equipment is used to check for remaining<br>embers at a fire scene or measure the body temperature of people<br>entering hospitals. Infrared rays are also used to restore erased<br>letters. Even if letters written on paper are covered with a ballpoint<br>pen, infrared imaging can reveal the original writing.<br>Ultraviolet rays can be utilized to find fingerprints or bloodstains.<br>Shining ultraviolet rays on invisible fingerprints uses the principle<br>that fingerprints reflect ultraviolet rays. In the case of bloodstains,<br>the areas where blood splattered appear black when ultraviolet rays<br>are applied because they absorb ultraviolet rays. Ultraviolet rays<br>are also used to eliminate bacteria. Due to its short wavelength,<br>ultraviolet rays penetrate bacterial, viral, and fungal cell membranes.<br>As a result, cells are destroyed, leading to the death of bacteria.', keywords: ['ultraviolet rays', 'infrared rays', 'invisible', 'daily lives', 'technologies', 'thermal imaging camera', 'temperature differences', 'fire scene', 'hospitals', 'fingerprints', 'bloodstains', 'bacteria', 'cell membranes', 'eyes', 'impact', 'human body', 'representative technology', 'equipment', 'embers', 'body temperature', 'people', 'letters', 'paper', 'ballpoint pen', 'original writing', 'principle', 'areas', 'blood', 'wavelength', 'viral', 'fungal', 'cells', 'death'], fontType: 'type3' },
+      2: { text: '<strong><u>We humans have many different needs. Explain the positive and<br><strong><u>negative effects that come from people having these needs.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Needs have positive effects that invigorate people. Striving diligently<br>each day to achieve a better life and higher status is driven by the<br>need for improvement. Moreover, needs serve as a driving force for<br>societal advancement. For instance, the need to leave one\'s mark on<br>the world manifests in various forms. Inventing machines that make<br>life more comfortable or creating new theories propels society to<br>progress.<br>On the contrary, there are negative effects when needs remain<br>unfulfilled. People may fall into despair or become lethargic. The fear<br>of taking on new challenges may arise, and an atmosphere focused<br>solely on oneself might emerge.', keywords: ['humans', 'different needs', 'positive effects', 'negative effects', 'invigorate', 'better life', 'higher status', 'improvement', 'driving force', 'societal advancement', 'machines', 'theories', 'progress', 'unfulfilled', 'despair', 'lethargic', 'challenges', 'needs', 'effects', 'people', 'life', 'status', 'force', 'advancement', 'mark', 'world', 'forms', 'comfortable', 'society', 'contrary', 'fear', 'atmosphere'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/56.jpg',
+    zones: {
+      1: { text: '<strong><u>What can we learn from the growth rings of trees?</strong></u><br><br><br><br><br><br><br><br><br>Counting the growth rings on a tree reveals how old the tree is.<br>Additionally, by examining the gaps of the growth rings, we can<br>determine when the tree experienced significant growth or gained<br>weight. Moreover, we can also discern which winter was the coldest<br>and which summer had abundant rainfall.', keywords: ['growth rings', 'trees', 'counting', 'tree age', 'gaps', 'significant growth', 'weight', 'winter', 'coldest', 'summer', 'rainfall', 'tree', 'age', 'gaps', 'growth', 'weight', 'winter', 'summer', 'rainfall'], fontType: 'type7' },
+      2: { text: '<strong><u>Briefly explain why animals have cryptic coloration.</strong></u><br><br><br><br><br><br><br><br><br>For weak animals to survive in nature, it is crucial not to be easily<br>seen by predators. Cryptic coloration serves that function. Thanks to<br>it, these animals can live safely. Conversely, some animals use cryptic<br>coloration to avoid being detected by their prey.', keywords: ['animals', 'cryptic coloration', 'weak animals', 'survive', 'nature', 'predators', 'live safely', 'prey', 'weak animals', 'survive', 'nature', 'predators', 'function', 'animals', 'coloration', 'prey'], fontType: 'type7' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/57.jpg',
+    zones: {
+      1: { text: '<strong><u>The hummingbird is a small bird that feeds on nectar and insects.<br><strong><u>Explain how the hummingbird got its name.</strong></u><br><br><br><br><br><br><br><br><br>The flapping sound of a hummingbird\'s wings is quite distinct from<br>other birds. Because they flap their wings dozens of times per second,<br>we hear a cheerful humming sound. They are named hummingbirds<br>because they make the sound of flapping wings like a bee.', keywords: ['hummingbird', 'small bird', 'nectar', 'insects', 'flapping sound', 'wings', 'distinct', 'dozens of times', 'second', 'humming sound', 'bee', 'bird', 'nectar', 'insects', 'sound', 'wings', 'times', 'sound', 'name', 'bee'], fontType: 'type8' },
+      2: { text: '<strong><u>Explain the meaning of celestial bodies.</strong></u><br><br><br><br><br><br><br><br><br>All the stars and materials that make up the universe are collectively<br>called celestial bodies. This includes the Sun, Moon, and even<br>artificial satellites launched by humans.', keywords: ['celestial bodies', 'stars', 'materials', 'universe', 'collectively', 'Sun', 'Moon', 'artificial satellites', 'humans', 'stars', 'materials', 'universe', 'meaning', 'satellites'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '<strong><u>Explain what gravitational waves are.</strong></u><br><br><br><br><br><br><br><br><br>There are cases where a star explodes or clashes with something,<br>experiencing a shock. In such instances, waves generated in the bent<br>spacetime spread widely. It is similar to throwing a stone into a pond,<br>causing ripples to form concentric circles. These waves are called<br>gravitational waves.', keywords: ['gravitational waves', 'star explodes', 'clashes', 'shock', 'waves', 'bent spacetime', 'spread widely', 'stone', 'pond', 'ripples', 'concentric circles', 'cases', 'star', 'clashes', 'shock', 'waves', 'spacetime', 'stone', 'pond', 'ripples', 'circles'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/58.jpg',
+    zones: {
+      1: { text: '<br><strong><u>(1) Various motifs are drawn on military uniforms so that soldiers<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>on a mission are not detected by the enemy.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>When performing operations in the jungle and desert, what<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>motifs of military uniforms should be worn in each case?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Explain.</strong></u><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the jungle, military uniforms with green and brown motifs are<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;preferred. The jungle is abundant with trees and grass.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The tree trunks have a lot of brown, while the leaves and grass<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;have a lot of green. Therefore, the green and brown motifs are<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;suitable for camouflage. In the desert, it is advisable to wear<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uniforms with light brown and ocher motifs, reflecting the color<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of desert sand.</strong></u>', keywords: ['motifs', 'military uniforms', 'soldiers', 'mission', 'enemy', 'jungle', 'desert', 'green', 'brown', 'trees', 'grass', 'camouflage', 'light brown', 'ocher', 'desert sand', 'various motifs', 'uniforms', 'soldiers', 'mission', 'enemy', 'operations', 'jungle', 'desert', 'case', 'preferred', 'trees', 'grass', 'tree trunks', 'leaves', 'camouflage', 'color', 'sand'], fontType: 'type7' },
+      2: { text: '<br>(2) <strong><u>Explain why the gaps in the growth ring of trees growing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>in colder regions are narrower than those growing in hotter<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>regions.</strong></u><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The thickness of growth rings depends on how a tree grows.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As a tree grows, not only does its length increase, but its<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thickness also grows. Trees thrive and grow thicker in warm<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;regions with sufficient water and nutrients. Consequently, trees<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grow much thicker in hotter regions each year, while in colder<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;regions, they grow less thick. Hence, the growth ring intervals of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trees are narrower in colder regions.</strong></u>', keywords: ['gaps', 'growth ring', 'trees', 'colder regions', 'hotter regions', 'thickness', 'length', 'thrive', 'warm regions', 'water', 'nutrients', 'intervals', 'growth rings', 'trees', 'regions', 'thickness', 'length', 'thrive', 'warm regions', 'water', 'nutrients', 'year', 'intervals'], fontType: 'type7' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/59.jpg',
+    zones: {
+      
+      1: { text: '(1) <strong><u>Gravitational waves can be said to be ripples that occur in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>spacetime. Explain why astronomers worked hard to discover<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>gravitational waves.</strong></u><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is to discover celestial bodies in space or understand events<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;occurring within them. Gravitational waves are phenomena where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the bending of spacetime ripples out like waves when a celestial<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body undergoes a significant impact or explosion.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Therefore, by detecting gravitational waves and confirming their<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;magnitude and direction, we can deduce that a celestial body<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;experienced a crash or explosion at a particular point in the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;universe. Subsequently, observing that point allows us to discover<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;previously unknown celestial bodies or confirm events within<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a known celestial body.</strong></u>', keywords: ['gravitational waves', 'ripples', 'spacetime', 'astronomers', 'discover', 'celestial bodies', 'events', 'bending', 'impact', 'explosion', 'magnitude', 'direction', 'crash', 'universe', 'waves', 'spacetime', 'astronomers', 'discover', 'celestial bodies', 'events', 'bending', 'impact', 'explosion', 'magnitude', 'direction', 'crash', 'universe', 'point', 'observing', 'unknown', 'known'], fontType: 'type7' },
+      2: { text: '<br><br>(2) <strong><u>Ripples spread out in concentric circles if we toss a stone<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>onto calm water. Explain what motif would appear if we threw<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;another stone into the same area?</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In simpler terms, two concentric motifs emerge. Upon closer<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examination of these concentric circles, we find areas where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the crests of the waves meet, where high points meet low points,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and where low points meet other low points. When the crests of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the waves meet, they rise to twice their original height.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When the low points meet, they sink to twice their original depth.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When high points meet low points, the waves neither rise nor<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sink from their initial surface. As a result, the motif of the waves<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spreading out becomes more pronounced. In other words, areas<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;that have doubled in height appear brighter, while areas that have<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doubled in depth appear darker and denser.</strong></u>', keywords: ['ripples', 'concentric circles', 'stone', 'calm water', 'motif', 'concentric motifs', 'crests', 'waves', 'high points', 'low points', 'height', 'depth', 'brighter', 'darker', 'denser', 'circles', 'stone', 'water', 'motif', 'concentric motifs', 'examination', 'areas', 'crests', 'waves', 'points', 'height', 'depth', 'surface', 'result', 'areas', 'words'], fontType: 'type6' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/60.jpg',
+    zones: {
+      1: { text: '<strong><u>The gravitational wave detectors LIGO and Virgo can detect even<br><strong><u>the slightest change in the length of spacetime. It is a very<br><strong><u>challenging task to find each gravitational wave coming from<br><strong><u>space. However, powerful gravitational waves coming from star<br><strong><u>explosions can be easily detected. Still, LIGO and Virgo have<br><strong><u>disadvantages, leading to the development of other forms of<br><strong><u>gravitational wave detectors. For instance, the Einstein Telescope<br><strong><u>is being built underground at a depth of 250 to 300 meters.<br>(1) <strong><u>What might a gravitational wave detector look like in reality?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Imagine and describe it.</strong></u><br><br><br><br><br><br><br><br><br><br>LIGO is a gravitational wave observatory installed in Washington and<br>Louisiana, USA. It is structured with two vacuum tunnels of equal<br>length that meet perpendicularly. Mirrors are installed at the ends of<br>both tunnels and at the point where the two tunnels meet, there is<br>a laser-emitting device. At this point, laser beams are simultaneously<br>shot toward both tunnels. The laser beams reflected by the mirrors<br>at the ends of the two tunnels come back and intersect, creating an<br>interference fringe.', keywords: ['LIGO', 'Virgo', 'gravitational wave detectors', 'spacetime', 'challenging', 'star explosions', 'disadvantages', 'Einstein Telescope', 'underground', '250 to 300 meters', 'Washington', 'Louisiana', 'vacuum tunnels', 'perpendicularly', 'mirrors', 'laser-emitting device', 'interference fringe', 'detectors', 'change', 'length', 'spacetime', 'task', 'gravitational wave', 'space', 'explosions', 'development', 'forms', 'telescope', 'depth', 'meters', 'observatory', 'tunnels', 'length', 'mirrors', 'device', 'beams', 'intersect', 'fringe'], fontType: 'type3' },
+      2: { text: 'However, what happens if a gravitational wave from space passes<br>through the Earth? In that case, small changes will occur in the<br>surrounding spacetime of every object encountering that wave.<br>The lengths of the two tunnels will also change in different ways.<br>We can detect gravitational waves by measuring the difference in<br>length of the interference fringe created by the light coming back<br>from the ends of the two tunnels.', keywords: ['gravitational wave', 'space', 'Earth', 'small changes', 'surrounding spacetime', 'object', 'tunnels', 'different ways', 'detect', 'measuring', 'difference', 'interference fringe', 'light', 'wave', 'space', 'Earth', 'changes', 'spacetime', 'object', 'tunnels', 'ways', 'detect', 'measuring', 'difference', 'fringe', 'light', 'ends'], fontType: 'type3'},
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/61.jpg',
+    zones: {
+      1: { text: '(2) <strong><u>How does the Einstein Telescope differ from LIGO and Virgo?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Explain.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIGO is an observatory erected above the ground. However, detecting<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gravitational waves accurately on the surface is challenging due to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;various vibrations caused by different types of movements, such as<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the motion of cars or vibrations from construction sites.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nonetheless, if the apparatus is placed underground, it can reduce<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;such interference factors. Additionally, the lengths of the two<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;devices differ. LIGO\'s tunnel length is only 4 km, while the tunnel of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the Einstein Telescope, for example, exceeds twice that length at<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10 km.</strong></u>', keywords: ['Einstein Telescope', 'LIGO', 'Virgo', 'observatory', 'above ground', 'detecting', 'gravitational waves', 'surface', 'vibrations', 'movements', 'cars', 'construction sites', 'underground', 'interference factors', 'tunnel length', '4 km', '10 km', 'telescope', 'observatory', 'ground', 'detecting', 'waves', 'surface', 'vibrations', 'movements', 'cars', 'sites', 'underground', 'factors', 'length', 'km', 'devices'], fontType: 'type3' },
+      2: { text: '<strong><u>How do weak animals that cannot use mimicry protect themselves?<br><strong><u>Write down your thoughts.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Consider ways to avoid the predator\'s gaze without using mimicry.<br>There is a method of living by drilling holes in the ground or trees and<br>staying inside them. During the predator\'s active daytime, one can<br>hide in the hole and come out at night to search for food.<br>Another method is befriending other animals that the predator fears.<br>While the crocodile bird cleans the inside of a crocodile\'s mouth,<br>it can avoid attacks from predators like eagles and hawks.<br>The Sipalinus gigas, opossum, and hog-nosed snake play dead when<br>they sense danger to escape the threat. Sardines swim in schools to<br>make them look like a large fish to deter predators.', keywords: ['weak animals', 'mimicry', 'protect', 'predator gaze', 'drilling holes', 'ground', 'trees', 'daytime', 'night', 'food', 'befriending', 'crocodile bird', 'crocodile mouth', 'eagles', 'hawks', 'Sipalinus gigas', 'opossum', 'hog-nosed snake', 'play dead', 'sardines', 'schools', 'large fish', 'animals', 'mimicry', 'protect', 'gaze', 'holes', 'ground', 'trees', 'daytime', 'night', 'food', 'method', 'animals', 'bird', 'mouth', 'eagles', 'hawks', 'snake', 'sardines', 'schools', 'fish', 'predators'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.4/62.jpg',
+    zones: {
+      1: { text: '<strong><u>Draw the Moon\'s shape as seen from Earth when it is in positions<br><strong><u>ⓐ to ⓗ in the following figure.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>When the Moon is at ⓐ, only the right half is illuminated. As the<br>Moon rotates counterclockwise, the left side swells and becomes<br>a full moon when it reaches ⓒ. Subsequently, the Moon gradually<br>diminishes from the left, and at ⓖthe bright portion is no longer<br>visible.', keywords: ['Moon shape', 'Earth', 'positions', 'right half', 'illuminated', 'rotates', 'counterclockwise', 'left side', 'swells', 'full moon', 'gradually', 'diminishes', 'bright portion'], fontType: 'type3' },
+      2: { text: '<strong><u>Explain why the black box is painted orange.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Examining the photographs of the airplane crash site, we can<br>observe that various parts of the airplane, such as the fuselage, tail,<br>and wings, are scattered into pieces. Sometimes, the wreckage is<br>dispersed over several kilometers. Even if a location transmitter is<br>attached to the black box, determining the precise position of the<br>black box can be challenging.<br>Ultimately, individuals must manually search for the black box.<br>The orange color makes it more noticeable than other colors.<br>From a distance, orange maintains a high saturation level, allowing<br>its color to be discernible. In order to find the black box as quickly as<br>possible, the black box is colored orange.', keywords: ['black box', 'painted orange', 'airplane crash site', 'fuselage', 'tail', 'wings', 'scattered', 'wreckage', 'kilometers', 'location transmitter', 'precise position', 'manually search', 'noticeable', 'distance', 'high saturation', 'discernible', 'quickly'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  }
+];
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
 </body>
 </html> 
