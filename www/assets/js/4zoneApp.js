@@ -877,11 +877,19 @@ function renderYoutubeResults(items) {
             el.onclick = function() {
                 const vid = this.dataset.videoid;
                 if (vid) {
-                    // 모든 기기에서 Plyr 팝업 뷰어 사용
+                    // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
+                    const isWebView = /WebView|wv|Android.*Version\\/[0-9]|iPhone.*Safari\\/[0-9]/.test(navigator.userAgent);
+                    
+                    // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
+                    const popupOptions = isWebView ? 
+                        'width=800,height=600,left=50,top=50,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no' :
+                        'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes';
+                    
+                    // 모든 환경에서 Plyr 팝업 뷰어 사용
                     const popup = window.open(
                         '',
                         'youtube_viewer',
-                        'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes'
+                        popupOptions
                     );
                     
                     // 팝업이 차단된 경우 처리
@@ -891,7 +899,7 @@ function renderYoutubeResults(items) {
                         return;
                     }
                         
-                        // Plyr 기반 커스텀 뷰어 HTML 생성
+                    // Plyr 기반 커스텀 뷰어 HTML 생성
                     popup.document.write(`
                         <!DOCTYPE html>
                         <html>
@@ -963,7 +971,7 @@ function renderYoutubeResults(items) {
                             </div>
                             <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
                             <script>
-                                // 창을 최대화
+                                // 창을 최대화 (웹뷰가 아닌 경우에만)
                                 try {
                                     window.moveTo(0, 0);
                                     window.resizeTo(screen.availWidth, screen.availHeight);
