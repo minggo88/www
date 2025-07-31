@@ -877,7 +877,7 @@ function renderYoutubeResults(items) {
             el.onclick = function() {
                 const vid = this.dataset.videoid;
                 if (vid) {
-                    // Plyr 기반 최대화된 뷰어 창 생성
+                    // 모든 기기에서 Plyr 팝업 뷰어 사용
                     const popup = window.open(
                         '',
                         'youtube_viewer',
@@ -886,11 +886,12 @@ function renderYoutubeResults(items) {
                     
                     // 팝업이 차단된 경우 처리
                     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-                        alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
+                        // 팝업이 차단되면 새 탭으로 YouTube 열기
+                        window.open(`https://www.youtube.com/watch?v=${vid}`, '_blank');
                         return;
                     }
-                    
-                    // Plyr 기반 커스텀 뷰어 HTML 생성
+                        
+                        // Plyr 기반 커스텀 뷰어 HTML 생성
                     popup.document.write(`
                         <!DOCTYPE html>
                         <html>
