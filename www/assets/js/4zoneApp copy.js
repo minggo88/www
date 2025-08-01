@@ -829,7 +829,9 @@ function renderYoutubeResults(items) {
         html = items.map((item, idx) => `
             <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
                 <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
-                    <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
+                    <img src="${item.snippet.thumbnails.default.url}" 
+                         style="width:120px;height:90px;margin-right:1em;object-fit:cover;border-radius:8px;"
+                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiB2aWV3Qm94PSIwIDAgMTIwIDkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjZjBmMGYwIi8+CjxwYXRoIGQ9Ik02MCA0NUw0NSA2MEg3NUw2MCA0NVoiIGZpbGw9IiNjY2NjY2MiLz4KPHN2Zz4K'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center';">
                 </div>
                 <div>
                     <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
@@ -870,187 +872,183 @@ function renderYoutubeResults(items) {
     // 검색 결과를 표시
     document.getElementById('search-iframe-wrap').innerHTML = html;
     
-
-    
     setTimeout(() => {
         document.querySelectorAll('.yt-thumb-title').forEach(el => {
             el.onclick = function() {
                 const vid = this.dataset.videoid;
-                const itemDiv = this.closest('.yt-result-item');
-                
-                
-                
-                // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
-                const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
-                
-                // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
-                const popupOptions = isWebView ? 
-                    'width=800,height=600,left=50,top=50,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no' :
-                    'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes';
-                
-                // 모든 환경에서 Plyr 팝업 뷰어 사용
-                const popup = window.open(
-                    '',
-                    'youtube_viewer',
-                    popupOptions
-                );
-                
-                // 팝업이 차단된 경우 처리
-                if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-                    // 팝업이 차단되면 새 탭으로 YouTube 열기
-                    window.open(`https://www.youtube.com/watch?v=${vid}`, '_blank');
-                    return;
-                }
+                if (vid) {
+                    // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
+                    const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
                     
-                // Plyr 기반 커스텀 뷰어 HTML 생성
-                popup.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>YouTube Video Viewer</title>
-                        <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-                        <style>
-                            body {
-                                margin: 0;
-                                padding: 0;
-                                font-family: Arial, sans-serif;
-                                background: #000;
-                                overflow: hidden;
-                            }
-                            .video-container {
-                                position: relative;
-                                width: 100vw;
-                                height: 100vh;
-                                display: flex;
-                                flex-direction: column;
-                            }
-                            .close-btn {
-                                position: absolute;
-                                top: 10px;
-                                right: 10px;
-                                background: rgba(0,0,0,0.7);
-                                color: white;
-                                border: none;
-                                border-radius: 50%;
-                                width: 40px;
-                                height: 40px;
-                                font-size: 20px;
-                                cursor: pointer;
-                                z-index: 1000;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                transition: background 0.2s;
-                            }
-                            .close-btn:hover {
-                                background: rgba(255,0,0,0.8);
-                            }
-                            .plyr {
-                                width: 100%;
-                                height: 100%;
-                            }
-                            .plyr__video-wrapper {
-                                height: 100vh !important;
-                            }
-                            .plyr__video {
-                                height: 100vh !important;
-                            }
-                            .loading {
-                                position: absolute;
-                                top: 50%;
-                                left: 50%;
-                                transform: translate(-50%, -50%);
-                                color: white;
-                                font-size: 18px;
-                                z-index: 999;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="video-container">
-                            <button class="close-btn" onclick="window.close()">×</button>
-                            <div class="loading">로딩 중...</div>
-                            <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${vid}"></div>
-                        </div>
-                        <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-                        <script>
-                            // 창을 최대화 (웹뷰가 아닌 경우에만)
-                            try {
-                                window.moveTo(0, 0);
-                                window.resizeTo(screen.availWidth, screen.availHeight);
-                                window.focus();
-                                
-                                // 추가로 최대화 시도
-                                setTimeout(() => {
-                                    try {
-                                        window.resizeTo(screen.availWidth, screen.availHeight);
-                                        window.moveTo(0, 0);
-                                    } catch (e) {
-                                        console.log('추가 최대화 실패:', e);
-                                    }
-                                }, 100);
-                                
-                                // ESC 키로 최대화 해제 방지
-                                document.addEventListener('keydown', function(e) {
-                                    if (e.key === 'Escape') {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                    }
-                                });
-                                
-                                // Plyr 플레이어 초기화
+                    // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
+                    const popupOptions = isWebView ? 
+                        'width=800,height=600,left=50,top=50,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no' :
+                        'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes';
+                    
+                    // 모든 환경에서 Plyr 팝업 뷰어 사용
+                    const popup = window.open(
+                        '',
+                        'youtube_viewer',
+                        popupOptions
+                    );
+                    
+                    // 팝업이 차단된 경우 처리
+                    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+                        // 팝업이 차단되면 새 탭으로 YouTube 열기
+                        window.open(`https://www.youtube.com/watch?v=${vid}`, '_blank');
+                        return;
+                    }
+                        
+                    // Plyr 기반 커스텀 뷰어 HTML 생성
+                    popup.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>YouTube Video Viewer</title>
+                            <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+                            <style>
+                                body {
+                                    margin: 0;
+                                    padding: 0;
+                                    font-family: Arial, sans-serif;
+                                    background: #000;
+                                    overflow: hidden;
+                                }
+                                .video-container {
+                                    position: relative;
+                                    width: 100vw;
+                                    height: 100vh;
+                                    display: flex;
+                                    flex-direction: column;
+                                }
+                                .close-btn {
+                                    position: absolute;
+                                    top: 10px;
+                                    right: 10px;
+                                    background: rgba(0,0,0,0.7);
+                                    color: white;
+                                    border: none;
+                                    border-radius: 50%;
+                                    width: 40px;
+                                    height: 40px;
+                                    font-size: 20px;
+                                    cursor: pointer;
+                                    z-index: 1000;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: background 0.2s;
+                                }
+                                .close-btn:hover {
+                                    background: rgba(255,0,0,0.8);
+                                }
+                                .plyr {
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                                .plyr__video-wrapper {
+                                    height: 100vh !important;
+                                }
+                                .plyr__video {
+                                    height: 100vh !important;
+                                }
+                                .loading {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    color: white;
+                                    font-size: 18px;
+                                    z-index: 999;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="video-container">
+                                <button class="close-btn" onclick="window.close()">×</button>
+                                <div class="loading">로딩 중...</div>
+                                <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${vid}"></div>
+                            </div>
+                            <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+                            <script>
+                                // 창을 최대화 (웹뷰가 아닌 경우에만)
                                 try {
-                                    const player = new Plyr('#player', {
-                                        controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
-                                        autoplay: true,
-                                        muted: false,
-                                        hideControls: true,
-                                        resetOnEnd: true,
-                                        keyboard: { focused: true, global: true },
-                                        tooltips: { controls: true, seek: true },
-                                        captions: { active: true, language: 'auto', update: true },
-                                        fullscreen: { enabled: true, fallback: true, iosNative: true }
+                                    window.moveTo(0, 0);
+                                    window.resizeTo(screen.availWidth, screen.availHeight);
+                                    window.focus();
+                                    
+                                    // 추가로 최대화 시도
+                                    setTimeout(() => {
+                                        try {
+                                            window.resizeTo(screen.availWidth, screen.availHeight);
+                                            window.moveTo(0, 0);
+                                        } catch (e) {
+                                            console.log('추가 최대화 실패:', e);
+                                        }
+                                    }, 100);
+                                    
+                                    // ESC 키로 최대화 해제 방지
+                                    document.addEventListener('keydown', function(e) {
+                                        if (e.key === 'Escape') {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                        }
                                     });
                                     
-                                    // 플레이어 이벤트 리스너
-                                    player.on('ready', () => {
-                                        console.log('Plyr player is ready');
+                                    // Plyr 플레이어 초기화
+                                    try {
+                                        const player = new Plyr('#player', {
+                                            controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                                            autoplay: true,
+                                            muted: false,
+                                            hideControls: true,
+                                            resetOnEnd: true,
+                                            keyboard: { focused: true, global: true },
+                                            tooltips: { controls: true, seek: true },
+                                            captions: { active: true, language: 'auto', update: true },
+                                            fullscreen: { enabled: true, fallback: true, iosNative: true }
+                                        });
+                                        
+                                        // 플레이어 이벤트 리스너
+                                        player.on('ready', () => {
+                                            console.log('Plyr player is ready');
+                                            // 로딩 텍스트 제거
+                                            const loading = document.querySelector('.loading');
+                                            if (loading) loading.style.display = 'none';
+                                        });
+                                        
+                                        player.on('error', (event) => {
+                                            console.error('Plyr player error:', event);
+                                        });
+                                        
+                                        // 자동으로 전체화면 모드로 전환
+                                        setTimeout(() => {
+                                            try {
+                                                player.fullscreen.enter();
+                                            } catch (e) {
+                                                console.log('전체화면 전환 실패:', e);
+                                            }
+                                        }, 1000);
+                                        
+                                    } catch (error) {
+                                        console.error('Plyr 초기화 오류:', error);
+                                        // 오류 발생 시 기본 YouTube iframe으로 대체
+                                        document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                                        
                                         // 로딩 텍스트 제거
                                         const loading = document.querySelector('.loading');
                                         if (loading) loading.style.display = 'none';
-                                    });
+                                    }
                                     
-                                    player.on('error', (event) => {
-                                        console.error('Plyr player error:', event);
-                                    });
-                                    
-                                    // 자동으로 전체화면 모드로 전환
-                                    setTimeout(() => {
-                                        try {
-                                            player.fullscreen.enter();
-                                        } catch (e) {
-                                            console.log('전체화면 전환 실패:', e);
-                                        }
-                                    }, 1000);
-                                    
-                                } catch (error) {
-                                    console.error('Plyr 초기화 오류:', error);
-                                    // 오류 발생 시 기본 YouTube iframe으로 대체
-                                    document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-                                    
-                                    // 로딩 텍스트 제거
-                                    const loading = document.querySelector('.loading');
-                                    if (loading) loading.style.display = 'none';
+                                } catch (e) {
+                                    console.log('창 최대화 실패:', e);
                                 }
-                                
-                            } catch (e) {
-                                console.log('창 최대화 실패:', e);
-                            }
-                        </script>
-                    </body>
-                    </html>
-                `);
-                popup.document.close();
+                            </script>
+                        </body>
+                        </html>
+                    `);
+                    popup.document.close();
+                }
             };
         });
     }, 100);
@@ -1066,4 +1064,4 @@ document.addEventListener('keydown', function(event) {
     event.preventDefault();
     nextSlide();
   }
-}); 
+});

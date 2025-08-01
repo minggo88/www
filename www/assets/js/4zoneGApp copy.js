@@ -34,12 +34,65 @@ const CONFIG = {
         bottom: `${oldBottom} → ${newBottom}`
       });
       
-      // Zone 위치 변경 시 adjustForOrientation 실행
-      setTimeout(() => {
-        safeAdjustForOrientation();
-      }, 10);
+      // Zone 위치 변경 시 adjustForOrientation 실행 제거 - 성능 최적화
     }
   },
+  setType2ZonePositionPercent: (zoneNumber, top, left, right, bottom) => {
+    const zone = document.querySelector(`.zone-${zoneNumber}.type2`);
+    if (!zone) return;
+    const oldTop = zone.style.top;
+    const oldLeft = zone.style.left;
+    const oldRight = zone.style.right;
+    const oldBottom = zone.style.bottom;
+    
+    zone.style.top = top !== undefined ? top + '%' : '';
+    zone.style.left = left !== undefined ? left + '%' : '';
+    zone.style.right = right !== undefined ? right + '%' : '';
+    zone.style.bottom = bottom !== undefined ? bottom + '%' : '';
+    
+    const newTop = zone.style.top;
+    const newLeft = zone.style.left;
+    const newRight = zone.style.right;
+    const newBottom = zone.style.bottom;
+    
+    if (oldTop !== newTop || oldLeft !== newLeft || oldRight !== newRight || oldBottom !== newBottom) {
+      console.log(`Type2 Zone ${zoneNumber} position changed:`, {
+        top: `${oldTop} → ${newTop}`,
+        left: `${oldLeft} → ${newLeft}`,
+        right: `${oldRight} → ${newRight}`,
+        bottom: `${oldBottom} → ${newBottom}`
+      });
+    }
+  },
+  setTypeZonePositionPercent: (type, zoneNumber, top, left, right, bottom) => {
+    const zone = document.querySelector(`.zone-${zoneNumber}.${type}`);
+    if (!zone) return;
+    const oldTop = zone.style.top;
+    const oldLeft = zone.style.left;
+    const oldRight = zone.style.right;
+    const oldBottom = zone.style.bottom;
+
+    zone.style.top = top !== undefined ? top + '%' : '';
+    zone.style.left = left !== undefined ? left + '%' : '';
+    zone.style.right = right !== undefined ? right + '%' : '';
+    zone.style.bottom = bottom !== undefined ? bottom + '%' : '';
+
+    const newTop = zone.style.top;
+    const newLeft = zone.style.left;
+    const newRight = zone.style.right;
+    const newBottom = zone.style.bottom;
+
+    if (oldTop !== newTop || oldLeft !== newLeft || oldRight !== newRight || oldBottom !== newBottom) {
+      console.log(`Type${type.charAt(4)} Zone ${zoneNumber} position changed:`, {
+        top: `${oldTop} → ${newTop}`,
+        left: `${oldLeft} → ${newLeft}`,
+        right: `${oldRight} → ${newRight}`,
+        bottom: `${oldBottom} → ${newBottom}`
+      });
+    }
+  },
+
+
   setZoneFontSize: (zoneNumber, fontSize, unit = 'px') => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
     if (zone) {
@@ -52,10 +105,7 @@ const CONFIG = {
           fontSize: `${oldFontSize} → ${newFontSize}`
         });
         
-        // Zone 폰트 크기 변경 시 adjustForOrientation 실행
-        setTimeout(() => {
-          safeAdjustForOrientation();
-        }, 10);
+        // Zone 폰트 크기 변경 시 adjustForOrientation 실행 제거 - 성능 최적화
       }
     }
   },
@@ -72,85 +122,279 @@ const CONFIG = {
       height: window.innerHeight
     });
     
+    // 현재 슬라이드의 zone 3, 4가 type2인지 확인
+    const currentSlideIndex = typeof current !== 'undefined' ? current : 0;
+    const currentSlide = slideTemplates[currentSlideIndex];
+    const zone3IsType2 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type2';
+    const zone4IsType2 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type2';
+    const zone3IsType3 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type3';
+    const zone4IsType3 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type3';
+    
     if (isMobile) {
       // 1: 모바일(세로/가로)
       if (isLandscape) {
         console.log('1-2'); // 모바일 가로
         CONFIG.setZonePositionPercent(1, 8, 10, undefined, undefined);
-        CONFIG.setZoneFontSize(1, 24);
-        CONFIG.setZonePositionPercent(2, 8, 95, undefined, undefined);
-        CONFIG.setZoneFontSize(2, 24);
-        CONFIG.setZonePositionPercent(3, undefined, 10, undefined, 12);
-        CONFIG.setZoneFontSize(3, 24);
-        CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 12);
-        CONFIG.setZoneFontSize(4, 24);
+                        CONFIG.setZoneFontSize(1, 16);
+                CONFIG.setZonePositionPercent(2, 8, 95, undefined, undefined);
+                CONFIG.setZoneFontSize(2, 16);
+                CONFIG.setZonePositionPercent(3, undefined, 10, undefined, 12);
+                CONFIG.setZoneFontSize(3, 16);
+                CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 12);
+                CONFIG.setZoneFontSize(4, 16);
       } else {
         console.log('1-4'); // 모바일 세로
         CONFIG.setZonePositionPercent(1, 25, 15, undefined, undefined);
-        CONFIG.setZoneFontSize(1, 24);
-        CONFIG.setZonePositionPercent(2, 25, 95, undefined, undefined);
-        CONFIG.setZoneFontSize(2, 24);
-        CONFIG.setZonePositionPercent(3, undefined, 5, undefined, 25);
-        CONFIG.setZoneFontSize(3, 24);
-        CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 25);
-        CONFIG.setZoneFontSize(4, 24);
+                        CONFIG.setZoneFontSize(1, 16);
+                CONFIG.setZonePositionPercent(2, 25, 95, undefined, undefined);
+                CONFIG.setZoneFontSize(2, 16);
+                CONFIG.setZonePositionPercent(3, undefined, 5, undefined, 25);
+                CONFIG.setZoneFontSize(3, 16);
+                CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 25);
+                CONFIG.setZoneFontSize(4, 16);
       }
     } else if (window.innerWidth <= 900 && window.innerWidth > window.innerHeight) {
       console.log('2'); // 모바일 가로(900px 이하)
       CONFIG.setZonePositionPercent(1, 5, 12, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(2, 5, 55, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(3, undefined, 12, undefined, 15, '%');
+      CONFIG.setZoneFontSize(1, 14);
       CONFIG.setZonePositionPercent(4, undefined, 55, undefined, 15, '%');
-      CONFIG.setZoneFontSize(1, 22);
     } else if (window.innerWidth >= 900 && window.innerWidth <= 1400 && window.innerWidth > window.innerHeight) {
       console.log('3-1'); // 모바일 가로(900px 이하)
       CONFIG.setZonePositionPercent(1, 12, 6, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(2, 12, 106, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 15, '%');
       CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 15, '%');
-      CONFIG.setZoneFontSize(1, 22);
+      CONFIG.setZoneFontSize(1, 14);
     } else if (isLandscape) {
       console.log('3-2'); // 태블릿/PC 가로
       CONFIG.setZonePositionPercent(1, 10, 13, undefined, undefined, '%');
-      CONFIG.setZoneFontSize(1, 35);
+      CONFIG.setZoneFontSize(1, 25);
       CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);
-      CONFIG.setZoneFontSize(2, 35);
-      CONFIG.setZonePositionPercent(3, undefined, 13, undefined, 16);
-      CONFIG.setZoneFontSize(3, 35);
-      CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 16);
-      CONFIG.setZoneFontSize(4, 35);
+      CONFIG.setZoneFontSize(2, 25);
+      CONFIG.setZonePositionPercent(3, undefined, 13, undefined, 13);
+      CONFIG.setZoneFontSize(3, 25);
+      CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 13);
+      CONFIG.setZoneFontSize(4, 25);
     } else {
       console.log('4-2'); // 태블릿/PC 세로
       CONFIG.setZonePositionPercent(1, 35, 35, undefined, undefined, '%');
-      CONFIG.setZoneFontSize(1, 35);
+      CONFIG.setZoneFontSize(1, 25);
       CONFIG.setZonePositionPercent(2, 35, 106, undefined, undefined, '%');
-      CONFIG.setZoneFontSize(2, 35);
+      CONFIG.setZoneFontSize(2, 25);
       CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 36, '%');
-      CONFIG.setZoneFontSize(3, 35);
+      CONFIG.setZoneFontSize(3, 25);
       CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 36, '%');
-      CONFIG.setZoneFontSize(4, 35);
+      CONFIG.setZoneFontSize(4, 25);
+    }
+    
+    // type2인 경우 특별한 위치 설정 적용
+    if (zone3IsType2) {
+      CONFIG.setTypeZonePositionPercent('type2', 3, undefined, 6, undefined, 17);
+    }
+    if (zone4IsType2) {
+      CONFIG.setTypeZonePositionPercent('type2', 4, undefined, 107, undefined, 17);
+    }
+    
+    // type3인 경우 특별한 위치 설정 적용
+    if (zone3IsType3) {
+      CONFIG.setTypeZonePositionPercent('type3', 3, undefined, 6, undefined, 17);
+    }
+    if (zone4IsType3) {
+      CONFIG.setTypeZonePositionPercent('type3', 4, undefined, 107, undefined, 17);
+    }
+    
+    // type3인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType3 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type3';
+    const zone2IsType3 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type3';
+    
+    if (zone1IsType3) {
+      console.log('type3-1');
+      CONFIG.setTypeZonePositionPercent('type3', 1, 21, 6.6, undefined, undefined, '%');
+    }
+    if (zone2IsType3) {
+      console.log('type3-2');
+      CONFIG.setTypeZonePositionPercent('type3', 2, 21, 108, undefined, undefined);
+    }
+    if (zone3IsType3) {
+      console.log('type3-3');
+      CONFIG.setTypeZonePositionPercent('type3', 3, undefined, 6.6, undefined, 17);
+    }
+    if (zone4IsType3) {
+      console.log('type3-4');
+      CONFIG.setTypeZonePositionPercent('type3', 4, undefined, 108, undefined, 17);
+    }
+    
+    // type4인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType4 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type4';
+    const zone2IsType4 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type4';
+    const zone3IsType4 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type4';
+    const zone4IsType4 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type4';
+    
+    if (zone1IsType4) {
+      console.log('type4-1');
+      CONFIG.setTypeZonePositionPercent('type4', 1, 17, 7, undefined, undefined, '%');
+    }
+    if (zone2IsType4) {
+      console.log('type4-2');
+      CONFIG.setTypeZonePositionPercent('type4', 2, 17, 108, undefined, undefined);
+    }
+    if (zone3IsType4) {
+      console.log('type4-3');
+      CONFIG.setTypeZonePositionPercent('type4', 3, undefined, 6, undefined, 17);
+    }
+    if (zone4IsType4) {
+      console.log('type4-4');
+      CONFIG.setTypeZonePositionPercent('type4', 4, undefined, 108, undefined, 17);
+    }
+    
+    // type5인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType5 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type5';
+    const zone2IsType5 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type5';
+    const zone3IsType5 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type5';
+    const zone4IsType5 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type5';
+    
+    if (zone1IsType5) {
+      console.log('type5-1');
+      CONFIG.setTypeZonePositionPercent('type5', 1, 38, 6.6, undefined, undefined, '%');
+    }
+    if (zone2IsType5) {
+      console.log('type5-2');
+      CONFIG.setTypeZonePositionPercent('type5', 2, 38, 108, undefined, undefined);
+    }
+    if (zone3IsType5) {
+      console.log('type5-3');
+      CONFIG.setTypeZonePositionPercent('type5', 3, undefined, 6.6, undefined, 15);
+    }
+    if (zone4IsType5) {
+      console.log('type5-4');
+      CONFIG.setTypeZonePositionPercent('type5', 4, undefined, 108, undefined, 17);
+    }
+    
+    // type8인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType8 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type8';
+    const zone2IsType8 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type8';
+    const zone3IsType8 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type8';
+    const zone4IsType8 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type8';
+    
+    if (zone1IsType8) {
+      console.log('type8-1');
+      CONFIG.setTypeZonePositionPercent('type8', 1, 20, 6.6, undefined, undefined, '%');
+    }
+    if (zone2IsType8) {
+      console.log('type8-2');
+      CONFIG.setTypeZonePositionPercent('type8', 2, 20, 108, undefined, undefined);
+    }
+    if (zone3IsType8) {
+      console.log('type8-3');
+      CONFIG.setTypeZonePositionPercent('type8', 3, undefined, 6.6, undefined, 15);
+    }
+    if (zone4IsType8) {
+      console.log('type8-4');
+      CONFIG.setTypeZonePositionPercent('type8', 4, undefined, 108, undefined, 15);
+    }
+    
+    // type9인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType9 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type9';
+    const zone2IsType9 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type9';
+    const zone3IsType9 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type9';
+    const zone4IsType9 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type9';
+    
+    if (zone1IsType9) {
+      console.log('type9-1');
+      CONFIG.setTypeZonePositionPercent('type9', 1, 17, 6.5, undefined, undefined, '%');
+    }
+    if (zone2IsType9) {
+      console.log('type9-2');
+      CONFIG.setTypeZonePositionPercent('type9', 2, 17, 108, undefined, undefined);
+    }
+    if (zone3IsType9) {
+      console.log('type9-3');
+      CONFIG.setTypeZonePositionPercent('type9', 3, undefined, 6.5, undefined, 15);
+    }
+    if (zone4IsType9) {
+      console.log('type9-4');
+      CONFIG.setTypeZonePositionPercent('type9', 4, undefined, 108, undefined, 15);
+    }
+    
+    // type6인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType6 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type6';
+    const zone2IsType6 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type6';
+    const zone3IsType6 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type6';
+    const zone4IsType6 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type6';
+    
+    if (zone1IsType6) {
+      console.log('type6-1');
+      CONFIG.setTypeZonePositionPercent('type6', 1, 28, 6.6, undefined, undefined, '%');
+    }
+    if (zone2IsType6) {
+      console.log('type6-2');
+      CONFIG.setTypeZonePositionPercent('type6', 2, 23.5, 108, undefined, undefined);
+    }
+    if (zone3IsType6) {
+      console.log('type6-3');
+      CONFIG.setTypeZonePositionPercent('type6', 3, undefined, 6, undefined, 17);
+    }
+    if (zone4IsType6) {
+      console.log('type6-4');
+      CONFIG.setTypeZonePositionPercent('type6', 4, undefined, 108, undefined, 17);
+    }
+    
+    // type7인 경우 모든 존(1,2,3,4) 설정
+    const zone1IsType7 = currentSlide && currentSlide.zones && currentSlide.zones[1] && currentSlide.zones[1].fontType === 'type7';
+    const zone2IsType7 = currentSlide && currentSlide.zones && currentSlide.zones[2] && currentSlide.zones[2].fontType === 'type7';
+    const zone3IsType7 = currentSlide && currentSlide.zones && currentSlide.zones[3] && currentSlide.zones[3].fontType === 'type7';
+    const zone4IsType7 = currentSlide && currentSlide.zones && currentSlide.zones[4] && currentSlide.zones[4].fontType === 'type7';
+    
+    if (zone1IsType7) {
+      console.log('type7-1');
+      CONFIG.setTypeZonePositionPercent('type7', 1, 30, 7, undefined, undefined, '%');
+    }
+    if (zone2IsType7) {
+      console.log('type7-2');
+      CONFIG.setTypeZonePositionPercent('type7', 2, 30, 107, undefined, undefined);
+    }
+    if (zone3IsType7) {
+      console.log('type7-3');
+      CONFIG.setTypeZonePositionPercent('type7', 3, undefined, 6, undefined, 17);
+    }
+    if (zone4IsType7) {
+      console.log('type7-4');
+      CONFIG.setTypeZonePositionPercent('type7', 4, undefined, 107, undefined, 17);
     }
   }
 };
 
-// adjustForOrientation 래퍼 함수 - 텍스트 숨김/표시 처리
+// adjustForOrientation 래퍼 함수 - 성능 최적화된 버전
+let adjustTimeout = null;
 function safeAdjustForOrientation() {
-  // 모든 텍스트 영역을 임시로 숨기기
-  const textZones = document.querySelectorAll('.text-zone');
-  textZones.forEach(zone => {
-    zone.style.opacity = '0';
-    zone.style.transition = 'opacity 0.1s ease';
-  });
+  // 이미 실행 중인 경우 취소
+  if (adjustTimeout) {
+    clearTimeout(adjustTimeout);
+  }
   
-  // 위치 조정 실행
-  CONFIG.adjustForOrientation();
-  
-  // 위치 조정 완료 후 텍스트를 부드럽게 다시 나타나게 하기
-  setTimeout(() => {
+  // 디바운싱 적용 - 100ms 후에 실행
+  adjustTimeout = setTimeout(() => {
+    // 모든 텍스트 영역을 임시로 숨기기
+    const textZones = document.querySelectorAll('.text-zone');
     textZones.forEach(zone => {
-      zone.style.opacity = '1';
-      zone.style.transition = 'opacity 0.3s ease';
+      zone.style.opacity = '0';
+      zone.style.transition = 'opacity 0.1s ease';
     });
+    
+    // 위치 조정 실행
+    CONFIG.adjustForOrientation();
+    
+    // 위치 조정 완료 후 텍스트를 부드럽게 다시 나타나게 하기
+    setTimeout(() => {
+      textZones.forEach(zone => {
+        zone.style.opacity = '1';
+        zone.style.transition = 'opacity 0.3s ease';
+      });
+    }, 100);
+    
+    adjustTimeout = null;
   }, 100);
 }
 
@@ -237,7 +481,44 @@ function renderSlide(idx) {
     3: { bottom: 100, left: 71 },
     4: { bottom: 100, left: 640 }
   };
-  const baseFontSize = 35;
+  const baseFontSize = 25;
+  
+  // Font size conditions - can be chosen per zone
+  const getFontSizeForZone = (slideIndex, zoneNumber, zoneData) => {
+    // Check if zoneData has fontType specified
+    if (zoneData && zoneData.fontType) {
+      if (zoneData.fontType === 'type1') {
+        return baseFontSize; // type1: current size
+      } else if (zoneData.fontType === 'type2') {
+        return baseFontSize - 5; // type2: one step smaller
+                  } else if (zoneData.fontType === 'type3') {
+              return baseFontSize - 5; // type3: one step smaller
+            } else if (zoneData.fontType === 'type4') {
+              return baseFontSize - 5; // type4: one step smaller
+            } else if (zoneData.fontType === 'type5') {
+              return baseFontSize - 7.5; // type5: one and a half steps smaller
+            } else if (zoneData.fontType === 'type8') {
+              return baseFontSize - 7.5; // type8: one and a half steps smaller
+            } else if (zoneData.fontType === 'type9') {
+              return baseFontSize - 7.5; // type9: one and a half steps smaller
+            } else if (zoneData.fontType === 'type6') {
+              return baseFontSize - 7.5; // type6: one and a half steps smaller
+            } else if (zoneData.fontType === 'type7') {
+              return baseFontSize - 7.5; // type7: one and a half steps smaller
+            }
+    }
+    
+    // Fallback to page 3 logic for backward compatibility
+    if (slideIndex === 2) { // Page 3 (0-indexed)
+      if (zoneNumber === 1 || zoneNumber === 2) {
+        return baseFontSize; // type1: current size
+      } else if (zoneNumber === 4) {
+        return baseFontSize - 5; // type2: one step smaller
+      }
+    }
+    
+    return baseFontSize; // default size for other pages
+  };
 
   const slide = slideTemplates[idx];
   const app = document.getElementById('app');
@@ -277,12 +558,58 @@ function renderSlide(idx) {
     if (zoneData.text) {
       const textZone = document.createElement('div');
       textZone.className = `text-zone zone-${zoneNum}`;
+      
+      // type2 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type2') {
+        textZone.classList.add('type2');
+        textZone.setAttribute('data-font-type', 'type2');
+      }
+      // type3 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type3') {
+        textZone.classList.add('type3');
+        textZone.setAttribute('data-font-type', 'type3');
+      }
+      // type4 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type4') {
+        textZone.classList.add('type4');
+        textZone.setAttribute('data-font-type', 'type4');
+      }
+      // type5 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type5') {
+        textZone.classList.add('type5');
+        textZone.setAttribute('data-font-type', 'type5');
+      }
+      // type8 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type8') {
+        textZone.classList.add('type8');
+        textZone.setAttribute('data-font-type', 'type8');
+      }
+      // type9 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type9') {
+        textZone.classList.add('type9');
+        textZone.setAttribute('data-font-type', 'type9');
+      }
+      // type6 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type6') {
+        textZone.classList.add('type6');
+        textZone.setAttribute('data-font-type', 'type6');
+      }
+      // type7 폰트 타입이면 CSS 클래스 추가
+      if (zoneData.fontType === 'type7') {
+        textZone.classList.add('type7');
+        textZone.setAttribute('data-font-type', 'type7');
+      }
       // 줄바꿈(<br> 또는 \n)마다 p 태그 생성
       const lines = zoneData.text.split(/<br\s*\/?>|\n/);
       lines.forEach(line => {
-        if (line.trim() === '') return;
         const paragraph = document.createElement('p');
-        paragraph.innerHTML = renderZoneTextWithNounSpans(line, zoneData.keywords);
+        if (line.trim() === '') {
+          // 빈 줄인 경우 줄바꿈을 위한 빈 p 태그 생성
+          paragraph.style.height = '1em';
+          paragraph.style.margin = '0.3em 0';
+        } else {
+          paragraph.innerHTML = renderZoneTextWithNounSpans(line, zoneData.keywords);
+        }
         textZone.appendChild(paragraph);
       });
       // 명사 클릭 이벤트 바인딩
@@ -358,8 +685,10 @@ function renderSlide(idx) {
       else div.style.right = '';
       
       // 폰트 크기
+      const zoneData = slide.zones[zoneNum];
+      const zoneFontSize = getFontSizeForZone(idx, zoneNum, zoneData);
       div.querySelectorAll('p').forEach(p => {
-        p.style.fontSize = (baseFontSize * adjustedScale) + 'px';
+        p.style.fontSize = (zoneFontSize * adjustedScale) + 'px';
         p.style.margin = '0';
         p.style.padding = '0';
         p.style.boxSizing = 'border-box';
@@ -383,10 +712,8 @@ function renderSlide(idx) {
   // 나머지 기존 기능(애니메이션, 화살표, drag 등) 유지
   // zone 위치는 adjustForOrientation()에서 자동으로 설정됨
   
-  // 슬라이드 렌더링 후 위치 조정
-  setTimeout(() => {
-    safeAdjustForOrientation();
-  }, 100);
+  // 슬라이드 렌더링 후 위치 조정 - 한 번만 실행
+  safeAdjustForOrientation();
 
   // 갤럭시 탭 최적화 텍스트 애니메이션
   // 항상 모든 p에 visible 클래스 추가
@@ -660,10 +987,7 @@ window.addEventListener('resize', () => {
     orientation: window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
   });
   setScreenHeight();
-  // Screen size changed 로그 후 adjustForOrientation 실행
-  setTimeout(() => {
-    safeAdjustForOrientation();
-  }, 10);
+  // 성능 최적화 - resize 이벤트에서 safeAdjustForOrientation 호출 제거
 });
 window.addEventListener('orientationchange', () => {
   console.log('Orientation changed:', {
@@ -673,7 +997,7 @@ window.addEventListener('orientationchange', () => {
   });
   setTimeout(() => {
     setScreenHeight();
-    safeAdjustForOrientation();
+    // 성능 최적화 - orientationchange 이벤트에서 safeAdjustForOrientation 호출 제거
   }, 100); // 방향 변경 후 짧은 지연
 });
 
@@ -870,7 +1194,8 @@ function renderYoutubeResults(items) {
     // 검색 결과를 표시
     document.getElementById('search-iframe-wrap').innerHTML = html;
     
-
+    let currentPlayer = null;
+    let currentPlayerContainer = null;
     
     setTimeout(() => {
         document.querySelectorAll('.yt-thumb-title').forEach(el => {
@@ -878,179 +1203,120 @@ function renderYoutubeResults(items) {
                 const vid = this.dataset.videoid;
                 const itemDiv = this.closest('.yt-result-item');
                 
+                // 기존 플레이어가 있으면 제거
+                if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+                    currentPlayer.destroy();
+                }
+                if (currentPlayerContainer && currentPlayerContainer.parentNode) {
+                    currentPlayerContainer.remove();
+                }
                 
-                
-                // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
-                const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
-                
-                // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
-                const popupOptions = isWebView ? 
-                    'width=800,height=600,left=50,top=50,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no' :
-                    'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes';
-                
-                // 모든 환경에서 Plyr 팝업 뷰어 사용
-                const popup = window.open(
-                    '',
-                    'youtube_viewer',
-                    popupOptions
-                );
-                
-                // 팝업이 차단된 경우 처리
-                if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-                    // 팝업이 차단되면 새 탭으로 YouTube 열기
-                    window.open(`https://www.youtube.com/watch?v=${vid}`, '_blank');
+                // 같은 아이템을 다시 클릭한 경우 플레이어만 제거하고 종료
+                if (itemDiv.querySelector('.yt-inline-player')) {
                     return;
                 }
-                    
-                // Plyr 기반 커스텀 뷰어 HTML 생성
-                popup.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>YouTube Video Viewer</title>
-                        <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-                        <style>
-                            body {
-                                margin: 0;
-                                padding: 0;
-                                font-family: Arial, sans-serif;
-                                background: #000;
-                                overflow: hidden;
-                            }
-                            .video-container {
-                                position: relative;
-                                width: 100vw;
-                                height: 100vh;
-                                display: flex;
-                                flex-direction: column;
-                            }
-                            .close-btn {
-                                position: absolute;
-                                top: 10px;
-                                right: 10px;
-                                background: rgba(0,0,0,0.7);
-                                color: white;
-                                border: none;
-                                border-radius: 50%;
-                                width: 40px;
-                                height: 40px;
-                                font-size: 20px;
-                                cursor: pointer;
-                                z-index: 1000;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                transition: background 0.2s;
-                            }
-                            .close-btn:hover {
-                                background: rgba(255,0,0,0.8);
-                            }
-                            .plyr {
-                                width: 100%;
-                                height: 100%;
-                            }
-                            .plyr__video-wrapper {
-                                height: 100vh !important;
-                            }
-                            .plyr__video {
-                                height: 100vh !important;
-                            }
-                            .loading {
-                                position: absolute;
-                                top: 50%;
-                                left: 50%;
-                                transform: translate(-50%, -50%);
-                                color: white;
-                                font-size: 18px;
-                                z-index: 999;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="video-container">
-                            <button class="close-btn" onclick="window.close()">×</button>
-                            <div class="loading">로딩 중...</div>
-                            <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${vid}"></div>
-                        </div>
-                        <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-                        <script>
-                            // 창을 최대화 (웹뷰가 아닌 경우에만)
-                            try {
-                                window.moveTo(0, 0);
-                                window.resizeTo(screen.availWidth, screen.availHeight);
-                                window.focus();
-                                
-                                // 추가로 최대화 시도
-                                setTimeout(() => {
-                                    try {
-                                        window.resizeTo(screen.availWidth, screen.availHeight);
-                                        window.moveTo(0, 0);
-                                    } catch (e) {
-                                        console.log('추가 최대화 실패:', e);
-                                    }
-                                }, 100);
-                                
-                                // ESC 키로 최대화 해제 방지
-                                document.addEventListener('keydown', function(e) {
-                                    if (e.key === 'Escape') {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                    }
-                                });
-                                
-                                // Plyr 플레이어 초기화
-                                try {
-                                    const player = new Plyr('#player', {
-                                        controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
-                                        autoplay: true,
-                                        muted: false,
-                                        hideControls: true,
-                                        resetOnEnd: true,
-                                        keyboard: { focused: true, global: true },
-                                        tooltips: { controls: true, seek: true },
-                                        captions: { active: true, language: 'auto', update: true },
-                                        fullscreen: { enabled: true, fallback: true, iosNative: true }
-                                    });
-                                    
-                                    // 플레이어 이벤트 리스너
-                                    player.on('ready', () => {
-                                        console.log('Plyr player is ready');
-                                        // 로딩 텍스트 제거
-                                        const loading = document.querySelector('.loading');
-                                        if (loading) loading.style.display = 'none';
-                                    });
-                                    
-                                    player.on('error', (event) => {
-                                        console.error('Plyr player error:', event);
-                                    });
-                                    
-                                    // 자동으로 전체화면 모드로 전환
-                                    setTimeout(() => {
-                                        try {
-                                            player.fullscreen.enter();
-                                        } catch (e) {
-                                            console.log('전체화면 전환 실패:', e);
-                                        }
-                                    }, 1000);
-                                    
-                                } catch (error) {
-                                    console.error('Plyr 초기화 오류:', error);
-                                    // 오류 발생 시 기본 YouTube iframe으로 대체
-                                    document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-                                    
-                                    // 로딩 텍스트 제거
-                                    const loading = document.querySelector('.loading');
-                                    if (loading) loading.style.display = 'none';
+                
+                // 더 큰 높이로 설정 (최소 600px, 화면 높이의 70%)
+                const minHeight = Math.max(600, window.innerHeight * 0.7);
+                
+                // 플레이어 컨테이너 생성
+                const playerContainer = document.createElement('div');
+                playerContainer.className = 'yt-inline-player';
+                playerContainer.style.cssText = `
+                    width: 100% !important;
+                    height: ${minHeight}px !important;
+                    min-height: 600px !important;
+                    max-height: 800px !important;
+                    background: #000;
+                    border-radius: 12px;
+                    margin: 20px 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    animation: slideDown 0.3s ease-out;
+                    box-sizing: border-box;
+                `;
+                
+                const playerDiv = document.createElement('div');
+                playerDiv.style.cssText = `
+                    width: 100% !important;
+                    height: 100% !important;
+                    min-height: 600px !important;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-sizing: border-box;
+                `;
+                
+                playerContainer.appendChild(playerDiv);
+                
+                // 닫기 버튼 추가
+                const closeBtn = document.createElement('button');
+                closeBtn.innerHTML = '×';
+                closeBtn.style.cssText = `
+                    position: absolute;
+                    right: 12px;
+                    top: 12px;
+                    font-size: 2rem;
+                    font-weight: bold;
+                    background: rgba(0,0,0,0.7);
+                    border: none;
+                    color: #fff;
+                    z-index: 10011;
+                    cursor: pointer;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                `;
+                
+                closeBtn.onclick = () => {
+                    if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+                        currentPlayer.destroy();
+                    }
+                    playerContainer.remove();
+                    currentPlayer = null;
+                    currentPlayerContainer = null;
+                };
+                
+                playerContainer.appendChild(closeBtn);
+                
+                // 아이템 바로 다음에 플레이어 삽입
+                itemDiv.parentNode.insertBefore(playerContainer, itemDiv.nextSibling);
+                currentPlayerContainer = playerContainer;
+                
+                // 클릭한 리스트가 가장 위로 스크롤
+                setTimeout(() => {
+                    itemDiv.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start',
+                        inline: 'nearest'
+                    });
+                }, 100);
+                
+                // YouTube 플레이어 생성
+                if (window.YT && window.YT.Player) {
+                    currentPlayer = new YT.Player(playerDiv, {
+                        width: '100%',
+                        height: minHeight,
+                        videoId: vid,
+                        playerVars: { 'autoplay': 1, 'controls': 1 },
+                        events: {
+                            'onReady': function (event) { 
+                                event.target.playVideo(); 
+                                // 플레이어 크기 강제 설정
+                                const iframe = playerDiv.querySelector('iframe');
+                                if (iframe) {
+                                    iframe.style.width = '100% !important';
+                                    iframe.style.height = '100% !important';
+                                    iframe.style.minHeight = '600px !important';
                                 }
-                                
-                            } catch (e) {
-                                console.log('창 최대화 실패:', e);
                             }
-                        </script>
-                    </body>
-                    </html>
-                `);
-                popup.document.close();
+                        }
+                    });
+                }
             };
         });
     }, 100);
