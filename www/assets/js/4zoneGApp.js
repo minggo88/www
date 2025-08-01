@@ -1004,6 +1004,51 @@ window.addEventListener('orientationchange', () => {
 // iOS Safari 주소창 숨기기
 hideAddressBar();
 
+// 웹뷰 뒤로가기 버튼 이벤트 처리
+function handleWebViewBackButton() {
+  // 웹뷰 감지
+  const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
+  
+  if (isWebView) {
+    // 뒤로가기 버튼 이벤트 리스너 추가
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' || e.key === 'Escape') {
+        // 뒤로가기 기능 막기
+        e.preventDefault();
+        e.stopPropagation();
+        alert('뒤로가기 버튼이 비활성화되었습니다.');
+        return false;
+      }
+    });
+    
+    // 터치 이벤트로 뒤로가기 처리 (Android)
+    let backButtonPressed = false;
+    document.addEventListener('touchstart', function(e) {
+      backButtonPressed = false;
+    });
+    
+    document.addEventListener('touchend', function(e) {
+      if (e.touches.length === 0 && !backButtonPressed) {
+        // 뒤로가기 기능 막기
+        e.preventDefault();
+        e.stopPropagation();
+        alert('뒤로가기 버튼이 비활성화되었습니다.');
+        return false;
+      }
+    });
+    
+    // history.pushState로 뒤로가기 방지
+    history.pushState(null, null, location.href);
+    window.addEventListener('popstate', function() {
+      history.pushState(null, null, location.href);
+      alert('뒤로가기 버튼이 비활성화되었습니다.');
+    });
+  }
+}
+
+// 웹뷰 뒤로가기 버튼 이벤트 초기화
+handleWebViewBackButton();
+
 // 탭바 이벤트 처리
 window.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.tab');
