@@ -1,195 +1,1006 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로딩 중...</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #ffffff;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .loading-container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .loading-image {
-            max-width: 300px;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        .loading-text {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-            animation: slideInUp 0.8s ease-out 0.5s both;
-        }
-
-        .loading-subtitle {
-            font-size: 16px;
-            color: #666;
-            animation: slideInUp 0.8s ease-out 0.7s both;
-        }
-
-        .loading-dots {
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .loading-dots span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #667eea;
-            margin: 0 3px;
-            animation: dots 1.4s infinite ease-in-out both;
-        }
-
-        .loading-dots span:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-
-        .loading-dots span:nth-child(2) {
-            animation-delay: -0.16s;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes dots {
-            0%, 80%, 100% {
-                transform: scale(0);
-            }
-            40% {
-                transform: scale(1);
-            }
-        }
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .loading-container {
-                padding: 30px 20px;
-                margin: 20px;
-            }
-
-            .loading-image {
-                max-width: 250px;
-            }
-
-            .loading-text {
-                font-size: 20px;
-            }
-
-            .loading-subtitle {
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .loading-image {
-                max-width: 200px;
-            }
-
-            .loading-text {
-                font-size: 18px;
-            }
-
-            .loading-subtitle {
-                font-size: 12px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>G2.2.6.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
 </head>
 <body>
-    <div class="loading-container">
-        <img src="assets/img/ReadBook/loading.jpg" alt="로딩 중" class="loading-image">
-        <div class="loading-text">로딩 중입니다...</div>
-        <div class="loading-subtitle">잠시만 기다려주세요</div>
-        <div class="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
     </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
 
-    <script>
-        // 페이지 로드 완료 후 자동으로 메인 페이지로 이동 (선택사항)
-        // setTimeout(() => {
-        //     window.location.href = '2.1.1/4zone.html';
-        // }, 3000);
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
 
-        // 로딩 애니메이션 효과
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.querySelector('.loading-container');
-            const image = document.querySelector('.loading-image');
-            
-            // 이미지 로드 완료 시 추가 효과
-            image.addEventListener('load', function() {
-                container.style.animation = 'fadeIn 1s ease-in-out';
-            });
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/2.jpg',
+    hasStartButton: false,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/3.jpg',
+    zones: {
+      1: { text: '01. The Secret Sounds of Motifs:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vibrations and Waves<br><br>What musical instruments do people all like?<br>All musical instruments, such as violins, flutes, and<br>guitars, produce their own beautiful sounds.<br>When we listen to an ensemble of various instruments<br>playing together, we feel the beauty more than ever.<br>However, there are hidden motifs in sound as well.<br>But how can there be motifs in the sounds we cannot<br>see? Let\'s explore the various motifs in sound.', keywords: ['musical instruments', 'violins', 'flutes', 'guitars', 'beautiful sounds', 'ensemble', 'hidden motifs', 'sound', 'vibrations', 'waves'] },
+      2: { text: 'First, let\'s study how sound reaches the human ear.<br>If we go to a stream or a lakeside, we often find<br>people skipping stones on the water. It is a popular<br>activity called stone skipping. It is a game where<br>people throw a stone at an angle on calm water to<br>make it skip multiple times. This game is enjoyed in<br>both the East and the West. It is so popular that the<br>World Stone Skimming Championships are held yearly<br>in Easdale, Scotland.', keywords: ['sound', 'human ear', 'stone skipping', 'water', 'angle', 'game', 'East', 'West', 'World Stone Skimming Championships', 'Scotland'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/4.jpg',
+    zones: {
+      1: { text: 'When we skip stones, it is challenging to make them<br>bounce more than ten times. However, the records<br>of participants in this competition are astonishing.<br>Some winners managed to make a single stone skip<br>more than fifty times. The secret to skipping stones<br>is in the angle. Scientists have researched the<br>conditions for stones to skip multiple times, and they<br>have revealed that the angle is important. To have<br>successful results, a stone should be thrown at<br>an angle of about 20 degrees to the water\'s surface.<br>This research can also be applied to space science.', keywords: ['skip stones', 'bounce', 'competition', 'winners', 'angle', 'scientists', 'research', '20 degrees', 'water surface', 'space science'] },
+      2: { text: 'An example of this can be seen in a space shuttle.<br>When the space shuttle returns from space, it has to<br>enter the Earth\'s atmosphere. In this case, a similar<br>angle to skipping stones is used. If the angle is wrong,<br>the space shuttle can bounce off the air like a stone<br>thrown on the water\'s surface. If the space shuttle<br>bounces off this way, it cannot return to Earth and<br>will be lost in space. However, if the angle at which<br>the space shuttle enters the atmosphere is increased,<br>it may receive too much heat and burn up.', keywords: ['space shuttle', 'Earth atmosphere', 'angle', 'bounce off', 'air', 'water surface', 'lost in space', 'heat', 'burn up'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/5.jpg',
+    zones: {
+      1: { text: 'In this way, even a simple game, like throwing a stone<br>on water, has a surprising principle of science hidden<br>inside. When we throw a stone on calm water, circular<br>ripple motifs spread sideways on the water surface.<br>There is also a special secret hidden here.<br>When the stone falls into the water, the water churns<br>up and down. This is called vibration. The continuous<br>sideways spreading of the water is called a wave.', keywords: ['simple game', 'throwing stone', 'water', 'science', 'circular ripple', 'water surface', 'vibration', 'wave', 'up and down', 'sideways spreading'] },
+      2: { text: 'So, what properties do vibrations and waves have?<br>Vibration is the state in which an object moves<br>repeatedly over time. If we observe this movement<br>closely, we can see that it moves back and forth<br>around a certain point.', keywords: ['properties', 'vibrations', 'waves', 'object moves', 'repeatedly', 'back and forth', 'certain point'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/6.jpg',
+    zones: {
+      1: { text: 'A wave is a phenomenon in which a vibration spreads<br>far and wide over time. When we carefully observe<br>these waves, we understand that the water is not<br>moving sideways. The water remains in place, moving<br>only up and down, while the movement of the waves<br>influences the surroundings. It is like when spectators<br>in a stadium do the Mexican wave. People sitting in<br>the stands do not move; they just stand or sit in their<br>places. However, from a distance, it looks like the<br>wave motif is moving.', keywords: ['wave', 'phenomenon', 'vibration spreads', 'water', 'up and down', 'Mexican wave', 'spectators', 'stadium', 'wave motif'] },
+      2: { text: 'The creation and spreading of sound also follow<br>a similar principle. The violin is a string instrument<br>played with a bow. When the string on the violin is<br>plucked, it creates vibrations. This tremor travels<br>through the air in the form of waves and enters our<br>ears. This is called sound. As previously explained,<br>we can see vibrations and waves on water through<br>wave motifs. However, we cannot see sound as it<br>travels through the air. Sound can also travel through<br>water or solid materials. The material that transmits<br>sound is called a medium. When an object vibrates<br>in the medium, waves are created. We can reproduce<br>sounds by understanding the properties of these<br>waves.', keywords: ['sound', 'violin', 'string instrument', 'bow', 'vibrations', 'air', 'waves', 'ears', 'medium', 'water', 'solid materials', 'properties'] },
+      3: { text: 'Write down things around us that move repeatedly.', keywords: ['things around us', 'move repeatedly'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/7.jpg',
+    zones: {
+      1: { text: 'Depending on the direction of the wave and how the<br>medium moves, waves can be classified as transverse<br>waves and longitudinal waves.<br>Consider a spring as an example. Hold both ends of<br>the spring and shake it up and down. What can we<br>observe? The spring churns up and down, and this<br>motion is sent sideways. This is similar to how waves<br>travel. In this way, when a medium is moving<br>perpendicular to the wave\'s direction, we call it<br>a transverse wave.', keywords: ['wave direction', 'medium', 'transverse waves', 'longitudinal waves', 'spring', 'up and down', 'sideways', 'perpendicular'] },
+      2: { text: 'Now, grab one end of the spring and pull, then release<br>it. What movement can we see? The churning direction<br>of the spring and the direction the wave travels are<br>the same. This is called a longitudinal wave.<br>The medium is compressed and expanded in the<br>direction of the wave in a longitudinal wave.<br>The ripple on the water\'s surface spreading outwards<br>is an example of a transverse wave.', keywords: ['spring', 'pull', 'release', 'longitudinal wave', 'medium', 'compressed', 'expanded', 'ripple', 'water surface', 'transverse wave'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/8.jpg',
+    zones: {
+      1: { text: 'On the other hand, sound waves are longitudinal waves.<br>We can understand this concept easily if we compare<br>a snake and an earthworm\'s movements to waves.<br>The movement of a snake, bending its body in an S<br>shape as it moves, is similar to a transverse wave.<br>On the other hand, the movement of an earthworm,<br>shrinking and stretching as it progresses, is similar to<br>a longitudinal wave.', keywords: ['sound waves', 'longitudinal waves', 'snake', 'earthworm', 'transverse wave', 'S shape', 'shrinking', 'stretching'] },
+      2: { text: 'There are several terms in waves that we need to<br>know. In waves, the highest point is called the crest,<br>and the lowest is called the trough. The amplitude<br>is the distance from the vibrating object to the rest<br>position. Half of the distance between the crest and<br>the trough becomes the amplitude. The distance<br>from crest to crest, or trough to trough, is called the<br>wavelength. The time it takes for one point in the<br>medium to have one vibration is called a period.<br>It is worth noting that no matter how loudly we shout<br>or play an instrument to create waves, we cannot hear<br>any sound in a vacuum. This is because there is no<br>vibration in a vacuum.', keywords: ['waves', 'crest', 'trough', 'amplitude', 'wavelength', 'period', 'vacuum', 'no vibration'] },
+      4: { text: '', keywords: [] },
+      3: { text: 'How can we tell the difference between transverse<br>waves and longitudinal waves? Explain with examples.', keywords: ['transverse waves', 'longitudinal waves', 'difference', 'examples'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/9.jpg',
+    zones: {
+      1: { text: 'Musical instruments can produce sounds that are<br>sometimes high and sometimes low. The volume of the<br>sound can be occasionally loud and sometimes soft.<br>Some instruments have a dull sound, while others<br>create a clear sound. Even when the same note is<br>played with the same intensity, the sound can vary<br>depending on the type of instrument. It\'s fascinating<br>how different musicians can produce slightly varying<br>sounds, even when playing the same note on the same<br>instrument.', keywords: ['musical instruments', 'sounds', 'high', 'low', 'volume', 'loud', 'soft', 'dull sound', 'clear sound', 'note', 'intensity', 'musicians'] },
+      2: { text: 'As mentioned earlier, sound is transmitted not only<br>through the air but also through water or solids.<br>So, even when we dive into a swimming pool, we can<br>hear sounds from outside. Synchronized swimming is<br>a sport where swimmers synchronize their movements<br>in time with music, showing the beauty of technique<br>and expression. Swimmers perform synchronized<br>routines to the sound of music, even underwater.<br>Also, in an apartment, the sound of moving furniture<br>can be directly heard on the lower floors, as solid<br>materials like floors or ceilings also transmit sound.', keywords: ['sound', 'transmitted', 'air', 'water', 'solids', 'swimming pool', 'synchronized swimming', 'music', 'underwater', 'apartment', 'furniture', 'floors', 'ceilings'] },
+      4: { text: '', keywords: [] },
+      3: { text: 'Explain what a medium is and write down a medium<br>that transmits sound.', keywords: ['medium', 'transmits sound'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/10.jpg',
+    zones: {
+      1: { text: 'What scientific principles are hidden inside sound?<br>Let\'s experiment with a kalimba to discover the<br>principles of sound. The kalimba is a traditional<br>African instrument. It is made by placing several thin<br>metal plates on a wooden soundbox. This instrument<br>has the charming nickname "thumb piano," as it is<br>played by flicking the bars with both thumbs. We can<br>easily make a kalimba at home.<br>Let\'s find out the materials we need to make a kalimba.<br>First, we will need seven thin, long wooden sticks.<br>Additionally, we will need two short wooden sticks of<br>the same size, one thin wooden stick, and a paper box<br>to use as a soundbox.', keywords: ['scientific principles', 'sound', 'kalimba', 'African instrument', 'metal plates', 'wooden soundbox', 'thumb piano', 'materials', 'wooden sticks', 'paper box'] },
+      2: { text: 'Are the materials ready? If so, start by cutting<br>the long wooden sticks. When cutting the wooden<br>sticks, you need to cut them so that their lengths<br>are uniformly different to produce a balanced sound.<br>Next, align the cut wooden sticks to match the<br>horizontal width of the short wooden stick and attach<br>them neatly. Then, attach the remaining wooden<br>sticks on top. At this point, the upper sticks should<br>be slightly offset from the lower ones. Attach a thin<br>wooden stick in the gap created by the offset.<br>With this, the tines of the kalimba are completed.', keywords: ['materials', 'cutting', 'wooden sticks', 'lengths', 'balanced sound', 'align', 'attach', 'offset', 'tines', 'kalimba'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/11.jpg',
+    zones: {
+      1: { text: 'Now, let us make the soundbox. Use a compass to<br>draw a circle with a 5 to 6 cm radius on one side of<br>the paper box. Once the circle is complete, cut and<br>create a hole with scissors. Finally, attach the tines<br>we made earlier to the top of the soundbox, and our<br>kalimba is complete.<br>Now, it is time to check if it has been made correctly.<br>Place the hole of the soundbox in front. Then, use<br>both thumbs to flick each wooden stick one by one<br>gently. Be careful not to flick too hard, as the wood<br>may break.', keywords: ['soundbox', 'compass', 'circle', 'radius', 'paper box', 'hole', 'scissors', 'tines', 'kalimba', 'thumbs', 'flick', 'wooden stick', 'gently'] },
+      2: { text: 'Then, each wooden stick will make a different sound.<br>Some sticks create a high pitch, while others make<br>a low pitch. The difference in pitch is because of the<br>different lengths of the wooden sticks.<br>Short sticks make a high-pitched sound, while longer<br>sticks produce a low-pitched sound. The difference in<br>sound is due to the frequency of vibrations. In physics<br>and electronic engineering, the unit used to measure<br>frequency is Hertz (Hz), which represents the number<br>of vibrations per second. In other words, 1 Hertz<br>means one vibration per second.', keywords: ['wooden stick', 'different sound', 'high pitch', 'low pitch', 'lengths', 'frequency', 'vibrations', 'Hertz', 'Hz', 'vibrations per second'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/12.jpg',
+    zones: {
+      1: { text: 'When we flick a short wooden stick, we can see rapid<br>vibrations, indicating a higher frequency of vibrations<br>per second. This is called high frequency.<br>On the other hand, the long sticks vibrate more slowly,<br>resulting in fewer vibrations per second. A higher<br>frequency makes a higher-pitched sound, whereas<br>a lower frequency produces a lower-pitched sound.<br>We can understand this by comparing bees and<br>mosquitoes. Bees flap their wings about 225 times<br>per second, while mosquitoes typically flap their<br>wings around 600 times per second. Therefore,<br>the wing vibrations of mosquitoes are more than<br>twice as high.', keywords: ['short wooden stick', 'rapid vibrations', 'high frequency', 'long sticks', 'slowly', 'higher frequency', 'higher-pitched sound', 'lower frequency', 'lower-pitched sound', 'bees', 'mosquitoes', 'wings', '225 times', '600 times'] },
+      2: { text: 'Then which insect produces a higher pitch from its<br>wings? It is the mosquito. Bee sounds are often<br>described as a low "buzz," while mosquito sounds are<br>described as a high "whine."<br>The hummingbird flaps its wings 55 times per second,<br>producing a higher-pitched sound than other birds.', keywords: ['insect', 'higher pitch', 'wings', 'mosquito', 'bee sounds', 'buzz', 'whine', 'hummingbird', '55 times per second'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why each key on the kalimba produces<br>a different pitch.', keywords: ['kalimba', 'key', 'different pitch'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/13.jpg',
+    zones: {
+      1: { text: 'What changes the volume of sound? This is related<br>to amplitude. As explained earlier, amplitude is the<br>height of a wave. When there is a vibration, the<br>amplitude is the farthest distance moved from the<br>center point of that vibration. If the amplitude is<br>large, a loud sound is produced. If the amplitude is<br>small, a quiet sound is produced.', keywords: ['volume', 'sound', 'amplitude', 'height', 'wave', 'vibration', 'distance', 'center point', 'large amplitude', 'loud sound', 'small amplitude', 'quiet sound'] },
+      2: { text: 'In addition to pitch and volume, another important<br>factor determines the characteristics of sound. It is<br>tone. The tone is the unique color of a single sound.<br>When we listen to ensemble music, we can distinguish<br>between the sounds of instruments such as the piano,<br>violin, and flute.', keywords: ['pitch', 'volume', 'tone', 'characteristics', 'sound', 'unique color', 'ensemble music', 'instruments', 'piano', 'violin', 'flute'] },
+      4: { text: '', keywords: [] },
+      3: { text: 'Explain how the volume of sound is determined.', keywords: ['volume', 'sound', 'determined'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/14.jpg',
+    zones: {
+      1: { text: 'Even among various sounds we hear on the street,<br>we can tell the difference between a bus and a crying<br>child. We can distinguish sounds like this because<br>every sound has its own characteristics.<br>We call this tone. Unlike pitch or volume, tone is more<br>difficult to determine. It changes due to very complex<br>elements. Therefore, even if the same person plays<br>the same instrument, the feeling of the sound may be<br>different. The tone is different even if the pitch and<br>volume of the sound are the same.', keywords: ['various sounds', 'street', 'bus', 'crying child', 'characteristics', 'tone', 'pitch', 'volume', 'same person', 'same instrument', 'different feeling'] },
+      2: { text: 'What are the factors that make tone different?<br>We can point to the difference in materials used to<br>make the instrument. For example, a kalimba with<br>wooden tines and another with metal tines have<br>different tones. Wooden instruments that make<br>sound by blowing air into a pipe are called woodwind<br>instruments, and brass instruments are made of brass.<br>Usually, woodwind instruments produce a slightly<br>softer sound than brass instruments.', keywords: ['factors', 'tone different', 'materials', 'kalimba', 'wooden tines', 'metal tines', 'woodwind instruments', 'brass instruments', 'softer sound'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/15.jpg',
+    zones: {
+      1: { text: 'Woodwind and brass instruments have similar methods<br>of crafting. However, their different tones come from<br>the different materials used to make them.<br>The variation in tone can also be influenced by how<br>the instrument is played. For example, let\'s look at<br>the Chinese traditional instrument "guqin."<br>There are two main ways of playing the guqin.<br>One method is to pluck the strings with our fingers,<br>while another method involves pressing the strings<br>like some other instruments. Although it is the same<br>instrument, the tone of the guqin subtly changes<br>between plucking and pressing the strings.', keywords: ['woodwind', 'brass instruments', 'crafting', 'materials', 'tone variation', 'guqin', 'Chinese instrument', 'pluck strings', 'pressing strings', 'same instrument', 'different tone'] },
+      2: { text: 'The same principle applies to another Chinese<br>traditional instrument, the erhu. Each time the strings<br>are bowed or plucked, the erhu produces distinct tones.<br>Up to this point, we have discussed the three elements<br>of sound: pitch, volume, and tone. Besides these<br>elements, there is also a sense of depth and echoing<br>in sound. What could be the source of this feeling in<br>an instrument? Consider the guitar for a moment.', keywords: ['erhu', 'Chinese instrument', 'bowed', 'plucked', 'distinct tones', 'three elements', 'sound', 'pitch', 'volume', 'tone', 'depth', 'echoing', 'guitar'] },
+      3: { text: 'Please explain why the tone differs even when we<br>play the same instrument.', keywords: ['tone differs', 'same instrument'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/16.jpg',
+    zones: {
+      1: { text: 'Beneath the long wooden board with six strings is<br>a hollow wooden body. This wooden chamber is also<br>called a soundbox. It is similar to the soundbox of<br>a kalimba. String instruments, like violins, also have<br>soundboxes. The empty chambers beneath percussion<br>instruments are called resonators and act like<br>soundboxes. The deep and rich sound of musical<br>instruments is thanks to these soundboxes.<br>How much difference does having a soundbox or<br>resonator make to the depth of sound?<br>Let\'s experiment with the kalimba again.', keywords: ['wooden board', 'strings', 'hollow wooden body', 'soundbox', 'kalimba', 'string instruments', 'violins', 'resonators', 'deep sound', 'rich sound', 'musical instruments'] },
+      2: { text: 'First, separate the soundbox and the tines, then flick<br>the tines to listen to the sound. Now, combine the<br>tines and the soundbox and flick the tines. How does<br>the sound change between the two experiments?<br>The tines make a vague, shallow sound without the<br>soundbox. However, when the soundbox is attached,<br>the sound becomes louder with a deep echo.', keywords: ['separate', 'soundbox', 'tines', 'flick', 'listen', 'combine', 'sound change', 'vague sound', 'shallow sound', 'louder', 'deep echo'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/17.jpg',
+    zones: {
+      1: { text: 'We learned in the previous content that the volume<br>of a sound is related to its amplitude. When only<br>the tines are plucked without the soundbox, the<br>amplitude is very small. However, when we play with<br>the soundbox attached, we can observe that the<br>vibrations move with a much larger amplitude.<br>Then, what principle does the soundbox use to<br>make the sound louder and deeper? Every object\'s<br>vibrational frequency depends on its size, shape, or<br>material.', keywords: ['volume', 'sound', 'amplitude', 'tines', 'soundbox', 'vibrations', 'larger amplitude', 'vibrational frequency', 'size', 'shape', 'material'] },
+      2: { text: 'We can make different sounds when we tap an object.<br>The unique frequency that each object has is called<br>natural frequency. However, something special<br>happens if we tap the object according to its natural<br>frequency. Suddenly, the amplitude of the vibration<br>increases, and the sound becomes much louder.<br>This is because the force of tapping creates vibrations<br>that match the object\'s natural frequency, resulting<br>in a larger amplitude. Soundboxes also have natural<br>frequencies. When the vibrations made when playing<br>match the natural frequency of the soundbox,<br>the amplitude increases. As a result, the sound of<br>the musical instrument echoes louder and deeper.', keywords: ['tap object', 'different sounds', 'natural frequency', 'amplitude', 'vibration', 'louder', 'force of tapping', 'vibrations', 'match', 'soundboxes', 'musical instrument', 'echoes'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain how sound changes when we use<br>a soundbox with a musical instrument.', keywords: ['sound changes', 'soundbox', 'musical instrument'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/18.jpg',
+    zones: {
+      1: { text: 'When the natural frequencies of two objects match<br>and suddenly increase the amplitude of vibrations,<br>it is called "resonance." Think of when we collect<br>seashells on the beach. We often hold the seashells to<br>our ears, and strangely enough, we can hear the sound<br>of the sea. This phenomenon also happens through<br>resonance. One of the surrounding sounds resonates<br>with the unique frequency of the seashell\'s vibration,<br>producing the sound of the sea.', keywords: ['natural frequencies', 'objects match', 'amplitude', 'vibrations', 'resonance', 'seashells', 'beach', 'ears', 'sound of sea', 'phenomenon', 'surrounding sounds', 'unique frequency'] },
+      2: { text: 'However, resonance is not exclusive to sound.<br>It happens in anything with vibration and waves.<br>It may be challenging to notice, but we commonly<br>experience it in our surroundings.<br>Take a washing machine, for example. After washing<br>the laundry, the machine goes through a spin-drying<br>process to remove excess water. During this spin-<br>drying process, we can see the washing machine<br>shaking. This phenomenon can also be explained by<br>resonance.', keywords: ['resonance', 'vibration', 'waves', 'surroundings', 'washing machine', 'laundry', 'spin-drying process', 'excess water', 'shaking', 'phenomenon'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Briefly explain resonance.', keywords: ['resonance'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/19.jpg',
+    zones: {
+      1: { text: '01. The Secret Sounds of Motifs:<br>Vibrations and Waves<br><br>Ⅰ. What Is the Purpose of Studying<br>the Secret Sounds of Motifs,<br>Vibrations and Waves?', keywords: ['secret sounds', 'motifs', 'vibrations', 'waves', 'purpose', 'studying'] },
+      
+      2: { text: 'When an object trembles according to a consistent<br>pattern, it is called vibration, and the material that<br>transmits vibrations is called a medium. Air, water,<br>iron are typical media that transmit sound.<br>The phenomenon of vibrations spreading through<br>a medium is called a wave. Many people thought that<br>while they could hear sound, they could not depict it.<br>However, with the understanding that the essence of<br>sound lies in vibrations and waves, it became possible<br>for us to represent sound through drawings.<br>By looking at the shapes of vibrations and waves,<br>we can understand the characteristics of a sound.', keywords: ['object trembles', 'consistent pattern', 'vibration', 'medium', 'air', 'water', 'iron', 'vibrations spreading', 'wave', 'hear sound', 'depict', 'essence', 'represent sound', 'drawings', 'shapes', 'characteristics'] },
+      3: { text: 'There is an old saying that goes, "A picture is worth<br>a thousand words." If an object has a shape, you<br>can find out its characteristics through observation.<br>However, many things in the world do not have<br>a shape. A good example is sound. Sound is described<br>as the phenomenon of vibrations originating from one<br>material and traveling through another.<br>', keywords: ['old saying', 'picture', 'thousand words', 'object', 'shape', 'characteristics', 'observation', 'world', 'sound', 'phenomenon', 'vibrations', 'material'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/20.jpg',
+    zones: {
+      1: { text: 'For example, a loud sound is made when vibrations<br>occur with a large amplitude up and down, and the<br>more frequent the vibrations in a certain period of<br>time, the higher the sound. The reason we study<br>vibrations and waves is to be able to draw the unseen.<br>If we can draw it into something we can see, it means<br>we can handle it mathematically.<br>As a result, we can develop machines and technological<br>devices that use sound to make people\'s lives more<br>comfortable.', keywords: ['loud sound', 'vibrations', 'large amplitude', 'frequent vibrations', 'higher sound', 'study', 'vibrations', 'waves', 'draw', 'unseen', 'mathematically', 'machines', 'technological devices', 'comfortable'] },
+      2: { text: '(1) There is a saying, "Birds hear the words of day, and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mice hear the words of night." During the day, sound&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;travels upward, and at night it falls. Explain the reason&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for this.<br><br>(2) Our eardrums and cochlear ducts are essential for us&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to hear. Explain what each of these do.', keywords: ['saying', 'birds', 'mice', 'day', 'night', 'sound', 'travels upward', 'falls', 'eardrums', 'cochlear ducts', 'hear'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/21.jpg',
+    zones: {
+      1: { text: '<b>01. The Secret Sounds of Motifs:<br><b>Vibrations and Waves<br><br><strong><b>Ⅱ. How Can We Apply the Study of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><b>the Secret Sounds of Motifs,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><b>Vibrations and Waves?', keywords: ['secret sounds', 'motifs', 'vibrations', 'waves', 'apply', 'study'] },
+      2: { text: 'Research has shown that noise brings about stress<br>and increases the chance of heart disease. As humans<br>developed the ability to represent sound as waves,<br>a new technology called noise canceling emerged.<br>The principle of noise canceling is simple. When waves<br>that produce noise and waves with exact opposite<br>characteristics are generated together, the two waves<br>cancel each other out, making it seem like the noise<br>has disappeared. Recently released headphones and<br>earphones have noise-canceling features, allowing<br>users to listen to music comfortably even in noisy<br>environments. In extremely loud situations with race<br>cars or airplanes, speaking into a microphone may not<br>be enough to transmit sound. However, by applying<br>noise canceling technology to the microphone, only<br>the human voice is transmitted clearly.', keywords: ['noise', 'stress', 'heart disease', 'sound as waves', 'noise canceling', 'principle', 'waves', 'opposite characteristics', 'cancel each other', 'headphones', 'earphones', 'noisy environments', 'race cars', 'airplanes', 'microphone', 'human voice'] },
+      3: { text: 'Decibels (dB) is the unit used to express the amount<br>of sound humans hear. The sound produced during our<br>everyday conversations is approximately 60 decibels.<br>The sound of a car is 80-90 decibels, while the sound<br>of a train or an airplane taking off reaches 100 decibels.<br>Sound that is uncomfortable or irritable to our ears is<br>called "noise." Noise disrupts our daily lives and has<br>unfavorable effects on our bodies. Listening to loud<br>music with headphones or earphones or working for<br>a long time in a noisy construction site can make it<br>challenging to hear quiet sounds.<br>', keywords: ['decibels', 'dB', 'sound', 'humans hear', 'everyday conversations', '60 decibels', 'car', '80-90 decibels', 'train', 'airplane', '100 decibels', 'noise', 'uncomfortable', 'irritable', 'ears', 'daily lives', 'loud music', 'headphones', 'earphones', 'noisy construction site', 'quiet sounds'] },
+      4: { text: '', keywords: [] }
+      
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/22.jpg',
+    zones: {
+      1: { text: '(1) The violin, viola, cello, and double bass are representative<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string instruments. While these instruments share<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;similar shapes, they differ in size. Identify which<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instrument produces the lowest sound and explain the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reason.<br><br>(2) A soprano is a female vocalist who can reach very high<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notes. Can a soprano\'s voice shatter a wine glass?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Explain why or why not.', keywords: ['violin', 'viola', 'cello', 'double bass', 'representative', 'string instruments', 'similar shapes', 'differ', 'size', 'identify', 'lowest sound', 'explain', 'reason', 'soprano', 'female vocalist', 'high notes', 'shatter', 'wine glass'], fontType: 'type3' },
+      2: { text: 'Resonance can be seen even when we play on a swing in<br>the playground. When we push a friend\'s swing, we must<br>first push hard for the swing to move. However, the swing<br>moves even with a gentle push as time passes. Resonance<br>is the reason the swing moves smoothly with less force.<br>It occurs when the frequency of the force applied to the<br>swing matches its natural frequency.', keywords: ['resonance', 'swing', 'playground', 'push', 'friend swing', 'hard push', 'gentle push', 'time passes', 'smoothly', 'less force', 'frequency', 'force applied', 'natural frequency'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/23.jpg',
+    zones: {
+      1: { text: 'In our surroundings, resonance has been used in many<br>practical ways. One example is the television we often<br>watch. We can watch television broadcasts by transmitting<br>waves from different broadcasting stations.<br>When we change channels, we are changing the natural<br>frequency of the television. The changed frequency<br>matches the frequency of the waves the broadcasting<br>station sends, allowing us to watch a desired channel.<br>Quite fascinating, is it not? However, resonance is not<br>always beneficial. At times, resonance can pose risks.<br>Provide and explain an example of such a situation.', keywords: ['surroundings', 'resonance', 'practical ways', 'television', 'broadcasts', 'waves', 'broadcasting stations', 'channels', 'natural frequency', 'changed frequency', 'desired channel', 'beneficial', 'risks', 'provide', 'explain', 'example'], fontType: 'type3' },
+      2: { text: 'Volume, pitch, and tone are the three elements of sound.<br>The volume of sound is determined by the amplitude of<br>the vibrations moving up and down. A larger amplitude<br>produces a louder sound. The number of vibrations during<br>a specific period determines the pitch of sound.<br>Higher pitches involve more vibrations in a given time than<br>lower pitches. Lastly, tone is determined by the form of<br>the waves created by the object producing the sound.<br>The uniqueness of each person\'s voice is due to the<br>different tone of their voice, making it possible for us to<br>identify people only by their voices.', keywords: ['volume', 'pitch', 'tone', 'three elements', 'sound', 'amplitude', 'vibrations', 'up and down', 'larger amplitude', 'louder sound', 'number of vibrations', 'specific period', 'higher pitches', 'lower pitches', 'waves', 'object', 'uniqueness', 'person voice', 'identify people', 'voice recognition'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 슬라이드 24 (PDF 페이지 25 - 실제로는 페이지 번호상 25번째이지만 인덱스상 24)
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/24.jpg',
+  zones: {
+          1: { 
+        text: '<br>Having the ability to hear sound is a great blessing. It is<br>pleasant to listen to the sound of birds chirping, beautiful<br>piano performances, and the whispers of our loved ones.<br>It is possible to draw the shape of sound in the form of<br>waves, but it is not easy to determine the tone of the<br>sound just by looking at the waves. Listening to the sound<br>of musical instruments can remind us of various scenes.<br>Describe each of the images that come to mind when we<br>hear trumpet and harp sounds.',
+        keywords: ['hear sound', 'blessing', 'birds chirping', 'piano performances', 'whispers', 'loved ones', 'waves', 'tone', 'musical instruments', 'trumpet', 'harp', 'describe', 'images'],
+        fontType: 'type4'
+      },
+    2: { text: '', keywords: [] },
+          3: { 
+        text: 'The ancient Greek mathematician Pythagoras first revealed<br>the close connection between mathematics and music. He<br>discovered that the shorter the string length, the higher<br>the frequency, resulting in a higher pitch. For instance,<br>to produce a sound one octave lower than a current pitch,<br>the length of the string needs to be doubled.<br><br>',
+        keywords: ['Pythagoras', 'Greek mathematician', 'mathematics', 'music', 'string length', 'frequency', 'pitch', 'octave', 'doubled', 'connection', 'discovered'],
+        fontType: 'type3'
+      },
+    4: { text: '', keywords: [] }
+  }
+},
+// 슬라이드 25 (PDF 페이지 2) - 2512
+{
+    bg: '../assets/img/ReadBook/G2.2.6/25.jpg',
+    zones: {
+      1: { 
+        text: '<br><br>Musical instruments can be classified based on how they<br>are played. Instruments that produce sound by blowing<br>with the mouth are called wind instruments. Instruments<br>that produce sound by hitting are called percussion<br>instruments. Instruments that create sound through<br>strings are known as string instruments.<br>However, the piano makes sounds through strings but is<br>categorized as a keyboard instrument due to the keys that<br>must be pressed to play. The length of the string producing<br>the highest C note on the piano is 10 cm. To lower the note<br>by 8 octaves, the string\'s length would need to be 12.8<br>meters. However, the strings inside a piano are typically<br>no longer than around 2 meters. Explain why the piano can<br>produce low-pitched sounds despite this fact.',
+        keywords: ['musical instruments', 'classified', 'wind instruments', 'percussion instruments', 'string instruments', 'piano', 'keyboard instrument', 'keys', 'highest C note', '10 cm', '8 octaves', '12.8 meters', '2 meters', 'low-pitched sounds', 'explain'],
+      fontType: 'type4'
+      },
+      2: { 
+        text: 'Recently, earthquakes have been happening often around<br>the world. Earthquakes occur when energy accumulated<br>inside the Earth is suddenly released, causing the Earth\'s<br>surface or crust to shake. There are many reasons why<br>earthquakes happen, including events such as explosions<br>deep underground or the movement of magma.<br>The point below the Earth where the earthquake begins<br>is called the hypocenter, and the point on the surface<br>directly above the hypocenter is called the epicenter.',
+        keywords: ['earthquakes', 'happening often', 'energy accumulated', 'Earth', 'suddenly released', 'surface', 'crust', 'shake', 'explosions', 'underground', 'magma', 'hypocenter', 'epicenter', 'world', 'reasons'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
 
-            // 이미지 로드 실패 시 대체 텍스트
-            image.addEventListener('error', function() {
-                this.style.display = 'none';
-                const errorText = document.createElement('div');
-                errorText.textContent = '로딩 이미지를 불러올 수 없습니다';
-                errorText.style.color = '#ff6b6b';
-                errorText.style.fontSize = '16px';
-                errorText.style.marginTop = '20px';
-                container.insertBefore(errorText, container.firstChild);
-            });
-        });
-    </script>
+  // 슬라이드 26 (PDF 페이지 3) - 2612
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/26.jpg',
+    zones: {
+      1: { 
+        text: 'The waves made during an earthquake are referred to as<br>seismic waves. Seismic waves are divided into surface<br>waves, which travel along the Earth\'s surface, and body<br>waves, which travel deep within the Earth. Body waves are<br>further classified into P-waves and S-waves. P-waves are<br>longitudinal waves, while S-waves are transverse waves.<br>Longitudinal waves are the repeated compression and<br>expansion of waves in the direction of their travel, while<br>transverse waves move perpendicular to the direction<br>of travel. Explain which is faster and which causes more<br>damage: P-waves or S-waves.',
+        keywords: ['earthquake', 'seismic waves', 'surface waves', 'body waves', 'P-waves', 'S-waves', 'longitudinal waves', 'transverse waves', 'compression', 'expansion', 'perpendicular', 'faster', 'damage', 'explain'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: '<strong><u>How to Prevent Resonance Damage</u></strong><br><br>Various types of vibrations are transmitted to mechanical<br>devices and buildings around us. When this vibration<br>matches the natural frequency of the object, the object<br>trembles violently. This phenomenon is called "resonance."<br>When resonance occurs, the performance of the devices<br>significantly decreases, and in extreme cases, they may<br>be damaged. If they are devices used by humans, it can be<br>life-threatening. Engineers design products by thoroughly<br>examining the vibration and resonance of the devices.',
+        keywords: ['vibrations', 'transmitted', 'mechanical devices', 'buildings', 'natural frequency', 'trembles violently', 'resonance', 'performance decreases', 'damaged', 'life-threatening', 'engineers', 'design products', 'prevent', 'damage'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 27 (PDF 페이지 4) - 2712
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/27.jpg',
+    zones: {
+      1: { 
+        text: '<br>How can we minimize the damage caused by resonance?<br>The most obvious way is to design the product so that its<br>natural frequency is different from the frequency of the<br>vibrations generated by the device. It prevents resonance<br>from occurring in the first place. Most mechanical devices,<br>such as cars and airplanes, generate vibration during<br>operation. The natural frequency of an object varies<br>depending on the elasticity and mass of the object.<br>Elasticity can be said to be the strength of an object\'s<br>ability to return to its original state when its shape<br>changes. We can think of a spring that stretches easily and<br>a spring that stretches when we apply a lot of force.',
+        keywords: ['minimize damage', 'resonance', 'design product', 'natural frequency', 'vibrations', 'mechanical devices', 'cars', 'airplanes', 'operation', 'elasticity', 'mass', 'original state', 'spring', 'stretches', 'force'],
+        fontType: 'type4'
+      },
+      2: { 
+        text: '<br>Mass can be said to be a similar concept to weight.<br>The natural frequency increases as the elasticity increases<br>and the mass decreases. Taking this into consideration,<br>resonance can be avoided by predicting the vibration<br>occurring in the device in advance and adjusting the<br>elasticity or mass.<br>Another method is to use friction. Vibration is reduced<br>by using sticky liquid. It is called "attenuation." Adding<br>an attenuation device to the product gradually reduces<br>the amplitude. There is also a method of using something<br>called a "dynamic damper." If we attach an object that<br>is smaller than the object but has the same natural<br>frequency, the smaller object has the property of<br>resonating instead. A device that uses this property to<br>prevent product resonance is a dynamic damper.',
+        keywords: ['mass', 'weight', 'natural frequency increases', 'elasticity increases', 'mass decreases', 'predicting vibration', 'adjusting', 'friction', 'sticky liquid', 'attenuation', 'amplitude', 'dynamic damper', 'smaller object', 'resonating instead', 'avoided', 'method'],
+        fontType: 'type4'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 28 (PDF 페이지 5) - 281
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/28.jpg',
+    zones: {
+      1: { 
+        text: '<span class="larger-text">02. How Motifs Are Used in Advanced</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Technology</span><br><br>',
+        keywords: ['motifs', 'advanced technology', 'paper boat', 'water', 'stream', 'current', 'calm water', 'experiment', 'container', 'dish soap', 'kitchen', 'wet', 'sink', 'wind', 'surface tension']
+      },
+      2: { text: '', keywords: [] },
+      3: { text: 'Try to float a paper boat on the water. When placed<br>on a stream, a paper boat moves swiftly along with<br>the current. Sometimes, it moves so fast that we<br>might lose it. However, in calm water that does not<br>flow, the paper boat does not move. Is there a way to<br>make a paper boat move even in calm water?<br>Let\'s conduct an interesting experiment together.<br>Prepare a paper boat, a large container filled with<br>water, and liquid dish soap used in the kitchen.<br>The paper boat should be made of paper that does not<br>quickly get wet in water, otherwise it will immediately<br>sink. Once you are ready, float the paper boat on the<br>water. What will happen? Of course, the paper boat<br>will not move and will stay still since there is no wind<br>to move it.', keywords: ['paper boat', 'water', 'stream', 'current', 'calm water', 'experiment', 'container', 'dish soap', 'kitchen', 'wet', 'sink', 'wind', 'surface tension'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 29 (PDF 페이지 6) - 2912
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/29.jpg',
+    zones: {
+      1: { 
+        text: 'Now, let\'s add some magic to the paper boat. Wipe<br>off any moisture from the bottom of the paper boat.<br>Then, apply soap only to the back part of the boat.<br>Now, float the boat on the water again. What do you<br>think will happen this time? Unlike before, the paper<br>boat will glide forward on the water. The water is calm<br>and there is no wind, but the boat will move.<br>This is not the end of the experiment. Change the<br>type of soap and float the boat on the water again.<br>Try using toothpaste, shampoo, conditioner, hand<br>soap, and laundry soap. Record the results each time.<br>Which one makes the paper boat move further?<br>We can know the answer if we understand the<br>principles behind the moving paper boat.',
+        keywords: ['magic', 'paper boat', 'moisture', 'soap', 'back part', 'glide forward', 'calm', 'wind', 'experiment', 'toothpaste', 'shampoo', 'conditioner', 'hand soap', 'laundry soap', 'results', 'principles']
+      },
+      2: { 
+        text: 'First, we need to know what water is made of.<br>Water is a substance made up of molecules consisting<br>of two hydrogen atoms and one oxygen atom. It is<br>transparent, tasteless, and colorless. Water molecules<br>are polar, meaning they tend to stick together. They<br>have a force similar to the intense attraction between<br>the N and S poles of a magnet. The force that makes<br>water molecules stick together is called hydrogen<br>bonding. Water boils at a higher temperature than<br>other substances with similar molecular weights due<br>to hydrogen bonding. Breaking the hydrogen bonds to<br>turn water into gas requires significant energy.<br>However, water in a container has a section in contact<br>with air, known as the water surface.<br>The molecules on the water surface have slightly<br>different characteristics than those in the water.',
+        keywords: ['water', 'molecules', 'hydrogen atoms', 'oxygen atom', 'transparent', 'tasteless', 'colorless', 'polar', 'stick together', 'magnet', 'hydrogen bonding', 'boils', 'temperature', 'molecular weights', 'gas', 'energy', 'container', 'air', 'water surface', 'characteristics']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 30 (PDF 페이지 7) - 30124
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/30.jpg',
+    zones: {
+      1: { 
+        text: 'The molecules in the water have friends in all<br>directions, whereas the molecules on the surface<br>only have friends below and on the sides. The surface<br>water molecules form hydrogen bonds only with the<br>molecules below and on the sides. This makes them<br>stronger than the molecules inside the water.<br>They use the extra force to stick together tightly,<br>reducing the surface area. This force, aiming to<br>reduce the surface area, is called "surface tension."<br>This is why dewdrops on grass leaves, water droplets<br>on a faucet, and raindrops falling on a window always<br>have a round shape. Surface tension explains why<br>water in a glass does not easily overflow when we put<br>a coin in it.',
+        keywords: ['molecules', 'water', 'friends', 'directions', 'surface', 'below', 'sides', 'hydrogen bonds', 'stronger', 'extra force', 'stick together', 'surface area', 'surface tension', 'dewdrops', 'grass leaves', 'water droplets', 'faucet', 'raindrops', 'window', 'round shape', 'glass', 'overflow', 'coin']
+      },
+      2: { 
+        text: 'Surface tension is why the surface of the water in<br>a glass seems to be bulging. A water strider can float<br>on the water because of surface tension.<br>When the water strider presses on the surface, the<br>flat surface becomes concave, increasing the surface<br>area. At this point, surface tension tries to reduce<br>the water\'s surface area. Because the two opposing<br>forces are in balance, the water strider can float on<br>the water. Of course, the oil component on the water<br>strider\'s legs also helps it stay afloat.',
+        keywords: ['surface tension', 'glass', 'bulging', 'water strider', 'float', 'presses', 'flat surface', 'concave', 'increasing', 'opposing forces', 'balance', 'oil component', 'legs', 'stay afloat']
+      },
+      4: { text: '', keywords: [] },
+      3: { 
+        text: 'Explain what surface tension is.',
+        keywords: ['explain', 'surface tension'],
+        fontType: 'type2'
+      }
+    }
+  },
+
+  // 슬라이드 31 (PDF 페이지 8) - 3112
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/31.jpg',
+    zones: {
+      1: { 
+        text: 'Shall we return to the paper boat experiment?<br>Just like magic, the paper boat begins to move on its<br>own when we apply detergent to the bottom.<br>This is because of the surfactant in the detergent.<br>Look at the ingredient labels on the containers of<br>various detergents used in the experiment. Each one<br>contains surfactants. Surfactants act on the boundary<br>between two substances, reducing surface tension.',
+        keywords: ['paper boat experiment', 'magic', 'detergent', 'surfactant', 'ingredient labels', 'containers', 'boundary', 'substances', 'reducing surface tension']
+      },
+      2: { 
+        text: 'Therefore, when water meets a surface-active agent<br>on the water\'s surface, the balance of surface tension<br>is disrupted. The boat moves in the direction where<br>surface tension is greater. Why do most soaps and<br>detergents contain surfactants? Surfactants have<br>a lollipop-shaped structure, with one part that<br>dissolves easily in water and the other that dissolves<br>easily in oil. When submerged in water, the section<br>that dissolves in oil gathers inward, avoiding water.<br>This creates a circular structure called a "micelle."',
+        keywords: ['water', 'surface-active agent', 'balance', 'surface tension', 'disrupted', 'boat moves', 'direction', 'soaps', 'detergents', 'surfactants', 'lollipop-shaped structure', 'dissolves', 'oil', 'submerged', 'micelle']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 32 (PDF 페이지 9) - 32124
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/32.jpg',
+    zones: {
+      1: { 
+        text: 'Let\'s study how detergent removes greasy stains<br>from clothes. The part of the surface-active agent in<br>the detergent that melts easily in oil attaches to<br>the surface of the greasy stain.<br>When pressure is applied and rubbed, the greasy<br>stain separates from the clothes, forming a micelle<br>structure. The trapped greasy stain inside the micelle<br>cannot stick elsewhere and is washed away.<br>',
+        keywords: ['detergent', 'greasy stains', 'clothes', 'surface-active agent', 'oil', 'pressure', 'rubbed', 'micelle structure', 'trapped', 'washed away', 'dishes', 'washing faces', 'cook', 'oil droplets', 'large droplet', 'natural event', 'food', 'egg yolk', 'lecithin']
+      },
+      2: { text: 'Mixing oil with water is not only something we do<br>when doing dishes or washing our faces. It is also<br>necessary when we cook. When we put oil into water<br>and stir, tiny oil droplets float in the water.<br>Over time, they transform into a single large droplet.<br>This is a natural event caused by surface tension.<br>However, this event can be a problem if it happens<br>in food. But we cannot add detergent to food. In this<br>case, we can use egg yolk. Egg yolk has a natural<br>surfactant called "lecithin."', keywords: ['mixing oil', 'water', 'dishes', 'washing faces', 'cook', 'stir', 'oil droplets', 'large droplet', 'natural event', 'surface tension', 'food', 'detergent', 'egg yolk', 'lecithin'] },
+      3: { 
+        text: 'Explain how surfactants are used in our daily lives.',
+        keywords: ['explain', 'surfactants', 'daily lives'],
+        fontType: 'type2'
+      },
+      4: { text: '', keywords: [] },
+      
+    }
+  },
+// 슬라이드 33 (PDF 페이지 10) - 3312
+{
+    bg: '../assets/img/ReadBook/G2.2.6/33.jpg',
+    zones: {
+      1: { 
+        text: 'Mayonnaise is made by mixing vegetable oil, vinegar,<br>and egg yolk. However, thanks to the egg yolk,<br>mayonnaise does not feel like water and oil mixed<br>at all. An emulsifier is a substance that helps two<br>different liquids, like water and oil, mix well. However,<br>we must not misunderstand the meaning of the word<br>"mix" in this context.<br>When two liquids do not mix, creating one liquid into<br>tiny droplets and having them enter between the<br>other liquid is called emulsification. Emulsifiers are<br>added to reduce surface tension so the liquids can<br>stay together longer.',
+        keywords: ['mayonnaise', 'vegetable oil', 'vinegar', 'egg yolk', 'emulsifier', 'substance', 'different liquids', 'mix', 'tiny droplets', 'emulsification', 'reduce surface tension', 'stay together']
+      },
+      2: { 
+        text: 'We can create surreal art pieces by applying the<br>fact that water and oil do not mix. Think of the term<br>"marbling." Marbling is a motif that looks like marble.<br>Marble is a stone with various colors spread in dots<br>or streaks. It is hard and beautiful, commonly used to<br>build pillars, floors, and tables.<br>The term "marbling" is also used in art. In art, it is<br>a technique where ink or paint is dropped onto water,<br>and then paper is laid on top to transfer the paint<br>motif, creating a unique design.',
+        keywords: ['surreal art pieces', 'water', 'oil', 'marbling', 'motif', 'marble', 'stone', 'colors', 'dots', 'streaks', 'hard', 'beautiful', 'pillars', 'floors', 'tables', 'art', 'technique', 'ink', 'paint', 'paper', 'transfer', 'unique design']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 34 (PDF 페이지 11) - 3412
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/34.jpg',
+    zones: {
+      1: { 
+        text: 'Even the beef that we like to eat has a marbling motif.<br>The white fat is spread around the meat in a marbling<br>motif. When the fat is evenly distributed in the meat,<br>it becomes tender and soft. This is why cattle farmers<br>also raise cattle in ways that make them develop more<br>marbling motifs.<br>In our everyday life, people use special motifs to<br>create things. Scientific technologies using various<br>motifs are also advancing. Let\'s take money,<br>which we handle and use daily, as an example.<br>',
+        keywords: ['beef', 'marbling motif', 'white fat', 'meat', 'evenly distributed', 'tender', 'soft', 'cattle farmers', 'everyday life', 'special motifs', 'scientific technologies', 'money', 'intricate motifs', 'industrial technology', 'complex motifs', 'counterfeit currency', 'fake money', 'illegal', 'United States', 'lifetime prison', 'Japan', 'three years', 'honest people', 'economy', 'international society']
+      },
+      2: { text: 'Money is the ultimate object of intricate motifs<br>created through advanced industrial technology.<br>This means that it uses complex motifs. Occasionally,<br>we hear reports about counterfeit currency.<br>Counterfeit currency refers to fake money made to<br>look real. Creating and using counterfeit money is<br>terrible and can ruin a country. Therefore, it is illegal<br>in every country. For instance, in the United States,<br>making counterfeit currency can lead to a lifetime<br>in prison, while in Japan, it could result in a prison<br>sentence of three years to life. The use of counterfeit<br>currency not only harms honest people but also<br>creates challenges for the country\'s economy.<br>Countries where counterfeit currency is often<br>discovered are sometimes shunned from international<br>society. Therefore, each country has a set place<br>where money is made.', keywords: ['money', 'intricate motifs', 'advanced industrial technology', 'complex motifs', 'counterfeit currency', 'fake money', 'illegal', 'United States', 'lifetime prison', 'Japan', 'three years', 'honest people', 'economy', 'international society'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 슬라이드 35 (PDF 페이지 12) - 35123
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/35.jpg',
+    zones: {
+      1: { 
+        text: 'What should we do to avoid being a victim of<br>counterfeit currency? We must be able to distinguish<br>between real and fake money. No matter how well-<br>made counterfeit currency is, experts can recognize<br>it. Real money has many secrets that cannot be<br>seen at a glance. To prevent counterfeit currency,<br>the central banks of each country have put various<br>scientific devices into the money.<br>These devices are used in the process of making<br>money, making it difficult for criminals to copy them.<br>Even if they mimic the appearance accurately,<br>they can only partially copy the interior. Therefore, if<br>these hidden devices cannot be seen, it is counterfeit<br>currency.',
+        keywords: ['avoid', 'victim', 'counterfeit currency', 'distinguish', 'real', 'fake money', 'well-made', 'experts', 'recognize', 'secrets', 'glance', 'prevent', 'central banks', 'scientific devices', 'process', 'making money', 'criminals', 'copy', 'mimic', 'appearance', 'interior', 'hidden devices']
+      },
+      2: { 
+        text: 'Let\'s explore the technologies used to make banknotes.<br>Banknotes have various motifs that help distinguish<br>real money. The most commonly used technology in<br>each country is hiding images or letters. We cannot<br>see these with the naked eye.<br>We can only see them under a bright light or if we<br>tilt the banknotes slightly. Some motifs can only be<br>seen under a microscope. Additionally, hidden images<br>are drawn using fluorescent ink. We cannot see these<br>images under normal conditions and can only see<br>them if we put them under ultraviolet rays.',
+        keywords: ['explore', 'technologies', 'banknotes', 'motifs', 'distinguish', 'real money', 'commonly used', 'hiding images', 'letters', 'naked eye', 'bright light', 'tilt', 'microscope', 'fluorescent ink', 'normal conditions', 'ultraviolet rays']
+      },
+      3: { 
+        text: 'Explain what problems arise when using counterfeit<br>currency.',
+        keywords: ['explain', 'problems', 'counterfeit currency'],
+        fontType: 'type2'
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 36 (PDF 페이지 13) - 36123
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/36.jpg',
+    zones: {
+      1: { 
+        text: 'Nowadays, hologram technology is also widely used.<br>The word "hologram" is a Greek word meaning<br>a "whole drawing." It is a method of capturing a<br>three-dimensional image on flat paper. It can appear<br>like a living, moving object despite clearly being<br>a picture. How are holograms made? They cannot be<br>made by simply drawing with an ordinary brush or<br>pencil. It involves creating tiny grooves to carve out<br>the shape on a flat film. The essential tool used in this<br>process is laser beams. Holograms are made using the<br>interference motif of laser beams. Remember what<br>laser beams are? We explored it in the context of<br>Einstein\'s gravitational wave detector. Laser beams<br>can be used in various fields such as this.',
+        keywords: ['hologram technology', 'widely used', 'Greek word', 'whole drawing', 'method', 'capturing', 'three-dimensional image', 'flat paper', 'living', 'moving object', 'picture', 'holograms', 'ordinary brush', 'pencil', 'tiny grooves', 'carve out', 'flat film', 'laser beams', 'interference motif', 'Einstein', 'gravitational wave detector', 'various fields']
+      },
+      2: { 
+        text: 'China boasts world-class technology in preventing<br>counterfeit currency. Take a close look at the 100<br>yuan bill most commonly used in China. The front side<br>features a portrait of Mao Zedong. At first glance,<br>it seems like an ordinary picture that could be copied<br>with a photocopy machine. However, look at the lower<br>left corner of the banknote. When illuminated,<br>the number 100 is hidden.',
+        keywords: ['China', 'world-class technology', 'preventing', 'counterfeit currency', '100 yuan bill', 'commonly used', 'front side', 'portrait', 'Mao Zedong', 'first glance', 'ordinary picture', 'photocopy machine', 'lower left corner', 'banknote', 'illuminated', 'number 100', 'hidden']
+      },
+      3: { 
+        text: 'Explain the meaning of the term "hologram" and<br>how to make it.',
+        keywords: ['explain', 'meaning', 'hologram', 'how to make'],
+        fontType: 'type2'
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 37 (PDF 페이지 14) - 371
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/37.jpg',
+    zones: {
+      1: { 
+        text: 'The small characters, barely visible to the naked eye,<br>get distorted when the note is photocopied. Is this not<br>fascinating? The 100 yuan bill hides another secret.<br>If we touch the right part of the note with our fingers,<br>we can feel a long, thin plastic film inside the note.<br>We can see tiny letters when we shine a light on this<br>section. Now, shall we take another 100 yuan bill<br>and align it vertically? The moment we align them,<br>we can see a complete phoenix pattern. This time,<br>if we splice the two banknotes together horizontally,<br>another image connects. Finally, when we align the<br>backs of the banknotes, the pattern also fits together<br>seamlessly.',
+        keywords: ['small characters', 'barely visible', 'naked eye', 'distorted', 'photocopied', 'fascinating', '100 yuan bill', 'secret', 'touch', 'right part', 'fingers', 'long', 'thin plastic film', 'tiny letters', 'shine light', 'align vertically', 'complete phoenix pattern', 'splice', 'horizontally', 'image connects', 'backs', 'banknotes', 'pattern', 'fits together', 'seamlessly']
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 38 (PDF 페이지 15) - 38124
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/38.jpg',
+    zones: {
+      1: { 
+        text: 'This time, hold the $100 bill flat and slowly tilt it<br>forward. Various motifs will appear on the silver<br>background. The first thing you see is a picture of the<br>Independence Hall in the United States. Next, there<br>is the number 100. What is the last thing that you<br>see? It is the stars and stripes of the American flag.<br>This small bill is full of motifs symbolizing the United<br>States. Isn\'t that fascinating?<br>But why is the space next to the hologram empty with<br>no motifs? In fact, there is a hidden image in this<br>part too. It is the face of Benjamin Franklin and the<br>number 100. There are also small motifs that can only<br>be seen under a microscope.',
+        keywords: ['$100 bill', 'flat', 'slowly tilt', 'forward', 'motifs', 'silver background', 'Independence Hall', 'United States', 'number 100', 'stars and stripes', 'American flag', 'small bill', 'symbolizing', 'fascinating', 'space', 'hologram', 'empty', 'hidden image', 'Benjamin Franklin', 'microscope', 'various']
+      },
+      2: { 
+        text: 'However, these motifs can be easily copied with<br>a high-performance copier. So the $100 bill has<br>motifs that do not appear even if people photocopy<br>the notes. The background picture behind Benjamin<br>Franklin reveals a beautiful green pattern when<br>ultraviolet light is shone on it. This is because it has<br>been printed using fluorescent ink.',
+        keywords: ['motifs', 'easily copied', 'high-performance copier', '$100 bill', 'photocopy', 'notes', 'background picture', 'Benjamin Franklin', 'beautiful green pattern', 'ultraviolet light', 'shone', 'printed', 'fluorescent ink', 'prevent']
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain what technology to prevent counterfeit<br>currency is found in the US $100 bill.',
+        keywords: ['explain', 'technology', 'prevent', 'counterfeit currency', 'US $100 bill'],
+        fontType: 'type2'
+      }
+    }
+  },
+
+  // 슬라이드 39 (PDF 페이지 16) - 3912
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/39.jpg',
+    zones: {
+      1: { 
+        text: 'Motifs in advanced science and technology can also<br>be seen in medical technology. There is a cancer<br>diagnosis technology that uses the tentacle motif of<br>jellyfish. We all know we must be careful of jellyfish<br>at the beach.<br>Jellyfish have potent venom to catch prey. A person<br>stung by a jellyfish turns red and feels terrible pain.<br>There are even jellyfish whose venom is so strong<br>that people lose their lives after getting stung. This<br>is why people commonly think of jellyfish as harmful<br>animals. Fortunately, this is not true.',
+        keywords: ['motifs', 'advanced science', 'technology', 'medical technology', 'cancer diagnosis', 'tentacle motif', 'jellyfish', 'careful', 'beach', 'potent venom', 'catch prey', 'stung', 'red', 'terrible pain', 'strong', 'lose lives', 'harmful animals', 'fortunately', 'medical application']
+      },
+      2: { 
+        text: 'The jellyfish looks like a giant umbrella floating in<br>the sea. Scientists have developed a remarkable<br>medical device inspired by the jellyfish\'s tentacles.<br>This device can capture harmful organisms such as<br>cancer cells, bacteria, and viruses in the human blood.<br>The jellyfish uses cnidocytes on the surface of its<br>tentacles to catch prey or defend against enemies.<br>Cnidocytes are cells found in sea anemones and<br>jellyfish that contain venomous barbs. These cells<br>have trigger-like protrusions that can release the<br>barbs with a slight touch. The jellyfish\'s tentacles<br>have thousands or even millions of these triggers.',
+        keywords: ['jellyfish', 'giant umbrella', 'floating', 'sea', 'scientists', 'remarkable', 'medical device', 'inspired', 'tentacles', 'capture', 'harmful organisms', 'cancer cells', 'bacteria', 'viruses', 'human blood', 'cnidocytes', 'surface', 'catch prey', 'defend', 'enemies', 'sea anemones', 'venomous barbs', 'trigger-like protrusions', 'release', 'slight touch', 'thousands', 'millions', 'triggers', 'biomimicry']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 40 (PDF 페이지 17) - 4012
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/40.jpg',
+    zones: {
+      1: { 
+        text: 'Jellyfish hunt for prey in the water using their sticky,<br>long tentacles. Inspired by this, scientists thought<br>creating a jellyfish-shaped device with tentacles<br>could help catch cancer cells. Cancer cells are very<br>small. Compared to them, our bodies are vast, like the<br>sea. The blood veins that spread throughout our body<br>might feel like huge rivers to cancer cells.<br>This is why capturing individual cancer cells in the<br>body is a challenging task. However, using a device<br>modeled after jellyfish tentacles makes it much easier<br>to capture cancer cells.',
+        keywords: ['jellyfish', 'hunt', 'prey', 'water', 'sticky', 'long tentacles', 'inspired', 'scientists', 'jellyfish-shaped device', 'catch cancer cells', 'very small', 'bodies', 'vast', 'sea', 'blood veins', 'huge rivers', 'capturing', 'individual cancer cells', 'challenging task', 'modeled', 'easier', 'medical innovation']
+      },
+      2: { 
+        text: 'Scientists developed medical microchips surrounded<br>by long DNA strands. These microchips are tiny<br>devices that help treat diseases. The DNA tentacles<br>on the chip are arranged in a herringbone motif. The<br>herringbone motif is the V-shaped motif of repeating<br>fish bones.',
+        keywords: ['scientists', 'medical microchips', 'surrounded', 'long DNA strands', 'tiny devices', 'treat diseases', 'DNA tentacles', 'chip', 'arranged', 'herringbone motif', 'V-shaped motif', 'repeating', 'fish bones', 'biotechnology']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 41 (PDF 페이지 18) - 41124
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/41.jpg',
+    zones: {
+      1: { 
+        text: 'Blood swirls around and flows when the motif is<br>introduced into the microchip. This allows the bad cells<br>to come into better contact with the DNA tentacles.<br>However, our bodies also have normal cells as well.<br>Could the device make a mistake and accidentally<br>capture and kill normal cells instead of cancer cells?<br>How does the DNA strand selectively pick cancer<br>cells? To understand this, we first need to know what<br>DNA is.',
+        keywords: ['blood', 'swirls', 'flows', 'motif', 'introduced', 'microchip', 'bad cells', 'better contact', 'DNA tentacles', 'bodies', 'normal cells', 'device', 'mistake', 'accidentally', 'capture', 'kill', 'DNA strand', 'selectively pick', 'cancer cells', 'understand', 'DNA', 'selective targeting']
+      },
+      2: { 
+        text: 'From a young age, we often hear that we look like<br>our parents. Our face, hair color, and skin color are<br>passed down to us through genes. Genes are the<br>basic units of information that cause specific genetic<br>characteristics, and the material that makes up these<br>genes is called DNA. Think of genes as computer<br>programs and DNA as a computer hard disk.',
+        keywords: ['young age', 'look like', 'parents', 'face', 'hair color', 'skin color', 'passed down', 'genes', 'basic units', 'information', 'genetic characteristics', 'material', 'DNA', 'computer programs', 'computer hard disk', 'inheritance']
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain what genes and DNA are by comparing<br>them to a computer.',
+        keywords: ['explain', 'genes', 'DNA', 'comparing', 'computer'],
+        fontType: 'type2'
+      }
+    }
+  },
+  // 슬라이드 42 (PDF 페이지 19) - 42124
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/42.jpg',
+    zones: {
+      1: { 
+        text: 'DNA can be considered a molecule that serves as<br>the blueprint of life. In particular, the sequence of<br>DNA known as aptamer has an exceptional ability to<br>catch specific targets. "Aptamer" comes from Latin,<br>meaning "to fit well."<br>Scientists have created DNA strands that capture<br>proteins commonly found on the surface of cancer<br>cells. Using these strands, they have developed<br>microchips as described earlier. Scientists conducted<br>experiments by flowing blood containing leukemia<br>cells through this device. The experimental results<br>were astonishing. The DNA tentacles captured up to<br>80% of leukemia cells, a staggering six times more<br>than previous medical devices. The day to conquer<br>cancer seems to be close.',
+        keywords: ['DNA', 'molecule', 'blueprint of life', 'sequence', 'aptamer', 'exceptional ability', 'catch', 'specific targets', 'Latin', 'fit well', 'scientists', 'DNA strands', 'capture', 'proteins', 'surface', 'cancer cells', 'microchips', 'experiments', 'flowing blood', 'leukemia cells', 'device', 'experimental results', 'astonishing', 'DNA tentacles', '80%', 'staggering', 'six times', 'medical devices', 'conquer cancer', 'medical breakthrough']
+      },
+      2: { 
+        text: '02. How Motifs Are Used in Advanced Technology<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying the</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Motifs Used in Advanced Technology?</span><br><br>',
+        keywords: ['motifs', 'advanced technology', 'purpose', 'studying', 'everything', 'world', 'zebras', 'tigers', 'striped motifs', 'bodies', 'leopards', 'dalmatians', 'spotted motifs', 'leaves', 'leaf veins', 'rocks', 'beautiful motifs', 'nature', 'applied', 'objects', 'humans', 'clothes', 'bags', 'buildings', 'natural patterns']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'Everything in the world has a motif. Zebras and tigers<br>have striped motifs on their bodies, while leopards<br>and Dalmatians have spotted motifs. Even leaves have<br>a motif called leaf veins. Surprisingly, even rocks have<br>beautiful motifs. Motifs are present in nature and<br>applied to objects made by humans, such as clothes,<br>bags, buildings, and more.', keywords: ['everything', 'world', 'motif', 'zebras', 'tigers', 'striped motifs', 'bodies', 'leopards', 'dalmatians', 'spotted motifs', 'leaves', 'leaf veins', 'rocks', 'beautiful motifs', 'nature', 'applied', 'objects', 'humans', 'clothes', 'bags', 'buildings'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/43.jpg',
+    zones: {
+      1: { 
+        text: 'There are motifs in the world we can see but also<br>motifs invisible to our naked eyes. For example, some<br>flowers appear yellow to humans as we can only see<br>light in the visible spectrum. However, when seen<br>through the eyes of bees, which can see ultraviolet<br>light, the center of the flower looks dark. Bees can<br>see ultraviolet light, so flowers use ultraviolet motifs<br>to indicate the location of nectar to bees. The reason<br>flowers create ultraviolet motifs is to spread pollen<br>for reproduction.',
+        keywords: ['motifs', 'world', 'visible', 'invisible', 'naked eyes', 'flowers', 'yellow', 'humans', 'visible spectrum', 'bees', 'ultraviolet light', 'center', 'dark', 'ultraviolet motifs', 'location', 'nectar', 'spread pollen', 'reproduction', 'hidden patterns']
+      },
+      2: { 
+        text: 'In other words, it is a strategy flowers use to survive<br>in nature. The motif plays a role in making things look<br>beautiful and serves an essential function in maintaining<br>survival. Modern scientists are researching how to use<br>motifs in advanced industries for the same reasons.<br>Many people are trying to understand the role of<br>motifs in the survival of organisms in nature and apply<br>that knowledge to our daily lives. This is precisely why<br>we are studying this topic.',
+        keywords: ['strategy', 'flowers', 'survive', 'nature', 'motif', 'role', 'beautiful', 'essential function', 'maintaining survival', 'modern scientists', 'researching', 'advanced industries', 'understand', 'organisms', 'apply', 'knowledge', 'daily lives', 'studying', 'topic', 'biomimicry research']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 44 (PDF 페이지 21) - 44124
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/44.jpg',
+    zones: {
+      1: { 
+        text: '(1) Marbling is the drawing method of dropping oil paint<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on water and then covering it with paper to create<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a motif. Describe how you feel when you see a marbling<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;artwork.<br><br>(2) Could plants survive if the surface tension of water<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;were weaker? Write your thoughts.',
+        keywords: ['marbling', 'drawing method', 'oil paint', 'water', 'paper', 'motif', 'describe', 'feel', 'artwork', 'plants', 'survive', 'surface tension', 'weaker', 'thoughts', 'artistic technique'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: '02. How Motifs Are Used in Advanced Technology</span><br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of Motifs</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Used in Advanced Technology?</span><br><br>',
+        keywords: ['motifs', 'advanced technology', 'apply', 'study', 'biomimicry', 'technology', 'solves problems', 'ideas', 'living organisms', 'Janine Benyus', 'American biologist', 'pioneer', 'research', '3.8 billion years', 'bacteria', 'Earth', 'failures', 'fossils', 'secret', 'survival', 'practical application']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'Biomimicry is the technology that solves problems<br>by getting ideas from living organisms. Let\'s study<br>the words of Janine Benyus, an American biologist<br>and pioneer in biomimicry. "As a result of research on<br>living things over the 3.8 billion years since bacteria<br>first appeared on Earth, the failures among living<br>things have become fossils, and everything we see<br>around us now holds the secret to survival."', keywords: ['biomimicry', 'technology', 'solves problems', 'ideas', 'living organisms', 'Janine Benyus', 'American biologist', 'pioneer', 'research', '3.8 billion years', 'bacteria', 'Earth', 'failures', 'fossils', 'survival'] }
+    }
+  },
+
+  // 슬라이드 45 (PDF 페이지 22) - 4512
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/45.jpg',
+    zones: {
+      1: { 
+        text: 'As she says, most of the technologies we can call<br>advanced industrial technology today are things that<br>nature has revealed to us. For example, there is the<br>pinecone effect. The shell of a pinecone closes when<br>humidity is high because the outer layer absorbs<br>water faster than the inner layer, causing it to swell.<br>Thanks to this, the seeds inside the pinecone are<br>safely protected. On the contrary, the pinecone opens<br>again as moisture escapes from the outer layer on dry<br>days.',
+        keywords: ['technologies', 'advanced industrial technology', 'nature', 'revealed', 'pinecone effect', 'shell', 'pinecone', 'closes', 'humidity', 'high', 'outer layer', 'absorbs water', 'inner layer', 'swell', 'seeds', 'safely protected', 'opens', 'moisture escapes', 'dry days', 'natural adaptation']
+      },
+      2: { 
+        text: 'Then, the seeds come out of the pinecone and spread<br>far away in the wind. The pinecone effect can be<br>applied to clothing or building materials. When it rains,<br>they close automatically, becoming waterproof,<br>and on sunny days, they open wide, getting good air<br>circulation. Creating technologies or devices inspired<br>by nature that are environmentally friendly is called<br>"green technology." Countless organisms living in<br>nature have given us endless opportunities to develop<br>advanced industrial technologies.',
+        keywords: ['seeds', 'come out', 'pinecone', 'spread', 'far away', 'wind', 'pinecone effect', 'applied', 'clothing', 'building materials', 'rains', 'close automatically', 'waterproof', 'sunny days', 'open wide', 'air circulation', 'technologies', 'devices', 'inspired', 'nature', 'environmentally friendly', 'green technology', 'countless organisms', 'endless opportunities', 'advanced industrial technologies']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 46 (PDF 페이지 23) - 4612
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/46.jpg',
+    zones: {
+      1: { 
+        text: '(1) Most counterfeit currency is in the form of banknotes.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Why do criminals use fake banknotes instead of coins?<br><br>(2) There is a fluorescent paint that is normally invisible<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to the eye but glows when exposed to ultraviolet light.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Where can this paint be used?',
+        keywords: ['counterfeit currency', 'banknotes', 'criminals', 'fake banknotes', 'coins', 'fluorescent paint', 'invisible', 'eye', 'glows', 'ultraviolet light', 'paint'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: 'Medical researchers have used DNA aptamers in various<br>devices to make treatments. This way, the devices fulfill<br>their roles better within the human body.<br>Among the cancer treatment devices using DNA aptamers,<br>one has a microchip with long DNA strands resembling the<br>tentacles of a jellyfish.',
+        keywords: ['medical researchers', 'DNA aptamers', 'various devices', 'treatments', 'devices', 'fulfill', 'roles', 'human body', 'cancer treatment', 'microchip', 'long DNA strands', 'resembling', 'tentacles', 'jellyfish', 'biomimetic design'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 47 (PDF 페이지 24) - 4712
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/47.jpg',
+    zones: {
+      1: { 
+        text: 'Cancer is a scary disease that takes the lives of many<br>people. Cancer is so frightening because cancer cells can<br>spread to other locations. Cancer cells move to different<br>areas when attacked and create new cancerous masses,<br>making it hard to get rid of them completely. Therefore,<br>it is essential to quickly discover whether cancer cells<br>are spreading to other areas within the body before they<br>attach and grow elsewhere.<br>The long DNA tentacles are important in helping such<br>situations. These tentacles can capture cancer cells and<br>pull them out of the body to experiment with different<br>medicines. Researchers can determine which medicine is<br>the best at getting rid of cancer cells. Importantly, this<br>device is not limited to treating only cancer patients.<br>It can also treat a baby inside a mother\'s womb. How is<br>it possible to do this? Feel free to guess and provide<br>an explanation.',
+        keywords: ['cancer', 'scary disease', 'lives', 'frightening', 'cancer cells', 'spread', 'locations', 'move', 'different areas', 'attacked', 'cancerous masses', 'hard', 'completely', 'essential', 'quickly discover', 'body', 'attach', 'grow', 'DNA tentacles', 'important', 'situations', 'capture', 'pull out', 'experiment', 'medicines', 'researchers', 'determine', 'best', 'device', 'limited', 'treating', 'cancer patients', 'baby', 'mother womb', 'possible', 'guess', 'explanation', 'medical innovation'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: 'Money, also known as currency, is often regarded as the<br>most incredible gift created by humans. Money takes<br>on various forms and values depending on the time and<br>location. It is essential to understand what played the role<br>of money.',
+        keywords: ['money', 'currency', 'regarded', 'incredible gift', 'created', 'humans', 'various forms', 'values', 'depending', 'time', 'location', 'essential', 'understand', 'played', 'role', 'economic evolution'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 48 (PDF 페이지 25) - 4812
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/48.jpg',
+    zones: {
+      
+      1: { 
+        text: 'For instance, in ancient civilizations, where people mainly<br>farmed, cattle were used as money. Cattle held value in<br>farming societies as they provided labor and meat.<br>Around 1200 BC, colorful, shiny seashells were used as<br>money in Africa, China, and India. In Rome during the 3rd<br>century BC, coins made of gold served as money.<br>Nowadays, people use credit cards more than cash to buy<br>goods. When you buy goods with a credit card, the money<br>is deducted from your bank account after a certain period<br>of time. Write down what might have been used as money<br>when there were no coins, banknotes, or credit cards as<br>there are today.',
+        keywords: ['instance', 'ancient civilizations', 'people', 'mainly farmed', 'cattle', 'money', 'held value', 'farming societies', 'provided', 'labor', 'meat', '1200 BC', 'colorful', 'shiny seashells', 'Africa', 'China', 'India', 'Rome', '3rd century BC', 'coins', 'gold', 'served', 'nowadays', 'credit cards', 'cash', 'buy goods', 'deducted', 'bank account', 'certain period', 'time', 'write down', 'banknotes', 'today', 'historical development'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: 'In dictionaries, a motif is defined as a shape drawn on the<br>surface of an object for decorative purposes. However,<br>a motif is not limited to decorations. For living organisms,<br>a motif is a tool for survival. Thanks to their spotted motif,<br>leopards can crouch in the bushes without being easily<br>noticed. They can approach prey without being detected.<br>When zebras gather in herds, they look like a massive rock<br>from the distance. A cutlassfish with shimmering silver<br>scales tricks other fish by making itself appear as the<br>sunlight reflected in the water.<br>In this way, every animal has a unique motif, and even<br>animals of the same species can have slightly different<br>motifs. For example, humans each have a unique<br>fingerprint pattern. Investigators can identify criminals by<br>analyzing fingerprints collected at a crime scene. Now,<br>write down what animal motifs can serve as identification,<br>like human fingerprints.',
+        keywords: ['dictionaries', 'motif', 'defined', 'shape', 'drawn', 'surface', 'object', 'decorative purposes', 'limited', 'decorations', 'living organisms', 'tool', 'survival', 'spotted motif', 'leopards', 'crouch', 'bushes', 'easily noticed', 'approach', 'prey', 'detected', 'zebras', 'gather', 'herds', 'massive rock', 'distance', 'cutlassfish', 'shimmering', 'silver scales', 'tricks', 'fish', 'sunlight', 'reflected', 'water', 'every animal', 'unique motif', 'same species', 'slightly different', 'humans', 'fingerprint pattern', 'investigators', 'identify', 'criminals', 'analyzing', 'fingerprints', 'crime scene', 'animal motifs', 'identification', 'natural camouflage'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 49 (PDF 페이지 26) - 4912
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/49.jpg',
+    zones: {
+      1: { 
+        text: 'The human body is known to have approximately 30 trillion<br>cells. Each cell has a set lifespan. As time passes, it dies<br>and disappears. At the same time, our body makes new<br>cells to maintain our health. However, cancer cells survive<br>by continuously dividing and mutating, even beyond their<br>normal lifespan.<br>We might think, "Isn\'t it good that new cells are being<br>made?" However, cancer cells do not act like regular cells.<br>They only expand our blood vessels to absorb nutrients and<br>oxygen. To treat cancer, we must eliminate cancer cells<br>that show abnormal behavior. However, this is not an easy<br>task. Radiation therapy or drug treatment can be used to<br>kill cancer cells. The problem is that normal, healthy cells<br>also die in this process. Is there a way to eliminate cancer<br>cells without killing normal cells? Think about the ways<br>they can be eliminated and write them down.',
+        keywords: ['human body', 'approximately', '30 trillion cells', 'cell', 'set lifespan', 'time passes', 'dies', 'disappears', 'body', 'makes', 'new cells', 'maintain', 'health', 'cancer cells', 'survive', 'continuously dividing', 'mutating', 'beyond', 'normal lifespan', 'think', 'good', 'new cells', 'made', 'act', 'regular cells', 'expand', 'blood vessels', 'absorb', 'nutrients', 'oxygen', 'treat cancer', 'eliminate', 'abnormal behavior', 'easy task', 'radiation therapy', 'drug treatment', 'kill', 'problem', 'normal', 'healthy cells', 'die', 'process', 'way', 'without killing', 'ways', 'eliminated', 'write down', 'targeted therapy'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: 'Today, people use money such as coins or bills to buy things<br>they need. Money is created by a central bank designated<br>for each country. One of the important roles of the central<br>bank is to control the amount of money printed.<br>Have you ever thought, \'Wouldn\'t it be nice to make more<br>money for people suffering from poverty?\' It is not that<br>simple. When a lot of money is printed, its value decreases.',
+        keywords: ['today', 'people', 'money', 'coins', 'bills', 'buy things', 'need', 'created', 'central bank', 'designated', 'country', 'important roles', 'control', 'amount', 'printed', 'thought', 'nice', 'make more money', 'suffering', 'poverty', 'simple', 'lot of money', 'value decreases', 'economic policy'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 50 (PDF 페이지 27) - 5012
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/50.jpg',
+    zones: {
+      1: { 
+        text: '<br>Imagine that your house is full of bills. Money that seemed<br>precious before will feel like a piece of tissue paper.<br>Even from the perspective of a business person, the value<br>of a single bill does not seem as precious as it used to be.<br>In the end, selling an item costs a higher price than before.<br>If we issue a lot of money like this, prices naturally rise.<br>The phenomenon of a decrease in the value of money and<br>an increase in prices is called "inflation." Serious inflation<br>occurred in Germany in the 20th century. After World War<br>I, Germany issued enormous amounts of money.',
+        keywords: ['imagine', 'house', 'full of bills', 'money', 'seemed', 'precious', 'feel', 'piece', 'tissue paper', 'perspective', 'business person', 'value', 'single bill', 'precious', 'used to be', 'end', 'selling', 'item', 'costs', 'higher price', 'before', 'issue', 'lot of money', 'prices', 'naturally rise', 'phenomenon', 'decrease', 'increase', 'inflation', 'serious inflation', 'occurred', 'Germany', '20th century', 'World War I', 'enormous amounts', 'hyperinflation'],
+        fontType: 'type4'
+      },
+      2: { 
+        text: '<br>As a result, prices of things in Germany rose tremendously.<br>Bread, which was worth 1 mark, rose to 50 million marks<br>in just a few months. It is said that there were people<br>who carried money in a cart when going to buy something.<br>However, if too little money is printed, the economy<br>becomes paralyzed. This is because a country\'s economic<br>activities are carried out by exchanging money.<br>Without money, companies cannot produce goods. They<br>cannot even pay their employees. However, employees are<br>both paid workers and consumers who purchase goods.<br>If consumers do not buy the products, the company will<br>eventually go out of business. If the issuance of money<br>is not regulated, it leads to problems in the country\'s<br>economy. For this reason, the role of the central bank is<br>very important.',
+        keywords: ['result', 'prices', 'things', 'Germany', 'rose', 'tremendously', 'bread', 'worth', '1 mark', 'rose', '50 million marks', 'few months', 'said', 'people', 'carried money', 'cart', 'going', 'buy something', 'however', 'too little money', 'printed', 'economy', 'paralyzed', 'country', 'economic activities', 'carried out', 'exchanging money', 'without money', 'companies', 'produce goods', 'pay', 'employees', 'paid workers', 'consumers', 'purchase goods', 'consumers', 'buy', 'products', 'company', 'eventually', 'go out of business', 'issuance', 'regulated', 'leads', 'problems', 'economy', 'reason', 'role', 'central bank', 'very important', 'monetary policy'],
+        fontType: 'type4'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/51.jpg',
+    zones: {
+      1: { 
+        text: '<br><strong><u>Write down things around us that move repeatedly.<br><br>The pendulum of a grandfather clock moves repeatedly to the left and<br>right. When we pluck a guitar string, the string moves up and down<br>repeatedly. The needle of the metronome, used to keep the beat,<br>also moves repeatedly.',
+        keywords: ['secret sounds', 'motifs', 'vibrations', 'waves', 'nature secrets', 'move repeatedly', 'pendulum', 'grandfather clock', 'guitar string', 'metronome', 'needle', 'beat'],
+        fontType: 'type5'
+      },
+      2: { 
+        text: '<strong><u>Explain what a medium is and write down a medium that</u></strong><br><strong><u>transmits sound.</u></strong><br><br><br><br><br><br><br><br><br>The material through which waves are transmitted is called the<br>medium Sound can be transmitted through air, liquids like water or<br>oil, and solids like wood and iron.',
+        keywords: ['medium', 'waves', 'transmitted', 'sound', 'air', 'liquids', 'water', 'oil', 'solids', 'wood', 'iron'],
+        fontType: 'type8'
+      },
+      3: { 
+        text: '<strong><u>How can we tell the difference between transverse waves and</u></strong><br><strong><u>longitudinal waves? Explain with examples.</u></strong><br><br>A longitudinal wave is one where the compression and expansion of<br>the medium occur in the direction of wave travel, while a transverse<br>wave occurs when the medium moves perpendicular to the wave\'s<br>direction. Sound waves are longitudinal waves, while water waves are<br>transverse waves.',
+        keywords: ['transverse waves', 'longitudinal waves', 'compression', 'expansion', 'medium', 'wave travel', 'perpendicular', 'sound waves', 'water waves'],
+        fontType: 'type8'
+      },
+      4: { 
+        text: '<strong><u>Explain why each key on the kalimba produces a different pitch.</u></strong><br><br><br><br><br><br><br><br><br>The lengths of the keys on the kalimba are all different. A lower pitch is<br>produced if the key is longer and if the key is shorter, a higher pitch<br>is produced. This is related to the frequency, as shorter key lengths<br>result in higher frequencies and, consequently, higher pitches.<br>',
+        keywords: ['kalimba', 'key', 'different pitch', 'lengths', 'lower pitch', 'longer', 'shorter', 'higher pitch', 'frequency', 'higher frequencies'],
+        fontType: 'type8'
+      }
+    }
+  },
+
+  // 슬라이드 52 (PDF 페이지 2) - 521234
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/52.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Explain how the volume of sound is determined.</u></strong><br><br><br><br><br><br><br><br><br>The amplitude determines the loudness of the sound.<br>A large amplitude produces a loud sound, while a small amplitude<br>produces a soft sound.',
+        keywords: ['volume', 'sound', 'determined', 'amplitude', 'loudness', 'large amplitude', 'loud sound', 'small amplitude', 'soft sound'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '<strong><u>Explain how sound changes when we use a soundbox with</u></strong><br><strong><u>a musical instrument.</u></strong><br><br><br><br><br><br><br><br><br>Attaching a soundbox to an instrument increases its volume. This is<br>due to the amplitude. The amplitude of an instrument with a sound<br>box increases, causing it to vibrate more intensely. As a result,<br>the sound becomes louder.',
+        keywords: ['sound changes', 'soundbox', 'musical instrument', 'attaching', 'increases', 'volume', 'amplitude', 'vibrate', 'intensely', 'louder'],
+        fontType: 'type8'
+      },
+      3: { 
+        text: '<strong><u>Please explain why the tone differs even when we play the same</u></strong><br><strong><u>instrument.</u></strong><br><br><br><br><br><br><br><br><br>Each sound has unique characteristics that distinguish it from other<br>sounds. This is called the tone of the sound. Tone can be influenced<br>by the materials used to make the instrument and how it is played.<br>',
+        keywords: ['tone differs', 'same instrument', 'unique characteristics', 'distinguish', 'tone', 'sound', 'influenced', 'materials', 'played'],
+        fontType: 'type8'
+      },
+      4: { 
+        text: '<strong><u>Briefly explain resonance.</u></strong><br><br><br><br><br><br><br><br><br>Objects have their natural frequencies of vibration. When the<br>frequency of the force applied to an object matches its natural<br>frequency, the amplitude of the vibration suddenly increases.<br>This phenomenon is called resonance.',
+        keywords: ['resonance', 'objects', 'natural frequencies', 'vibration', 'frequency', 'force applied', 'matches', 'amplitude', 'suddenly increases', 'phenomenon'],
+        fontType: 'type8'
+      }
+    }
+  },
+
+  // 슬라이드 53 (PDF 페이지 3) - 5312
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/53.jpg',
+    zones: {
+      1: { 
+        text: '<br><br>(1) <strong><u>There is a saying, "Birds hear the words of day, and mice hear</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>the words of night." During the day, sound travels upward,</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>and at night it falls. Explain the reason for this.</u></strong><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The direction in which sound travels is influenced by the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temperature difference in the air. Sound travels faster in areas<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where the air is warmer. Additionally, sound tends to bend from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fast to slow. During the day, the ground is hotter than the sky.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As a result, sound travels in a bending direction from the ground<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;towards the sky. On the other hand, during the night, the sky is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hotter than the ground. Therefore, sound travels in a bending<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction from the sky toward the ground.',
+        keywords: ['purpose', 'studying', 'secret sounds', 'motifs', 'vibrations', 'waves', 'birds', 'mice', 'day', 'night', 'sound travels', 'temperature difference', 'air', 'warmer', 'bend', 'ground', 'sky'],
+        fontType: 'type6'
+      },
+      2: { 
+        text: '<br><br><br><br>(2) <strong><u>Our eardrums and cochlear ducts are essential for us to hear.</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Explain what each of these do.</u></strong><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sound is transmitted through the vibration of air, and the eardrum<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receives the vibration of the air.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The cochlear duct converts the vibration of the eardrum into<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signals and sends them to the brain.',
+        keywords: ['eardrums', 'cochlear ducts', 'essential', 'hear', 'sound', 'transmitted', 'vibration', 'air', 'eardrum', 'receives', 'converts', 'signals', 'brain'],
+        fontType: 'type6'
+      },
+      3: { text: '', keywords: ['empty zone', 'no content'] },
+      4: { text: '', keywords: ['empty zone', 'no content'] }
+    }
+  },
+
+  // 슬라이드 54 (PDF 페이지 4) - 5412
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/54.jpg',
+    zones: {
+      1: { 
+        text: '<br><br><strong><u>(1) The violin, viola, cello, and double bass are representative</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>string instruments. While these instruments share similar</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>shapes, they differ in size. Identify which instrument produces</u></strong>><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The double bass has the lowest note. The natural frequency of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;musical instruments depends on factors such as the size and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shape of the sound chamber. Among the given instruments, the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double bass has the lowest natural frequency. Low notes resonate<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;more effectively and sound louder, which is why the double bass<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;produces deep, low-pitched tones.',
+        keywords: ['apply', 'study', 'secret sounds', 'motifs', 'vibrations', 'waves', 'violin', 'viola', 'cello', 'double bass', 'string instruments', 'similar shapes', 'differ', 'size', 'lowest sound', 'natural frequency', 'sound chamber', 'resonate', 'low-pitched tones'],
+        fontType: 'type6'
+      },
+      2: { 
+        text: '<br><br><br><br><strong><u>(2) A soprano is a female vocalist who can reach very high notes.</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Can a soprano\'s voice shatter a wine glass? Explain why or</u></strong><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It can be shattered. When the voice frequency matches the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;natural frequency of the glass, the glass cup resonates and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shatters.',
+        keywords: ['soprano', 'female vocalist', 'high notes', 'voice', 'shatter', 'wine glass', 'voice frequency', 'matches', 'natural frequency', 'glass', 'resonates', 'shatters'],
+        fontType: 'type6'
+      },
+      3: { text: '', keywords: ['empty zone', 'no content'] },
+      4: { text: '', keywords: ['empty zone', 'no content'] }
+    }
+  },
+
+  // 슬라이드 55 (PDF 페이지 5) - 5512
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/55.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Resonance is not always beneficial. At times, resonance can pose</u></strong><br><strong><u>risks. Provide and explain an example of such a situation.</u></strong><br><br><br><br><br><br><br><br><br><br><br>In the past, there was a bridge called the "Tacoma Bridge" in<br>Washington, USA. This bridge was so beautiful that it was called<br>the most beautiful bridge in the world. Therefore, the people of<br>Washington were proud of this bridge.<br>However, the Tacoma Bridge collapsed in 1940. It was a day with<br>a slight breeze. Despite the gentle wind, the bridge shook strangely,<br>much more than expected. The bridge, shaking little by little,<br>suddenly began to sway heavily, with a width of more than 50 cm.<br>As time passed, it bent and twisted more and more.',
+        keywords: ['resonance', 'beneficial', 'pose risks', 'example', 'situation', 'Tacoma Bridge', 'Washington', 'USA', 'beautiful', 'world', 'proud', 'collapsed', '1940', 'slight breeze', 'gentle wind', 'shook', 'strangely', 'sway', '50 cm', 'bent', 'twisted'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: 'Eventually, the Tacoma Bridge collapsed tragically. The reason for<br>the collapse was because of resonance with the wind. The wind was<br>not strong enough to collapse the bridge, but the wind\'s vibration<br>frequency matched the bridge\'s natural frequency. The Tacoma<br>Bridge was designed to withstand strong winds or hurricanes.<br>However, it collapsed unexpectedly due to a light breeze.<br>Afterwards, architects began considering more than just sturdiness<br>when designing bridges. They started incorporating calculations for<br>wind conditions at the construction site and the bridge\'s natural<br>frequency into their designs.',
+        keywords: ['eventually', 'collapsed', 'tragically', 'reason', 'resonance', 'wind', 'strong', 'vibration frequency', 'matched', 'natural frequency', 'designed', 'withstand', 'hurricanes', 'unexpectedly', 'light breeze', 'architects', 'sturdiness', 'designing', 'calculations', 'wind conditions', 'construction site', 'designs'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: ['empty zone', 'no content'] },
+      4: { text: '', keywords: ['empty zone', 'no content'] }
+    }
+  },
+
+  // 슬라이드 56 (PDF 페이지 6) - 5612
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/56.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Listening to the sound of musical instruments can remind us of</u></strong><br><strong><u>various scenes. Describe each of the images that come to mind</u></strong><br><strong><u>when we hear trumpet and harp sounds.</u></strong><br><br><br><br><br><br><br><br><br><br><br>The sound of the trumpet evokes a lively and energetic feeling,<br>sometimes as if it\'s calling us to follow its lead. When we close our<br>eyes and listen, we can imagine soldiers marching in formation,<br>led by a majestic general. The powerful, commanding tone of the<br>trumpet feels like the sound that might accompany the descent of<br>a deity from the heavens.<br>The harp produces a clear and brilliant tone. When we hear its music,<br>we picture a baby sleeping peacefully or fairies frolicking in a deep,<br>enchanted forest. If trumpets announce the arrival of God, then harps<br>might accompany the appearance of angels. Some say the harp\'s<br>sound carries a sweetness, which may be why it\'s often associated<br>with lovers whispering tenderly to one another.',
+        keywords: ['listening', 'musical instruments', 'remind', 'various scenes', 'images', 'trumpet', 'harp sounds', 'lively', 'energetic', 'calling', 'soldiers', 'marching', 'formation', 'majestic general', 'powerful', 'commanding', 'deity', 'heavens', 'clear', 'brilliant tone', 'baby sleeping', 'fairies', 'enchanted forest', 'angels', 'sweetness', 'lovers', 'whispering'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: '<strong><u>The strings inside a piano are typically no longer than around</u></strong><br><strong><u>2 meters. Explain why the piano can produce low-pitched sounds</u></strong><br><strong><u>despite this fact.</u></strong><br><br><br><br><br><br><br><br><br><br><br>Due to the limitation of extending the length of a string, it is<br>necessary to reduce the frequency in alternative ways. In this case,<br>as the thickness of the string increases, the frequency decreases.<br>In other words, varying the thickness of strings produces sounds of<br>different pitches. However, simply making the string thicker poses<br>its challenges. Whether a thickened string can genuinely be called<br>a musical instrument string is questionable.<br>Striking a string that has become thicker, resembling a metal rod,<br>produces only a dull sound. To solve this problem, piano strings are<br>wrapped with a thinner metal wire. This approach allows the strings<br>to be thicker without compromising their ability to vibrate and<br>produce a rich, resonant tone.',
+        keywords: ['strings', 'piano', '2 meters', 'low-pitched sounds', 'limitation', 'extending', 'length', 'reduce frequency', 'alternative ways', 'thickness', 'increases', 'decreases', 'varying', 'different pitches', 'thicker', 'challenges', 'questionable', 'metal rod', 'dull sound', 'wrapped', 'thinner metal wire', 'vibrate', 'rich', 'resonant tone'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 57 (PDF 페이지 7) - 57124
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/57.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Explain which is faster and which causes more damage:</u></strong><br><strong><u>P-waves or S-waves.</u></strong><br><br><br><br><br><br><br><br><br><br><br>P-waves are very fast, traveling at speeds of 7 to 8 kilometers per<br>second. They compress and expand the material they pass through in<br>the direction of movement, resulting in relatively minor earthquake<br>damage. A key characteristic of P-waves is their ability to travel<br>through solids, liquids, and gases.<br>In contrast, S-waves oscillate perpendicular to their direction of<br>travel. For example, if the movement is to the right, the wave moves<br>forward by oscillating up and down. Due to this oscillatory motion,<br>S-waves travel at slower speeds, about 3 to 4 kilometers per second,<br>roughly half the speed of P-waves. However, because S-waves have<br>a larger vibration amplitude, they cause significant damage during<br>an earthquake. Unlike P-waves, S-waves can only pass through solid<br>materials.',
+        keywords: ['faster', 'damage', 'P-waves', 'S-waves', 'very fast', '7 to 8 kilometers', 'compress', 'expand', 'material', 'direction', 'movement', 'minor earthquake damage', 'ability', 'travel', 'solids', 'liquids', 'gases', 'oscillate', 'perpendicular', 'oscillatory motion', 'slower speeds', '3 to 4 kilometers', 'half speed', 'larger vibration amplitude', 'significant damage', 'solid materials'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: '<br><br><strong><u>Explain what surface tension is.</u></strong><br><br><br><br><br><br><br><br><br>Molecules on the surface of a liquid possess a property that tends to<br>minimize the surface area. This force, striving to reduce the surface<br>area, is called surface tension.',
+        keywords: ['motifs', 'advanced technology', 'surface tension', 'molecules', 'surface', 'liquid', 'property', 'minimize', 'surface area', 'force', 'striving', 'reduce'],
+        fontType: 'type6'
+      },
+      3: { text: '', keywords: ['empty zone', 'no content'] },
+      4: { 
+        text: '<br><strong><u>Explain how surfactants are used in our daily lives.</u></strong><br><br><br><br><br><br><br><br><br>Surfactants can be utilized in detergents or soaps to remove grease<br>stains on clothes or dishes. They are also incorporated into cosmetics<br>and moisturizers.',
+        keywords: ['surfactants', 'daily lives', 'utilized', 'detergents', 'soaps', 'remove', 'grease stains', 'clothes', 'dishes', 'incorporated', 'cosmetics', 'moisturizers'],
+        fontType: 'type8'
+      }
+    }
+  },
+
+  // 슬라이드 58 (PDF 페이지 8) - 581234
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/58.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Explain what problems arise when using counterfeit currency.</u></strong><br><br><br><br><br><br><br><br><br>Counterfeit currency is nothing more than a piece of paper with no<br>actual value. Therefore, using counterfeit currency can harm those<br>who live honestly. Additionally, it can lead to economic instability,<br>resulting in international disapproval.',
+        keywords: ['problems', 'counterfeit currency', 'piece of paper', 'actual value', 'harm', 'live honestly', 'economic instability', 'international disapproval'],
+        fontType: 'type8'
+      },
+      2: { 
+        text: '<strong><u>Explain what technology to prevent counterfeit currency is found</u></strong><br><strong><u>in the US $100 bill.</u></strong><br><br><br><br><br><br><br><br><br>There are hidden images of Benjamin Franklin and the number 100,<br>which can only be seen under a microscope and do not appear when<br>photocopied. Additionally, the background behind Franklin is coated<br>with fluorescent paint that reveals a vivid green pattern under<br>ultraviolet light, enhancing the note\'s security features.',
+        keywords: ['technology', 'prevent', 'counterfeit currency', 'US $100 bill', 'hidden images', 'Benjamin Franklin', 'number 100', 'microscope', 'photocopied', 'background', 'coated', 'fluorescent paint', 'vivid green pattern', 'ultraviolet light', 'security features'],
+        fontType: 'type8'
+      },
+      3: { 
+        text: '<strong><u>Explain the meaning of the term "hologram" and how to make it.</u></strong><br><br><br><br><br><br><br><br>"Hologram" comes from Greek, meaning a "whole drawing."<br>It is created by carving holographic motifs into a film using laser<br>beams to make it appear three-dimensional.<br><br>',
+        keywords: ['meaning', 'hologram', 'Greek', 'whole drawing', 'created', 'carving', 'holographic motifs', 'film', 'laser beams', 'three-dimensional'],
+        fontType: 'type8'
+      },
+      4: { 
+        text: '<strong><u>Explain what genes and DNA are by comparing them to a computer.</u></strong><br><br>Genes are akin to computer programs, serving as the fundamental<br>units of information representing specific genetic phenomena.<br>DNA can be likened to a computer hard drive. The substance<br>constituting genes is referred to as DNA.<br><br><br><br>',
+        keywords: ['genes', 'DNA', 'comparing', 'computer', 'akin', 'computer programs', 'fundamental units', 'information', 'genetic phenomena', 'likened', 'hard drive', 'substance', 'constituting'],
+        fontType: 'type8'
+      }
+    }
+  },
+
+  // 슬라이드 59 (PDF 페이지 9) - 5912
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/59.jpg',
+    zones: {
+      1: { 
+        text: '<br><br>(1) <strong><u>Marbling is the drawing method of dropping oil paint on water</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>and then covering it with paper to create a motif.</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Describe how you feel when you see a marbling artwork.</u></strong><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Looking at a marbled work evokes a sense of grandeur and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mystery, as if stepping into a fantasy world beyond reality.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yet, at the same time, it can leave us feeling dizzy and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disoriented, overwhelmed by its intricate patterns and swirling<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;motions.',
+        keywords: ['purpose', 'studying', 'motifs', 'advanced technology', 'marbling', 'drawing method', 'oil paint', 'water', 'paper', 'motif', 'describe', 'feel', 'artwork', 'grandeur', 'mystery', 'fantasy world', 'reality', 'dizzy', 'disoriented', 'intricate patterns', 'swirling motions'],
+        fontType: 'type6'
+      },
+      2: { 
+        text: '<br><br><br><br>(2) <strong><u>Could plants survive if the surface tension of water were</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>weaker? Write your thoughts.</u></strong><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plants cannot survive. Water can flow along internal tubes inside<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plants by capillary action. Capillary action occurs because of the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adhesion and surface tension of water.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In other words, if the surface tension weakens, water cannot flow<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;well through the plant, ultimately leading to the plant\'s demise.',
+        keywords: ['plants', 'survive', 'surface tension', 'water', 'weaker', 'thoughts', 'cannot survive', 'flow', 'internal tubes', 'capillary action', 'occurs', 'adhesion', 'weakens', 'plant demise'],
+        fontType: 'type6'
+      },
+      3: { text: '', keywords: ['empty zone', 'no content'] },
+      4: { text: '', keywords: ['empty zone', 'no content'] }
+    }
+  },
+
+  // 슬라이드 60 (PDF 페이지 10) - 6012
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/60.jpg',
+    zones: {
+      1: { 
+        text: '<br><br>(1) <strong><u>Most counterfeit currency is in the form of banknotes.</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Why do criminals use fake banknotes instead of coins?</u></strong><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The cost of producing counterfeit coins can be higher than real<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;money. Since coins are made of metal, their material costs are<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;higher than those of banknotes. When factoring in material<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;costs and other expenses involved in manufacturing, the cost of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;producing a single coin can surpass its face value. In some cases,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the cost of producing coins could be even higher than the coins\'<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;actual value. For instance, in the past, currency counterfeiters in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;China spent 180,000 yuan to produce 160,000 counterfeit 1-yuan<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;coins. With the total value of the counterfeit coins amounting to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;only 160,000 yuan, they ended up losing 20,000 yuan in the process.',
+        keywords: ['apply', 'study', 'motifs', 'advanced technology', 'counterfeit currency', 'banknotes', 'criminals', 'fake banknotes', 'coins', 'cost', 'producing', 'higher', 'real money', 'metal', 'material costs', 'manufacturing', 'surpass', 'face value', 'actual value', 'counterfeiters', 'China', '180,000 yuan', '160,000', '1-yuan coins', 'losing', '20,000 yuan'],
+        fontType: 'type6'
+      },
+      2: { 
+        text: '<br><br><br><br>(2) <strong><u>There is a fluorescent paint that is normally invisible to the</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>eye but glows when exposed to ultraviolet light. Where can</u></strong><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If we apply it around the house and a thief breaks in, we can<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use it to identify the thief\'s footprints or fingerprints by shining<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;an ultraviolet ray. It is also suitable for writing coded messages<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;that can be seen with ultraviolet light. It is also useful to make<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ultraviolet detection devices.',
+        keywords: ['fluorescent paint', 'invisible', 'eye', 'glows', 'ultraviolet light', 'paint', 'used', 'apply', 'house', 'thief', 'breaks in', 'identify', 'footprints', 'fingerprints', 'shining', 'ultraviolet ray', 'suitable', 'coded messages', 'detection devices'],
+        fontType: 'type6'
+      },
+      3: { text: '', keywords: ['empty zone', 'no content'] },
+      4: { text: '', keywords: ['empty zone', 'no content'] }
+    }
+  },
+
+  // 슬라이드 61 (PDF 페이지 11) - 6112
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/61.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>This device can also treat a baby inside a mother\'s womb.</u></strong><br><strong><u>How is it possible to do this? Feel free to guess and provide</u></strong><br><strong><u>an explanation.</u></strong><br><br><br><br><br><br><br><br><br><br><br><br>The baby and the mother are connected. Therefore, the baby\'s cells<br>circulate together in the mother\'s blood. However, the number of<br>these cells is very small. Nevertheless, this small device can capture<br>all those cells, no matter how few.<br>Examining the captured cells of the baby is what we do. Doing so can<br>determine if the baby has any diseases, even before birth. Thanks to<br>this, we can also treat the baby inside the womb.',
+        keywords: ['device', 'treat', 'baby', 'mother womb', 'possible', 'guess', 'explanation', 'connected', 'baby cells', 'circulate', 'mother blood', 'number', 'very small', 'small device', 'capture', 'cells', 'examining', 'captured cells', 'determine', 'diseases', 'before birth', 'treat baby'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: '<strong><u>Write down what might have been used as money when there</u></strong><br><strong><u>were no coins, banknotes, or credit cards as there are today.</u></strong><br><br><br><br><br><br><br><br><br><br><br><br>We should look for items that can be used instead of money.<br>Salt is essential for humans, but it was not easy to obtain in the<br>past. During the Roman Empire, there were instances where<br>soldiers were paid their wages in salt. In the Second World War,<br>laborers constructing roads in the Congo in Africa received their<br>compensation in salt.<br>Immigrants settling in the New World (America) established economic<br>foundations by cultivating tobacco. In Virginia at the time, tobacco<br>played the role of money. In early America, other items such as rice,<br>beaver fur, fish, corn, and glass beads were used as currency. Metals<br>like iron and copper, necessary for making tools, were also used as<br>money.',
+        keywords: ['write down', 'money', 'coins', 'banknotes', 'credit cards', 'today', 'items', 'instead', 'salt', 'essential', 'humans', 'obtain', 'past', 'Roman Empire', 'soldiers', 'wages', 'Second World War', 'laborers', 'roads', 'Congo', 'Africa', 'compensation', 'immigrants', 'New World', 'America', 'economic foundations', 'tobacco', 'Virginia', 'role', 'early America', 'rice', 'beaver fur', 'fish', 'corn', 'glass beads', 'currency', 'metals', 'iron', 'copper', 'tools'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: ['empty zone', 'no content'] },
+      4: { text: '', keywords: ['empty zone', 'no content'] }
+    }
+  },
+  // 슬라이드 62 (PDF 페이지 12) - 6212
+  {
+    bg: '../assets/img/ReadBook/G2.2.6/62.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Write down what animal motifs can serve as identification,</u></strong><br><strong><u>like human fingerprints.</u></strong><br><br><br><br><br><br><br><br><br><br><br>Like humans, monkeys, chimpanzees, and orangutans have unique<br>fingerprints on their fingers. Surprisingly, koalas also have fingerprints.<br>Dogs and cats, on the other hand, do not have fingerprints as they<br>lack sweat glands on their paw pads. Instead, these animals have<br>a "nose print," which serves the role of fingerprints.<br>The uneven motifs engraved on their noses are called "nose prints."<br>Recently, a new technology called nose print recognition has been<br>developed, and it is expected to replace pet identification chips soon.<br>Just like humans, animals also have unique motifs on their irises.<br>As interest in fingerprint recognition and iris recognition grows,<br>new possibilities for technology continue to emerge.',
+        keywords: ['write down', 'animal motifs', 'identification', 'human fingerprints', 'humans', 'monkeys', 'chimpanzees', 'orangutans', 'unique fingerprints', 'fingers', 'koalas', 'dogs', 'cats', 'sweat glands', 'paw pads', 'nose print', 'role', 'uneven motifs', 'engraved', 'noses', 'nose prints', 'technology', 'nose print recognition', 'developed', 'replace', 'pet identification chips', 'animals', 'irises', 'fingerprint recognition', 'iris recognition', 'possibilities', 'emerge'],
+        fontType: 'type3'
+      },
+      2: { 
+        text: '<strong><u>Is there a way to eliminate cancer cells without killing normal</u></strong><br><strong><u>cells? Think about the ways they can be eliminated and write</u></strong><br><strong><u>them down.</u></strong><br><br><br><br><br><br><br><br><br><br>Targeted treatment is a method of selectively killing only cancer<br>cells by blocking signals that affect the development of cancer cells<br>by targeting specific proteins or genetic changes that occur only in<br>cancer cells. Recently, a treatment known as the "therapy of dreams,"<br>or proton therapy, has been developed.<br>This method involves shooting protons, which constitute the nucleus<br>of a hydrogen atom, to destroy cancer tissues. Unlike traditional<br>radiation therapy, which has the side effects of killing normal cells,<br>proton therapy precisely targets the cancer site, eliminating such<br>side effects. Another conceivable approach involves using nanorobots<br>to access cancer cells directly and administer medication. While this<br>technology is still in its beginning stages, it will not be long before it<br>becomes a standardized practice.',
+        keywords: ['eliminate', 'cancer cells', 'killing', 'normal cells', 'ways', 'eliminated', 'write down', 'targeted treatment', 'method', 'selectively killing', 'blocking signals', 'development', 'targeting', 'specific proteins', 'genetic changes', 'occur', 'therapy of dreams', 'proton therapy', 'developed', 'shooting protons', 'constitute', 'nucleus', 'hydrogen atom', 'destroy', 'cancer tissues', 'traditional radiation therapy', 'side effects', 'precisely targets', 'cancer site', 'eliminating', 'conceivable approach', 'nanorobots', 'access', 'directly', 'administer medication', 'beginning stages', 'standardized practice'],
+        fontType: 'type3'
+      },
+      3: { text: '', keywords: ['empty zone', 'no content'] },
+      4: { text: '', keywords: ['empty zone', 'no content'] }
+    }
+  }
+];
+
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
 </body>
 </html> 
