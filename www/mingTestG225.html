@@ -1,195 +1,1223 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로딩 중...</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #ffffff;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .loading-container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .loading-image {
-            max-width: 300px;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        .loading-text {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-            animation: slideInUp 0.8s ease-out 0.5s both;
-        }
-
-        .loading-subtitle {
-            font-size: 16px;
-            color: #666;
-            animation: slideInUp 0.8s ease-out 0.7s both;
-        }
-
-        .loading-dots {
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .loading-dots span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #667eea;
-            margin: 0 3px;
-            animation: dots 1.4s infinite ease-in-out both;
-        }
-
-        .loading-dots span:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-
-        .loading-dots span:nth-child(2) {
-            animation-delay: -0.16s;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes dots {
-            0%, 80%, 100% {
-                transform: scale(0);
-            }
-            40% {
-                transform: scale(1);
-            }
-        }
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .loading-container {
-                padding: 30px 20px;
-                margin: 20px;
-            }
-
-            .loading-image {
-                max-width: 250px;
-            }
-
-            .loading-text {
-                font-size: 20px;
-            }
-
-            .loading-subtitle {
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .loading-image {
-                max-width: 200px;
-            }
-
-            .loading-text {
-                font-size: 18px;
-            }
-
-            .loading-subtitle {
-                font-size: 12px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>G2.2.5.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
 </head>
 <body>
-    <div class="loading-container">
-        <img src="assets/img/ReadBook/loading.jpg" alt="로딩 중" class="loading-image">
-        <div class="loading-text">로딩 중입니다...</div>
-        <div class="loading-subtitle">잠시만 기다려주세요</div>
-        <div class="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
     </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
 
-    <script>
-        // 페이지 로드 완료 후 자동으로 메인 페이지로 이동 (선택사항)
-        // setTimeout(() => {
-        //     window.location.href = '2.1.1/4zone.html';
-        // }, 3000);
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  // 슬라이드 3 (PDF 페이지 1)
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/1.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
 
-        // 로딩 애니메이션 효과
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.querySelector('.loading-container');
-            const image = document.querySelector('.loading-image');
-            
-            // 이미지 로드 완료 시 추가 효과
-            image.addEventListener('load', function() {
-                container.style.animation = 'fadeIn 1s ease-in-out';
-            });
+  // 슬라이드 3 (PDF 페이지 3) - 명령어: 14
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/3.jpg',
+    zones: {
+      1: { 
+        text: '01. Motifs on the Moon in the Night Sky<br><br>Look up at the sky at night when everybody else is<br>asleep. The night sky is dark but looks mysterious and<br>beautiful with the sparkling moon and stars.<br><br>In the Western world, looking at constellations led<br>to mysterious legends and the prediction of daily<br>fortunes. Many works of art have also been made<br>based on the night sky. In this way, the night sky has<br>stimulated the imagination of many people.', 
+        keywords: ['Motifs', 'Moon', 'Night Sky', 'mysterious', 'beautiful', 'sparkling', 'stars', 'constellations', 'legends', 'imagination', 'Western world', 'art', 'stories'] 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'However, the night sky looks different from the<br>southern and northern regions of the Earth.<br><br>If we consider the equator as a starting point, half of<br>the Earth\'s portion to the south is called the Southern<br>Hemisphere, and the part to the north is called the<br>Northern Hemisphere. The majority of countries are in<br>the Northern Hemisphere.<br><br>Countries like the United States, the United Kingdom,<br>and China are located in the Northern Hemisphere,<br>while countries like Australia and New Zealand are in<br>the Southern Hemisphere. Looking at the night sky in<br>Australia, we can see more stars than in the Northern<br>Hemisphere.', 
+        keywords: ['night sky', 'southern', 'northern', 'equator', 'Southern Hemisphere', 'Northern Hemisphere', 'Australia', 'United States', 'United Kingdom', 'China', 'New Zealand', 'stars', 'different regions'] 
+      }
+    }
+  },
 
-            // 이미지 로드 실패 시 대체 텍스트
-            image.addEventListener('error', function() {
-                this.style.display = 'none';
-                const errorText = document.createElement('div');
-                errorText.textContent = '로딩 이미지를 불러올 수 없습니다';
-                errorText.style.color = '#ff6b6b';
-                errorText.style.fontSize = '16px';
-                errorText.style.marginTop = '20px';
-                container.insertBefore(errorText, container.firstChild);
-            });
-        });
-    </script>
+  // 슬라이드 4 (PDF 페이지 4) - 명령어: 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/4.jpg',
+    zones: {
+      1: { 
+        text: 'Is it because of less light pollution in the Southern<br>Hemisphere than in the Northern Hemisphere?<br>In cities with many people, artificial lights make<br>it difficult to see the stars due to light pollution.<br>However, even in the pitch-dark deserts of the<br>Northern Hemisphere, the stars are not as bright and<br>dazzling as seen from Australia.<br><br>This is because we are looking in different directions.<br>Our galaxy which the solar system belongs to is called<br>the "Milky Way." The place where our solar system<br>belongs is called "our galaxy." Most stars gather<br>around the center of our galaxy.', 
+        keywords: ['light pollution', 'Southern Hemisphere', 'Northern Hemisphere', 'artificial lights', 'cities', 'deserts', 'stars', 'Milky Way', 'galaxy', 'solar system', 'galaxy center', 'different directions'] 
+      },
+      2: { 
+        text: 'The center of our galaxy is in the southern sky. This<br>is why more stars can be seen from the Southern<br>Hemisphere.<br><br>Looking at the night sky in the Northern Hemisphere,<br>we can see stars rotating counterclockwise around<br>the North Star. However, when we watch stars from<br>the Southern Hemisphere, the stars rotate clockwise<br>around the Southern Cross.', 
+        keywords: ['galaxy center', 'southern sky', 'stars rotating', 'North Star', 'Southern Cross', 'counterclockwise', 'clockwise', 'Northern Hemisphere', 'Southern Hemisphere'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain how we divide Earth into the Northern<br>Hemisphere and Southern Hemisphere.', 
+        keywords: ['Earth', 'Northern Hemisphere', 'Southern Hemisphere'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+
+  // 슬라이드 5 (PDF 페이지 5)
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/5.jpg',
+    zones: {
+      1: { 
+        text: 'There is another difference between the Southern<br>and Northern Hemispheres. The Moon\'s appearance<br>looks different. In the Northern Hemisphere,<br>the evening moon rises in a convex shape on the right<br>side. The evening moon is seen in the evening,<br>moving along with the setting Sun. The Moon reflects<br>the sunlight, and the side closer to the Sun appears<br>bright. Therefore, the Moon on the side closest to<br>the Sun appears convex. Since the Sun sets in the<br>west, the Sun is to the right of the evening moon.<br>So, the evening moon always appears convex on the<br>right in the Northern Hemisphere. The first-quarter<br>moon and the crescent moon are part of the evening<br>moon. Similarly, the morning moon in the Northern<br>Hemisphere appears convex on the left.', 
+        keywords: ['Southern Hemisphere', 'Northern Hemisphere', 'Moon appearance', 'evening moon', 'convex shape', 'sunlight', 'setting Sun', 'west', 'first-quarter moon', 'crescent moon', 'morning moon'] 
+      },
+      2: { 
+        text: 'In the early morning, the Sun rises in the east, and<br>since the Moon\'s east is on the left, the morning moon<br>appears convex on the left side. The third-quarter<br>moon and waning crescent moon are morning moons.<br><br>In contrast, in the Southern Hemisphere, the Sun rises<br>in the east, to the right of the Moon, and the west<br>becomes the Moon\'s left. Therefore, the evening moon<br>in the Southern Hemisphere appears convex on the<br>left and the morning moon on the right.', 
+        keywords: ['early morning', 'Sun rises', 'morning moon', 'third-quarter moon', 'waning crescent moon', 'Southern Hemisphere', 'east', 'west', 'left', 'right'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 6 (PDF 페이지 6)
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/6.jpg',
+    zones: {
+      2: { 
+        text: 'Have you ever heard of the story of the rabbit living<br>on the Moon? In the East, people imagined that the<br>motifs on the Moon were of a rabbit pounding a mill.<br>An exciting legend sprung from this imagination.<br><br>Once upon a time, a rabbit was called by the heavens<br>to make medicine. However, the rabbit was worried.<br>It feared that a greedy person might steal the<br>medicine it had made. So, the story goes that the<br>rabbit went up to the Moon to avoid people.<br><br>Does the motif on the full moon look like a rabbit<br>pounding medicine?', 
+        keywords: ['rabbit', 'Moon', 'East', 'motifs', 'legend', 'medicine', 'full moon', 'mill', 'heavens', 'greedy', 'people', 'imagination', 'story'] 
+      },
+      1: { 
+        text: 'On July 20, 1969, Neil Armstrong landed on the Moon,<br>marking the beginning of humanity\'s space age.<br>Since then, many secrets of the universe have been<br>revealed with active exploration. However, in the past,<br>people could not travel to space, so they spread their<br>wings of imagination just by looking at the Moon.<br><br>', 
+        keywords: ['Neil Armstrong', '1969', 'Moon landing', 'space age', 'universe secrets', 'imagination', 'July 20', 'humanity', 'exploration', 'past', 'travel', 'space']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why the Moon looks different in the<br>Southern and Northern Hemispheres.', keywords: [] , 
+      fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 7 (PDF 페이지 7)
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/7.jpg',
+    zones: {
+      1: { 
+        text: 'People in the East considered the full moon to be<br>a very lucky sign. This is why the day when a full<br>moon rises is often celebrated as a holiday, like the<br>first full moon of the lunar year or Chuseok.<br><br>The round shape of the full moon was also compared<br>to the face of a beautiful woman. In this way,<br>the Moon is beloved as a warm and comforting image<br>in the East. However, in the West, it is the opposite.<br>People in the West often describe the Moon as cold<br>and gloomy. There are many instances in Western<br>history where the Moon has a negative meaning.', 
+        keywords: ['East', 'full moon', 'lucky sign', 'holiday', 'Chuseok', 'beautiful woman', 'round shape', 'warm', 'comforting', 'West', 'cold', 'gloomy', 'negative meaning'] 
+      },
+      2: { 
+        text: 'In Shakespeare\'s tragedy "Othello," the full moon<br>is portrayed as a frightening presence that drives<br>people insane. There is also the Western legend that<br>people transform into werewolves when the full<br>moon rises. Additionally, the term "lunatic," meaning<br>someone who is crazy, comes from the word "luna,"<br>which refers to the moon.<br><br>', 
+        keywords: ['Shakespeare', 'Othello', 'frightening', 'werewolves', 'lunatic', 'luna', 'tragedy', 'insane', 'Western legend', 'full moon', 'crazy']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain what people in Eastern and Western<br>cultures thought of when they saw a full moon.', keywords: [] , 
+      fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 8 (PDF 페이지 8)
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/8.jpg',
+    zones: {
+      1: { 
+        text: 'The image of the Moon changes when we go to Islamic<br>countries. Each country\'s flag has a unique motif.<br>However, flags in Islamic countries such as Pakistan,<br>Turkey, and Algeria have a crescent moon. This is<br>because in countries that follow the religion of Islam,<br>the crescent moon is considered sacred.<br><br>A man named Muhammad founded Islam. It is said<br>that when he first heard the voice of God, the<br>crescent moon and the morning star were shining.<br>From that moment, the crescent moon was drawn<br>into the flag to symbolize the beginning of humanity<br>receiving God\'s word. However, this does not mean<br>that they worship the crescent moon itself.', 
+        keywords: ['Moon', 'Islamic countries', 'flag', 'Pakistan', 'Turkey', 'Algeria', 'crescent moon', 'Muhammad', 'Islam', 'sacred', 'unique motif', 'religion', 'God', 'morning star', 'humanity', 'symbol'] 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 9 (PDF 페이지 9)
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/9.jpg',
+    zones: {
+      1: { 
+        text: 'The Moon looks a little different every day. However,<br>it does not mean that the Moon becomes slimmer<br>when it is a crescent and then becomes plump again<br>when it is a full moon. The Moon maintains its round<br>shape, just like the Earth. It simply looks different<br>depending on which part the Sun shines. If we watch<br>the Moon\'s surface through a telescope every day,<br>we will see that the motif on the Moon\'s surface<br>remains the same. This is because we always look at<br>the same side of the Moon. All celestial bodies in the<br>solar system revolve and rotate. Revolution is the<br>motion of one celestial body going around another,<br>such as Earth orbiting around the Sun.', 
+        keywords: ['Moon', 'different', 'crescent', 'full moon', 'round shape', 'Sun shines', 'telescope', 'celestial bodies', 'revolve', 'rotate', 'slimmer', 'plump', 'surface', 'motif', 'same side', 'solar system', 'revolution'] 
+      },
+      2: { 
+        text: 'Rotation is a celestial body spinning around its axis,<br>like Earth, which rotates once every 24 hours.<br>Earth revolves around the Sun once a year while<br>rotating every 24 hours. Similarly, Earth\'s satellite,<br>the Moon, also experiences revolution and rotation.<br>It takes about 29.5 days for the Moon to complete one<br>revolution around the Earth.<br><br>', 
+        keywords: ['Rotation', 'celestial body', 'axis', 'Earth', '24 hours', 'satellite', 'revolution', '29.5 days', 'spinning', 'Moon', 'orbit', 'year']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'Briefly explain revolution and rotation.', keywords: [] , 
+      fontType: 'type2' }
+    }
+  },
+
+  // 슬라이드 10 (PDF 페이지 10)
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/10.jpg',
+    zones: {
+      1: { 
+        text: 'However, it is surprising that it takes 29.5 days for<br>the Moon to rotate. The Moon rotates and revolves<br>during the same period. Therefore, the same part of<br>the Moon always faces the Earth. This is why Earth<br>can only see the front side of the Moon.<br>However, people have become curious about what<br>the back of the Moon looks like. Efforts to uncover<br>the secrets of the universe led to advancements in<br>science. People launched probes to watch the Moon<br>up close. The Soviet Union\'s Luna 3 mission in 1959<br>is a notable example.<br>Luna 3 successfully captured the back of the Moon<br>for the first time in human history. In response,<br>the United States launched Apollo 8 in 1968 to<br>explore the Moon\'s surroundings.', 
+        keywords: ['29.5 days', 'Moon rotate', 'same period', 'front side', 'back of Moon', 'universe secrets', 'Luna 3', '1959', 'Apollo 8', '1968', 'surprising', 'curious', 'probes', 'Soviet Union', 'human history', 'United States', 'exploration'] 
+      },
+      2: { 
+        text: 'William Anders, the astronaut on Apollo 8, became the<br>first person to witness the back of the Moon directly.<br>The back of the Moon was quite different from what<br>people had imagined. There were no moon rabbits<br>pounding things or alien villages. Instead, it was filled<br>with countless traces of meteorite falls.', 
+        keywords: ['William Anders', 'Apollo 8', 'astronaut', 'back of Moon', 'moon rabbits', 'alien villages', 'meteorite falls', 'first person', 'witness', 'different', 'imagined', 'countless traces'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 11 (PDF 페이지 11)
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/11.jpg',
+    zones: {
+      1: { 
+        text: 'How did the Moon come into existence?<br>The Moon existed long before humans appeared on<br>Earth, so no one has witnessed its formation. People<br>have given various hypotheses to explain how the<br>Moon was formed. The first is the "twin theory,"<br>suggesting that the Moon was formed at the same<br>time as the Earth. According to this theory, the Moon<br>is around 4.5 billion years, similar to Earth. However,<br>there was a problem with this theory.', 
+        keywords: ['Moon', 'existence', 'humans', 'Earth', 'hypotheses', 'twin theory', '4.5 billion years', 'formation', 'witnessed', 'various', 'same time'] 
+      },
+      2: { 
+        text: 'Earth has more iron than the Moon. If the Earth and<br>the Moon were formed at the same time, they should<br>be made of the same materials. The twin theory could<br>not explain this.<br>So, the second theory was the "capture hypothesis."<br>The Moon was initially located somewhere else, but<br>as it passed by Earth, it got trapped by its gravity.<br>Since then, it has been unable to escape and<br>started orbiting around the Earth. This theory could<br>explain why the composition of the Earth and the<br>Moon is different. However, it could not explain the<br>composition of the Moon.<br>', 
+        keywords: ['Earth', 'iron', 'Moon', 'materials', 'capture hypothesis', 'gravity', 'orbiting', 'composition', 'same materials', 'problem', 'theory', 'initially', 'trapped', 'escape']
+      },
+      3: { text: 'Explain why we see only one side of the Moon.', keywords: [], 
+      fontType: 'type2'  },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 12 (PDF 페이지 12)
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/12.jpg',
+    zones: {
+      1: { 
+        text: 'The rocks floating in space have more iron than the<br>Moon. So, the "giant-impact theory" was proposed.<br>According to this theory, the fragments made when<br>Earth collided with other celestial bodies gathered<br>to become the Moon. If the Moon was created from<br>pieces that broke off the Earth, it could explain why<br>the Moon is the same age as the Earth. Furthermore,<br>if fragments from the Earth and other celestial bodies<br>clashed, it could also explain the differences in<br>composition between the Earth and the Moon.<br>The giant-impact theory is currently the most<br>influential hypothesis. As time passes and science<br>advances, we may eventually find the answer.', 
+        keywords: ['rocks', 'space', 'iron', 'giant-impact theory', 'fragments', 'Earth collided', 'celestial bodies', 'composition', 'floating', 'proposed', 'gathered', 'pieces', 'broke off', 'clashed', 'differences', 'influential hypothesis', 'science advances'] 
+      },
+      2: { 
+        text: 'Our home, Earth, is the only planet in the solar system<br>that supports life. This is because the Earth has what<br>is necessary for living organisms. For life to prosper,<br>various essentials such as breathable air, drinkable<br>water, and food are required. However, above all,<br>the most important element is sunlight.<br><br> ', 
+        keywords: ['Earth', 'planet', 'solar system', 'supports life', 'living organisms', 'breathable air', 'sunlight', 'home', 'only planet', 'necessary', 'essentials', 'drinkable water', 'food', 'prosper', 'most important element']
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain the twin theory about the birth of the Moon.', keywords: [], 
+      fontType: 'type2'  }
+    }
+  },
+// 슬라이드 13 (PDF 페이지 13) - 명령어: 124
+{
+    bg: '../assets/img/ReadBook/G2.2.5/13.jpg',
+    zones: {
+      1: { 
+        text: 'The Sun is the only star in the solar system that<br>gives off its light. If we did not have sunlight, Earth<br>would experience severe problems. Sunlight allows<br>plants to produce nutrients through photosynthesis,<br>consistently sending heat to Earth to prevent it from<br>becoming cold.<br><br>Shall we study some characteristics of the Sun?<br>Like the Moon, the Sun also has various motifs.<br>The Sun\'s surface has motifs that look like tiny cereal<br>grains. These are called solar granules. The Sun has<br>these motifs because of the flow of heat.', 
+        keywords: ['Sun', 'star', 'solar system', 'sunlight', 'Earth', 'photosynthesis', 'heat', 'solar granules', 'only star', 'gives off light', 'severe problems', 'plants', 'nutrients', 'consistently', 'prevent cold', 'characteristics', 'motifs', 'cereal grains', 'flow of heat'] 
+      },
+      2: { 
+        text: 'If we draw the Sun in our minds, most of us would<br>draw a circle first and then flickering flames around it.<br>The Sun\'s surface has needle-like columns that shoot<br>up, called "spicules."<br><br>Another motif of the Sun is the "solar prominence."<br>It refers to the large and bright columns that can be<br>seen at the edge of the Sun. They are made when the<br>Sun lets out hot gases into space which return to the<br>Sun\'s surface due to gravity.', 
+        keywords: ['Sun', 'circle', 'flames', 'spicules', 'solar prominence', 'hot gases', 'gravity', 'draw', 'minds', 'flickering', 'needle-like columns', 'shoot up', 'large', 'bright columns', 'edge', 'return', 'surface'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Describe the motifs on the fiercely burning surface<br>of the Sun.', 
+        keywords: ['motifs', 'burning surface', 'Sun'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+
+  // 슬라이드 14 (PDF 페이지 14) - 명령어: 234
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/14.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      3: { 
+        text: 'There are also motifs created by the harmony of the<br>Earth, the Moon, and the Sun. These are solar and<br>lunar eclipses. A lunar eclipse happens when Earth\'s<br>shadow covers the Moon.<br>If the Earth\'s shadow completely covers the Moon,<br>it is called a total lunar eclipse. If only part of the<br>Moon is covered, it is called a partial lunar eclipse.', 
+        keywords: ['motifs', 'harmony', 'Earth', 'Moon', 'Sun', 'solar eclipse', 'lunar eclipse', 'shadow', 'total lunar eclipse', 'partial lunar eclipse', 'created', 'covers', 'completely', 'part'] 
+      },
+      2: { 
+        text: 'Ancient Greek philosopher Aristotle discovered that<br>the Earth was round by looking at a lunar eclipse.<br>During a lunar eclipse, the Earth casts its shadow on<br>the moon. He concluded that the Earth must be round<br>because its shadow is round.<br>A solar eclipse is when the Moon blocks the Sun.<br>People have watched solar and lunar eclipses since<br>ancient times. This led to various legends about lunar<br>eclipses in different regions.', 
+        keywords: ['Aristotle', 'Greek philosopher', 'Earth round', 'lunar eclipse', 'shadow', 'solar eclipse', 'legends', 'Ancient Greek', 'discovered', 'casts', 'concluded', 'round', 'ancient times', 'different regions'] 
+      },
+      4: { 
+        text: 'Explain why lunar and solar eclipses occur.', 
+        keywords: ['lunar eclipse', 'solar eclipse', 'occur'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+
+  // 슬라이드 15 (PDF 페이지 15) - 명령어: 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/15.jpg',
+    zones: {
+      1: { 
+        text: 'One particularly fascinating story comes from the<br>Cherokee in North America. According to their legend,<br>the Sun and the Moon were siblings. The Sun, the<br>older brother, found joy in meeting his daughter in<br>the sky as he traveled from east to west each day.<br>However, the Sun was jealous of his younger sibling,<br>the Moon. When people looked at the Moon, they<br>smiled radiantly, but when they looked at the Sun,<br>they squinted their eyes and turned away. This made<br>the Sun angry. Then, one day, the Sun, unable to bear<br>its anger, blew his scorching heat at the people.', 
+        keywords: ['Cherokee', 'North America', 'legend', 'Sun', 'Moon', 'siblings', 'daughter', 'jealous', 'angry', 'scorching heat', 'fascinating story', 'older brother', 'joy', 'sky', 'east', 'west', 'younger sibling', 'smiled radiantly', 'squinted', 'turned away', 'unable to bear'] 
+      },
+      2: { 
+        text: 'The land dried up and cracked, and many people got<br>sick with fever and died. The Cherokee sent a brave<br>warrior to get rid of the Sun. The warrior transformed<br>into a rattlesnake, and while waiting for the Sun,<br>he accidentally bit and killed the Sun\'s daughter.<br>When the Sun returned home later that day and saw<br>the lifeless body of his daughter, he cried endless<br>tears. The Sun\'s tears caused a massive flood on Earth.<br>Fortunately, the Sun\'s tears eventually stopped,<br>but life on Earth became even more challenging.<br>The Sun, seeking revenge, heated up the world even<br>more. In the end, people prayed and dedicated songs<br>and dances to the Sun to ease his anger. This is<br>a legend of the origin of Native American festivals.<br>This story is why the Cherokee consider a solar<br>eclipse as a reminder of the sorrow when the Sun lost<br>its daughter.', 
+        keywords: ['land dried', 'fever', 'Cherokee', 'warrior', 'rattlesnake', 'daughter', 'tears', 'flood', 'revenge', 'Native American festivals', 'solar eclipse', 'sorrow', 'cracked', 'sick', 'died', 'brave', 'transformed', 'accidentally', 'bit', 'killed', 'lifeless body', 'cried endless', 'massive', 'fortunately', 'stopped', 'challenging', 'heated up', 'prayed', 'songs', 'dances', 'ease anger', 'origin', 'reminder'] 
+      },
+      3: { 
+        text: 'Please explain what the Cherokee think when they<br>watch a solar eclipse.', 
+        keywords: ['Cherokee', 'solar eclipse'], 
+        fontType: 'type2' 
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 16 (PDF 페이지 16) - 명령어: 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/16.jpg',
+    zones: {
+      1: { 
+        text: 'There is also a fascinating story related to a solar<br>eclipse. Have you ever heard of the story that animals<br>have a sixth sense that humans do not have?<br><br>This is the reason why animals behave strangely<br>during a solar eclipse. People have tried countless<br>times to prove this. One of those times is the Life<br>Responds project. In this project, people were asked<br>to record how animals behave during a solar eclipse.<br>Volunteers participating in this project reported their<br>observations worldwide through a smartphone app.', 
+        keywords: ['fascinating story', 'solar eclipse', 'animals', 'sixth sense', 'humans', 'behave strangely', 'Life Responds project', 'volunteers', 'smartphone app', 'heard', 'prove', 'countless times', 'record', 'observations', 'worldwide'] 
+      },
+      2: { 
+        text: 'The results were surprising. During a solar eclipse in<br>Australia in 2010, there was information that birds<br>stopped singing. Llamas are said to have shown<br>strange behavior by surrounding people before the<br>solar eclipse. There are also reports that whales and<br>dolphins surfaced around boats a few minutes before<br>a total solar eclipse. Unfortunately, scientific research<br>related to this has hardly been conducted.', 
+        keywords: ['results', 'surprising', 'Australia', '2010', 'birds', 'stopped singing', 'Llamas', 'whales', 'dolphins', 'total solar eclipse', 'information', 'strange behavior', 'surrounding people', 'reports', 'surfaced', 'boats', 'few minutes', 'scientific research', 'hardly conducted'] 
+      },
+      3: { 
+        text: 'Describe the behavior of animals before a solar<br>eclipse.', 
+        keywords: ['behavior', 'animals', 'solar eclipse'], 
+        fontType: 'type2' 
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 17 (PDF 페이지 17) - 명령어: 14
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/17.jpg',
+    zones: {
+      1: { 
+        text: 'The Moon also has an exciting story. It is about Richard<br>Garriott, the first civilian in the United States to<br>travel to space. Garriott is an incredibly wealthy<br>businessman. One day, he spent an enormous amount<br>of money to buy a probe that had crashed on the<br>Moon\'s surface. People thought it was strange<br>because the probe was supposed to be a broken piece<br>of rubbish. It had crashed on the Moon, so it could not<br>be touched or displayed in a museum.', 
+        keywords: ['Moon', 'exciting story', 'Richard Garriott', 'civilian', 'United States', 'space', 'wealthy businessman', 'probe', 'crashed', 'rubbish', 'first civilian', 'travel', 'incredibly wealthy', 'enormous amount', 'money', 'surface', 'strange', 'broken piece', 'touched', 'displayed', 'museum'] 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'However, Garriott had a reason for buying the broken<br>probe. It was to claim ownership of the Moon.<br>He believed that as time passed and science<br>advanced, there would be a world where people could<br>freely travel to the Moon. When that time came,<br>he planned to say that the place was his land based<br>on the probe he had purchased in advance. However,<br>Garriott\'s plan had almost no chance of success.<br><br>This was because of the Outer Space Treaty made by<br>the United Nations in 1967. This treaty stated that<br>space could only be used for peaceful purposes.', 
+        keywords: ['Garriott', 'broken probe', 'claim ownership', 'Moon', 'science advanced', 'travel', 'land', 'Outer Space Treaty', 'United Nations', '1967', 'peaceful purposes', 'reason', 'buying', 'believed', 'time passed', 'world', 'freely', 'planned', 'purchased', 'advance', 'chance', 'success', 'treaty', 'stated'] 
+      }
+    }
+  },
+
+  // 슬라이드 18 (PDF 페이지 18) - 명령어: 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/18.jpg',
+    zones: {
+      1: { 
+        text: 'Here are some fundamental rules of the Outer Space<br>Treaty.<br>• Outer space shall be free for exploration and use by<br>all States.<br>• Outer space is not subject to national appropriation<br>by claim of sovereignty, by means of use or<br>occupation, or by any other means.<br>• States shall avoid harmful contamination of space<br>and celestial bodies.', 
+        keywords: ['fundamental rules', 'Outer Space Treaty', 'exploration', 'all States', 'national appropriation', 'sovereignty', 'contamination', 'celestial bodies', 'free', 'use', 'subject', 'claim', 'means', 'occupation', 'avoid', 'harmful'] 
+      },
+      2: { 
+        text: 'It mainly contains rules about protecting outer space.<br>However, not many countries can develop space as<br>of yet. It takes massive funds and vast technology to<br>develop outer space programs. So, owning and using<br>space is a fantasy for now. However, when many<br>countries start to develop space programs someday,<br>problems will eventually arise.<br>People will launch artificial satellites and build space<br>stations everywhere. Then, space in the future<br>may become polluted like present Earth. Moreover,<br>countries might start wars for more space and<br>planets. The United Nations created the Outer Space<br>Treaty to prevent these things from happening.', 
+        keywords: ['protecting outer space', 'countries', 'massive funds', 'technology', 'artificial satellites', 'space stations', 'polluted', 'wars', 'planets', 'rules', 'develop', 'yet', 'vast', 'programs', 'fantasy', 'someday', 'problems', 'arise', 'launch', 'build', 'everywhere', 'future', 'present Earth', 'more', 'prevent', 'happening'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain why the United Nations created the Outer<br>Space Treaty.', 
+        keywords: ['United Nations', 'Outer Space Treaty'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+
+  // 슬라이드 19 (PDF 페이지 19) - 명령어: 134
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/19.jpg',
+    zones: {
+      1: { 
+        text: '<span class="larger-text">Ⅰ. What Is the Purpose of Studying Motifs</span><br><span class="larger-text">on the Moon in the Night Sky?</span><br><br>', 
+        keywords: ['Purpose', 'Studying', 'Motifs', 'Moon', 'Night Sky', 'imagination', 'Greek', 'Roman mythology', 'gods', 'culture', 'What Is', 'Ⅰ'] 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: 'When people cannot visit unknown worlds or<br>scientifically explain something, they add imagination<br>to create exciting stories. This is why Greek and<br>Roman mythology have many gods ruling nature and<br>the universe. Among the numerous celestial bodies<br>in the night sky, people create countless stories by<br>watching the Moon, which changes its shape every<br>night. It is natural for moon gods to always appear<br>in myths from both the East and the West. Through<br>different stories about the Moon, we can understand<br>the culture and history of those who created the stories.', keywords: [] },
+      4: { 
+        text: 'The space age unfolded with the development of<br>science, and fantasies about the Moon have gradually<br>disappeared. There are no legendary rabbits or<br>beautiful goddesses on the Moon. The Moon has no<br>oxygen or water needed for living organisms.<br>The Moon\'s surface is covered only with craters<br>created by asteroids.', 
+        keywords: ['space age', 'science', 'fantasies', 'Moon', 'rabbits', 'goddesses', 'oxygen', 'water', 'craters', 'asteroids', 'unfolded', 'development', 'gradually', 'disappeared', 'legendary', 'beautiful', 'needed', 'living organisms', 'surface', 'covered', 'created'] 
+      },
+    }
+      
+  },
+
+  // 슬라이드 20 (PDF 페이지 20) - 명령어: 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/20.jpg',
+    zones: {
+      1: { 
+        text: 'Then why do scientists study the Moon?<br>They believe the Moon will help them unlock the<br>secrets of Earth\'s creation. The universe is like<br>a sophisticated clock with numerous gears<br>interlocking and turning. Therefore, by understanding<br>the relationship between Earth and the Moon, we can<br>understand the principles governing planetary motion<br>that dominate the entire universe. Studying the<br>motifs on the Moon and the motifs created by the Sun<br>and stars allows us to understand various cultures and<br>grasp the principles of cosmic creation.', 
+        keywords: ['scientists', 'Moon', 'Earth creation', 'universe', 'clock', 'gears', 'planetary motion', 'motifs', 'cosmic creation', 'why', 'study', 'believe', 'help', 'unlock', 'secrets', 'sophisticated', 'numerous', 'interlocking', 'turning', 'understanding', 'relationship', 'principles', 'governing', 'dominate', 'entire', 'stars', 'various cultures', 'grasp'] 
+      },
+      2: { 
+        text: '(1) In times when it was impossible to go to the Moon,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people looked at the Moon and imagined many things.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How do you feel when you see a crescent moon?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create a story based on what you think.<br><br>(2) A crater is formed when the hard surface of a celestial<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body clashes with another smaller celestial body.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Why does the Moon have more craters than the Earth?', 
+        keywords: ['impossible', 'Moon', 'imagined', 'crescent moon', 'story', 'crater', 'celestial body', 'clashes', 'Earth', 'times', 'go', 'looked', 'many things', 'feel', 'see', 'create', 'based', 'think', 'formed', 'hard surface', 'smaller', 'more craters', 'than'], 
+        fontType: 'type3' 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 21 (PDF 페이지 21) - 명령어: 123
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/21.jpg',
+    zones: {
+      1: { 
+        text: '<span class="larger-text">Ⅱ. How Can We Apply the Study of Motifs</span><br><span class="larger-text">on the Moon in the Night Sky?</span><br><br>In 1969, humans left footprints on the Moon,<br>giving way to the space age. Until the early 2000s,<br>space-related industries mainly competed with<br>national research institutes. However, nowadays,<br>civilian companies like SpaceX and Blue Origin are<br>taking the lead in space development.<br><br>', 
+        keywords: ['Apply', 'Study', 'Motifs', 'Moon', 'Night Sky', '1969', 'footprints', 'space age', 'SpaceX', 'Blue Origin', 'New Space', 'How Can We', 'Ⅱ', 'humans', 'left', 'giving way', 'early 2000s', 'space-related industries', 'competed', 'national research institutes', 'nowadays', 'civilian companies', 'taking lead', 'development'] 
+      },
+      2: { 
+        text: 'In contrast, "Old Space" refers to the past era when<br>nations led the space industry. Old Space invests<br>significant time and funds in developing technology.<br>As taxes operate it, there is a need to minimize risks.<br><br>However, New Space has the characteristic of free<br>participation from both large and small companies.<br>Because it operates with investment funds, a certain<br>level of risk is involved, and the business moves<br>forward knowing that risk. In New Space, rockets<br>are reused to lower costs, create profit, and extract<br>and sell space minerals. Another significant feature<br>of New Space is the possibility of cross-border<br>cooperation for space development.', 
+        keywords: ['Old Space', 'nations', 'space industry', 'taxes', 'minimize risks', 'New Space', 'investment funds', 'rockets', 'space minerals', 'cross-border cooperation', 'contrast', 'past era', 'led', 'invests', 'significant time', 'funds', 'developing technology', 'operate', 'need', 'characteristic', 'free participation', 'large', 'small companies', 'operates', 'certain level', 'risk', 'involved', 'business moves', 'forward', 'knowing', 'reused', 'lower costs', 'create profit', 'extract', 'sell', 'significant feature', 'possibility'] 
+      },
+      3: { text: 'Blue Origin has successfully conducted test flights<br>of their spacecraft called "New Shepard" and plans<br>to introduce space travel products based on this<br>achievement. Additionally, SpaceX has grand dreams<br>of building a Martian colony. This paradigm shift,<br>where civilian companies play a central role in space<br>development, is called the "New Space."', keywords: ['Blue Origin', 'successfully', 'test flights', 'spacecraft', 'New Shepard', 'plans', 'introduce', 'space travel', 'products', 'achievement', 'SpaceX', 'grand dreams', 'Martian colony', 'paradigm shift', 'civilian companies', 'central role', 'development', 'New Space'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 22 (PDF 페이지 22) - 명령어: 13
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/22.jpg',
+    zones: {
+      3: { 
+        text: 'In Greek mythology, the sun god Helios is portrayed as<br>a beautiful young man with golden hair, like the solar<br>spicules. He rides a chariot pulled by four winged horses.<br>Every morning, he rides his chariot across the sky, starting<br>in the east in India and traveling throughout the day,<br>reaching the west at Oceanus. He takes a brief rest there<br>before flying back to the east overnight.<br><br>', 
+        keywords: ['Greek mythology', 'Helios', 'sun god', 'golden hair', 'solar spicules', 'chariot', 'winged horses', 'east', 'west', 'Oceanus', 'portrayed', 'beautiful young man', 'rides', 'pulled', 'four', 'morning', 'across sky', 'starting', 'India', 'traveling', 'day', 'reaching', 'brief rest', 'flying back', 'overnight'], 
+        fontType: 'type3' 
+      },
+      2: { text: '', keywords: [] },
+      1: { 
+        text: '(1) We may think that solar eclipses, where the Moon<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;covers the Sun, should happen every month. However,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in reality, solar eclipses only occur only 2 to 5 times<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a year. Explain why.<br><br>(2) The United Nations announced the Outer Space Treaty,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which states that space can only be used for peaceful<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;purposes. If the Outer Space Treaty did not exist,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;describe what might happen.', 
+        keywords: ['solar eclipses', 'Moon covers Sun', 'every month', '2 to 5 times', 'year', 'United Nations', 'Outer Space Treaty', 'peaceful purposes', 'think', 'should happen', 'reality', 'only occur', 'explain why', 'announced', 'states', 'space', 'only used', 'did not exist', 'describe', 'might happen'], 
+        fontType: 'type3' 
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 23 (PDF 페이지 23) - 명령어: 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/23.jpg',
+    zones: {
+      1: { 
+        text: 'What comes to mind when we hear Helios\' day?<br>We are likely to think of the image of the Sun rising in<br>the east and setting in the west. People\'s love for Greek<br>mythology is probably due to the familiar aspects of nature<br>in the stories. We often find the characteristics of natural<br>elements in Greek gods. Selene is the goddess of the Moon<br>in Greek mythology. Now, imagine what Selene might look<br>like. Describe Selene\'s appearance based on your imagination.', 
+        keywords: ['Helios day', 'Sun rising', 'east', 'west', 'Greek mythology', 'nature', 'natural elements', 'Selene', 'goddess', 'Moon', 'imagination', 'comes to mind', 'hear', 'likely', 'think', 'image', 'setting', 'love', 'familiar aspects', 'stories', 'characteristics', 'gods', 'imagine', 'look', 'describe', 'appearance', 'based'], 
+        fontType: 'type3'  
+      },
+      2: { 
+        text: 'Elon Musk, the CEO of Tesla, an American electric car<br>manufacturing company, made the following statement<br>as he jumped into space development: "The future of<br>humanity is going to bifurcate in two directions: Either it<br>is going to become multiplanetary, or it is going to remain<br>confined to one planet and eventually there\'s going to<br>be an extinction event." Initially, people did not take him<br>seriously, but Musk is gradually moving forward with his<br>plans.', 
+        keywords: ['Elon Musk', 'Tesla', 'electric car', 'space development', 'humanity', 'multiplanetary', 'extinction event', 'plans', 'CEO', 'American', 'manufacturing company', 'statement', 'jumped into', 'future', 'bifurcate', 'two directions', 'either', 'become', 'remain', 'confined', 'one planet', 'eventually', 'initially', 'seriously', 'gradually', 'moving forward'], 
+        fontType: 'type3' 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 24 (PDF 페이지 24) - 명령어: 12
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/24.jpg',
+    zones: {
+      2: { 
+        text: 'People in the past always told stories with moral lessons<br>related to natural events. Read the following story<br>carefully. There was a mother who was always worried<br>because of her two sons. It was because her elder son was<br>an umbrella merchant and the younger son a fan merchant.<br>On clear days, the mother gazed at the sky and worried<br>about her elder son, who sold umbrellas.<br>She stared at the ground on rainy days and worried about<br>her younger son, who sold fans. One day, her next-door<br>neighbor came and said, "Do not worry so much. Instead,<br>try thinking the opposite. When the weather is clear, think<br>that fan sales will be good, and when it rains, believe that<br>umbrella sales will be good."', 
+        keywords: ['past', 'stories', 'moral lessons', 'natural events', 'mother', 'worried', 'two sons', 'umbrella merchant', 'fan merchant', 'neighbor', 'always told', 'related', 'read', 'carefully', 'always worried', 'elder son', 'younger son', 'clear days', 'gazed', 'sky', 'sold umbrellas', 'rainy days', 'ground', 'sold fans', 'next-door', 'came', 'worry', 'much', 'instead', 'thinking', 'opposite', 'weather', 'clear', 'fan sales', 'good', 'rains', 'umbrella sales', 'believe'], 
+        fontType: 'type3' 
+      },
+      1: { 
+        text: 'The exploration of Mars has long been a subject of movies<br>and novels. Mars has an environment similar to Earth<br>among the planets in our solar system, but it is currently<br>impossible for humans to live on Mars.<br>First of all, Mars lacks water. Also, Mars\' temperature drops<br>to as low as minus 127 degrees Celsius at night. Moreover,<br>Mars lacks air for us to breathe. We must also consider who<br>will build a city for humans on Mars. Think about ways to<br>build buildings and roads on Mars, where people cannot<br>currently live.', 
+        keywords: ['Mars exploration', 'movies', 'novels', 'environment', 'Earth', 'solar system', 'impossible', 'humans', 'water', 'temperature', 'minus 127 degrees', 'air', 'breathe', 'city', 'buildings', 'roads', 'long been', 'subject', 'similar', 'among planets', 'currently', 'live', 'first of all', 'lacks', 'drops', 'as low as', 'Celsius', 'night', 'moreover', 'consider', 'build', 'ways', 'cannot', 'currently live'], 
+        fontType: 'type3' 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 25 (PDF 페이지 25) - 명령어: 14
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/25.jpg',
+    zones: {
+      1: { 
+        text: '<br>Thinking about her elder son on rainy days brought<br>comfort, and thinking about her younger son on sunny<br>days brought joy. However, deep in her heart, she was still<br>worried about her sons, who might not do well in business.<br>Write down how we can reassure this worried mother<br>about her sons.', 
+        keywords: ['elder son', 'rainy days', 'comfort', 'younger son', 'sunny days', 'joy', 'worried', 'business', 'reassure', 'mother', 'thinking', 'brought', 'deep', 'heart', 'still', 'might not', 'do well', 'write down', 'how', 'can', 'about', 'sons'], 
+        fontType: 'type4' 
+      },
+      2: { text: '', keywords: [] },
+      
+      3: { 
+        text: 'The Sun and the Moon have existed long before humans<br>lived on Earth. Ancient people were fascinated by the<br>mystical event of the Sun rising as the Moon sets and vice<br>versa. They could not scientifically explain the origin of<br>the Sun and the Moon. Instead, they used their imagination<br>to create thousands of myths.<br><br>', 
+        keywords: ['Sun', 'Moon', 'existed', 'humans', 'Earth', 'Ancient people', 'mystical event', 'rising', 'sets', 'scientifically explain', 'origin', 'imagination', 'myths', 'long before', 'lived', 'fascinated', 'vice versa', 'could not', 'instead', 'used', 'create', 'thousands'], 
+        fontType: 'type3' 
+      },
+      4: { text: '', keywords: [] },
+    }
+  },
+
+  // 슬라이드 26 (PDF 페이지 26) - 명령어: 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/26.jpg',
+    zones: {
+      1: { 
+        text: '<br>In ancient Chinese mythology, there is a tale about a giant<br>who lived long ago. Upon his death, his head transformed<br>into four great mountains. His right eye became the Sun,<br>his left eye became the Moon, and his hair turned into<br>grass and trees. The Book of Genesis in the Christian Old<br>Bible records that God created the Sun and the Moon as<br>the markers for dividing day and night on the fourth day.<br>There are also myths explaining solar and lunar eclipses.<br>According to Norse mythology, a wolf named Skoll<br>devoured the Sun, causing a solar eclipse and a wolf<br>named Hati swallowed the Moon, causing a lunar eclipse.<br>Now, create a new story about a solar and lunar eclipse.', 
+        keywords: ['ancient Chinese mythology', 'giant', 'death', 'mountains', 'Sun', 'Moon', 'grass', 'trees', 'Genesis', 'Christian', 'God', 'markers', 'day', 'night', 'fourth day', 'myths', 'solar eclipse', 'lunar eclipse', 'Norse mythology', 'Skoll', 'Hati', 'tale', 'lived long ago', 'head transformed', 'four great', 'right eye', 'left eye', 'hair turned', 'Book of Genesis', 'Christian Old Bible', 'records', 'created', 'markers', 'dividing', 'fourth day', 'explaining', 'According to', 'wolf named', 'devoured', 'causing', 'swallowed', 'create', 'new story'], 
+        fontType: 'type4' 
+      },
+      2: { 
+        text: '<br><strong><u>How Celestial Bodies Move<br><br>Planets such as Earth, Mercury, and Venus orbit around<br>the Sun. Nowadays, we consider this fact to be obvious.<br>But people in the past did not believe this. The ancient<br>Greek astronomer Ptolemy argued for the geocentric<br>theory. Geocentrism is the theory that the universe<br>moves in a circle around the Earth. According to people\'s<br>thoughts at the time, the Earth was naturally the center of<br>the universe. Denying this was equal to going against God.<br>So the geocentric theory could never be refuted. However,<br>geocentrism could not effectively explain astronomical<br>phenomena. Theories would become increasingly complex<br>to explain difficult astronomical phenomena. Then, during<br>the Renaissance, Copernicus appeared.', 
+        keywords: ['Celestial Bodies Move', 'Planets', 'Earth', 'Mercury', 'Venus', 'orbit', 'Sun', 'obvious', 'past', 'Ptolemy', 'geocentric theory', 'universe', 'circle', 'center', 'God', 'refuted', 'astronomical phenomena', 'Renaissance', 'Copernicus', 'How', 'around', 'nowadays', 'consider', 'fact', 'believe', 'ancient', 'Greek astronomer', 'argued', 'geocentrism', 'theory', 'moves', 'naturally', 'denying', 'equal', 'going against', 'never', 'effectively', 'explain', 'theories', 'increasingly complex', 'difficult', 'during', 'appeared'], 
+        fontType: 'type4' 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  // 슬라이드 27 (PDF 페이지 27) - 명령어: 1
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/27.jpg',
+    zones: {
+      1: { 
+        text: 'He denied geocentrism and argued for heliocentrism.<br>This theory is that the Sun is at the center of the universe<br>and the planets move in a circle. The heliocentric theory<br>was met with backlash because it went against the<br>existing religious worldview. The Vatican even banned<br>Copernicus\' books.<br>However, there were also scientists who agreed with<br>Copernicus\' claims. Kepler established three laws of<br>planetary motion based on the observations of his teacher,<br>Brahe. To summarize the contents in two and briefly<br>explain them, they are as follows. First, planets orbit<br>around the Sun in ellipses. So, the planet has moments<br>when it gets closer to the Sun and moments when it moves<br>away. Second, the closer a planet is to the Sun, the faster<br>it moves. Kepler\'s laws are accepted as the basic principles<br>of motion in the solar system. In modern times, it is known<br>that the Sun also orbits the black hole at the center of our<br>galaxy. Moreover, our galaxy is one of the many galaxies in<br>the universe. Modern astronomy does not place any special<br>significance on the center of the universe.', 
+        keywords: ['geocentrism', 'heliocentrism', 'Sun', 'center', 'universe', 'planets', 'circle', 'backlash', 'religious worldview', 'Vatican', 'Copernicus', 'scientists', 'Kepler', 'planetary motion', 'Brahe', 'ellipses', 'closer', 'faster', 'solar system', 'black hole', 'galaxy', 'astronomy', 'denied', 'argued', 'theory', 'moves', 'met with', 'went against', 'existing', 'banned', 'books', 'agreed', 'claims', 'established', 'three laws', 'observations', 'teacher', 'summarize', 'contents', 'briefly', 'explain', 'follows', 'first', 'orbit', 'moments', 'gets closer', 'moves away', 'second', 'faster', 'accepted', 'basic principles', 'motion', 'modern times', 'known', 'orbits', 'center', 'many galaxies', 'modern', 'does not place', 'special significance'] , 
+        fontType: 'type3'
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  // 슬라이드 28 (PDF 페이지 28) - 명령어: 124
+  {
+    bg: '../assets/img/ReadBook/G2.2.5/28.jpg',
+    zones: {
+      1: { 
+        text: '02. Star Motifs and Human Imagination<br><br><br><br><br><br>There are countless stars in the night sky.<br>Among them, some stars have unique shapes when<br>gathered together. Such gatherings of stars are<br>called constellations. People have been observing and<br>studying constellations for a long time. They have<br>assigned names to them and created special legends<br>about them.', 
+        keywords: ['Star Motifs', 'Human Imagination', 'countless stars', 'night sky', 'unique shapes', 'constellations', 'observing', 'studying', 'names', 'legends', '02', 'gathered together', 'gatherings', 'assigned', 'created', 'special'] 
+      },
+      2: { 
+        text: 'Now, let\'s study mankind\'s constellations. It is not<br>easy to know precisely when and where people first<br>began studying constellations. However, historians<br>estimate that people used constellations since<br>ancient times for survival-related activities, such<br>as farming or sailing. Drawings of constellations are<br>found in cave paintings left by prehistoric people who<br>lived 10,000 years ago, pointing to a very long history.<br>The people who systematically began studying<br>constellations are known as the ancient Babylonians.<br>They watched the sky and recorded information<br>on clay tablets, such as the day\'s weather and the<br>crescent moon\'s dates.', 
+        keywords: ['mankind', 'constellations', 'precisely', 'historians', 'ancient times', 'survival', 'farming', 'sailing', 'cave paintings', 'prehistoric people', '10,000 years ago', 'Babylonians', 'clay tablets', 'weather', 'crescent moon', 'study', 'easy', 'know', 'when', 'where', 'first began', 'estimate', 'used', 'since', 'survival-related activities', 'such as', 'drawings', 'found', 'cave paintings', 'left by', 'lived', 'pointing', 'very long history', 'systematically', 'began studying', 'known as', 'ancient', 'watched', 'sky', 'recorded', 'information', 'dates'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Were there constellations in prehistoric times as<br>well? If so, explain how people might have used<br>constellations back then.', 
+        keywords: ['constellations', 'prehistoric times', 'people', 'used', 'Were there', 'as well', 'If so', 'explain', 'how', 'might have', 'back then'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+  bg: '../assets/img/ReadBook/G2.2.5/29.jpg',
+  zones: {
+    1: { 
+      text: 'Babylonians significantly advanced in astronomy<br>thanks to long-term observation and research of<br>the sky. People at the time could predict when<br>Venus would appear in the sky. The clay tablet called<br>MUL.APIN is particularly well-known. It contains a list<br>of stars positioned in opposite directions, with one<br>rising as the other sets. It also includes the names of<br>stars and constellations along the Moon\'s path.<br>This sophisticated Babylonian astronomy was later<br>spread to Greece through the Phoenicians, who traded<br>across the Mediterranean. The Greeks added myths of<br>gods, heroes, and animals to the constellations. This<br>tradition continues to this day, making constellations<br>even more unique.',
+      keywords: ['Babylonians', 'astronomy', 'Venus', 'MUL.APIN', 'constellations', 'Greeks', 'mythology', 'significantly advanced', 'long-term observation', 'research', 'sky', 'predict', 'appear', 'clay tablet', 'well-known', 'contains', 'list', 'stars', 'opposite directions', 'rising', 'sets', 'names', 'Moon path', 'sophisticated', 'spread', 'Phoenicians', 'traded', 'Mediterranean', 'added', 'myths', 'gods', 'heroes', 'animals', 'tradition', 'continues', 'unique']
+    },
+    2: { 
+      text: 'There is an ancient Greek legend about constellations.<br>Three bright stars lined up in the southern sky on<br>clear winter nights. These stars are called the belt<br>of Orion. Orion is the name of a hunter in Greek<br>mythology. He is also the son of the sea god Poseidon.<br>Orion was a very tall giant. He was so tall that his<br>head and shoulders were above the water even when<br>he walked in the sea.',
+      keywords: ['Greek legend', 'Orion', 'belt', 'hunter', 'Poseidon', 'giant', 'ancient', 'constellations', 'bright stars', 'lined up', 'southern sky', 'clear winter nights', 'called', 'name', 'mythology', 'son', 'sea god', 'very tall', 'so tall', 'head', 'shoulders', 'above water', 'walked', 'sea']
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 2 (30페이지) - 명령어: 124, PDF 2페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/30.jpg',
+  zones: {
+    1: { 
+      text: 'Orion, the hunter, met and fell in love with Artemis,<br>the goddess of hunting and the Moon. However,<br>Apollo, Artemis\'s brother, was against their love.<br>Apollo, who disliked Orion, tried to separate the<br>two. One day, Apollo proposed an archery contest to<br>Artemis.',
+      keywords: ['Orion', 'Artemis', 'Apollo', 'hunter', 'goddess', 'archery contest', 'met', 'fell in love', 'hunting', 'Moon', 'brother', 'against', 'love', 'disliked', 'tried', 'separate', 'two', 'one day', 'proposed']
+    },
+    2: { 
+      text: 'Artemis was the goddess of hunting, so she was<br>confident in archery. Apollo chose a bucket-shaped<br>object in the sea as his target. Artemis skillfully<br>shot an arrow and hit the mark. However, instead of<br>shooting his bow, Apollo disappeared with a smile.<br>It was then that Artemis realized she had been<br>tricked. The object in the sea was the head of Orion,<br>who had been swimming. Artemis cried tears of<br>sorrow for having killed her lover with her own hands.<br>Her father, Zeus, saw this and turned Orion into<br>a constellation in the night sky. However, Apollo was<br>displeased that Orion became a constellation.',
+      keywords: ['archery', 'target', 'tricked', 'Zeus', 'constellation', 'sorrow', 'goddess of hunting', 'confident', 'chose', 'bucket-shaped', 'object', 'sea', 'skillfully', 'shot', 'arrow', 'hit', 'mark', 'instead', 'shooting', 'bow', 'disappeared', 'smile', 'realized', 'object', 'head', 'swimming', 'cried tears', 'killed', 'lover', 'own hands', 'father', 'saw', 'turned', 'night sky', 'displeased', 'became']
+    },
+    3: { text: '', keywords: [] },
+    4: { 
+      text: 'Imagine and write down why Orion and Artemis<br>fell in love.',
+      keywords: ['imagine', 'love', 'question', 'write down', 'why', 'fell in love'],
+      fontType: 'type2'
+    }
+  }
+},
+
+// 슬라이드 3 (31페이지) - 명령어: 14, PDF 3페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/31.jpg',
+  zones: {
+    1: { 
+      text: 'He turned a scorpion into a constellation and sent<br>it to the sky. The scorpion\'s venom was meant to<br>kill Orion. However, Apollo\'s plan failed once again.<br>The scorpion and Orion could never meet. When the<br>Scorpius constellation rises in the night sky, the<br>Orion constellation disappears in the west. When the<br>Scorpius moves westward, Orion rises in the east.<br>Most myths associated with the constellations<br>we know today came from Western civilizations.<br>So, how did people in the East watch and study<br>constellations? Let\'s explore it together. Eastern<br>and Western cultures had different attitudes toward<br>the sky. Western astronomy was based on Greek and<br>Roman mythology, so the Sun was important.<br>Ancient Egyptians worshiped the rising sun over the<br>Nile and created the sun god Ra.',
+      keywords: ['scorpion', 'constellation', 'Scorpius', 'Western', 'Eastern', 'cultures', 'Sun', 'Ra', 'turned', 'sent', 'sky', 'venom', 'meant', 'kill', 'plan failed', 'once again', 'never meet', 'rises', 'night sky', 'disappears', 'west', 'moves westward', 'rises', 'east', 'myths', 'associated', 'know today', 'civilizations', 'how', 'watch', 'study', 'explore', 'different attitudes', 'toward', 'based', 'Greek', 'Roman mythology', 'important', 'Ancient Egyptians', 'worshiped', 'rising sun', 'Nile', 'created', 'sun god']
+    },
+    2: { text: '', keywords: [] },
+    3: { text: '', keywords: [] },
+    4: { 
+      text: 'Explain why the scorpion sent by Apollo to the<br>night sky fails to kill Orion.',
+      keywords: ['explain', 'scorpion', 'Apollo', 'kill', 'Orion', 'why', 'sent', 'night sky', 'fails'],
+      fontType: 'type2'
+    }
+  }
+},
+
+// 슬라이드 4 (32페이지) - 명령어: 123, PDF 4페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/32.jpg',
+  zones: {
+    1: { 
+      text: 'Zoroastrianism, a religion that started in ancient<br>Persia, also worshipped the Sun as the supreme being.<br>In contrast, people in the East prioritized the sky,<br>including the Sun, Moon, and stars. In ancient China,<br>the king was considered the son of the skies.<br>They held rituals for good weather when the country<br>faced flood or drought.',
+      keywords: ['Zoroastrianism', 'Persia', 'Sun', 'East', 'China', 'king', 'rituals', 'religion', 'started', 'ancient', 'worshipped', 'supreme being', 'contrast', 'prioritized', 'sky', 'Moon', 'stars', 'considered', 'son', 'skies', 'held', 'good weather', 'country', 'faced', 'flood', 'drought']
+    },
+    2: { 
+      text: 'The Eastern view on stars was different from the<br>Western view. The path the Sun takes across the sky<br>is called the ecliptic. Of course, it only looks like the<br>Sun is moving because the Earth revolves around it.<br>In the West, 12 constellations along the ecliptic were<br>named, forming the zodiac. This system, known as<br>the Zodiac of 12 Houses, helped us understand space<br>by observing constellations around the Sun.<br>Then how did the East understand space? They placed<br>importance on the North Star. Chinese philosopher<br>Confucius also thought the North Star was important,<br>saying, "He who rules government with virtue may be<br>compared to the North Star, which keeps its place and<br>all the stars point towards it." Also, Sima Qian, often<br>called China\'s "Father of History," recorded that the<br>North Star is in the center of the sky.',
+      keywords: ['ecliptic', 'zodiac', 'North Star', 'Confucius', 'Sima Qian', 'virtue', 'Eastern view', 'stars', 'different', 'Western view', 'path', 'Sun takes', 'across', 'sky', 'looks like', 'moving', 'Earth revolves', '12 constellations', 'named', 'forming', 'system', 'known as', 'Zodiac of 12 Houses', 'helped', 'understand space', 'observing', 'around', 'how', 'understood', 'placed', 'importance', 'Chinese philosopher', 'thought', 'important', 'rules government', 'compared', 'keeps place', 'stars point', 'Father of History', 'recorded', 'center']
+    },
+    3: { 
+      text: 'Explain how we know the North Star was influential<br>in the East.',
+      keywords: ['explain', 'North Star', 'influential', 'East', 'how', 'know', 'was'],
+      fontType: 'type2'
+    },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 5 (33페이지) - 명령어: 12, PDF 5페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/33.jpg',
+  zones: {
+    1: { 
+      text: 'While stories of the constellations in the East are<br>not as diverse as those in the West, legends do exist.<br>There was even a constellation textbook in China<br>during the Han Dynasty. Let\'s look at a poem about<br>the "Old Man Constellation" found in that book.',
+      keywords: ['East', 'West', 'legends', 'China', 'Han Dynasty', 'Old Man Constellation', 'stories', 'constellations', 'diverse', 'exist', 'constellation textbook', 'look', 'poem', 'found', 'book']
+    },
+    2: { 
+      text: 'When we try to find the constellations mentioned<br>in this poem, we can identify the wolf as Sirius, the<br>bow as Orion, and the old man as the constellation<br>Canopus. Canopus is called the "Old Man constellation"<br>in the East. At the time, people in the East believed<br>that seeing the Old Man constellation, as mentioned in<br>the last verse, meant a person would have a long life.<br>In the East, there has been an age-old belief that the<br>Old Man constellation determined a person\'s lifespan.<br>So, if people saw the Old Man, the year it was seen<br>would be peaceful for the country.',
+      keywords: ['Sirius', 'Orion', 'Canopus', 'Old Man constellation', 'long life', 'peaceful', 'try', 'find', 'constellations', 'mentioned', 'poem', 'identify', 'wolf', 'bow', 'old man', 'called', 'East', 'time', 'believed', 'seeing', 'last verse', 'meant', 'person', 'age-old belief', 'determined', 'lifespan', 'saw', 'year', 'seen', 'peaceful', 'country']
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 6 (34페이지) - 명령어: 123, PDF 6페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/34.jpg',
+  zones: {
+    1: { 
+      text: 'Based on this belief, people would hang a picture of<br>an old man symbolizing the Old Man constellation.<br>In the picture, the old man had a comical long<br>forehead, holding a cane in one hand and a peach<br>in the other. Although short in height, the old man<br>typically had a very long beard, and his face was<br>flushed, like he had drunk alcohol. This is probably<br>because the Old Man constellation is red.<br>While the Old Man is originally blue, when people<br>see it in the East in the Northern Hemisphere, it can<br>sometimes appear red due to the influence of the air<br>near the horizon.',
+      keywords: ['picture', 'old man', 'forehead', 'cane', 'peach', 'beard', 'red', 'blue', 'based', 'belief', 'hang', 'symbolizing', 'comical', 'long', 'holding', 'hand', 'short', 'height', 'typically', 'very long', 'face', 'flushed', 'drunk alcohol', 'probably', 'originally', 'see', 'Northern Hemisphere', 'sometimes', 'appear', 'influence', 'air', 'horizon']
+    },
+    2: { 
+      text: 'Then, how do constellations affect our daily lives?<br>Creating constellations by connecting multiple stars<br>is not simply due to curiosity or fantasies about<br>outer space. Creating constellations has greatly<br>helped people in their practical lives. The brightest<br>star in the sky is Sirius, located in the Canis Major<br>constellation. Sirius plays an important role in telling<br>us the seasons. It disappears from the sky for about<br>70 days and then rises in the eastern sky just before<br>the summer when the Nile River overflows.<br>This is why in ancient Egypt, Sirius was considered<br>a star that signaled the flooding of the Nile. We can<br>see Sirius near the horizon just before sunrise and<br>it quickly disappears as the sun rises. Ancient people<br>used this as a reference to determine the start of<br>the year.',
+      keywords: ['constellations', 'daily lives', 'Sirius', 'seasons', 'Nile', 'Egypt', 'flooding', 'year', 'affect', 'creating', 'connecting', 'multiple stars', 'simply', 'curiosity', 'fantasies', 'outer space', 'greatly helped', 'practical lives', 'brightest star', 'Canis Major', 'plays', 'important role', 'telling', 'disappears', '70 days', 'rises', 'eastern sky', 'summer', 'Nile River', 'overflows', 'signaled', 'horizon', 'sunrise', 'quickly disappears', 'sun rises', 'ancient people', 'used', 'reference', 'determine', 'start']
+    },
+    3: { 
+      text: 'Explain why people in the East hung pictures of<br>an old man inside their homes, symbolizing the Old<br>Man constellation.',
+      keywords: ['explain', 'East', 'pictures', 'old man', 'homes', 'Old Man constellation', 'why', 'hung', 'inside', 'symbolizing'],
+      fontType: 'type2'
+    },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 7 (35페이지) - 명령어: 123, PDF 7페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/35.jpg',
+  zones: {
+    1: { 
+      text: 'Constellations also served as a compass. Medieval<br>navigators determined their location in the night sea<br>by watching the constellations in the sky. Stars acted<br>as traffic signs for sailors. For example, imagine a<br>ship traveling from the equator to explore the Arctic.<br>During the day, they can follow the sun, but how can<br>they determine the direction in the night?<br>The answer lies in using the altitude of the North<br>Star. The North Star, located in the Little Dipper,<br>is the brightest star and the 50th brightest star in<br>the night sky. The angle formed by the star and the<br>horizon is called the altitude. If the star is high above,<br>it is considered high altitude. If it is closer to the<br>ground, it is regarded as low altitude.',
+      keywords: ['compass', 'navigators', 'stars', 'sailors', 'North Star', 'altitude', 'Little Dipper', 'served', 'Medieval', 'determined', 'location', 'night sea', 'watching', 'sky', 'acted', 'traffic signs', 'example', 'imagine', 'ship', 'traveling', 'equator', 'explore', 'Arctic', 'day', 'follow', 'sun', 'determine', 'direction', 'night', 'answer', 'lies', 'using', 'located', 'brightest star', '50th brightest', 'angle', 'formed', 'horizon', 'high above', 'considered', 'high altitude', 'closer', 'ground', 'regarded', 'low altitude']
+    },
+    2: { 
+      text: 'The Earth is round, so the altitude of the North Star<br>varies depending on where we observe it.<br>The North Star is close to the North Pole of the Earth.<br>Therefore, in areas near the equator, the North Star<br>appears as if it touches the ground, while at the North<br>Pole, it seems to be directly above, right over the<br>head. Therefore, when traveling northward at sea,<br>we only need to check if the altitude of the North Star<br>is gradually increasing.',
+      keywords: ['Earth', 'round', 'North Pole', 'equator', 'northward', 'increasing', 'altitude', 'varies', 'depending', 'observe', 'close', 'therefore', 'areas', 'appears', 'touches', 'ground', 'directly above', 'right over', 'head', 'traveling', 'sea', 'only need', 'check', 'gradually']
+    },
+    3: { 
+      text: 'Explain why sailors use the North Star to determine<br>direction out at sea.',
+      keywords: ['explain', 'sailors', 'North Star', 'direction', 'sea', 'why', 'use', 'determine', 'out'],
+      fontType: 'type2'
+    },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 8 (36페이지) - 명령어: 124, PDF 8페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/36.jpg',
+  zones: {
+    1: { 
+      text: 'So, how did people determine the altitude of the<br>North Star? Ancient navigators would extend their<br>arms upward and spread their fingers to estimate the<br>angle. Around 150 BC, the ancient Greek astronomer<br>Hipparchus invented an observational tool called<br>an astrolabe. It featured a calibrated disk suspended<br>vertically with a pointer, allowing users to align it with<br>a star to measure its altitude.<br>However, reading an astrolabe required three people:<br>one to hold the instrument, another to sight the star,<br>and a third to read the scales.',
+      keywords: ['altitude', 'navigators', 'Hipparchus', 'astrolabe', 'three people', 'instrument', 'determine', 'ancient', 'extend', 'arms', 'upward', 'spread', 'fingers', 'estimate', 'angle', '150 BC', 'Greek astronomer', 'invented', 'observational tool', 'calibrated disk', 'suspended', 'vertically', 'pointer', 'allowing', 'users', 'align', 'star', 'measure', 'reading', 'required', 'hold', 'sight', 'read', 'scales']
+    },
+    2: { 
+      text: 'Even when these three people combined their strength<br>on a shaky boat, it was not easy to get accurate<br>measurements. As a result, a problem occurred where<br>errors of hundreds of kilometers would happen<br>from time to time. To solve this issue, astronomers<br>invented the cross-staff. This surveying instrument<br>was created by connecting a short cross-shaped staff<br>to a long staff with engraved markings.<br>This instrument was very convenient because all<br>people had to do was ensure that the ends of the<br>short staff were positioned on the horizontal line and<br>the star and then read the markings on the long staff.<br>Later inventions, such as the fan-shaped octant and<br>sextant, are still in use today.',
+      keywords: ['measurements', 'cross-staff', 'surveying', 'convenient', 'octant', 'sextant', 'combined', 'strength', 'shaky boat', 'easy', 'accurate', 'problem occurred', 'errors', 'hundreds', 'kilometers', 'time to time', 'solve', 'issue', 'astronomers', 'invented', 'surveying instrument', 'created', 'connecting', 'short cross-shaped staff', 'long staff', 'engraved markings', 'very convenient', 'ensure', 'ends', 'positioned', 'horizontal line', 'read', 'markings', 'later inventions', 'fan-shaped', 'still in use', 'today']
+    },
+    3: { text: '', keywords: [] },
+    4: { 
+      text: 'Can we measure the altitude of a star with our<br>thumbs? Share your thoughts.',
+      keywords: ['measure', 'altitude', 'star', 'thumbs', 'thoughts', 'can', 'with', 'share', 'your'],
+      fontType: 'type2'
+    }
+  }
+},
+
+// 슬라이드 9 (37페이지) - 명령어: 124, PDF 9페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/37.jpg',
+  zones: {
+    2: { 
+      text: 'In the West, there are constellations, while in the East,<br>there is a type of fortune telling called the "Four Pillars<br>of Destiny." These four pillars refer to a person\'s birth<br>year, month, day, and hour. In the East, people believed<br>that the Sun, Moon, Mars, Mercury, Jupiter, Venus,<br>and Saturn determined a person\'s destiny. Therefore,<br>a person\'s future was thought to be determined<br>depending on how these planets are positioned at<br>the moment of their birth. Tarot readings, widespread<br>among youth these days, also evolved from astrology<br>of the 14th century.',
+      keywords: ['West', 'East', 'Four Pillars of Destiny', 'planets', 'destiny', 'astrology', 'Tarot', 'constellations', 'fortune telling', 'four pillars', 'refer', 'person birth', 'year', 'month', 'day', 'hour', 'believed', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'determined', 'future', 'thought', 'depending', 'positioned', 'moment', 'birth', 'widespread', 'youth', 'these days', 'evolved', '14th century']
+    },
+    1: { 
+      text: 'Astrology always goes hand in hand with constellations.<br>Astrology studies celestial events to predict a person\'s<br>fate and future. Although it has no scientific basis,<br>people have often found comfort in astrology.<br>Even in today\'s horoscope readings, we can see traces<br>of astrology. For example, people born between March<br>21 and April 20 are Aries.<br>Those born under Aries are described as passionate<br>and adventurous, with a strong sense of challenge.<br>Therefore, they are suited for occupations like pilots<br>and athletes. On the other hand, people born between<br>December 21 and January 19 are Capricornus.<br>They are seen as conservative and organized, making<br>them well-suited for professions such as professors,<br>government officials, and scientists. While people may<br>not entirely believe in this information, some think it<br>is modest fun, and some enjoy it as an everyday part<br>of life.',
+      keywords: ['astrology', 'horoscope', 'Aries', 'passionate', 'Capricornus', 'conservative', 'goes hand in hand', 'constellations', 'studies', 'celestial events', 'predict', 'fate', 'future', 'scientific basis', 'found comfort', 'today readings', 'traces', 'example', 'born between', 'March 21', 'April 20', 'described', 'adventurous', 'strong sense', 'challenge', 'suited', 'occupations', 'pilots', 'athletes', 'December 21', 'January 19', 'seen', 'organized', 'well-suited', 'professions', 'professors', 'government officials', 'scientists', 'entirely believe', 'modest fun', 'enjoy', 'everyday part', 'life']
+    },
+    3: { text: '', keywords: [] },
+    4: { 
+      text: 'Briefly explain what astrology is.',
+      keywords: ['explain', 'astrology', 'briefly', 'what', 'is'],
+      fontType: 'type2'
+    }
+  }
+},
+// 슬라이드 10 (38페이지) - 명령어: 123, PDF 10페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/38.jpg',
+  zones: {
+    1: { 
+      text: 'Now, let\'s explore the solar system, the center of<br>Eastern astrology. The solar system refers to the<br>celestial bodies that revolve around the Sun and the<br>space that they occupy. Mercury is closest to the<br>Sun, followed by Venus, Earth, Mars, Jupiter, Saturn,<br>Uranus, and Neptune. However, each planet displays<br>its unique motif. There are numerous volcanic craters<br>on the surface of Mercury, resembling the back of<br>the Moon. These marks are the result of clashes with<br>meteoroids drifting in space. There are also hundreds<br>of kilometers long cliffs called scarps. These are<br>wrinkles created when Mercury suddenly cooled from<br>a very hot state when it first formed.',
+      keywords: ['solar system', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'craters', 'meteoroids', 'scarps', 'explore', 'center', 'Eastern astrology', 'refers', 'celestial bodies', 'revolve', 'Sun', 'space', 'occupy', 'closest', 'followed by', 'Saturn', 'Uranus', 'Neptune', 'displays', 'unique motif', 'numerous', 'volcanic craters', 'surface', 'resembling', 'back', 'Moon', 'marks', 'result', 'clashes', 'drifting', 'hundreds', 'kilometers', 'cliffs', 'wrinkles', 'created', 'suddenly cooled', 'very hot state', 'first formed']
+    },
+    2: { 
+      text: 'The exploration of Mercury began in 1973 with<br>Mariner 10. Scientists studied the photos sent by<br>Mariner 10 and discovered clusters of uneven hills<br>in the southern hemisphere of Mercury. They called<br>it the "Weird Terrain." They were curious about how<br>these hills, also known as "scarps," were formed.<br>Scientists focused on the vast land on this region\'s<br>opposite side. The "Caloris Basin," a crater formed<br>by a massive meteor colliding with Mercury, left<br>a significant mark on the planet. Researchers guess<br>that the shock from the clash was also felt on the<br>opposite side of Mercury, creating these hills.',
+      keywords: ['Mariner 10', 'Weird Terrain', 'scarps', 'Caloris Basin', 'meteor', 'shock', 'exploration', 'began', '1973', 'scientists', 'studied', 'photos', 'sent', 'discovered', 'clusters', 'uneven hills', 'southern hemisphere', 'called', 'curious', 'formed', 'focused', 'vast land', 'opposite side', 'crater', 'formed', 'massive', 'colliding', 'left', 'significant mark', 'planet', 'researchers', 'guess', 'clash', 'felt', 'creating']
+    },
+    3: { 
+      text: 'Explain how the "Caloris Basin" and the "Weird<br>Terrain" were formed.',
+      keywords: ['explain', 'Caloris Basin', 'Weird Terrain', 'formed', 'how', 'were'],
+      fontType: 'type2'
+    },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 11 (39페이지) - 명령어: 12, PDF 11페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/39.jpg',
+  zones: {
+    1: { 
+      text: 'Mars is the planet that captures people\'s interest the<br>most among all the planets in the solar system.<br>Mars has a reddish hue, making it more noticeable.<br>This reddish glow was, at times, considered unlucky.<br>In the past, people believed that when Mars appeared<br>in the sky, it was a sign that there would be war or<br>disaster. People anticipate that Mars has a possibility<br>of life, much like Earth. People anticipate that Mars<br>has a possibility of life, much like Earth. This is why<br>Martians often appear in movies and novels with<br>themes such as The War of the Worlds and Martian<br>Invasion. What kind of motifs are on Mars? And what<br>can we learn from these motifs?',
+      keywords: ['Mars', 'reddish', 'unlucky', 'war', 'disaster', 'life', 'Martians', 'movies', 'planet', 'captures', 'interest', 'most', 'solar system', 'hue', 'noticeable', 'glow', 'times', 'considered', 'past', 'believed', 'appeared', 'sky', 'sign', 'anticipate', 'possibility', 'much like', 'Earth', 'often appear', 'novels', 'themes', 'War of the Worlds', 'Martian Invasion', 'motifs', 'learn']
+    },
+    2: { 
+      text: 'On Mars, white areas are called polar caps. They<br>are similar to Earth\'s Antarctic and Arctic regions.<br>However, the polar caps on Mars are different from<br>Earth\'s poles because they are made up of dry ice<br>formed by frozen carbon dioxide and ice formed by<br>frozen water vapor. Like the Moon or Mercury, Mars\'<br>surface has many craters formed by meteor collisions.<br>Additionally, Mars has many giant volcanoes. Valleys<br>and mountains higher than Mount Everest have been<br>discovered. NASA created a rover called Curiosity to<br>explore Mars\' Gale Crater and its surroundings.<br>The Curiosity rover, which arrived on Mars on August<br>6, 2012, sent pictures of Mars\' landscape back to<br>Earth. However, from the pictures alone, Mars seems<br>like a desolate wasteland, like Earth\'s deserts.',
+      keywords: ['polar caps', 'dry ice', 'carbon dioxide', 'craters', 'volcanoes', 'Curiosity', 'NASA', 'white areas', 'called', 'similar', 'Antarctic', 'Arctic regions', 'different', 'poles', 'made up', 'frozen', 'water vapor', 'surface', 'meteor collisions', 'giant', 'valleys', 'mountains', 'higher', 'Mount Everest', 'discovered', 'created', 'rover', 'explore', 'Gale Crater', 'surroundings', 'arrived', 'August 6', '2012', 'sent pictures', 'landscape', 'Earth', 'pictures alone', 'desolate wasteland', 'deserts']
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 12 (40페이지) - 명령어: 14, PDF 12페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/40.jpg',
+  zones: {
+    1: { 
+      text: 'The surface is filled with hazy dust and rocks of<br>various sizes are scattered around. We can also see<br>hills in the distance. This is why satellite photos of<br>the Martian surface make us feel like we have seen<br>it somewhere before. Mars\' hills look like Earth\'s<br>sandy deserts. Mars also has wave motifs. However,<br>these motifs are slightly different from what we see<br>on Earth. Earth has a lot of air, so the desert motifs<br>appear regularly in one direction due to the wind.<br>However, Mars has almost no atmosphere, so it does<br>not have regular motifs.<br>If someone asked what is the most beautiful planet in<br>our solar system, many would answer Saturn. A large<br>disk-shaped ring surrounds Saturn. This ring was first<br>observed in 1610 by Galileo using a telescope.<br>He described it as Saturn having ears. At that time,<br>the telescope\'s performance was not very good,<br>so Saturn\'s ring appeared like ears.',
+      keywords: ['dust', 'rocks', 'hills', 'desert', 'wave motifs', 'atmosphere', 'Saturn', 'Galileo', 'surface', 'filled', 'hazy', 'various sizes', 'scattered', 'satellite photos', 'Martian surface', 'feel', 'seen', 'somewhere before', 'sandy deserts', 'slightly different', 'Earth', 'lot of air', 'appear regularly', 'one direction', 'wind', 'almost no', 'regular motifs', 'asked', 'most beautiful planet', 'solar system', 'answer', 'large', 'disk-shaped ring', 'surrounds', 'first observed', '1610', 'telescope', 'described', 'ears', 'performance', 'not very good', 'appeared']
+    },
+    2: { text: '', keywords: [] },
+    3: { text: '', keywords: [] },
+    4: { 
+      text: 'Explain what Mars\' polar caps are made of.',
+      keywords: ['explain', 'Mars', 'polar caps', 'made of', 'what', 'are'],
+      fontType: 'type2'
+    }
+  }
+},
+
+// 슬라이드 13 (41페이지) - 명령어: 1234, PDF 13페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/41.jpg',
+  zones: {
+    1: { 
+      text: 'Fifty years after Galileo, Dutch astronomer<br>Christiaan Huygens revealed that Saturn\'s "ears"<br>are actually rings. In 1675 Italian astronomer Cassini<br>observed Saturn\'s rings using a powerful telescope.<br>He discovered that Saturn had several rings with<br>significant gaps appearing dark between each of<br>them. We do not know yet how Saturn got its rings<br>or how they were maintained for a long time.<br>Many astronomers are tirelessly working to uncover<br>the secrets.',
+      keywords: ['Galileo', 'Christiaan Huygens', 'rings', 'Cassini', 'gaps', 'astronomers', 'secrets', 'Fifty years', 'Dutch astronomer', 'revealed', 'ears', 'actually', '1675', 'Italian astronomer', 'observed', 'powerful telescope', 'discovered', 'several rings', 'significant gaps', 'appearing dark', 'between', 'know yet', 'got', 'maintained', 'long time', 'tirelessly working', 'uncover']
+    },
+    2: { 
+      text: '<br><span class="larger-text">02. Star Motifs and Human Imagination</span><br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying the</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Star Motifs and Human Imagination?</span><br><br>',
+      keywords: ['Star Motifs', 'Human Imagination', 'Egypt', 'Greece', 'Rome', 'myths', 'nature', 'Babylonian', '02', 'Ⅰ', 'What Is', 'Purpose', 'Studying']
+    },
+    3: { 
+      text: 'Describe the most notable characteristic of Saturn.',
+      keywords: ['describe', 'characteristic', 'Saturn', 'most notable', 'of'],
+      fontType: 'type2'
+    },
+          4: { text: 'In ancient civilizations such as Egypt, Greece, and<br>Rome, stories were created based on the motifs<br>formed by the stars. However, the actions of various<br>gods in ancient myths directly reflected natural<br>events. From this, we can learn that ancient people<br>observed nature accurately. The tradition of observing<br>the stars in the night sky, discovering the motifs<br>within them, and finding their rules dates back to the<br>ancient Babylonian era.', keywords: ['ancient civilizations', 'Egypt', 'Greece', 'Rome', 'stories', 'created', 'based', 'motifs', 'formed', 'stars', 'actions', 'various gods', 'ancient myths', 'directly reflected', 'natural events', 'learn', 'ancient people', 'observed', 'nature', 'accurately', 'tradition', 'observing', 'night sky', 'discovering', 'within', 'finding', 'rules', 'dates back', 'Babylonian era'] }
+  }
+},
+
+// 슬라이드 14 (42페이지) - 명령어: 12, PDF 14페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/42.jpg',
+  zones: {
+    1: { 
+      text: 'Ancient Babylonians believed that the sky and the<br>earth were connected. They thought that bad omens<br>appearing in the sky would manifest on the earth,<br>and vice versa. This belief that events in nature,<br>especially phenomena observed in the sky and on the<br>earth, affect each other forms the basis for astrology,<br>a discipline that predicts terrestrial events by<br>observing celestial phenomena.<br>Astrology has become the foundation of modern<br>astronomy. Astronomy studies the motion of celestial<br>bodies, specifically researching the motifs created by<br>stars to uncover the mysteries of the universe.<br>With the advancement of astronomy, people could<br>navigate far across the seas and gradually learn how<br>planets like Earth came into existence. By studying<br>this topic, we can understand the principles that<br>govern the universe, including Earth, where we live.',
+      keywords: ['Babylonians', 'sky', 'earth', 'omens', 'astrology', 'astronomy', 'celestial bodies', 'universe', 'believed', 'connected', 'thought', 'bad omens', 'appearing', 'manifest', 'vice versa', 'belief', 'events', 'nature', 'especially', 'phenomena', 'observed', 'affect', 'each other', 'forms', 'basis', 'discipline', 'predicts', 'terrestrial events', 'observing', 'celestial phenomena', 'become', 'foundation', 'modern', 'studies', 'motion', 'specifically', 'researching', 'created', 'stars', 'uncover', 'mysteries', 'advancement', 'navigate', 'far across', 'seas', 'gradually learn', 'planets', 'came into existence', 'studying', 'topic', 'understand', 'principles', 'govern', 'including', 'live']
+    },
+    2: { 
+      text: '(1) Each constellation has an interesting legend. Explain<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;why ancient people attached stories to constellations.<br><br>(2) In ancient China, rituals were held for the sky when the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rainy season or droughts continued. The weather would<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;then improve. Is this event a result of the rituals?',
+      keywords: ['constellation', 'legend', 'ancient people', 'China', 'rituals', 'weather', 'Each', 'interesting', 'explain', 'why', 'attached', 'stories', 'ancient', 'rainy season', 'droughts', 'continued', 'improve', 'event', 'result'],
+      fontType: 'type3'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 15 (43페이지) - 명령어: 123, PDF 15페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/43.jpg',
+  zones: {
+    
+    
+          1: { text: '<br><span class="larger-text">02. Star Motifs and Human Imagination</span><br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of Star</span><br><span class="larger-text">Motifs and Human Imagination?</span>', keywords: ['02', 'Star Motifs', 'Human Imagination', 'Ⅱ', 'How Can We Apply', 'Study'] },
+    2: { 
+      text: 'For a safe voyage to their destination, sailors needed<br>accurate information about their ship\'s current position,<br>speed, and direction. People made observational<br>tools such as maps, compasses, sextants, and<br>chronometers to use at sea. Before the invention of<br>these tools, sailors had to find their way solely based<br>on experience and intuition. They also determined<br>direction by observing the Sun, Moon, and stars.<br>Sailors found east and west by the direction of the<br>sunrise and sunset. At night, they found their position<br>by observing the altitude and direction of the North<br>Star.',
+      keywords: ['Star Motifs', 'sailors', 'voyage', 'tools', 'maps', 'compasses', 'sextants', 'North Star', 'safe', 'destination', 'needed', 'accurate information', 'ship current position', 'speed', 'direction', 'made', 'observational tools', 'such as', 'chronometers', 'use', 'sea', 'invention', 'find way', 'solely based', 'experience', 'intuition', 'determined', 'observing', 'Sun', 'Moon', 'stars', 'found', 'east', 'west', 'sunrise', 'sunset', 'night', 'position', 'altitude']
+    },
+    3: { 
+      text: 'The sky and the sea were unknown worlds to ancient<br>people. They believed the Earth was flat and imagined<br>cliffs at the sea\'s edge. However, in every era,<br>there were people with a spirit of challenge, daring<br>to adventure far into the sea. They relied only on<br>experience to explore new worlds.',
+      keywords: ['sky', 'sea', 'unknown', 'flat', 'cliffs', 'challenge', 'adventure', 'experience', 'unknown worlds', 'ancient people', 'believed', 'Earth', 'imagined', 'edge', 'every era', 'spirit', 'daring', 'far into', 'relied only', 'explore', 'new worlds']
+    },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 16 (44페이지) - 명령어: 13, PDF 16페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/44.jpg',
+  zones: {
+    1: { 
+      text: 'However, since the North Star can only be seen in<br>the Northern Hemisphere, sailors in the Southern<br>Hemisphere used the Southern Cross for navigation.<br>Even today, astronomers unravel the universe\'s<br>secrets through the motifs created by stars.<br>For instance, measuring the brightness of stars allows<br>us to calculate the distance from Earth to stars.<br>Stars, like plants and animals, communicate with us<br>through motifs.',
+      keywords: ['North Star', 'Northern Hemisphere', 'Southern Cross', 'Southern Hemisphere', 'astronomers', 'brightness', 'distance', 'only seen', 'sailors', 'used', 'navigation', 'even today', 'unravel', 'universe secrets', 'through', 'created', 'stars', 'instance', 'measuring', 'allows', 'calculate', 'Earth', 'plants', 'animals', 'communicate', 'motifs']
+    },
+    2: { text: '', keywords: [] },
+    3: { 
+      text: '(1) A ship starting at the equator is heading towards the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;North Pole. Explain why the altitude of the North Star,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;measured at the same time every night, gradually<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;increases.<br><br>(2) We can see a large, red dot that looks like an eye in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;photos of Jupiter. What could this dot be?<br><br>',
+      keywords: ['ship', 'equator', 'North Pole', 'altitude', 'Jupiter', 'red dot', 'starting', 'heading towards', 'explain why', 'measured', 'same time', 'every night', 'gradually increases', 'large', 'looks like', 'eye', 'photos', 'could', 'be'],
+      fontType: 'type4'
+    },
+    4: { text: '', keywords: [] }
+  }
+},
+// 슬라이드 17 (45페이지) - 명령어: 12, PDF 17페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/45.jpg',
+  zones: {
+    1: { 
+      text: 'The English names of the planets in the solar system came<br>from the names of gods in Greek mythology.<br>For example, Mars comes from the god of war, Ares. Ares,<br>born as the son of the king of gods, Zeus, and his wife<br>Hera, had a fondness for war and became the god of war.<br>Wherever Ares went, the world was stained with war and<br>blood, leading the Romans to call him Mars, and this name<br>became the name of the planet. It seems they associated<br>the red planet with the blood-stained battlefields that<br>Ares was often found in.<br>The messenger god Hermes symbolizes Mercury as he was<br>known as Mercury to the Romans. Venus is the Roman<br>name of the goddess of love and fertility, Aphrodite.<br>Why did ancient Greeks and Romans pair Hermes and<br>Aphrodite with Mercury and Venus? Explain.',
+      keywords: ['planets', 'Greek mythology', 'Mars', 'Ares', 'Zeus', 'Hera', 'Hermes', 'Mercury', 'Venus', 'Aphrodite', 'English names', 'solar system', 'came', 'names', 'gods', 'example', 'comes', 'god of war', 'born', 'son', 'king of gods', 'wife', 'fondness', 'became', 'wherever', 'went', 'world', 'stained', 'blood', 'leading', 'Romans', 'call', 'name', 'became', 'planet', 'associated', 'red planet', 'blood-stained battlefields', 'often found', 'messenger god', 'symbolizes', 'known', 'Roman name', 'goddess', 'love', 'fertility', 'why', 'ancient Greeks', 'Romans', 'pair', 'explain'],
+      fontType: 'type3'
+    },
+    2: { 
+      text: 'The small celestial bodies between the paths of Jupiter<br>and Mars are called asteroids. Currently, there are<br>predicted to be over 200,000 asteroids, and scientists<br>must watch them carefully due to the potential risk of<br>clashing with Earth. If an asteroid were to impact Earth,<br>it could cause significant damage.<br>In 2013, a 20-meter-high asteroid fell near the Ural<br>Mountains in Russia, injuring 1,200 people and causing<br>damage to 3,000 buildings. Additionally, about a century<br>ago, in 1908, an asteroid that fell in the Siberian region of<br>Russia toppled 80 million trees.<br>Many people believe that in the event of an asteroid<br>clashing with Earth, the resulting tsunamis or intense heat<br>would lead to the death of living organisms.<br>According to recent research findings, the percentage of<br>organisms dying due to the wind and shockwaves caused<br>by the impact is over 60%. If an asteroid were approaching<br>Earth, what could be done to prevent a clash between<br>Earth and the asteroid? Share your thoughts below.',
+      keywords: ['asteroids', 'Jupiter', 'Mars', 'Earth', 'damage', 'Russia', 'impact', 'organisms', 'small celestial bodies', 'paths', 'called', 'currently', 'predicted', 'over 200,000', 'scientists', 'watch', 'carefully', 'potential risk', 'clashing', 'impact', 'cause', 'significant damage', '2013', '20-meter-high', 'fell', 'Ural Mountains', 'injuring', '1,200 people', 'causing damage', '3,000 buildings', 'century ago', '1908', 'Siberian region', 'toppled', '80 million trees', 'believe', 'event', 'resulting tsunamis', 'intense heat', 'lead', 'death', 'living organisms', 'recent research findings', 'percentage', 'dying', 'wind', 'shockwaves', 'caused', 'over 60%', 'approaching', 'prevent', 'clash', 'share', 'thoughts'],
+      fontType: 'type3'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 18 (46페이지) - 명령어: 1, PDF 18페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/46.jpg',
+  zones: {
+    1: { 
+      text: 'There is no scientific evidence to prove the influence of<br>constellations on human personality. However, people have<br>long believed in the mysterious power of constellations<br>affecting individuals. For example, people born between<br>April 20 and May 20 fall under the Taurus constellation.<br>These people are described as generous, cheerful, and<br>popular. Moreover, they quietly carry out their assigned<br>tasks. However, people under the Taurus sign are<br>sometimes said to lack a sense of responsibility, as if they<br>tend to ignore things that bother them, much like a<br>bull might. People born under the Cancer sign tend to<br>be diligent and wholesome. They have a good sense of<br>financial management and avoid things that could lead to<br>losses. Yet, they are bold to spend money when necessary.<br>However, they are often called sensitive because they<br>have their own unique perfectionism. Knowing which<br>constellation a person belongs to can give us information<br>about their personality. Briefly explain the characteristics<br>of people under the Leo and Libra constellations.',
+      keywords: ['constellations', 'personality', 'Taurus', 'generous', 'Cancer', 'diligent', 'Leo', 'Libra', 'scientific evidence', 'prove', 'influence', 'human', 'long believed', 'mysterious power', 'affecting', 'individuals', 'example', 'born between', 'April 20', 'May 20', 'fall under', 'described', 'cheerful', 'popular', 'quietly carry out', 'assigned tasks', 'lack', 'sense of responsibility', 'ignore', 'bother', 'much like', 'bull', 'tend', 'wholesome', 'good sense', 'financial management', 'avoid', 'lead to', 'losses', 'bold', 'spend money', 'necessary', 'sensitive', 'unique perfectionism', 'knowing', 'belongs', 'information', 'briefly explain', 'characteristics'],
+      fontType: 'type3'
+    },
+    2: { text: '', keywords: [] },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+// 슬라이드 19 (47페이지) - 명령어: 1, PDF 19페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/47.jpg',
+  zones: {
+    1: { 
+      text: 'Earth\'s rotation is when Earth moves around an imaginary<br>axis connecting the South and North Pole. What events<br>arise from the Earth\'s rotation? We experience day and<br>night, and the stars appear to be turning around the Earth.<br>The reason the Earth\'s equator area has a bulging shape is<br>also related to rotation.<br>Revolution is when one celestial body moves in a circle<br>around another celestial body. Earth revolves around the<br>Sun once a year. Evidence of revolution can be found in<br>the changing constellations in the night sky, the different<br>lengths of day and night, and the different levels of the<br>Sun when it is at its highest point.<br>Other planets in the solar system also revolve around the<br>Sun while they rotate. Most planets have a vertical axis<br>of rotation, but Uranus has a horizontal axis. Therefore,<br>Uranus sometimes appears as if it is rolling around the<br>Sun. Describe what would happen if Earth did not rotate<br>and revolve.',
+      keywords: ['rotation', 'axis', 'day', 'night', 'revolution', 'Sun', 'constellations', 'Uranus', 'Earth', 'moves', 'imaginary', 'connecting', 'South', 'North Pole', 'events', 'arise', 'experience', 'stars appear', 'turning around', 'reason', 'equator area', 'bulging shape', 'related', 'celestial body', 'circle', 'another', 'once a year', 'evidence', 'changing', 'night sky', 'different lengths', 'levels', 'highest point', 'other planets', 'solar system', 'revolve', 'while', 'rotate', 'most planets', 'vertical axis', 'horizontal axis', 'therefore', 'sometimes appears', 'rolling around', 'describe', 'would happen', 'did not'],
+      fontType: 'type3'
+    },
+    2: { text: '', keywords: [] },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 20 (48페이지) - 명령어: 12, PDF 20페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/48.jpg',
+  zones: {
+    2: { 
+      text: 'In 2005, Professor Michael E. Brown of the California<br>Institute of Technology discovered the astronomical object<br>UB313 in the Kuiper belt. It is now a celestial body called<br>Eris. Because of Eris, the controversy over Pluto\'s status<br>began. Eris is a larger celestial body than Pluto, and if<br>Eris is recognized as the 10th planet, numerous planets<br>can be added in the future. Ultimately, the International<br>Astronomical Union announced three planetary standards<br>in 2006.<br><br>(1) Must orbit around the Sun<br>(2) The mass must be large enough to maintain a ball shape.<br>(3) Must play a dominant role in the orbital area<br><br>Pluto did not meet the third criterion. Eventually stripped<br>of their classification as planets, Pluto and Eris were<br>classified as dwarf planets.',
+      keywords: ['Michael E. Brown', 'UB313', 'Eris', 'Pluto', 'planet', 'dwarf planets', 'orbital', '2005', 'Professor', 'California Institute of Technology', 'discovered', 'astronomical object', 'Kuiper belt', 'celestial body', 'controversy', 'status', 'began', 'larger', 'recognized', '10th planet', 'numerous planets', 'added', 'future', 'ultimately', 'International Astronomical Union', 'announced', 'three planetary standards', '2006', 'orbit', 'mass', 'large enough', 'maintain', 'ball shape', 'play', 'dominant role', 'orbital area', 'did not meet', 'third criterion', 'eventually stripped', 'classification', 'classified'],
+      fontType: 'type3'
+    },
+    1: { 
+      text: '<strong><u>Pluto Stripped of Planet Status</u></strong><br><br>Pluto is a celestial body in the Kuiper belt of the solar<br>system. It used to be a planet, but since 2006 it has been<br>called a dwarf planet. Pluto was discovered by American<br>astronomer Clyde Tombaugh in 1930. The discovery of<br>Pluto was significant to Americans because it was the<br>first planet discovered in the United States at the time.<br>The name Pluto was suggested by a girl named Venetia<br>Burney from England. It is the name of the god of the<br>underworld that appears in Greek and Roman mythology.<br>Most of Pluto\'s surface is covered with nitrogen ice, and<br>its atmosphere contains nitrogen, methane, and carbon<br>monoxide. It is good for obtaining resources, but it is far<br>from Earth and very cold, so people cannot live there.<br>Pluto\'s mass and size are smaller than Earth\'s.<br>Pluto rotates and orbits the Sun like Earth. Pluto takes<br>about 153 hours to rotate once and about 248 years to<br>orbit. The orbit is a long ellipse. It has a very distorted oval<br>shape compared to the orbits of the planets around the<br>Sun.',
+      keywords: ['Pluto', 'Clyde Tombaugh', 'Venetia Burney', 'nitrogen', 'methane', 'ellipse', 'Stripped of Planet Status', 'celestial body', 'Kuiper belt', 'solar system', 'used to be', 'planet', 'since 2006', 'dwarf planet', 'discovered', 'American astronomer', '1930', 'discovery', 'significant', 'Americans', 'first planet', 'United States', 'time', 'name', 'suggested', 'girl', 'England', 'god of underworld', 'Greek', 'Roman mythology', 'surface', 'covered', 'nitrogen ice', 'atmosphere', 'contains', 'carbon monoxide', 'good', 'obtaining resources', 'far from Earth', 'very cold', 'cannot live', 'mass', 'size', 'smaller', 'rotates', 'orbits', 'like Earth', '153 hours', 'rotate once', '248 years', 'orbit', 'long ellipse', 'distorted oval shape', 'compared', 'orbits', 'planets', 'around'],
+      fontType: 'type3'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+{
+  bg: '../assets/img/ReadBook/G2.2.5/49.jpg',
+  zones: {
+    1: { 
+      text: '<br><br><br><br><strong><u>Explain how we divide Earth into the Northern Hemisphere and<br><strong><u>Southern Hemisphere.<br><br><br><br><br><br><br><br><br>The Earth, shaped like a sphere, is divided into the Southern<br>Hemisphere and Northern Hemisphere, with the equator as the<br>reference. In mathematics, the spherical shape is referred to as<br>a globe, and cutting it in half results in a hemisphere.<br>The northern half of the Earth above the equator is called the<br>Northern Hemisphere, while the southern half below the equator is<br>called the Southern Hemisphere.',
+      keywords: ['Earth', 'Northern Hemisphere', 'Southern Hemisphere', 'equator', 'sphere', 'globe', 'hemisphere', 'mathematics', 'reference'],
+      fontType: 'type5'
+    },
+    2: { 
+      text: '<strong><u>Explain why the moon looks different in the Southern and<br><strong><u>Northern Hemispheres.<br><br>Imagine observing the Sun on the left (east) and the Moon on the<br>right (west) from the Northern Hemisphere. In this case, the left<br>part of the Moon appears convex. However, from the Southern<br>Hemisphere, the Sun and the Moon appear with the Sun on the right<br>and the Moon on the left, causing the right part of the Moon to<br>appear convex.<br><br>',
+      keywords: ['moon', 'Sun', 'convex', 'Eastern Hemisphere', 'Western Hemisphere', 'werewolf', 'lunatic', 'observation', 'appearance'],
+      fontType: 'type9'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '<strong><u>Explain what people in Eastern and Western cultures thought of<br><strong><u>when they saw a full moon.<br><br><br><br><br><br><br><br><br>In the East, the full moon is metaphorically likened to the beautiful<br>face of a woman. Eastern people feel warmth and familiarity<br>when looking at the moon. In contrast, the full moon in the West<br>was considered cold and unfavorable. Just by hearing terms like<br>"werewolf" or "lunatic," we can understand how fearful Westerners<br>were of the moon.<br>', keywords: ['full moon', 'Eastern culture', 'Western culture', 'woman', 'warmth', 'familiarity', 'werewolf', 'lunatic', 'fear', 'metaphor'],
+      fontType: 'type8' }
+  }
+},
+
+// 슬라이드 22 (50페이지) - 명령어: 1234, PDF 2페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/50.jpg',
+  zones: {
+    1: { 
+      text: '<strong><u>Briefly explain revolution and rotation.</strong></u><br><br><br><br><br><br><br><br><br>The movement of one celestial body around another celestial body<br>is called revolution. Think of Earth revolving around the Sun. The<br>movement of a planet as it spins around its own axis is called rotation.',
+      keywords: ['revolution', 'rotation', 'celestial body', 'Earth', 'Sun', 'axis'],
+      fontType: 'type8'
+    },
+    2: { 
+      text: '<strong><u>Explain why we see only one side of the Moon.</strong></u><br><br><br><br><br><br><br><br><br>Like Earth revolving around the Sun while rotating, the Moon revolves<br>around Earth while also rotating. However, the Moon\'s revolution<br>period matches its rotation period, always showing the same face<br>towards Earth.',
+      keywords: ['Moon', 'revolution', 'rotation', 'period', 'same face'],
+      fontType: 'type8'
+    },
+    3: { 
+      text: '<strong><u>Explain the twin theory about the birth of the Moon.<br><strong><u><br><br><br><br><br><br><br><br><br>The twin theory suggests that the Earth and the Moon are twins,<br>formed simultaneously. Although this theory explains the similar<br>age of the Moon compared to Earth, it does not account for the<br>differences in their composition.<br>', keywords: ['twin theory', 'Earth', 'Moon', 'birth', 'formation', 'age', 'composition', 'theory'],
+      fontType: 'type8'
+    },
+    4: { 
+      text: '<strong><u>Describe the motifs on the fiercely burning surface of the Sun.<br><strong><u><br><br><br><br><br><br><br><br><br>The surface of the Sun has a motif resembling tiny grains, known as<br>a granular motif. The Sun\'s surface is extremely hot, with temperature<br>variations, creating solar granules due to the heat flow.<br>', keywords: ['Sun', 'surface', 'motif', 'granular motif', 'temperature', 'solar granules', 'heat flow', 'grains'],
+      fontType: 'type8'
+    }
+  }
+},
+
+// 슬라이드 23 (51페이지) - 명령어: 1234, PDF 3페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/51.jpg',
+  zones: {
+    1: { 
+      text: '<strong><u>Explain why lunar and solar eclipses occur.</strong></u><br><br><br><br><br><br><br><br><br>A solar eclipse occurs when the Moon covers the Sun. As the Moon,<br>orbiting Earth, aligns between the Sun and Earth, it blocks the Sun.<br>A lunar eclipse happens when Earth\'s shadow covers the Moon.<br>Similarly, as the Moon orbits Earth, it enters Earth\'s shadow, resulting<br>in the phenomenon.',
+      keywords: ['lunar eclipse', 'solar eclipse', 'Moon', 'Sun', 'Earth', 'shadow'],
+      fontType: 'type8'
+    },
+    3: { 
+      text: '<strong><u>Please explain what the Cherokee think when they watch a solar<br><strong><u>eclipse.</strong></u><br><br><br><br><br><br><br><br>The Cherokee believed that a solar eclipse represented the Sun<br>mourning the loss of its daughter. If the Sun had not been jealous<br>of the Moon, it might not have lost its daughter.',
+      keywords: ['Cherokee', 'solar eclipse', 'Sun', 'daughter', 'jealous', 'Moon'],
+      fontType: 'type8'
+    },
+    2: { 
+      text: '<strong><u>Describe the behavior of animals before a solar eclipse.<br><strong><u><br><br><br><br><br><br><br><br><br>In Australia, birds were reported to stop singing, llamas exhibited<br>peculiar behavior, and whales and dolphins surfaced minutes before<br>a total solar eclipse.', keywords: ['animals', 'solar eclipse', 'Australia', 'birds', 'llamas', 'whales', 'dolphins', 'behavior'],
+      fontType: 'type8'
+    },
+    4: { 
+      text: '<strong><u>Explain why the United Nations created the Outer Space Treaty.<br><strong><u><br><br><br><br><br><br><br><br><br>Countries prepared for a time when all nations would engage in space<br>exploration or development. Outer Space Treaty was established to<br>prevent wars over space ownership or uncontrolled pollution and<br>development.<br><br>', keywords: ['United Nations', 'Outer Space Treaty', 'countries', 'space exploration', 'development', 'wars', 'ownership', 'pollution'],
+      fontType: 'type8'
+    }
+  }
+},
+
+// 슬라이드 24 (52페이지) - 명령어: 12, PDF 4페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/52.jpg',
+  zones: {
+    1: { 
+      text: '(1) <strong><u>In times when it was impossible to go to the Moon, people<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>looked at the Moon and imagined many things. How do you<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>feel when you see a crescent moon? Create a story based on<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>what you think.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One can create a story while looking at the crescent moon and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;think about dumplings. In ancient times, there was a chef who<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;made incredibly delicious dumplings. The rumors of the chef\'s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tasty dumplings eventually reached the ears of a god, and the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;god brought the chef to their own home. The chef could no longer<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return home after answering the god\'s call.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;However, the chef occasionally attached dumplings to the sky<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;but kept it a secret from the god, hoping that someday, his family<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;would come to find him. Like this, feel free to create a story<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inspired by the crescent moon.',
+      keywords: ['Moon', 'crescent moon', 'story', 'dumplings', 'chef', 'god', 'ancient times', 'rumors', 'family', 'sky'],
+      fontType: 'type7'
+    },
+    2: { 
+      text: '(2) <strong><u>A crater is formed when the hard surface of a celestial body<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>clashes with another smaller celestial body. Why does the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Moon have more craters than the Earth?</strong></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There is no atmosphere on the Moon. A celestial body must collide<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with the surface for a crater to form. On Earth, the likelihood of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a celestial body colliding with the surface is low due to the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;friction between it and the atmosphere, causing it to burn up<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before reaching the ground. Moreover, even if craters do form,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;they gradually erode as they endure the constant weathering<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effects of wind. In contrast, the Moon, lacking an atmosphere,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;experiences no interference as celestial bodies fall. Thus, without<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wind, craters persist more abundantly than on Earth.',
+      keywords: ['crater', 'celestial body', 'Moon', 'Earth', 'atmosphere', 'collision', 'weathering', 'friction', 'wind', 'interference'],
+      fontType: 'type7'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 25 (53페이지) - 명령어: 12, PDF 5페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/53.jpg',
+  zones: {
+    1: { 
+      text: '<br>(1) <strong><u>We may think that solar eclipses, where the Moon covers the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Sun, should happen every month. However, in reality, solar<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>eclipses only occur only 2 to 5 times a year. Explain why.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For a solar eclipse to occur, the size of the Moon, as seen from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Earth, must be similar to the size of the Sun. Moreover, at that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moment, the centers of the Moon and the Sun should be in similar<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;positions as viewed from Earth.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;These two conditions must be met for the Sun to be properly<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obscured by the Moon. However, it is challenging to meet these<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;two conditions simultaneously due to the slightly inclined orbits<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of Earth and the Moon, which are not in the same plane. For this<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reason, solar eclipses do not occur frequently.',
+      keywords: ['solar eclipse', 'Moon', 'Sun', 'Earth', 'orbits', 'conditions', 'size', 'centers', 'positions', 'plane'],
+      fontType: 'type7'
+    },
+    2: { 
+      text: '<br>(2) <strong><u>The United Nations announced the Outer Space Treaty, which<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>states that space can only be used for peaceful purposes.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>If the Outer Space Treaty did not exist, describe what might<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>happen.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Many companies or countries will declare their intention to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;develop their colonies in space. As a result, conflicts may arise as<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;they claim space territories as their own.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In severe cases, it may even lead to war. Throughout the various<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conflicts and the development process in space, debris will<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accumulate, ultimately leading to pollution in space.',
+      keywords: ['United Nations', 'Outer Space Treaty', 'space', 'peaceful', 'colonies', 'conflicts', 'war', 'pollution', 'companies', 'countries', 'territories', 'debris'],
+      fontType: 'type7'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 26 (54페이지) - 명령어: 12, PDF 6페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/54.jpg',
+  zones: {
+    1: { 
+      text: '<strong><u>Selene is the goddess of the Moon in Greek mythology.<br><strong><u>Now, imagine what Selene might look like. Describe Selene\'s<br><strong><u>appearance based on your imagination.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Like Helios, the sun god, resembles the Sun, it is likely that Selene,<br>the goddess of the moon, resembles the Moon. Selene, emitting<br>a subtle light like the Moon, may exude a gentle impression.<br>Moreover, she will likely be dressed in white or silver clothes<br>reminiscent of moonlight, and her hair might be as black as the night<br>sky. Additionally, she might wear a crescent-shaped headband,<br>making it unmistakably clear to anyone that she is the goddess of<br>the Moon. As the Moon rises and sets daily like the Sun, it could be<br>speculated that Selene also rides a chariot. The chariot might be<br>adorned with decorations that sparkle like the stars in the night sky.<br>Is everyone\'s imagination similar to this?',
+      keywords: ['Selene', 'goddess', 'Moon', 'Greek mythology', 'appearance', 'moonlight', 'chariot', 'Helios', 'light', 'clothes', 'headband', 'stars'],
+      fontType: 'type8'
+    },
+    2: { 
+      text: '<strong><u>Think about ways to build buildings and roads on Mars, where<br><strong><u>people cannot currently live.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is impossible for people to directly go to a place without oxygen<br>and water and constructing a city. In this case, we could consider<br>sending self-replicating robots equipped with artificial intelligence<br>to Mars. By sending a few robots and the components needed to<br>create more, they can autonomously assemble other robots to serve<br>as workers. However, sending the robot-building parts into space<br>might not be easy. In that case, 3D printing technology can be utilized.<br>This involves using raw materials on Mars to produce robot components<br>through printing. Some scientists express concerns about whether<br>artificial intelligence robots might actually develop intelligence.<br>However, considering the current technology, the prevailing opinion<br>is that it is difficult for robots to attain human-level intelligence.',
+      keywords: ['Mars', 'buildings', 'roads', 'robots', 'artificial intelligence', '3D printing', 'technology', 'oxygen', 'water', 'city', 'components', 'scientists'],
+      fontType: 'type8'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 27 (55페이지) - 명령어: 12, PDF 7페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/55.jpg',
+  zones: {
+    1: { 
+      text: '<strong><u>Thinking about her elder son on rainy days brought comfort,<br><strong><u>and thinking about her younger son on sunny days brought joy.<br><strong><u>However, deep in her heart, she was still worried about her<br><strong><u>sons, who might not do well in business. Write down how we can<br><strong><u>reassure this worried mother about her sons.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Consider whether there is a need for the two sons to run separate<br>businesses. They can open a store together, selling fans on sunny<br>days and umbrellas on rainy days. By working together, they can rely<br>on each other and avoid concerns about the workforce. The older son<br>can assist the younger one when there is a high demand for fans due<br>to scorching weather.<br>Conversely, if suddenly faced with heavy rain and people coming to<br>buy umbrellas, the younger son can assist the older one. Practicing<br>various approaches like this will help develop the ability to face and<br>solve new problems without panicking.',
+      keywords: ['mother', 'sons', 'business', 'fans', 'umbrellas', 'working together', 'solutions', 'rainy days', 'sunny days', 'comfort', 'joy', 'worries'],
+      fontType: 'type8'
+    },
+    2: { 
+      text: '<strong><u>According to Norse mythology, a wolf named Skoll devoured<br><strong><u>the Sun, causing a solar eclipse and a wolf named Hati swallowed<br><strong><u>the Moon, causing a lunar eclipse. Now, create a new story about<br><strong><u>a solar and lunar eclipse.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Once upon a time, there was a brother and sister who had a bad<br>relationship. Whenever they met, they quarreled. Instead of sharing<br>food, they greedily tried to claim it for themselves. They only made<br>up and made amends when scolded by their mother. One day, a tragic<br>incident happened. While arguing over a giant lollipop on a tall tree,<br>they both fell and died. Witnessing this, a god, wanting harmony<br>even in death, granted one of them the Sun and the other the Moon.<br>However, the siblings continued their disputes. A solar eclipse would<br>occur if the child with the Moon secretly stole and ate the Sun.<br>On the other hand, if the child with the Sun secretly stole and ate<br>the Moon, a lunar eclipse would occur.',
+      keywords: ['Norse mythology', 'Skoll', 'Hati', 'solar eclipse', 'lunar eclipse', 'brother', 'sister', 'story', 'wolf', 'Sun', 'Moon', 'god', 'lollipop'],
+      fontType: 'type8'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 28 (56페이지) - 명령어: 124, PDF 8페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/56.jpg',
+  zones: {
+    1: { 
+      text: '<br><strong><u>Were there constellations in prehistoric times as well?<br><strong><u>If so, explain how people might have used constellations back<br><strong><u>then.</strong></u><br><br><br><br><br><br><br><br><br><br>Primitive people left constellation drawings on cave walls. Through<br>cave paintings, we can know that constellations existed even in<br>prehistoric times. Prehistoric people likely used constellations when<br>engaging in survival-related activities such as farming or navigating<br>the sea by boat.',
+      keywords: ['constellations', 'prehistoric', 'cave paintings', 'farming', 'navigation', 'survival', 'activities', 'boat', 'sea'],
+      fontType: 'type7'
+    },
+    2: { 
+      text: '<br><br><br><strong><u>Imagine and write down why Orion and Artemis fell in love.</strong></u><br><br>People with similar hobbies can quickly become friends. Orion was<br>an excellent hunter, and Artemis was a goddess of hunting and the<br>Moon. Perhaps attracted to each other\'s skill in hunting, they might<br>have fallen in love.<br><br>',
+      keywords: ['Orion', 'Artemis', 'love', 'hunting', 'scorpion', 'Apollo', 'Scorpius', 'constellations', 'hobbies', 'friends', 'skills'],
+      fontType: 'type6'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '<strong><u>Explain why the scorpion sent by Apollo to the night sky fails<br><strong><u>to kill Orion.</strong></u><br><br><br><br><br><br><br><br><br>Scorpius and Orion constellations are in positions where they cannot<br>meet. When Scorpius appears, Orion disappears into the western sky.<br>When Scorpius chases Orion to the west, Orion reappears in the east.<br><br>', keywords: ['scorpion', 'Apollo', 'Orion', 'Scorpius', 'constellations', 'positions', 'western sky', 'eastern sky'],
+    fontType: 'type8'}
+  }
+},
+
+// 슬라이드 29 (57페이지) - 명령어: 1234, PDF 9페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/57.jpg',
+  zones: {
+    1: { 
+      text: '<strong><u>Explain how we know the North Star was influential in the East.</strong></u><br><br><br><br><br><br><br><br><br>Confucius likened virtuous individuals to the North Star. He compared<br>the many stars revolving around the North Star to the gathering of<br>people around a virtuous person. Sima Qian, the father of Chinese<br>history, recorded that the North Star was the center of the sky.',
+      keywords: ['North Star', 'East', 'Confucius', 'virtuous', 'Sima Qian', 'Chinese history', 'stars', 'center', 'sky'],
+      fontType: 'type9'
+    },
+    2: { 
+      text: '<strong><u>Explain why sailors use the North Star to determine direction out<br><strong><u>at sea.</strong></u><br><br><br><br><br><br><br><br>The North Star is the 50th brightest star in the night sky, visible even<br>to the naked eye. It also served as a reference point for determining<br>direction since it remained stationary.',
+      keywords: ['sailors', 'North Star', 'direction', 'sea', 'brightest star', 'stationary', 'night sky', 'naked eye', 'reference point'],
+      fontType: 'type9'
+    },
+    3: { 
+      text: '<strong><u>Explain why people in the East hung pictures of an old man inside<br><strong><u>their homes, symbolizing the Old Man constellation.</strong></u><br><br><br><br><br><br><br><br><br>Eastern people believed that the Old Man constellation determined<br>a person\'s lifespan. Therefore, they thought that by depicting an old<br>man, a symbol of the Old Man constellation, inside their homes,<br>they would live long and peaceful lives.',
+      keywords: ['East', 'old man', 'homes', 'Old Man constellation', 'lifespan', 'peaceful lives', 'symbol', 'depiction'],
+      fontType: 'type8'
+    },
+    4: { 
+      text: '<strong><u>Can we measure the altitude of a star with our thumbs?<br><strong><u>Share your thoughts.</strong></u><br><br><br><br><br><br><br><br><br>Align the lower part of your thumb with the horizon and reach out<br>your hand so that the tip of your finger matches the star. If the star\'s<br>altitude is high, our thumb will be close to our eye.<br>Conversely, if the star\'s altitude is low, you should extend your arm<br>and place your thumb far away. At this time, you can calculate the<br>star\'s altitude by measuring how far your arm is extended.',
+      keywords: ['altitude', 'star', 'thumbs', 'horizon', 'finger', 'eye', 'arm', 'measurement', 'calculation'],
+      fontType: 'type8'
+    }
+  }
+},
+
+// 슬라이드 30 (58페이지) - 명령어: 1234, PDF 10페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/58.jpg',
+  zones: {
+    1: { 
+      text: '<strong><u>Briefly explain what astrology is.</strong></u><br><br><br><br><br><br><br><br><br>Astrology is the practice of predicting a person\'s future by looking<br>at the brightness of stars and the positions of stars. Constellation<br>fortune-telling, tarot readings, and Four Pillars of Destiny are<br>branches of astrology that we enjoy for fun.',
+      keywords: ['astrology', 'future', 'stars', 'constellation', 'tarot', 'Four Pillars of Destiny', 'brightness', 'positions', 'fortune-telling'],
+      fontType: 'type9'
+    },
+    2: { 
+      text: '<strong><u>Explain what Mars\' polar caps are made of.</strong></u><br><br><br><br><br><br><br><br><br>Mars\' polar region shows features similar to Earth\'s polar region, such<br>as ice continents called polar caps. These polar caps consist of dry ice<br>(frozen carbon dioxide) and ice formed from water vapor.',
+      keywords: ['Mars', 'polar caps', 'Earth', 'dry ice', 'carbon dioxide', 'water vapor', 'polar region', 'ice continents', 'frozen'],
+      fontType: 'type9'
+    },
+    3: { 
+      text: '<strong><u>Explain how the "Caloris Basin" and the "Weird Terrain" were<br><strong><u>formed.</strong></u><br><br><br><br><br><br><br><br><br>Caloris Basin formed when a massive meteor collided with Mercury.<br>Scientists speculate that the shock from the collision transmitted to<br>the opposite side of Mercury, creating hills called the "Weird Terrain."<br>',
+      keywords: ['Caloris Basin', 'Weird Terrain', 'meteor', 'Mercury', 'collision', 'shock', 'massive', 'scientists', 'hills'],
+      fontType: 'type8'
+    },
+    
+    4: { 
+      text: '<strong><u>Describe the most notable characteristic of Saturn.</strong></u><br><br><br><br><br><br><br><br><br>Saturn is characterized for its magnificent rings. Galileo was the first<br>to observe Saturn\'s rings, although he could not see the ring\'s shape<br>with the telescopes of the time. He even described Saturn as having<br>"ears." Saturn does not have only one ring but has many, and there<br>are gaps between them.<br>',
+      keywords: ['Saturn', 'rings', 'Galileo', 'telescopes', 'ears', 'gaps', 'magnificent', 'observation', 'shape'],
+      fontType: 'type8'
+    }
+  }
+},
+
+// 슬라이드 31 (59페이지) - 명령어: 12, PDF 11페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/59.jpg',
+  zones: {
+    1: { 
+      text: '<br>(1) <strong><u>Each constellation has an interesting legend. Explain why<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>ancient people attached stories to constellations.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is intended to facilitate easy understanding and teaching of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the movements of stars. In ancient times, people observed the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stars to determine the weather and seasons.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By reading the altitude of the stars, they could ascertain their<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position. Watching the stars accurately was crucial for them.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To observe the stars effectively, one must understand the rules<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of how constellations move. To convey these rules easily, various<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stories have been attached to constellations.',
+      keywords: ['constellation', 'legend', 'ancient people', 'stars', 'weather', 'seasons', 'movements', 'altitude', 'position', 'rules', 'stories'],
+      fontType: 'type7'
+    },
+    2: { 
+      text: '<br>(2) <strong><u>In ancient China, rituals were held for the sky when the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>rainy season or droughts continued. The weather would then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>improve. Is this event a result of the rituals?</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is not due to the rituals. The weather improves and worsens<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeatedly because of natural cycles, not due to traditional<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rituals. If the weather improved because of the rituals, there<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;should be scientific evidence proving that the rituals influenced<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the weather. However, such evidence does not exist.',
+      keywords: ['ancient China', 'rituals', 'sky', 'weather', 'natural cycles', 'scientific evidence', 'rainy season', 'droughts', 'traditional'],
+      fontType: 'type7'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 32 (60페이지) - 명령어: 12, PDF 12페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/60.jpg',
+  zones: {
+    1: { 
+      text: '<br>(1) <strong><u>A ship starting at the equator is heading towards the North<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Pole. Explain why the altitude of the North Star, measured at<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>the same time every night, gradually increases.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As we get closer to the North Pole, the position of the North Star<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;becomes closer to the direction directly above the head.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Near the equator, the North Star is in the direction people face.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Therefore, the North Star appears near the horizon. When people<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go to the North Pole, the North Star is in the direction above<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the head. Thus, as people go from the equator to the North Pole,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the altitude of the North Star gradually increases from near the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horizon to directly above the head.',
+      keywords: ['ship', 'equator', 'North Pole', 'North Star', 'altitude', 'horizon', 'position', 'direction', 'head'],
+      fontType: 'type7'
+    },
+    2: { 
+      text: '<br>(2) <strong><u>We can see a large, red dot that looks like an eye in photos<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>of Jupiter. What could this dot be?</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The red spot on Jupiter is a whirlwind in Jupiter\'s atmosphere.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When the swirling atmosphere reacts to the Sun\'s ultraviolet rays,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it creates a red substance, making the whirlwind appear like a red<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spot.',
+      keywords: ['Jupiter', 'red dot', 'whirlwind', 'atmosphere', 'Sun', 'ultraviolet rays', 'red spot', 'swirling', 'substance'],
+      fontType: 'type7'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+
+// 슬라이드 33 (61페이지) - 명령어: 12, PDF 13페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/61.jpg',
+  zones: {
+    1: { 
+      text: '<strong><u>Why did ancient Greeks and Romans pair Hermes and Aphrodite<br><strong><u>with Mercury and Venus? Explain.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>Hermes is depicted as a young man wearing a winged hat and light<br>sandals, wrapped in a magical cloak. Mercury, the Roman name for<br>Hermes, is the innermost planet in the solar system.<br>It has an orbital period of 88 days, making it the fastest among the<br>planets to orbit the Sun. Venus, considered by ancient people to be<br>the most beautiful celestial body, is associated with the goddess of<br>love and fertility, Aphrodite. Venus is the second brightest planet<br>in the solar system, shining so brightly that it can only be briefly<br>observed before sunrise or after sunset. This connection reflects the<br>perception that, like the radiant Venus, the beauty of Aphrodite is<br>stunning but not easily seen.',
+      keywords: ['Greeks', 'Romans', 'Hermes', 'Aphrodite', 'Mercury', 'Venus', 'orbital period', 'goddess'],
+      fontType: 'type8'
+    },
+    2: { 
+      text: '<strong><u>If an asteroid were approaching Earth, what could be done to<br><strong><u>prevent a clash between Earth and the asteroid? Share your<br><strong><u>thoughts below.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>In the movie Deep Impact, there is a scene where a spaceship lands<br>on an approaching asteroid, installs a bomb, and detonates the<br>asteroid. However, there are several problems with using this method.<br>Asteroids move rapidly and continuously rotate, making it difficult<br>for a spacecraft to land. An alternative approach could involve firing<br>missiles to break the asteroid into smaller pieces, which is highly<br>effective for smaller asteroids.<br>What should we do if an asteroid big enough to withstand a bomb<br>approaches? In this case, it is necessary to alter the asteroid\'s<br>trajectory. Firing missiles to change their course using the explosive<br>impact can be a viable solution. Another approach is to position<br>a spacecraft near the asteroid, artificially creating gravity to alter<br>the asteroid\'s orbit gradually.',
+      keywords: ['asteroid', 'Earth', 'Deep Impact', 'spaceship', 'bomb', 'missiles', 'trajectory', 'gravity'],
+      fontType: 'type8'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+// 슬라이드 34 (62페이지) - 명령어: 12, PDF 14페이지
+{
+  bg: '../assets/img/ReadBook/G2.2.5/62.jpg',
+  zones: {
+    1: { 
+      text: '<strong><u>There is no scientific evidence to prove the influence of<br><strong><u>constellations on human personality. However, people have long<br><strong><u>believed in the mysterious power of constellations affecting<br><strong><u>individuals. Briefly explain the characteristics of people under<br><strong><u>the Leo and Libra constellations.</strong></u><br><br><br><br><br><br><br><br><br><br>Since lions are called the kings of all animals, let\'s anticipate the<br>personality of a person born under the Leo constellation. First and<br>foremost, they have a character that does not easily heed what<br>others say, much like a lion. Moreover, due to an obsessive need to<br>excel in everything, they often subject themselves to considerable<br>stress. Additionally, they perceive themselves as highly rational and<br>objective, insisting that their arguments are correct. However, to<br>others, it may simply appear as stubbornness. Libra, represented by<br>the scale, is a tool for comparing weights. Consequently, individuals<br>born under the Libra constellation are often described as meticulous<br>regarding their own or others\' appearances. Among them, many<br>prefer a life of joy over ambitious pursuits. Libras aspiring to live like<br>clouds occasionally receive remarks about laziness, as they may not<br>put strenuous efforts towards their goals.',
+      keywords: ['constellations', 'personality', 'Leo', 'lion', 'king', 'stubborn', 'Libra', 'scale', 'meticulous', 'lazy'],
+      fontType: 'type8'
+    },
+    2: { 
+      text: '<strong><u>Describe what would happen if Earth did not rotate and revolve.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>If Earth does not rotate, we will lose the measure of time. Places in<br>daylight would remain in daylight throughout the year, and places<br>in darkness would endure continuous darkness throughout the year.<br>In such a case, regions illuminated by the Sun would experience<br>a constant rise in temperature, making it inhabitable for humans.<br>Conversely, on the opposite side of the Earth, where sunlight never<br>reaches, temperatures would gradually decrease, causing all life<br>forms to freeze and perish.<br>The immense Sun continually exerts its gravitational pull on Earth.<br>On the other hand, the rotating Earth experiences a force trying to<br>escape the Sun\'s influence. Due to the equilibrium between these<br>two forces, Earth is not pulled toward the Sun. Earth would be drawn<br>into the Sun and face extinction if it were to cease its rotation.',
+      keywords: ['Earth', 'rotate', 'revolve', 'time', 'daylight', 'darkness', 'temperature', 'Sun', 'gravitational pull', 'extinction'],
+      fontType: 'type8'
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+} 
+
+
+];
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
 </body>
 </html> 
