@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G1.2.1.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+
+const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/3.jpg',
+    zones: {
+      1: { text: '<span class="larger-text">01. Preserving Nature in a Drawing</span><br><br>What exists on Earth without human effort?<br>The answer is nature. Just as mountains rose and<br>rivers and seas formed on Earth, one day, humans<br>began to inhabit it. Nature existed long before<br>humans appeared. What was nature to those who<br>lived in caves, sheltering from storms, gathering fruits<br>from trees, and hunting animals for survival?<br>How and why did they express the emotions and<br>thoughts evoked by nature? Let\'s explore this<br>mystery by tracing the origins of humanity. About<br>2.5 million years ago, humanity\'s ancestors differed<br>significantly from our modern form. Compared to<br>contemporary humans, they possessed smaller heads,<br>had much more hair, and used their hands like feet.<br>The world they inhabited was also vastly different<br>from the one we know today.', keywords: ['Preserving Nature', 'Drawing', 'Earth', 'nature', 'mountains', 'rivers', 'seas', 'humans', 'caves', 'emotions', 'thoughts', 'humanity', 'ancestors', 'evolution'] },
+      2: { text: 'Humans, as animals, are part of nature and have to<br>form an ecosystem with other creatures to obtain<br>food and fight against them to avoid death. Slowly,<br>early humans evolved to walk on two legs.<br>They were able to make tools by breaking stones<br>with their free hands. Even with these tools in hand,<br>humans continued to gather fruits from plants, dig up<br>roots to eat, and secure food by hunting animals and<br>fish. In the prehistoric era, hunting was an imperative<br>task for survival. Despite the occasional victories<br>against larger and mightier creatures, humans were<br>likely to lose.', keywords: ['humans', 'animals', 'nature', 'ecosystem', 'creatures', 'food', 'evolution', 'two legs', 'tools', 'stones', 'hunting', 'prehistoric', 'survival'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/4.jpg',
+    zones: {
+      1: { text: 'How did prehistoric people perceive nature?<br>Perhaps to them, nature was viewed as something<br>that governed humans. For primitive people, who<br>were not yet able to farm, their place and method of<br>living were determined by nature. Latitude, altitude,<br>terrain, and weather determined the types of plants<br>that grew, affecting the types of animals living on<br>the land and their ways of survival. All of these<br>factors combined to shape the environment in which<br>people lived. However, evolution completely changed<br>human life. The human body, which coexisted with<br>nature, evolved to resemble our current form and<br>improved human intelligence. As the physical and<br>mental evolution progressed, people\'s lives changed<br>significantly.', keywords: ['prehistoric people', 'nature', 'governed', 'primitive', 'farm', 'latitude', 'altitude', 'terrain', 'weather', 'plants', 'animals', 'evolution', 'human intelligence'] },
+      2: { text: 'Roughly between 60,000 and 30,000 years ago, there<br>was an explosion of culture. People began drawing<br>pictures and sculpting for the first time, and creating<br>tools like axes and spears. Religions worshipping the<br>sun or animals also emerged. Today, we conceive<br>artworks as impractical for everyday life since they<br>are typically exhibited only in art museums. However,<br>for the early humans, art would have been perceived<br>as having a completely different meaning than just<br>seeing and enjoying it. What is certain is that they<br>visually expressed the feelings that arose within them<br>when observing nature. What kind of pictures did they<br>paint? Among the well-known cave paintings from<br>the prehistoric era are the Altamira Cave and the<br>Lascaux Cave paintings. However, in 1994, even older<br>cave paintings were discovered—the Chauvet Cave in<br>southern France, found by cave explorers Jean Marie<br>Chauvet and two others.', keywords: ['culture explosion', 'drawing', 'sculpting', 'tools', 'axes', 'spears', 'religions', 'sun', 'artworks', 'art museums', 'early humans', 'feelings', 'cave paintings', 'Altamira Cave', 'Lascaux Cave', 'Chauvet Cave', 'France'] },
+      3: { text: 'Explain what prehistoric people thought nature was.', keywords: ['prehistoric people', 'nature', 'explanation'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/5.jpg',
+    zones: {
+      1: { text: 'The cave walls feature over a dozen types of animals,<br>including extinct mammoths, European bison, horses,<br>leopards, owls, and more. The people of the prehistoric<br>era used various colors like clay and charcoal, and<br>they depicted even the most minor details of animals<br>with remarkable accuracy. Linear perspective is a<br>technique of representing objects in three dimensions<br>on a two-dimensional surface. The cave paintings in<br>the Chauvet Cave, estimated to have been created<br>around 30,000 years ago, surprisingly employ linear<br>perspective, vividly and three-dimensionally.', keywords: ['cave walls', 'animals', 'mammoths', 'European bison', 'horses', 'leopards', 'owls', 'prehistoric era', 'colors', 'clay', 'charcoal', 'accuracy', 'linear perspective', 'three dimensions', 'Chauvet Cave'] },
+      2: { text: 'What sets them apart from other cave paintings is the<br>abundance of symbols that seem to carry meanings,<br>including handprints, footprints, and various other<br>markings. Why did prehistoric people paint murals in<br>caves? Scholars cannot provide an exact answer to<br>this. Some scholars say that murals are merely signs<br>needed in an era without letters or vague signs that<br>are far from reality, and do not contain any meaning.<br>However, many experts agree that prehistoric people<br>painted these images in the hope of ensuring successful<br>hunts and avoiding hunger. And one fact we can be<br>certain of is that, 30,000 years ago, people also tried<br>to express nature exactly as it was.', keywords: ['cave paintings', 'symbols', 'meanings', 'handprints', 'footprints', 'markings', 'prehistoric people', 'murals', 'caves', 'scholars', 'letters', 'experts', 'successful hunts', 'hunger', 'nature'] },
+      3: { text: 'Explain the differences between the art that<br>prehistoric people thought of and the art that<br>we think of today.', keywords: ['art differences', 'prehistoric people', 'modern art'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/6.jpg',
+    zones: {
+      1: { text: 'As shown by the cave paintings described earlier,<br>humans are clearly distinguished from other<br>organisms by their ability to use signs and symbols.<br>Signs are tools for expressing thoughts, encompassing<br>language, characters, markings, and indications.<br>Just by looking at simple drawings, anyone can<br>identify things like a bathroom or an emergency exit.<br>Symbols are signs that acquire meaning from the<br>person who sees and understands them. In other<br>words, even if the symbols look the same, they can be<br>interpreted differently depending on society, culture,<br>and the era. For example, there is a picture with a red<br>background and a white cross. Some people may refer<br>to it as the Swiss flag, while others might consider it<br>a symbol representing a hospital.', keywords: ['cave paintings', 'humans', 'organisms', 'signs', 'symbols', 'thoughts', 'language', 'characters', 'markings', 'drawings', 'bathroom', 'emergency exit', 'meaning', 'society', 'culture', 'era', 'red background', 'white cross', 'Swiss flag', 'hospital'] },
+      2: { text: 'It is common to draw nature as it appears to the eye<br>and sometimes use symbols to represent it. It is similar<br>to how children draw the moon or the sun. However,<br>when expressed symbolically, it can be difficult to<br>know exactly what was drawn. For instance, what<br>comes to mind when we see a single circle on paper?<br>Interpretations can be highly diverse because<br>thoughts and experiences vary from person to person.', keywords: ['draw nature', 'eye', 'symbols', 'represent', 'children', 'moon', 'sun', 'symbolically', 'circle', 'paper', 'interpretations', 'diverse', 'thoughts', 'experiences', 'person'] },
+      4: { text: 'Explain the most distinct difference that<br>distinguishes humans from other organisms.', keywords: ['distinct difference', 'humans', 'organisms'], fontType: 'type2' },
+      3: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/7.jpg',
+    zones: {
+      1: { text: 'The Walpiri people, indigenous to the central deserts<br>of Australia, use circles to represent various meanings,<br>such as camping sites, fire, mountains, fruits, and<br>more. Social anthropologist Howard Morphy revealed<br>that the drawings left by people from the Stone Age<br>fundamentally employed geometric figures expressed<br>through lines, dots, and others.<br>Now, take a look and consider the following picture.', keywords: ['Walpiri people', 'indigenous', 'central deserts', 'Australia', 'circles', 'meanings', 'camping sites', 'fire', 'mountains', 'fruits', 'social anthropologist', 'Howard Morphy', 'drawings', 'Stone Age', 'geometric figures', 'lines', 'dots'] },
+      2: { text: 'The circle signifies a well or a lake, and the two lines<br>drawn side by side represent sticks or a river.<br>Therefore, depending on what is signified, this picture<br>could be interpreted as a river flowing into a lake<br>or sticks used for digging a well. Therefore, people<br>can have different thoughts and interpretations of<br>the same picture. A painting that depicts the natural<br>scenery of mountains, valleys, trees, rivers, forests,<br>and similar elements is called a landscape painting.<br>Here, "landscape" refers to the visible scenery<br>of nature. However, in some Eastern traditions, a<br>painting depicting mountains and rivers is not simply<br>referred to as a landscape painting but rather as<br>"shānshuǐ huà" in Chinese, meaning a painting of<br>mountains and water.', keywords: ['circle', 'well', 'lake', 'lines', 'sticks', 'river', 'signified', 'interpreted', 'thoughts', 'interpretations', 'painting', 'natural scenery', 'mountains', 'valleys', 'trees', 'rivers', 'forests', 'landscape painting', 'visible scenery', 'Eastern traditions', 'shānshuǐ huà', 'Chinese'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why people might think of different things when<br>looking at images that represent nature symbolically.', keywords: ['people', 'different things', 'images', 'nature', 'symbolically'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/8.jpg',
+    zones: {
+      1: { text: 'On the contrary, in the West, paintings depicting<br>landscapes are simply called landscape paintings,<br>without using the term "shānshuǐ huà." The difference<br>in names is not due to the different places where<br>people live. To truly understand landscape paintings<br>and shānshuǐ huà, one must understand the thoughts<br>and lifestyles of the people reflected in the paintings.<br>First, let\'s take a look at some characteristics that<br>stand out in shānshuǐ huà and landscape paintings.<br>In the East, nature was highly esteemed and considered<br>an absolute entity. Rocks, water, and soil were not<br>seen as lifeless entities but regarded as beings that<br>moved and lived, much like humans. In shānshuǐ huà,<br>scenes often depict mountains and streams<br>surrounded by mysterious flowing clouds and fog.<br>While occasionally featuring humans, they are often<br>obscured by vast mountains and mist, making their<br>appearance elusive.', keywords: ['West', 'landscape paintings', 'shānshuǐ huà', 'difference', 'names', 'places', 'thoughts', 'lifestyles', 'characteristics', 'East', 'nature', 'esteemed', 'absolute entity', 'rocks', 'water', 'soil', 'lifeless', 'beings', 'humans', 'mountains', 'streams', 'clouds', 'fog', 'mist', 'elusive'] },
+      2: { text: 'Additionally, when looking at the entire painting,<br>people may notice areas where lines or colors are<br>not filled. In shānshuǐ huà, these blank spaces<br>are considered part of the artwork. So, why did<br>Westerners start painting natural landscapes?<br>Westerners realized they could understand and<br>discover things about nature or events occurring<br>in nature. Believing they had to play such a role,<br>they began painting landscape scenes. The purpose<br>of landscape painting is to observe nature and<br>beautifully depict magnificent scenes on the canvas.<br>After the death of conqueror Alexander the Great, the<br>period from the 4th to the 3rd century BCE is called<br>the Hellenistic era. Hellenistic architects incorporated<br>landscape paintings and other themes when<br>decorating the walls of buildings. Traces of landscape<br>paintings are also found in the wall paintings of the<br>Roman-era cities of Pompeii and Herculaneum.', keywords: ['painting', 'lines', 'colors', 'filled', 'blank spaces', 'artwork', 'Westerners', 'natural landscapes', 'understand', 'discover', 'nature', 'events', 'role', 'landscape scenes', 'purpose', 'observe', 'magnificent scenes', 'canvas', 'Alexander the Great', 'Hellenistic era', 'architects', 'decorating', 'walls', 'buildings', 'Roman-era', 'Pompeii', 'Herculaneum'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/9.jpg',
+    zones: {
+      1: { text: 'The era when landscape painting evolved as a distinct<br>field of art began in the 15th and 16th centuries during<br>the Renaissance. During this time, the representation<br>of humans diminished, and the background relatively<br>enlarged, laying the foundation for the contemporary<br>form of landscape painting.<br>Now, let\'s take a closer look at each aspect to see<br>how Eastern shānshuǐ huà and Western landscape<br>paintings differ. Firstly, the purposes of landscape<br>painting and shānshuǐ huà were different. Landscape<br>painting realistically depicts the appearance of nature<br>as we see it with our eyes.', keywords: ['landscape painting', 'distinct field', 'art', '15th century', '16th century', 'Renaissance', 'representation', 'humans', 'diminished', 'background', 'enlarged', 'foundation', 'contemporary', 'Eastern', 'shānshuǐ huà', 'Western', 'differ', 'purposes', 'realistically', 'depicts', 'appearance', 'nature', 'eyes'] },
+      2: { text: 'Conversely, shānshuǐ huà aimed to express the<br>spiritual meanings inherent in nature. While drawing<br>a mountain, the goal was to capture the feelings<br>or thoughts evoked by the sight of the mountain<br>within the shānshuǐ huà. Where does this difference<br>originate? The fundamental reason for drawing is<br>to represent the appearance of nature or objects as<br>closely as possible to what we see.', keywords: ['shānshuǐ huà', 'aimed', 'express', 'spiritual meanings', 'inherent', 'nature', 'drawing', 'mountain', 'goal', 'capture', 'feelings', 'thoughts', 'evoked', 'sight', 'difference', 'originate', 'fundamental reason', 'represent', 'appearance', 'objects', 'closely'] },
+      3: { text: 'Explain why paintings depicting landscapes<br>are called landscape paintings in the West and<br>shānshuǐ huà in the East.', keywords: ['paintings', 'landscapes', 'landscape paintings', 'West', 'shānshuǐ huà', 'East'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/10.jpg',
+    zones: {
+      3: { text: 'However, how art is expressed can change depending<br>on the attitude toward nature during a specific era<br>or by a particular artist. Consider portraits, a popular<br>artform before shānshuǐ huà and landscape painting.<br>In Western portraiture, faces were intricately drawn,<br>capturing even the wrinkles, much like a photograph.<br>During that time, many nobles commissioned portrait<br>paintings, not necessarily to leave an artistic legacy<br>but to capture their current appearance. This is<br>similar to the identification photos taken in a modern<br>photo studio. In line with this trend in art, Western<br>landscape painting also considered it crucial to depict<br>scenes as realistically as possible.', keywords: ['art', 'expressed', 'attitude', 'nature', 'specific era', 'particular artist', 'portraits', 'popular', 'artform', 'shānshuǐ huà', 'landscape painting', 'Western portraiture', 'faces', 'intricately', 'wrinkles', 'photograph', 'nobles', 'commissioned', 'artistic legacy', 'current appearance', 'identification photos', 'photo studio', 'trend', 'depict', 'scenes', 'realistically'] },
+      4: { text: 'What about Chinese shānshuǐ huà, which significantly<br>influenced East Asian art? Two main approaches<br>were used in painting from the 3rd to the 6th century<br>in China. One involved drawing objects to resemble<br>their actual appearance, while the other focused on<br>expressing the spiritual world within the objects.<br>In Chinese art of that period, depicting the harmony<br>between mountains and rivers or expressing the<br>human spiritual world about nature was considered<br>more important than simply drawing them exactly like<br>a photograph. When depicting nature, emphasis was<br>placed on capturing the essence and qualities of the<br>natural elements.', keywords: ['Chinese', 'shānshuǐ huà', 'significantly', 'influenced', 'East Asian art', 'main approaches', 'painting', '3rd century', '6th century', 'China', 'drawing objects', 'actual appearance', 'focused', 'expressing', 'spiritual world', 'objects', 'Chinese art', 'period', 'depicting', 'harmony', 'mountains', 'rivers', 'human spiritual world', 'nature', 'important', 'photograph', 'emphasis', 'capturing', 'essence', 'qualities', 'natural elements'] },
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/11.jpg',
+    zones: {
+      1: { text: 'Secondly, the methods of determining where to place<br>visible elements such as mountains, trees, and flowers<br>differed between landscape painting and shānshuǐ huà.<br>Landscape painting valued how the subjects were<br>arranged on the canvas to capture them as realistically<br>as possible. For instance, on a flat canvas, careful<br>consideration was given to where distant mountains<br>and nearby trees should be placed to create a beautiful<br>composition. In other words, it was crucial to artistically<br>arrange the three dimensional landscape into a two-<br>dimensional plane. On the contrary, shānshuǐ huà<br>selected distinctive features from the visible aspects<br>of nature and reimagined them on the canvas.', keywords: ['methods', 'determining', 'place', 'visible elements', 'mountains', 'trees', 'flowers', 'differed', 'landscape painting', 'shānshuǐ huà', 'valued', 'subjects', 'arranged', 'canvas', 'capture', 'realistically', 'flat canvas', 'careful consideration', 'distant mountains', 'nearby trees', 'beautiful composition', 'crucial', 'artistically', 'three dimensional', 'two-dimensional plane', 'selected', 'distinctive features', 'aspects', 'nature', 'reimagined'] },
+      2: { text: 'Regardless of what was actually seen, artists reshaped<br>the size, shape, and placement of objects on the canvas<br>as they wanted to express. In other words, landscape<br>painting can be considered objective, while shānshuǐ<br>huà is subjective. This difference is deeply rooted<br>in the Eastern and Western perspectives on nature.<br>Westerners see nature as an object of observation<br>and inquiry. As a result, Western landscape painters<br>never changed positions of objects once they started<br>drawing until the completion of the painting.', keywords: ['regardless', 'actually seen', 'artists', 'reshaped', 'size', 'shape', 'placement', 'objects', 'canvas', 'wanted', 'express', 'landscape painting', 'objective', 'shānshuǐ huà', 'subjective', 'difference', 'deeply rooted', 'Eastern', 'Western', 'perspectives', 'nature', 'Westerners', 'object', 'observation', 'inquiry', 'result', 'painters', 'never changed', 'positions', 'started drawing', 'completion'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain the purposes of drawing landscape<br>paintings and shānshuǐ huà.', keywords: ['purposes', 'drawing', 'landscape paintings', 'shānshuǐ huà'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/12.jpg',
+    zones: {
+      1: { text: 'On the other hand, the Eastern view of nature is<br>entirely different. While the East approached nature<br>closely to gain knowledge, it did not prioritize<br>observing facts as they are, unlike the West.<br>Instead of stopping at one point and drawing,<br>Eastern artists looked from various directions and<br>selectively expressed the essential parts. In this<br>process, they boldly omitted the rest.', keywords: ['Eastern view', 'nature', 'entirely different', 'East', 'approached', 'closely', 'gain knowledge', 'prioritize', 'observing facts', 'West', 'stopping', 'one point', 'drawing', 'Eastern artists', 'various directions', 'selectively', 'expressed', 'essential parts', 'process', 'boldly', 'omitted'] },
+      2: { text: 'It is easy to remember the appearance of the leaves<br>and stems after observing a plant and drawing it<br>exactly. The faster development of science in the<br>West compared to the East can also be attributed to<br>efforts to represent nature realistically.', keywords: ['easy', 'remember', 'appearance', 'leaves', 'stems', 'observing', 'plant', 'drawing', 'exactly', 'faster development', 'science', 'West', 'compared', 'East', 'attributed', 'efforts', 'represent', 'nature', 'realistically'] },
+      3: { text: 'Explain how the placement of objects in landscape<br>painting and shānshuǐ huà differs.', keywords: ['placement', 'objects', 'landscape painting', 'shānshuǐ huā', 'differs'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/13.jpg',
+    zones: {
+      1: { text: 'If we look up the dictionary, "real" means something<br>that actually happened or is currently happening.<br>So, what does the term "realism" mean? It is a trend<br>that expresses the actual appearance of existing<br>objects as they are. In a way, the prehistoric people<br>attempting to draw the shapes of mountains, rivers,<br>and animals on cave walls were practicing a form of<br>realism.', keywords: ['dictionary', 'real', 'actually happened', 'currently happening', 'realism', 'trend', 'expresses', 'actual appearance', 'existing objects', 'prehistoric people', 'attempting', 'draw', 'shapes', 'mountains', 'rivers', 'animals', 'cave walls', 'practicing', 'form'] },
+      2: { text: 'Realism emerged in Europe around the mid-19th<br>century. Gustave Courbet is a representative painter<br>of realism. Courbet used to say that his teacher was<br>nature. He argued that paintings should not show<br>beauty but rather reveal the truth.<br>His masterpiece, Hello, Mr. Courbet, fully reflects his<br>thoughts. Courbet depicted himself walking along<br>a country road with painting tools in this work.<br>In the painting, Courbet greets a friend and a patron<br>supporting his artistic activities.', keywords: ['Realism', 'emerged', 'Europe', 'mid-19th century', 'Gustave Courbet', 'representative painter', 'teacher', 'nature', 'argued', 'paintings', 'beauty', 'reveal', 'truth', 'masterpiece', 'Hello Mr Courbet', 'reflects', 'thoughts', 'depicted', 'walking', 'country road', 'painting tools', 'work', 'greets', 'friend', 'patron', 'supporting', 'artistic activities'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/14.jpg',
+    zones: {
+      1: { text: 'The scene is vividly portrayed, capturing even the<br>smallest gestures as if it were a scene from a movie.<br>The title Hello, Mr. Courbet also suits the work<br>representing realism. However, people of Courbet\'s<br>era looked at his works with a critical eye.<br>It was a time when Romanticism, with its emotionally<br>moving depictions of historical events and mythical<br>stories, was more popular and appreciated.', keywords: ['scene', 'vividly portrayed', 'capturing', 'smallest gestures', 'movie', 'title', 'Hello Mr Courbet', 'suits', 'work', 'representing', 'realism', 'people', 'era', 'looked', 'works', 'critical eye', 'time', 'Romanticism', 'emotionally moving', 'depictions', 'historical events', 'mythical stories', 'popular', 'appreciated'] },
+      2: { text: 'Many painters representing Romanticism, including<br>Delacroix, criticized Courbet\'s works, saying that<br>"it diminished the dignity of art" and "the entire<br>painting is vulgar." However, Courbet never wavered<br>in his beliefs. He believed in recording the true<br>essence of his era through his art. An incident that<br>illustrates his mindset is when a customer approaches<br>Courbet and requests a painting of an angel.<br>Courbet refused, saying, "I cannot paint an angel<br>because I have never seen one."', keywords: ['painters', 'representing', 'Romanticism', 'Delacroix', 'criticized', 'works', 'diminished', 'dignity', 'art', 'entire painting', 'vulgar', 'never wavered', 'beliefs', 'believed', 'recording', 'true essence', 'era', 'art', 'incident', 'illustrates', 'mindset', 'customer', 'approaches', 'requests', 'painting', 'angel', 'refused', 'cannot paint', 'never seen'] },
+      4: { text: '', keywords: [] },
+      3: { text: 'Explain why scientific development in the West<br>was faster than in the East.', keywords: ['scientific development', 'West', 'faster', 'East'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/15.jpg',
+    zones: {
+      1: { text: 'Jean-François Millet, who left behind works such as<br>The Gleaners and The Angelus, was a contemporary<br>of Courbet. As mentioned earlier, many paintings<br>depicted mythological heroes in a grandiose manner<br>during that time. At that time, depicting the lives of<br>peasants through art was considered almost non-<br>artistic due to the prevailing atmosphere. In such<br>a context, Courbet surprised people by painting the<br>simple funeral of a peasant with a boldness that<br>seemed to defy conventions. On the other hand, Millet<br>quietly resisted without drawing much attention.<br>If we look at paintings by artists active before<br>Millet, people in landscape paintings played a mere<br>background extra role.', keywords: ['Jean-François Millet', 'The Gleaners', 'The Angelus', 'contemporary', 'Courbet', 'paintings', 'mythological heroes', 'grandiose manner', 'peasants', 'art', 'non-artistic', 'prevailing atmosphere', 'context', 'surprised people', 'simple funeral', 'peasant', 'boldness', 'defy conventions', 'Millet', 'quietly resisted', 'drawing attention', 'artists', 'landscape paintings', 'background extra role'] },
+      2: { text: 'However, when we see Millet\'s The Gleaners, we realize<br>that the protagonists of the painting are three women.<br>Observing the robust and hardworking women, a sense<br>of solemnity is conveyed.<br>If we were to point out a difference between Millet<br>and Courbet, it would be that Courbet painted urban<br>scenes while Millet depicted rural life. These works<br>are still cherished because the sincere intentions<br>of both artists, who wanted to portray the lives of<br>ordinary people, have been conveyed to us.', keywords: ['Millet', 'The Gleaners', 'realize', 'protagonists', 'three women', 'robust', 'hardworking women', 'solemnity', 'conveyed', 'difference', 'Courbet', 'urban scenes', 'depicted', 'rural life', 'works', 'cherished', 'sincere intentions', 'artists', 'portray', 'ordinary people'] },
+      3: { text: 'Explain why realist artists like Courbet and Millet<br>did not receive high praise during their time.', keywords: ['realist artists', 'Courbet', 'Millet', 'high praise', 'time'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/16.jpg',
+    zones: {
+      1: { text: 'Realism is evident not only in art but also in literature.<br>The characteristics of literary realism are as follows:<br>Firstly, it was based on an objective perception<br>of reality. In simple terms, it aimed to realistically<br>portray things the author had seen or experienced<br>in their own life. While previous Romantic literature<br>often told stories of longing for the future and<br>imaginary worlds, literary realism depicted reality as<br>it is, expressed scientifically. Secondly, it used social<br>issues such as poverty and inequality as material and<br>sought to address people\'s concerns.<br>Thirdly, the author played the role of observing<br>objects or protagonists within the work. Believing<br>that if the author tried to play a god-like role in the<br>work, their inner thoughts would inevitably seep<br>into the story, literary realism featured authors who<br>limited themselves to the role of observers.', keywords: ['Realism', 'evident', 'art', 'literature', 'characteristics', 'literary realism', 'follows', 'firstly', 'based', 'objective perception', 'reality', 'simple terms', 'aimed', 'realistically', 'portray', 'author', 'seen', 'experienced', 'own life', 'previous', 'Romantic literature', 'told stories', 'longing', 'future', 'imaginary worlds', 'depicted', 'reality', 'expressed', 'scientifically', 'secondly', 'used', 'social issues', 'poverty', 'inequality', 'material', 'sought', 'address', 'concerns', 'thirdly', 'played role', 'observing', 'objects', 'protagonists', 'work', 'believing', 'god-like role', 'inner thoughts', 'inevitably', 'seep', 'story', 'featured', 'authors', 'limited', 'observers'] },
+      2: { text: 'Representative authors and works of literary realism<br>include Balzac\'s Eugénie Grandet, Old Goriot, and The<br>Lily of the Valley, Stendhal\'s The Red and the Black,<br>and Dostoevsky\'s Crime and Punishment.', keywords: ['Representative authors', 'works', 'literary realism', 'include', 'Balzac', 'Eugénie Grandet', 'Old Goriot', 'The Lily of the Valley', 'Stendhal', 'The Red and the Black', 'Dostoevsky', 'Crime and Punishment'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/17.jpg',
+    zones: {
+      1: { text: 'These works hold literary value and are crucial in<br>other academic fields. While history books may not<br>often cover them, these works delve into the lives of<br>the lower classes in the society of that time, including<br>urban laborers and peasants–aspects one encounters<br>in real life. Despite dealing with seemingly mundane<br>aspects of daily life, these works vividly capture the<br>societal reality of ordinary people that often goes<br>unrecorded in history.', keywords: ['works', 'hold', 'literary value', 'crucial', 'academic fields', 'history books', 'often cover', 'delve', 'lives', 'lower classes', 'society', 'time', 'including', 'urban laborers', 'peasants', 'aspects', 'encounters', 'real life', 'despite', 'dealing', 'seemingly mundane', 'daily life', 'vividly capture', 'societal reality', 'ordinary people', 'goes unrecorded', 'history'] },
+      2: { text: '01. Preserving Nature in a Drawing<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying Natural</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scenes Preserved in Art?</span><br><br>', keywords: ['Preserving Nature', 'Drawing', 'Purpose', 'Studying', 'Natural Scenes', 'Preserved', 'Art', 'people', 'strive', 'remember', 'communicate', 'others', 'example', 'write', 'diaries', 'record', 'events', 'day', 'additionally', 'use tools', 'email', 'mobile messengers', 'stay in touch', 'friends', 'crucial tool', 'activities', 'language', 'allows', 'express', 'thoughts', 'freely', 'speech', 'writing'] },
+      3: { text: 'Explain why literary realism works are literarily<br>and academically significant.', keywords: ['literary realism', 'works', 'literarily', 'academically', 'significant'], fontType: 'type2' },
+      4: { text: 'People always strive to remember things or<br>communicate with others. For example, we write<br>diaries to record events during the day. Additionally,<br>we use tools like email or mobile messengers to<br>stay in touch with friends. The most crucial tool in<br>these activities is language. Language allows people<br>to express their thoughts freely through speech or<br>writing.', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/18.jpg',
+    zones: {
+      1: { text: 'So, what about prehistoric times when there was no<br>written language? Did they record anything?<br>Yes, they did. Prehistoric people depicted their way<br>of life and aspirations through drawings. We can<br>understand this by examining cave paintings like<br>those in Altamira, Lascaux, and Chauvet.<br>Through these cave paintings, we can speculate about<br>the lifestyle and natural environment of that time.<br>In other words, the natural scenes preserved in art<br>play a role in connecting the past and the present.<br>Studying the natural scenes preserved in art aims<br>to understand the past, present, and human society.<br>Landscape paintings depict natural elements such as<br>mountains, valleys, trees, rivers, and forests.', keywords: ['prehistoric times', 'written language', 'prehistoric people', 'way of life', 'aspirations', 'drawings', 'cave paintings', 'Altamira', 'Lascaux', 'Chauvet', 'lifestyle', 'natural environment', 'natural scenes', 'preserved', 'art', 'connecting past present', 'human society', 'landscape paintings', 'natural elements', 'mountains', 'valleys', 'trees', 'rivers', 'forests'] },
+      2: { text: 'However, there were different perspectives on<br>nature in the East and the West. In the East, nature<br>was considered absolute, while in the West, it was<br>believed that people could understand events in<br>nature. This difference in perspective is clearly<br>reflected in Eastern and Western landscape paintings.', keywords: ['different perspectives', 'nature', 'East', 'West', 'absolute', 'understand events', 'difference perspective', 'Eastern Western', 'landscape paintings'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/19.jpg',
+    zones: {
+      1: { text: '(1) Many people claim that art is useless in everyday life.<br>Is that really the case? Explain your thoughts.<br><br>(2) Cave paintings left by prehistoric humans often<br>feature drawings of animals. Explain why they might<br>have drawn animals.<br><br>', keywords: ['art', 'useless', 'everyday life', 'cave paintings', 'prehistoric humans', 'drawings', 'animals', 'explain', 'thoughts', 'case'], fontType: 'type3' },
+      2: { text: '01. Preserving Nature in a Drawing<br><br>Ⅱ. How Can We Apply the Study of Natural<br>Scenes Preserved in Art?<br><br', keywords: ['Preserving Nature', 'Drawing', 'Apply', 'Study', 'Natural Scenes', 'Preserved', 'Art'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'We can learn about past events from history books.<br>However, there are cases where what is recorded in<br>history books differs significantly from actual events.<br>This can be due to rulers hiding the truth or<br>historians documenting history according to their own<br>perspectives. Does this mean that historical truth will<br>never be revealed? To understand history, we must<br>simultaneously examine the people, society, academic<br>pursuits, and arts of that time.', keywords: ['past events', 'history books', 'recorded', 'actual events', 'rulers', 'hiding truth', 'historians', 'documenting', 'perspectives', 'historical truth', 'understand history', 'people', 'society', 'academic pursuits', 'arts'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/20.jpg',
+    zones: {
+      1: { text: 'Artists instinctively express what they see, hear, and<br>feel. Therefore, by carefully examining the works left<br>by artists, especially painters, we can glimpse the<br>era in which they lived. Courbet, a pioneer of realist<br>painting, considered nature as his teacher. He argued<br>that paintings should reveal truth, not just beauty.<br>Millet, who worked during the same period as Courbet,<br>aimed to depict the lives of ordinary people in rural<br>areas.', keywords: ['artists', 'instinctively', 'express', 'see', 'hear', 'feel', 'therefore', 'carefully', 'examining', 'works', 'left', 'especially', 'painters', 'glimpse', 'era', 'lived', 'Courbet', 'pioneer', 'realist painting', 'considered', 'nature', 'teacher', 'argued', 'paintings', 'reveal', 'truth', 'beauty', 'Millet', 'worked', 'same period', 'aimed', 'depict', 'lives', 'ordinary people', 'rural areas'] },
+      2: { text: 'In history, details about the affluent ruling classes or<br>wealthy groups leading luxurious lives are extensively<br>recorded, while the lives of ordinary people are<br>often not well-documented. However, many artists<br>contribute by depicting seemingly mundane and<br>potentially monotonous everyday aspects, teaching<br>us about the lives of people and societies that went<br>unrecorded in history.<br><br>', keywords: ['history', 'affluent ruling classes', 'wealthy groups', 'luxurious lives', 'recorded', 'ordinary people', 'well-documented', 'artists', 'depicting', 'mundane', 'everyday aspects', 'societies', 'unrecorded'] },
+      3: { text: '', keywords: [] },
+      4: { text: '(1) Western artists pondered how to portray nature as it<br>was. Explain why, compared to the East, the West had<br>a much faster pace of scientific development.<br><br>(2) Consider using drawings for communication. How might<br>two circles be interpreted or used in this context?<br><br>', keywords: ['Western artists', 'portray nature', 'East', 'West', 'scientific development', 'drawings', 'communication', 'two circles', 'interpreted'], fontType: 'type3' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/21.jpg',
+    zones: {
+      1: { text: 'The paintings that depict natural scenery, such as<br>mountains and valleys, trees and rivers, and forests, are<br>called landscape paintings. Here, "landscape" refers to the<br>visible scenery of nature.<br>In the East, people did not merely consider nature an<br>object of observation to be seen and understood; they<br>regarded it as a living entity. Therefore, when painting<br>landscapes, Eastern artists did not attempt to stop at one<br>place to capture the scenery realistically. This approach<br>made it challenging to depict the scenes realistically.<br>However, artists could focus on the essential parts while<br>boldly omitting less significant details. Western landscape<br>paintings were typically done on a canvas with predefined<br>size and proportions. In contrast, Eastern landscape<br>paintings allowed the artist to determine the size of the<br>paper according to their preferences. They would use<br>horizontally laid paper and vertically elongated paper to<br>depict tall mountains or trees when expressing expansive<br>fields and rivers. Explain other characteristics found in<br>Eastern landscape paintings.', keywords: ['paintings', 'natural scenery', 'mountains', 'valleys', 'trees', 'rivers', 'forests', 'landscape paintings', 'visible scenery', 'nature', 'East', 'living entity', 'Eastern artists', 'capture scenery', 'realistically', 'essential parts', 'omitting details', 'Western landscape', 'canvas', 'predefined size', 'proportions', 'Eastern landscape', 'paper size', 'preferences', 'horizontally laid', 'vertically elongated', 'tall mountains', 'expansive fields', 'characteristics'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/22.jpg',
+    zones: {
+      1: { text: 'Today, we use letters to convey our thoughts. Literary<br>figures touch people\'s hearts through novels, poems,<br>and other forms of written expression. In prehistoric<br>times, when letters as we know it did not exist, people<br>used drawings to record and communicate information.<br>It would not be incorrect to say that drawings are the<br>oldest form of language. If we look around us, we can see<br>many instances where drawings convey various pieces<br>of information. For example, a sign with a person drawn<br>inside a square represents an elevator. Similarly, a drawing<br>of a person running indicates the location of an emergency<br>exit. However, when using drawings to convey information,<br>there are a few things to be cautious about.<br>Firstly, the same drawing should evoke the same<br>interpretation from anyone who sees it. Additionally,<br>drawings should be as simple as possible. Now, consider<br>what issues might arise if a restroom sign featured an<br>illustration of a toilet.', keywords: ['letters', 'convey thoughts', 'literary figures', 'novels', 'poems', 'written expression', 'prehistoric times', 'drawings', 'record', 'communicate information', 'oldest form language', 'elevator sign', 'emergency exit', 'same interpretation', 'simple drawings', 'restroom sign', 'toilet illustration'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/23.jpg',
+    zones: {
+      1: { text: 'Imagination is the ability to think about something in one\'s<br>mind that cannot be seen, heard, or touched.<br>Let\'s delve a bit deeper into the meaning of imagination.<br>In a narrow sense, imagination refers to the ability to<br>create something new. The imagination that led to the<br>creation of smartphones and mobile messengers is<br>connecting people more easily using such devices and<br>programs. In a broader sense, imagination refers to the<br>ability to empathize with the lives of others, not just<br>oneself. When a friend is going through a tough time,<br>we may not know exactly how sad and lonely they feel.<br>However, someone with a vivid imagination thinks of their<br>friend\'s situation as if it were theirs and provides comfort.<br>In our daily lives, we often encounter problems where we<br>need to use our imagination. For example, if you have plans<br>to meet a close friend tomorrow, imagine how you will<br>spend the day and write it down.', keywords: ['imagination', 'ability', 'think', 'mind', 'narrow sense', 'create something new', 'smartphones', 'mobile messengers', 'connecting people', 'broader sense', 'empathize', 'others', 'friend', 'tough time', 'vivid imagination', 'comfort', 'daily lives', 'problems', 'close friend', 'plans'], fontType: 'type3' },
+      2: { text: 'Realist painter Courbet captured the daily lives of ordinary<br>people living in the city. At the same time, Millet, known<br>for works like The Gleaners and The Angelus, depicted the<br>lives of peasants from socially lower classes. Many painters<br>created art tailored to the preferences of nobles and the<br>wealthy for financial gain, but Courbet and Millet resisted<br>such influences. Despite facing disdain from their fellow<br>artists, they remained steadfast in pursuing their artistic<br>vision. Their example teaches us that a great painting<br>can emerge without vibrant colors or the appearance of<br>glamorous heroes.<br>When painters create art, they typically aim to represent<br>the subject as realistically as possible. However, some<br>artists choose to exaggerate specific features in<br>a caricature-like manner. For instance, a basketball<br>player\'s hands might be drawn large, and a singer\'s mouth<br>might be drawn large. What features would we emphasize<br>if we drew a horse as a caricature?', keywords: ['realist painter', 'Courbet', 'daily lives', 'ordinary people', 'city', 'Millet', 'The Gleaners', 'The Angelus', 'peasants', 'lower classes', 'painters', 'art', 'nobles', 'wealthy', 'financial gain', 'resisted', 'fellow artists', 'artistic vision', 'great painting', 'vibrant colors', 'glamorous heroes', 'represent realistically', 'exaggerate features', 'caricature', 'basketball player', 'singer', 'horse'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/24.jpg',
+    zones: {
+      1: { text: '<strong><u>Pictograms for Conveying Information<br><br>People have been drawing pictures for a long time,<br>expressing the beauty of nature and their thoughts and<br>emotions through art. But that is not all. Pictures have also<br>been used to convey information. Among the drawings<br>of Native Americans in New Mexico, there is a picture<br>showing a straight-standing goat and a person falling<br>over while riding a horse. This picture carries a message:<br>"The goat can easily get up, but the horse carrying a<br>person cannot get up easily." In this way, our ancestors<br>used pictures to communicate with each other long ago.<br>As pictures gradually became more abstract and simpler,<br>written characters emerged.', keywords: ['pictograms', 'conveying information', 'drawing pictures', 'beauty of nature', 'thoughts', 'emotions', 'art', 'Native Americans', 'New Mexico', 'goat', 'person', 'horse', 'message', 'ancestors', 'communicate', 'abstract', 'written characters'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/25.jpg',
+    zones: {
+      1: { text: '<br>However, even today, pictures are still useful in our<br>daily lives. A notable example is the pictogram, a word<br>combining "picture" and "telegram." Pictograms are images<br>created to help people easily recognize objects, facilities,<br>and more. Think about signs in restrooms or on roads,<br>and we will understand how pictograms are convenient<br>in real life. Pictograms are widely used in events where<br>people from different countries gather, like the Olympics.<br>Pictures are easy to understand even if we do not know<br>the language. Of course, when creating pictograms,<br>designers ensure they are easily recognizable to anyone<br>who sees them. The colors used in pictograms have their<br>own meanings. Black signifies general guidance or public<br>facilities. Red means "Do not" or prohibition. Have you<br>seen a drawing of a dog inside a red circle with a diagonal<br>line? This means no entry for pets. Yellow indicates<br>caution and warning. For example, a yellow triangle<br>with a lightning bolt means "Beware of electric shock."<br>Green represents safety and evacuation. That is why the<br>emergency exit sign in buildings is green.', keywords: ['however', 'even today', 'pictures', 'still useful', 'daily lives', 'notable example', 'pictogram', 'word', 'combining', 'picture', 'telegram', 'pictograms', 'images', 'created', 'help people', 'easily recognize', 'objects', 'facilities', 'more', 'think about', 'signs', 'restrooms', 'roads', 'understand', 'convenient', 'real life', 'widely used', 'events', 'people', 'different countries', 'gather', 'Olympics', 'pictures', 'easy to understand', 'even if', 'do not know', 'language', 'of course', 'creating', 'pictograms', 'designers', 'ensure', 'easily recognizable', 'anyone', 'sees them', 'colors used', 'pictograms', 'own meanings', 'black', 'signifies', 'general guidance', 'public facilities', 'red', 'means', 'do not', 'prohibition', 'seen', 'drawing', 'dog', 'inside', 'red circle', 'diagonal line', 'means', 'no entry', 'pets', 'yellow', 'indicates', 'caution', 'warning', 'example', 'yellow triangle', 'lightning bolt', 'beware', 'electric shock', 'green', 'represents', 'safety', 'evacuation', 'why', 'emergency exit sign', 'buildings', 'green'] , fontType: 'type4'},
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/26.jpg',
+    zones: {
+      1: { text: '<span class="larger-text">02. What Motifs and Rules Can We Find</span><br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in Nature?</span><br>', keywords: ['Motifs', 'Rules', 'Find', 'Nature'] },
+      2: { text: 'The view of Earth from space is beautiful, resembling<br>a blue glass bead. This beauty is attributed to the<br>presence of water on Earth, a feature not found<br>on other planets. Water covers 71% of the Earth\'s<br>surface, creating its own beautiful motifs and rules.<br>Explore the motifs that rivers flowing toward the sea<br>create.', keywords: ['view', 'Earth', 'from space', 'beautiful', 'resembling', 'blue glass bead', 'beauty', 'attributed', 'presence', 'water', 'Earth', 'feature', 'not found', 'other planets', 'water', 'covers', '71%', 'Earth surface', 'creating', 'own', 'beautiful motifs', 'rules', 'explore', 'motifs', 'rivers', 'flowing', 'toward', 'sea', 'create'] },
+      3: { text: 'How does Earth appear when viewed from space?<br>Astronauts experience a particular emotional shift<br>called the "overview effect" when looking at Earth<br>from space. This refers to a change in thoughts about<br>nature, life, ethics, and other aspects after gazing at<br>Earth in the dark and silent expanse of space. It leads<br>to profound reflections on the relationship between<br>nature and humanity, transforming the perception of<br>nature into a wondrous and mystical realm.', keywords: ['how does', 'Earth appear', 'when viewed', 'from space', 'astronauts', 'experience', 'particular', 'emotional shift', 'called', 'overview effect', 'when looking', 'Earth', 'from space', 'refers', 'change', 'thoughts about', 'nature', 'life', 'ethics', 'other aspects', 'after gazing', 'Earth', 'dark', 'silent expanse', 'space', 'leads', 'profound reflections', 'relationship', 'between', 'nature', 'humanity', 'transforming', 'perception', 'nature', 'into', 'wondrous', 'mystical realm'] },
+      4: { text: 'Explain why Earth appears like a blue glass bead<br>when viewed from space.', keywords: ['Earth appears', 'blue glass bead', 'viewed from space'], fontType: 'type2' },
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/27.jpg',
+    zones: {
+      1: { text: 'When people walk along the River Thames that runs<br>through London, they can enjoy various sights such<br>as Tower Bridge and London Bridge. The Thames<br>seen from Tower Bridge appears to flow straight,<br>but its appearance changes entirely when viewed<br>from the sky. Some sections flow straight, while<br>others twist suddenly in an S-shape.', keywords: ['when people', 'walk along', 'River Thames', 'runs through', 'London', 'can enjoy', 'various sights', 'such as', 'Tower Bridge', 'London Bridge', 'Thames', 'seen from', 'Tower Bridge', 'appears', 'flow straight', 'but', 'appearance', 'changes entirely', 'when viewed', 'from sky', 'some sections', 'flow straight', 'while others', 'twist suddenly', 'S-shape'] },
+      2: { text: 'Gim Arm Creek in Queensland, Australia, has a highly<br>unique appearance. When viewed from above,<br>it resembles a snake crawling on the ground.<br>Rivers with such characteristics are sometimes called<br>a meander. Water flow carves away the outer banks<br>while the eroded sand and gravel accumulate on the<br>inner side, creating a winding water flow.', keywords: ['Gim Arm Creek', 'Queensland', 'Australia', 'has', 'highly unique', 'appearance', 'when viewed', 'from above', 'resembles', 'snake', 'crawling', 'ground', 'rivers', 'such characteristics', 'sometimes called', 'meander', 'water flow', 'carves away', 'outer banks', 'while', 'eroded', 'sand', 'gravel', 'accumulate', 'inner side', 'creating', 'winding', 'water flow'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/28.jpg',
+    zones: {
+      1: { text: 'Rivers leave various traces as they flow. The upper<br>reaches, where the river begins, are characterized by<br>a narrow width and steep slope due to the fast flow<br>along valleys. Water flowing from high places can<br>create waterfalls as it cascades down cliffs.<br>The rocks and stones in this region are large and have<br>sharp, rugged surfaces that look like they have broken<br>off. Passing through narrow and steep canyons, the<br>river\'s width expands, and the water\'s flow gradually<br>slows down. The river meanders along the plains in the<br>midstream, creating a winding path. Here, we can find<br>rounded gravel and sand in abundance.', keywords: ['rivers', 'leave', 'various traces', 'as they flow', 'upper reaches', 'where', 'river begins', 'are characterized', 'narrow width', 'steep slope', 'due to', 'fast flow', 'along valleys', 'water flowing', 'from high places', 'can create', 'waterfalls', 'as it cascades', 'down cliffs', 'rocks', 'stones', 'this region', 'are large', 'have', 'sharp', 'rugged surfaces', 'look like', 'they have', 'broken off', 'passing through', 'narrow', 'steep canyons', 'river width', 'expands', 'water flow', 'gradually', 'slows down', 'river meanders', 'along', 'plains', 'midstream', 'creating', 'winding path', 'here', 'we can find', 'rounded gravel', 'sand', 'in abundance'] },
+      2: { text: 'Now, the river continues its course and eventually<br>meets the sea. In the lower reaches where the river<br>meets the sea, the river widens further, and the<br>volume of water increases. Due to the slow flow,<br>small rocks and sand carried by the water accumulate,<br>forming triangular-shaped land known as a delta.<br>The area around the delta receives nutrient-rich<br>sediments the water carries, making the soil fertile<br>and suitable for agriculture. Such deltas include the<br>Nile Delta in Egypt and the Mississippi Delta in the<br>United States.', keywords: ['now', 'river continues', 'its course', 'eventually', 'meets', 'sea', 'in the', 'lower reaches', 'where', 'river', 'meets', 'sea', 'river widens', 'further', 'volume', 'water increases', 'due to', 'slow flow', 'small rocks', 'sand', 'carried by', 'water', 'accumulate', 'forming', 'triangular-shaped', 'land', 'known as', 'delta', 'area around', 'delta', 'receives', 'nutrient-rich', 'sediments', 'water carries', 'making', 'soil fertile', 'suitable for', 'agriculture', 'such deltas', 'include', 'Nile Delta', 'Egypt', 'Mississippi Delta', 'United States'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain how the appearance of rocks differs<br>between the upper and lower reaches of the river.', keywords: ['appearance', 'rocks', 'differs', 'upper', 'lower reaches', 'river'], fontType: 'type2' },
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/29.jpg',
+    zones: {
+      1: { text: 'Is it because rivers and seas felt empty with only<br>water that nature carved motifs within them?<br>Nature has created islands throughout, and among<br>them, there is an island that captures the attention<br>and love of people worldwide. It is the "Galesnjak<br>Island" in Croatia, floating in the beautiful Adriatic<br>Sea, often called the Blue Heart.<br>When viewed from above, the island appears shaped<br>like a gray heart, giving the feeling that it is gesturing<br>for loving couples to come and visit. What is even<br>more astonishing is that this island was naturally<br>formed. Nature is an impeccable sculptor.', keywords: ['is it because', 'rivers', 'seas', 'felt empty', 'with only', 'water', 'that nature', 'carved motifs', 'within them', 'nature', 'has created', 'islands', 'throughout', 'among them', 'there is', 'island', 'that captures', 'attention', 'love', 'people worldwide', 'it is', 'Galesnjak Island', 'in Croatia', 'floating', 'beautiful', 'Adriatic Sea', 'often called', 'Blue Heart', 'when viewed', 'from above', 'island appears', 'shaped like', 'gray heart', 'giving', 'feeling', 'that it is', 'gesturing', 'for loving couples', 'to come', 'visit', 'what is', 'even more', 'astonishing', 'is that', 'this island', 'was naturally', 'formed', 'nature is', 'impeccable sculptor'] },
+      
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'There is also a heart-shaped island in the Vaza-Barris<br>River in Brazil. However, this island is quite special in<br>how it was formed. Typically, islands naturally emerge<br>above the sea, like in the case of the United Kingdom,<br>or are gradually separated from the mainland over<br>a long period as land erodes. Alternatively, islands<br>can suddenly form through volcanic activity, as seen<br>in Hawaii. However, the "mangrove" tree created the<br>heart-shaped island in Brazil.', keywords: ['heart-shaped island', 'Vaza-Barris River', 'Brazil', 'quite special', 'how formed', 'islands naturally emerge', 'sea', 'United Kingdom', 'gradually separated', 'mainland', 'long period', 'land erodes', 'suddenly form', 'volcanic activity', 'Hawaii', 'mangrove tree', 'created'] },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/30.jpg',
+    zones: {
+      1: { text: 'Mangroves firmly hold onto the sediment the water<br>carries with their numerous roots, creating land.<br>Mangrove forests typically emerge in areas submerged<br>in seawater throughout the year, characterized by<br>hot tropical or subtropical climates. While the land<br>is beneath the water, the trees protrude above,<br>forming the island. Recently, mangroves have been<br>increasingly endangered due to climate change.<br>The fate of Brazil\'s heart-shaped island remains<br>uncertain as mangroves continue to face extinction.', keywords: ['mangroves', 'firmly hold', 'sediment', 'water carries', 'numerous roots', 'creating land', 'mangrove forests', 'typically emerge', 'areas', 'submerged', 'seawater', 'throughout', 'year', 'characterized', 'hot tropical', 'subtropical climates', 'land', 'beneath', 'water', 'trees', 'protrude above', 'forming', 'island', 'recently', 'increasingly', 'endangered', 'due to', 'climate change', 'fate', 'Brazil', 'heart-shaped island', 'remains uncertain', 'continue', 'face extinction'] },
+      2: { text: 'Waves rolling onto the shore break into white foam<br>and retreat back to the sea. If we watch the waves<br>rushing in and receding, we might be startled by<br>the powerful surge each time they push forward.<br>Waves from afar constantly carve ripple motifs on<br>the sea\'s surface. However, as an artist, nature<br>sometimes seems like a mischievous prankster<br>wanting to surprise people.', keywords: ['waves', 'rolling onto', 'shore', 'break into', 'white foam', 'retreat back', 'sea', 'watch', 'rushing in', 'receding', 'might be', 'startled', 'powerful surge', 'each time', 'push forward', 'from afar', 'constantly', 'carve', 'ripple motifs', 'surface', 'however', 'artist', 'nature', 'sometimes seems', 'mischievous prankster', 'wanting', 'surprise people'] },
+      3: { text: 'Explain the special reason behind the heart-shaped<br>island in the Vaza-Barris River in Brazil.', keywords: ['special reason', 'heart-shaped island', 'Vaza-Barris River', 'Brazil'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/31.jpg',
+    zones: {
+      1: { text: 'In 2013, a photograph taken at the "Whale Lighthouse"<br>in the western French city of La Rochelle became<br>a topic of conversation among people. In the photo,<br>the sea displayed a remarkable motif of perfectly<br>square waves reminiscent of a checkerboard.<br>How did these square waves come to be? Although<br>not easily visible, numerous fascinating phenomena<br>occur in nature.', keywords: ['2013', 'photograph', 'taken', 'Whale Lighthouse', 'western', 'French city', 'La Rochelle', 'became', 'topic', 'conversation', 'among people', 'photo', 'sea', 'displayed', 'remarkable motif', 'perfectly', 'square waves', 'reminiscent', 'checkerboard', 'how did', 'come to be', 'although', 'not easily visible', 'numerous', 'fascinating phenomena', 'occur', 'nature'] },
+      2: { text: 'Various water currents exist in the depths of Earth\'s<br>oceans. As rivers flow, the sea also moves from one<br>place to another. This phenomenon is called ocean<br>currents. Just as clapping our hands creates sound,<br>square waves are formed when ocean currents<br>flowing in different directions collide. Although<br>square waves are a beautiful and fascinating natural<br>phenomenon, sailors do not welcome them. The crests<br>of square waves have a force twice as strong as<br>regular waves, making navigation difficult for ships.<br>For sailors who must navigate by reading the waves<br>and winds along the sea route, square waves pose<br>a significant obstacle.', keywords: ['various', 'water currents', 'exist', 'depths', 'Earth', 'oceans', 'rivers flow', 'sea', 'also moves', 'one place', 'another', 'phenomenon', 'called', 'ocean currents', 'just as', 'clapping', 'hands', 'creates sound', 'square waves', 'formed', 'flowing', 'different directions', 'collide', 'although', 'beautiful', 'fascinating', 'natural phenomenon', 'sailors', 'do not welcome', 'crests', 'force', 'twice as strong', 'regular waves', 'making', 'navigation', 'difficult', 'ships', 'must navigate', 'reading', 'waves', 'winds', 'along', 'sea route', 'pose', 'significant obstacle'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Briefly explain what ocean currents are.', keywords: ['briefly explain', 'ocean currents'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/32.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'Even more astonishing is that this rock was shaped<br>solely by wind and water over a long period, without<br>the influence of actual waves or the sea.<br>Nature seems fond of replicating things typically seen<br>in the ocean onto the land.', keywords: ['even more', 'astonishing', 'rock', 'was shaped', 'solely', 'wind', 'water', 'over', 'long period', 'without', 'influence', 'actual waves', 'sea', 'nature seems', 'fond', 'replicating', 'things', 'typically seen', 'ocean', 'onto', 'land'] },
+      3: { text: 'Nature also carves sea-like features on the land.<br>In the heart of the Australian continent, a massive<br>wave-like rock formation appears frozen amid surging<br>waves. Known as the Wave Rock or Hyden Rock,<br>it boasts a height of about 15 meters and a length of<br>110 meters. If real waves were this high, people would<br>need to flee. However, in front of the Wave Rock,<br>people joyfully appreciate nature\'s sculpture without<br>escaping.', keywords: ['nature', 'also carves', 'sea-like features', 'land', 'heart', 'Australian continent', 'massive', 'wave-like', 'rock formation', 'appears', 'frozen', 'amid', 'surging waves', 'known as', 'Wave Rock', 'Hyden Rock', 'boasts', 'height', 'about 15 meters', 'length', '110 meters', 'real waves', 'were this high', 'people would', 'need to flee', 'however', 'in front of', 'joyfully', 'appreciate', 'sculpture', 'without escaping'] },
+      
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/33.jpg',
+    zones: {
+      1: { text: 'Nature, like a mathematician, also creates regular<br>motifs on the earth. When the land undergoes cracking<br>due to drought, it forms regular motifs known as<br>"hexagonal crack pattern."<br>The shape of the motif can vary slightly depending on<br>factors such as temperature, humidity, and soil type.<br>A similar motif can be observed at Giant\'s Causeway<br>in Northern Ireland. Around 40,000 hexagonal or<br>pentagonal columns stand together, giving the illusion<br>of something crafted by hand. This terrain, created<br>through volcanic activity and gradually cracked by<br>rain, wind, and sunlight, is called columnar jointing.', keywords: ['nature', 'like', 'mathematician', 'also creates', 'regular motifs', 'earth', 'land', 'undergoes', 'cracking', 'due to', 'drought', 'forms', 'regular motifs', 'known as', 'hexagonal crack pattern', 'shape', 'motif', 'can vary', 'slightly', 'depending', 'factors', 'such as', 'temperature', 'humidity', 'soil type', 'similar motif', 'can be observed', 'Giant Causeway', 'Northern Ireland', 'around 40,000', 'hexagonal', 'pentagonal', 'columns', 'stand together', 'giving', 'illusion', 'something', 'crafted', 'hand', 'terrain', 'created through', 'volcanic activity', 'gradually', 'cracked', 'rain', 'wind', 'sunlight', 'called', 'columnar jointing'] },
+      2: { text: 'An interesting legend surrounds Giant\'s Causeway.<br>It suggests that an Irish giant built the causeway<br>to accept a duel challenge from a Scottish giant.<br>Interestingly, there is a similar terrain across the<br>sea on Staffa Island in Scotland. The mysterious<br>appearance created by nature seems to stimulate<br>people\'s imagination.', keywords: ['interesting legend', 'surrounds', 'Giant Causeway', 'suggests', 'Irish giant', 'built', 'causeway', 'accept', 'duel challenge', 'Scottish giant', 'interestingly', 'similar terrain', 'across', 'sea', 'Staffa Island', 'Scotland', 'mysterious', 'appearance', 'created', 'nature', 'seems', 'stimulate', 'people', 'imagination'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain the reason behind the formation of Giant\'s<br>Causeway.', keywords: ['explain', 'reason behind', 'formation', 'Giant Causeway'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/34.jpg',
+    zones: {
+      1: { text: 'How about drawing an aerial view of columnar jointing<br>as a picture? Creating figures like pentagons or<br>hexagons by connecting lines can be more challenging<br>than one might think. However, there is an easy way<br>to draw columnar jointing. Try randomly marking<br>points on the paper with distances ranging from 2 cm<br>to 4 cm. Choose pairs of points and draw line segments<br>equidistant from these points. Use the intersections<br>of these drawn line segments as vertices to create<br>the figures. The resulting figures may vary, forming<br>rectangles, pentagons, and sometimes hexagons.<br>In mathematics, this completed drawing is known as<br>a Voronoi diagram.', keywords: ['how about', 'drawing', 'aerial view', 'columnar jointing', 'picture', 'creating figures', 'like', 'pentagons', 'hexagons', 'connecting lines', 'can be', 'more challenging', 'one might think', 'however', 'easy way', 'draw', 'try', 'randomly', 'marking points', 'paper', 'distances', 'ranging', '2 cm', '4 cm', 'choose pairs', 'points', 'draw', 'line segments', 'equidistant', 'these points', 'use', 'intersections', 'drawn', 'vertices', 'create', 'figures', 'resulting', 'may vary', 'forming', 'rectangles', 'pentagons', 'sometimes', 'hexagons', 'mathematics', 'completed drawing', 'known as', 'Voronoi diagram'] },
+      2: { text: 'Voronoi diagrams can be applied to geography to study<br>regions and spaces. Consider the points inside each<br>figure in the diagram as frequently used locations<br>such as shops, hospitals, and government offices.<br>People prefer to tend to their needs at the nearest<br>place. Nowadays, finding locations has become much<br>easier with internet maps, but in the past, people had<br>to use paper maps to navigate. This is where Voronoi<br>diagrams played a crucial role.', keywords: ['Voronoi diagrams', 'can be applied', 'geography', 'study', 'regions', 'spaces', 'consider', 'points inside', 'each figure', 'diagram', 'frequently used', 'locations', 'such as', 'shops', 'hospitals', 'government offices', 'people prefer', 'tend', 'needs', 'nearest place', 'nowadays', 'finding locations', 'become', 'much easier', 'internet maps', 'in the past', 'people had to', 'use', 'paper maps', 'navigate', 'this is where', 'played', 'crucial role'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/35.jpg',
+    zones: {
+      1: { text: 'Shall we try finding the nearest hospital to our<br>home? First, mark each hospital as a point and draw<br>a Voronoi diagram. The point inside the figure that<br>includes our house is the hospital closest to our<br>residence.', keywords: ['shall we try', 'finding', 'nearest hospital', 'our home', 'first', 'mark', 'each hospital', 'point', 'draw', 'Voronoi diagram', 'point inside', 'figure', 'includes', 'our house', 'hospital', 'closest', 'residence'] },
+      2: { text: 'What image comes to mind when we think of a desert?<br>Deserts can be categorized into rocky, sand, and<br>gravel deserts, depending on what covers them.<br>Even in vast deserts like the Gobi Desert or the Sahara,<br>the imprints of nature are etched.', keywords: ['what image', 'comes to mind', 'think', 'desert', 'deserts', 'can be categorized', 'rocky', 'sand', 'gravel deserts', 'depending', 'what covers them', 'even', 'vast deserts', 'like', 'Gobi Desert', 'Sahara', 'imprints', 'nature', 'etched'] },
+      3: { text: 'Explain how to use a Voronoi diagram to find the<br>nearest hospital to our home.', keywords: ['explain', 'how to use', 'Voronoi diagram', 'find', 'nearest hospital', 'home'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/36.jpg',
+    zones: {
+      1: { text: 'Let\'s explore them one by one. Sand dunes are<br>formed as sand is carried and accumulated by the<br>wind. These massive sand dunes constantly move and<br>do not stay in one place. Sand dunes are given various<br>names depending on their appearance. "Barchan" is<br>the simplest and most basic shape, created where<br>strong winds blow consistently in one direction,<br>resembling the shape of a crescent moon.', keywords: ['let explore', 'one by one', 'sand dunes', 'formed', 'sand', 'carried', 'accumulated', 'wind', 'these massive', 'constantly move', 'do not stay', 'one place', 'given', 'various names', 'depending', 'appearance', 'Barchan', 'simplest', 'most basic', 'shape', 'created', 'where', 'strong winds', 'blow', 'consistently', 'one direction', 'resembling', 'shape', 'crescent moon'] },
+      2: { text: 'Barchan has a gentle slope on the windward side and<br>a steep slope on the leeward side. In sandy regions,<br>barchans can be interconnected, forming a transverse<br>dune. Transverse dunes in the desert, especially when<br>covering large areas, evoke the image of massive<br>waves rolling in from the distant sea.', keywords: ['Barchan', 'has', 'gentle slope', 'windward side', 'steep slope', 'leeward side', 'sandy regions', 'barchans', 'can be', 'interconnected', 'forming', 'transverse dune', 'transverse dunes', 'desert', 'especially', 'when covering', 'large areas', 'evoke', 'image', 'massive waves', 'rolling in', 'distant sea'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/37.jpg',
+    zones: {
+      1: { text: 'In the Sahara Desert, sand dunes covered by<br>transverse dunes are called ergs. The Sahara, the<br>world\'s largest desert, is approximately 10% covered<br>by ergs. Additionally, we can encounter gentle,<br>wavelike motifs in the desert, known as longitudinal<br>dunes or seifs. Similar to how two currents meet to<br>create square-shaped waves, longitudinal dunes are<br>formed when winds from two different directions<br>converge, shaping the desert with a ripple effect.', keywords: ['Sahara Desert', 'sand dunes', 'covered', 'transverse dunes', 'called', 'ergs', 'Sahara', 'world largest', 'desert', 'approximately', '10% covered', 'additionally', 'can encounter', 'gentle', 'wavelike motifs', 'desert', 'known as', 'longitudinal dunes', 'seifs', 'similar', 'how', 'two currents', 'meet', 'create', 'square-shaped waves', 'formed', 'when', 'winds', 'two different directions', 'converge', 'shaping', 'ripple effect'] },
+      2: { text: 'Then, where is the most beautiful desert in the world?<br>The Uyuni Salt Flat, often called the world\'s largest<br>mirror, is where the sky stretches over the desert.<br>Located in the Potosí Department of Bolivia, this area<br>was once a sea long ago. Suddenly, the sea floor rose<br>above the ground, creating a massive lake. Over time,<br>due to the hot weather, all the water evaporated,<br>leaving only salt behind. The Uyuni Salt Flat attracts<br>tourists throughout the year.', keywords: ['then', 'where is', 'most beautiful', 'desert', 'world', 'Uyuni Salt Flat', 'often called', 'world largest', 'mirror', 'where', 'sky stretches', 'over', 'desert', 'located', 'Potosí Department', 'Bolivia', 'this area', 'was once', 'sea', 'long ago', 'suddenly', 'sea floor', 'rose above', 'ground', 'creating', 'massive lake', 'over time', 'due to', 'hot weather', 'all water', 'evaporated', 'leaving', 'only salt', 'behind', 'attracts', 'tourists', 'throughout', 'year'] },
+      3: { text: 'Explain why sand dunes in the desert move.', keywords: ['explain', 'sand dunes', 'desert', 'move'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/38.jpg',
+    zones: {
+      1: { text: 'When there is no rain and the land is dry, the vast<br>expanse of white salt fields, patterned in hexagons<br>and resembling giant honeycombs, stretches out to<br>the horizon as if it could touch the sky.<br>However, the Uyuni Salt Flat\'s most beautiful sight<br>is visible only when water floods up to ankle height.<br>During the day, the blue sky and clouds are reflected<br>transparently on the water, evoking admiration.<br>At night, the stars in the sky create an unbelievable<br>scene as if they are within the confines of a lake.<br>', keywords: ['when there is', 'no rain', 'land', 'dry', 'vast expanse', 'white salt fields', 'patterned', 'hexagons', 'resembling', 'giant honeycombs', 'stretches out', 'horizon', 'as if', 'could touch', 'sky', 'however', 'Uyuni Salt Flat', 'most beautiful sight', 'visible', 'only when', 'water floods', 'up to', 'ankle height', 'during', 'day', 'blue sky', 'clouds', 'reflected', 'transparently', 'water', 'evoking', 'admiration', 'at night', 'stars', 'sky', 'create', 'unbelievable scene', 'within', 'confines', 'lake', 'people', 'visited', 'this place', 'say', 'they had', 'experience', 'dwelling', 'sky', 'allured', 'beauty'] },
+      2: { text: 'People who have visited this place say they had<br>an experience as if they were dwelling in the sky,<br>allured by its beauty.<br>Today, deserts cover one-third of the world\'s land.<br>The problem lies in the fact that deserts are expanding.<br>Many organisms, including humans, are losing places<br>to live. Desertification is known as deserts expanding<br>due to climate change, causing grass and trees to<br>wither and land to dry up.', keywords: ['today', 'deserts', 'cover', 'one-third', 'world', 'land', 'problem', 'lies', 'fact', 'deserts', 'expanding', 'many organisms', 'including', 'humans', 'losing', 'places', 'live', 'desertification', 'known as', 'deserts expanding', 'due to', 'climate change', 'causing', 'grass', 'trees', 'wither', 'land', 'dry up'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/39.jpg',
+    zones: {
+      1: { text: 'In the past, desertification occurred for natural<br>reasons like droughts, but human activities have often<br>caused recent desertification.<br>Large-scale deforestation, turning areas with forests<br>into pastures for raising cattle and sheep, and similar<br>activities are increasingly becoming the causes of<br>desertification. For example, between 1967 and 1973,<br>a severe drought occurred in the southern region of<br>Africa, south of the Sahara Desert. The sand from<br>the Sahara Desert reached the south, sweeping away<br>farmlands and villages.', keywords: ['in the past', 'desertification', 'occurred', 'for natural', 'reasons', 'like droughts', 'but', 'human activities', 'have often', 'caused', 'recent', 'desertification', 'large-scale', 'deforestation', 'turning', 'areas', 'with forests', 'into pastures', 'for raising', 'cattle', 'sheep', 'similar', 'activities', 'are increasingly', 'becoming', 'causes', 'desertification', 'for example', 'between', '1967', '1973', 'severe drought', 'occurred', 'southern region', 'Africa', 'south of', 'Sahara Desert', 'sand from', 'Sahara Desert', 'reached', 'south', 'sweeping away', 'farmlands', 'villages'] },
+      2: { text: 'Consequently, over 200,000 people and millions of wild animals suffered mass deaths. If desertification continues, we will not be able to avoid such disasters.<br>The United Nations (UN) designates June 17 as World<br>Day to Combat Desertification, raising awareness<br>about the severity of desertification and making<br>efforts to gather the strength of many countries to<br>prevent it.', keywords: ['consequently', 'over 200,000', 'people', 'and millions', 'wild animals', 'suffered', 'mass deaths', 'if desertification', 'continues', 'we will not', 'be able to', 'avoid such', 'disasters', 'The United Nations', 'UN', 'designates', 'June 17', 'as World', 'Day to Combat', 'Desertification', 'raising awareness', 'about', 'severity', 'desertification', 'and making', 'efforts', 'to gather', 'strength', 'many countries', 'to prevent it'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/40.jpg',
+    zones: {
+      1: { text: 'How can we prevent desertification? The simplest<br>method is planting trees. Forests prevent the land<br>from drying up. However, planting trees in the desert<br>is challenging as water is scarce, and bringing water<br>from other places is costly. Nonetheless, once a forest<br>is established, the surrounding land can rejuvenate,<br>creating a larger forest. This is an essential step in<br>preventing desertification. Countries and companies<br>in Asia, including China, consistently endeavor to<br>plant trees and reduce desertification.<br>', keywords: ['how can we', 'prevent', 'desertification', 'simplest', 'method is', 'planting trees', 'forests', 'prevent', 'land', 'from drying up', 'however', 'planting trees', 'in the desert', 'is challenging', 'as water', 'is scarce', 'bringing water', 'from other places', 'is costly', 'nonetheless', 'once', 'forest', 'is established', 'surrounding land', 'can rejuvenate', 'creating', 'larger forest', 'this is', 'essential step', 'in preventing', 'desertification', 'countries', 'companies', 'in Asia', 'including China', 'consistently', 'endeavor to', 'plant trees', 'reduce', 'desertification'] },
+      2: { text: 'In Oman, which borders Saudi Arabia, new methods<br>are being tried to create forests in the desert.<br>Canadian engineers have devised an ambitious plan to<br>collect water directly from the desert, moistening the<br>arid land and preventing desertification. This plan is<br>currently being implemented.', keywords: ['Oman', 'Saudi Arabia', 'new methods', 'create forests', 'desert', 'Canadian engineers', 'ambitious plan', 'collect water', 'moistening', 'arid land', 'preventing desertification', 'implemented'] },
+      
+      3: { text: 'Explain the reason why deserts continue to expand.', keywords: ['explain', 'reason', 'deserts', 'continue', 'expand'], fontType: 'type2' },
+      4: { text: '', keywords: [] },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/41.jpg',
+    zones: {
+      1: { text: 'Oman is on the eastern side, adjacent to the Arabian<br>Sea. The plan involves directly collecting water from<br>the desert by absorbing moisture from the humid sea<br>breeze from the Indian Ocean. Engineers refer to this<br>plan as the "Fog Collection Project."<br>It utilizes the principle of dew forming on spider webs<br>early in the morning to collect water. This initiative<br>demonstrates that solutions to problems in nature can<br>be found within nature itself.', keywords: ['Oman', 'eastern side', 'adjacent', 'Arabian Sea', 'plan involves', 'directly', 'collecting water', 'desert', 'absorbing', 'moisture', 'humid', 'sea breeze', 'Indian Ocean', 'engineers', 'refer', 'plan', 'Fog Collection Project', 'utilizes', 'principle', 'dew', 'forming', 'spider webs', 'early', 'morning', 'collect water', 'initiative', 'demonstrates', 'solutions', 'problems', 'nature', 'can be found', 'within', 'nature itself'] },
+      2: { text: 'Finally, let\'s examine the motifs of nature that appear<br>in the sky. Why does the sky always look different<br>every time we observe it? It is because the shapes<br>of clouds floating in the sky are constantly changing.<br>Clouds transform into various shapes depending on<br>altitude, temperature, and wind. Fluffy clouds floating<br>in the sky evoke our imagination.', keywords: ['finally', 'let examine', 'motifs', 'nature', 'appear', 'sky', 'why does', 'sky', 'always look', 'different', 'every time', 'observe it', 'because', 'shapes', 'clouds', 'floating', 'sky', 'constantly', 'changing', 'clouds', 'transform', 'various shapes', 'depending', 'altitude', 'temperature', 'wind', 'fluffy clouds', 'floating', 'sky', 'evoke', 'imagination'] },
+      
+      3: { text: 'Describe how we can prevent desertification.', keywords: ['describe', 'how we can', 'prevent', 'desertification'], fontType: 'type2' },
+      4: { text: '', keywords: [] },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/42.jpg',
+    zones: {
+      1: { text: 'For World Meteorological Day in 2017, the World<br>Meteorological Organization (WMO) made a new<br>cloud atlas, putting together pictures of different<br>types of clouds in a simple way. In this cloud atlas<br>for 2017, newly discovered clouds were added.<br>The most talked-about photo in this atlas is the<br>"asperitas cloud." Asperitas is Latin for "rough."<br>Looking at the photo, it appears as if large waves are<br>tumultuously surging in the sea. The cloud seems to<br>have etched the appearance of the sea in the sky.<br>There is a particular reason why this cloud is even<br>more remarkable. Notably, the "asperitas cloud" was<br>discovered by an ordinary citizen who was a scientist<br>rather than a professional scientist.', keywords: ['World Meteorological Day', '2017', 'World Meteorological Organization', 'WMO', 'made', 'new cloud atlas', 'putting together', 'pictures', 'different types', 'clouds', 'simple way', 'cloud atlas', '2017', 'newly discovered', 'clouds', 'were added', 'most talked-about', 'photo', 'atlas', 'asperitas cloud', 'Asperitas', 'Latin', 'rough', 'looking', 'photo', 'appears', 'as if', 'large waves', 'tumultuously', 'surging', 'sea', 'cloud', 'seems', 'etched', 'appearance', 'sea', 'sky', 'particular reason', 'why', 'cloud', 'even more', 'remarkable', 'notably', 'asperitas cloud', 'was discovered', 'ordinary citizen', 'who was', 'scientist', 'rather than', 'professional scientist'] },
+      2: { text: 'This is an excellent example of how the boundaries<br>between experts and the general public gradually<br>disappear with the development of smartphones and<br>internet technology, enabling anyone to take photos<br>and share them anywhere, anytime. Take a closer<br>look at some cloud shapes featured in the cloud<br>atlas. There is the hole-punch cloud called "cavum,"<br>the small wave-shaped "fluctus," and the fence-like<br>appearance of "murus." The tail-shaped cloud "cauda,"<br>which forms at lower altitudes, might resemble<br>a funnel at first glance. The World Meteorological<br>Organization named it "cauda" in English, meaning<br>tail, because it resembles a beaver\'s broad, flat tail.<br>Observe the clouds in the sky, and we might discover<br>new clouds that even scientists have yet to find.', keywords: ['excellent example', 'how', 'boundaries', 'between', 'experts', 'general public', 'gradually', 'disappear', 'development', 'smartphones', 'internet technology', 'enabling', 'anyone', 'take photos', 'share them', 'anywhere', 'anytime', 'take', 'closer look', 'some cloud shapes', 'featured', 'cloud atlas', 'hole-punch cloud', 'called', 'cavum', 'small wave-shaped', 'fluctus', 'fence-like', 'appearance', 'murus', 'tail-shaped cloud', 'cauda', 'which forms', 'lower altitudes', 'might resemble', 'funnel', 'first glance', 'World Meteorological Organization', 'named it', 'cauda', 'English', 'meaning', 'tail', 'because', 'resembles', 'beaver', 'broad', 'flat tail', 'observe', 'clouds', 'sky', 'we might', 'discover', 'new clouds', 'even scientists', 'have yet to find'] },
+      
+      3: { text: 'Explain why the appearance of the sky changes<br>every time we observe it.', keywords: ['explain', 'appearance', 'sky', 'changes', 'every time', 'observe'], fontType: 'type2' },
+      4: { text: '', keywords: [] },
+
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/43.jpg',
+    zones: {
+      1: { text: '02. What Motifs and Rules Can We Find in Nature?<br><br><span class="larger-text">I. What Is the Purpose of Studying the<br><span class="larger-text">&nbsp;&nbsp;Motifs and Rules in Nature?<br><br><br>Imagine the cityscape with neatly laid-out roads and<br>box-shaped buildings standing side by side and the<br>rural landscape where trees, grass, and animals freely<br>roam. Which one feels more beautiful to us?<br>Most people would say that the rural landscape is<br>more beautiful. Nature has painted beautiful pictures<br>on the vast canvas of Earth.', keywords: ['What Motifs Rules', 'Find Nature', 'Purpose Studying', 'Motifs Rules Nature', 'imagine', 'cityscape', 'neatly laid-out roads', 'box-shaped buildings', 'standing side by side', 'rural landscape', 'trees', 'grass', 'animals', 'freely roam', 'which one', 'feels more beautiful', 'most people', 'would say', 'rural landscape', 'more beautiful', 'nature', 'painted', 'beautiful pictures', 'vast canvas', 'Earth'] },
+      2: { text: 'Nature appears beautiful because it holds various<br>motifs and rules within it. The winding course of<br>a river evokes a sense of movement, and looking at<br>an island shaped like a heart can make one feel<br>a surge of love. Moreover, the landscape where giant<br>waves seem to freeze into rocks captures people\'s<br>admiration. Even in the seemingly lifeless expanse of<br>a desert, the beautiful motifs of nature are evident.', keywords: ['nature appears', 'beautiful', 'holds various', 'motifs', 'rules', 'within it', 'winding course', 'river', 'evokes', 'sense of movement', 'looking at', 'island shaped', 'heart', 'make one feel', 'surge of love', 'moreover', 'landscape', 'giant waves', 'seem to freeze', 'rocks', 'captures', 'admiration', 'even in', 'seemingly lifeless', 'expanse', 'desert', 'beautiful motifs', 'evident'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/44.jpg',
+    zones: {
+      1: { text: 'Studying the motifs and rules within nature allows us<br>to uncover the secrets hidden in nature.<br>By discovering the secrets of nature, we can prepare<br>for upcoming dangers and create technologies that<br>make our lives more comfortable. This is the purpose<br>of studying this chapter. For example, we can easily<br>collect water by utilizing the principle of dew forming<br>on spider webs early in the morning. This technology<br>can help people suffering from water scarcity.', keywords: ['studying', 'motifs', 'rules', 'within nature', 'allows us', 'uncover', 'secrets hidden', 'nature', 'discovering', 'secrets', 'prepare', 'upcoming dangers', 'create technologies', 'make our lives', 'more comfortable', 'purpose', 'studying', 'chapter', 'example', 'easily collect', 'water', 'utilizing', 'principle', 'dew forming', 'spider webs', 'early morning', 'technology', 'help people', 'suffering', 'water scarcity'] },
+      2: { text: '02. What Motifs and Rules Can We Find in Nature?<br><br>II. How Can We Apply the Study of Motifs<br>and Rules in Nature?', keywords: ['What Motifs Rules', 'Find Nature', 'How Can Apply', 'Study Motifs Rules Nature'] },
+      3: { text: '(1) Nature is beautiful because it contains numerous<br>motifs and rules. Explain what beautiful motifs nature<br>creates.<br><br>(2) Sometimes, waves resembling check patterns emerge<br>in the sea. Explain why waves with such shapes occur.<br><br>', keywords: ['nature', 'beautiful', 'contains', 'numerous', 'motifs', 'rules', 'explain', 'beautiful motifs', 'creates', 'sometimes', 'waves', 'resembling', 'check patterns', 'emerge', 'sea', 'waves', 'such shapes', 'occur'] ,fontType: 'type3'},
+      4: { text: 'Nature strives to achieve the best results with the<br>least effort. Even in the shapes we take for granted,<br>there is the effort of nature. We may be well aware<br>that many plants produce round-shaped fruits to<br>minimize moisture extraction from the inside of the<br>fruit. However, there are cases where it is difficult to<br>find specific features or rules in the motifs created by<br>nature. For example, the web-like motifs on the wings<br>of dragonflies or bodies of giraffes appear to have no<br>specific rules. Moreover, each small shape making up<br>the motifs differs in both shape and size.', keywords: ['nature strives', 'achieve', 'best results', 'least effort', 'shapes', 'take for granted', 'effort of nature', 'well aware', 'many plants', 'produce', 'round-shaped fruits', 'minimize', 'moisture extraction', 'inside', 'fruit', 'however', 'cases', 'difficult', 'find', 'specific features', 'rules', 'motifs', 'created by nature', 'example', 'web-like motifs', 'wings', 'dragonflies', 'bodies', 'giraffes', 'appear', 'no specific rules', 'moreover', 'small shape', 'making up', 'differs', 'shape', 'size'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/45.jpg',
+    zones: {
+      1: { text: 'Georgy Voronoi revealed that there are special rules,<br>even in motifs that seem to defy the laws of nature.<br>He discovered that a web-like motif emerges if<br>we divide a plane into clusters of points where the<br>distance to a specific point is closest. This motif,<br>drawn in this way, is called a Voronoi diagram. Various<br>fields utilize Voronoi diagrams.<br>', keywords: ['Georgy Voronoi', 'revealed', 'special rules', 'even in motifs', 'seem to defy', 'laws of nature', 'discovered', 'web-like motif', 'emerges', 'divide', 'plane', 'clusters', 'points', 'distance', 'specific point', 'closest', 'motif', 'drawn', 'called', 'Voronoi diagram', 'various fields', 'utilize'] },
+      2: { text: '', keywords: [] },
+      3: { text: '(1) Due to rampant development, desertification has<br>become a serious issue globally. Explain how we can<br>delay desertification.<br><br>(2) Scientists are researching ways to convert seawater<br>into drinkable water. Explain how seawater can be<br>transformed into freshwater without salt.<br><br>', keywords: ['rampant development', 'desertification', 'serious issue', 'globally', 'explain', 'delay desertification', 'scientists', 'researching', 'ways', 'convert seawater', 'drinkable water', 'seawater', 'transformed', 'freshwater', 'without salt'], fontType: 'type3' },
+      4: { text: 'If we consider fire stations nationwide as points<br>and draw a Voronoi diagram, we can efficiently<br>help suppress fires. Additionally, Voronoi diagrams<br>are applied to solving the navigation problems of<br>autonomous vehicles and analyzing the structure of<br>proteins. The wall design of the Water Cube in Beijing<br>applies Voronoi diagrams, creating a mysterious<br>atmosphere.', keywords: ['fire stations', 'nationwide', 'points', 'draw', 'Voronoi diagram', 'efficiently', 'help suppress', 'fires', 'additionally', 'applied', 'solving', 'navigation problems', 'autonomous vehicles', 'analyzing', 'structure', 'proteins', 'wall design', 'Water Cube', 'Beijing', 'applies', 'creating', 'mysterious atmosphere'], fontType: 'type1' }
+    }
+  },
+  {
+  bg: '../assets/img/ReadBook/G1.2.1/46.jpg',
+  zones: {
+          1: { 
+        text: 'The view of Earth from space resembles a beautiful blue<br>marble. This is because Earth possesses water, a feature<br>not found on other planets. Even if it is our first time<br>seeing it, we may have felt a sense of familiarity, as nature<br>tends to love similarities.<br>For instance, wavelike motifs are not exclusive to oceans<br>and lakes; we can find them in deserts filled with sand,<br>clouds embroidering the sky, and on massive rocks. Nature,<br>which engraves motifs on Earth, seems to be an exceptional<br>painter, sculptor, and architect.<br>Despite appearing unrelated, many things in nature exhibit<br>similarities. The net-like motif on a giraffe\'s body might<br>evoke thoughts of dry, cracked land. Explore and discover<br>resemblances in the motifs found in nature.', 
+        keywords: ['Earth from space', 'blue marble', 'water', 'feature', 'not found', 'other planets', 'first time', 'seeing', 'sense of familiarity', 'nature', 'tends to love', 'similarities', 'wavelike motifs', 'not exclusive', 'oceans', 'lakes', 'deserts', 'filled with sand', 'clouds', 'embroidering', 'sky', 'massive rocks', 'engraves motifs', 'Earth', 'exceptional', 'painter', 'sculptor', 'architect', 'despite appearing', 'unrelated', 'many things', 'exhibit', 'net-like motif', 'giraffe body', 'evoke thoughts', 'dry cracked land', 'explore', 'discover', 'resemblances', 'motifs found', 'nature'] , 
+        fontType: 'type3' 
+      },
+          2: { 
+        text: 'Phrases like "blazing sunlight," "endless stretches of sand,"<br>or "a place where temperatures drop and it gets chilly at<br>night" evoke the image of a desert.<br>However, people typically associate deserts only with hot<br>regions. Nevertheless, deserts exist in cold areas as well.<br>Generally, regions with an annual rainfall of 250 mm or<br>less are classified as deserts.<br>Antarctica and Greenland, with minimal snow or rain,<br>are classified as deserts. Deserts in cold climates are<br>referred to as cold deserts. Even in such challenging<br>natural environments, some animals tenaciously survive.<br>We will find desert foxes, scorpions, lizards, camels, and<br>small insects in sandy deserts, each adapting to their<br>surroundings in unique ways. Now, what kind of animals<br>live in Antarctica? Explain.', 
+        keywords: ['phrases', 'blazing sunlight', 'endless stretches', 'sand', 'temperatures drop', 'chilly', 'night', 'evoke', 'image', 'desert', 'however', 'people typically', 'associate', 'deserts', 'only with', 'hot regions', 'nevertheless', 'exist', 'cold areas', 'generally', 'regions', 'annual rainfall', '250 mm', 'less', 'classified', 'Antarctica', 'Greenland', 'minimal snow', 'rain', 'cold climates', 'referred to', 'cold deserts', 'even in', 'challenging', 'natural environments', 'animals', 'tenaciously survive', 'desert foxes', 'scorpions', 'lizards', 'camels', 'small insects', 'sandy deserts', 'adapting', 'surroundings', 'unique ways', 'what kind', 'animals', 'live', 'Antarctica', 'explain'], 
+        fontType: 'type3' 
+      },
+    3: { 
+      text: '', 
+      keywords: [] 
+    },
+    4: { 
+      text: '', 
+      keywords: [] 
+    }
+  }
+},
+{
+    bg: '../assets/img/ReadBook/G1.2.1/47.jpg',
+    zones: {
+      1: { 
+        text: 'In the sky, there are clouds spread out like bird feathers,<br>clouds that appear soft like cotton candy, and clouds<br>flowing like smoke. Clouds of various shapes stimulate our<br>imagination. At some point, we may have thought about<br>which animal a particular cloud shape resembles. Clouds<br>also wear clothes in various colors. The clouds appear<br>thin and white in the high sky, with low atmospheric<br>temperature and water vapor. In contrast, near the ground,<br>where there is more water vapor, the clouds become thick,<br>appearing dark to our eyes.<br>So, do clouds only wear monochromatic clothes like white,<br>gray, or black? Not necessarily. For instance, when water<br>droplets forming clouds grow to the size of raindrops, the<br>clouds turn gray with a hint of blue. Now, explain when<br>pale green, yellow, red, or pink clouds appear.', 
+        keywords: ['sky', 'clouds', 'spread out', 'bird feathers', 'appear soft', 'cotton candy', 'flowing', 'smoke', 'various shapes', 'stimulate', 'imagination', 'some point', 'thought about', 'which animal', 'particular cloud shape', 'resembles', 'wear clothes', 'various colors', 'appear thin', 'white', 'high sky', 'low atmospheric', 'temperature', 'water vapor', 'contrast', 'near ground', 'more water vapor', 'become thick', 'appearing dark', 'eyes', 'monochromatic clothes', 'white', 'gray', 'black', 'not necessarily', 'instance', 'water droplets', 'forming clouds', 'grow', 'size', 'raindrops', 'turn gray', 'hint of blue', 'explain when', 'pale green', 'yellow', 'red', 'pink clouds', 'appear'], 
+        fontType: 'type3' 
+      },
+      2: { 
+        text: 'Similar motifs appear in various places in nature.<br>The wing of a dragonfly, a giraffe, and the cracked earth in<br>a dry region all exhibit a net-like motif. The veins of leaves<br>reflect the branching structure of tree roots and stems.<br>Observing one motif used in multiple places makes nature<br>seem like a lazy artist. Among living organisms, there are<br>cases where it is difficult to distinguish between them due<br>to their similarities. A notable example is the descendants<br>of camels, such as llamas and alpacas. Llamas have large,<br>banana-shaped ears and irregularly spotted fur.<br>On the other hand, alpacas are smaller than llamas and<br>have more abundant fur. Additionally, llama fur is double-<br>layered, while alpaca fur is single-layered. People often<br>confuse otters living in rivers and sea otters living along<br>the coast. Explore which animals share similar appearances<br>and explain how to differentiate them.', 
+        keywords: ['similar motifs', 'appear', 'various places', 'nature', 'wing', 'dragonfly', 'giraffe', 'cracked earth', 'dry region', 'exhibit', 'net-like motif', 'veins', 'leaves', 'reflect', 'branching structure', 'tree roots', 'stems', 'observing', 'one motif', 'used', 'multiple places', 'makes nature', 'seem like', 'lazy artist', 'among living organisms', 'cases', 'difficult', 'distinguish between', 'due to', 'similarities', 'notable example', 'descendants', 'camels', 'llamas', 'alpacas', 'large', 'banana-shaped ears', 'irregularly spotted fur', 'other hand', 'smaller than', 'more abundant fur', 'additionally', 'double-layered', 'single-layered', 'people often', 'confuse', 'otters', 'living in rivers', 'sea otters', 'living along', 'coast', 'explore', 'which animals', 'share similar appearances', 'explain how', 'differentiate them'], 
+        fontType: 'type3' 
+      },
+      3: { 
+        text: '', 
+        keywords: [] 
+      },
+      4: { 
+        text: '', 
+        keywords: [] 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/48.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Why Seawater Looks Blue</u></strong><br><br>We call Earth the blue planet because of the vast oceans<br>covering most of its surface. However, water is actually<br>transparent. Even though the ocean appears blue, if we<br>take a cup of seawater, we will find it colorless.<br>Is there a blue substance deep in the sea? No, there is not.<br>This phenomenon is due to the nature of light.<br>To understand this, let\'s take a closer look at light.<br>The movement of light can be likened to waves, similar to<br>the motion of ocean waves going up and down while moving<br>forward. In science, we call the phenomenon of energy<br>moving like these "waves." The distance between a wave\'s<br>highest (or lowest) points is called the "wavelength."', 
+        keywords: ['seawater', 'blue planet', 'oceans', 'transparent', 'light', 'waves', 'wavelength'], 
+        fontType: 'type3' 
+      },
+      2: { 
+        text: 'Sunlight contains various colors. Among them, the light<br>with the longest wavelength is red. As the wavelength<br>shortens, colors gradually change to orange, yellow,<br>green, blue, indigo, and violet. When light travels and<br>passes through a substance, some is absorbed, and the<br>rest bounces off. When the reflected light enters our<br>eyes, we perceive its color. In this case, light with shorter<br>wavelengths is less absorbed and bounces off more<br>effectively. As sunlight goes deeper into the sea, light with<br>longer wavelengths than blue is absorbed, meaning blue,<br>indigo, and violet light reflect. Among these, violet light<br>has fewer quantities than blue, and our eyes perceive blue<br>better. That is why the ocean appears blue.', 
+        keywords: ['sunlight', 'colors', 'wavelength', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet', 'absorbed', 'reflected'] , 
+        fontType: 'type3' 
+      },
+      3: { 
+        text: '', 
+        keywords: [] 
+      },
+      4: { 
+        text: '', 
+        keywords: [] 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/49.jpg',
+    zones: {
+      1: { 
+        text: '<br><br><br><br><strong><u>Explain what prehistoric people thought nature was.</u></strong><br><br>In the prehistoric era, nature was an existence that determined<br>everything necessary for human life. The weather, soil, animals, and<br>plants provided by nature were absolute criteria that dictated how<br>the people living there should survive. Therefore, for the people<br>of that time, nature was perhaps the same as an absolute ruler<br>governing all living organisms.', 
+        keywords: ['prehistoric people', 'nature', 'absolute ruler', 'human life', 'weather', 'soil', 'animals', 'plants'], 
+        fontType: 'type6' 
+      },
+      2: { 
+        text: '<strong><u>Explain the differences between the art that prehistoric people<br><strong><u>thought of and the art that we think of today.</u></strong><br><br>Today, artworks are sometimes associated with practical aspects of<br>daily life, but most often, they belong to the realm of pure art, which<br>has nothing to do with making a living. However, prehistoric art had<br>a purpose beyond mere visual enjoyment. This can be inferred from<br>the fact that it was created not in separate exhibition spaces like art<br>galleries but in places where people lived, such as caves. Prehistoric<br>people expressed feelings inspired by the sights of nature, allowing<br>them to be seen through their eyes. Observing prehistoric cave<br>paintings, one can notice the highly realistic depictions of various<br>objects, including animals.', 
+        keywords: ['art differences', 'prehistoric art', 'pure art', 'cave paintings', 'realistic depictions'], 
+        fontType: 'type8' 
+      },
+      3: { 
+        text: '', 
+        keywords: [] 
+      },
+      4: { 
+      text: '<strong><u>Explain the most distinct difference that distinguishes humans<br><strong><u>from other organisms.</u></strong><br><br>The most distinct difference distinguishing humans from other<br>organisms is our ability to use signs and symbols. When we look for<br>a restroom, we find it not by a depiction that faithfully represents<br>the actual object but by interpreting abstract signs. The same applies<br>when seeking emergency exits. The meanings of these signs are<br>established through agreements among people. Therefore, even if<br>the signs have the same appearance, they may have different<br>meanings depending on society, culture, and era.', 
+      keywords: ['humans', 'organisms', 'signs', 'symbols', 'abstract signs', 'society', 'culture'], 
+      fontType: 'type8' 
+    }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/50.jpg',
+    zones: {
+      1: { 
+        text: '<strong><u>Explain why people might think of different things when looking<br><strong><u>at images that represent nature symbolically.</u></strong><br>Symbolic expressions do not faithfully capture the exact form of the<br>object. They often simplify the form or represent abstract meanings that<br>may not exist in reality. For instance, the Walpiri people, indigenous to<br>Australia, use a circle to symbolize meanings such as a campsite, fire,<br>mountain, or fruit. One might consider the representation simplifying<br>the form into a circle regarding a camp or fruit. However, what about<br>fire or a mountain? In symbolic signs like these, the agreement holds<br>more significance than the form. Due to using simple signs, there can be<br>instances where signs with the same shape have different meanings.<br>In such cases, the interpretation varies depending on the context.', 
+        keywords: ['symbolic expressions', 'Walpiri people', 'circle', 'campsite', 'fire', 'mountain', 'fruit', 'context'], 
+        fontType: 'type9' 
+      },
+      2: { 
+        text: '<strong><u>Explain the purposes of drawing landscape paintings and<br><strong><u>shānshuǐ huà.</u></strong><br><br>Landscape painting and shānshuǐ huà both represent the appearance<br>of nature through art. However, Western landscape painting focused<br>on depicting landscapes precisely as they appear to the eyes. Eastern<br>shānshuǐ huà aimed to express the artwork\'s physical scenery and<br>spiritual realm. Even if it did not mirror the visible reality precisely,<br>shānshuǐ huà sought to convey harmony between mountains and rivers<br>or reflect the human spiritual world through the portrayal of nature.', 
+        keywords: ['landscape painting', 'shānshuǐ huà', 'Western', 'Eastern', 'spiritual realm', 'harmony'], 
+        fontType: 'type9' 
+      },
+      3: { 
+        text: '<strong><u>Explain why paintings depicting landscapes are called landscape<br><strong><u>paintings in the West and shānshuǐ huà in the East.</u></strong><br>In the Western tradition, people sought to visually depict their understanding<br>and discoveries of nature itself or natural phenomena by painting<br>landscapes. Consequently, they focused on realistically portraying<br>the beautiful scenery of nature, with an emphasis on the perspective of<br>the observer. This is why the genre of landscape painting emerged.<br>On the other hand, in the Eastern tradition, nature was revered as<br>a precious and absolute existence. Elements of nature, such as trees,<br>rocks, water, and earth, were perceived as living entities akin to humans.<br>Therefore, paintings in the East assigned meaning directly to the<br>existence of natural elements like mountains or rivers. The emphasis was<br>on depicting nature rather than the landscape seen through human eyes.<br>This led to the name "shānshuǐ huà," a painting depicting nature.', 
+        keywords: ['landscape paintings', 'Western tradition', 'Eastern tradition', 'shānshuǐ huà', 'nature', 'living entities'], 
+        fontType: 'type8' 
+      },
+      4: { 
+         text: '<strong><u>Explain how the placement of objects in landscape painting and<br><strong><u>shānshuǐ huà differs.</u></strong><br><br>In landscape painting, it is crucial to depict things exactly as they<br>appear. Artists contemplate arranging distant mountains and nearby<br>trees on a flat canvas. On the contrary, shānshuǐ huà is characterized<br>by selecting specific elements from the natural scenery to depict on<br>the canvas. As a result, the paintings may differ somewhat from the<br>actual landscape. Artists altered objects\' size, shape, and placement<br>to convey what they wanted to express. They boldly omitted parts<br>they deemed unimportant. Landscape painting aimed to objectively<br>depict reality, while shānshuǐ huà was drawn subjectively to capture<br>the artist\'s intended expression.<br><br>', 
+         keywords: ['landscape painting', 'shānshuǐ huà', 'objects placement', 'canvas', 'objective', 'subjective'], 
+         fontType: 'type8' 
+       }
+      
+      
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/51.jpg',
+    zones: {
+                         
+         1: { 
+          text: '<br><br><strong><u>Explain why scientific development in the West was faster than<br><strong><u>in the East.</u></strong><br><br>Unlike in the East, where there was a significant influence of<br>subjective thoughts in observation and depiction, in the West,<br>there was an effort to depict nature as it truly existed. Activities<br>such as observing, recording, and exploring the facts occurring in<br>nature or natural phenomena were more vigorous than in the East.<br>This atmosphere also influenced art, giving rise to the movement<br>known as "Realism." Realism is the belief that one should express the<br>actual appearance of existing objects. Paintings like landscapes and<br>portraits were generally based on realism.', 
+          keywords: ['scientific development', 'West', 'East', 'subjective thoughts', 'nature', 'Realism'], 
+          fontType: 'type9' 
+        },
+        2: { 
+          text: '<br><br>Artists like Courbet and Millet chose to depict the lives of ordinary<br>people, which were not considered suitable subjects by many<br>contemporary artists. Although these works were not well-received<br>then, they are highly valued today for providing a glimpse into<br>people\'s daily lives from that era. Most importantly, these artists<br>sought to showcase ordinary people\'s lives, and this sentiment makes<br>their works cherished today.', 
+          keywords: ['Courbet', 'Millet', 'ordinary people', 'contemporary artists', 'daily lives', 'cherished'], 
+          fontType: 'type9' 
+        },
+            3: { 
+         text: '<strong><u>Explain why realist artists like Courbet and Millet did not receive<br><strong><u>high praise during their time.</u></strong><br><br>During that period, there was a trend of creating Romantic works,<br>where artists imagined historical events, mythical stories, and scenes.<br>There was a perception that depicting grand scenes was essential<br>for creating dignified artworks. When the Romantic painter Delacroix<br>evaluated Courbet\'s works, he criticized them, stating that they<br>"lowered the dignity of art" and that the "entire painting is vulgar."<br>This criticism suggests the reasons behind the evaluation.<br><br>', 
+         keywords: ['realist artists', 'Courbet', 'Millet', 'Romantic works', 'Delacroix', 'dignity of art'], 
+         fontType: 'type8' 
+       },
+            4: { 
+         text: '<strong><u>Explain why literary realism works are literarily and academically<br><strong><u>significant.</u></strong><br><br>While previous Romantic works often delved into the realm of<br>imagination, realism artworks portrayed content related to the real<br>world. As a result, various aspects of the society where the artists<br>lived became the backdrop for their works.<br>The characters in these works faced problems and dilemmas similar<br>to those encountered in people\'s lives. Consequently, through literary<br>realism works, we get a glimpse not into the lives of contemporary<br>aristocrats or politicians as depicted in history books but rather into<br>the lives of ordinary urban laborers and peasants, individuals facing<br>similar challenges and concerns.<br><br>', 
+         keywords: ['literary realism', 'Romantic works', 'imagination', 'real world', 'society', 'ordinary people'], 
+         fontType: 'type8' 
+       }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/52.jpg',
+    zones: {
+                             1: { 
+          text: '<br>(1) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Many people claim that art is useless in everyday life. Is that<br><strong><u>really the case? Explain your thoughts.</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If art were useless, it would have disappeared long ago. However,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;art emerged with the advent of humanity and has grown in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tandem with the development of civilization, continuing to the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;present day. This clearly signifies that art serves a purpose.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Artistic activities can be broadly categorized into two: creating<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;artworks ourselves and appreciating existing artworks. Drawing or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;origami is a representative form of creative activity. People also<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sculpt figures out of clay. To create a work, one must first observe<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the subject closely and identify its distinctive features. This<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;process is closely connected with mathematics, a discipline that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reveals the secrets of nature.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To uncover the secrets of nature, one must observe it closely.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In other words, engaging in artistic activities naturally involves<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;studying mathematics. Therefore, art can be said to be quite<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;useful. There are also numerous benefits to appreciating artworks.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Appreciating art consists of finding the hidden meanings in a work<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by considering the artist\'s thoughts, emotions, and environment.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This concept is utilized in art psychotherapy, where drawings<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depicting specific themes analyze and improve<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a person\'s personality and psychological state. When viewed from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this perspective, art appears to be quite useful indeed.', 
+          keywords: ['art', 'useless', 'civilization', 'artistic activities', 'creating', 'appreciating', 'mathematics', 'psychotherapy'], 
+          fontType: 'type6' 
+        },
+                              2: { 
+          text: '<br><br><br>(2) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Cave paintings left by prehistoric humans often feature<br><strong><u>drawings of animals. Explain why they might have drawn<br><strong><u>animals.</u></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Among several theories, the predominant hypothesis regarding<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;why prehistoric humans painted animals in caves is that they did<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so with the hope and desire that their wishes would come true.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In other words, they expressed the desire for successful hunting<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by depicting animals. This was because survival and sustenance<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;were paramount during that time. While there were readily<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;available food sources like tree fruits, the question arises:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;why did they choose to paint animals? Unlike animals, tree fruits<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;did not run away or pose a threat, making them easily obtainable.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Therefore, prehistoric humans did not need extra effort to obtain<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tree fruits. However, animals were different. Hunting was not<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easy, and at times, injuries or fatalities occurred during the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pursuit. Moreover, animals provide a variety of resources. Leather<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;became clothing to ward off the cold, meat supplied nutrition,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and bones were utilized as materials for crafting tools. For these<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reasons, animals played a vital role for prehistoric humans, leading<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to the interpretation that they expressed hope for successful<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hunting through cave paintings.', 
+          keywords: ['cave paintings', 'prehistoric humans', 'animals', 'hunting', 'survival', 'resources', 'leather', 'nutrition'], 
+          fontType: 'type6' 
+        },
+      3: { 
+        text: '', 
+        keywords: [] 
+      },
+      4: { 
+        text: '', 
+        keywords: [] 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/53.jpg',
+    zones: {
+        1: { 
+          text: '(1) <strong><u>Western artists pondered how to portray nature as it was.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>Explain why, compared to the East, the West had a much<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>faster pace of scientific development.</u></strong><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Science aims to understand the principles discovered in nature.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using the principles found in nature, tools, and devices that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;make people\'s lives more convenient can be created. To uncover<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the hidden laws of nature, it is crucial to observe nature as<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it is, exactly as it appears. Western painters valued faithfully<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;representing the appearance of nature on small canvases, which,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in turn, provided a foundation for the objective observation<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of nature and contributed to the development of science.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In summary, Westerners regarded nature as a subject of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;observation and inquiry, laying the groundwork for advancing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;science. While Easterners also observed nature closely,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;their emphasis often leaned toward highlighting the aspects<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;they personally deemed significant. Despite similarities in closely<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;observing nature, this difference in emphasis led to variations in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the pace of scientific development between the East and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the West.', 
+          keywords: ['Western artists', 'scientific development', 'nature', 'observation', 'principles', 'East', 'West'], 
+          fontType: 'type7' 
+        },
+      2: { 
+          text: '(2) <strong><u>Consider using drawings for communication. How might two<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>circles be interpreted or used in this context?</u></strong><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Two circles can be interpreted in various ways. Some may see<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;them as representing the eyes of a person or an animal, while<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;others might interpret them as the sun and moon. It could also<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;be perceived as the wheels of a car when viewed from the side.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Additionally, the two circles could be interpreted as glasses,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;electrical outlet holes, two faces side by side, dishes placed next<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to each other, earphones, etc.', 
+          keywords: ['drawings', 'communication', 'two circles', 'eyes', 'sun', 'moon', 'wheels', 'glasses'], 
+          fontType: 'type7' 
+        },
+      3: { 
+        text: '', 
+        keywords: [] 
+      },
+      4: { 
+        text: '', 
+        keywords: [] 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/54.jpg',
+    zones: {
+              1: { 
+         text: '<strong><u>Eastern landscape paintings allowed the artist to determine<br><strong><u>the size of the paper according to their preferences.<br><strong><u>They would use horizontally laid paper and vertically elongated<br><strong><u>paper to depict tall mountains or trees when expressing<br><strong><u>expansive fields and rivers. Explain other characteristics found<br><strong><u>in Eastern landscape paintings.</u></strong><br><br><br><br><br><br><br><br><br><br><br><br>Eastern landscape paintings known as "shānshuǐ huà," place<br>significant importance on the beauty of empty spaces, and they<br>refrain from filling the entire canvas with color from the beginning.<br>This reflects the Eastern philosophy emphasizing the usefulness<br>of even open spaces and the idea that there is a purpose to every<br>seemingly vacant area. In contrast to Western paintings, where<br>the filling of surfaces was crucial, Eastern paintings focused on<br>expression through lines. This emphasis on lines is rooted in the<br>belief that writing and drawing share common origins in Eastern<br>thought. Moreover, shānshuǐ huà is often created on soft silk or thin<br>paper, materials that do not support multiple layers of paint like<br>Western canvases.', 
+         keywords: ['Eastern landscape paintings', 'shānshuǐ huà', 'empty spaces', 'lines', 'silk', 'paper', 'Western paintings'], 
+         fontType: 'type3' 
+       },
+              2: { 
+         text: '<strong><u>Firstly, the same drawing should evoke the same interpretation<br><strong><u>from anyone who sees it. Additionally, drawings should be as<br><strong><u>simple as possible. Now, consider what issues might arise if<br><strong><u>a restroom sign featured an illustration of a toilet.</u></strong><br><br><br><br><br><br><br><br><br><br><br><br>The most significant issue when representing toilet signs with<br>toilet bowl drawings is the inability to distinguish between men\'s<br>and women\'s restrooms. If someone diligently follows the sign,<br>they may end up in the wrong restroom, leading to considerable<br>embarrassment. Typically, when a toilet bowl drawing represents<br>the restroom, it implies that both men\'s and women\'s facilities are<br>available. Of course, affixing separate male and female symbols on<br>the restroom entrance doors to distinguish them clearly is essential.', 
+         keywords: ['drawing interpretation', 'restroom sign', 'toilet illustration', 'embarrassment', 'male', 'female', 'symbols'], 
+         fontType: 'type3' 
+       },
+      3: { 
+        text: '', 
+        keywords: [] 
+      },
+      4: { 
+        text: '', 
+        keywords: [] 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/55.jpg',
+    zones: {
+              1: { 
+         text: '<strong><u>In our daily lives, we often encounter problems where we need<br><strong><u>to use our imagination. For example, if you have plans to meet<br><strong><u>a close friend tomorrow, imagine how you will spend the day and<br><strong><u>write it down.</u></strong><br><br><br><br><br><br><br><br><br><br><br><br>First, consider how to spend time with a friend. Imagine whether<br>we will watch a movie or play with a ball at the playground.<br>Then, we can decide what to wear. If we plan to watch a movie,<br>dress neatly; wear sportswear when playing with a ball.<br>If we get hungry while playing, we should also consider buying snacks<br>and drinks at a restaurant for a meal. After spending time with<br>friends, thinking about when we will part ways is important.<br>If it gets too late, our parents might worry, so make sure to part with<br>our friends at an appropriate time and return home.', 
+         keywords: ['daily lives', 'imagination', 'friend', 'movie', 'playground', 'sportswear', 'snacks', 'restaurant'], 
+         fontType: 'type8' 
+       },
+              2: { 
+         text: '<strong><u>When painters create art, they typically aim to represent the<br><strong><u>subject as realistically as possible. However, some artists choose<br><strong><u>to exaggerate specific features in a caricature-like manner.<br><strong><u>What features would we emphasize if we drew a horse as<br><strong><u>a caricature?</u></strong><br><br><br><br><br><br><br><br><br><br><br><br>First, we need to examine the characteristics of a horse. Horses have<br>a long neck, and their teeth are neatly arranged. They often have<br>a bright smile that shows even their gums. Additionally, from the top<br>of their head to the back of their neck, horses have long hair.<br>If we can accurately depict these three characteristics, the picture<br>should represent a horse to anyone who sees it.', 
+         keywords: ['painters', 'art', 'realistically', 'caricature', 'horse', 'long neck', 'teeth', 'smile', 'long hair'], 
+         fontType: 'type8' 
+       },
+      3: { 
+        text: '', 
+        keywords: [] 
+      },
+      4: { 
+        text: '', 
+        keywords: [] 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.1/56.jpg',
+    zones: {
+      1: { 
+        text: '', 
+        keywords: [] 
+      },
+              1: { 
+         text: '<strong><u>Explain why Earth appears like a blue glass bead when viewed<br><strong><u>from space.</u></strong><br><br><br><br><br><br><br><br><br><br>71% of the Earth\'s surface is covered by water, most of which forms<br>the oceans. However, these oceans appear blue to our eyes.<br>The fact that the oceans, which cover a significant portion of the<br>Earth\'s surface, appear blue gives the impression that the Earth is<br>like a blue marble.', 
+         keywords: ['Earth', 'blue glass bead', 'space', 'water', 'oceans', 'blue marble'], 
+         fontType: 'type7' 
+       },
+      2: { 
+        text: '<br><br><br>In this area, many large rocks and sharply pointed stones appear<br>broken. As the river carries these rocks downstream, they break apart,<br>becoming smaller and rounded as the sharp edges wear away, forming<br>gravel. Such stones are commonly seen in the midstream of the river.<br>Moving downstream, the size of the surrounding rocks gradually<br>decreases, and near the lower reaches, sand and fine soil become<br>more prevalent. When the river meets the sea, we may find sediment<br>deposits forming triangular deltas.', 
+        keywords: ['large rocks', 'downstream', 'gravel', 'midstream', 'sand', 'deltas', 'heart-shaped island', 'Vaza-Barris River', 'Brazil'] , 
+        fontType: 'type8' 
+      },
+              3: { 
+         text: '<strong><u>Explain how the appearance of rocks differs between the upper<br><strong><u>and lower reaches of the river.</u></strong><br><br>The river\'s upper reaches start in the mountain valleys, where water<br>flows down a very steep slope.', 
+         keywords: ['rocks', 'river', 'upper reaches', 'lower reaches', 'mountain valleys'], 
+         fontType: 'type8' 
+       },
+              4: { 
+         text: '<strong><u>Explain the special reason behind the heart-shaped island in the<br><strong><u>Vaza-Barris River in Brazil.</u></strong><br><br>The process of island formation varies. Sometimes, areas that were<br>initially high hills can naturally become islands as sea levels rise.<br>Islands can also form through volcanic activity, creating new land<br>masses. However, the islands in the Vaza-Barris River are made of<br>wood. These islands are composed of a type of tree called "mangrove,"<br>which roots in the submerged land and grows above the water\'s<br>surface. In this way, the part of the tree that grows above the water<br>has formed the island.', 
+         keywords: ['heart-shaped island', 'Vaza-Barris River', 'Brazil', 'island formation', 'mangrove', 'wood'] , 
+         fontType: 'type8' 
+       }
+    }
+  },
+  {
+  bg: '../assets/img/ReadBook/G1.2.1/57.jpg',
+  zones: {
+         1: { 
+       text: '<strong><u>Briefly explain what ocean currents are.</u></strong><br><br>The seawater is not just stagnant like a pond; it flows in a certain<br>direction, much like a river. This is called an ocean current.<br>Sometimes ocean currents collide, creating mysterious phenomena<br>like square waves.', 
+       keywords: ['ocean currents', 'seawater', 'stagnant', 'pond', 'flows', 'direction', 'river', 'collide', 'square waves'], 
+       fontType: 'type8' 
+     },
+         2: { 
+       text: '<strong><u>Explain how to use a Voronoi diagram to find the nearest hospital<br><strong><u>to our home.</u></strong><br><br><br><br><br><br><br><br><br><br>The Voronoi diagram displays numerous points surrounded by<br>polygons, typically squares, pentagons, or hexagons. Each side of<br>a polygon corresponds to points on either side, equidistant from<br>those points. Thus, the nearest point among all points on the diagram<br>is located from any point within a polygon. This principle can be<br>employed to find the nearest hospital to our home. Unfold the map,<br>mark all hospitals, connect points close to each other with line<br>segments, and draw lines perpendicular to these segments.<br>The resulting lines form the Voronoi diagram on the map.<br>Determining which polygon contains our house can identify<br>the hospital closest to our home as within the same polygon.', 
+       keywords: ['Voronoi diagram', 'hospital', 'home', 'polygons', 'squares', 'pentagons', 'hexagons', 'equidistant', 'map'], 
+       fontType: 'type8' 
+     },
+    
+    3: { 
+      text: '<u><strong>Explain the reason behind the formation of Giant\'s Causeway.</strong></u><br><br><br><br><br><br><br><br><br><br>Even in drought-stricken land, motifs similar to those in the Giant\'s<br>Causeway can emerge. When the moisture-soaked soil loses water,<br>its volume decreases slightly. When this happens on a large scale,<br>gaps form in the originally soil-filled ground. As these gaps develop,<br>the ground takes on a cracked appearance. Similar processes occurred<br>at the Giant\'s Causeway. When lava erupted from a volcano and<br>solidified on the surface, it lost moisture. It contracted, creating<br>a ground with hexagonal or pentagonal columns, resembling<br>the cracked land during a drought.<br>', 
+      keywords: ['Giant\'s Causeway', 'formation', 'drought', 'soil', 'moisture', 'lava', 'volcano', 'hexagonal', 'pentagonal', 'columns'], 
+      fontType: 'type8' 
+    },
+    4: { text: '', keywords: [] }
+  }
+},
+{
+  bg: '../assets/img/ReadBook/G1.2.1/58.jpg',
+  zones: {
+          1: { 
+        text: '<strong><u>Explain why sand dunes in the desert move.</u></strong><br><br><br><br><br><br><br><br><br><br>The wind constantly blows in the desert, causing the sand dunes to<br>shift continually. Among these shifting sand dunes, one of the most<br>representative is the barchan, which has a crescent moon shape.<br>The wind pushes the sand of the barchan up and over, causing it<br>to fall on the opposite side. As a result, the side where the wind is<br>blowing is gentle, while the opposite side has a steep slope.', 
+        keywords: ['sand dunes', 'desert', 'move', 'wind', 'shift', 'barchan', 'crescent moon', 'gentle', 'steep slope'], 
+        fontType: 'type9' 
+      },
+          2: { 
+        text: '<strong><u>Describe how we can prevent desertification.</u></strong><br><br>Trees must be planted to create forests because dense forests<br>prevent the soil from drying out. However, simply planting trees in<br>the desert may not be enough for them to survive due to insufficient<br>moisture. To create a forest, an ample water supply is essential.<br>Therefore, countries aiming to prevent desertification and moisturize<br>dry land often create massive canals to bring water from other<br>regions or explore methods such as collecting water from atmospheric<br>moisture.', 
+        keywords: ['prevent', 'desertification', 'trees', 'forests', 'soil', 'moisture', 'water supply', 'canals', 'atmospheric'], 
+        fontType: 'type9' 
+      },
+          3: { 
+        text: '<strong><u>Explain the reason why deserts continue to expand.</u></strong><br><br>The desert can expand due to natural phenomena such as drought<br>and human activities. In recent times, human actions have become<br>a more significant cause. When people cut down many trees at<br>once based on their needs, the soil becomes barren, leading to<br>desertification. This phenomenon is occurring in various parts of<br>the Earth.<br><br>', 
+        keywords: ['deserts', 'expand', 'drought', 'human activities', 'trees', 'soil', 'barren', 'desertification', 'Earth'], 
+        fontType: 'type8' 
+      },
+          4: { 
+        text: '<strong><u>Explain why the appearance of the sky changes every time we<br><strong><u>observe it.</u></strong><br><br>The shapes of clouds in the sky change daily because clouds move<br>here and there with the wind and continuously form and dissipate.<br>Clouds take on various forms depending on the altitude at which<br>they form, the temperature, and the strength of the wind. While<br>scientists compile records of different cloud types, new clouds are<br>still being discovered. For example, the Asperitas cloud, added to the<br>catalog in 2017, is a recent discovery.<br><br>', 
+        keywords: ['sky', 'appearance', 'changes', 'clouds', 'wind', 'dissipate', 'altitude', 'temperature', 'Asperitas cloud'], 
+        fontType: 'type8' 
+      }
+  }
+},
+{
+  bg: '../assets/img/ReadBook/G1.2.1/59.jpg',
+  zones: {
+          1: { 
+        text: '<br>(1) <strong><u>Nature is beautiful because it contains numerous motifs and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>rules. Explain what beautiful motifs nature creates.</u></strong><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Water and wind have created beautiful motifs in nature. When we<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;look down from high in the sky at the flowing course of a river,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it appears winding like a snake. The outer bends, where the water<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flows faster, erode the land, while the inner bends accumulate<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gravel or sand, creating this distinctive pattern.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Croatia\'s "Galesnjak Island" forms a beautiful heart shape.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Brazil, there is also an island in the Vaza-Barris River with<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a heart shape formed by mangrove trees. Australia\'s Wave Rock<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Hyden Rock) is striking, resembling actual waves rushing in.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Over time, through erosion by wind and water, it took on this<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;impressive form. Columns of solid rock formed by the cooling of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lava are called columnar joints.', 
+        keywords: ['nature', 'beautiful', 'motifs', 'rules', 'water', 'wind', 'river', 'snake', 'heart shape', 'Wave Rock', 'columnar joints'],
+        fontType: 'type6' 
+      },
+                                            2: { 
+          text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The contraction of lava as it rapidly cools results in these<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexagonal column shapes.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plants, like water and wind, contribute to the beautiful motifs<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in nature. In the warm spring, trees bud small shoots at the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tips of their branches. Fresh green leaves sprout everywhere,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;painting the mountains in a vibrant emerald hue. As the summer<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sun intensifies, plant leaves begin to take on a rich, deep green<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color. When autumn arrives, bringing cooler temperatures, leaves<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform into vibrant colors such as yellow, orange, and red.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The autumn foliage paints the mountains like a beautiful<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;watercolor. In winter, only bare branches remain, and the cycle<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeats with the arrival of spring.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>(2) Sometimes, waves resembling checkered patterns appear<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>in the sea. Explain why waves with such shapes occur.</u></strong><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The primary cause of waves is the wind. When the wind blows<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;consistently in one direction, it builds up energy in the seawater,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gradually creating larger waves. Waves can also be influenced<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by ocean currents, which are like rivers flowing through the sea.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The checkered pattern waves, formed when different currents<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collide, are a natural phenomenon. These waves result from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the convergence of seawater coming from opposite directions,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;creating abnormal wave shapes. The crests of these waves have<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;twice the force of regular waves. If we encounter checkered<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pattern waves while sailing, we must escape swiftly.', 
+          keywords: ['lava', 'contraction', 'hexagonal', 'plants', 'spring', 'leaves', 'mountains', 'emerald', 'autumn', 'watercolor', 'winter', 'waves', 'checkered patterns', 'wind', 'ocean currents', 'collide', 'convergence', 'abnormal wave shapes', 'sailing'],
+          fontType: 'type8' 
+        },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+{
+  bg: '../assets/img/ReadBook/G1.2.1/60.jpg',
+  zones: {
+          1: { 
+        text: '<br><br>(1) <strong><u>Due to rampant development, desertification has become<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>a serious issue globally. Explain how we can delay<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>desertification.</u></strong><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Today, desertification is increasingly caused by human activities.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;People have haphazardly cut down trees to obtain firewood<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or to clear land for farming. Additionally, deforestation occurs<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as livestock graze on both grass and trees, leading to the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disappearance of forests. Desertification intensifies as forests<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and grasslands diminish and overlap with drought and global<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;warming. We can delay desertification by making small efforts in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;our daily lives. Using public transportation, conserving electricity,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and reducing disposable items can contribute to slowing down<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;desertification and saving electricity. Using public transportation<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;results in fewer substances causing global warming.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To fundamentally address desertification, we must restore nature<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to its pre-desertification state. Planting trees and ensuring an<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adequate water supply to barren land can revive the soil. However,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it requires significant time, money, and effort. It is crucial to<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remember that restoring nature is challenging once disrupted and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imbalanced.', 
+        keywords: ['desertification', 'development', 'global', 'human activities', 'deforestation', 'livestock', 'forests', 'global warming', 'public transportation', 'electricity', 'restore nature'],
+        fontType: 'type6' 
+      },
+          4: { 
+        text: '(2) <strong><u>Scientists are researching ways to convert seawater into<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>drinkable water. Explain how seawater can be transformed<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>into freshwater without salt.</u></strong><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Desalination technology, obtaining pure water by removing salt<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;particles from seawater, has seen various developments in methods.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One of the oldest methods involves evaporating seawater and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collecting the resulting vapor. However, this method is inefficient<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;due to the significant energy required to boil seawater. Fortunately,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scientists in Saudi Arabia have developed a system that utilizes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the excess heat generated during solar power generation to heat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seawater, eliminating the need for additional facilities and making the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;process more sustainable.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Another desalination method is reverse osmosis technology, using<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a filter (reverse osmosis membrane) to allow water to pass through<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while filtering out impurities like salt. Reverse osmosis occurs when<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a semipermeable membrane separates two solutions with different<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;concentrations, and the lower-concentration solution moves towards<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the higher-concentration solution. By applying pressure to the higherconcentration solution, reverse osmosis forces the key toward the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lower concentration, effectively removing impurities.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Another method involves freezing seawater and obtaining clean water<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;through freezing. Scientists are developing desalination technology<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using salt-tolerant plants known as halophytes. Mangroves,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a representative halophyte, are known to filter out approximately<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;90% of the salt content in seawater. Researchers have created<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filters mimicking mangrove roots, and experimental results show that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;they can remove around 96.5% of the salt content. The advantage<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of this technology is its simplicity in the manufacturing process and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the ability to operate with small-scale devices, making it suitable for<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remote coastal areas or small villages.', 
+        keywords: ['scientists', 'seawater', 'drinkable water', 'desalination', 'evaporating', 'solar power', 'reverse osmosis', 'membrane', 'halophytes', 'mangroves'],
+        fontType: 'type9' 
+      },
+    3: { text: '', keywords: [] },
+    2: { text: '', keywords: [] }
+  }
+},
+{
+  bg: '../assets/img/ReadBook/G1.2.1/61.jpg',
+  zones: {
+    1: { 
+      text: '<u><strong>Despite appearing unrelated, many things in nature exhibit<br>similarities. The net-like motif on a giraffe\'s body might evoke<br>thoughts of dry, cracked land. Explore and discover resemblances<br>in the motifs found in nature.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>The motif that spirals like a whirlpool is called a spiral motif.<br>Shells of ammonites or nautilus contain spiral motifs. Even the newly<br>growing leaves of ferns draw a spiral motif. Spiral motifs can also be<br>found in the shape of clouds forming a hurricane. When the galaxy<br>that Earth belongs to meets a strong water current, a similar spiral<br>motif appears.<br>Upon closer examination, we can find similar motifs in nature.<br>The cracks that form when the ground dries up can be seen in tree<br>leaves and dragonfly wings. The tree branches or roots\' branches<br>resemble how rivers split into multiple branches. Lightning also<br>descends in various branches, creating similar motifs.', 
+      keywords: ['nature', 'similarities', 'giraffe', 'cracked land', 'spiral motif', 'whirlpool', 'ammonites', 'nautilus', 'ferns', 'hurricane', 'galaxy', 'cracks', 'tree branches', 'lightning'] ,
+      fontType: 'type8' 
+    },
+    2: { 
+      text: '<u><strong>We will find desert foxes, scorpions, lizards, camels, and small<br>insects in sandy deserts, each adapting to their surroundings<br>in unique ways. Now, what kind of animals live in Antarctica?<br>Explain.</strong></u><br><br><br><br><br><br><br><br><br><br><br><br>The animal that represents Antarctica is undoubtedly the penguin.<br>Penguins can survive in the cold waters of Antarctica due to their<br>thick layer of insulating fat and waterproof feathers. Moreover, they<br>can hold their breath and dive for a long time, contributing to their<br>ability to thrive in the waters of Antarctica.<br>Antarctica is also home to animals such as seals, sea lions, and<br>seabirds like seagulls. Particularly in the Antarctic seas, where<br>plant-based plankton is abundant, various species of krill thrive.<br>These krill are a primary food source for penguins, seals, whales,<br>and other regional predators.', 
+      keywords: ['desert foxes', 'scorpions', 'lizards', 'camels', 'insects', 'Antarctica', 'animals', 'penguin', 'insulating fat', 'waterproof feathers', 'seals', 'sea lions', 'seabirds', 'plankton', 'krill']   ,
+      fontType: 'type8' 
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+},
+{
+  bg: '../assets/img/ReadBook/G1.2.1/62.jpg',
+  zones: {
+    1: { 
+      text: '<strong><u>When water droplets forming clouds grow to the size of raindrops,<br><strong><u>the clouds turn gray with a hint of blue. Now, explain when pale<br><strong><u>green, yellow, red, or pink clouds appear.</u></strong><br><br><br><br><br><br><br><br><br><br><br><br>Pale green clouds appear when there is significant ice in the clouds.<br>Therefore, when thick clouds with a greenish tint form, there is a high<br>likelihood of heavy rain or hail.<br>Red and pink clouds are visible daily when the sun rises or sets,<br>casting a reddish hue worldwide. During these times, clouds can also<br>take on shades of red or pink.<br>Yellow clouds can also be seen when the sun rises or sets, but they<br>may occasionally form due to atmospheric smoke or dust particles.', 
+      keywords: ['water droplets', 'clouds', 'raindrops', 'gray', 'blue', 'pale green', 'yellow', 'red', 'pink', 'ice', 'hail', 'sun', 'atmospheric', 'smoke', 'dust'], 
+      fontType: 'type8' 
+    },
+    2: { 
+      text: '<strong><u>People often confuse otters living in rivers and sea otters living<br><strong><u>along the coast. Explore which animals share similar appearances<br><strong><u>and explain how to differentiate them.</u></strong><br><br><br><br><br><br><br><br><br><br><br><br>Although hedgehogs, mole rats, and porcupines may appear similar,<br>they are distinct animals. Mole rats have fewer spines than<br>hedgehogs and exhibit the behavior of laying eggs and nurturing their<br>young. In contrast, porcupines have longer spines than hedgehogs,<br>and these spines can detach from their bodies.<br>Raccoons and tanukis (raccoon dogs) may be confused by people<br>despite having distinct features. Raccoons have distinctive striped<br>tails, whereas tanukis lack these stripes.<br>Leopards and cheetahs may seem similar, but careful observation<br>reveals numerous differences. Cheetahs have long, black streaks<br>extending from their eyes to their jaws, a feature absent in leopards.<br>Cheetahs possess a sleek body with a small head, while leopards have<br>a slightly bulkier appearance. Their spot motifs also differ. Cheetahs<br>have round, black spots, while leopards exhibit more open and dark<br>rosettes.', 
+      keywords: ['otters', 'rivers', 'sea otters', 'coast', 'animals', 'similar appearances', 'hedgehogs', 'mole rats', 'porcupines', 'spines', 'raccoons', 'tanukis', 'striped tails', 'leopards', 'cheetahs', 'black streaks', 'rosettes'], 
+      fontType: 'type8' 
+    },
+    3: { text: '', keywords: [] },
+    4: { text: '', keywords: [] }
+  }
+}
+
+];
+
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 
