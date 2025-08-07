@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G1.2.2.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 --> 
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+
+const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/3.jpg',
+    zones: {
+      1: { 
+        text: '01. Beautiful Secret Motifs of Plants<br><br>We live alongside various plants. In the living room<br>or on the balcony of our homes, carefully nurtured<br>houseplants bloom with flowers. On the way to school,<br>we can see dandelions blooming prettily in asphalt<br>cracks, and we might encounter morning glories<br>climbing over fences. We also take a break to cool<br>off under the refreshing shade of trees after playing<br>energetically in the school playground.', 
+        keywords: ['motifs', 'plants', 'room', 'balcony', 'homes', 'houseplants', 'flowers', 'school', 'dandelions', 'asphalt', 'cracks', 'morning', 'glories', 'fences', 'shade', 'trees', 'playground'] 
+      },
+      2: { 
+        text: 'How large is the largest plant in the world?<br>A giant sequoia tree grows in the national parks of<br>California, USA. The weight of the largest tree exceeds<br>2,000 tons. Plants continue to grow throughout their<br>lives. How much will this tree grow in the future?<br><br>Plants spread their offspring by sending tiny and<br>light pollen far away. Pollen that finds a mate from<br>a distant place becomes a seed, sprouting new life.', 
+        keywords: ['plant', 'world', 'sequoia', 'tree', 'parks', 'California', 'USA', 'weight', 'tons', 'plants', 'lives', 'future', 'offspring', 'pollen', 'mate', 'place', 'seed', 'life'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Write down the names of flowers easily found<br>around us.', 
+        keywords: ['names', 'flowers'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/4.jpg',
+    zones: {
+      1: { 
+        text: 'The colors and motifs of plants are very diverse.<br>Depending on the type of plant, there are numerous<br>colors and motifs, such as blue, red, and yellow, each<br>hiding an interesting secret of nature. The world of<br>plants becomes more fascinating and enjoyable as<br>we observe and learn about it.', 
+        keywords: ['colors', 'motifs', 'plants', 'type', 'plant', 'blue', 'red', 'yellow', 'secret', 'nature', 'world'] 
+      },
+      2: { 
+        text: 'Botanical gardens are excellent places to observe the<br>world of plants as they gather and cultivate various<br>plant species. The Beijing Botanical Garden, located in<br>the capital of China, boasts an impressive collection<br>of over 6,000 plant species. Plants worldwide are<br>gathered in botanical gardens, allowing us to compare<br>how their appearances differ based on species and<br>observe how each one lives. By closely observing<br>plants, we can also notice that the motifs engraved<br>on leaves vary from one plant to another. Some plants<br>have white borders on green leaves, while others may<br>have watermelon-like stripes.', 
+        keywords: ['botanical', 'gardens', 'places', 'world', 'plants', 'plant', 'species', 'Beijing', 'Botanical', 'Garden', 'capital', 'China', 'collection', 'plant', 'species', 'plants', 'botanical', 'gardens', 'appearances', 'species', 'lives', 'plants', 'motifs', 'leaves', 'plant', 'plants', 'borders', 'leaves', 'stripes'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+  bg: '../assets/img/ReadBook/G1.2.2/5.jpg',
+  zones: {
+    1: { 
+      text: 'Plants with unique motifs and colors harbor some<br>secrets. People say the saffron plant carries a story<br>about magical pollen in the fall. Saffron thrives in<br>warm, low-rainfall areas, and when autumn arrives,<br>it blooms with funnel-shaped, purple flowers. Saffron<br>is a mysterious plant that, even when withered, emits<br>a more intense fragrance than other fresh flowers.<br>There are stamens and pistils inside the flower to<br>produce seeds. The pollen from the stamen attaches<br>to the pistil, creating seeds. The yellow pollen<br>attached to the stigma of saffron pistil has been<br>called magical pollen since ancient times.<br>The term "saffron" originally referred to the stigma<br>of the flower. Throughout history, the powder<br>obtained by drying and grinding the stigma of saffron<br>was considered more valuable than any jewel.', 
+      keywords: ['plants', 'motifs', 'colors', 'secrets', 'people', 'saffron', 'plant', 'story', 'pollen', 'fall', 'saffron', 'areas', 'autumn', 'flowers', 'saffron', 'plant', 'fragrance', 'flowers', 'stamens', 'pistils', 'flower', 'seeds', 'pollen', 'stamen', 'pistil', 'seeds', 'pollen', 'stigma', 'saffron', 'pistil', 'pollen', 'times', 'term', 'saffron', 'stigma', 'flower', 'history', 'powder', 'stigma', 'saffron', 'jewel'] 
+    },
+    2: { 
+      text: 'Producing 1 gram of powder required about 500<br>saffron flowers. Besides being visually beautiful,<br>saffron has been used in various applications,<br>including as a spice, medicinal herb, and dye.', 
+      keywords: ['gram', 'powder', 'saffron', 'flowers', 'saffron', 'applications', 'spice', 'herb', 'dye']
+    },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Write down the colors of flowers easily found<br>around us.', 
+        keywords: ['colors', 'flowers'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/6.jpg',
+    zones: {
+      1: { 
+        text: 'The unique saffron fragrance lifts people\'s moods,<br>making it a popular perfume ingredient. Due to its<br>pleasant scent and air-purifying effects, saffron is<br>also used in making air fresheners and detergents.<br>When mixed with water, the stigma of saffron<br>produces a beautiful yellow color. Therefore, saffron<br>dyes fabrics yellow.<br>In the Western world, purple has long been considered<br>a noble color. There are stories of using the beautiful<br>purple saffron flower petals to dye the robes worn by<br>distinguished religious leaders in churches.', 
+        keywords: ['saffron', 'fragrance', 'people', 'moods', 'perfume', 'ingredient', 'scent', 'effects', 'saffron', 'air', 'fresheners', 'detergents', 'water', 'stigma', 'saffron', 'color', 'saffron', 'fabrics', 'world', 'purple', 'color', 'stories', 'saffron', 'flower', 'petals', 'dye', 'robes', 'leaders', 'churches'] 
+      },
+      2: { 
+        text: 'We also consume saffron flower petals directly.<br>When dried and brewed as tea, saffron petals relieve<br>headaches and aid digestion. Moreover, they help<br>eliminate harmful toxins from the body and are<br>a remedy to alleviate conditions like asthma and<br>seizures. Saffron is an expensive ingredient to enrich<br>the aroma and flavor of food. In France, where food<br>culture is developed, saffron is sometimes added as<br>a seasoning to gourmet dishes.', 
+        keywords: ['saffron', 'flower', 'petals', 'tea', 'saffron', 'petals', 'headaches', 'digestion', 'toxins', 'body', 'remedy', 'conditions', 'asthma', 'seizures', 'saffron', 'ingredient', 'aroma', 'flavor', 'food', 'France', 'food', 'culture', 'saffron', 'seasoning', 'dishes'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain where the fragrant saffron is used.', 
+        keywords: ['saffron'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/7.jpg',
+    zones: {
+      1: { 
+        text: 'In this way, saffron has been loved not only for its<br>beautiful fragrance but also for its various uses.<br>Saffron can even be found in ancient Greek frescoes,<br>and stories about saffron also appear in Greek<br>mythology. In one story, the flower goddess "Flora"<br>was peacefully lying by a pond near a pasture.<br>At that moment, a fairy appeared and said she was<br>wandering in search of the last flower of autumn.<br>The fairy asked Flora to provide a nap spot, and in<br>response, Flora bloomed the last flower, which is said<br>to be saffron.<br>What would you answer if someone were to ask you<br>about the color of plants? Many people would likely<br>answer green. However, the plants around us clothe<br>themselves in diverse colors.', 
+        keywords: ['way', 'saffron', 'fragrance', 'uses', 'saffron', 'Greek', 'frescoes', 'stories', 'saffron', 'Greek', 'mythology', 'story', 'flower', 'goddess', 'Flora', 'pond', 'pasture', 'moment', 'fairy', 'search', 'flower', 'autumn', 'fairy', 'Flora', 'spot', 'response', 'Flora', 'flower', 'saffron', 'answer', 'someone', 'color', 'plants', 'people', 'answer', 'plants', 'colors'] 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/8.jpg',
+    zones: {
+      1: { 
+        text: 'Not too long ago, there used to be a color called "skin<br>color" in crayons. It was considered that we should<br>color a person\'s face or body with the skin color.<br>However, nowadays, the term "skin color" has been<br>changed to "apricot."<br>', 
+        keywords: ['color', 'skin', 'color', 'crayons', 'person', 'face', 'body', 'skin', 'color', 'term', 'skin', 'color', 'apricot'] 
+      },
+      2: { text: 'People with different skin colors live together on<br>Earth. We will meet many friends with different skin<br>colors in the future. However, using the term "skin<br>color" could imply that the dark skin of a friend from<br>Africa is not considered skin color.<br>The term "skin color" has been avoided because it is<br>an expression that discriminates against people with<br>different skin colors.', keywords: ['people', 'skin', 'colors', 'Earth', 'friends', 'skin', 'colors', 'future', 'term', 'skin', 'color', 'skin', 'friend', 'Africa', 'skin', 'color', 'term', 'skin', 'color', 'expression', 'people', 'skin', 'colors'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/9.jpg',
+    zones: {
+      1: { 
+        text: 'Various colors and different shapes of plants come<br>together to make our surroundings beautiful. These<br>colors can come together to create a beautiful motif<br>on a single leaf. Some leaves have a white stripe<br>along the edges of their green leaves, while others<br>feature beautiful motifs with hues of red.<br>Plants that display beautiful motifs with two or more<br>colors on their leaves are called "variegated plants."<br>The motifs on the leaves of variegated plants mostly<br>appear on the leaves, but depending on the species,<br>they can also be found on flowers or stems.', 
+        keywords: ['colors', 'shapes', 'plants', 'surroundings', 'colors', 'motif', 'leaf', 'leaves', 'stripe', 'edges', 'leaves', 'motifs', 'hues', 'red', 'plants', 'motifs', 'colors', 'leaves', 'variegated', 'plants', 'motifs', 'leaves', 'variegated', 'plants', 'leaves', 'species', 'flowers', 'stems'] 
+      },
+      2: { 
+        text: 'These variegated plants are rare and popular due to<br>their unique and beautiful appearance. People inherit<br>the features of their parents as they are born and<br>grow.', 
+        keywords: ['variegated', 'plants', 'appearance', 'people', 'features', 'parents'] 
+      },
+      3: { 
+        text: 'Briefly explain what a "variegated plant" is.', 
+        keywords: ['variegated', 'plant'], 
+        fontType: 'type2' 
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/10.jpg',
+    zones: {
+      1: { 
+        text: 'Then, do variegated plants pass down the same motifs<br>to their offspring through seeds? Even if we plant<br>the seeds of a variegated plant, the offspring will<br>not develop the same motif. To grow the variegated<br>plant, we must cut and plant stems, leaves, or roots<br>separately or divide branches and stems.<br>It is crucial to understand plants well to cultivate<br>them successfully. Meticulous observation is necessary<br>to learn about a plant well. If you want to grow<br>variegated plants successfully, start by looking for<br>and observing the unique motifs of the plants.<br>How are leaf motifs created? Plant motifs are formed<br>differently depending on the growing environment.', 
+        keywords: ['variegated', 'plants', 'motifs', 'offspring', 'seeds', 'seeds', 'variegated', 'plant', 'offspring', 'motif', 'variegated', 'plant', 'stems', 'leaves', 'roots', 'branches', 'stems', 'plants', 'observation', 'plant', 'variegated', 'plants', 'motifs', 'plants', 'leaf', 'motifs', 'plant', 'motifs', 'environment'] 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/11.jpg',
+    zones: {
+      1: { 
+        text: 'Just as our bodies have growth plates that make us<br>grow taller, plants have meristems that stimulate<br>their upward growth. The meristem is the part of the<br>plant at the tip of the stem or root that produces new<br>stems and leaves. However, there is one significant<br>difference between growth plates and meristems.<br>The human growth plates close at a certain age,<br>preventing continuous height growth.<br>However, new cells are constantly produced in plant<br>meristems, allowing the plant to continue growing<br>until it dies. Depending on factors such as sunlight or<br>the natural environment, a portion of the meristem<br>at the end of the plant\'s stem changes differently,<br>creating variegated plants. Changes in the meristem<br>due to abnormalities can lead to variations in leaf<br>color, as the nutrients that make the plant green<br>become deficient or other colored nutrients become<br>more abundant.', 
+        keywords: ['bodies', 'growth plates', 'grow taller', 'plants', 'meristems', 'stimulate', 'upward growth', 'tip', 'stem', 'root', 'produces', 'new stems', 'leaves', 'significant difference', 'human growth plates', 'close', 'certain age', 'preventing', 'continuous height growth', 'new cells', 'constantly produced', 'plant meristems', 'continue growing', 'dies', 'factors', 'sunlight', 'natural environment', 'portion', 'meristem', 'end', 'changes differently', 'creating', 'variegated plants', 'abnormalities', 'variations', 'leaf color', 'nutrients', 'green', 'deficient', 'colored nutrients', 'abundant'] 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain how variegated plants are created.', 
+        keywords: ['explain', 'variegated plants', 'created'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/12.jpg',
+    zones: {
+      1: { 
+        text: 'The motifs on variegated plants can appear at the<br>edges, center, or throughout the entire leaf.<br>The motifs can take various forms, such as stripes or<br>spots. The unique motifs of these plants contribute<br>to the beauty exclusive to each plant. For this reason,<br>variegated plants are considered precious and are<br>often sold at higher prices than other plants.', 
+        keywords: ['motifs', 'variegated plants', 'appear', 'edges', 'center', 'entire leaf', 'various forms', 'stripes', 'spots', 'unique motifs', 'contribute', 'beauty', 'exclusive', 'precious', 'sold', 'higher prices'] 
+      },
+      2: { 
+        text: 'The motifs play a crucial role in the growth of<br>variegated plants. Plants receive sunlight to make and<br>store the nutrients they need to grow.<br>This activity of plants is known as photosynthesis.<br>The motifs on variegated plants enhance the process<br>of photosynthesis.', 
+        keywords: ['motifs', 'crucial role', 'growth', 'variegated plants', 'receive sunlight', 'make', 'store', 'nutrients', 'grow', 'activity', 'photosynthesis', 'enhance', 'process'] 
+      },
+      3: { 
+        text: 'Explain why humans do not keep growing<br>continuously.', 
+        keywords: ['explain', 'humans', 'keep growing', 'continuously'], 
+        fontType: 'type2' 
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/13.jpg',
+    zones: {
+      1: { 
+        text: 'Many people grow variegated plants at home for<br>the pleasure of observing them. Creating variegated<br>plants at home is not a difficult task.<br>Take a close look at green-leaved plants in our home.<br>If a stem with patterned leaves comes up, cut it off<br>and plant it in a new pot. You might be able to create<br>a new variegated plant of your own.', 
+        keywords: ['many people', 'grow', 'variegated plants', 'home', 'pleasure', 'observing', 'creating', 'not difficult task', 'close look', 'green-leaved plants', 'stem', 'patterned leaves', 'cut off', 'plant', 'new pot', 'create', 'new variegated plant'] 
+      },
+      2: { 
+        text: 'The types and motifs of variegated plants are highly<br>diverse. The leaves of "watermelon pilea" feature<br>watermelon-like stripes. In the case of "rainbow<br>maranta," the leaves display a sequence of five colors<br>as they grow. "White stripe pumila" has a fun motif<br>that looks like white paint dots along the edges of<br>the leaves.', 
+        keywords: ['types', 'motifs', 'variegated plants', 'highly diverse', 'watermelon pilea', 'feature', 'watermelon-like stripes', 'rainbow maranta', 'display', 'sequence', 'five colors', 'grow', 'white stripe pumila', 'fun motif', 'white paint dots', 'edges', 'leaves'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/14.jpg',
+    zones: {
+      1: { 
+        text: 'There are also variegated plants with a blend of<br>green and yellow. "Sansevieria" has yellow bands<br>surrounding the edges of its leaves. "Bengal rubber<br>plant" appears to have yellow patterns spreading<br>around the edges of its leaves. "Dracaena" has<br>vertical yellow stripes on its green leaves. The motifs<br>serve as name tags for the plants, helping us identify<br>the plant easily, even when the leaves look similar.<br>Plants communicate with us through the motifs on<br>their leaves. Examine whether the motifs on our plant<br>leaves appear abnormal, with white, black, or dark red<br>spots, or if new stripes have appeared. Such changes<br>might be signals that our plant is unwell.', 
+        keywords: ['variegated plants', 'blend', 'green', 'yellow', 'Sansevieria', 'yellow bands', 'surrounding', 'edges', 'leaves', 'Bengal rubber plant', 'yellow patterns', 'spreading', 'Dracaena', 'vertical yellow stripes', 'motifs', 'name tags', 'identify', 'easily', 'similar', 'communicate', 'examine', 'abnormal', 'white', 'black', 'dark red spots', 'new stripes', 'changes', 'signals', 'unwell'] 
+      },
+      2: { text: '', keywords: [] },
+      3: { 
+        text: 'What is the process called when plants produce<br>the nutrients necessary for their growth? Explain.', 
+        keywords: ['process', 'plants', 'produce', 'nutrients', 'necessary', 'growth', 'explain'], 
+        fontType: 'type2' 
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/15.jpg',
+    zones: {
+      1: { 
+        text: 'People often face various difficulties when they leave<br>their familiar surroundings and live in a new place<br>for an extended period. They may miss their family,<br>reminisce about their hometown, and sometimes feel<br>sad. Even the food and water may seem unfamiliar.<br>This phenomenon is referred to as "homesickness."<br>Plants can also experience homesickness. Abnormal<br>motifs appearing on the leaves may be symptoms of<br>plant homesickness.', 
+        keywords: ['people', 'face difficulties', 'leave', 'familiar surroundings', 'live', 'new place', 'extended period', 'miss', 'family', 'reminisce', 'hometown', 'feel sad', 'food', 'water', 'unfamiliar', 'phenomenon', 'homesickness', 'plants', 'experience', 'abnormal motifs', 'appearing', 'leaves', 'symptoms'] 
+      },
+      2: { 
+        text: 'The natural habitats of our potted plants are as diverse<br>as the number of plants. Sansevieria comes from<br>Africa and India, while watermelon pilea is a plant from<br>Vietnam or Mexico. The best way to prevent plants<br>from experiencing homesickness is to create a growing<br>environment that resembles their hometown.<br>We should place the plant in a sunny location and<br>adjust the frequency and amount of watering<br>depending on the type of plant. For example, the plant<br>may become unwell if we give too much water to<br>a Sansevieria, which prefers dry conditions.', 
+        keywords: ['natural habitats', 'potted plants', 'diverse', 'number', 'plants', 'Sansevieria', 'Africa', 'India', 'watermelon pilea', 'Vietnam', 'Mexico', 'prevent', 'experiencing', 'homesickness', 'create', 'growing environment', 'resembles', 'hometown', 'place', 'sunny location', 'adjust', 'frequency', 'amount', 'watering', 'type', 'unwell', 'too much water', 'dry conditions'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Find plants around us with leaves of various<br>blended colors and describe their appearance.', 
+        keywords: ['find plants', 'around us', 'leaves', 'various blended colors', 'describe', 'appearance'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/16.jpg',
+    zones: {
+      1: { 
+        text: 'When a plant gets sick, distress signals appear in the<br>motifs on its leaves. The green pigment responsible<br>for producing nutrients through sunlight is called<br>chlorophyll. If the quantity of chlorophyll decreases or<br>abnormalities occur, the color of the leaves changes.<br>When there are issues with the plant\'s pigments,<br>the leaves eventually lose their green color and may<br>turn white, yellow, or reddish brown. Simultaneously,<br>the leaves gradually wither and fall off.', 
+        keywords: ['plant', 'gets sick', 'distress signals', 'appear', 'motifs', 'leaves', 'green pigment', 'responsible', 'producing nutrients', 'sunlight', 'chlorophyll', 'quantity', 'decreases', 'abnormalities', 'occur', 'color', 'changes', 'issues', 'pigments', 'lose', 'green color', 'white', 'yellow', 'reddish brown', 'simultaneously', 'gradually', 'wither', 'fall off'] 
+      },
+      2: { 
+        text: 'Photosynthesis takes place in the chloroplasts of<br>the leaves. If the chloroplasts in the leaves decrease,<br>what happens to the plant?<br>It cannot perform photosynthesis efficiently, resulting<br>in a lack of nutrients essential for growth. Ultimately,<br>the plant struggles to survive independently or loses<br>its ability to grow. In this case, providing nutrients to<br>the plant is only a temporary solution.', 
+        keywords: ['photosynthesis', 'takes place', 'chloroplasts', 'leaves', 'decrease', 'happens', 'plant', 'cannot perform', 'efficiently', 'resulting', 'lack', 'nutrients', 'essential', 'growth', 'ultimately', 'struggles', 'survive', 'independently', 'loses', 'ability', 'providing', 'temporary solution'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/17.jpg',
+    zones: {
+      1: { 
+        text: 'The plant might attempt to extract nutrients from<br>other green parts of the leaves and stems. However,<br>this strategy is not sustainable. The plant will find<br>it increasingly challenging to survive day by day.<br>Imagine if these motifs appear across the entire plant.<br>In such a case, the plant will gradually die as it cannot<br>produce the necessary nutrients.<br>Like how we call a dog raised at home a "pet dog,"<br>some refer to plants grown at home as "pet plants."<br>Growing plants indeed requires interest and affection.<br>The most crucial aspect is creating an environment<br>where the plant can evenly receive sunlight, water,<br>and nutrients. A healthy environment is necessary for<br>the plant to develop the strength to resist diseases<br>and pests. Keeping a gardening journal and caring for<br>the plant systematically is also an excellent approach.', 
+        keywords: ['plant', 'attempt', 'extract nutrients', 'green parts', 'leaves', 'stems', 'strategy', 'not sustainable', 'find', 'increasingly challenging', 'survive', 'day by day', 'imagine', 'motifs', 'appear', 'entire plant', 'gradually die', 'cannot produce', 'necessary nutrients', 'dog', 'raised', 'home', 'pet dog', 'pet plants', 'growing plants', 'requires', 'interest', 'affection', 'crucial aspect', 'creating environment', 'evenly receive', 'sunlight', 'water', 'nutrients', 'healthy environment', 'develop', 'strength', 'resist', 'diseases', 'pests', 'gardening journal', 'caring', 'systematically', 'excellent approach'] 
+      },
+      2: { 
+        text: 'It is essential to observe meticulously, checking<br>if there is a lack of sunlight, nutrients, or water and<br>whether pests have appeared.', 
+        keywords: ['essential', 'observe', 'meticulously', 'checking', 'lack', 'sunlight', 'nutrients', 'water', 'pests', 'appeared'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/18.jpg',
+    zones: {
+      1: { 
+        text: 'Before thinking, "It seems a bit withered today;<br>I should water it!" check between the stems and<br>leaves, the backside of the leaves, and the new shoots<br>to ensure no bugs or mites. If we find any pests,<br>observe the motifs and shapes of the leaves closely.<br>', 
+        keywords: ['before thinking', 'bit withered', 'today', 'should water', 'check', 'between', 'stems', 'leaves', 'backside', 'new shoots', 'ensure', 'no bugs', 'mites', 'find', 'pests', 'observe', 'motifs', 'shapes', 'closely', 'mosaic motifs', 'previously nonexistent', 'stripes', 'appear', 'plant', 'gradually wilting', 'indicate', 'bacteria', 'viruses', 'entered', 'causing disease', 'detected early', 'cut out', 'portion', 'leaf', 'color', 'motif', 'changed', 'leaving', 'might lead', 'spread', 'throughout', 'entire plant', 'become sick', 'die'] 
+      },
+      4: { text: 'If mosaic motifs or previously nonexistent stripes<br>appear on the leaves, and the plant is gradually<br>wilting, it could indicate that bacteria or viruses have<br>entered the plant, causing a disease. If detected<br>early, we can cut out the portion of the leaf where<br>the color or motif has changed. Leaving it might lead<br>to the spread of motifs throughout the entire plant,<br>causing it to become sick and die.', keywords: [] },
+      3: { text: '', keywords: [] },
+      
+      4: { 
+        text: 'Explain what a plant needs to grow well without<br>getting sick.', 
+        keywords: ['explain', 'plant', 'needs', 'grow well', 'without getting sick'], 
+        fontType: 'type2' 
+      },
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/19.jpg',
+    zones: {
+      1: { 
+        text: 'Plants sometimes choose terrifying methods to survive.<br>The plants we are familiar with gather nutrients and<br>grow through water, sunlight, and soil. However, there<br>are carnivorous plants that eat animals.<br>Since plants cannot move like animals, how do they<br>catch and consume prey? Some carnivorous plants<br>use vibrant motifs resembling checkerboards to<br>attract animals\' attention, lure the prey closer,<br>and then capture and consume it. The "Nepenthes<br>robcantleyi" is a prominent example of a carnivorous<br>plant that employs this strategy.', 
+        keywords: ['plants', 'sometimes', 'choose', 'terrifying methods', 'survive', 'familiar', 'gather nutrients', 'grow', 'water', 'sunlight', 'soil', 'however', 'carnivorous plants', 'eat animals', 'since', 'cannot move', 'animals', 'catch', 'consume prey', 'some', 'vibrant motifs', 'resembling', 'checkerboards', 'attract', 'attention', 'lure', 'prey', 'closer', 'capture', 'consume', 'Nepenthes robcantleyi', 'prominent example', 'employs', 'strategy'] 
+      },
+      2: { 
+        text: '01. Beautiful Secret Motifs of Plants<br><br>Ⅰ. What Is the Purpose of Studying<br>', 
+        keywords: ['Beautiful Secret Motifs', 'Plants', 'Purpose', 'Studying', 'Earth', 'countless varieties', 'plants', 'people', 'distinguish', 'classify', 'different plants', 'each plant', 'unique motifs', 'reveal', 'identity', 'botanists', 'someone', 'observes', 'nature', 'interest', 'identify', 'plant', 'simply', 'looking', 'motifs', 'instance', 'Red Star plant', 'simultaneously', 'vibrant red', 'mild green colors', 'leaves', 'world', 'seemed', 'monotonous', 'only green leaves'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'the Beautiful Motifs of Plants?<br><br>On Earth, there are countless varieties of plants. How<br>do people distinguish and classify different plants?<br>It is because each plant has its own unique motifs<br>that reveal its identity. Even if we are not botanists,<br>someone who observes nature with interest can<br>identify a plant simply by looking at its motifs.<br>For instance, the Red Star plant simultaneously has<br>vibrant red and mild green colors on its leaves.<br>The world would have seemed monotonous if all<br>plants had only green leaves.', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/20.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { 
+        text: 'Leaves play the role of a factory, producing the<br>energy necessary for the plant\'s survival.<br>Through photosynthesis, a process utilizing water<br>absorbed by the roots, carbon dioxide drawn in by<br>the leaves, and sunlight, plants create the glucose<br>required for their existence. Chloroplasts present in<br>the leaves are responsible for photosynthesis.<br>For these reasons, just by examining the leaves,<br>we can understand the plant\'s health status.', 
+        keywords: ['leaves', 'play', 'role', 'factory', 'producing', 'energy', 'necessary', 'plant survival', 'through photosynthesis', 'process', 'utilizing', 'water', 'absorbed', 'roots', 'carbon dioxide', 'drawn in', 'leaves', 'sunlight', 'plants', 'create', 'glucose', 'required', 'existence', 'chloroplasts', 'present', 'responsible', 'photosynthesis', 'reasons', 'examining', 'understand', 'health status'] 
+      },
+      4: { 
+        text: 'Similar to how a person\'s face turns red or sometimes<br>pale when unwell, plants communicate their illness<br>through their leaves. We study this topic not merely<br>to appreciate the beautiful motifs of plants but to<br>communicate with plants through the motifs visible to<br>our eyes, even though we cannot hear them.', 
+        keywords: ['similar', 'person face', 'turns red', 'sometimes pale', 'unwell', 'plants', 'communicate', 'illness', 'through', 'leaves', 'study', 'topic', 'not merely', 'appreciate', 'beautiful motifs', 'plants', 'communicate', 'motifs', 'visible', 'eyes', 'even though', 'cannot hear'] 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/21.jpg',
+    zones: {
+      1: { 
+        text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1) The reason leaves appear green is also due to chlorophyll<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inside the chloroplasts. Then, can red maples perform<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;photosynthesis? Or do they use a different method for<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;photosynthesis? Explain.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2) Why do plant leaves dry up and fall off in autumn?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What problems might arise if tree leaves remain<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attached throughout the year?', 
+        keywords: ['reason', 'leaves', 'appear green', 'chlorophyll', 'inside', 'chloroplasts', 'red maples', 'perform photosynthesis', 'different method', 'photosynthesis', 'explain', 'plant leaves', 'dry up', 'fall off', 'autumn', 'problems', 'arise', 'tree leaves', 'remain attached', 'throughout year'] , 
+        fontType: 'type2' 
+      },
+      2: { 
+        text: '01. Beautiful Secret Motifs of Plants<br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of</span><br><span class="larger-text">Beautiful Motifs of Plants?</span><br><br>', 
+        keywords: ['Beautiful Secret Motifs', 'Plants', 'How Can We Apply', 'Study', 'Beautiful Motifs', 'Plants', 'eco-friendliness', 'refers', 'life', 'harmony', 'natural environment', 'without polluting', 'people', 'typically', 'consider', 'things', 'not use', 'coal', 'petroleum', 'eco-friendly', 'however', 'reducing', 'product packaging', 'minimizing', 'production process', 'save electricity', 'water', 'considered', 'recently', 'environmental pollution', 'global warming', 'becoming', 'severe', 'interest', 'increased'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'Eco-friendliness refers to a life of harmony with<br>the natural environment without polluting. People<br>typically consider only things that do not use coal<br>or petroleum as eco-friendly. However, reducing<br>product packaging or minimizing the production<br>process to save electricity or water is also considered<br>eco-friendly. Recently, with environmental pollution<br>and global warming becoming more severe, people\'s<br>interest in eco-friendliness has increased.', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/22.jpg',
+    zones: {
+      1: { 
+        text: 'Plants are the only organisms on Earth that can<br>generate energy independently. They use sunlight to<br>create carbohydrates from water and carbon dioxide.<br>Photosynthesis is the most crucial life phenomenon<br>that sustains all living organisms.<br>Today, scientists are making efforts to develop<br>artificial photosynthesis technology. A research team<br>at a university in the United States has developed<br>artificial photosynthesis technology that comes close<br>to the photosynthetic ability of plants. Of course,<br>practical use of this technology may take some time.<br>However, scientists have high expectations for artificial<br>photosynthesis technology because it has unveiled<br>the hidden secrets of plants.', 
+        keywords: ['plants', 'only organisms', 'Earth', 'generate energy', 'independently', 'use sunlight', 'create carbohydrates', 'water', 'carbon dioxide', 'photosynthesis', 'most crucial', 'life phenomenon', 'sustains', 'living organisms', 'today', 'scientists', 'making efforts', 'develop', 'artificial photosynthesis technology', 'research team', 'university', 'United States', 'developed', 'comes close', 'photosynthetic ability', 'plants', 'practical use', 'technology', 'take time', 'however', 'high expectations', 'unveiled', 'hidden secrets'] 
+      },
+      2: { 
+        text: 'Photosynthesis is a precious gift that nature has<br>given to humans. An era is approaching where we can<br>create eco-friendly energy while reducing the carbon<br>dioxide that causes global warming.', 
+        keywords: ['photosynthesis', 'precious gift', 'nature', 'given', 'humans', 'era', 'approaching', 'create', 'eco-friendly energy', 'reducing', 'carbon dioxide', 'causes', 'global warming', 'plants', 'continue', 'grow', 'until', 'die', 'humans', 'stop growing', 'certain period', 'explain', 'break', 'plant branch', 'plant', 'ground', 'roots', 'grow', 'leaf', 'roots sprout', 'thoughts', 'freely'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '(1) Why do plants continue to grow until they die, while<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;humans stop growing after a certain period? Explain.<br><br>(2) If we break a plant\'s branch and plant it in the ground,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;will roots grow? Or if we plant a leaf in the ground, will<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roots sprout? Explain your thoughts freely.<br>', keywords: []  , 
+      fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/23.jpg',
+    zones: {
+      1: { 
+        text: 'The carnivorous plant Nepenthes robcantleyi, which eats<br>animals, is almost disappearing today. It can grow to about<br>2.5 meters, almost twice a child\'s height. This plant has<br>a large pitcher with a wide-open mouth, displaying<br>a vibrant and colorful motif. With its red and colorful<br>motifs, this plant does not discriminate in capturing prey,<br>ranging from tiny insects like flies to relatively large<br>animals like frogs or mice. The checkerboard motif helps<br>deceive insects and animals easily.<br>Nepenthes robcantleyi is a terrifying carnivorous plant<br>that digests everything, including the teeth and bones<br>of animals. This carnivorous plant, which lives in damp<br>environments such as swamps and wetlands, was<br>discovered in Borneo, Southeast Asia. Carnivorous plants<br>secrete a powerful liquid that dissolves the prey\'s body,<br>absorbing nutrients, similar to how our bodies digest food.<br>What are the weapons carnivorous plants use to hunt<br>prey? Explain the hidden secrets of carnivorous plants.', 
+        keywords: ['carnivorous plant', 'Nepenthes robcantleyi', 'eats animals', 'almost disappearing', 'today', 'grow', '2.5 meters', 'twice', 'child height', 'large pitcher', 'wide-open mouth', 'displaying', 'vibrant', 'colorful motif', 'red', 'colorful motifs', 'not discriminate', 'capturing prey', 'ranging', 'tiny insects', 'flies', 'relatively large animals', 'frogs', 'mice', 'checkerboard motif', 'helps deceive', 'insects', 'animals', 'easily', 'terrifying', 'digests everything', 'including', 'teeth', 'bones', 'lives', 'damp environments', 'swamps', 'wetlands', 'discovered', 'Borneo', 'Southeast Asia', 'secrete', 'powerful liquid', 'dissolves', 'prey body', 'absorbing nutrients', 'similar', 'bodies digest food', 'weapons', 'hunt prey', 'explain', 'hidden secrets'] , 
+        fontType: 'type3' 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/24.jpg',
+    zones: {
+      1: { 
+        text: 'The motifs revealed on plant leaves are highly diverse,<br>just like how the shape of fingerprints varies from<br>person to person. For example, the patterns of leaf veins,<br>which serve as pathways for water and nutrients, differ<br>depending on the plant species. The leaves of forsythias<br>and oak trees display veins that split similarly to the<br>branching of tree branches. In contrast, green foxtail and<br>the leaves of rice plants have elongated veins running<br>vertically.<br>While leaves are generally green, some leaves exhibit<br>colors such as red, white, and even golden or silver.<br>Some plants intentionally change the color of their leaves.<br>Plants like silver vines and variegated-leaf hardy kiwi<br>produce small flowers in the lush summer foliage.<br>However, during flowering, certain chemical substances<br>are released from the flowers, causing the surrounding<br>leaves to turn white or pink. Leaves that change color like<br>this can no longer perform photosynthesis. Despite this,<br>explain why plants like silver vine and variegated-leaf<br>hardy kiwi change the color of their leaves.', 
+        keywords: ['motifs', 'revealed', 'plant leaves', 'highly diverse', 'shape', 'fingerprints', 'varies', 'person to person', 'example', 'patterns', 'leaf veins', 'serve', 'pathways', 'water', 'nutrients', 'differ', 'depending', 'plant species', 'leaves', 'forsythias', 'oak trees', 'display', 'veins', 'split', 'similarly', 'branching', 'tree branches', 'contrast', 'green foxtail', 'rice plants', 'elongated veins', 'running vertically', 'while', 'generally green', 'some leaves', 'exhibit colors', 'red', 'white', 'golden', 'silver', 'plants', 'intentionally', 'change', 'color', 'leaves', 'silver vines', 'variegated-leaf hardy kiwi', 'produce', 'small flowers', 'lush summer foliage', 'however', 'during flowering', 'certain chemical substances', 'released', 'flowers', 'causing', 'surrounding leaves', 'turn', 'pink', 'change color', 'no longer', 'perform photosynthesis', 'despite', 'explain'] , 
+        fontType: 'type3' 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/25.jpg',
+    zones: {
+      1: { 
+        text: 'If humans could perform photosynthesis like plants,<br>it would be incredibly convenient. Simply drinking water<br>and basking in sunlight would supply all the necessary<br>nutrients. This could naturally resolve issues we currently<br>grapple with, such as energy, food, and environmental<br>pollution. So, what changes might occur in the human body<br>if we perform photosynthesis directly? Firstly, humans<br>would develop green skin to facilitate photosynthesis.<br>Additionally, evolution would lead to an increase in body<br>surface area to enhance the efficiency of photosynthesis.<br>In other words, there would be a proliferation of smaller,<br>plumper individuals.<br>As people would no longer need to eat, teeth and digestive<br>organs would gradually deteriorate, and the frequency<br>of bathroom visits would decrease. People\'s lifestyles<br>would also undergo significant changes. Individuals might<br>discard clothes to expose themselves to sunlight for<br>photosynthesis. If humans could perform photosynthesis,<br>imagine how our society might transform. Please explain<br>how our way of life and society might evolve if humans<br>were capable of photosynthesis.', 
+        keywords: ['humans', 'could perform', 'photosynthesis', 'plants', 'incredibly convenient', 'simply drinking water', 'basking', 'sunlight', 'supply', 'necessary nutrients', 'naturally resolve', 'issues', 'currently grapple', 'energy', 'food', 'environmental pollution', 'changes', 'might occur', 'human body', 'perform photosynthesis', 'directly', 'firstly', 'develop', 'green skin', 'facilitate', 'additionally', 'evolution', 'lead', 'increase', 'body surface area', 'enhance', 'efficiency', 'other words', 'proliferation', 'smaller', 'plumper individuals', 'people', 'no longer', 'need', 'eat', 'teeth', 'digestive organs', 'gradually deteriorate', 'frequency', 'bathroom visits', 'decrease', 'lifestyles', 'undergo', 'significant changes', 'individuals', 'might discard', 'clothes', 'expose themselves', 'imagine', 'society', 'transform', 'explain', 'way of life', 'evolve', 'capable'] , 
+        fontType: 'type3' 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/26.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { 
+        text: 'Plants can be divided into roots, stems, and leaves. Leaves,<br>through photosynthesis, produce nutrients, while stems<br>act as conduits for the movement of water and nutrients.<br>Additionally, stems provide support to the plant and play<br>a role in protecting it from cold and heat. For instance,<br>cacti can survive in arid environments because their stems<br>can store water.<br>Though often concealed underground and less noticeable,<br>roots are crucial for plants. They support the above-ground<br>plant structure and absorb water and minerals through<br>root hairs. Some plants, like radishes, sweet potatoes, and<br>carrots, store nutrients in their roots. However, some roots<br>have one thick root branching into several, while others<br>have hair-like roots resembling a beard.<br>Explain the advantages and disadvantages of taproots that<br>branch out like tree branches and fibrous roots similar to<br>a beard.', 
+        keywords: ['plants', 'divided', 'roots', 'stems', 'leaves', 'through photosynthesis', 'produce nutrients', 'stems', 'act', 'conduits', 'movement', 'water', 'nutrients', 'additionally', 'provide support', 'plant', 'play role', 'protecting', 'cold', 'heat', 'instance', 'cacti', 'survive', 'arid environments', 'stems', 'store water', 'though often', 'concealed underground', 'less noticeable', 'crucial', 'support', 'above-ground', 'plant structure', 'absorb', 'minerals', 'root hairs', 'some plants', 'radishes', 'sweet potatoes', 'carrots', 'store nutrients', 'roots', 'however', 'one thick root', 'branching', 'several', 'others', 'hair-like roots', 'resembling', 'beard', 'explain', 'advantages', 'disadvantages', 'taproots', 'branch out', 'tree branches', 'fibrous roots', 'similar'] , 
+        fontType: 'type3'   
+      },  
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/27.jpg',
+    zones: {
+      1: { 
+        text: '<u><strong>Why Carnivorous Plants Hunt<br><br>Photosynthesis is the process where plants use carbon<br>dioxide from the air and water to create nutrients.<br>In other words, it converts the sun\'s light energy into<br>chemical energy. Thanks to plants, living organisms on<br>Earth can harness the sun\'s energy. Carnivorous plants<br>are a type of plant that hunts animals. They are also called<br>insect-eating plants because their prey is mainly insects.<br>While typical plants can serve as food for animals, plants<br>do not consume other animals. In that regard, carnivorous<br>plants are quite fascinating.<br>Why do they hunt? Is it because they cannot perform<br>photosynthesis? Carnivorous plants undergo photosynthesis.<br>However, they cannot obtain all the nutrients they need<br>through photosynthesis alone. Nitrogen is an essential<br>element for the survival of plants. Nitrogen is a substance<br>that makes up the majority of the air. Yet, they cannot<br>obtain nitrogen through photosynthesis. Instead, they<br>absorb nitrogen from the soil. Carnivorous plants are<br>usually found in swamps or marshes where the soil lacks<br>sufficient nutrients.</strong></u>', 
+        keywords: ['Why Carnivorous Plants Hunt', 'photosynthesis', 'process', 'plants', 'use', 'carbon dioxide', 'air', 'water', 'create nutrients', 'other words', 'converts', 'sun light energy', 'chemical energy', 'thanks', 'plants', 'living organisms', 'Earth', 'harness', 'sun energy', 'carnivorous plants', 'type', 'plant', 'hunts animals', 'also called', 'insect-eating plants', 'prey', 'mainly insects', 'while', 'typical plants', 'serve', 'food', 'animals', 'do not consume', 'other animals', 'regard', 'quite fascinating', 'why', 'hunt', 'because', 'cannot perform', 'photosynthesis', 'undergo photosynthesis', 'however', 'cannot obtain', 'nutrients', 'need', 'alone', 'nitrogen', 'essential element', 'survival', 'substance', 'makes up', 'majority', 'yet', 'obtain', 'instead', 'absorb', 'soil', 'usually found', 'swamps', 'marshes', 'lacks', 'sufficient nutrients'] , 
+        fontType: 'type3' 
+      },
+      2: { 
+        text: 'Because the soil is barren, it obtains the necessary nitrogen<br>by hunting animals. However, hunting is not always<br>necessary to acquire essential nutrients. Sometimes,<br>it forms a symbiotic relationship with animals to obtain<br>nutrients. Nepenthes is a plant with pouch-shaped leaves<br>with a lid. It lures insects with the nectar on the lid,<br>causing them to fall into the pouch. Inside the pouch is<br>a digestive fluid that breaks down and consumes the<br>insects. However, some Nepenthes have a symbiotic<br>relationship with moles. The mole eats the sweet nectar<br>on the lid of Nepenthes, and in return, Nepenthes obtains<br>necessary nutrients from the mole\'s excrement. In the end,<br>they have found a mutually beneficial survival strategy.', 
+        keywords: ['because', 'soil', 'barren', 'obtains', 'necessary nitrogen', 'hunting animals', 'however', 'hunting', 'not always', 'necessary', 'acquire', 'essential nutrients', 'sometimes', 'forms', 'symbiotic relationship', 'animals', 'obtain nutrients', 'Nepenthes', 'plant', 'pouch-shaped leaves', 'lid', 'lures insects', 'nectar', 'causing', 'fall', 'pouch', 'inside', 'digestive fluid', 'breaks down', 'consumes', 'insects', 'some', 'symbiotic relationship', 'moles', 'mole', 'eats', 'sweet nectar', 'return', 'obtains', 'necessary nutrients', 'mole excrement', 'end', 'found', 'mutually beneficial', 'survival strategy'] , 
+        fontType: 'type3' 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/28.jpg',
+    zones: {
+      1: { 
+        text: '<span class="larger-text">02. The Life and Death of a Plant<br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inside Motifs<br><br>', 
+        keywords: ['The Life and Death', 'Plant', 'Inside Motifs', 'when people', 'catch cold', 'body temperature', 'increases', 'faces flush', 'may cough', 'sniffle', 'body', 'unwell', 'various noticeable', 'changes occur', 'similarly', 'plants', 'sick', 'exhibit', 'various distinct changes', 'plant', 'becomes diseased', 'unusual motifs', 'appear', 'stems', 'leaves', 'motifs', 'serve', 'signals', 'plant', 'unwell', 'not detected', 'early', 'plant', 'may', 'even die'] 
+      },
+      2: { 
+        text: 'Blotch disease is an illness in which plants become<br>infected by pathogens. Observing the shapes and<br>colors of blotched motifs appearing on leaves, stems,<br>or fruits can identify the type of blotch disease<br>affecting the plant. Initially, these blotches may seem<br>inconspicuous and trivial.<br>However, if left untreated, the spots gradually<br>spread, eventually covering the entire plant. In such<br>a state, the plant cannot produce nutrients, leading<br>to its death. Blotch diseases come in various types,<br>distinguished by the color and shape of the patterns.<br>Let\'s discover them one by one.</strong></u>', 
+        keywords: ['blotch disease', 'illness', 'plants', 'become infected', 'pathogens', 'observing', 'shapes', 'colors', 'blotched motifs', 'appearing', 'leaves', 'stems', 'fruits', 'identify', 'type', 'blotch disease', 'affecting', 'plant', 'initially', 'blotches', 'may seem', 'inconspicuous', 'trivial', 'however', 'left untreated', 'spots', 'gradually spread', 'eventually', 'covering', 'entire plant', 'such state', 'plant', 'cannot produce', 'nutrients', 'leading', 'death', 'blotch diseases', 'come', 'various types', 'distinguished', 'color', 'shape', 'patterns', 'discover', 'one by one'] 
+      },
+      3: { text: 'When people catch a cold, their body temperature<br>increases, their faces flush, and they may cough or<br>sniffle. When the body is unwell, various noticeable<br>changes occur. Similarly, when plants are sick, they<br>exhibit various distinct changes. If a plant becomes<br>diseased, unusual motifs appear on the stems or<br>leaves. These motifs serve as signals that the plant is<br>unwell. If not detected early, the plant may even die.', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/29.jpg',
+    zones: {
+      1: { 
+        text: 'Plant blotch diseases include black spot disease,<br>brown spot disease, red spot disease, seedling blight,<br>leaf spot disease, brown spot leaf disease, and several<br>others. Black spot disease commonly appears on pear<br>or apple trees. It starts as a tiny dot and spreads<br>throughout the entire plant like black mold.', 
+        keywords: ['plant', 'blotch', 'diseases', 'black', 'spot', 'disease', 'brown', 'spot', 'disease', 'red', 'spot', 'disease', 'seedling', 'blight', 'leaf', 'spot', 'disease', 'brown', 'spot', 'leaf', 'disease', 'pear', 'apple', 'trees', 'dot', 'plant', 'black', 'mold'] 
+      },
+      2: { 
+        text: 'This disease tends to develop in cool and damp<br>conditions. In May, June, and September, black spots<br>resembling stars appear on the surface of fruits.<br>Plants are more susceptible to black spot disease if<br>temperatures abruptly drop or there is heavy rainfall<br>in spring or autumn. The pathogens that transmit this<br>disease hibernate in fallen leaves or small branches<br>during winter and gradually become active in the<br>following spring.', 
+        keywords: ['disease', 'conditions', 'May', 'June', 'September', 'black', 'spots', 'stars', 'surface', 'fruits', 'plants', 'temperatures', 'rainfall', 'spring', 'autumn', 'pathogens', 'leaves', 'branches', 'winter', 'spring'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/30.jpg',
+    zones: {
+      1: { 
+        text: 'Motifs begin to appear on the leaves or stems of<br>a tree from the very small fruit stage.<br>The characteristics of the motifs vary slightly<br>depending on the season. In spring, leaves affected<br>by black spot disease exhibit dark blotches resembling<br>charred markings as if burned. The disease-causing<br>pathogens, resembling mold, are densely distributed<br>and can be easily smudged when touched. However,<br>in autumn, leaves affected by black spot disease have<br>a lighter motif resembling the spread of ink, and the<br>pathogens do not smear when touched.', 
+        keywords: ['motifs', 'leaves', 'stems', 'tree', 'fruit', 'stage', 'characteristics', 'motifs', 'season', 'spring', 'leaves', 'black', 'spot', 'disease', 'blotches', 'markings', 'pathogens', 'mold', 'autumn', 'motif', 'ink'] 
+      },
+      2: { 
+        text: 'When plants are affected by blotch diseases, they<br>may fail to produce fruits properly, and in severe<br>cases, the tree may die. Protecting crops from<br>diseases and preventing them from spreading to other<br>trees requires considerable effort. If diseased leaves<br>and branches are discovered, they should be cut and<br>burned to prevent the disease from spreading to other<br>trees. Additionally, before buds sprout in early spring,<br>pesticides that can combat these pathogens should<br>be evenly sprayed over the entire crop. Maintaining<br>an appropriate temperature is also crucial if plants<br>are grown in a greenhouse.', 
+        keywords: ['plants', 'blotch', 'diseases', 'fruits', 'cases', 'tree', 'crops', 'diseases', 'trees', 'effort', 'leaves', 'branches', 'disease', 'buds', 'spring', 'pesticides', 'pathogens', 'crop', 'temperature', 'plants', 'greenhouse'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain how black spot disease symptoms vary<br>depending on the season.', 
+        keywords: ['black', 'spot', 'disease', 'symptoms', 'season'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/31.jpg',
+    zones: {
+      1: { 
+        text: 'Fertilizer is a nutrient supplement applied to the<br>soil or plants to ensure the healthy growth of crops.<br>However, excessive use of nitrogen-rich fertilizer can<br>result in abundant leaves while weakening stems and<br>leaves, increasing the risk of diseases. Additionally,<br>when branches thrive, the spread of pathogens<br>becomes more likely, so tidying up the branches<br>regularly is necessary.', 
+        keywords: ['fertilizer', 'nutrient', 'supplement', 'soil', 'plants', 'growth', 'crops', 'nitrogen', 'fertilizer', 'leaves', 'stems', 'leaves', 'risk', 'diseases', 'branches', 'pathogens', 'branches'] 
+      },
+      2: { 
+        text: 'Brown spot disease affects the leaves of various<br>crops, such as apples, eggplants, lettuce, and peppers.<br>When affected by brown spot disease, small purple or<br>dark brown spots appear on the leaves. These spots<br>gradually enlarge, forming large brown spots.<br>Only the periphery of the spots retains a green color.<br>At the same time, the rest of the leaf turns a<br>yellowish-brown hue, eventually causing the leaf to<br>fall off. Brown spot disease is more likely to occur in<br>warm and humid conditions with abundant rainfall,<br>typically manifesting in June, just before summer.', 
+        keywords: ['brown', 'spot', 'disease', 'leaves', 'crops', 'apples', 'eggplants', 'lettuce', 'peppers', 'purple', 'brown', 'spots', 'leaves', 'spots', 'brown', 'spots', 'periphery', 'spots', 'color', 'time', 'leaf', 'hue', 'leaf', 'conditions', 'rainfall', 'June', 'summer'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Describe how the leaves of a plant affected by<br>brown spot disease change.', 
+        keywords: ['leaves', 'plant', 'brown', 'spot', 'disease'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/32.jpg',
+    zones: {
+      1: { 
+        text: 'When brown spot disease becomes severe, tree leaves<br>may fall off during the summer. Examine how eggplants,<br>a summer vegetable that enhances flavors, change<br>when affected by brown spot disease. Small yellowish<br>blotches start appearing sporadically across the entire<br>leaves of the eggplant. Brown spots, initially small,<br>gradually grow and merge to form elongated circular<br>shapes, turning into a deep brown color. Eventually,<br>brown spots appear on the stems and fruits of the<br>eggplant, causing the fruits to fall off or dry up before<br>fully ripening.', 
+        keywords: ['brown', 'spot', 'disease', 'tree', 'leaves', 'summer', 'eggplants', 'summer', 'vegetable', 'flavors', 'blotches', 'leaves', 'eggplant', 'brown', 'spots', 'shapes', 'brown', 'color', 'stems', 'fruits', 'fruits'] 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Red spot disease primarily occurs in apples, pears,<br>and tobacco. Initially, small orange spots appear<br>on the leaves, and as the infection spreads, yellow<br>patterns emerge on the back of the leaves.<br>When it becomes severe, the entire leaf turns red.<br>While this disease mainly affects the leaves, similar<br>symptoms may appear on fruits or newly emerged<br>branches.', 
+        keywords: ['red', 'spot', 'disease', 'apples', 'pears', 'tobacco', 'orange', 'spots', 'leaves', 'infection', 'yellow', 'patterns', 'leaves', 'leaf', 'disease', 'leaves', 'symptoms', 'fruits', 'branches'] 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/33.jpg',
+    zones: {
+      1: { 
+        text: 'Red spot disease occurs more frequently in April<br>and May when there is rain. It is mainly caused by<br>the nearby the Chinese junipers, also known as "rust<br>disease," because the pathogen appears clustered,<br>resembling rust on leaves of the Chinese junipers.<br>The increased pathogens on the Chinese junipers<br>during winter are carried by the wind to infect apple<br>or pear trees with red spot disease. As the pathogen<br>can travel up to 2 km, it is advisable for orchards<br>cultivating apples or pears to refrain from planting<br>the Chinese junipers in the vicinity.', 
+        keywords: ['red', 'spot', 'disease', 'April', 'May', 'rain', 'Chinese', 'junipers', 'rust', 'disease', 'pathogen', 'rust', 'leaves', 'Chinese', 'junipers', 'pathogens', 'winter', 'wind', 'apple', 'pear', 'trees', 'pathogen', 'km', 'orchards', 'apples', 'pears', 'vicinity'] 
+      },
+      2: { 
+        text: 'Seedling blight disease exhibits motifs resembling<br>sesame seeds tightly packed together. It occurs<br>between April and October and is commonly found in<br>paddy fields with crops like rice and corn. This disease<br>is primarily transmitted through the soil-borne<br>fungus. Small spotted patterns appear on the leaves,<br>gradually merging to cover the entire stem in brown.<br>Dark spots resembling black spots also develop on the<br>plants\' branches.', 
+        keywords: ['seedling', 'blight', 'disease', 'motifs', 'sesame', 'seeds', 'April', 'October', 'paddy', 'fields', 'crops', 'rice', 'corn', 'disease', 'soil', 'fungus', 'patterns', 'leaves', 'stem', 'brown', 'spots', 'black', 'spots', 'plants', 'branches'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Explain the reasons for the occurrence of red spot<br>disease.', 
+        keywords: ['reasons', 'red', 'spot', 'disease'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/34.jpg',
+    zones: {
+      1: { 
+        text: 'There is no specific method to prevent seedling blight<br>disease. Fertilizers should be evenly distributed, and<br>pesticides should be applied uniformly, just like when<br>cultivating other crops.<br>As for leaf spot disease, red spots initially appear, and<br>round-shaped spots with a dark brown band develop<br>as the disease progresses. Various vegetables,<br>such as carrots, eggplants, watermelons, peppers,<br>sweet potatoes, and tomatoes, can be affected by<br>spot disease, with each vegetable showing slightly<br>different characteristics when infected.', 
+        keywords: ['method', 'seedling', 'blight', 'disease', 'fertilizers', 'pesticides', 'crops', 'leaf', 'spot', 'disease', 'red', 'spots', 'spots', 'brown', 'band', 'disease', 'vegetables', 'carrots', 'eggplants', 'watermelons', 'peppers', 'sweet', 'potatoes', 'tomatoes', 'spot', 'disease', 'vegetable', 'characteristics'] 
+      },
+      2: { 
+        text: 'Take carrots as an example. Initially, reddish-brown<br>or yellowish-brown spots appear, and the area around<br>these spots changes to yellow. As the leaves become<br>diseased, they turn yellow overall and eventually<br>brown, drying up and dying. Watermelon spot disease<br>is characterized by small brown spots on the leaves<br>that gradually enlarge to the size of a thumbnail.<br>Within the spots, white dot-like shapes appear.<br>As the small brown spots merge, the color becomes<br>darker, increasing their size. It looks like white paint<br>has been dotted inside the spots. Over time, as the<br>spots merge, the leaves with the enlarged motif dry<br>up and die.', 
+        keywords: ['carrots', 'example', 'reddish', 'brown', 'yellowish', 'brown', 'spots', 'area', 'spots', 'yellow', 'leaves', 'yellow', 'brown', 'watermelon', 'spot', 'disease', 'brown', 'spots', 'leaves', 'size', 'thumbnail', 'spots', 'white', 'shapes', 'brown', 'spots', 'color', 'size', 'white', 'paint', 'spots', 'time', 'spots', 'leaves', 'motif'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/35.jpg',
+    zones: {
+      1: { 
+        text: 'Among spot diseases, there is also brown spot leaf<br>disease. This disease affects about ten types of<br>plants, including eggplants, peas, pear trees, peanuts,<br>and others. It causes significant damage to crops,<br>making it a challenging spot disease for farmers.<br>Brown spot leaf disease exhibits motifs similar to<br>those of brown spot blight, with one distinctive<br>feature being the appearance of dark, blurry gray rings.', 
+        keywords: ['spot', 'diseases', 'brown', 'spot', 'leaf', 'disease', 'disease', 'types', 'plants', 'eggplants', 'peas', 'pear', 'trees', 'peanuts', 'damage', 'crops', 'spot', 'disease', 'farmers', 'motifs', 'brown', 'spot', 'blight', 'feature', 'appearance', 'gray', 'rings'] 
+      },
+      2: { 
+        text: 'When stems are affected by brown spot leaf disease,<br>dark brown spots appear, causing them to become<br>concave, and the stems gradually lose moisture,<br>leading to their death. Brown spot disease affects<br>various plants, such as buckwheat, apples, lotus<br>flowers, and persimmons, causing significant damage.<br>Brown spot leaf disease originates from pathogens<br>previously living in other diseased plants or the soil.<br>To prevent brown spot leaf disease, it is essential to<br>cut off the diseased parts of plants affected by spot<br>diseases or completely eliminate the infected plants<br>by burning them to prevent the growth of pathogens.', 
+        keywords: ['stems', 'brown', 'spot', 'leaf', 'disease', 'brown', 'spots', 'stems', 'moisture', 'death', 'brown', 'spot', 'disease', 'plants', 'buckwheat', 'apples', 'lotus', 'flowers', 'persimmons', 'damage', 'pathogens', 'plants', 'soil', 'parts', 'plants', 'spot', 'diseases', 'plants', 'growth', 'pathogens'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { 
+        text: 'Describe the motif that appears when a plant is<br>affected by brown spot leaf disease.', 
+        keywords: ['motif', 'plant', 'brown', 'spot', 'leaf', 'disease'], 
+        fontType: 'type2' 
+      }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/36.jpg',
+    zones: {
+      1: { 
+        text: 'Select healthy seeds and plant them in thoroughly<br>sterilized soil to prevent brown spot leaf disease.<br>This ensures that the plants can thrive without brown<br>spot leaf disease. In the previous discussion, we<br>explored various blotch diseases affecting plants.<br>Plant blotch diseases can manifest with similar motifs<br>depending on the type of disease and the affected<br>plant, or they may exhibit entirely different motifs.<br>When observing plants, one can notice that the<br>appearance, shape, size, color, and motifs vary among<br>different plant species.', 
+        keywords: ['seeds', 'plant', 'soil', 'brown', 'spot', 'leaf', 'disease', 'plants', 'discussion', 'blotch', 'diseases', 'plants', 'plant', 'blotch', 'diseases', 'motifs', 'type', 'disease', 'plant', 'motifs', 'plants', 'appearance', 'shape', 'size', 'color', 'motifs', 'plant', 'species'] 
+      },
+      2: { 
+        text: 'Similarly, the characteristics of blotch diseases vary<br>depending on the plant type, leaf shape, and other<br>factors. Although different plant species may have<br>distinct names and habitats, some plants may share<br>similar motifs on their leaves or flowers. Due to the<br>significant influence of the growing environment,<br>plants often exhibit similar features.', 
+        keywords: ['characteristics', 'blotch', 'diseases', 'plant', 'type', 'leaf', 'shape', 'factors', 'plant', 'species', 'names', 'habitats', 'plants', 'motifs', 'leaves', 'flowers', 'influence', 'environment', 'plants', 'features'] 
+      },
+      3: { 
+        text: 'Describe the methods for preventing brown spot<br>leaf disease.', 
+        keywords: ['methods', 'brown', 'spot', 'leaf', 'disease'], 
+        fontType: 'type2' 
+      },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/37.jpg',
+    zones: {
+      1: { text: 'When we carefully observe a plant\'s flowers, leaves,<br>stems, and other parts, we can discover the inherent<br>motifs unique to that plant. The motifs on a plant<br>reflect its distinctive qualities or serve as features<br>that differentiate it from other plants. Often, plant<br>motifs repeat consistently, conveying information<br>about how the plant originated and the environment<br>in which it grew. The motifs on a plant are determined<br>by the genetic information inherited from the parent<br>plant that produced its seeds. Therefore, genes are<br>commonly referred to as the blueprint of an organism.<br>The tortoiseshell motif, shaped like a turtle\'s shell,<br>is a compound word created using Chinese characters.<br>The character "龜" represents a turtle, and "甲" means<br>a hard shell. Throughout history, people have regarded<br>turtles as precious beings associated with good<br>fortune and longevity.', 
+            keywords: ['plant', 'flowers', 'leaves', 'stems', 'parts', 'motifs', 'qualities', 'features', 'plants', 'information', 'environment', 'parent', 'seeds', 'genes', 'blueprint', 'organism', 'tortoiseshell', 'motif', 'turtle', 'shell', 'word', 'Chinese', 'characters', 'character', 'history', 'people', 'turtles', 'beings', 'fortune', 'longevity'] },
+      2: { text: 'People engraved tortoiseshell motifs on various items<br>in hopes of inviting prosperity and a long life. Objects<br>adorned with tortoiseshell motifs were considered<br>highly sophisticated and luxurious.<br>Did you know that tortoiseshell motifs can appear not<br>only on animals but also on plants?', 
+            keywords: ['people', 'tortoiseshell', 'motifs', 'items', 'hopes', 'prosperity', 'life', 'objects', 'animals', 'plants'] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/38.jpg',
+    zones: {
+      1: { text: '', 
+           keywords: [] },
+      2: { text: 'Now, let\'s explore plants with tortoiseshell motifs<br>on their leaves. The honey suckle and forsythia have<br>leaves with a tortoise-shell motif. Although they<br>share the tortoiseshell motif, the appearance of the<br>leaves can vary depending on the environment in<br>which they grow. Plants that thrive in well-lit areas<br>display a more pronounced yellow tortoiseshell motif.', 
+            keywords: ['plants', 'tortoiseshell', 'motifs', 'leaves', 'honey', 'suckle', 'forsythia', 'tortoise', 'shell', 'motif', 'appearance', 'environment', 'areas', 'yellow'] },
+      3: { text: 'A bamboo called the "tortoise-shell bamboo" is<br>extremely rare and expensive due to its scarcity.<br>The upper part of the tortoise-shell bamboo looks<br>similar to regular bamboo. However, the lower part has<br>a rough and uneven appearance, resembling a turtle\'s<br>shell at each joint. Among pine trees, the Scotch pine<br>also has bark with a pattern resembling a turtle\'s shell.', 
+            keywords: ['bamboo', 'tortoise', 'shell', 'part', 'part', 'appearance', 'turtle', 'shell', 'joint', 'pine', 'trees', 'Scotch', 'pine', 'bark', 'pattern'] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/39.jpg',
+    zones: {
+      1: { text: 'On the contrary, plants that grow in places with less<br>sunlight have a lighter-colored tortoiseshell motif.<br>When walking along mountain trails in April and May,<br>we may encounter a plant called purple violet, which<br>blooms with purple flowers. If we look closely at the<br>flowers of purple violet, we can find a tortoiseshell<br>motif. Although it may not be fully developed yet,<br>a purple violet with a perfect tortoiseshell motif might<br>appear someday as it produces seeds and spreads its<br>descendants.<br>Are there any other plants with similar patterns?<br>Let\'s explore plants with beautiful star-shaped motifs.<br>One such plant, called carpet sedum, is commonly<br>called needle stonecrop because it grows well on<br>rocks. Needle stonecrop has a white band around its<br>edges, giving it a refreshing feeling.', 
+            keywords: ['plants', 'places', 'sunlight', 'tortoiseshell', 'motif', 'mountain', 'trails', 'April', 'May', 'plant', 'purple', 'violet', 'flowers', 'seeds', 'descendants', 'patterns', 'motifs', 'carpet', 'sedum', 'needle', 'stonecrop', 'rocks', 'band', 'edges', 'feeling'] },
+      2: { text: 'Similarly, gold moss stonecrop, which has a motif<br>similar to needle stonecrop, has a yellow-bordered<br>motif on the edges of its leaves. Therefore, it may not<br>be easy to distinguish between the two plants at first<br>glance. When we look at both plants, countless stars<br>seem to adorn the night sky. The two plants share a<br>similar appearance and thrive in similar environments.', 
+            keywords: ['gold', 'moss', 'stonecrop', 'motif', 'needle', 'edges', 'leaves', 'plants', 'glance', 'stars', 'night', 'sky', 'appearance', 'environments'] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: 'Explain how the amount of sunlight affects the<br>development of the tortoiseshell motif.', 
+            keywords: ['amount', 'sunlight', 'development', 'tortoiseshell', 'motif'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/40.jpg',
+    zones: {
+      1: { 
+                 text: 'They are sturdy plants that grow well in places with<br>scarce water or strong winds, making them popular<br>among novice plant enthusiasts. However, it is<br>important to be cautious not to overwater them,<br>as excessive watering can lead to root rot and plant<br>death. The motifs are found on leaves and stems and<br>appear on petals. Take a walk outside and observe<br>the flowers blooming in our surroundings. What motifs<br>do we see on the petals? Try sketching the motifs on<br>the petals and grouping similar motifs.', 
+        keywords: ['sturdy plants', 'grow well', 'places', 'scarce water', 'strong winds', 'making', 'popular', 'among', 'novice plant enthusiasts', 'however', 'important', 'cautious', 'not overwater', 'excessive watering', 'can lead', 'root rot', 'plant death', 'motifs', 'found', 'leaves', 'stems', 'appear', 'petals', 'take walk', 'outside', 'observe', 'flowers blooming', 'surroundings', 'what motifs', 'see', 'petals', 'try sketching', 'motifs', 'petals', 'grouping', 'similar motifs'] 
+      },
+      2: { 
+                 text: '02. The Life and Death of a Plant Inside Motifs<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying the Life<br><span class="larger-text">and Death of a Plants Inside Motifs?<br><br>', 
+                 keywords: ['Life', 'Death', 'Plant', 'Motifs', 'Purpose', 'Life', 'Death', 'Plants', 'Motifs', 'animal', 'plant', 'organism', 'motifs', 'body', 'anomaly', 'health', 'spots', 'blisters', 'animal', 'skin', 'disease', 'plant', 'leaves', 'stems', 'roots', 'pathogens', 'motifs', 'motifs', 'health', 'status', 'plants'] 
+      },
+      3: { 
+        text: 'Write down what comes to mind when we observe<br>the motifs of gold moss stonecrop and needle<br>stonecrop.', 
+        keywords: ['write down', 'comes to mind', 'when we observe', 'motifs', 'gold moss stonecrop', 'needle stonecrop'], 
+        fontType: 'type2' 
+      },
+      4: { text: 'Regardless of whether it is an animal or a plant, any<br>living organism exhibits motifs on its body when there<br>is an anomaly in its health. For instance, red spots or<br>blisters may appear if an animal gets skin disease.<br>Similarly, plant leaves, stems, and roots infected with<br>pathogens develop distinctive motifs. Thus, we can<br>observe motifs to discern the health status of plants.', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/41.jpg',
+    zones: {
+      1: { 
+                 text: 'When we meet someone for the first time and<br>exchange a few words, we can get an idea of their<br>personality. However, plants cannot speak like humans<br>or produce sounds like animals. To communicate with<br>plants, we need to understand their language.<br>Plants communicate with us by revealing motifs on<br>their leaves, stems, and roots. By observing dark spots<br>on leaves or a change in color from the usual green,<br>we can understand that a plant is unwell.<br>Observing motifs allows us to understand the life and<br>death of plants, which is why we study this chapter.<br>For example, the knots often seen on tree trunks are<br>traces left by branches that were once attached to<br>the trunk.', 
+        keywords: ['when we meet', 'someone', 'first time', 'exchange', 'few words', 'can get', 'idea', 'their personality', 'however', 'plants', 'cannot speak', 'like humans', 'produce sounds', 'like animals', 'communicate', 'plants', 'need', 'understand', 'their language', 'plants communicate', 'us', 'revealing motifs', 'leaves', 'stems', 'roots', 'by observing', 'dark spots', 'leaves', 'change', 'color', 'usual green', 'can understand', 'plant', 'unwell', 'observing motifs', 'allows us', 'understand', 'life and death', 'plants', 'which is why', 'study', 'this chapter', 'for example', 'knots', 'often seen', 'tree trunks', 'traces left', 'branches', 'were once', 'attached', 'trunk'] 
+      },
+      2: { 
+                 text: 'When we look at a wooden desk or dining table,<br>we might notice a darker section that is circular and<br>clustered, and this is precisely the knot. Through knots,<br>we can learn about past events such as branches<br>breaking or the plant being afflicted by disease.', 
+        keywords: ['when we look', 'wooden desk', 'dining table', 'might notice', 'darker section', 'circular', 'clustered', 'this is', 'precisely', 'knot', 'through knots', 'can learn', 'about', 'past events', 'such as', 'branches breaking', 'plant', 'being afflicted', 'disease'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/42.jpg',
+    zones: {
+      1: { 
+                 text: '(1) The health of a plant can be quickly determined by<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examining its leaves. How do leaves respond if a plant<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is given too little or too much water?<br><br>(2) Leaves of plants infected by pathogens often exhibit<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spot motifs. Are there plants that naturally have leaves<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with spot motifs? Research and explain.', 
+        keywords: ['health', 'plant', 'quickly determined', 'examining', 'leaves', 'how do leaves', 'respond', 'plant', 'given', 'too little', 'too much water', 'leaves', 'plants', 'infected', 'pathogens', 'often exhibit', 'spot motifs', 'plants', 'naturally have', 'leaves', 'spot motifs', 'research', 'explain'] , 
+        fontType: 'type3' 
+      },
+      2: { 
+                 text: '02. The Life and Death of a Plant Inside Motifs<br><br><span class="larger-text">Ⅱ. How Can We Apply the Life and Death</span><br><span class="larger-text">of a Plants Inside Motifs?</span><br><br>', 
+        keywords: ['The Life and Death', 'Plant Inside Motifs', 'How Can We Apply', 'Life and Death', 'Plants Inside Motifs', 'farmers', 'strive', 'cultivate crops', 'healthily', 'however', 'efforts', 'can sometimes', 'in vain', 'due to', 'sudden outbreaks', 'diseases', 'pests', 'would be', 'truly beneficial', 'pests', 'pathogens', 'could be', 'eliminated', 'applying pesticides', 'before', 'cause harm', 'all crops', 'indiscriminate use', 'pesticides', 'not advisable', 'even if', 'fruits', 'vegetables', 'thoroughly washed', 'pesticide residues', 'may remain', 'leading', 'people', 'ingesting pesticides'] 
+      },
+      3: { text: '', keywords: [] },
+      4: { text: 'Farmers strive to cultivate crops healthily.<br>However, efforts can sometimes be in vain due to<br>sudden outbreaks of diseases or pests. It would<br>be truly beneficial if pests or pathogens could<br>be eliminated by applying pesticides before they<br>cause harm to all crops. However, indiscriminate<br>use of pesticides is not advisable. Even if fruits or<br>vegetables are thoroughly washed, pesticide residues<br>may remain, leading to people ingesting pesticides.', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/43.jpg',
+    zones: {
+      1: { text: 'So, how can we minimize pesticide use while preventing<br>diseases and pests as much as possible? The key is to<br>observe the motifs revealed by plants. As we observe<br>the tomatoes planted in the field daily, if we find<br>a diseased plant, it should be removed and burned.<br>To prevent the spread of the disease, we can also<br>spray pesticides. This way, unnecessary pesticide use<br>can be avoided, contributing to nature conservation.', 
+           keywords: ['minimize', 'pesticide', 'use', 'preventing', 'diseases', 'pests', 'possible', 'key', 'observe', 'motifs', 'revealed', 'plants', 'tomatoes', 'planted', 'field', 'daily', 'find', 'diseased', 'plant', 'removed', 'burned', 'prevent', 'spread', 'disease', 'spray', 'pesticides', 'unnecessary', 'avoided', 'contributing', 'nature', 'conservation'] },
+      2: { text: 'Motifs revealed by plants are also utilized in the design<br>industry. It is easy to find flooring with tree bark<br>motifs that feel like real wood and wallpaper with leaf<br>motifs that create the illusion of being in a forest.<br>Among bamboo, there are those with motifs similar<br>to the shell of a turtle. This unique-shaped bamboo,<br>with its distinctive nodes, is popular as a material for<br>making canes, brushes, and fans.', 
+           keywords: ['motifs', 'revealed', 'plants', 'utilized', 'design', 'industry', 'easy', 'find', 'flooring', 'tree', 'bark', 'feel', 'real', 'wood', 'wallpaper', 'leaf', 'create', 'illusion', 'being', 'forest', 'bamboo', 'similar', 'shell', 'turtle', 'unique-shaped', 'distinctive', 'nodes', 'popular', 'material', 'making', 'canes', 'brushes', 'fans'] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/44.jpg',
+    zones: {
+      1: { 
+                 text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1) Fungi cause seventy percent of plant diseases. In that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case, should fungi be eradicated for the sake of plants?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Explain your thoughts.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2) Plants have been genetically modified to produce more<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fruit. Are the fruits from these plants safe to eat?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Express your thoughts freely.', 
+        keywords: ['fungi', 'cause', 'seventy percent', 'plant diseases', 'that case', 'should fungi', 'be eradicated', 'sake', 'plants', 'explain', 'your thoughts', 'plants', 'have been', 'genetically modified', 'produce more', 'fruit', 'fruits', 'from these plants', 'safe', 'eat', 'express', 'thoughts freely'], 
+        fontType: 'type3' 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/45.jpg',
+    zones: {
+      1: { 
+                 text: 'The motif of the orchid flower called "Coelogyne ochracea"<br>is more vibrant than that of the rock cress flower.<br>In spring, it blooms with white flowers, and the lip-shaped<br>petals have yellow motifs with a red border, forming<br>a heart shape.<br>The flower of henbit dead-nettle, looks like a single tube,<br>and its petals are usually white or pink. The flowers may<br>resemble the open upper and lower lips if we observe<br>the flowers closely. The red motifs on the upper petals<br>act like dots, attracting the attention of insects. Drawn<br>by the beautiful motifs, insects fly in to collect nectar,<br>naturally getting pollen on their bodies. Then, they move<br>on to another flower, transferring the pollen adhered to<br>their bodies onto the stigma of the new flower, naturally<br>contributing to seed production. Why do insects seek<br>out flowers with vibrant motifs? Explain the differences<br>between the eyes of humans, bees, and butterflies.', 
+        keywords: ['motif', 'orchid flower', 'Coelogyne ochracea', 'more vibrant', 'rock cress flower', 'spring', 'blooms', 'white flowers', 'lip-shaped', 'petals', 'yellow motifs', 'red border', 'forming', 'heart shape', 'flower', 'henbit dead-nettle', 'looks like', 'single tube', 'petals', 'usually', 'white', 'pink', 'flowers', 'may resemble', 'open upper', 'lower lips', 'observe', 'flowers closely', 'red motifs', 'upper petals', 'act like dots', 'attracting', 'attention', 'insects', 'drawn', 'beautiful motifs', 'insects fly', 'collect nectar', 'naturally getting', 'pollen', 'bodies', 'then', 'move on', 'another flower', 'transferring', 'pollen adhered', 'bodies', 'onto', 'stigma', 'new flower', 'naturally contributing', 'seed production', 'why do insects', 'seek out', 'flowers', 'vibrant motifs', 'explain', 'differences', 'between', 'eyes', 'humans', 'bees', 'butterflies'] , 
+        fontType: 'type3' 
+      },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/46.jpg',
+    zones: {
+      1: { text: 'Using pesticides and insecticides in farming is no longer<br>a secret. Farmers argue that if they do not use these<br>chemicals, crop yields will decrease, leading to a rise in<br>food prices. While this statement is not entirely false,<br>the issue arises when the residues of these chemicals end<br>up in the food people consume.<br>Research indicates that the average Brazilian consumes<br>a staggering five liters of pesticides annually. Continuous<br>exposure to pesticides can lead to various side effects,<br>ranging from headaches and allergic reactions to more<br>severe outcomes such as birth defects or the development<br>of cancer. Using herbicides or insecticides to eliminate<br>harmful organisms from crops has created a situation that<br>threatens us. Explain the potential changes that might<br>occur in the environment if herbicides or insecticides are<br>used continuously.', 
+           keywords: ['pesticides', 'insecticides', 'farming', 'secret', 'farmers', 'chemicals', 'crop', 'yields', 'decrease', 'food', 'prices', 'residues', 'consume', 'Brazilian', 'five', 'liters', 'annually', 'continuous', 'exposure', 'side', 'effects', 'headaches', 'allergic', 'reactions', 'birth', 'defects', 'cancer', 'herbicides', 'eliminate', 'harmful', 'organisms', 'crops', 'threatens', 'environment'], 
+           fontType: 'type3' },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/47.jpg',
+    zones: {
+      1: { text: 'The words assigned to flowers based on their characteristics<br>and imbued with symbolic meanings are called the<br>"language of flowers." People have created flower<br>meanings from the colors, appearances, and fragrances of<br>flowers. As we probably know, the flower language of roses<br>is "love." Red roses symbolize passionate love, while white<br>roses represent pure or innocent love. One might feel<br>a sense of purity when looking at the pristine white<br>lily with its delightful fragrance. This is why the flower<br>language of lilies is often associated with purity.<br>Flower meanings sometimes involve interesting stories.<br>For instance, the flower language of the narcissus is linked<br>to the story of Narcissus, who fell in love with his own<br>reflection in a pond. Hence, the flower language of narcissus<br>is "self-love." The flower language of the pasqueflower is<br>"sad memories." The story of the pasqueflower blooming<br>after a grandmother, who raised two granddaughters,<br>passed away is well-known. The flower language of the<br>sunflower is "single-hearted devotion," and the white<br>magnolia\'s flower language is "unattainable love."<br>Describe your thoughts about why people assigned these<br>flower meanings to sunflowers and magnolias.', 
+           keywords: ['words', 'assigned', 'flowers', 'characteristics', 'symbolic', 'meanings', 'language', 'people', 'created', 'colors', 'appearances', 'fragrances', 'roses', 'love', 'red', 'passionate', 'white', 'pure', 'innocent', 'purity', 'pristine', 'lily', 'delightful', 'fragrance', 'associated', 'interesting', 'stories', 'narcissus', 'linked', 'Narcissus', 'reflection', 'pond', 'self-love', 'pasqueflower', 'sad', 'memories', 'blooming', 'grandmother', 'granddaughters', 'passed', 'away', 'sunflower', 'single-hearted', 'devotion', 'magnolia', 'unattainable'], 
+           fontType: 'type3' },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/48.jpg',
+    zones: {
+      1: { text: 'Plants have different leaf shapes depending on their species.<br>Not only the shape of the leaves but also the motifs on<br>the leaves vary. Notably, the shape of leaf veins becomes<br>an essential characteristic for distinguishing plant species.<br>Even without specifically observing the shape of leaf veins,<br>one can imagine it based on the shape of the leaves alone.<br>For example, large and broad leaves often exhibit net-<br>shaped veins. Thin and elongated leaves, like reeds,<br>have veins arranged in parallel lines. Leaves that widen<br>gradually, like those of a ginkgo tree, display veins<br>spreading like a fan. In this way, the pattern of leaf<br>veins is arranged in the most suitable way for the plant\'s<br>survival. If broad-leaved Paulownia trees have veins that<br>spread out like a fan, what impact do you think it would<br>have? Conversely, what consequences might arise if the<br>veins of reeds are intricately woven in a network pattern?<br>Explain your thoughts.', 
+           keywords: ['plants', 'different', 'leaf', 'shapes', 'species', 'motifs', 'vary', 'notably', 'veins', 'essential', 'characteristic', 'distinguishing', 'plant', 'observing', 'imagine', 'based', 'alone', 'example', 'large', 'broad', 'leaves', 'exhibit', 'net-shaped', 'thin', 'elongated', 'reeds', 'arranged', 'parallel', 'lines', 'widen', 'gradually', 'ginkgo', 'tree', 'display', 'spreading', 'fan', 'pattern', 'suitable', 'survival', 'Paulownia', 'trees', 'impact', 'consequences', 'intricately', 'woven', 'network', 'thoughts'], 
+           fontType: 'type3' },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.2.2/49.jpg',
+    zones: {
+      1: { text: 'The Difference Between Viruses and Bacteria<br>There was a time when the world was in confusion due to<br>the spread of the coronavirus. During that period, the main<br>pages of major portal sites displayed the daily number of<br>new confirmed cases. This indicates how viruses are highly<br>contagious and dangerous pathogens. Here, a pathogen<br>refers to the agent causing disease, commonly referring<br>to viruses and bacteria. Both viruses and bacteria rapidly<br>multiply once they enter the body of a living organism,<br>causing diseases that can spread among living beings.<br>So, what are the differences between viruses and<br>bacteria? Firstly, it is challenging to categorize viruses<br>as living or non-living entities. All living organisms<br>have genetic material, either DNA or RNA, containing<br>information such as skin color and blood type.<br>Additionally, living organisms can reproduce on their own.<br>However, viruses have DNA or RNA but cannot reproduce<br>independently; they need to enter the cells of other<br>organisms to multiply.', 
+           keywords: ['difference', 'viruses', 'bacteria', 'world', 'confusion', 'spread', 'coronavirus', 'period', 'main', 'pages', 'major', 'portal', 'sites', 'displayed', 'daily', 'number', 'confirmed', 'cases', 'indicates', 'highly', 'contagious', 'dangerous', 'pathogens', 'pathogen', 'refers', 'agent', 'causing', 'disease', 'commonly', 'referring', 'rapidly', 'multiply', 'enter', 'body', 'living', 'organism', 'diseases', 'beings', 'differences', 'firstly', 'challenging', 'categorize', 'non-living', 'entities', 'organisms', 'genetic', 'material', 'DNA', 'RNA', 'containing', 'information', 'skin', 'color', 'blood', 'type', 'additionally', 'reproduce', 'independently', 'need', 'cells', 'other'], 
+           fontType: 'type3'  },
+      2: { text: 'Once inside a cell, a virus utilizes the components of<br>that cell to replicate its DNA. After multiplying countless<br>times, the virus destroys the cell and exits, causing illness<br>in the organism. On the other hand, bacteria are distinct<br>living organisms; unlike viruses, they can multiply on their<br>own. When bacteria enter a living organism, they rapidly<br>multiply and absorb nutrients from blood or tissues to<br>survive, leading to illness. Thus, viruses and bacteria have<br>different ways of entering living organisms, multiplying,<br>and causing diseases. However, it is essential to note that<br>not all viruses and bacteria are harmful. Bacteriophages,<br>a type of virus, destroy bacteria that cause illness in<br>humans without harming humans themselves. Additionally,<br>the process by which bacteria obtain nutrients and energy<br>is used to produce foods like soybean paste and yogurt.', 
+           keywords: ['inside', 'cell', 'virus', 'utilizes', 'components', 'replicate', 'DNA', 'multiplying', 'countless', 'times', 'destroys', 'exits', 'causing', 'illness', 'organism', 'hand', 'bacteria', 'distinct', 'living', 'organisms', 'unlike', 'viruses', 'multiply', 'own', 'enter', 'rapidly', 'absorb', 'nutrients', 'blood', 'tissues', 'survive', 'leading', 'different', 'ways', 'entering', 'diseases', 'essential', 'note', 'harmful', 'bacteriophages', 'type', 'destroy', 'cause', 'humans', 'harming', 'themselves', 'additionally', 'process', 'obtain', 'energy', 'used', 'produce', 'foods', 'soybean', 'paste', 'yogurt'], 
+           fontType: 'type3'  },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  }
+
+];
+
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 
