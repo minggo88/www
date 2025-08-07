@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>G2.1.1.E</title>
+  <title>G2.2.1.E</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,6 +11,7 @@
   <meta name="theme-color" content="#222">
   <meta name="screen-orientation" content="portrait">
   <link rel="stylesheet" href="../assets/css/4zoneG.css">
+
 </head>
 <body>
   <!-- 전체화면 모달 -->
@@ -45,10 +46,10 @@
   
   <!-- 슬라이드 데이터 -->
   <script>
-
-const slideTemplates = [
+  const slideTemplates = [
   {
     bg: '../assets/img/ReadBook/G2.1.1/1.jpg',
+    
     hasStartButton: true,
     zones: {
       1: { text: '', keywords: [] },
@@ -59,6 +60,7 @@ const slideTemplates = [
   },
   {
     bg: '../assets/img/ReadBook/G2.1.1/2.jpg',
+    hasStartButton: false,
     zones: {
       1: { text: '', keywords: [] },
       2: { text: '', keywords: [] },
@@ -66,12 +68,500 @@ const slideTemplates = [
       4: { text: '', keywords: [] }
     }
   },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/3.jpg',
+    zones: {
+      1: { text: '01. Soft, Sharp, and Smooth<br>', 
+           keywords: ['soft', 'sharp', 'smooth', 'texture', 'feeling'] },
+      2: { text: 'Try touching the wings of a butterfly on a flower.<br>The powder on a butterfly\'s wings gives them a soft<br>feeling. The powder on a butterfly\'s wings is called<br>"scales" and they are densely packed on the wings.<br>The evenly distributed scales on a butterfly\'s wings<br>help maintain their shape. The scales also have<br>excellent waterproof properties, helping the wings<br>stay dry.', 
+           keywords: ['butterfly', 'wings', 'flower', 'powder', 'scales', 'waterproof', 'properties', 'shape'] },
+      3: { text: 'When we touch something with our hands,<br>what feeling do we generally like the most?<br>Most people prefer a soft or smooth feeling.<br>Why do we tend to like a soft feeling?<br>Shall we explore the reasons?', 
+           keywords: ['hands', 'feeling', 'people', 'soft', 'smooth', 'reasons'] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/4.jpg',
+    zones: {
+      1: { text: 'Scales also play a role in determining the color of<br>the wings. Depending on their species, butterflies<br>have unique colors due to these scales.', keywords: ['scales', 'role', 'color', 'wings', 'species', 'butterflies'] },
+      2: { text: 'Have you ever touched a peach during the summer?<br>Peaches are soft to the touch. This is because the<br>surface of a peach fruit is covered with countless tiny<br>hairs. Peaches can stay dry thanks to these hairs.<br>The hairs prevent water from touching the peach\'s<br>surface, keeping it from getting wet and preventing<br>decay.', keywords: ['peach', 'summer', 'surface', 'fruit', 'hairs', 'water', 'decay'] },
+      3: { text: 'Explain why the wings of a butterfly feel soft.', keywords: ['wings', 'butterfly', 'soft'], fontType: 'type2' },
+      4: { text: 'Explain the reason why the surface of peaches<br>and apricots is covered with soft and tiny hairs.', keywords: ['surface', 'peaches', 'apricots', 'hairs'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/5.jpg',
+    zones: {
+      1: { text: 'What kind of fruits have characteristics similar to<br>peaches? Apricots, which are smaller than peaches,<br>also have a dense layer of tiny hairs. Apricots are soft<br>to touch and are water-resistant.<br>There is a saying, "a wild apricot with a good color."<br>A wild apricot may look appetizing on the outside,<br>but it tastes tart and astringent, like an unripe<br>persimmon. That is why this phrase is used to<br>describe something that looks good on the surface<br>but lacks substance. The round, greenish apricots are<br>healthy and help us eliminate toxins from our bodies.', keywords: ['fruits', 'peaches', 'apricots', 'hairs', 'color', 'substance', 'toxins', 'bodies'] },
+      2: { text: 'Yellow dandelion flowers bloom on mountains and<br>fields in spring. After the flowers fade, dandelions<br>leave behind fluffy hairs that are white and soft like<br>cotton candy.<br>Why do dandelion seeds have a cotton candy shape?<br>The fluffy hairs are the dandelion\'s flower seeds.<br>Dandelions reproduce by spreading their seeds far<br>away in the wind. The soft and fluffy hairs help<br>the seeds float easily on the wind.', keywords: ['dandelion', 'flowers', 'mountains', 'fields', 'spring', 'hairs', 'seeds', 'wind', 'reproduction'] },
+      3: { text: 'Explain why dandelion seeds have soft and fluffy<br>hairs.', keywords: ['dandelion', 'seeds', 'hairs'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/6.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'When cotton flowers bloom and seeds form, they<br>develop a soft white fluff. Cotton is also soft to touch.<br>When autumn arrives, cotton fruits ripen and burst<br>open to reveal their white and fluffy hairs. Nestled<br>inside them are their seeds.<br>The soft fluffy white cotton protects the cotton seeds<br>from freezing during the cold winter. In the same way,<br>the soft and fluffy fur of animals like dogs and cats<br>keeps them warm.', keywords: ['cotton', 'flowers', 'seeds', 'fluff', 'autumn', 'fruits', 'hairs', 'winter', 'fur', 'animals', 'dogs', 'cats'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/7.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'If we look at lotus flowers on the surface of a lake,<br>we can see raindrops rolling around gently on the<br>leaves. Why do raindrops roll around lotus leaves?<br>Lotus leaves are covered with very fine hairs, giving<br>them a soft and delicate texture when touched by hand.', keywords: ['lotus', 'flowers', 'surface', 'lake', 'raindrops', 'leaves', 'hairs', 'texture'] },
+      4: { text: 'The hairs on the lotus leaves are similar to those on<br>the skins of peaches or apricots, acting as a barrier to<br>prevent water from seeping in or leaking through.<br>When round water droplets form on the leaves, they<br>roll around, cleaning the dust on the surface as they<br>move.<br>This is how lotus leaves can always stay clean. Clothes<br>made using the properties of lotus leaves do not<br>collect dust easily. Even if something sticks, it falls<br>off easily, allowing the clothes to stay clean for a long<br>time.', keywords: ['hairs', 'lotus', 'leaves', 'skins', 'peaches', 'apricots', 'barrier', 'water', 'droplets', 'dust', 'surface', 'clothes', 'properties'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/8.jpg',
+    zones: {
+      1: { text: 'A hedgehog crawls and wiggles through a bush.<br>What will it feel like to touch a hedgehog? Is it as soft<br>as a dog or a cat? A hedgehog\'s tough spikes are like<br>thick, pointed thorns, and are prickly to touch.<br>What are some other things that are as prickly as<br>a hedgehog\'s spikes?', keywords: ['hedgehog', 'bush', 'dog', 'cat', 'spikes', 'thorns', 'things'] },
+      2: { text: 'Why does it feel prickly when touching pine tree<br>needles? Pine tree needles are thin and pointed to<br>reduce surface area. Plants lose moisture through<br>their leaves, so if the leaves are broad, they lose<br>a large amount of moisture. To prevent moisture loss,<br>pine trees have adorned themselves with thin and<br>pointed leaves.<br>Thanks to the sharp, thorn-like shape of its leaves,<br>pine trees face less risk of being eaten by insects and<br>animals, serving as a natural defense mechanism.', keywords: ['pine', 'tree', 'needles', 'surface', 'area', 'plants', 'moisture', 'leaves', 'insects', 'animals', 'defense', 'mechanism'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'What are some things that give us a prickly feeling<br>when we touch them? Write them down.', keywords: ['things', 'feeling'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/9.jpg',
+    zones: {
+      1: { text: 'What do plants living in dry deserts look like?<br>Desert plants need to minimize the loss of moisture<br>from their leaves as much as possible.<br>This is because they must endure a long time with<br>limited water until it rains again. A main example of<br>a desert plant is the cactus. The leaves of a cactus<br>are shaped like pointed spines.', keywords: ['plants', 'deserts', 'moisture', 'leaves', 'water', 'rain', 'cactus', 'spines'] },
+      2: { text: 'Why did cacti develop spine-shaped leaves?<br>Desert herbivores try to eat the visible parts of any<br>plant to obtain water. This is why cacti developed<br>spine-shaped leaves to stop animals from eating<br>them.<br>These spine-shaped leaves serve as protection for<br>the stem, preventing moisture from seeping out.<br>Just as pine trees do not have pointed leaves just to<br>withstand the cold, cacti do not have pointed spine-<br>shaped leaves just to endure the heat.', keywords: ['cacti', 'spine-shaped', 'leaves', 'herbivores', 'animals', 'protection', 'stem', 'moisture', 'pine', 'trees', 'cold', 'heat'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain the reason why cactus leaves turned into<br>a pointed spine-shape.', keywords: ['cactus', 'leaves', 'spine-shape'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/10.jpg',
+    zones: {
+      1: { text: 'Think about the pufferfish, known as the "blowfish,"<br>that live in the sea. Pufferfish inflate their bodies<br>when faced with danger from an enemy.', keywords: ['pufferfish', 'blowfish', 'sea', 'bodies', 'danger', 'enemy'] },
+      2: { text: 'Porcupine pufferfish are the most famous among<br>them. When a porcupine pufferfish inflates its body,<br>the spikes lying flat on its side stand upright.<br>There are not many fish that attempt to attack<br>a porcupine pufferfish when it is large and with sharp<br>spikes. A porcupine pufferfish has sharp spikes to<br>protect itself and guard its life.<br>Organisms like porcupines, hedgehogs, chestnut burrs,<br>and roses use the spines on their bodies to protect<br>themselves from enemies.', keywords: ['porcupine', 'pufferfish', 'spikes', 'fish', 'attack', 'protection', 'life', 'organisms', 'hedgehogs', 'chestnut', 'burrs', 'roses', 'spines', 'bodies', 'enemies'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why porcupine pufferfish have pointed<br>spines.', keywords: ['porcupine', 'pufferfish', 'spines'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/11.jpg',
+    zones: {
+      1: { text: 'Have you ever touched a snake?<br>The surface of a snake appears to be slick and shiny.<br>People describe it as being smooth. A snake\'s scales<br>are connected as one piece from the mouth to the tip<br>of the tail.<br>A snake can crawl on the ground or on trees easily<br>thanks to its hard scales. The scales prevent moisture<br>inside the body from escaping. Unlike other animals<br>that may dry up due to a lack of moisture, snakes can<br>live well in the desert.', keywords: ['snake', 'surface', 'scales', 'mouth', 'tail', 'ground', 'trees', 'moisture', 'body', 'animals', 'desert'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Explain why snakes that appear slick and shiny<br>have hard and smooth scales.', keywords: ['snakes', 'scales'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/12.jpg',
+    zones: {
+      1: { text: 'There are many seashells scattered on beach sands.<br>How does it feel when you touch a seashell?<br>Clams have a hard shell to protect their soft flesh.<br>The shells that wrap around their flesh become<br>smooth as they are swept around by the waves.<br>Pebbles found in valleys or on the beach are also<br>smooth. Smooth pebbles are a result of rough stones<br>being washed and rolled by the current over a long<br>period of time.', keywords: ['seashells', 'beach', 'sands', 'clams', 'shell', 'flesh', 'waves', 'pebbles', 'valleys', 'stones', 'current', 'time'] },
+      2: { text: 'Many fruits have smooth outer layers.<br>The skin of a round, ripe plum is smooth and the skin<br>of a nutritious apple is smooth as well. The skin of<br>ripe plums and apples becomes shinny even with just<br>a light wipe.', keywords: ['fruits', 'layers', 'skin', 'plum', 'apple', 'wipe'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/13.jpg',
+    zones: {
+      1: { text: 'The skin of apples contains an antioxidant substance<br>called anthocyanin. This substance is said to help<br>protect human blood. The skin prevents the moisture<br>inside the fruit from escaping. It also shields the fruit<br>from diseases and pests.<br>What are some more things that feel smooth?<br>Tangerines also have a smooth peel. The flesh of<br>tangerines is full of water, making them plump and<br>juicy. The rinds of watermelons, enjoyed in the<br>summer, are also smooth.', keywords: ['skin', 'apples', 'antioxidant', 'substance', 'anthocyanin', 'blood', 'moisture', 'fruit', 'diseases', 'pests', 'things', 'tangerines', 'peel', 'flesh', 'water', 'watermelons', 'rinds', 'summer'] },
+      2: { text: 'The outer shell keeps the moisture inside the<br>watermelon. Shells of nutritious eggs are also smooth.<br>The skin that protects our bodies is smooth as well.', keywords: ['shell', 'moisture', 'watermelon', 'eggs', 'skin', 'bodies'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/14.jpg',
+    zones: {
+      1: { text: 'The exoskeleton of a stag beetle is glossy and smooth.<br>The front surfaces of plant leaves are also smooth.<br>They have a smooth coated surface, like apples or<br>plums. Smooth surface membranes prevent the leaves<br>from burning in the hot sun. The membrane around<br>a plant\'s leaves prevents the moisture from escaping<br>and keeps the plant alive.', keywords: ['exoskeleton', 'stag', 'beetle', 'surfaces', 'plant', 'leaves', 'coated', 'surface', 'apples', 'plums', 'membranes', 'sun', 'moisture'] },
+      2: { text: '01. Soft, Sharp, and Smooth<br><br><span class="larger-text">Ⅰ. Why Do We Study Soft, Sharp, Smooth<br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feelings?</span><br>', keywords: ['soft', 'sharp', 'smooth', 'feelings'] },
+      3: { text: 'Explain why the outer layer of fruits and the front<br>surfaces of leaves are smooth.', keywords: ['layer', 'fruits', 'surfaces', 'leaves'], fontType: 'type2' },
+      4: { text: 'The beginning of desirable mathematics study is<br>observing nature. However, just sitting and observing<br>is not enough to uncover the secrets of nature.<br>For example, by looking at the color, shine, shape and<br>more, we can distinguish between an apple and a peach.<br>However, the reasons why apples and peaches do not<br>get wet are completely different.', keywords: ['mathematics', 'study', 'nature', 'secrets', 'color', 'shine', 'shape', 'apple', 'peach', 'reasons'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/15.jpg',
+    zones: {
+      1: { text: 'Apples are coated with a smooth substance, while<br>peaches are covered with numerous fine hairs.<br>We can only notice these differences when we look<br>closely. However, even by covering our eyes and<br>gently touching them with our hands, we can quickly<br>find the distinctions between apples and peaches.<br>', keywords: ['apples', 'substance', 'peaches', 'hairs', 'differences', 'eyes', 'hands', 'distinctions'] },
+      2: { text: '', keywords: [] },
+      3: { text: 'As the saying goes, "everything is not as it seems,"<br>when observing nature, it is important to touch and<br>explore to understand how something feels.<br>We study this topic because understanding soft,<br>sharp, and smooth textures allows us to know<br>the survival methods of living organisms.', keywords: ['nature', 'touch', 'explore', 'feels', 'topic', 'textures', 'survival', 'methods', 'organisms'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/16.jpg',
+    zones: {
+      1: { text: 'Animals living in cold regions have long and soft fur.<br>In contrast, animals in hot regions have short and<br>soft fur. Soft feelings can also be found in plants.<br>Dandelion seeds have fluffy and soft, cotton-like<br>hairs. Thanks to this, the seeds can be carried far<br>away by the wind.', keywords: ['animals', 'regions', 'fur', 'feelings', 'plants', 'dandelion', 'seeds', 'hairs', 'wind'] },
+      2: { text: '', keywords: [] },
+      3: { text: '(1) The needles of a pine tree are long and sharp.<br>Explain why cacti and porcupines have sharp spines.<br><br>(2) The fur covering an animal\'s body also plays the role of<br>reducing shock. What roles do the hairs of plants play?<br>', 
+      keywords: ['needles', 'pine', 'tree', 'cacti', 'porcupines', 'spines', 'fur', 'animal', 'body', 'shock', 'hairs', 'plants'] , fontType: 'type3'  },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/17.jpg',
+    zones: {
+      1: { text: '01. Soft, Sharp, and Smooth<br><br><span class="larger-text">Ⅱ. Where Can the Study of Soft, Sharp,<br><span class="larger-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and Smooth Feelings Be Applied?</span><br><br><br>Even among the same type of cactus, the shape of the<br>spines can vary. The number, length, and thickness<br>of spines can change depending on aspects like the<br>cactus\'s age, health, and environmental factors,<br>such as nutrients, light, and water. Although the<br>shapes and sizes may differ, the spines of the cactus<br>consistently help to regulate its temperature and<br>shield against sunlight.<br>', keywords: ['soft', 'sharp', 'smooth', 'feelings', 'cactus', 'spines', 'shape', 'number', 'length', 'thickness', 'age', 'health', 'environmental', 'factors', 'nutrients', 'light', 'water', 'sizes', 'temperature', 'sunlight'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'In the mountainous desert of the Andes where rain<br>is scarce, small water droplets caught on spines are<br>transmitted to the roots. As we already know, one of<br>the important roles of spines is protecting cacti from<br>other animals.<br>Hedgehogs, sea urchins, chestnut burrs, roses, and<br>many other living organisms have spines or thorns as<br>a means of defense. Barbed wire fences, set up to<br>stop humans or animals from approaching, are created<br>by observing nature. Water on lotus leaves gathers<br>into round droplets, rolling around like beads.', keywords: ['mountainous', 'desert', 'Andes', 'rain', 'droplets', 'spines', 'roots', 'roles', 'cacti', 'animals', 'hedgehogs', 'sea', 'urchins', 'chestnut', 'burrs', 'roses', 'organisms', 'thorns', 'defense', 'barbed', 'wire', 'fences', 'humans', 'nature', 'water', 'lotus', 'leaves', 'beads'] }
+      
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/18.jpg',
+    zones: {
+      1: { text: 'This is because lotus leaves have tiny bumps invisible<br>to the naked eye. These can be used to create a fabric<br>that repels water and dishes that become clean with<br>just a splash of water.<br>There is no one who does not like a soft feeling.<br>Something as soft as an animal\'s fur also has<br>an excellent insulating effect. Using a blanket made<br>with this characteristic is so comfortable that we<br>would sleep until morning without waking up.', keywords: ['lotus', 'leaves', 'bumps', 'fabric', 'water', 'dishes', 'feeling', 'animal', 'fur', 'insulating', 'effect', 'blanket', 'characteristic', 'morning'] },
+      2: { text: '', keywords: [] },
+      3: { text: '(1) Some fruits are smooth, and some are soft to the touch.<br>Explain the reason different things can be felt when<br>we touch fruits.<br><br>(2) The wings of a butterfly are soft to the touch.<br>Why don\'t butterfly wings get wet easily?<br><br>', keywords: ['fruits', 'things', 'wings', 'butterfly'], fontType: 'type3'  },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/19.jpg',
+    zones: {
+      1: { text: 'Among species of plants, ferns are soft to the touch.<br>The leaves of ferns have a triangular shape. The tips are<br>pointed, and the lowest leaves are the widest. The young<br>leaves of ferns are soft and edible. The Foxtail grass has<br>branches that split from the bottom. The stem grows<br>straight, ranging from 20 to 70 cm in height. It is hairless<br>but has nodes. The front of the leaves is rough, and the<br>edges of the leaves are densely covered with hair.<br>The flowers resemble a puppy\'s tail and are also soft to<br>touch.<br>Cacti living in the desert have thin leaves or sharp spines<br>to conserve moisture. They are prickly when touched.<br>Aquatic plants are rooted deep in the waterbed while their<br>leaves float on the surface. Foliage plants with beautifully<br>shaped leaves are soft to the touch. Are there animals that<br>are soft, spiky, and smooth? Research.', keywords: ['species', 'plants', 'ferns', 'leaves', 'triangular', 'shape', 'tips', 'foxtail', 'grass', 'branches', 'stem', 'nodes', 'edges', 'hair', 'flowers', 'puppy', 'tail', 'cacti', 'desert', 'spines', 'moisture', 'aquatic', 'plants', 'waterbed', 'surface', 'foliage', 'animals'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/20.jpg',
+    zones: {
+      1: { text: 'Insects are animals with six legs and have bodies divided<br>into the head, thorax, and abdomen. There are more than<br>a million species of insects found on Earth. Although<br>commonly referred to as "bugs," strictly speaking, the term<br>"bugs" includes not only insects but also small creatures<br>like spiders and centipedes.<br>The thorax of an insect has legs and wings. Insects<br>generally have two pairs of wings, but there are also insect<br>species like ants which do not have wings, or fruit flies<br>with only one pair of wings. The shells of beetles, ladybugs,<br>and stag beetles are not only hard but also smooth. In this<br>way, the body of an insect is surrounded by a tough shell<br>called an exoskeleton.<br>Thanks to this shell, insects can maintain their body shape.<br>Even when they are made into specimens, their original<br>appearance can be preserved. Explain what the role of<br>an exoskeleton is.', keywords: ['insects', 'animals', 'legs', 'bodies', 'head', 'thorax', 'abdomen', 'species', 'earth', 'bugs', 'creatures', 'spiders', 'centipedes', 'wings', 'ants', 'fruit', 'flies', 'shells', 'beetles', 'ladybugs', 'stag', 'beetles', 'body', 'shell', 'exoskeleton', 'specimens', 'appearance', 'role'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/21.jpg',
+    zones: {
+      1: { text: 'A desert is an environment where plants have difficulty<br>growing due to a scarcity of water caused by infrequent<br>rainfall. Especially in sandy deserts, the temperature<br>becomes extremely hot during the day, only to sharply<br>drop after the sun sets at night. This makes it challenging<br>for plants to thrive. Despite such harsh conditions, there<br>are animals that have managed to survive.<br>A representative animal is the camel. Camels are a means<br>of transportation and are pack animals for people traveling<br>in the desert. Camels have long eyelashes which prevent<br>sand from getting into their eyes, and they can close their<br>nostrils at will so sand does not enter their noses even<br>during a strong wind. Also, the fat stored in their humps is<br>broken down into water and nutrients, allowing camels to<br>survive for several days without eating.<br>Explore what other animals live in the desert. Also, explain<br>how each of these animals avoids the heat and describe<br>the feeling of touching these animals.', keywords: ['desert', 'environment', 'plants', 'scarcity', 'water', 'rainfall', 'temperature', 'sun', 'night', 'conditions', 'animals', 'survival', 'camel', 'transportation', 'pack', 'animals', 'people', 'eyelashes', 'sand', 'eyes', 'nostrils', 'wind', 'fat', 'humps', 'nutrients', 'days', 'heat', 'feeling'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/22.jpg',
+    zones: {
+      1: { text: 'Animals without the sharp teeth and claws of lions or<br>tigers have various other ways to protect themselves.<br>Some animals dig burrows to hide, while others hide by<br>adopting colors similar to their surroundings. There are<br>also animals that play dead. Each animal uses intriguing<br>methods to protect themselves.<br>Some animals use sharp spikes as tools for both attack and<br>defense. Animals such as hedgehogs and porcupines have<br>fur that thickens and hardens into sharp spikes covering<br>their bodies. The thorny devil lizards and desert horned<br>lizards have skin scales that look like sharp thorns.<br>Sea urchins and porcupine pufferfish also have spikes or<br>spines covering their entire bodies.<br>The spikes or spines of these animals serve not only to<br>intimidate predators but also to perform various other<br>functions. Sea urchins move by adjusting their spines,<br>and the thorny devil lizard living in the Australian desert<br>stores water in its spikes. Explore which plants have thorns<br>and explain the role of thorns in plants.', keywords: ['animals', 'teeth', 'claws', 'lions', 'tigers', 'burrows', 'colors', 'surroundings', 'methods', 'spikes', 'tools', 'attack', 'defense', 'hedgehogs', 'porcupines', 'fur', 'bodies', 'thorny', 'devil', 'lizards', 'desert', 'horned', 'lizards', 'skin', 'scales', 'thorns', 'sea', 'urchins', 'porcupine', 'pufferfish', 'spines', 'predators', 'functions', 'australian', 'water', 'plants'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/23.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '<strong><u>Why Humans Do Not Have a Lot of Fur</u></strong><br><br>Mammals are animals that give birth to their children and<br>raise them by feeding them milk. Dogs, cats, and people<br>are also mammals. Mammals have fur on their bodies.<br>Fur acts like a cushion to protect the skin. It protects the<br>skin from sunlight\'s ultraviolet rays.<br>It also keeps the body warm. Having fur on the body can<br>prevent heat from escaping. Also, harmful substances<br>from the body accumulate in the fur. Mammal fur falls out<br>and grows continuously. Through this process, harmful<br>substances can be expelled from the body. This is why fur<br>is very important to mammals.', keywords: ['humans', 'fur', 'mammals', 'animals', 'children', 'milk', 'dogs', 'cats', 'people', 'bodies', 'cushion', 'skin', 'sunlight', 'ultraviolet', 'rays', 'heat', 'substances', 'process'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/24.jpg',
+    zones: {
+      1: { text: '<br>However, the human body has less fur than other mammals.<br>Why is that so? Scientists have given several explanations<br>as to why this is. Let us take a look at one of these reasons.<br>Among mammals, animals such as humans, monkeys, and<br>orangutans are called primates. Primates live in the forest<br>by climbing trees. Primates also have a lot of fur on their<br>bodies. Our oldest ancestors are called Australopithecus<br>and they lived in Africa.<br>At first, they had fur like other primates. However, unlike<br>other primates, Australopithecus walked on the ground on<br>two feet. Our two-legged ancestors left the forests and<br>moved to the grasslands. They also had to make a living<br>by hunting. However, it was not easy to defeat quick and<br>strong wild animals.', keywords: ['human', 'body', 'fur', 'mammals', 'scientists', 'explanations', 'reasons', 'animals', 'humans', 'monkeys', 'orangutans', 'primates', 'forest', 'trees', 'bodies', 'ancestors', 'australopithecus', 'africa', 'ground', 'feet', 'grasslands', 'hunting', 'wild', 'animals'] , fontType: 'type4'},
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/25.jpg',
+    zones: {
+      1: { text: '<br><br>People with less body hair were better at hunting. Fur helps<br>keep the body warm, but it has a hard time letting heat out<br>when it gets hot. However, our furless ancestors were able<br>to let heat out through sweat even when it was hot.<br>Due to this, they were able to move for a long time without<br>getting tired in the hot environment of Africa.<br>For this reason, our ancestors with less fur survived. Thus,<br>humans have less fur on their bodies. However, hair remains<br>on the head to protect the brain, which is an important part<br>of the body.', 
+           keywords: ['people', 'body', 'hair', 'fur', 'heat', 'ancestors', 'sweat', 'environment', 'africa', 'survival', 'humans', 'bodies', 'hair', 'head', 'brain', 'part'] , fontType: 'type2'},
+      2: { text: '<span class="larger-text">02. Slippery, Hard, and Rough<br><br>What feeling do you dislike the most when you touch<br>something? Most people tend to dislike the slippery<br>feeling that escapes their grip. Have you ever tried<br>catching a fish with your bare hands in a stream?<br>You think you have got it, but in an instant, the fish<br>slips right through your fingers, doesn\'t it?', 
+           keywords: ['slippery', 'hard', 'rough', 'feeling', 'people', 'grip', 'fish', 'hands', 'stream', 'fingers'] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/26.jpg',
+    zones: {
+      2: { text: 'A frog is moist and slippery to touch. The reason a<br>frog\'s skin is slippery is because it breathes through<br>the skin. While frogs also breathe through their lungs,<br>80% of their breathing is done through their skin.<br>For a frog to breathe through its skin, the skin must<br>always be moist. A frog breathes well when its skin is<br>both moist and slippery.', 
+           keywords: ['frog', 'skin', 'breathing', 'lungs', 'moisture'] },
+      1: { text: 'A fish is very slippery, making it challenging to catch<br>it with our bare hands. There are many creatures<br>underwater that have a slippery feeling. An octopus<br>slips away easily from our hands because of its<br>slippery texture.<br>Why is the octopus so slippery? The body of an octopus<br>is covered with a slippery skin called mucosa.<br>Octopuses can swim well in the water due to this skin.<br>Try catching a squid, which feels similar to an octopus.<br>Squids are slippery and they escape easily. The body<br>of a squid is also covered with mucosa, making it<br>slippery.', 
+           keywords: ['fish', 'hands', 'creatures', 'underwater', 'octopus', 'texture', 'body', 'skin', 'mucosa', 'water', 'squid'] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/27.jpg',
+    zones: {
+      1: { text: 'Have you ever seen a loach that slips away in various<br>directions when people try to catch it? Loaches move<br>fast and their bodies are slippery, making it difficult<br>to catch them with bare hands. Both loaches and eels<br>have smooth bodies without scales.<br>The reason a loach\'s skin is slippery is because of the<br>mucus that comes out of its body. This mucus makes<br>its entire body slippery, allowing it to avoid being<br>caught and swiftly escaping from a predator. It also<br>allows them to glide smoothly through the water.', 
+           keywords: ['loach', 'directions', 'people', 'bodies', 'hands', 'eels', 'scales', 'skin', 'mucus', 'body', 'predator', 'water'] },
+      2: { text: 'Countless black-dotted frog eggs float like clouds<br>in the pond. It is impossible to try and grab the frog<br>eggs with our hands. The slimy and watery substance<br>surrounding the eggs plays a protective role until<br>the eggs hatch into tadpoles.', 
+           keywords: ['frog', 'eggs', 'clouds', 'pond', 'hands', 'substance', 'role', 'tadpoles'] },
+      3: { text: 'Explain why mucus comes out of a loach\'s body<br>and makes it slippery.', 
+           keywords: ['mucus', 'loach', 'body'], fontType: 'type2' },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/28.jpg',
+    zones: {
+      1: { text: 'When the tadpoles hatch from the eggs, they slip out<br>easily thanks to the soft and slippery environment.<br>This is the reason why a cluster of frog eggs slips<br>away from our hands in an instant when we try to<br>grab them.', 
+           keywords: ['tadpoles', 'eggs', 'environment', 'cluster', 'frog', 'hands'] },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: 'Explain why frog eggs are slippery.', 
+           keywords: ['frog', 'eggs'], fontType: 'type2' },
+      4: { text: 'The surfaces of seaweed or kelp are slippery.<br>A sticky substance that comes out from the surface<br>of seaweed or kelp makes it slippery. This slippery<br>substance is called alginic acid. It is said to greatly<br>help lower our blood pressure.', 
+           keywords: ['surfaces', 'seaweed', 'kelp', 'substance', 'surface', 'alginic', 'acid', 'blood', 'pressure'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/29.jpg',
+    zones: {
+      1: { text: '', 
+           keywords: [] },
+      2: { text: 'Turtles can absorb oxygen underwater, allowing them<br>to roam freely wherever they please. While they can<br>swim relatively fast underwater, they can only move<br>slowly on land.<br>', 
+           keywords: ['turtles', 'oxygen', 'underwater', 'land'] },
+      3: { text: 'Have you ever had the feeling that something felt<br>solid when you touched it? When you touch objects<br>with a firm and unchanging shape, you may experience<br>this hard feeling. Turtles have both a back shell and<br>a stomach shell, and they feel very hard to touch.', 
+           keywords: ['feeling', 'objects', 'shape', 'turtles', 'shell', 'touch'] },
+      4: { text: 'They do not have any special attack skills and their<br>slow pace makes it nearly impossible for them to<br>escape. For this reason, a means of protecting<br>themselves from enemies was necessary.<br>To shield themselves from attacking predators, they<br>developed a strong, sturdy shell that allows them to<br>hide their head and legs.', 
+           keywords: ['attack', 'skills', 'pace', 'escape', 'means', 'protection', 'enemies', 'predators', 'shell', 'head', 'legs'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/30.jpg',
+    zones: {
+      1: { text: 'Among fruits, peaches have large, hard seeds in the<br>middle. How does it feel to touch the seed?<br>Peach seeds are very hard and firm. Why are peach<br>seeds so hard?', 
+           keywords: ['fruits', 'peaches', 'seeds', 'middle', 'touch'] },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: 'Explain why most seeds are covered by hard shells.', 
+           keywords: ['seeds', 'shells'], fontType: 'type2' },
+      4: { text: 'When the seeds are buried in the ground, they endure<br>a long time before sprouting. The hardness of the<br>seed protects the delicate green sprout inside.<br>The tough shell also prevents the seed from becoming<br>food for other animals. The hard and firm shell of<br>walnuts also serves a similar purpose.<br>A seed needs the right temperature and amount of<br>water to sprout. The seed must remain moist until the<br>conditions are suitable. This is why the shells of seeds<br>are hard and thick.', 
+           keywords: ['seeds', 'ground', 'time', 'sprouting', 'hardness', 'sprout', 'shell', 'food', 'animals', 'walnuts', 'purpose', 'temperature', 'water', 'conditions', 'thickness'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/31.jpg',
+    zones: {
+      1: { text: 'What does it feel like to touch a pinecone?<br>It feels hard. When we look at a pinecone on the<br>ground, it looks like several layers of tiles stacked on<br>top of each other with gaps in between.<br>Small green pinecones gradually grow into hard<br>pinecones. When the seeds inside the pinecones are<br>fully mature, they break apart into pieces and are<br>carried by the wind to give birth to new life. In this<br>way, pinecones are designed to be tough and sturdy<br>to protect the seeds.', 
+           keywords: ['pinecone', 'ground', 'layers', 'tiles', 'gaps', 'seeds', 'maturity', 'pieces', 'wind', 'life', 'protection'] },
+      2: { text: 'Shall we try touching the bark of a pine tree this<br>time? How does it feel? The bark of a pine tree feels<br>hard and rough. The reason it is rough and hard is to<br>protect the tree trunk.<br>Inside the tree trunk, there is a path where water<br>absorbed from the roots passes through. The hard<br>bark wraps around the trunk, preventing water from<br>leaking out and insects from eating the tree.', 
+           keywords: ['bark', 'pine', 'tree', 'trunk', 'path', 'water', 'roots', 'insects']},
+      3: { text: '', 
+           keywords: [] },
+      4: { text: 'Explain why pinecones and pine tree bark are hard.', 
+           keywords: ['pinecones', 'bark', 'pine', 'tree'], fontType: 'type2'  }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/32.jpg',
+    zones: {
+      1: { text: '', 
+           keywords: [] },
+      2: { text: 'The kiwi fruit that we enjoy has the same name<br>because it looks like the kiwi bird. The skin of a kiwi<br>is made up of brown hairs and feels very rough and<br>coarse. Unlike fruits like apples or plums that can be<br>eaten with the skin, the kiwi is a fruit that must be<br>peeled before eating.<br>Kiwi fruits developed a skin covered with prickly hairs<br>to prevent becoming food for other animals. We must<br>be cautious when eating kiwis, as the hairs on the skin<br>have substances that can trigger allergies.', 
+           keywords: ['kiwi', 'fruit', 'name', 'bird', 'skin', 'hairs', 'fruits', 'apples', 'plums', 'food', 'animals', 'substances', 'allergies'] },
+      3: { text: 'The bark of a pine tree and the skin of a crocodile are<br>both hard and rough. Although we may think of<br>a rough feeling as being similar to a hard feeling,<br>the two are different. Have you ever eaten a kiwi<br>fruit? The name "kiwi" comes from an indigenous bird<br>of New Zealand. The kiwi bird does not have wings<br>and cannot fly. It got its name from the sound it<br>makes, "kiwi, kiwi."', 
+           keywords: ['bark', 'pine', 'tree', 'skin', 'crocodile', 'feeling', 'kiwi', 'fruit', 'name', 'bird', 'new', 'zealand', 'wings', 'sound'] },
+      4: { text: 'Explain why kiwis and pineapples feel rough.', 
+           keywords: ['kiwis', 'pineapples'], fontType: 'type2'}
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/33.jpg',
+    zones: {
+      1: { text: '', 
+           keywords: [] },
+      2: { text: 'The cat\'s tongue has about 200 to 400 tiny pointed<br>papillae. Cats use their rough tongues to clean<br>themselves. The behavior of a cat using its tongue to<br>lick its body to comb its fur and keep it clean is called<br>"grooming." The rough spines on the cat\'s tongue help<br>it remove meat from bones when it eats.', 
+           keywords: ['cat', 'tongue', 'papillae', 'cleaning', 'behavior', 'body', 'fur', 'grooming', 'spines', 'meat', 'bones'] },
+      3: { text: 'While feeding a cat, there are times when you are<br>startled by the feeling of the cat\'s tongue.<br>Unlike the cat\'s soft fur, its tongue feels quite rough.<br>Why is a cat\'s tongue rough?', 
+           keywords: ['cat', 'feeling', 'tongue', 'fur'] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/34.jpg',
+    zones: {
+      1: { text: 'What does a human body feel like?<br>Our skin is soft but we have wrinkles on our fingertips<br>so it can feel slightly rough. We have wrinkles called<br>fingerprints on our fingers, and the shape of these<br>is unique to each person. In TV shows or movies,<br>detectives or police collect fingerprints to track down<br>criminals precisely because of this.', 
+           keywords: ['human', 'body', 'skin', 'wrinkles', 'fingertips', 'fingerprints', 'fingers', 'shape', 'person', 'detectives', 'police', 'criminals'] },
+      2: { text: 'Why do human fingertips have fingerprints?<br>Fingerprints allow us to easily grasp objects and<br>engage in as many activities as we want using our<br>hands. What would happen if our fingertips were<br>smooth or slippery?', 
+           keywords: ['fingertips', 'fingerprints', 'objects', 'activities', 'hands'] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: 'Explain what would happen if we did not have<br>wrinkles on our fingertips and toes.', 
+           keywords: ['wrinkles', 'fingertips', 'toes'], fontType: 'type2'}
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/35.jpg',
+    zones: {
+      1: { text: 'Objects would keep slipping from our hands, making it<br>hard to hold them properly. However, due to the rough<br>texture of fingerprints at the tips of our fingers,<br>we can easily hold onto things. Fingerprints vary for<br>each person because we all have different sets of<br>genes.<br>Have you ever seen the delicate, purple morning glory<br>that blooms fully in the morning but begins to wither<br>as the day darkens? Morning glories grow by winding<br>around fences or trees. They are called "trumpet<br>flowers" in some Asian countries because of their<br>trumpet-shaped flowers.', 
+           keywords: ['objects', 'hands', 'texture', 'fingerprints', 'fingers', 'things', 'person', 'genes', 'morning', 'glory', 'fences', 'trees', 'flowers', 'countries'] },
+      2: { text: 'The stem of a morning glory has many small hairs<br>facing downwards so it feels rough to touch.<br>Why does the stem of the morning glory have so many<br>hairs?', 
+           keywords: ['stem', 'morning', 'glory', 'hairs', 'touch'] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/36.jpg',
+    zones: {
+      1: { text: 'Plants like the morning glory whose stems grow<br>upwards by winding around objects are called vine<br>plants. For a morning glory to climb something,<br>it needs to be able to cling without slipping. The hairs<br>on the stem of the flower help wrap around and cling<br>to objects.<br>Plants that climb up using the hairs on their stems<br>include ivy and cucumber. Vine plants use the rough<br>hairs on their stems or leaves to coil around or attach<br>to walls and grow upwards.', 
+           keywords: ['plants', 'morning', 'glory', 'stems', 'objects', 'vine', 'climbing', 'hairs', 'flower', 'ivy', 'cucumber', 'leaves', 'walls'] },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: 'Explain why the stems of morning glory have<br>rough hairs.', 
+           keywords: ['stems', 'morning', 'glory', 'hairs'], fontType: 'type2' },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/37.jpg',
+    zones: {
+      1: { text: '02. Slippery, Hard, and Rough<br><br>Ⅰ. Why Do We Study Slippery, Hard, Rough<br>Feelings?<br><br><br>Plants, animals, and even non-living things like rocks<br>and water all have their own unique textures.<br>For instance, some rocks may feel rough while others<br>that have been in water for a long time are slippery<br>with moss. Eels, catfish, and octopuses have slippery<br>bodies, and a cat with soft fur has a rough tongue.<br>Understanding slippery, hard, and rough feelings<br>allows us to unravel the secrets of living organisms.<br>We study this subject to discover the hidden secrets<br>of living organisms and create something that brings<br>happiness to people.', 
+           keywords: ['slippery', 'hard', 'rough', 'feelings', 'plants', 'animals', 'rocks', 'water', 'textures', 'moss', 'eels', 'catfish', 'octopuses', 'bodies', 'cat', 'fur', 'tongue', 'secrets', 'organisms', 'subject', 'happiness', 'people'] },
+      2: { text: 'Cats always have their fur neatly arranged. A cat\'s<br>tongue is filled with 300 to 400 small papillae.<br>This structure works like a comb, allowing the cat to<br>groom its fur by licking its own body.<br>But the papillae on the tongue point in the opposite<br>direction of the licking motion. This is a characteristic<br>unique to carnivorous animals, making it easier for<br>them to separate the meat from bones.<br>The bodies of loaches and eels are covered in mucus,<br>making them slippery to touch. Coating the bottom of<br>submarines or ships with a substance similar to this<br>mucus makes it easier for them to move in water.', 
+           keywords: ['cats', 'fur', 'tongue', 'papillae', 'structure', 'comb', 'grooming', 'body', 'direction', 'motion', 'characteristic', 'carnivorous', 'animals', 'meat', 'bones', 'loaches', 'eels', 'mucus', 'submarines', 'ships', 'substance', 'water'] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/38.jpg',
+    zones: {
+      1: { text: '<br><br>(1) Animals like frogs that live both in water and on land<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are called amphibians. Explain why the bodies of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;amphibians are always moist.<br><br>(2) The stems of vine plants have tiny hairs, making them<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;feel rough to touch. Explain what role these hairs on<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the stems play.', 
+           keywords: ['animals', 'frogs', 'water', 'land', 'amphibians', 'bodies', 'stems', 'vine', 'plants', 'hairs', 'role'], fontType: 'type4'},
+      2: { text: '02. Slippery, Hard, and Rough<br><span class="larger-text">Ⅱ. Where Can the Study of Slippery, Hard,</span><br><span class="larger-text">and Rough Feelings Be Applied?</span>', 
+           keywords: ['slippery', 'hard', 'rough', 'feelings'] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: 'Teddy bears are loved by people of all ages, not just<br>children. People who experienced emotional wounds<br>from the Second World War were healed through the<br>soft feeling of teddy bears. The sensation felt when<br>touching them has become a tool in today\'s marketing<br>strategies.', 
+           keywords: ['teddy', 'bears', 'people', 'ages', 'children', 'wounds', 'war', 'feeling', 'sensation', 'tool', 'marketing', 'strategies'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/39.jpg',
+    zones: {
+      1: { text: 'A study was conducted to determine the appropriate<br>price for a mug by showing it to people. Some people<br>were only allowed to see it while others could touch<br>it. The results were amazing: those who could touch<br>the mug gave it a higher value.<br>There is a psychological phenomenon known as the<br>"endowment effect." It refers to the behavior of<br>people assigning higher value to the items they own.<br>Even if they do not truly own it, simply touching it can<br>lead them to think of it as their own, as seen in the<br>case of the mug. They set a higher price for it based<br>on this sense of ownership.', 
+           keywords: ['study', 'price', 'mug', 'people', 'results', 'value', 'phenomenon', 'endowment', 'effect', 'behavior', 'items', 'ownership'] },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: 'Displaying sample products in a store and allowing<br>people to touch them is also a marketing strategy<br>aimed to achieve these effects. Research shows that<br>giving massages to the elderly improves their health.<br>There are even findings suggesting a reduction in<br>symptoms of dementia. Today, the sense of touch has<br>evolved beyond just physical contact to become a tool<br>that offers psychological comfort to people.', 
+           keywords: ['products', 'store', 'people', 'marketing', 'strategy', 'effects', 'research', 'massages', 'elderly', 'health', 'findings', 'symptoms', 'dementia', 'touch', 'contact', 'tool', 'comfort'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/40.jpg',
+    zones: {
+      1: { text: '', 
+           keywords: [] },
+      2: { text: '(1) The shape of fingerprints is different for each<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;person. If we had no fingerprints, what uncomfortable<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;situations might we experience?<br><br>(2) In most cases, the seeds of plants are covered by<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a hard shell. What might happen if the seed is soft?<br><br>', 
+           keywords: ['shape', 'fingerprints', 'person', 'situations', 'seeds', 'plants', 'shell'], fontType: 'type3'},
+      3: { text: 'A frog is moist and slippery to touch. A frog\'s skin is<br>slippery because it breathes through its skin.<br>There are many plants that feel slippery to touch. Seaweed<br>living in the sea feels slippery. Why is seaweed slippery?<br>Seaweed is slippery because the iodine component in<br>seaweed dissolves in water. Also, the chewy texture of<br>seaweed is due to its dietary fiber.', 
+           keywords: ['frog', 'skin', 'breathing', 'plants', 'seaweed', 'sea', 'iodine', 'component', 'water', 'texture', 'fiber'], fontType: 'type3'},
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/41.jpg',
+    zones: {
+      1: { text: 'Bamboos are hollow inside but are surprisingly sturdy.<br>Walnut shells are also very hard to touch. If we run our<br>fingers over tree bark, it feels rough.<br>The bark, which is thick and tough, prevents the moisture<br>absorbed through the tree roots from escaping as it travels<br>up to the leaves. This helps protect the tree from invaders<br>like insects. Explain what kinds of animals are slippery,<br>hard, and rough.', 
+           keywords: ['bamboos', 'shells', 'walnut', 'fingers', 'bark', 'tree', 'moisture', 'roots', 'leaves', 'invaders', 'insects', 'animals'], fontType: 'type4'},
+      2: { text: 'It is instinctive for plants and animals to want to leave<br>many offspring. Animals can choose a suitable place to<br>give birth and raise their young. Plants, on the other hand,<br>must live their entire lives where they sprout and cannot<br>choose the location to plant their seeds.<br>However, dispersing their seeds close by is not a good<br>idea. Firstly, even if the seedling sprouts, it may struggle<br>to grow properly without receiving enough sunlight.<br>Additionally, competing for water and nutrients in limited<br>soil becomes a challenge for both the parent plant and its<br>offspring. For these reasons, plants have found methods to<br>send their seeds to distant places.', 
+           keywords: ['plants', 'animals', 'offspring', 'place', 'birth', 'young', 'lives', 'location', 'seeds', 'seedling', 'sunlight', 'water', 'nutrients', 'soil', 'challenge', 'parent', 'methods', 'places'], fontType: 'type3'},
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/42.jpg',
+    zones: {
+      2: { text: '', 
+           keywords: [] },
+      1: { text: '<br>For example, dandelions disperse their seeds in the wind<br>with the help of soft, cotton-like hairs. Palm tree fruits<br>float well in water so they drift in the sea to travel far away.<br>What other methods do plants use to scatter seeds widely?<br>Explain how each method is related to the feeling we get<br>when we touch the seed or fruit.', 
+           keywords: ['dandelions', 'seeds', 'wind', 'hairs', 'palm', 'tree', 'fruits', 'water', 'sea', 'methods', 'plants', 'feeling', 'fruit'], fontType: 'type4'},
+      3: { text: '', 
+           keywords: [] },
+      4: { text: 'The legs of animals are for standing and walking.<br>The wings of birds flying freely in the sky were originally<br>legs. Different animals have different numbers of legs.<br>For example, humans and birds have two legs, while most<br>reptiles, amphibians, and mammals have four legs. Insects<br>have six legs and spiders and octopuses have eight legs.<br>Shrimp, squid, and crabs have ten legs.<br><br>', 
+           keywords: ['legs', 'animals', 'standing', 'walking', 'wings', 'birds', 'sky', 'humans', 'reptiles', 'amphibians', 'mammals', 'insects', 'spiders', 'octopuses', 'shrimp', 'squid', 'crabs'], fontType: 'type3'}
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/43.jpg',
+    zones: {
+      1: { text: 'The number of legs varies among animals and the shape<br>and feeling of them when touched are different. When we<br>place an insect on our hand, it can feel ticklish and slightly<br>prickly. If we magnify the legs of an insect, we can see<br>tiny bumps or hairs. Due to these features, insects do not<br>slip easily. Some animals, on the other hand, have slippery<br>legs. Explain the advantages and disadvantages of having<br>slippery legs.', 
+           keywords: ['number', 'legs', 'animals', 'shape', 'feeling', 'insect', 'hand', 'bumps', 'hairs', 'features', 'advantages', 'disadvantages'], fontType: 'type4' },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: 'In a pitch-dark room or when people suddenly lose the<br>sense of sight, we instinctively reach out and feel around<br>to find the light switch or understand our surroundings.<br>While it is possible to know what is nearby by listening to<br>sounds or detecting smells, determining the exact distance<br>is challenging. Even without seeing, touching objects with<br>our hands can reveal their identity. Human hands are<br>highly sensitive, allowing us to sense danger through the<br>feeling at our fingertips.<br><br>', 
+           keywords: ['room', 'people', 'sight', 'switch', 'surroundings', 'sounds', 'smells', 'distance', 'objects', 'hands', 'identity', 'sensitivity', 'danger', 'fingertips'], fontType: 'type3'}
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/44.jpg',
+    zones: {
+      1: { text: '', 
+           keywords: [] },
+      3: { text: 'For people who are blind, their hands become their eyes.<br>When we look at the buttons in an elevator or the handrails<br>on stairs, we can notice small patterns made of dots.<br>These dots are called "braille," specifically designed for<br>blind people. Nowadays, there are programs that transcribe<br>spoken words into written text or automatically read<br>written text aloud, helping people who are blind.<br>Explore what other technologies there are to help blind<br>people.<br><br>', 
+           keywords: ['people', 'blind', 'hands', 'eyes', 'buttons', 'elevator', 'handrails', 'stairs', 'patterns', 'dots', 'braille', 'programs', 'words', 'text', 'technologies'], fontType: 'type3'},
+      2: { text: '<strong><u>Braille Read with the Touch of the Fingers</u></strong><br><br>Braille is written with raised dots that can be read by<br>touching with the tip of a finger. Blind people can read in<br>braille. Interestingly, the original braille was not for the<br>visually impaired.<br>It is said that the first braille was created by French<br>officer Charles Barbier in the early 19th century. The night<br>signals he created to send messages on the battlefield<br>even in the dark of night was the beginning of braille.', 
+           keywords: ['braille', 'dots', 'finger', 'people', 'impaired', 'french', 'officer', 'charles', 'barbier', 'century', 'signals', 'messages', 'battlefield', 'night'], fontType: 'type3' },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/45.jpg',
+    zones: {
+      1: { text: 'Barbier believed that braille would be helpful to the visually<br>impaired and introduced braille to the Paris National<br>Institute for Blind Youth. Louis Braille, a blind boy who<br>attended this school, thought that braille was a good text<br>for the visually impaired. However, he thought that the<br>6 vertical dots would be uncomfortable to read with the<br>fingertips.<br>Through repeated research, he created the current 6-dot<br>braille with 3 dots vertical and 2 dots horizontal. In 1829<br>he published the braille system. Teachers at the Paris<br>National Institute for Blind Youth initially thought braille<br>had little value as a written text. Thus, teachers did not<br>allow students to use braille.<br>However, the students that secretly studied in braille<br>got better grades than those who did not. Eventually,<br>the Paris National Institute for Blind Youth allowed the<br>use of braille. Afterwards, braille became known in many<br>countries around the world. However, the process of<br>accepting braille in each country was not easy. It is said<br>that even in the United States there were many people<br>who initially disapproved of braille. There was a lot of<br>confusion even among people who use braille.', 
+           keywords: ['barbier', 'impaired', 'paris', 'national', 'institute', 'blind', 'youth', 'louis', 'braille', 'boy', 'school', 'text', 'dots', 'fingertips', 'research', 'system', 'teachers', 'students', 'grades', 'countries', 'world', 'process', 'united', 'states', 'people', 'confusion'], fontType: 'type3' },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: '', 
+           keywords: [] },
+      4: { text: '', 
+           keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G2.1.1/46.jpg',
+    zones: {
+      1: { text: '', 
+           keywords: [] },
+      2: { text: '', 
+           keywords: [] },
+      3: { text: 'In the old days in the United States, there were two types<br>of braille: the New York Point and the American Braille.<br>Because of this, it was inconvenient to communicate with<br>people who used different braille scripts.<br>In addition, there was a lot of controversy between the<br>United States and the United Kingdom in the process of<br>creating abbreviations in braille. But fortunately, through<br>these hardships, braille gradually became more uniform.<br><br>', 
+           keywords: ['united', 'states', 'types', 'braille', 'new', 'york', 'point', 'american', 'communication', 'people', 'scripts', 'controversy', 'united', 'kingdom', 'process', 'abbreviations', 'hardships', 'uniformity'], fontType: 'type3' },
+      4: { text: '', 
+           keywords: [] }
+    }
+  }
   
-
 ];
-
   </script>
-  
+   
   <script src="../assets/js/4zoneGApp.js"></script>
 </body>
 </html> 
