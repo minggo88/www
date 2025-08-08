@@ -877,6 +877,11 @@ function renderYoutubeResults(items) {
             el.onclick = function() {
                 const vid = this.dataset.videoid;
                 if (vid) {
+                    // YouTube 주소 콘솔에 출력 (자막 및 한글 설정 포함)
+                    const youtubeUrl = `https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`;
+                    console.log('🎬 YouTube 주소:', youtubeUrl);
+                    console.log('📺 Video ID:', vid);
+                    
                     // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
                     const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
                     
@@ -894,8 +899,9 @@ function renderYoutubeResults(items) {
                     
                     // 팝업이 차단된 경우 처리
                     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-                        // 팝업이 차단되면 새 탭으로 YouTube 열기 (자막 및 한글 설정 추가)
-                        window.open(`https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`, '_blank');
+                        // 팝업이 차단되면 새 탭으로 YouTube 열기 (자막 및 한글 설정 포함)
+                        console.log('🚫 팝업이 차단됨 - 새 탭으로 열기:', youtubeUrl);
+                        window.open(youtubeUrl, '_blank');
                         return;
                     }
                         
