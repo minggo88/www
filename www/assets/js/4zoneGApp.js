@@ -451,15 +451,43 @@ function renderTextWithKeywords(text, keywords) {
 function renderZoneTextWithNounSpans(text, keywords) {
   if (!text) return '';
   let html = text;
+  
+  // 이미 처리된 키워드를 추적
+  const processedKeywords = new Set();
+  
   // 긴 명사 우선 매칭
   keywords.sort((a, b) => b.length - a.length).forEach(noun => {
+    if (processedKeywords.has(noun.toLowerCase())) return;
+    
+    // 이미 span 태그로 감싸져 있는 경우 건너뛰기
+    if (html.includes(`<span class="noun-span">${noun}</span>`)) {
+      processedKeywords.add(noun.toLowerCase());
+      return;
+    }
+    
     // 줄바꿈 포함 매칭: 공백을 [ \n\r\t\f\v]*로 치환
     const pattern = noun.replace(/ /g, '[ \n\r\t\f\v]*');
-    html = html.replace(
-      new RegExp(pattern, 'gi'),
-      match => `<span class="noun-span">${match}</span>`
-    );
+    const escapedPattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
+    // 단어 경계를 사용하여 정확한 매칭
+    const regex = new RegExp(`\\b${escapedPattern}\\b`, 'gi');
+    
+    html = html.replace(regex, match => {
+      // HTML 태그 내부인지 확인
+      const beforeMatch = html.substring(0, html.indexOf(match));
+      const openTags = (beforeMatch.match(/</g) || []).length;
+      const closeTags = (beforeMatch.match(/>/g) || []).length;
+      
+      // 태그 내부라면 처리하지 않음
+      if (openTags > closeTags) {
+        return match;
+      }
+      
+      processedKeywords.add(noun.toLowerCase());
+      return `<span class="noun-span">${match}</span>`;
+    });
   });
+  
   // <br>로 분할하여 <p>로 감싸기
   return html.split(/<br\s*\/?>/i).map(line => `<p>${line}</p>`).join('');
 }
@@ -1004,6 +1032,72 @@ window.addEventListener('orientationchange', () => {
 // iOS Safari 주소창 숨기기
 hideAddressBar();
 
+// 웹뷰 뒤로가기 버튼 이벤트 처리
+function handleWebViewBackButton() {
+  // 웹뷰 감지
+  const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
+  
+  if (isWebView) {
+    // 뒤로가기 버튼 이벤트 리스너 추가
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' || e.key === 'Escape') {
+        // 모달창이 열려있는지 확인
+        const tabbar = document.getElementById('tabbar-container');
+        const searchModal = document.getElementById('search-result-modal');
+        
+        if (tabbar && tabbar.classList.contains('show-tabbar')) {
+          // 탭바 모달이 열려있으면 닫기
+          e.preventDefault();
+          tabbar.classList.remove('show-tabbar');
+          const overlay = document.getElementById('tabbar-modal-overlay');
+          if (overlay) overlay.style.display = 'none';
+          return;
+        }
+        
+        if (searchModal && searchModal.style.display === 'flex') {
+          // 검색 결과 모달이 열려있으면 닫기
+          e.preventDefault();
+          searchModal.remove();
+          return;
+        }
+      }
+    });
+    
+    // 터치 이벤트로 뒤로가기 처리 (Android)
+    let backButtonPressed = false;
+    document.addEventListener('touchstart', function(e) {
+      backButtonPressed = false;
+    });
+    
+    document.addEventListener('touchend', function(e) {
+      if (e.touches.length === 0 && !backButtonPressed) {
+        // 모달창이 열려있는지 확인
+        const tabbar = document.getElementById('tabbar-container');
+        const searchModal = document.getElementById('search-result-modal');
+        
+        if (tabbar && tabbar.classList.contains('show-tabbar')) {
+          // 탭바 모달이 열려있으면 닫기
+          e.preventDefault();
+          tabbar.classList.remove('show-tabbar');
+          const overlay = document.getElementById('tabbar-modal-overlay');
+          if (overlay) overlay.style.display = 'none';
+          return;
+        }
+        
+        if (searchModal && searchModal.style.display === 'flex') {
+          // 검색 결과 모달이 열려있으면 닫기
+          e.preventDefault();
+          searchModal.remove();
+          return;
+        }
+      }
+    });
+  }
+}
+
+// 웹뷰 뒤로가기 버튼 이벤트 초기화
+handleWebViewBackButton();
+
 // 탭바 이벤트 처리
 window.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.tab');
@@ -1219,8 +1313,8 @@ function renderYoutubeResults(items) {
                 
                 // 팝업이 차단된 경우 처리
                 if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-                    // 팝업이 차단되면 새 탭으로 YouTube 열기
-                    window.open(`https://www.youtube.com/watch?v=${vid}`, '_blank');
+                    // 팝업이 차단되면 새 탭으로 YouTube 열기 (자막 및 한글 설정 추가)
+                    window.open(`https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`, '_blank');
                     return;
                 }
                     
