@@ -745,7 +745,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // YouTube API 키 및 채널 정보
-const API_KEY = 'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4';
+const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
 
 // 채널 정보
 const channels = {
