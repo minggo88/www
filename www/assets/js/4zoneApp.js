@@ -1003,17 +1003,26 @@ function renderYoutubeResults(items) {
                                     
                                     // Plyr 플레이어 초기화
                                     try {
-                                        const player = new Plyr('#player', {
-                                            controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
-                                            autoplay: true,
-                                            muted: false,
-                                            hideControls: true,
-                                            resetOnEnd: true,
-                                            keyboard: { focused: true, global: true },
-                                            tooltips: { controls: true, seek: true },
-                                            captions: { active: true, language: 'auto', update: true },
-                                            fullscreen: { enabled: true, fallback: true, iosNative: true }
-                                        });
+                                                                                 const player = new Plyr('#player', {
+                                             controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                                             autoplay: true,
+                                             muted: false,
+                                             hideControls: true,
+                                             resetOnEnd: true,
+                                             keyboard: { focused: true, global: true },
+                                             tooltips: { controls: true, seek: true },
+                                             captions: { active: true, language: 'ko', update: true },
+                                             fullscreen: { enabled: true, fallback: true, iosNative: true },
+                                             youtube: {
+                                                 noCookie: true,
+                                                 rel: 0,
+                                                 showinfo: 0,
+                                                 iv_load_policy: 3,
+                                                 cc_load_policy: 1,
+                                                 cc_lang_pref: 'ko',
+                                                 hl: 'ko'
+                                             }
+                                         });
                                         
                                         // 플레이어 이벤트 리스너
                                         player.on('ready', () => {
@@ -1036,10 +1045,10 @@ function renderYoutubeResults(items) {
                                             }
                                         }, 1000);
                                         
-                                    } catch (error) {
-                                        console.error('Plyr 초기화 오류:', error);
-                                        // 오류 발생 시 기본 YouTube iframe으로 대체
-                                        document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                                                                         } catch (error) {
+                                         console.error('Plyr 초기화 오류:', error);
+                                         // 오류 발생 시 기본 YouTube iframe으로 대체 (자막 설정 포함)
+                                         document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1&cc_load_policy=1&cc_lang_pref=ko&hl=ko" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
                                         
                                         // 로딩 텍스트 제거
                                         const loading = document.querySelector('.loading');
