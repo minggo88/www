@@ -894,8 +894,8 @@ function renderYoutubeResults(items) {
                     
                     // 팝업이 차단된 경우 처리
                     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-                        // 팝업이 차단되면 새 탭으로 YouTube 열기
-                        window.open(`https://www.youtube.com/watch?v=${vid}`, '_blank');
+                        // 팝업이 차단되면 새 탭으로 YouTube 열기 (자막 및 한글 설정 추가)
+                        window.open(`https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`, '_blank');
                         return;
                     }
                         
