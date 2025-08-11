@@ -714,7 +714,7 @@ window.addEventListener('DOMContentLoaded', () => {
       } else {
           results = await globalSearch(query);
       }
-      renderYoutubeResults(results);
+      await renderYoutubeResults(results);
     });
   }
   
@@ -821,12 +821,38 @@ async function globalSearch(searchTerm) {
 }
 
 // 검색 결과 렌더링 함수
-function renderYoutubeResults(items) {
+async function renderYoutubeResults(items) {
     let html = '';
     if (!items || items.length === 0) {
-        html = '<div style="padding:2em; text-align:center;">No results found.</div>';
+        html = '<div style="padding:2em; text-align:center;">검색 결과가 없습니다.</div>';
     } else {
-        html = items.map((item, idx) => `
+        // 제목 번역 처리
+        const translatedItems = [];
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            let translatedTitle = item.snippet.title;
+            
+            // 번역 기능이 활성화되어 있고 번역 함수가 있으면 번역 시도
+            if (window.translationEnabled && window.translateText) {
+                try {
+                    translatedTitle = await window.translateText(item.snippet.title, 'ko', 'en');
+                    console.log(`번역 완료: "${item.snippet.title}" → "${translatedTitle}"`);
+                } catch (error) {
+                    console.error('번역 실패:', error);
+                    translatedTitle = item.snippet.title; // 번역 실패시 원본 사용
+                }
+            }
+            
+            translatedItems.push({
+                ...item,
+                snippet: {
+                    ...item.snippet,
+                    title: translatedTitle
+                }
+            });
+        }
+        
+        html = translatedItems.map((item, idx) => `
             <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
                 <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
                     <img src="${item.snippet.thumbnails.default.url}" 

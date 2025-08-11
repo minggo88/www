@@ -1132,7 +1132,7 @@ window.addEventListener('DOMContentLoaded', () => {
       } else {
           results = await globalSearch(query);
       }
-      renderYoutubeResults(results);
+      await renderYoutubeResults(results);
     });
   }
   
@@ -1238,25 +1238,75 @@ async function globalSearch(searchTerm) {
     }
 }
 
-// 검색 결과 렌더링 함수
-function renderYoutubeResults(items) {
+// 검색 결과 렌더링 함수 (한글 번역 지원)
+async function renderYoutubeResults(items) {
     let html = '';
+    
     if (!items || items.length === 0) {
-        html = '<div style="padding:2em; text-align:center;">No results found.</div>';
+        html = '<div style="padding:2em; text-align:center;">검색 결과가 없습니다.</div>';
     } else {
-        html = items.map((item, idx) => `
-            <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
-                <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
-                    <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
-                </div>
-                <div>
-                    <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
-                        ${item.snippet.title}
+        // list_kr.js가 로드된 경우 번역 실행
+        if (window.translateYoutubeResults) {
+            try {
+                console.log('YouTube 검색 결과 번역 시작...');
+                const translatedItems = await window.translateYoutubeResults(items);
+                
+                html = translatedItems.map((item, idx) => {
+                    const title = item.snippet.translatedTitle || item.snippet.title;
+                    const originalTitle = item.snippet.originalTitle || item.snippet.title;
+                    
+                    return `
+                        <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
+                            <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
+                                <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
+                            </div>
+                            <div style="flex:1;">
+                                <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;margin-bottom:0.5em;">
+                                    ${title}
+                                </div>
+                                <div style="font-size:0.8em;color:#888;margin-bottom:0.3em;">
+                                    <strong>원본:</strong> ${originalTitle}
+                                </div>
+                                <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                console.log('번역된 YouTube 검색 결과 렌더링 완료');
+            } catch (error) {
+                console.error('번역 중 오류 발생, 원본 결과로 표시:', error);
+                // 번역 실패시 원본 결과 표시
+                html = items.map((item, idx) => `
+                    <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
+                        <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
+                            <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
+                        </div>
+                        <div style="flex:1;">
+                            <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;margin-bottom:0.5em;">
+                                ${item.snippet.title}
+                            </div>
+                            <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
+                        </div>
                     </div>
-                    <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
+                `).join('');
+            }
+        } else {
+            // list_kr.js가 로드되지 않은 경우 원본 결과 표시
+            html = items.map((item, idx) => `
+                <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
+                    <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
+                        <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
+                    </div>
+                    <div style="flex:1;">
+                        <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;margin-bottom:0.5em;">
+                            ${item.snippet.title}
+                        </div>
+                        <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `).join('');
+        }
     }
     
     let modal = document.getElementById('search-result-modal');
