@@ -13,6 +13,107 @@
   <link rel="stylesheet" href="../assets/css/4zone.css">
   <link rel="icon" href="../assets/img/ReadBook/2.1.4/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/img/ReadBook/2.1.4/favicon.ico">
+  <style>
+    /* 기존 버튼을 항상 보이도록 수정 */
+    .nav-button {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    /* 기존 hover 효과 제거 */
+    .nav-button:hover {
+      opacity: 1 !important;
+    }
+    
+    /* 4zone.css의 hover 기반 표시를 무시하고 항상 보이도록 강제 설정 */
+    .arrow {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+    }
+    
+    .arrow:hover {
+      opacity: 1 !important;
+    }
+    
+    .arrow.left, .arrow.right {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+    }
+    
+    /* 4zone.css의 hover 규칙을 무시하고 항상 표시 */
+    .arrow:not(:hover):not(:focus):not(:active) {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    /* slide-container hover와 관계없이 항상 표시 */
+    .slide-container .arrow,
+    .slide-container:hover .arrow {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    /* 더 구체적인 선택자로 화살표 버튼 강제 표시 */
+    button.arrow.left,
+    button.arrow.right,
+    .arrow.left,
+    .arrow.right {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+      pointer-events: auto !important;
+      z-index: 9999 !important;
+    }
+    
+    /* 모든 화살표 관련 요소 강제 표시 */
+    [class*="arrow"] {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+    }
+    
+    /* 4zoneApp.js에서 생성되는 네비게이션 버튼들을 항상 보이도록 */
+    .nav-btn {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+    }
+    
+    .nav-btn:hover {
+      opacity: 1 !important;
+    }
+    
+    /* 모든 네비게이션 관련 버튼을 보이도록 */
+    [class*="nav"], [id*="nav"] {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    /* 페이지 인디케이터 점들을 검은색으로 변경 */
+    #page-indicator .page-dot {
+      background-color: rgba(0, 0, 0, 0.4) !important;
+      border: 2px solid rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    #page-indicator .page-dot.active {
+      background-color: #000 !important;
+      border: 2px solid #000 !important;
+    }
+    
+    /* 페이지 인디케이터 내의 모든 원형 요소를 검은색으로 */
+    #page-indicator > div {
+      background-color: rgba(0, 0, 0, 0.4) !important;
+      border-color: rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    /* 활성화된 페이지 인디케이터 점을 진하게 */
+    #page-indicator > div.active {
+      background-color: #000 !important;
+      border-color: #000 !important;
+    }
+  </style>
 </head>
 <body>
   <!-- 전체화면 모달 -->
@@ -24,7 +125,7 @@
   </div>
   
   <!-- 페이지 인디케이터 -->
-  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:1; transition:opacity 0.3s ease; background:rgba(255,255,255,0.8); padding:8px 12px; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.2);">
     <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
   </div>
 
