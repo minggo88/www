@@ -1,3 +1,24 @@
+// 동적 스크립트 로드 함수
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+// list_kr.js 동적 로드
+async function loadTranslationScript() {
+  try {
+    await loadScript('../assets/js/list_kr.js');
+    console.log('list_kr.js 로드 완료');
+  } catch (error) {
+    console.error('list_kr.js 로드 실패:', error);
+  }
+}
+
 // 4구역 위치 제어 함수 및 전체화면 고정 위치 계산 포함
 const CONFIG = {
   setZonePositionPx: (zoneNumber, top, left, right, bottom) => {
@@ -681,7 +702,10 @@ window.addEventListener('orientationchange', () => {
 hideAddressBar();
 
 // 탭바 이벤트 처리
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
+  // list_kr.js 동적 로드
+  await loadTranslationScript();
+  
   const tabs = document.querySelectorAll('.tab');
   const searchInput = document.getElementById('searchInput');
   

@@ -1,4 +1,39 @@
 // 4구역 위치 제어 함수 및 전체화면 고정 위치 계산 포함
+
+// list_kr.js 동적 로드 함수
+async function loadListKrScript() {
+    return new Promise((resolve, reject) => {
+        // 이미 로드되어 있는지 확인
+        if (window.translateYoutubeResults) {
+            console.log('list_kr.js가 이미 로드되어 있습니다.');
+            resolve();
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = '../assets/js/list_kr.js';
+        script.onload = () => {
+            console.log('list_kr.js 로드 완료');
+            resolve();
+        };
+        script.onerror = () => {
+            console.error('list_kr.js 로드 실패');
+            reject(new Error('list_kr.js 로드 실패'));
+        };
+        document.head.appendChild(script);
+    });
+}
+
+// 페이지 로드 시 list_kr.js 로드
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await loadListKrScript();
+        console.log('번역 기능 초기화 완료');
+    } catch (error) {
+        console.warn('번역 기능 로드 실패, 원본 결과로 표시됩니다:', error);
+    }
+});
+
 const CONFIG = {
   setZonePositionPx: (zoneNumber, top, left, right, bottom) => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
