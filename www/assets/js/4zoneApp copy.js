@@ -745,7 +745,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // YouTube API 키 및 채널 정보
-const API_KEY = 'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4';
+const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
 
 // 채널 정보
 const channels = {
@@ -877,6 +877,11 @@ function renderYoutubeResults(items) {
             el.onclick = function() {
                 const vid = this.dataset.videoid;
                 if (vid) {
+                    // YouTube 주소 콘솔에 출력 (자막 및 한글 설정 포함)
+                    const youtubeUrl = `https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`;
+                    console.log('🎬 YouTube 주소:', youtubeUrl);
+                    console.log('📺 Video ID:', vid);
+                    
                     // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
                     const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
                     
@@ -894,8 +899,9 @@ function renderYoutubeResults(items) {
                     
                     // 팝업이 차단된 경우 처리
                     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-                        // 팝업이 차단되면 새 탭으로 YouTube 열기
-                        window.open(`https://www.youtube.com/watch?v=${vid}`, '_blank');
+                        // 팝업이 차단되면 새 탭으로 YouTube 열기 (자막 및 한글 설정 포함)
+                        console.log('🚫 팝업이 차단됨 - 새 탭으로 열기:', youtubeUrl);
+                        window.open(youtubeUrl, '_blank');
                         return;
                     }
                         
@@ -997,17 +1003,26 @@ function renderYoutubeResults(items) {
                                     
                                     // Plyr 플레이어 초기화
                                     try {
-                                        const player = new Plyr('#player', {
-                                            controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
-                                            autoplay: true,
-                                            muted: false,
-                                            hideControls: true,
-                                            resetOnEnd: true,
-                                            keyboard: { focused: true, global: true },
-                                            tooltips: { controls: true, seek: true },
-                                            captions: { active: true, language: 'auto', update: true },
-                                            fullscreen: { enabled: true, fallback: true, iosNative: true }
-                                        });
+                                                                                 const player = new Plyr('#player', {
+                                             controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                                             autoplay: true,
+                                             muted: false,
+                                             hideControls: true,
+                                             resetOnEnd: true,
+                                             keyboard: { focused: true, global: true },
+                                             tooltips: { controls: true, seek: true },
+                                             captions: { active: true, language: 'ko', update: true },
+                                             fullscreen: { enabled: true, fallback: true, iosNative: true },
+                                             youtube: {
+                                                 noCookie: true,
+                                                 rel: 0,
+                                                 showinfo: 0,
+                                                 iv_load_policy: 3,
+                                                 cc_load_policy: 1,
+                                                 cc_lang_pref: 'ko',
+                                                 hl: 'ko'
+                                             }
+                                         });
                                         
                                         // 플레이어 이벤트 리스너
                                         player.on('ready', () => {
@@ -1030,10 +1045,10 @@ function renderYoutubeResults(items) {
                                             }
                                         }, 1000);
                                         
-                                    } catch (error) {
-                                        console.error('Plyr 초기화 오류:', error);
-                                        // 오류 발생 시 기본 YouTube iframe으로 대체
-                                        document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                                                                         } catch (error) {
+                                         console.error('Plyr 초기화 오류:', error);
+                                         // 오류 발생 시 기본 YouTube iframe으로 대체 (자막 설정 포함)
+                                         document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1&cc_load_policy=1&cc_lang_pref=ko&hl=ko" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
                                         
                                         // 로딩 텍스트 제거
                                         const loading = document.querySelector('.loading');

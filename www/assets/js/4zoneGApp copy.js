@@ -451,15 +451,43 @@ function renderTextWithKeywords(text, keywords) {
 function renderZoneTextWithNounSpans(text, keywords) {
   if (!text) return '';
   let html = text;
+  
+  // 이미 처리된 키워드를 추적
+  const processedKeywords = new Set();
+  
   // 긴 명사 우선 매칭
   keywords.sort((a, b) => b.length - a.length).forEach(noun => {
+    if (processedKeywords.has(noun.toLowerCase())) return;
+    
+    // 이미 span 태그로 감싸져 있는 경우 건너뛰기
+    if (html.includes(`<span class="noun-span">${noun}</span>`)) {
+      processedKeywords.add(noun.toLowerCase());
+      return;
+    }
+    
     // 줄바꿈 포함 매칭: 공백을 [ \n\r\t\f\v]*로 치환
     const pattern = noun.replace(/ /g, '[ \n\r\t\f\v]*');
-    html = html.replace(
-      new RegExp(pattern, 'gi'),
-      match => `<span class="noun-span">${match}</span>`
-    );
+    const escapedPattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
+    // 단어 경계를 사용하여 정확한 매칭
+    const regex = new RegExp(`\\b${escapedPattern}\\b`, 'gi');
+    
+    html = html.replace(regex, match => {
+      // HTML 태그 내부인지 확인
+      const beforeMatch = html.substring(0, html.indexOf(match));
+      const openTags = (beforeMatch.match(/</g) || []).length;
+      const closeTags = (beforeMatch.match(/>/g) || []).length;
+      
+      // 태그 내부라면 처리하지 않음
+      if (openTags > closeTags) {
+        return match;
+      }
+      
+      processedKeywords.add(noun.toLowerCase());
+      return `<span class="noun-span">${match}</span>`;
+    });
   });
+  
   // <br>로 분할하여 <p>로 감싸기
   return html.split(/<br\s*\/?>/i).map(line => `<p>${line}</p>`).join('');
 }
@@ -1004,6 +1032,72 @@ window.addEventListener('orientationchange', () => {
 // iOS Safari 주소창 숨기기
 hideAddressBar();
 
+// 웹뷰 뒤로가기 버튼 이벤트 처리
+function handleWebViewBackButton() {
+  // 웹뷰 감지
+  const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
+  
+  if (isWebView) {
+    // 뒤로가기 버튼 이벤트 리스너 추가
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' || e.key === 'Escape') {
+        // 모달창이 열려있는지 확인
+        const tabbar = document.getElementById('tabbar-container');
+        const searchModal = document.getElementById('search-result-modal');
+        
+        if (tabbar && tabbar.classList.contains('show-tabbar')) {
+          // 탭바 모달이 열려있으면 닫기
+          e.preventDefault();
+          tabbar.classList.remove('show-tabbar');
+          const overlay = document.getElementById('tabbar-modal-overlay');
+          if (overlay) overlay.style.display = 'none';
+          return;
+        }
+        
+        if (searchModal && searchModal.style.display === 'flex') {
+          // 검색 결과 모달이 열려있으면 닫기
+          e.preventDefault();
+          searchModal.remove();
+          return;
+        }
+      }
+    });
+    
+    // 터치 이벤트로 뒤로가기 처리 (Android)
+    let backButtonPressed = false;
+    document.addEventListener('touchstart', function(e) {
+      backButtonPressed = false;
+    });
+    
+    document.addEventListener('touchend', function(e) {
+      if (e.touches.length === 0 && !backButtonPressed) {
+        // 모달창이 열려있는지 확인
+        const tabbar = document.getElementById('tabbar-container');
+        const searchModal = document.getElementById('search-result-modal');
+        
+        if (tabbar && tabbar.classList.contains('show-tabbar')) {
+          // 탭바 모달이 열려있으면 닫기
+          e.preventDefault();
+          tabbar.classList.remove('show-tabbar');
+          const overlay = document.getElementById('tabbar-modal-overlay');
+          if (overlay) overlay.style.display = 'none';
+          return;
+        }
+        
+        if (searchModal && searchModal.style.display === 'flex') {
+          // 검색 결과 모달이 열려있으면 닫기
+          e.preventDefault();
+          searchModal.remove();
+          return;
+        }
+      }
+    });
+  }
+}
+
+// 웹뷰 뒤로가기 버튼 이벤트 초기화
+handleWebViewBackButton();
+
 // 탭바 이벤트 처리
 window.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.tab');
@@ -1069,7 +1163,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // YouTube API 키 및 채널 정보
-const API_KEY = 'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4';
+const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
 
 // 채널 정보
 const channels = {
@@ -1194,8 +1288,7 @@ function renderYoutubeResults(items) {
     // 검색 결과를 표시
     document.getElementById('search-iframe-wrap').innerHTML = html;
     
-    let currentPlayer = null;
-    let currentPlayerContainer = null;
+
     
     setTimeout(() => {
         document.querySelectorAll('.yt-thumb-title').forEach(el => {
@@ -1203,120 +1296,177 @@ function renderYoutubeResults(items) {
                 const vid = this.dataset.videoid;
                 const itemDiv = this.closest('.yt-result-item');
                 
-                // 기존 플레이어가 있으면 제거
-                if (currentPlayer && typeof currentPlayer.destroy === 'function') {
-                    currentPlayer.destroy();
-                }
-                if (currentPlayerContainer && currentPlayerContainer.parentNode) {
-                    currentPlayerContainer.remove();
-                }
+                // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
+                const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
                 
-                // 같은 아이템을 다시 클릭한 경우 플레이어만 제거하고 종료
-                if (itemDiv.querySelector('.yt-inline-player')) {
+                // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
+                const popupOptions = isWebView ? 
+                    'width=800,height=600,left=50,top=50,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no' :
+                    'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes';
+                
+                // 모든 환경에서 Plyr 팝업 뷰어 사용
+                const popup = window.open(
+                    '',
+                    'youtube_viewer',
+                    popupOptions
+                );
+                
+                // 팝업이 차단된 경우 처리
+                if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+                    // 팝업이 차단되면 새 탭으로 YouTube 열기 (자막 및 한글 설정 추가)
+                    window.open(`https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`, '_blank');
                     return;
                 }
-                
-                // 더 큰 높이로 설정 (최소 600px, 화면 높이의 70%)
-                const minHeight = Math.max(600, window.innerHeight * 0.7);
-                
-                // 플레이어 컨테이너 생성
-                const playerContainer = document.createElement('div');
-                playerContainer.className = 'yt-inline-player';
-                playerContainer.style.cssText = `
-                    width: 100% !important;
-                    height: ${minHeight}px !important;
-                    min-height: 600px !important;
-                    max-height: 800px !important;
-                    background: #000;
-                    border-radius: 12px;
-                    margin: 20px 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    position: relative;
-                    animation: slideDown 0.3s ease-out;
-                    box-sizing: border-box;
-                `;
-                
-                const playerDiv = document.createElement('div');
-                playerDiv.style.cssText = `
-                    width: 100% !important;
-                    height: 100% !important;
-                    min-height: 600px !important;
-                    border-radius: 12px;
-                    overflow: hidden;
-                    box-sizing: border-box;
-                `;
-                
-                playerContainer.appendChild(playerDiv);
-                
-                // 닫기 버튼 추가
-                const closeBtn = document.createElement('button');
-                closeBtn.innerHTML = '×';
-                closeBtn.style.cssText = `
-                    position: absolute;
-                    right: 12px;
-                    top: 12px;
-                    font-size: 2rem;
-                    font-weight: bold;
-                    background: rgba(0,0,0,0.7);
-                    border: none;
-                    color: #fff;
-                    z-index: 10011;
-                    cursor: pointer;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                `;
-                
-                closeBtn.onclick = () => {
-                    if (currentPlayer && typeof currentPlayer.destroy === 'function') {
-                        currentPlayer.destroy();
-                    }
-                    playerContainer.remove();
-                    currentPlayer = null;
-                    currentPlayerContainer = null;
-                };
-                
-                playerContainer.appendChild(closeBtn);
-                
-                // 아이템 바로 다음에 플레이어 삽입
-                itemDiv.parentNode.insertBefore(playerContainer, itemDiv.nextSibling);
-                currentPlayerContainer = playerContainer;
-                
-                // 클릭한 리스트가 가장 위로 스크롤
-                setTimeout(() => {
-                    itemDiv.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start',
-                        inline: 'nearest'
-                    });
-                }, 100);
-                
-                // YouTube 플레이어 생성
-                if (window.YT && window.YT.Player) {
-                    currentPlayer = new YT.Player(playerDiv, {
-                        width: '100%',
-                        height: minHeight,
-                        videoId: vid,
-                        playerVars: { 'autoplay': 1, 'controls': 1 },
-                        events: {
-                            'onReady': function (event) { 
-                                event.target.playVideo(); 
-                                // 플레이어 크기 강제 설정
-                                const iframe = playerDiv.querySelector('iframe');
-                                if (iframe) {
-                                    iframe.style.width = '100% !important';
-                                    iframe.style.height = '100% !important';
-                                    iframe.style.minHeight = '600px !important';
-                                }
+                    
+                // Plyr 기반 커스텀 뷰어 HTML 생성
+                popup.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>YouTube Video Viewer</title>
+                        <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+                        <style>
+                            body {
+                                margin: 0;
+                                padding: 0;
+                                font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+                                background: #000;
+                                overflow: hidden;
                             }
-                        }
-                    });
-                }
+                            .video-container {
+                                position: relative;
+                                width: 100vw;
+                                height: 100vh;
+                                display: flex;
+                                flex-direction: column;
+                            }
+                            .close-btn {
+                                position: absolute;
+                                top: 10px;
+                                right: 10px;
+                                background: rgba(0,0,0,0.7);
+                                color: white;
+                                border: none;
+                                border-radius: 50%;
+                                width: 40px;
+                                height: 40px;
+                                font-size: 20px;
+                                cursor: pointer;
+                                z-index: 1000;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                transition: background 0.2s;
+                            }
+                            .close-btn:hover {
+                                background: rgba(255,0,0,0.8);
+                            }
+                            .plyr {
+                                width: 100%;
+                                height: 100%;
+                            }
+                            .plyr__video-wrapper {
+                                height: 100vh !important;
+                            }
+                            .plyr__video {
+                                height: 100vh !important;
+                            }
+                            .loading {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                color: white;
+                                font-size: 18px;
+                                z-index: 999;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="video-container">
+                            <button class="close-btn" onclick="window.close()">×</button>
+                            <div class="loading">로딩 중...</div>
+                            <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${vid}"></div>
+                        </div>
+                        <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+                        <script>
+                            // 창을 최대화 (웹뷰가 아닌 경우에만)
+                            try {
+                                window.moveTo(0, 0);
+                                window.resizeTo(screen.availWidth, screen.availHeight);
+                                window.focus();
+                                
+                                // 추가로 최대화 시도
+                                setTimeout(() => {
+                                    try {
+                                        window.resizeTo(screen.availWidth, screen.availHeight);
+                                        window.moveTo(0, 0);
+                                    } catch (e) {
+                                        console.log('추가 최대화 실패:', e);
+                                    }
+                                }, 100);
+                                
+                                // ESC 키로 최대화 해제 방지
+                                document.addEventListener('keydown', function(e) {
+                                    if (e.key === 'Escape') {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    }
+                                });
+                                
+                                // Plyr 플레이어 초기화
+                                try {
+                                    const player = new Plyr('#player', {
+                                        controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                                        autoplay: true,
+                                        muted: false,
+                                        hideControls: true,
+                                        resetOnEnd: true,
+                                        keyboard: { focused: true, global: true },
+                                        tooltips: { controls: true, seek: true },
+                                        captions: { active: true, language: 'auto', update: true },
+                                        fullscreen: { enabled: true, fallback: true, iosNative: true }
+                                    });
+                                    
+                                    // 플레이어 이벤트 리스너
+                                    player.on('ready', () => {
+                                        console.log('Plyr player is ready');
+                                        // 로딩 텍스트 제거
+                                        const loading = document.querySelector('.loading');
+                                        if (loading) loading.style.display = 'none';
+                                    });
+                                    
+                                    player.on('error', (event) => {
+                                        console.error('Plyr player error:', event);
+                                    });
+                                    
+                                    // 자동으로 전체화면 모드로 전환
+                                    setTimeout(() => {
+                                        try {
+                                            player.fullscreen.enter();
+                                        } catch (e) {
+                                            console.log('전체화면 전환 실패:', e);
+                                        }
+                                    }, 1000);
+                                    
+                                } catch (error) {
+                                    console.error('Plyr 초기화 오류:', error);
+                                    // 오류 발생 시 기본 YouTube iframe으로 대체
+                                    document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                                    
+                                    // 로딩 텍스트 제거
+                                    const loading = document.querySelector('.loading');
+                                    if (loading) loading.style.display = 'none';
+                                }
+                                
+                            } catch (e) {
+                                console.log('창 최대화 실패:', e);
+                            }
+                        </script>
+                    </body>
+                    </html>
+                `);
+                popup.document.close();
             };
         });
     }, 100);
