@@ -940,6 +940,7 @@
     
     // 슬라이드 렌더링 함수
     function renderSlide(idx) {
+      console.log('Rendering slide index:', idx, 'Image:', slideTemplates[idx].bg);
       const slide = slideTemplates[idx];
       const app = document.getElementById('app');
       app.innerHTML = '';
@@ -1023,16 +1024,20 @@
     
     // 다음 슬라이드
     function nextSlide() {
+      console.log('Current before next:', current);
       let next = (current + 1) % slideTemplates.length;
       current = next;
+      console.log('Next slide index:', current, 'Image:', slideTemplates[current].bg);
       renderSlide(current);
       updatePageIndicator();
     }
     
     // 이전 슬라이드
     function prevSlide() {
+      console.log('Current before prev:', current);
       let prev = (current - 1 + slideTemplates.length) % slideTemplates.length;
       current = prev;
+      console.log('Prev slide index:', current, 'Image:', slideTemplates[current].bg);
       renderSlide(current);
       updatePageIndicator();
     }
@@ -1112,6 +1117,9 @@
         });
         indicator.appendChild(dot);
       }
+      
+      // 슬라이드 변경 시 페이지 인디케이터 표시 후 자동 숨김
+      showPageIndicatorTemporarily();
     }
     
     // 전역 함수로 노출
@@ -1128,6 +1136,25 @@
     
     // 페이지 인디케이터 자동 숨김 기능
     let hideTimeout = null;
+    
+    // 페이지 인디케이터 임시 표시 함수
+    function showPageIndicatorTemporarily() {
+      const pageIndicator = document.getElementById('page-indicator');
+      if (pageIndicator) {
+        // 기존 타이머가 있다면 제거
+        if (hideTimeout) {
+          clearTimeout(hideTimeout);
+        }
+        
+        // 페이지 인디케이터 표시
+        pageIndicator.classList.remove('hidden');
+        
+        // 2초 후 자동 숨김
+        hideTimeout = setTimeout(function() {
+          pageIndicator.classList.add('hidden');
+        }, 2000);
+      }
+    }
     
     function setupPageIndicatorAutoHide() {
       const pageIndicator = document.getElementById('page-indicator');
