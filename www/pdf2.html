@@ -938,9 +938,18 @@
     let current = 0;
     let textAnimated = Array(slideTemplates.length).fill(false);
     
+    // 디버깅을 위한 슬라이드 인덱스 추적
+    console.log('Total slides:', slideTemplates.length);
+    console.log('Slide templates:', slideTemplates.map((slide, index) => `${index}: ${slide.bg}`));
+    
     // 슬라이드 렌더링 함수
     function renderSlide(idx) {
-      console.log('Rendering slide index:', idx, 'Image:', slideTemplates[idx].bg);
+      console.log('=== RENDER SLIDE DEBUG ===');
+      console.log('Rendering slide index:', idx);
+      console.log('Slide template at index:', slideTemplates[idx]);
+      console.log('Image path:', slideTemplates[idx].bg);
+      console.log('==========================');
+      
       const slide = slideTemplates[idx];
       const app = document.getElementById('app');
       app.innerHTML = '';
@@ -1000,11 +1009,17 @@
       rightArrow.innerHTML = '&#62;';
       rightArrow.tabIndex = -1;
       rightArrow.addEventListener('click', (e) => {
+        console.log('=== RIGHT ARROW CLICK ===');
+        console.log('Event target:', e.target);
+        console.log('Current before click:', current);
         e.preventDefault();
         e.stopPropagation();
         nextSlide();
       });
       rightArrow.addEventListener('touchstart', (e) => {
+        console.log('=== RIGHT ARROW TOUCH ===');
+        console.log('Event target:', e.target);
+        console.log('Current before touch:', current);
         e.preventDefault();
         e.stopPropagation();
         nextSlide();
@@ -1024,10 +1039,20 @@
     
     // 다음 슬라이드
     function nextSlide() {
+      console.log('=== NEXT SLIDE DEBUG ===');
       console.log('Current before next:', current);
+      console.log('Total slides:', slideTemplates.length);
+      console.log('Current slide image:', slideTemplates[current].bg);
+      console.log('Stack trace:', new Error().stack);
+      
       let next = (current + 1) % slideTemplates.length;
+      console.log('Calculated next index:', next);
+      
       current = next;
-      console.log('Next slide index:', current, 'Image:', slideTemplates[current].bg);
+      console.log('Current after update:', current);
+      console.log('Next slide image:', slideTemplates[current].bg);
+      console.log('========================');
+      
       renderSlide(current);
       updatePageIndicator();
     }
@@ -1049,6 +1074,8 @@
       
       // 마우스 이벤트
       container.addEventListener('mousedown', e => { 
+        // 화살표 버튼 클릭 시 드래그 시작하지 않음
+        if (e.target.closest('.arrow')) return;
         e.preventDefault(); 
         startX = e.clientX; 
         dragging = true; 
@@ -1073,6 +1100,8 @@
       
       // 터치 이벤트
       container.addEventListener('touchstart', e => {
+        // 화살표 버튼 터치 시 드래그 시작하지 않음
+        if (e.target.closest('.arrow')) return;
         e.preventDefault();
         startX = e.touches[0].clientX;
         dragging = true;
@@ -1213,62 +1242,6 @@
     });
   </script>
   
-  <!-- 화살표 버튼 클릭 이벤트 강제 활성화 -->
-  <script>
-    // 4zoneApp.js 로드 후 화살표 버튼 이벤트 강제 설정
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        // 화살표 버튼 이벤트 강제 설정
-        function setupArrowButtons() {
-          const leftArrow = document.querySelector('.arrow.left');
-          const rightArrow = document.querySelector('.arrow.right');
-          
-          if (leftArrow) {
-            // 기존 이벤트 리스너 제거하지 않고 직접 이벤트 추가
-            leftArrow.addEventListener('click', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              if (typeof window.prevSlide === 'function') {
-                window.prevSlide();
-              }
-            });
-            
-            // 터치 이벤트 추가
-            leftArrow.addEventListener('touchstart', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              if (typeof window.prevSlide === 'function') {
-                window.prevSlide();
-              }
-            });
-          }
-          
-          if (rightArrow) {
-            // 기존 이벤트 리스너 제거하지 않고 직접 이벤트 추가
-            rightArrow.addEventListener('click', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              if (typeof window.nextSlide === 'function') {
-                window.nextSlide();
-              }
-            });
-            
-            // 터치 이벤트 추가
-            rightArrow.addEventListener('touchstart', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              if (typeof window.nextSlide === 'function') {
-                window.nextSlide();
-              }
-            });
-          }
-        }
-        
-        // 초기 설정만 실행 (MutationObserver 제거)
-        setupArrowButtons();
-        
-      }, 500);
-    });
-  </script>
+
 </body>
 </html> 
