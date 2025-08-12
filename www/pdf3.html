@@ -460,9 +460,8 @@
         margin: 0;
         padding: 0;
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: center;
-        padding-top: 10px;
       }
       
       /* PDF2 이미지 가로모드 높이 통일 */
@@ -480,11 +479,10 @@
         max-height: 100vh !important;
         max-width: 100% !important;
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: center;
         margin: 0;
         padding: 0;
-        padding-top: 5px;
       }
       
       /* 텍스트 존 가로모드 크기 조정 */
@@ -542,6 +540,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 100vw;
+        max-width: 100vw;
       }
       
       /* PDF2 이미지 모바일 최적화 */
@@ -563,6 +563,8 @@
         justify-content: center;
         margin: 0;
         padding: 0;
+        width: 100%;
+        height: 100%;
       }
       
       /* 텍스트 존 모바일 최적화 */
@@ -647,9 +649,8 @@
           margin: 0;
           padding: 0;
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           justify-content: center;
-          padding-top: 5px;
         }
         
         /* PDF2 이미지 모바일 가로모드 최적화 */
@@ -667,11 +668,10 @@
           max-height: 100vh !important;
           max-width: 100% !important;
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           justify-content: center;
           margin: 0;
           padding: 0;
-          padding-top: 3px;
         }
         
         .text-zone {
@@ -1294,6 +1294,12 @@
       const isLandscape = window.innerWidth > window.innerHeight;
       const isMobile = window.innerWidth <= 768;
       
+      // 화면 크기 측정
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const viewportWidth = Math.min(screenWidth, screenHeight);
+      const viewportHeight = Math.max(screenWidth, screenHeight);
+      
       images.forEach(img => {
         // 이미지 로드 완료 후 크기 재조정
         if (img.complete) {
@@ -1302,27 +1308,43 @@
           
           if (isMobile) {
             if (isLandscape) {
-              // 모바일 가로모드
-              img.style.maxWidth = '100%';
-              img.style.maxHeight = '100vh';
-              img.style.padding = '3px';
+              // 모바일 가로모드: 세로 기준으로 맞춤
+              const maxHeight = screenHeight * 0.95; // 95% of screen height
+              const maxWidth = screenWidth * 0.95;   // 95% of screen width
+              
+              img.style.maxWidth = maxWidth + 'px';
+              img.style.maxHeight = maxHeight + 'px';
+              img.style.padding = '2px';
+              img.style.objectFit = 'contain';
             } else {
-              // 모바일 세로모드
-              img.style.maxWidth = '95%';
-              img.style.maxHeight = '95vh';
-              img.style.padding = '10px';
+              // 모바일 세로모드: 가로 기준으로 맞춤
+              const maxWidth = screenWidth * 0.9;    // 90% of screen width
+              const maxHeight = screenHeight * 0.9;  // 90% of screen height
+              
+              img.style.maxWidth = maxWidth + 'px';
+              img.style.maxHeight = maxHeight + 'px';
+              img.style.padding = '8px';
+              img.style.objectFit = 'contain';
             }
           } else {
             if (isLandscape) {
-              // 데스크톱 가로모드
-              img.style.maxWidth = '100%';
-              img.style.maxHeight = '100vh';
-              img.style.padding = '5px';
+              // 데스크톱 가로모드: 세로 기준으로 맞춤
+              const maxHeight = screenHeight * 0.95;
+              const maxWidth = screenWidth * 0.95;
+              
+              img.style.maxWidth = maxWidth + 'px';
+              img.style.maxHeight = maxHeight + 'px';
+              img.style.padding = '4px';
+              img.style.objectFit = 'contain';
             } else {
-              // 데스크톱 세로모드
-              img.style.maxWidth = '100%';
-              img.style.maxHeight = '100vh';
-              img.style.padding = '15px';
+              // 데스크톱 세로모드: 가로 기준으로 맞춤
+              const maxWidth = screenWidth * 0.9;
+              const maxHeight = screenHeight * 0.9;
+              
+              img.style.maxWidth = maxWidth + 'px';
+              img.style.maxHeight = maxHeight + 'px';
+              img.style.padding = '12px';
+              img.style.objectFit = 'contain';
             }
           }
         }
@@ -1333,30 +1355,43 @@
       slides.forEach(slide => {
         if (isMobile) {
           if (isLandscape) {
-            // 모바일 가로모드
-            slide.style.display = 'flex';
-            slide.style.alignItems = 'flex-start';
-            slide.style.justifyContent = 'center';
-            slide.style.margin = '0';
-            slide.style.padding = '0';
-            slide.style.paddingTop = '3px';
-          } else {
-            // 모바일 세로모드
+            // 모바일 가로모드: 중앙 정렬
             slide.style.display = 'flex';
             slide.style.alignItems = 'center';
             slide.style.justifyContent = 'center';
             slide.style.margin = '0';
             slide.style.padding = '0';
-          }
-        } else {
-          if (isLandscape) {
-            // 데스크톱 가로모드
+            slide.style.height = screenHeight + 'px';
+            slide.style.width = screenWidth + 'px';
+          } else {
+            // 모바일 세로모드: 중앙 정렬
             slide.style.display = 'flex';
-            slide.style.alignItems = 'flex-start';
+            slide.style.alignItems = 'center';
             slide.style.justifyContent = 'center';
             slide.style.margin = '0';
             slide.style.padding = '0';
-            slide.style.paddingTop = '10px';
+            slide.style.height = screenHeight + 'px';
+            slide.style.width = screenWidth + 'px';
+          }
+        } else {
+          if (isLandscape) {
+            // 데스크톱 가로모드: 중앙 정렬
+            slide.style.display = 'flex';
+            slide.style.alignItems = 'center';
+            slide.style.justifyContent = 'center';
+            slide.style.margin = '0';
+            slide.style.padding = '0';
+            slide.style.height = screenHeight + 'px';
+            slide.style.width = screenWidth + 'px';
+          } else {
+            // 데스크톱 세로모드: 중앙 정렬
+            slide.style.display = 'flex';
+            slide.style.alignItems = 'center';
+            slide.style.justifyContent = 'center';
+            slide.style.margin = '0';
+            slide.style.padding = '0';
+            slide.style.height = screenHeight + 'px';
+            slide.style.width = screenWidth + 'px';
           }
         }
       });
