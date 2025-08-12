@@ -187,6 +187,59 @@
       display: block;
     }
     
+    /* PDF 이미지 크기 통일 스타일 */
+    .slide-bg[src*="pdf2"] {
+      object-fit: contain !important;
+      max-width: 90% !important;
+      max-height: 85vh !important;
+      width: auto !important;
+      height: 85vh !important;
+      background-color: transparent !important;
+      border-radius: 8px !important;
+      box-shadow: none !important;
+      padding: 15px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    
+    /* PDF2 이미지 컨테이너 배경 */
+    .slide[style*="pdf2"] {
+      background-color: var(--slide-background-color, #1c3645) !important;
+      background-image: none !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-height: 100vh !important;
+    }
+    
+    /* 강제 배경색 적용 */
+    .slide[style*="pdf2"]:nth-child(1) { background-color: #112836 !important; }
+    .slide[style*="pdf2"]:nth-child(2) { background-color: #061722 !important; }
+    .slide[style*="pdf2"]:nth-child(3) { background-color: #112836 !important; }
+    .slide[style*="pdf2"]:nth-child(4) { background-color: #1c3645 !important; }
+    .slide[style*="pdf2"]:nth-child(5) { background-color: #112836 !important; }
+    .slide[style*="pdf2"]:nth-child(6) { background-color: #1c3645 !important; }
+    .slide[style*="pdf2"]:nth-child(7) { background-color: #061722 !important; }
+    .slide[style*="pdf2"]:nth-child(8) { background-color: #1c3645 !important; }
+    .slide[style*="pdf2"]:nth-child(9) { background-color: #1c3645 !important; }
+    .slide[style*="pdf2"]:nth-child(10) { background-color: #112836 !important; }
+    
+    /* PDF2 이미지 내부 컨테이너 */
+    .slide[style*="pdf2"] .slide-img-wrapper {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: 100% !important;
+      background-color: transparent !important;
+      border-radius: 8px !important;
+      box-shadow: none !important;
+      margin: 0 auto !important;
+      max-width: 90% !important;
+      max-height: 85vh !important;
+    }
+    
     /* 텍스트 존 스타일 */
     .text-zone {
       position: absolute;
@@ -354,26 +407,26 @@
       visibility: visible !important;
     }
     
-    /* 페이지 인디케이터 점들을 더 투명하게 변경 */
+    /* 페이지 인디케이터 점들을 흰색으로 변경 */
     #page-indicator .page-dot {
-      background-color: rgba(0, 0, 0, 0.3) !important;
+      background-color: rgba(255, 255, 255, 0.4) !important;
       border: none !important;
     }
     
     #page-indicator .page-dot.active {
-      background-color: rgba(0, 0, 0, 0.7) !important;
+      background-color: rgba(255, 255, 255, 0.8) !important;
       border: none !important;
     }
     
-    /* 페이지 인디케이터 내의 모든 원형 요소를 더 투명하게 */
+    /* 페이지 인디케이터 내의 모든 원형 요소를 흰색으로 */
     #page-indicator > div {
-      background-color: rgba(0, 0, 0, 0.3) !important;
+      background-color: rgba(255, 255, 255, 0.4) !important;
       border: none !important;
     }
     
-    /* 활성화된 페이지 인디케이터 점을 더 투명하게 */
+    /* 활성화된 페이지 인디케이터 점을 흰색으로 */
     #page-indicator > div.active {
-      background-color: rgba(0, 0, 0, 0.7) !important;
+      background-color: rgba(255, 255, 255, 0.8) !important;
       border: none !important;
     }
     
@@ -393,6 +446,19 @@
         height: -webkit-fill-available;
         max-height: 100vh;
         max-height: -webkit-fill-available;
+      }
+      
+      /* PDF2 이미지 가로모드 높이 통일 */
+      .slide-bg[src*="pdf2"] {
+        height: 80vh !important;
+        max-height: 80vh !important;
+        width: auto !important;
+        max-width: 85% !important;
+      }
+      
+      .slide[style*="pdf2"] .slide-img-wrapper {
+        max-height: 80vh !important;
+        max-width: 85% !important;
       }
       
       /* 텍스트 존 가로모드 크기 조정 */
@@ -625,6 +691,78 @@
         margin: 0 !important;
       }
     }
+    
+    /* PDF2 슬라이드별 배경색 강제 적용 */
+    .slide-container .slide:nth-child(1) { background-color: #112836 !important; }
+    .slide-container .slide:nth-child(2) { background-color: #061722 !important; }
+    .slide-container .slide:nth-child(3) { background-color: #112836 !important; }
+    .slide-container .slide:nth-child(4) { background-color: #1c3645 !important; }
+    .slide-container .slide:nth-child(5) { background-color: #112836 !important; }
+    .slide-container .slide:nth-child(6) { background-color: #1c3645 !important; }
+    .slide-container .slide:nth-child(7) { background-color: #061722 !important; }
+    .slide-container .slide:nth-child(8) { background-color: #1c3645 !important; }
+    .slide-container .slide:nth-child(9) { background-color: #1c3645 !important; }
+    .slide-container .slide:nth-child(10) { background-color: #112836 !important; }
+    
+    /* 더 강력한 선택자로 배경색 적용 */
+    #app .slide:nth-child(1) { background-color: #112836 !important; }
+    #app .slide:nth-child(2) { background-color: #061722 !important; }
+    #app .slide:nth-child(3) { background-color: #112836 !important; }
+    #app .slide:nth-child(4) { background-color: #1c3645 !important; }
+    #app .slide:nth-child(5) { background-color: #112836 !important; }
+    #app .slide:nth-child(6) { background-color: #1c3645 !important; }
+    #app .slide:nth-child(7) { background-color: #061722 !important; }
+    #app .slide:nth-child(8) { background-color: #1c3645 !important; }
+    #app .slide:nth-child(9) { background-color: #1c3645 !important; }
+    #app .slide:nth-child(10) { background-color: #112836 !important; }
+    
+    /* 모든 슬라이드 요소에 대해 강제 적용 */
+    div[class*="slide"]:nth-child(1) { background-color: #112836 !important; }
+    div[class*="slide"]:nth-child(2) { background-color: #061722 !important; }
+    div[class*="slide"]:nth-child(3) { background-color: #112836 !important; }
+    div[class*="slide"]:nth-child(4) { background-color: #1c3645 !important; }
+    div[class*="slide"]:nth-child(5) { background-color: #112836 !important; }
+    div[class*="slide"]:nth-child(6) { background-color: #1c3645 !important; }
+    div[class*="slide"]:nth-child(7) { background-color: #061722 !important; }
+    div[class*="slide"]:nth-child(8) { background-color: #1c3645 !important; }
+    div[class*="slide"]:nth-child(9) { background-color: #1c3645 !important; }
+    div[class*="slide"]:nth-child(10) { background-color: #112836 !important; }
+    
+    /* 전체 배경 강제 적용 */
+    body { background-color: #112836 !important; }
+    html { background-color: #112836 !important; }
+    #app { background-color: #112836 !important; }
+    
+    /* 슬라이드 컨테이너 배경 강제 적용 */
+    .slide-container { background-color: #112836 !important; }
+    .slide-img-wrapper { background-color: #112836 !important; }
+    
+    /* 모든 div 요소에 배경색 강제 적용 */
+    div { background-color: inherit !important; }
+    
+    /* 특정 슬라이드별 전체 배경 강제 적용 */
+    .slide:nth-child(1), .slide:nth-child(1) * { background-color: #112836 !important; }
+    .slide:nth-child(2), .slide:nth-child(2) * { background-color: #061722 !important; }
+    .slide:nth-child(3), .slide:nth-child(3) * { background-color: #112836 !important; }
+    .slide:nth-child(4), .slide:nth-child(4) * { background-color: #1c3645 !important; }
+    .slide:nth-child(5), .slide:nth-child(5) * { background-color: #112836 !important; }
+    .slide:nth-child(6), .slide:nth-child(6) * { background-color: #1c3645 !important; }
+    .slide:nth-child(7), .slide:nth-child(7) * { background-color: #061722 !important; }
+    .slide:nth-child(8), .slide:nth-child(8) * { background-color: #1c3645 !important; }
+    .slide:nth-child(9), .slide:nth-child(9) * { background-color: #1c3645 !important; }
+    .slide:nth-child(10), .slide:nth-child(10) * { background-color: #112836 !important; }
+    
+    /* 모든 흰색 배경 제거 */
+    * { background-color: inherit !important; }
+    img { background-color: transparent !important; }
+    .slide-bg { background-color: transparent !important; }
+    .slide-img-wrapper { background-color: transparent !important; }
+    
+    /* 흰색 배경 강제 제거 */
+    [style*="background-color: #ffffff"] { background-color: transparent !important; }
+    [style*="background-color: white"] { background-color: transparent !important; }
+    [style*="background: #ffffff"] { background: transparent !important; }
+    [style*="background: white"] { background: transparent !important; }
   </style>
 </head>
 <body>
@@ -661,111 +799,235 @@
   <!-- 슬라이드 데이터 -->
   <script>
   const slideTemplates = [
-  {
-    bg: '../assets/img/pdf/pdf2/1.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
+    {
+      bg: '../assets/img/pdf/pdf2/1.png',
+      backgroundColor: '#112836',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf2/2.png',
+      backgroundColor: '#061722',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf2/3.png',
+      backgroundColor: '#112836',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf2/4.png',
+      backgroundColor: '#1c3645',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf2/5.png',
+      backgroundColor: '#112836',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf2/6.png',
+      backgroundColor: '#1c3645',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf2/7.png',
+      backgroundColor: '#061722',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf2/8.png',
+      backgroundColor: '#1c3645',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf2/9.png',
+      backgroundColor: '#1c3645',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf2/10.png',
+      backgroundColor: '#112836',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
     }
-  },
-  {
-    bg: '../assets/img/pdf/pdf2/2.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/pdf/pdf2/3.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/pdf/pdf2/4.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/pdf/pdf2/5.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/pdf/pdf2/6.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/pdf/pdf2/7.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/pdf/pdf2/8.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/pdf/pdf2/9.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-  {
-    bg: '../assets/img/pdf/pdf2/10.png',
-    hasStartButton: true,
-    zones: {
-      1: { text: '', keywords: [] },
-      2: { text: '', keywords: [] },
-      3: { text: '', keywords: [] },
-      4: { text: '', keywords: [] }
-    }
-  },
-
   ];
   </script>
   
   <script src="../assets/js/4zoneApp.js"></script>
+  
+  <!-- 슬라이드 배경색 적용 스크립트 -->
+  <script>
+    // 슬라이드 배경색 적용 함수
+    function applySlideBackgroundColor() {
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, index) => {
+        if (slideTemplates[index] && slideTemplates[index].backgroundColor) {
+          slide.style.backgroundColor = slideTemplates[index].backgroundColor;
+          slide.style.setProperty('--slide-background-color', slideTemplates[index].backgroundColor);
+          slide.style.background = slideTemplates[index].backgroundColor;
+          
+          // 슬라이드 내부의 모든 요소에도 배경색 적용
+          const allElements = slide.querySelectorAll('*');
+          allElements.forEach(element => {
+            element.style.backgroundColor = slideTemplates[index].backgroundColor;
+            element.style.background = slideTemplates[index].backgroundColor;
+          });
+        }
+      });
+      
+      // 추가로 모든 슬라이드 관련 요소에 배경색 적용
+      const slideElements = document.querySelectorAll('[class*="slide"]');
+      slideElements.forEach((element, index) => {
+        if (slideTemplates[index] && slideTemplates[index].backgroundColor) {
+          element.style.backgroundColor = slideTemplates[index].backgroundColor;
+          element.style.background = slideTemplates[index].backgroundColor;
+        }
+      });
+      
+      // 전체 배경색 설정
+      document.body.style.backgroundColor = '#112836';
+      document.documentElement.style.backgroundColor = '#112836';
+      document.getElementById('app').style.backgroundColor = '#112836';
+    }
+    
+    // 현재 활성 슬라이드 배경색 업데이트
+    function updateCurrentSlideBackground() {
+      const activeSlide = document.querySelector('.slide.active');
+      if (activeSlide) {
+        const slideIndex = Array.from(document.querySelectorAll('.slide')).indexOf(activeSlide);
+        if (slideTemplates[slideIndex] && slideTemplates[slideIndex].backgroundColor) {
+          activeSlide.style.backgroundColor = slideTemplates[slideIndex].backgroundColor;
+          activeSlide.style.setProperty('--slide-background-color', slideTemplates[slideIndex].backgroundColor);
+        }
+      }
+    }
+    
+    // 페이지 로드 후 배경색 적용
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        applySlideBackgroundColor();
+        updateCurrentSlideBackground();
+      }, 100);
+    });
+    
+    // DOMContentLoaded에서도 배경색 적용
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        applySlideBackgroundColor();
+        updateCurrentSlideBackground();
+      }, 50);
+    });
+    
+    // 즉시 실행
+    setTimeout(function() {
+      applySlideBackgroundColor();
+      updateCurrentSlideBackground();
+    }, 10);
+    
+    // DOM 변경 감지하여 배경색 적용
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          if (mutation.target.classList.contains('active')) {
+            setTimeout(updateCurrentSlideBackground, 50);
+          }
+        }
+      });
+    });
+    
+    // 슬라이드 요소들 관찰 시작
+    setTimeout(function() {
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach(function(slide) {
+        observer.observe(slide, { attributes: true, attributeFilter: ['class'] });
+      });
+    }, 500);
+    
+    // 기존 함수들을 오버라이드하여 배경색 적용
+    const originalGoToPage = window.goToPage;
+    if (originalGoToPage) {
+      window.goToPage = function(pageIndex) {
+        originalGoToPage(pageIndex);
+        setTimeout(function() {
+          const slides = document.querySelectorAll('.slide');
+          if (slides[pageIndex]) {
+            slides[pageIndex].style.backgroundColor = slideTemplates[pageIndex].backgroundColor;
+            slides[pageIndex].style.setProperty('--slide-background-color', slideTemplates[pageIndex].backgroundColor);
+          }
+        }, 100);
+      };
+    }
+    
+    const originalNextSlide = window.nextSlide;
+    if (originalNextSlide) {
+      window.nextSlide = function() {
+        originalNextSlide();
+        setTimeout(updateCurrentSlideBackground, 100);
+      };
+    }
+    
+    const originalPrevSlide = window.prevSlide;
+    if (originalPrevSlide) {
+      window.prevSlide = function() {
+        originalPrevSlide();
+        setTimeout(updateCurrentSlideBackground, 100);
+      };
+    }
+    
+    // 주기적으로 배경색 확인 및 적용
+    setInterval(function() {
+      updateCurrentSlideBackground();
+    }, 1000);
+  </script>
   
   <!-- 화살표 버튼 클릭 이벤트 강제 활성화 -->
   <script>
