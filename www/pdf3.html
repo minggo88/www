@@ -522,6 +522,63 @@
     
     /* 모바일: ~768px */
     @media (max-width: 768px) {
+      /* 모바일 전체 화면 최적화 */
+      html, body {
+        height: 100vh;
+        height: -webkit-fill-available;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      
+      /* 슬라이드 컨테이너 모바일 최적화 */
+      .slide-container, .slide {
+        height: 100vh;
+        height: -webkit-fill-available;
+        max-height: 100vh;
+        max-height: -webkit-fill-available;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      /* PDF2 이미지 모바일 최적화 */
+      .slide-bg[src*="pdf2"] {
+        height: auto !important;
+        max-height: 95vh !important;
+        width: auto !important;
+        max-width: 95% !important;
+        margin: 0;
+        padding: 10px;
+        object-fit: contain;
+      }
+      
+      .slide[style*="pdf2"] .slide-img-wrapper {
+        max-height: 95vh !important;
+        max-width: 95% !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+      }
+      
+      /* 텍스트 존 모바일 최적화 */
+      .text-zone {
+        position: absolute !important;
+        z-index: 100 !important;
+      }
+      
+      .text-zone p {
+        font-size: 4vh !important;
+        line-height: 1.2 !important;
+        max-width: 90% !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+      }
+      
       /* 화살표 버튼 크기 및 위치 조정 */
       .arrow {
         width: 50px !important;
@@ -1235,6 +1292,7 @@
     function adjustImageSize() {
       const images = document.querySelectorAll('.slide-bg[src*="pdf2"]');
       const isLandscape = window.innerWidth > window.innerHeight;
+      const isMobile = window.innerWidth <= 768;
       
       images.forEach(img => {
         // 이미지 로드 완료 후 크기 재조정
@@ -1242,16 +1300,30 @@
           img.style.width = 'auto';
           img.style.height = 'auto';
           
-          if (isLandscape) {
-            // 가로모드일 때 세로 기준으로 맞춤
-            img.style.maxWidth = '100%';
-            img.style.maxHeight = '100vh';
-            img.style.padding = '5px';
+          if (isMobile) {
+            if (isLandscape) {
+              // 모바일 가로모드
+              img.style.maxWidth = '100%';
+              img.style.maxHeight = '100vh';
+              img.style.padding = '3px';
+            } else {
+              // 모바일 세로모드
+              img.style.maxWidth = '95%';
+              img.style.maxHeight = '95vh';
+              img.style.padding = '10px';
+            }
           } else {
-            // 세로모드일 때 기본 크기
-            img.style.maxWidth = '100%';
-            img.style.maxHeight = '100vh';
-            img.style.padding = '15px';
+            if (isLandscape) {
+              // 데스크톱 가로모드
+              img.style.maxWidth = '100%';
+              img.style.maxHeight = '100vh';
+              img.style.padding = '5px';
+            } else {
+              // 데스크톱 세로모드
+              img.style.maxWidth = '100%';
+              img.style.maxHeight = '100vh';
+              img.style.padding = '15px';
+            }
           }
         }
       });
@@ -1259,20 +1331,52 @@
       // 슬라이드 컨테이너도 조정
       const slides = document.querySelectorAll('.slide');
       slides.forEach(slide => {
-        if (isLandscape) {
-          slide.style.display = 'flex';
-          slide.style.alignItems = 'flex-start';
-          slide.style.justifyContent = 'center';
-          slide.style.margin = '0';
-          slide.style.padding = '0';
-          slide.style.paddingTop = '10px';
+        if (isMobile) {
+          if (isLandscape) {
+            // 모바일 가로모드
+            slide.style.display = 'flex';
+            slide.style.alignItems = 'flex-start';
+            slide.style.justifyContent = 'center';
+            slide.style.margin = '0';
+            slide.style.padding = '0';
+            slide.style.paddingTop = '3px';
+          } else {
+            // 모바일 세로모드
+            slide.style.display = 'flex';
+            slide.style.alignItems = 'center';
+            slide.style.justifyContent = 'center';
+            slide.style.margin = '0';
+            slide.style.padding = '0';
+          }
+        } else {
+          if (isLandscape) {
+            // 데스크톱 가로모드
+            slide.style.display = 'flex';
+            slide.style.alignItems = 'flex-start';
+            slide.style.justifyContent = 'center';
+            slide.style.margin = '0';
+            slide.style.padding = '0';
+            slide.style.paddingTop = '10px';
+          }
         }
       });
       
       // 텍스트 존도 조정
       const textZones = document.querySelectorAll('.text-zone');
       textZones.forEach(textZone => {
-        if (isLandscape) {
+        if (isMobile) {
+          textZone.style.position = 'absolute';
+          textZone.style.zIndex = '100';
+          if (isLandscape) {
+            textZone.style.maxWidth = '85%';
+            textZone.style.fontSize = '2vh';
+          } else {
+            textZone.style.maxWidth = '90%';
+            textZone.style.fontSize = '4vh';
+          }
+          textZone.style.wordWrap = 'break-word';
+          textZone.style.overflowWrap = 'break-word';
+        } else if (isLandscape) {
           textZone.style.position = 'absolute';
           textZone.style.zIndex = '100';
           textZone.style.maxWidth = '90%';
