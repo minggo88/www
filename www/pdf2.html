@@ -1141,11 +1141,37 @@
       }
     }
     
+    // 화면 크기 변경 시 이미지 재조정 함수
+    function adjustImageSize() {
+      const images = document.querySelectorAll('.slide-bg[src*="pdf2"]');
+      images.forEach(img => {
+        // 이미지 로드 완료 후 크기 재조정
+        if (img.complete) {
+          img.style.width = 'auto';
+          img.style.height = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = '100vh';
+        }
+      });
+    }
+    
     // 초기화
     document.addEventListener('DOMContentLoaded', function() {
       renderSlide(0);
       updatePageIndicator();
       setTimeout(setupPageIndicatorAutoHide, 500);
+      
+      // resize 이벤트 리스너 추가
+      window.addEventListener('resize', function() {
+        // 디바운싱으로 성능 최적화
+        clearTimeout(window.resizeTimeout);
+        window.resizeTimeout = setTimeout(adjustImageSize, 100);
+      });
+      
+      // orientationchange 이벤트 리스너 추가 (모바일 회전)
+      window.addEventListener('orientationchange', function() {
+        setTimeout(adjustImageSize, 300);
+      });
     });
   </script>
   
