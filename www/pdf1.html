@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>K2.1.4.E</title>
+  <title>PDF Viewer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -379,6 +379,47 @@
     
     /* ===== 반응형 CSS ===== */
     
+    /* 가로모드 (landscape) 최적화 */
+    @media screen and (orientation: landscape) {
+      /* 가로모드에서 전체 높이 조정 */
+      html, body {
+        height: 100vh;
+        height: -webkit-fill-available;
+      }
+      
+      /* 슬라이드 컨테이너 가로모드 최적화 */
+      .slide-container, .slide {
+        height: 100vh;
+        height: -webkit-fill-available;
+        max-height: 100vh;
+        max-height: -webkit-fill-available;
+      }
+      
+      /* 텍스트 존 가로모드 크기 조정 */
+      .text-zone p {
+        font-size: 2.5vh !important;
+        line-height: 1.2 !important;
+      }
+      
+      /* 화살표 버튼 가로모드 크기 조정 */
+      .arrow {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 18px !important;
+      }
+      
+      /* 페이지 인디케이터 가로모드 위치 조정 */
+      #page-indicator {
+        bottom: 8px !important;
+        gap: 6px !important;
+      }
+      
+      #page-indicator > div {
+        width: 7px !important;
+        height: 7px !important;
+      }
+    }
+    
     /* 모바일: ~768px */
     @media (max-width: 768px) {
       /* 화살표 버튼 크기 및 위치 조정 */
@@ -428,6 +469,29 @@
         bottom: -10px;
         z-index: -1;
       }
+      
+      /* 모바일 가로모드 추가 최적화 */
+      @media screen and (orientation: landscape) {
+        .text-zone p {
+          font-size: 2vh !important;
+          line-height: 1.1 !important;
+        }
+        
+        .arrow {
+          width: 45px !important;
+          height: 45px !important;
+          font-size: 16px !important;
+        }
+        
+        #page-indicator {
+          bottom: 5px !important;
+        }
+        
+        #page-indicator > div {
+          width: 6px !important;
+          height: 6px !important;
+        }
+      }
     }
     
     /* 태블릿: 768px~1024px */
@@ -460,6 +524,29 @@
         width: 9px !important;
         height: 9px !important;
       }
+      
+      /* 태블릿 가로모드 추가 최적화 */
+      @media screen and (orientation: landscape) {
+        .text-zone p {
+          font-size: 2.2vh !important;
+          line-height: 1.15 !important;
+        }
+        
+        .arrow {
+          width: 50px !important;
+          height: 50px !important;
+          font-size: 20px !important;
+        }
+        
+        #page-indicator {
+          bottom: 8px !important;
+        }
+        
+        #page-indicator > div {
+          width: 8px !important;
+          height: 8px !important;
+        }
+      }
     }
     
     /* 데스크톱: 1024px+ */
@@ -491,6 +578,29 @@
       #page-indicator > div {
         width: 10px !important;
         height: 10px !important;
+      }
+      
+      /* 데스크톱 가로모드 추가 최적화 */
+      @media screen and (orientation: landscape) {
+        .text-zone p {
+          font-size: 2.8vh !important;
+          line-height: 1.2 !important;
+        }
+        
+        .arrow {
+          width: 55px !important;
+          height: 55px !important;
+          font-size: 22px !important;
+        }
+        
+        #page-indicator {
+          bottom: 10px !important;
+        }
+        
+        #page-indicator > div {
+          width: 9px !important;
+          height: 9px !important;
+        }
       }
     }
     
