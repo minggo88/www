@@ -524,17 +524,23 @@
       html, body {
         height: 100vh;
         height: -webkit-fill-available;
+        height: 100dvh; /* dynamic viewport height */
         margin: 0;
         padding: 0;
         overflow: hidden;
+        /* 모바일 주소창 고려 */
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
       }
       
       /* 슬라이드 컨테이너 모바일 최적화 */
       .slide-container, .slide {
         height: 100vh;
         height: -webkit-fill-available;
+        height: 100dvh; /* dynamic viewport height */
         max-height: 100vh;
         max-height: -webkit-fill-available;
+        max-height: 100dvh;
         margin: 0;
         padding: 0;
         display: flex;
@@ -542,6 +548,9 @@
         justify-content: center;
         width: 100vw;
         max-width: 100vw;
+        /* 모바일 주소창 고려 */
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
       }
       
       /* PDF2 이미지 모바일 최적화 */
@@ -635,22 +644,31 @@
         html, body {
           height: 100vh;
           height: -webkit-fill-available;
+          height: 100dvh; /* dynamic viewport height */
           margin: 0;
           padding: 0;
           overflow: hidden;
+          /* 모바일 주소창 고려 */
+          padding-top: env(safe-area-inset-top);
+          padding-bottom: env(safe-area-inset-bottom);
         }
         
         /* 슬라이드 컨테이너 모바일 가로모드 최적화 */
         .slide-container, .slide {
           height: 100vh;
           height: -webkit-fill-available;
+          height: 100dvh; /* dynamic viewport height */
           max-height: 100vh;
           max-height: -webkit-fill-available;
+          max-height: 100dvh;
           margin: 0;
           padding: 0;
           display: flex;
           align-items: center;
           justify-content: center;
+          /* 모바일 주소창 고려 */
+          padding-top: env(safe-area-inset-top);
+          padding-bottom: env(safe-area-inset-bottom);
         }
         
         /* PDF2 이미지 모바일 가로모드 최적화 */
@@ -1294,11 +1312,27 @@
       const isLandscape = window.innerWidth > window.innerHeight;
       const isMobile = window.innerWidth <= 768;
       
-      // 화면 크기 측정
+      // 실제 가용 화면 크기 측정 (주소창, 네비게이션 바 제외)
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
-      const viewportWidth = Math.min(screenWidth, screenHeight);
-      const viewportHeight = Math.max(screenWidth, screenHeight);
+      
+      // 모바일에서 주소창과 네비게이션 바 고려
+      let availableHeight = screenHeight;
+      let availableWidth = screenWidth;
+      
+      if (isMobile) {
+        // 모바일에서 주소창과 네비게이션 바 공간 제외
+        if (isLandscape) {
+          // 가로모드: 주소창이 숨겨지므로 네비게이션 바만 고려
+          availableHeight = screenHeight - 20; // 하단 네비게이션 바 공간
+        } else {
+          // 세로모드: 주소창과 네비게이션 바 모두 고려
+          availableHeight = screenHeight - 80; // 주소창 + 네비게이션 바 공간
+        }
+      }
+      
+      const viewportWidth = Math.min(availableWidth, availableHeight);
+      const viewportHeight = Math.max(availableWidth, availableHeight);
       
       images.forEach(img => {
         // 이미지 로드 완료 후 크기 재조정
@@ -1309,18 +1343,18 @@
           
           if (isMobile) {
             if (isLandscape) {
-              // 모바일 가로모드: 세로 기준으로 맞춤
-              const maxHeight = screenHeight * 0.95; // 95% of screen height
-              const maxWidth = screenWidth * 0.95;   // 95% of screen width
+              // 모바일 가로모드: 실제 가용 화면 기준으로 맞춤
+              const maxHeight = availableHeight * 0.95; // 95% of available height
+              const maxWidth = availableWidth * 0.95;   // 95% of available width
               
               img.style.setProperty('max-width', maxWidth + 'px', 'important');
               img.style.setProperty('max-height', maxHeight + 'px', 'important');
               img.style.setProperty('padding', '2px', 'important');
               img.style.setProperty('object-fit', 'contain', 'important');
             } else {
-              // 모바일 세로모드: 가로 기준으로 맞춤
-              const maxWidth = screenWidth * 0.9;    // 90% of screen width
-              const maxHeight = screenHeight * 0.9;  // 90% of screen height
+              // 모바일 세로모드: 실제 가용 화면 기준으로 맞춤
+              const maxWidth = availableWidth * 0.9;    // 90% of available width
+              const maxHeight = availableHeight * 0.9;  // 90% of available height
               
               img.style.setProperty('max-width', maxWidth + 'px', 'important');
               img.style.setProperty('max-height', maxHeight + 'px', 'important');
@@ -1360,8 +1394,16 @@
         slide.style.setProperty('justify-content', 'center', 'important');
         slide.style.setProperty('margin', '0', 'important');
         slide.style.setProperty('padding', '0', 'important');
-        slide.style.setProperty('height', screenHeight + 'px', 'important');
-        slide.style.setProperty('width', screenWidth + 'px', 'important');
+        
+        if (isMobile) {
+          // 모바일에서 실제 가용 화면 크기 사용
+          slide.style.setProperty('height', availableHeight + 'px', 'important');
+          slide.style.setProperty('width', availableWidth + 'px', 'important');
+        } else {
+          // 데스크톱에서 전체 화면 크기 사용
+          slide.style.setProperty('height', screenHeight + 'px', 'important');
+          slide.style.setProperty('width', screenWidth + 'px', 'important');
+        }
       });
       
       // 텍스트 존도 조정
