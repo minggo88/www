@@ -1303,8 +1303,9 @@
       images.forEach(img => {
         // 이미지 로드 완료 후 크기 재조정
         if (img.complete) {
-          img.style.width = 'auto';
-          img.style.height = 'auto';
+          // CSS !important를 덮어쓰기 위해 setProperty 사용
+          img.style.setProperty('width', 'auto', 'important');
+          img.style.setProperty('height', 'auto', 'important');
           
           if (isMobile) {
             if (isLandscape) {
@@ -1312,19 +1313,19 @@
               const maxHeight = screenHeight * 0.95; // 95% of screen height
               const maxWidth = screenWidth * 0.95;   // 95% of screen width
               
-              img.style.maxWidth = maxWidth + 'px';
-              img.style.maxHeight = maxHeight + 'px';
-              img.style.padding = '2px';
-              img.style.objectFit = 'contain';
+              img.style.setProperty('max-width', maxWidth + 'px', 'important');
+              img.style.setProperty('max-height', maxHeight + 'px', 'important');
+              img.style.setProperty('padding', '2px', 'important');
+              img.style.setProperty('object-fit', 'contain', 'important');
             } else {
               // 모바일 세로모드: 가로 기준으로 맞춤
               const maxWidth = screenWidth * 0.9;    // 90% of screen width
               const maxHeight = screenHeight * 0.9;  // 90% of screen height
               
-              img.style.maxWidth = maxWidth + 'px';
-              img.style.maxHeight = maxHeight + 'px';
-              img.style.padding = '8px';
-              img.style.objectFit = 'contain';
+              img.style.setProperty('max-width', maxWidth + 'px', 'important');
+              img.style.setProperty('max-height', maxHeight + 'px', 'important');
+              img.style.setProperty('padding', '8px', 'important');
+              img.style.setProperty('object-fit', 'contain', 'important');
             }
           } else {
             if (isLandscape) {
@@ -1332,19 +1333,19 @@
               const maxHeight = screenHeight * 0.95;
               const maxWidth = screenWidth * 0.95;
               
-              img.style.maxWidth = maxWidth + 'px';
-              img.style.maxHeight = maxHeight + 'px';
-              img.style.padding = '4px';
-              img.style.objectFit = 'contain';
+              img.style.setProperty('max-width', maxWidth + 'px', 'important');
+              img.style.setProperty('max-height', maxHeight + 'px', 'important');
+              img.style.setProperty('padding', '4px', 'important');
+              img.style.setProperty('object-fit', 'contain', 'important');
             } else {
               // 데스크톱 세로모드: 가로 기준으로 맞춤
               const maxWidth = screenWidth * 0.9;
               const maxHeight = screenHeight * 0.9;
               
-              img.style.maxWidth = maxWidth + 'px';
-              img.style.maxHeight = maxHeight + 'px';
-              img.style.padding = '12px';
-              img.style.objectFit = 'contain';
+              img.style.setProperty('max-width', maxWidth + 'px', 'important');
+              img.style.setProperty('max-height', maxHeight + 'px', 'important');
+              img.style.setProperty('padding', '12px', 'important');
+              img.style.setProperty('object-fit', 'contain', 'important');
             }
           }
         }
@@ -1353,70 +1354,37 @@
       // 슬라이드 컨테이너도 조정
       const slides = document.querySelectorAll('.slide');
       slides.forEach(slide => {
-        if (isMobile) {
-          if (isLandscape) {
-            // 모바일 가로모드: 중앙 정렬
-            slide.style.display = 'flex';
-            slide.style.alignItems = 'center';
-            slide.style.justifyContent = 'center';
-            slide.style.margin = '0';
-            slide.style.padding = '0';
-            slide.style.height = screenHeight + 'px';
-            slide.style.width = screenWidth + 'px';
-          } else {
-            // 모바일 세로모드: 중앙 정렬
-            slide.style.display = 'flex';
-            slide.style.alignItems = 'center';
-            slide.style.justifyContent = 'center';
-            slide.style.margin = '0';
-            slide.style.padding = '0';
-            slide.style.height = screenHeight + 'px';
-            slide.style.width = screenWidth + 'px';
-          }
-        } else {
-          if (isLandscape) {
-            // 데스크톱 가로모드: 중앙 정렬
-            slide.style.display = 'flex';
-            slide.style.alignItems = 'center';
-            slide.style.justifyContent = 'center';
-            slide.style.margin = '0';
-            slide.style.padding = '0';
-            slide.style.height = screenHeight + 'px';
-            slide.style.width = screenWidth + 'px';
-          } else {
-            // 데스크톱 세로모드: 중앙 정렬
-            slide.style.display = 'flex';
-            slide.style.alignItems = 'center';
-            slide.style.justifyContent = 'center';
-            slide.style.margin = '0';
-            slide.style.padding = '0';
-            slide.style.height = screenHeight + 'px';
-            slide.style.width = screenWidth + 'px';
-          }
-        }
+        // CSS !important를 덮어쓰기 위해 setProperty 사용
+        slide.style.setProperty('display', 'flex', 'important');
+        slide.style.setProperty('align-items', 'center', 'important');
+        slide.style.setProperty('justify-content', 'center', 'important');
+        slide.style.setProperty('margin', '0', 'important');
+        slide.style.setProperty('padding', '0', 'important');
+        slide.style.setProperty('height', screenHeight + 'px', 'important');
+        slide.style.setProperty('width', screenWidth + 'px', 'important');
       });
       
       // 텍스트 존도 조정
       const textZones = document.querySelectorAll('.text-zone');
       textZones.forEach(textZone => {
         if (isMobile) {
-          textZone.style.position = 'absolute';
-          textZone.style.zIndex = '100';
+          textZone.style.setProperty('position', 'absolute', 'important');
+          textZone.style.setProperty('z-index', '100', 'important');
           if (isLandscape) {
-            textZone.style.maxWidth = '85%';
-            textZone.style.fontSize = '2vh';
+            textZone.style.setProperty('max-width', '85%', 'important');
+            textZone.style.setProperty('font-size', '2vh', 'important');
           } else {
-            textZone.style.maxWidth = '90%';
-            textZone.style.fontSize = '4vh';
+            textZone.style.setProperty('max-width', '90%', 'important');
+            textZone.style.setProperty('font-size', '4vh', 'important');
           }
-          textZone.style.wordWrap = 'break-word';
-          textZone.style.overflowWrap = 'break-word';
+          textZone.style.setProperty('word-wrap', 'break-word', 'important');
+          textZone.style.setProperty('overflow-wrap', 'break-word', 'important');
         } else if (isLandscape) {
-          textZone.style.position = 'absolute';
-          textZone.style.zIndex = '100';
-          textZone.style.maxWidth = '90%';
-          textZone.style.wordWrap = 'break-word';
-          textZone.style.overflowWrap = 'break-word';
+          textZone.style.setProperty('position', 'absolute', 'important');
+          textZone.style.setProperty('z-index', '100', 'important');
+          textZone.style.setProperty('max-width', '90%', 'important');
+          textZone.style.setProperty('word-wrap', 'break-word', 'important');
+          textZone.style.setProperty('overflow-wrap', 'break-word', 'important');
         }
       });
     }
