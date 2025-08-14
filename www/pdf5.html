@@ -536,6 +536,10 @@
   
   <!-- 슬라이드 데이터 -->
   <script>
+  // 전체화면 모달 텍스트 설정
+  const FULLSCREEN_MODAL_TEXT = "우리나라 아이들을 살리는<br> 수학 대중화 운동";
+  const FULLSCREEN_MODAL_BUTTON_TEXT = "읽기";
+  
   const slideTemplates = [
   {
       bg: '../assets/img/pdf/pdf4/1.jpg',
@@ -712,9 +716,9 @@
       const modal = document.getElementById('fullscreen-modal');
       
       modal.innerHTML = `
-        <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
-          <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">전체화면 모드로 계속 진행합니다.</h2>
-          <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">확인</button>
+        <div style="background:#fff; padding:3em 10px; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+          <h3 style="margin:0 0 1em 0; color:#222; font-size:1.6em; line-height:1.4; text-align:left;">${FULLSCREEN_MODAL_TEXT}</h3>
+          <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">${FULLSCREEN_MODAL_BUTTON_TEXT}</button>
         </div>
       `;
       
