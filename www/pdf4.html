@@ -421,6 +421,12 @@
       z-index: 1000;
       text-transform: uppercase;
       letter-spacing: 1px;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+      min-width: 120px;
+      min-height: 60px;
     }
     
     .start-button:hover {
@@ -432,10 +438,46 @@
       transform: translate(-50%, -50%) scale(0.95);
     }
     
+    /* 태블릿 */
+    @media (max-width: 1024px) {
+      .start-button {
+        padding: 18px 36px;
+        font-size: 22px;
+        min-width: 140px;
+        min-height: 70px;
+      }
+    }
+    
+    /* 모바일 */
     @media (max-width: 768px) {
       .start-button {
         padding: 16px 32px;
         font-size: 20px;
+        min-width: 120px;
+        min-height: 60px;
+        border-radius: 40px;
+      }
+    }
+    
+    /* 작은 모바일 */
+    @media (max-width: 480px) {
+      .start-button {
+        padding: 14px 28px;
+        font-size: 18px;
+        min-width: 100px;
+        min-height: 50px;
+        border-radius: 35px;
+      }
+    }
+    
+    /* 매우 작은 모바일 */
+    @media (max-width: 360px) {
+      .start-button {
+        padding: 12px 24px;
+        font-size: 16px;
+        min-width: 90px;
+        min-height: 45px;
+        border-radius: 30px;
       }
     }
     
@@ -634,7 +676,7 @@
       
       modal.innerHTML = `
         <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
-          <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+          <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">전체화면 모드로 계속 진행합니다.</h2>
           <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">Confirm</button>
         </div>
       `;
@@ -912,6 +954,7 @@
       startButton.textContent = '시작하기';
       startButton.id = 'start-button';
       
+      // 클릭 이벤트
       startButton.addEventListener('click', (e) => {
         this.createTouchRipple(e);
         console.log('시작하기 버튼 클릭됨');
@@ -919,6 +962,20 @@
         // 전체화면 모드로 전환
         this.requestFullscreen();
       });
+      
+      // 터치 이벤트 (모바일용)
+      startButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        this.createTouchRipple(e);
+      }, { passive: false });
+      
+      startButton.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        console.log('시작하기 버튼 터치됨');
+        
+        // 전체화면 모드로 전환
+        this.requestFullscreen();
+      }, { passive: false });
       
       container.appendChild(startButton);
     }
