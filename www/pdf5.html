@@ -489,6 +489,43 @@
     :-ms-fullscreen .start-button {
       display: none !important;
     }
+    
+    /* 모바일 모달 반응형 스타일 */
+    @media (max-width: 768px) {
+      #fullscreen-modal > div {
+        max-width: 90vw !important;
+        margin: 1em !important;
+        padding: 1.5em 15px 1.5em 15px !important;
+      }
+      
+      #fullscreen-modal h2 {
+        font-size: 1.5em !important;
+        line-height: 1.8 !important;
+      }
+      
+      #fullscreen-modal button {
+        font-size: 1.1em !important;
+        padding: 0.8em 1.5em !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #fullscreen-modal > div {
+        max-width: 95vw !important;
+        margin: 0.5em !important;
+        padding: 1.2em 10px 1.2em 10px !important;
+      }
+      
+      #fullscreen-modal h2 {
+        font-size: 1.3em !important;
+        line-height: 1.7 !important;
+      }
+      
+      #fullscreen-modal button {
+        font-size: 1em !important;
+        padding: 0.7em 1.3em !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -716,8 +753,8 @@
       const modal = document.getElementById('fullscreen-modal');
       
       modal.innerHTML = `
-        <div style="background:#fff; padding:3em 10px; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
-          <h3 style="margin:0 0 1em 0; color:#222; font-size:1.6em; line-height:1.4; text-align:left;">${FULLSCREEN_MODAL_TEXT}</h3>
+        <div style="background:#fff; padding:2.5em 10px 2em 10px; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+          <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em; line-height:1.9; text-align:left;">${FULLSCREEN_MODAL_TEXT}</h2>
           <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">${FULLSCREEN_MODAL_BUTTON_TEXT}</button>
         </div>
       `;
