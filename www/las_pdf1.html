@@ -27,7 +27,6 @@
       -webkit-tap-highlight-color: transparent;
       margin: 0;
       padding: 0;
-      
     }
     
     @supports (height: 100dvh) {
@@ -490,6 +489,25 @@
       display: none !important;
     }
     
+    /* 전체화면 모드에서 가로모드 강제 */
+    :fullscreen,
+    :-webkit-full-screen,
+    :-moz-full-screen,
+    :-ms-fullscreen {
+      transform: rotate(90deg);
+      width: 100vh !important;
+      height: 100vw !important;
+    }
+    
+    :fullscreen #app,
+    :-webkit-full-screen #app,
+    :-moz-full-screen #app,
+    :-ms-fullscreen #app {
+      transform: rotate(90deg);
+      width: 100vh !important;
+      height: 100vw !important;
+    }
+    
     /* 모바일 모달 반응형 스타일 */
     @media (max-width: 768px) {
       #fullscreen-modal > div {
@@ -851,6 +869,13 @@
       const element = document.documentElement;
       if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
         try {
+          // 전체화면 진입 전에 가로모드로 설정
+          if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(() => {
+              console.log('Orientation lock not supported');
+            });
+          }
+          
           if (element.requestFullscreen) {
             element.requestFullscreen();
           } else if (element.webkitRequestFullscreen) {
