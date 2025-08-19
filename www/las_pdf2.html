@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>LAS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="natural">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/2.1.4/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/2.1.4/favicon.ico">
+  
+  <style>
+    /* 모바일 최적화 CSS */
+    html, body {
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
+      background-color: #1d1b1b;
+    }
+    
+    @supports (height: 100dvh) {
+      html, body {
+        height: 100dvh;
+      }
+    }
+    
+    #app {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+    }
+    
+    .slide-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    
+    /* 세로 모드 */
+    @media (orientation: portrait) {
+      .slide-container {
+        background-size: contain;
+      }
+    }
+    
+    /* 가로 모드 */
+    @media (orientation: landscape) {
+      .slide-container {
+        background-size: contain;
+      }
+    }
+    
+    /* 페이지 인디케이터 */
+    #page-indicator {
+      padding: 8px 16px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      opacity: 0.8;
+      transition: opacity 0.5s ease;
+    }
+    
+    #page-indicator.fade-out {
+      opacity: 0;
+    }
+    
+    @media (orientation: landscape) and (max-height: 500px) {
+      #page-indicator {
+        bottom: 10px;
+        padding: 6px 12px;
+      }
+    }
+    
+    .indicator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      min-width: 8px;
+      min-height: 8px;
+      position: relative;
+    }
+    
+    .indicator-dot.active {
+      background: #ff6b35;
+      transform: scale(1.4);
+      box-shadow: 0 0 8px rgba(255, 107, 53, 0.6);
+    }
+    
+    .indicator-dot::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+    }
+    
+    /* 존 스타일 */
+    .zone {
+      position: absolute;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      border-radius: 8px;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      min-height: 44px;
+    }
+    
+    @media (max-width: 768px) {
+      .zone {
+        font-size: 12px;
+        padding: 6px;
+        min-height: 40px;
+      }
+    }
+    
+    @media (orientation: landscape) and (max-height: 500px) {
+      .zone {
+        font-size: 10px;
+        padding: 4px;
+        min-height: 36px;
+      }
+    }
+    
+    .zone.active {
+      border-color: #ff6b35;
+      background: rgba(255, 107, 53, 0.3);
+      box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+    }
+    
+    .zone.highlighted {
+      background: rgba(255, 255, 0, 0.4);
+      border-color: #ffff00;
+    }
+    
+    /* 네비게이션 버튼 */
+    .nav-button {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      background: transparent;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      user-select: none;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    }
+    
+    .nav-button:hover,
+    .nav-button:active {
+      background: rgba(255,255,255,0.1);
+      text-shadow: 0 0 15px rgba(0,0,0,0.9);
+    }
+    
+    .nav-prev:hover,
+    .nav-prev:active {
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .nav-next:hover,
+    .nav-next:active {
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .nav-prev {
+      left: 15px;
+    }
+    
+    .nav-next {
+      right: 15px;
+    }
+    
+    @media (max-width: 480px) {
+      .nav-button {
+        width: 55px;
+        height: 55px;
+        font-size: 32px;
+      }
+      
+      .nav-prev {
+        left: 10px;
+      }
+      
+      .nav-next {
+        right: 10px;
+      }
+    }
+    
+    @media (orientation: landscape) and (max-height: 500px) {
+      .nav-button {
+        width: 50px;
+        height: 50px;
+        font-size: 28px;
+      }
+    }
+    
+    /* 탭바 */
+    #tabbar-container {
+      position: fixed;
+      top: -100%;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      z-index: 50000;
+      transition: top 0.3s ease;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    #tabbar-container.show {
+      top: 0;
+    }
+    
+    #tabbar-x-btn {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      font-weight: bold;
+      font-size: 2rem;
+      background: transparent;
+      border: none;
+      color: #222;
+      cursor: pointer;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    #tabbar {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .tab {
+      background: #f0f0f0;
+      border: none;
+      padding: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 16px;
+      min-height: 44px;
+    }
+    
+    .tab:hover, .tab:active {
+      background: #e0e0e0;
+    }
+    
+    #searchbox {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    #searchInput {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      min-height: 44px;
+    }
+    
+    #searchBtn {
+      background: #222;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      min-height: 44px;
+    }
+    
+    /* 햄버거 메뉴 */
+    .menu-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      background: rgba(0,0,0,0.5);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      display: none;
+    }
+    
+    .menu-button span {
+      width: 20px;
+      height: 2px;
+      background: white;
+      transition: all 0.3s ease;
+    }
+    
+    #tabbar-modal-overlay {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+    
+    /* 로딩 스피너 */
+    .slide-container::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+    
+    .slide-container.loading::before {
+      opacity: 1;
+    }
+    
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    /* 터치 피드백 */
+    .touch-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      pointer-events: none;
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+    }
+    
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    
+    /* 시작 버튼 스타일 */
+    .start-button {
+      position: absolute;
+      top: 67.5%; /* zone4의 중간 높이: bottom 10% + height 35%의 절반 = 10% + 17.5% = 27.5%, 따라서 top은 100% - 27.5% = 72.5%에서 약간 위로 조정 */
+      left: 75%; /* 오른쪽 75% 지점으로 이동 */
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      color: white;
+      border: none;
+      padding: 20px 40px;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+      min-width: 120px;
+      min-height: 60px;
+      display: none; /* 시작 버튼 숨김 */
+    }
+    
+    .start-button:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+      box-shadow: 0 12px 35px rgba(255, 107, 53, 0.6);
+    }
+    
+    .start-button:active {
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+    
+    /* 태블릿 */
+    @media (max-width: 1024px) {
+      .start-button {
+        padding: 18px 36px;
+        font-size: 22px;
+        min-width: 140px;
+        min-height: 70px;
+      }
+    }
+    
+    /* 모바일 */
+    @media (max-width: 768px) {
+      .start-button {
+        padding: 16px 32px;
+        font-size: 20px;
+        min-width: 120px;
+        min-height: 60px;
+        border-radius: 40px;
+      }
+    }
+    
+    /* 작은 모바일 */
+    @media (max-width: 480px) {
+      .start-button {
+        padding: 14px 28px;
+        font-size: 18px;
+        min-width: 100px;
+        min-height: 50px;
+        border-radius: 35px;
+      }
+    }
+    
+    /* 매우 작은 모바일 */
+    @media (max-width: 360px) {
+      .start-button {
+        padding: 12px 24px;
+        font-size: 16px;
+        min-width: 90px;
+        min-height: 45px;
+        border-radius: 30px;
+      }
+    }
+    
+    /* 전체화면 모드에서 시작 버튼 숨김 */
+    :fullscreen .start-button,
+    :-webkit-full-screen .start-button,
+    :-moz-full-screen .start-button,
+    :-ms-fullscreen .start-button {
+      display: none !important;
+    }
+    
+    /* 모바일 모달 반응형 스타일 */
+    @media (max-width: 768px) {
+      #fullscreen-modal > div {
+        max-width: 95vw !important;
+        margin: 0.5em !important;
+        padding: 2em 20px 1.5em 20px !important;
+      }
+      
+      #fullscreen-modal h2 {
+        font-size: 1.7em !important;
+        line-height: 1.8 !important;
+      }
+      
+      #fullscreen-modal button {
+        font-size: 1.3em !important;
+        padding: 1em 2em !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #fullscreen-modal > div {
+        max-width: 98vw !important;
+        margin: 0.3em !important;
+        padding: 1.8em 15px 1.5em 15px !important;
+      }
+      
+      #fullscreen-modal h2 {
+        font-size: 1.5em !important;
+        line-height: 1.7 !important;
+      }
+      
+      #fullscreen-modal button {
+        font-size: 1.2em !important;
+        padding: 0.9em 1.8em !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; transition:opacity 0.5s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <!-- 햄버거 메뉴 -->
+  <button class="menu-button" id="menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- 네비게이션 버튼 -->
+  <button class="nav-button nav-prev" id="prev-btn">‹</button>
+  <button class="nav-button nav-next" id="next-btn">›</button>
+
+  <!-- 탭바 컨테이너 -->
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn">×</button>
+    <div id="tabbar">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  
+      <!-- 전체화면 모달 -->
+    <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+      <div style="background:#fff; padding:3em 20px; border-radius:20px; text-align:center; max-width:600px; margin:2em;">
+        <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">"전체화면 모드로 계속 진행합니다."</h2>
+        <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+      </div>
+    </div>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  // 전체화면 모달 텍스트 설정
+  const FULLSCREEN_MODAL_TEXT = "LAS 패키지<br>총괄 구성안";
+  const FULLSCREEN_MODAL_BUTTON_TEXT = "읽기";
+  
+  const slideTemplates = [
+  {
+      bg: '../assets/img/pdf/pdf6/1.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf6/2.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf6/3.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf6/4.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf6/5.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf6/6.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    },
+    {
+      bg: '../assets/img/pdf/pdf6/7.jpg',
+      zones: {
+        1: { text: '', keywords: [] },
+        2: { text: '', keywords: [] },
+        3: { text: '', keywords: [] },
+        4: { text: '', keywords: [] }
+      }
+    }
+  ];
+
+  // 4Zone 앱 클래스
+  class ZoneApp {
+    constructor() {
+      this.currentSlide = 0;
+      this.slides = slideTemplates;
+      this.touchStartX = 0;
+      this.touchStartY = 0;
+      this.activeZone = null;
+      this.indicatorTimer = null;
+      this.isFullscreen = false; // 전체화면 상태 추적
+      this.hasUserInteracted = false; // 사용자 상호작용 여부
+      
+      this.init();
+    }
+
+    requestFullscreen() {
+      const element = document.documentElement;
+      if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
+        try {
+          if (element.requestFullscreen) {
+            element.requestFullscreen();
+          } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+          } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+          } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+          }
+        } catch (err) {
+          console.log('Fullscreen request error:', err);
+        }
+      }
+    }
+
+    showFullscreenModal(targetPage) {
+      const modal = document.getElementById('fullscreen-modal');
+      
+      modal.innerHTML = `
+        <div style="background:#fff; padding:2.5em 10px 2em 10px; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+          <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em; line-height:1.9; text-align:left;">${FULLSCREEN_MODAL_TEXT}</h2>
+          <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">${FULLSCREEN_MODAL_BUTTON_TEXT}</button>
+        </div>
+      `;
+      
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      
+      // 버튼 이벤트 리스너 설정
+      setTimeout(() => {
+        const newBtn = document.getElementById('fullscreen-modal-btn');
+        if (newBtn) {
+          newBtn.onclick = () => {
+            modal.style.display = 'none';
+            this.hasUserInteracted = true; // 사용자 상호작용 기록
+            this.requestFullscreen();
+            
+            // 전체화면 진입 후 페이지 전환
+            let handler = () => {
+              setTimeout(() => {
+                // 전체화면이 성공적으로 진입된 경우에만 페이지 전환
+                if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                  this.currentSlide = targetPage;
+                  this.loadSlide(targetPage);
+                }
+                document.removeEventListener('fullscreenchange', handler);
+                document.removeEventListener('webkitfullscreenchange', handler);
+                document.removeEventListener('mozfullscreenchange', handler);
+                document.removeEventListener('MSFullscreenChange', handler);
+              }, 200);
+            };
+            document.addEventListener('fullscreenchange', handler);
+            document.addEventListener('webkitfullscreenchange', handler);
+            document.addEventListener('mozfullscreenchange', handler);
+            document.addEventListener('MSFullscreenChange', handler);
+          };
+        }
+      }, 10);
+    }
+
+    init() {
+      this.createSlideContainer();
+      this.createPageIndicator();
+      this.bindEvents();
+      this.loadSlide(0);
+      this.setupMobileViewport();
+      this.setupFullscreenListener();
+    }
+
+    createSlideContainer() {
+      const app = document.getElementById('app');
+      const container = document.createElement('div');
+      container.className = 'slide-container';
+      container.id = 'slide-container';
+      app.appendChild(container);
+    }
+
+    createPageIndicator() {
+      const indicator = document.getElementById('page-indicator');
+      indicator.innerHTML = '';
+      
+      this.slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = `indicator-dot ${index === 0 ? 'active' : ''}`;
+        dot.addEventListener('click', (e) => {
+          this.createTouchRipple(e);
+          this.loadSlide(index);
+        });
+        indicator.appendChild(dot);
+      });
+    }
+
+    loadSlide(index) {
+      if (index < 0 || index >= this.slides.length) return;
+      
+      this.currentSlide = index;
+      const slide = this.slides[index];
+      const container = document.getElementById('slide-container');
+      
+      // 로딩 상태
+      container.classList.add('loading');
+      
+      // 이미지 로드
+      const img = new Image();
+      img.onload = () => {
+        container.style.backgroundImage = `url(${slide.bg})`;
+        container.classList.remove('loading');
+        this.createZones(slide.zones);
+        
+        // 시작 버튼 생성 (1페이지에만, 전체화면이 아닐 때만)
+        if (slide.hasStartButton && !this.isFullscreen) {
+          this.createStartButton();
+        } else {
+          this.removeStartButton();
+        }
+      };
+      img.onerror = () => {
+        container.classList.remove('loading');
+        console.error('Failed to load image:', slide.bg);
+      };
+      img.src = slide.bg;
+      
+      this.updatePageIndicator();
+      this.updateNavigationButtons();
+    }
+
+    createZones(zones) {
+      const container = document.getElementById('slide-container');
+      
+      // 기존 존 제거
+      container.querySelectorAll('.zone').forEach(zone => zone.remove());
+      
+      // 새 존 생성
+      Object.entries(zones).forEach(([zoneNum, zoneData]) => {
+        if (zoneData.text) {
+          const zone = this.createZone(zoneNum, zoneData);
+          container.appendChild(zone);
+        }
+      });
+    }
+
+    createZone(zoneNum, zoneData) {
+      const zone = document.createElement('div');
+      zone.className = 'zone';
+      zone.innerHTML = zoneData.text;
+      
+      // 존 위치 설정 (4분할)
+      const positions = {
+        '1': { top: '10%', left: '10%', width: '35%', height: '35%' },
+        '2': { top: '10%', right: '10%', width: '35%', height: '35%' },
+        '3': { bottom: '10%', left: '10%', width: '35%', height: '35%' },
+        '4': { bottom: '10%', right: '10%', width: '35%', height: '35%' }
+      };
+      
+      const pos = positions[zoneNum];
+      Object.assign(zone.style, pos);
+      
+      // 클릭 이벤트
+      zone.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.createTouchRipple(e);
+        this.highlightKeywords(zoneData.keywords);
+        this.setActiveZone(zone);
+      });
+      
+      return zone;
+    }
+
+    highlightKeywords(keywords) {
+      console.log('Highlighting keywords:', keywords);
+      // 키워드 하이라이트 로직 구현
+    }
+
+    setActiveZone(zone) {
+      document.querySelectorAll('.zone').forEach(z => z.classList.remove('active'));
+      zone.classList.add('active');
+      this.activeZone = zone;
+    }
+
+    updatePageIndicator() {
+      document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === this.currentSlide);
+      });
+      
+      // 인디케이터 표시 및 2초 후 숨김
+      this.showIndicator();
+    }
+
+    showIndicator() {
+      const indicator = document.getElementById('page-indicator');
+      indicator.classList.remove('fade-out');
+      
+      // 기존 타이머 클리어
+      if (this.indicatorTimer) {
+        clearTimeout(this.indicatorTimer);
+      }
+      
+      // 2초 후 숨김
+      this.indicatorTimer = setTimeout(() => {
+        indicator.classList.add('fade-out');
+      }, 2000);
+    }
+
+    updateNavigationButtons() {
+      // 모든 페이지에서 네비게이션 버튼 활성화 (순환 구조)
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      
+      prevBtn.style.opacity = '1';
+      nextBtn.style.opacity = '1';
+      prevBtn.style.pointerEvents = 'auto';
+      nextBtn.style.pointerEvents = 'auto';
+    }
+
+    nextSlide() {
+      let next = (this.currentSlide + 1) % this.slides.length;
+      // 전체화면 체크
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // 이미 전체화면이면 바로 이동
+        this.currentSlide = next;
+        this.loadSlide(next);
+        this.updatePageIndicator();
+      } else {
+        // 전체화면이 아니면 모달 표시
+        this.showFullscreenModal(next);
+      }
+    }
+
+    prevSlide() {
+      let prev = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+      // 전체화면 체크
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // 이미 전체화면이면 바로 이동
+        this.currentSlide = prev;
+        this.loadSlide(prev);
+        this.updatePageIndicator();
+      } else {
+        // 전체화면이 아니면 모달 표시
+        this.showFullscreenModal(prev);
+      }
+    }
+
+    showTabbar() {
+      document.getElementById('tabbar-container').classList.add('show');
+      document.getElementById('tabbar-modal-overlay').style.display = 'block';
+    }
+
+    hideTabbar() {
+      document.getElementById('tabbar-container').classList.remove('show');
+      document.getElementById('tabbar-modal-overlay').style.display = 'none';
+    }
+
+    createTouchRipple(e) {
+      const ripple = document.createElement('div');
+      ripple.className = 'touch-ripple';
+      
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.style.width = '20px';
+      ripple.style.height = '20px';
+      
+      // position relative이 이미 설정되어 있는지 확인
+      if (getComputedStyle(e.currentTarget).position === 'static') {
+        e.currentTarget.style.position = 'relative';
+      }
+      
+      e.currentTarget.appendChild(ripple);
+      
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
+    }
+
+    setupMobileViewport() {
+      // 모바일 뷰포트 최적화
+      const setViewportHeight = () => {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      };
+
+      setViewportHeight();
+      
+      window.addEventListener('resize', setViewportHeight);
+      window.addEventListener('orientationchange', () => {
+        setTimeout(setViewportHeight, 200);
+      });
+    }
+
+    createStartButton() {
+      this.removeStartButton(); // 기존 버튼 제거
+      
+      const container = document.getElementById('slide-container');
+      const startButton = document.createElement('button');
+      startButton.className = 'start-button';
+      startButton.textContent = '시작하기';
+      startButton.id = 'start-button';
+      
+      // 클릭 이벤트
+      startButton.addEventListener('click', (e) => {
+        this.createTouchRipple(e);
+        console.log('시작하기 버튼 클릭됨');
+        
+        // 전체화면 모드로 전환
+        this.requestFullscreen();
+      });
+      
+      // 터치 이벤트 (모바일용)
+      startButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        this.createTouchRipple(e);
+      }, { passive: false });
+      
+      startButton.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        console.log('시작하기 버튼 터치됨');
+        
+        // 전체화면 모드로 전환
+        this.requestFullscreen();
+      }, { passive: false });
+      
+      container.appendChild(startButton);
+    }
+
+    removeStartButton() {
+      const existingButton = document.getElementById('start-button');
+      if (existingButton) {
+        existingButton.remove();
+      }
+    }
+
+    setupFullscreenListener() {
+      const fullscreenChangeHandler = () => {
+        const wasFullscreen = this.isFullscreen;
+        this.isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+        
+        // 전체화면 상태에 따라 시작 버튼 표시/숨김
+        if (this.isFullscreen) {
+          this.removeStartButton();
+        } else {
+          // 전체화면 해제 시 현재 페이지 유지하고 시작 버튼만 처리
+          if (this.currentSlide === 0 && this.slides[0].hasStartButton) {
+            this.createStartButton();
+          }
+        }
+      };
+
+      document.addEventListener('fullscreenchange', fullscreenChangeHandler);
+      document.addEventListener('webkitfullscreenchange', fullscreenChangeHandler);
+      document.addEventListener('mozfullscreenchange', fullscreenChangeHandler);
+      document.addEventListener('MSFullscreenChange', fullscreenChangeHandler);
+    }
+
+    addDragEvents(container, leftArrow, rightArrow) {
+      let startX = null;
+      let dragging = false;
+      
+      // 마우스 이벤트
+      container.onmousedown = e => { e.preventDefault(); startX = e.clientX; dragging = true; };
+      container.onmousemove = e => { if (!dragging) return; e.preventDefault(); };
+      container.onmouseup = e => {
+        if (!dragging) return;
+        e.preventDefault();
+        const diff = e.clientX - startX;
+        if (diff > 60) { 
+          // 전체화면 체크
+          if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+            // 이미 전체화면이면 바로 이동
+            this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+            this.loadSlide(this.currentSlide);
+            this.updatePageIndicator();
+          } else {
+            // 전체화면이 아니면 모달 표시
+            this.showFullscreenModal((this.currentSlide - 1 + this.slides.length) % this.slides.length);
+          }
+        }
+        else if (diff < -60) { 
+          // 전체화면 체크
+          if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+            // 이미 전체화면이면 바로 이동
+            this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+            this.loadSlide(this.currentSlide);
+            this.updatePageIndicator();
+          } else {
+            // 전체화면이 아니면 모달 표시
+            this.showFullscreenModal((this.currentSlide + 1) % this.slides.length);
+          }
+        }
+        dragging = false;
+        startX = null;
+      };
+      
+      // 모바일 터치 이벤트
+      container.addEventListener('touchstart', e => {
+        e.preventDefault();
+        startX = e.touches[0].clientX;
+        dragging = true;
+      }, { passive: false });
+      container.addEventListener('touchmove', e => {
+        if (!dragging) return;
+        e.preventDefault();
+      }, { passive: false });
+      container.addEventListener('touchend', e => {
+        if (!dragging) return;
+        e.preventDefault();
+        const endX = e.changedTouches[0].clientX;
+        const diff = endX - startX;
+        if (diff > 60) { 
+          // 전체화면 체크
+          if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+            // 이미 전체화면이면 바로 이동
+            this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+            this.loadSlide(this.currentSlide);
+            this.updatePageIndicator();
+          } else {
+            // 전체화면이 아니면 모달 표시
+            this.showFullscreenModal((this.currentSlide - 1 + this.slides.length) % this.slides.length);
+          }
+        }
+        else if (diff < -60) { 
+          // 전체화면 체크
+          if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+            // 이미 전체화면이면 바로 이동
+            this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+            this.loadSlide(this.currentSlide);
+            this.updatePageIndicator();
+          } else {
+            // 전체화면이 아니면 모달 표시
+            this.showFullscreenModal((this.currentSlide + 1) % this.slides.length);
+          }
+        }
+        dragging = false;
+        startX = null;
+      }, { passive: false });
+    }
+
+    bindEvents() {
+      // 페이지 클릭 시 전체화면 전환 (사용자 상호작용 후)
+      document.addEventListener('click', (e) => {
+        if (this.hasUserInteracted && !this.isFullscreen) {
+          this.requestFullscreen();
+        }
+      });
+      
+      // 메뉴 버튼
+      document.getElementById('menu-btn').addEventListener('click', (e) => {
+        this.createTouchRipple(e);
+        this.showTabbar();
+      });
+
+      // 탭바 닫기
+      document.getElementById('tabbar-x-btn').addEventListener('click', () => {
+        this.hideTabbar();
+      });
+
+      document.getElementById('tabbar-modal-overlay').addEventListener('click', () => {
+        this.hideTabbar();
+      });
+
+      // 네비게이션 버튼
+      document.getElementById('prev-btn').addEventListener('click', (e) => {
+        this.createTouchRipple(e);
+        this.prevSlide();
+      });
+
+      document.getElementById('next-btn').addEventListener('click', (e) => {
+        this.createTouchRipple(e);
+        this.nextSlide();
+      });
+
+      // 탭 버튼들
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          const label = e.target.getAttribute('data-label');
+          console.log('Tab clicked:', label);
+          this.hideTabbar();
+        });
+      });
+
+      // 검색 버튼
+      document.getElementById('searchBtn').addEventListener('click', () => {
+        const query = document.getElementById('searchInput').value;
+        console.log('Search:', query);
+        this.hideTabbar();
+      });
+
+      // 드래그 이벤트 설정
+      const container = document.getElementById('app');
+      const leftArrow = document.getElementById('prev-btn');
+      const rightArrow = document.getElementById('next-btn');
+      this.addDragEvents(container, leftArrow, rightArrow);
+
+      // 키보드 이벤트
+      document.addEventListener('keydown', (e) => {
+        switch(e.key) {
+          case 'ArrowLeft':
+            this.prevSlide();
+            break;
+          case 'ArrowRight':
+            this.nextSlide();
+            break;
+          case 'Escape':
+            this.hideTabbar();
+            break;
+        }
+      });
+    }
+  }
+
+  // 앱 초기화
+  document.addEventListener('DOMContentLoaded', () => {
+    const app = new ZoneApp();
+    
+    // 페이지 로드 후 자동으로 전체화면 모달 표시
+    setTimeout(() => {
+      app.showFullscreenModal(0);
+    }, 300);
+  });
+  </script>
+</body>
+</html>
