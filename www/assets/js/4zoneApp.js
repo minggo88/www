@@ -1,3 +1,7 @@
+// 웹페이지에 추가할 코드
+window.currentSlideNumber = 1; // 현재 슬라이드 번호
+window.totalSlides = 17; // 총 슬라이드 개수 (이미지 파일 개수에 맞춤)
+
 // 동적 스크립트 로드 함수
 function loadScript(src) {
   return new Promise((resolve, reject) => {
@@ -448,6 +452,9 @@ function positionArrows(imgElem, leftArrow, rightArrow) {
 function nextSlide() {
   let next = (current + 1) % slideTemplates.length;
   current = next;
+  // 현재 슬라이드 번호 업데이트
+  window.currentSlideNumber = current + 1;
+  console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
   renderSlide(current);
   updatePageIndicator();
 }
@@ -455,6 +462,9 @@ function nextSlide() {
 function prevSlide() {
   let prev = (current - 1 + slideTemplates.length) % slideTemplates.length;
   current = prev;
+  // 현재 슬라이드 번호 업데이트
+  window.currentSlideNumber = current + 1;
+  console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
   renderSlide(current);
   updatePageIndicator();
 }
@@ -572,6 +582,9 @@ function createPageIndicator() {
       
       // 바로 이동
       current = index;
+      // 현재 슬라이드 번호 업데이트
+      window.currentSlideNumber = current + 1;
+      console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
       renderSlide(current);
       updatePageIndicator();
     });
@@ -592,6 +605,9 @@ function createPageIndicator() {
       
       // 바로 이동
       current = index;
+      // 현재 슬라이드 번호 업데이트
+      window.currentSlideNumber = current + 1;
+      console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
       renderSlide(current);
       updatePageIndicator();
     });
@@ -645,6 +661,9 @@ function updatePageIndicator() {
 
 // 첫 슬라이드 표시
 window.onload = () => {
+  // 초기 슬라이드 번호 설정
+  window.currentSlideNumber = current + 1;
+  console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
   renderSlide(current);
   createPageIndicator();
   hideAddressBar();
@@ -770,6 +789,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // YouTube API 키 및 채널 정보
 const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
+
 
 // 채널 정보
 const channels = {
