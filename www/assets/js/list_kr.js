@@ -2,7 +2,11 @@
 // Google Translate API를 사용하여 영어 제목을 한글로 번역
 
 // 번역 API 키 (실제 사용시에는 보안을 위해 환경변수로 관리해야 함)
-const TRANSLATE_API_KEY = 'AIzaSyAQ-7v5A_AFccpbRuXX0LgAL5CAEQlwmgo';
+//09
+//const TRANSLATE_API_KEY = 'AIzaSyAQ-7v5A_AFccpbRuXX0LgAL5CAEQlwmgo';
+//sin
+const TRANSLATE_API_KEY = 'AIzaSyCk4YGMoqc4uZvLFta0rwreIEUQEuMY_PI';
+
 
 // 텍스트 번역 함수
 async function translateText(text, targetLang = 'ko', sourceLang = 'en') {
