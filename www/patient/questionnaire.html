@@ -306,9 +306,9 @@
                     .insert({
                         booking_number: bookingNumber,
                         user_id: patientData.userId,
-                        google_form_response_id: JSON.stringify(formData), // 문진표 데이터를 JSON으로 저장
+                        google_form_response_id: 'questionnaire_' + Date.now(), // 고유 ID 생성
                         status: 'pending',
-                        notes: '문진표 제출 완료'
+                        notes: JSON.stringify(formData) // 문진표 데이터를 notes에 JSON으로 저장
                     })
                     .select()
                     .single();
