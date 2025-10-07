@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문진표 작성 | 비대면 진료</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/mediStyle.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 진행 단계 -->
+        <div class="steps">
+            <div class="step completed">
+                <div class="step-number">✓</div>
+                <div class="step-label">정보입력</div>
+            </div>
+            <div class="step completed">
+                <div class="step-number">✓</div>
+                <div class="step-label">약관동의</div>
+            </div>
+            <div class="step active">
+                <div class="step-number">3</div>
+                <div class="step-label">문진표</div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-label">완료</div>
+            </div>
+        </div>
+
+        <!-- 문진표 카드 -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">문진표 작성</h2>
+                <p class="card-subtitle">정확한 진료를 위해 상세히 작성해주세요</p>
+            </div>
+
+            <form id="questionnaireForm">
+                <!-- 기본 정보 (자동 입력) -->
+                <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                    <h3 style="font-size: 16px; margin-bottom: 15px; color: #2563eb;">✓ 기본 정보 (자동 입력됨)</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">성함</label>
+                        <input type="text" id="name" class="form-control" readonly style="background-color: #e2e8f0;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">연락처</label>
+                        <input type="text" id="phone" class="form-control" readonly style="background-color: #e2e8f0;">
+                    </div>
+                </div>
+
+                <!-- 추가 정보 입력 -->
+                <h3 style="font-size: 16px; margin-bottom: 20px; color: #1e293b;">📝 추가 정보</h3>
+
+                <!-- 2. 생년월일 -->
+                <div class="form-group">
+                    <label for="birthdate" class="form-label required">생년월일</label>
+                    <input 
+                        type="date" 
+                        id="birthdate" 
+                        name="birthdate" 
+                        class="form-control"
+                        required
+                        max=""
+                    >
+                    <div class="form-text">예: 1990-01-01</div>
+                </div>
+
+                <!-- 4. 키 -->
+                <div class="form-group">
+                    <label for="height" class="form-label required">키 (cm)</label>
+                    <input 
+                        type="number" 
+                        id="height" 
+                        name="height" 
+                        class="form-control"
+                        placeholder="170"
+                        required
+                        min="100"
+                        max="250"
+                        step="0.1"
+                    >
+                    <div class="form-text">예: 170 (cm)</div>
+                </div>
+
+                <!-- 5. 현재 체중 -->
+                <div class="form-group">
+                    <label for="current_weight" class="form-label required">현재 체중 (kg)</label>
+                    <input 
+                        type="number" 
+                        id="current_weight" 
+                        name="current_weight" 
+                        class="form-control"
+                        placeholder="70"
+                        required
+                        min="30"
+                        max="200"
+                        step="0.1"
+                    >
+                    <div class="form-text">예: 70 (kg)</div>
+                </div>
+
+                <!-- 6. 20대 가장 날씬했을 때 체중 -->
+                <div class="form-group">
+                    <label for="weight_20s_min" class="form-label required">20대 가장 날씬했을 때의 체중 (kg)</label>
+                    <input 
+                        type="number" 
+                        id="weight_20s_min" 
+                        name="weight_20s_min" 
+                        class="form-control"
+                        placeholder="60"
+                        required
+                        min="30"
+                        max="200"
+                        step="0.1"
+                    >
+                    <div class="form-text">예: 60 (kg)</div>
+                </div>
+
+                <!-- 7. 20대 이후 평생 최고 체중 -->
+                <div class="form-group">
+                    <label for="weight_lifetime_max" class="form-label required">20대 이후에 평생 최고 체중 (kg)</label>
+                    <input 
+                        type="number" 
+                        id="weight_lifetime_max" 
+                        name="weight_lifetime_max" 
+                        class="form-control"
+                        placeholder="80"
+                        required
+                        min="30"
+                        max="200"
+                        step="0.1"
+                    >
+                    <div class="form-text">예: 80 (kg)</div>
+                </div>
+
+                <!-- 8. 대변 횟수 -->
+                <div class="form-group">
+                    <label for="bowel_frequency" class="form-label required">평소 대변의 횟수는 어떠십니까?</label>
+                    <input 
+                        type="text" 
+                        id="bowel_frequency" 
+                        name="bowel_frequency" 
+                        class="form-control"
+                        placeholder="예: 하루 1회, 주 2회"
+                        required
+                    >
+                    <div class="form-text">예: 하루 1회, 주 2회</div>
+                </div>
+
+                <!-- 9. 대변 형태 -->
+                <div class="form-group">
+                    <label class="form-label required">대변의 형태는 어떻습니까?</label>
+                    <div class="form-check">
+                        <input type="radio" id="bowel_soft" name="bowel_type" value="묽은 편이다" class="form-check-input" required>
+                        <label for="bowel_soft" class="form-check-label">묽은 편이다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="bowel_hard" name="bowel_type" value="딱딱한 편이다" class="form-check-input">
+                        <label for="bowel_hard" class="form-check-label">딱딱한 편이다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="bowel_mixed" name="bowel_type" value="묽고 딱딱함이 반복된다" class="form-check-input">
+                        <label for="bowel_mixed" class="form-check-label">묽고 딱딱함이 반복된다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="bowel_normal" name="bowel_type" value="보통이다" class="form-check-input">
+                        <label for="bowel_normal" class="form-check-label">보통이다</label>
+                    </div>
+                </div>
+
+                <!-- 10. 소화 -->
+                <div class="form-group">
+                    <label class="form-label required">소화는 어떤 편입니까?</label>
+                    <div class="form-check">
+                        <input type="radio" id="digest_good" name="digestion" value="잘되는 편이다" class="form-check-input" required>
+                        <label for="digest_good" class="form-check-label">잘되는 편이다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="digest_normal" name="digestion" value="보통이다" class="form-check-input">
+                        <label for="digest_normal" class="form-check-label">보통이다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="digest_bad" name="digestion" value="잘 안 되는 편이다" class="form-check-input">
+                        <label for="digest_bad" class="form-check-label">잘 안 되는 편이다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="digest_verybad" name="digestion" value="많이 안 되는 편이다" class="form-check-input">
+                        <label for="digest_verybad" class="form-check-label">많이 안 되는 편이다</label>
+                    </div>
+                </div>
+
+                <!-- 11. 커피와 수면 -->
+                <div class="form-group">
+                    <label class="form-label required">커피 마셨을 때 잠 못 자는 정도는 어떻습니까?</label>
+                    <div class="form-check">
+                        <input type="radio" id="coffee_severe" name="coffee_sleep" value="심하다" class="form-check-input" required>
+                        <label for="coffee_severe" class="form-check-label">심하다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="coffee_mild" name="coffee_sleep" value="약간 그렇다" class="form-check-input">
+                        <label for="coffee_mild" class="form-check-label">약간 그렇다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="coffee_little" name="coffee_sleep" value="별로 영향 없다" class="form-check-input">
+                        <label for="coffee_little" class="form-check-label">별로 영향 없다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="coffee_none" name="coffee_sleep" value="전혀 영향 받지 않는다" class="form-check-input">
+                        <label for="coffee_none" class="form-check-label">전혀 영향 받지 않는다</label>
+                    </div>
+                </div>
+
+                <!-- 12. 수면 -->
+                <div class="form-group">
+                    <label class="form-label required">수면은 어떠십니까?</label>
+                    <div class="form-check">
+                        <input type="radio" id="sleep_good" name="sleep_quality" value="잘 자는 편이다" class="form-check-input" required>
+                        <label for="sleep_good" class="form-check-label">잘 자는 편이다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="sleep_normal" name="sleep_quality" value="보통이다" class="form-check-input">
+                        <label for="sleep_normal" class="form-check-label">보통이다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="sleep_bad" name="sleep_quality" value="별로 못자는 편이다" class="form-check-input">
+                        <label for="sleep_bad" class="form-check-label">별로 못자는 편이다</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="sleep_verybad" name="sleep_quality" value="전혀 못자는 편이다" class="form-check-input">
+                        <label for="sleep_verybad" class="form-check-label">전혀 못자는 편이다</label>
+                    </div>
+                </div>
+
+                <!-- 버튼 -->
+                <div class="d-flex gap-2 mt-4">
+                    <button type="button" onclick="goBack()" class="btn btn-secondary">
+                        이전
+                    </button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">
+                        문진표 제출
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 안내 -->
+        <div class="alert alert-info">
+            <strong>문진표 안내</strong><br>
+            작성하신 내용은 진료 목적으로만 사용되며, 안전하게 보호됩니다.
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/mediConfig.js"></script>
+    <script src="../assets/js/mediCommon.js"></script>
+    
+    <script>
+        // 오늘 날짜를 최대값으로 설정 (생년월일)
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('birthdate').setAttribute('max', today);
+
+        // 폼 제출
+        document.getElementById('questionnaireForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const patientData = getPatientData();
+            if (!patientData || !patientData.userId) {
+                showAlert('환자 정보를 찾을 수 없습니다. 처음부터 다시 시도해주세요.', 'danger');
+                setTimeout(() => navigateTo('apply.html'), 2000);
+                return;
+            }
+            
+            // 폼 데이터 수집
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                birthdate: document.getElementById('birthdate').value,
+                height: parseFloat(document.getElementById('height').value),
+                current_weight: parseFloat(document.getElementById('current_weight').value),
+                weight_20s_min: parseFloat(document.getElementById('weight_20s_min').value),
+                weight_lifetime_max: parseFloat(document.getElementById('weight_lifetime_max').value),
+                bowel_frequency: document.getElementById('bowel_frequency').value,
+                bowel_type: document.querySelector('input[name="bowel_type"]:checked').value,
+                digestion: document.querySelector('input[name="digestion"]:checked').value,
+                coffee_sleep: document.querySelector('input[name="coffee_sleep"]:checked').value,
+                sleep_quality: document.querySelector('input[name="sleep_quality"]:checked').value
+            };
+            
+            showLoading('문진표를 제출하는 중...');
+            
+            try {
+                // 접수번호 생성
+                const bookingNumber = await generateBookingNumber();
+                
+                // 1. bookings 테이블에 접수 정보 저장
+                const { data: bookingData, error: bookingError } = await supabase
+                    .from('bookings')
+                    .insert({
+                        booking_number: bookingNumber,
+                        user_id: patientData.userId,
+                        google_form_response_id: JSON.stringify(formData), // 문진표 데이터를 JSON으로 저장
+                        status: 'pending',
+                        notes: '문진표 제출 완료'
+                    })
+                    .select()
+                    .single();
+                
+                if (bookingError) throw bookingError;
+                
+                // 세션에 접수 정보 추가
+                patientData.bookingId = bookingData.id;
+                patientData.bookingNumber = bookingNumber;
+                savePatientData(patientData);
+                
+                // 2. 알림 발송 (SMS/Email)
+                const { error: notificationError } = await supabase
+                    .from('notifications')
+                    .insert({
+                        booking_id: bookingData.id,
+                        notification_type: 'sms',
+                        recipient: patientData.phone,
+                        message: `[해독한의원] 비대면 진료 접수가 완료되었습니다. 접수번호: ${bookingNumber}`,
+                        status: 'pending'
+                    });
+                
+                // 접근 로그 기록
+                await logAccess('문진표 제출 완료', '/patient/questionnaire.html');
+                
+                hideLoading();
+                showAlert('문진표가 제출되었습니다!', 'success');
+                
+                setTimeout(() => {
+                    navigateTo('complete.html');
+                }, 500);
+                
+            } catch (error) {
+                hideLoading();
+                handleError(error, '문진표 제출에 실패했습니다. 다시 시도해주세요.');
+            }
+        });
+
+        // 페이지 로드 시
+        document.addEventListener('DOMContentLoaded', function() {
+            // 환자 정보 확인
+            const patientData = getPatientData();
+            if (!patientData || !patientData.userId) {
+                showAlert('환자 정보를 찾을 수 없습니다. 처음부터 시작해주세요.', 'danger');
+                setTimeout(() => navigateTo('apply.html'), 2000);
+                return;
+            }
+            
+            // 이름과 전화번호 자동 입력
+            document.getElementById('name').value = patientData.name;
+            document.getElementById('phone').value = patientData.phone;
+            
+            logAccess('문진표 페이지 방문', '/patient/questionnaire.html');
+        });
+    </script>
+</body>
+</html>
