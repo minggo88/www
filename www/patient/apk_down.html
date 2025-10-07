@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환자 정보 입력 | 비대면 진료</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/mediStyle.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 진행 단계 -->
+        <div class="steps">
+            <div class="step active">
+                <div class="step-number">1</div>
+                <div class="step-label">정보입력</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-label">약관동의</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-label">문진표</div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-label">완료</div>
+            </div>
+        </div>
+
+        <!-- 정보 입력 카드 -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">환자 정보 입력</h2>
+                <p class="card-subtitle">비대면 진료를 위한 기본 정보를 입력해주세요</p>
+            </div>
+
+            <form id="patientForm">
+                <!-- 이름 입력 -->
+                <div class="form-group">
+                    <label for="name" class="form-label required">이름</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        class="form-control"
+                        placeholder="홍길동"
+                        required
+                        maxlength="10"
+                    >
+                    <div class="invalid-feedback">한글 2-10자로 입력해주세요</div>
+                    <div class="form-text">실명을 정확하게 입력해주세요</div>
+                </div>
+
+                <!-- 전화번호 입력 -->
+                <div class="form-group">
+                    <label for="phone" class="form-label required">전화번호</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        class="form-control"
+                        placeholder="010-0000-0000"
+                        required
+                        maxlength="13"
+                    >
+                    <div class="invalid-feedback">010-0000-0000 형식으로 입력해주세요</div>
+                    <div class="form-text">연락 가능한 전화번호를 입력해주세요</div>
+                </div>
+
+                <!-- 버튼 -->
+                <div class="d-flex gap-2 mt-4">
+                    <button type="button" onclick="goBack()" class="btn btn-secondary">
+                        이전
+                    </button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">
+                        다음 단계
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 안내 -->
+        <div class="alert alert-info">
+            <strong>개인정보 보호</strong><br>
+            입력하신 정보는 안전하게 암호화되어 저장되며, 진료 목적으로만 사용됩니다.
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/mediCommon.js"></script>
+    <script src="../assets/js/mediConfig.js"></script>
+    
+    <script>
+        // 전화번호 자동 포맷팅
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // 숫자만 추출
+            
+            if (value.length <= 3) {
+                e.target.value = value;
+            } else if (value.length <= 7) {
+                e.target.value = value.slice(0, 3) + '-' + value.slice(3);
+            } else {
+                e.target.value = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
+            }
+        });
+
+        // 실시간 입력 검증
+        const nameInput = document.getElementById('name');
+        
+        nameInput.addEventListener('blur', function() {
+            if (!validateName(this.value)) {
+                this.classList.add('is-invalid');
+                this.classList.remove('is-valid');
+            } else {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+            }
+        });
+
+        phoneInput.addEventListener('blur', function() {
+            if (!validatePhone(this.value)) {
+                this.classList.add('is-invalid');
+                this.classList.remove('is-valid');
+            } else {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+            }
+        });
+
+        // 폼 제출
+        document.getElementById('patientForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            // 검증
+            if (!validateName(name)) {
+                showAlert('이름을 한글 2-10자로 입력해주세요', 'danger');
+                document.getElementById('name').focus();
+                return;
+            }
+            
+            if (!validatePhone(phone)) {
+                showAlert('전화번호를 010-0000-0000 형식으로 입력해주세요', 'danger');
+                document.getElementById('phone').focus();
+                return;
+            }
+            
+            // 로딩 표시
+            showLoading('정보를 저장하는 중...');
+            
+            try {
+                // Supabase에 환자 정보 저장
+                const { data, error } = await supabase
+                    .from('users')
+                    .insert({
+                        name: name,
+                        phone: phone
+                    })
+                    .select()
+                    .single();
+                
+                if (error) throw error;
+                
+                // 세션에 환자 정보 저장
+                savePatientData({
+                    userId: data.id,
+                    name: name,
+                    phone: phone
+                });
+                
+                // 접근 로그 기록
+                await logAccess('환자 정보 입력 완료', '/patient/apply.html');
+                
+                hideLoading();
+                
+                // 다음 페이지로 이동
+                showAlert('정보가 저장되었습니다', 'success');
+                setTimeout(() => {
+                    navigateTo('terms.html');
+                }, 500);
+                
+            } catch (error) {
+                hideLoading();
+                handleError(error, '정보 저장에 실패했습니다. 다시 시도해주세요.');
+            }
+        });
+
+        // 페이지 로드 시
+        document.addEventListener('DOMContentLoaded', function() {
+            // 이전에 입력한 정보가 있으면 불러오기
+            const patientData = getPatientData();
+            if (patientData) {
+                document.getElementById('name').value = patientData.name || '';
+                document.getElementById('phone').value = patientData.phone || '';
+            }
+            
+            logAccess('환자 정보 입력 페이지 방문', '/patient/apply.html');
+        });
+    </script>
+</body>
+</html>
