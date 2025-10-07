@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>약관 동의 | 비대면 진료</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/mediStyle.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 진행 단계 -->
+        <div class="steps">
+            <div class="step completed">
+                <div class="step-number">✓</div>
+                <div class="step-label">정보입력</div>
+            </div>
+            <div class="step active">
+                <div class="step-number">2</div>
+                <div class="step-label">약관동의</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-label">문진표</div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-label">완료</div>
+            </div>
+        </div>
+
+        <!-- 약관 동의 카드 -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">약관 동의</h2>
+                <p class="card-subtitle">비대면 진료를 위한 약관에 동의해주세요</p>
+            </div>
+
+            <form id="consentForm">
+                <!-- 전체 동의 -->
+                <div class="form-check" style="border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px;">
+                    <input type="checkbox" id="agreeAll" class="form-check-input">
+                    <label for="agreeAll" class="form-check-label" style="font-weight: 700; font-size: 16px;">
+                        전체 동의하기
+                    </label>
+                </div>
+
+                <!-- 필수 동의 1: 개인정보 수집·이용 -->
+                <div class="form-check">
+                    <input type="checkbox" id="consent_privacy" name="consent" class="form-check-input required-consent" required>
+                    <label for="consent_privacy" class="form-check-label">
+                        [필수] 개인정보 수집·이용 동의
+                        <a href="#" onclick="showConsentDetail('privacy'); return false;">(상세보기)</a>
+                    </label>
+                </div>
+
+                <!-- 필수 동의 2: 제3자 제공 -->
+                <div class="form-check">
+                    <input type="checkbox" id="consent_third_party" name="consent" class="form-check-input required-consent" required>
+                    <label for="consent_third_party" class="form-check-label">
+                        [필수] 개인정보 제3자 제공 동의 (한의원)
+                        <a href="#" onclick="showConsentDetail('third_party'); return false;">(상세보기)</a>
+                    </label>
+                </div>
+
+                <!-- 필수 동의 3: 민감정보 -->
+                <div class="form-check">
+                    <input type="checkbox" id="consent_sensitive" name="consent" class="form-check-input required-consent" required>
+                    <label for="consent_sensitive" class="form-check-label">
+                        [필수] 민감정보(건강정보) 처리 동의
+                        <a href="#" onclick="showConsentDetail('sensitive'); return false;">(상세보기)</a>
+                    </label>
+                </div>
+
+                <!-- 필수 동의 4: 이용약관 -->
+                <div class="form-check">
+                    <input type="checkbox" id="consent_terms" name="consent" class="form-check-input required-consent" required>
+                    <label for="consent_terms" class="form-check-label">
+                        [필수] 서비스 이용약관 동의
+                        <a href="#" onclick="showConsentDetail('terms'); return false;">(상세보기)</a>
+                    </label>
+                </div>
+
+                <!-- 선택 동의: 마케팅 -->
+                <div class="form-check" style="border-top: 2px solid #e2e8f0; padding-top: 15px; margin-top: 15px;">
+                    <input type="checkbox" id="consent_marketing" name="consent" class="form-check-input">
+                    <label for="consent_marketing" class="form-check-label">
+                        [선택] 마케팅 정보 수신 동의
+                        <a href="#" onclick="showConsentDetail('marketing'); return false;">(상세보기)</a>
+                    </label>
+                </div>
+
+                <!-- 버튼 -->
+                <div class="d-flex gap-2 mt-4">
+                    <button type="button" onclick="goBack()" class="btn btn-secondary">
+                        이전
+                    </button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;" id="submitBtn" disabled>
+                        다음 단계
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 안내 -->
+        <div class="alert alert-info">
+            <strong>약관 동의 안내</strong><br>
+            필수 항목에 모두 동의하셔야 다음 단계로 진행하실 수 있습니다.
+        </div>
+    </div>
+
+    <!-- 약관 상세보기 모달 -->
+    <div id="consentModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; overflow-y: auto;">
+        <div style="max-width: 800px; margin: 50px auto; background: white; border-radius: 10px; padding: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 id="modalTitle" style="margin: 0;"></h3>
+                <button onclick="closeConsentModal()" style="border: none; background: none; font-size: 24px; cursor: pointer;">&times;</button>
+            </div>
+            <div id="modalContent" style="max-height: 500px; overflow-y: auto; line-height: 1.8; color: #334155;">
+            </div>
+            <button onclick="closeConsentModal()" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                확인
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/mediConfig.js"></script>
+    <script src="../assets/js/mediCommon.js"></script>
+    
+    <script>
+        // 약관 내용
+        const consentContents = {
+            privacy: `
+                <h4>개인정보 수집·이용 동의</h4>
+                <p><strong>1. 수집하는 개인정보 항목</strong></p>
+                <ul>
+                    <li>필수항목: 이름, 전화번호, 건강정보(증상, 병력 등)</li>
+                </ul>
+                
+                <p><strong>2. 개인정보의 수집 및 이용 목적</strong></p>
+                <ul>
+                    <li>비대면 진료 서비스 제공</li>
+                    <li>진료 예약 및 확인</li>
+                    <li>처방전 발급 및 전달</li>
+                    <li>진료 관련 연락</li>
+                </ul>
+                
+                <p><strong>3. 개인정보의 보유 및 이용 기간</strong></p>
+                <ul>
+                    <li>진료 기록: 5년 (의료법에 따름)</li>
+                    <li>기타 정보: 서비스 이용 종료 후 즉시 파기</li>
+                </ul>
+                
+                <p><strong>4. 동의를 거부할 권리 및 불이익</strong></p>
+                <p>귀하는 개인정보 수집 및 이용에 동의하지 않을 권리가 있습니다. 다만, 필수 항목에 동의하지 않을 경우 비대면 진료 서비스 이용이 제한됩니다.</p>
+            `,
+            
+            third_party: `
+                <h4>개인정보 제3자 제공 동의</h4>
+                <p><strong>1. 개인정보를 제공받는 자</strong></p>
+                <ul>
+                    <li>한의원 (진료 담당 한의사)</li>
+                </ul>
+                
+                <p><strong>2. 제공하는 개인정보 항목</strong></p>
+                <ul>
+                    <li>이름, 전화번호</li>
+                    <li>건강정보(증상, 병력, 문진표 내용)</li>
+                </ul>
+                
+                <p><strong>3. 제공받는 자의 이용 목적</strong></p>
+                <ul>
+                    <li>비대면 진료 수행</li>
+                    <li>처방전 작성 및 발급</li>
+                    <li>진료 관련 상담</li>
+                </ul>
+                
+                <p><strong>4. 제공받는 자의 보유 및 이용 기간</strong></p>
+                <ul>
+                    <li>진료 기록: 5년 (의료법에 따름)</li>
+                </ul>
+                
+                <p><strong>5. 동의를 거부할 권리 및 불이익</strong></p>
+                <p>귀하는 개인정보 제3자 제공에 동의하지 않을 권리가 있습니다. 다만, 동의하지 않을 경우 비대면 진료 서비스를 이용하실 수 없습니다.</p>
+            `,
+            
+            sensitive: `
+                <h4>민감정보(건강정보) 처리 동의</h4>
+                <p><strong>1. 처리하는 민감정보</strong></p>
+                <ul>
+                    <li>건강에 관한 정보: 증상, 질병명, 병력, 복용 중인 약물 등</li>
+                </ul>
+                
+                <p><strong>2. 민감정보 처리 목적</strong></p>
+                <ul>
+                    <li>정확한 진료 및 처방</li>
+                    <li>적절한 치료 방법 결정</li>
+                    <li>의료 서비스 품질 향상</li>
+                </ul>
+                
+                <p><strong>3. 민감정보 보호 조치</strong></p>
+                <ul>
+                    <li>암호화 저장 및 전송</li>
+                    <li>접근 권한 제한</li>
+                    <li>의료법에 따른 비밀 유지</li>
+                </ul>
+                
+                <p><strong>4. 보유 및 이용 기간</strong></p>
+                <ul>
+                    <li>5년 (의료법 제22조에 따름)</li>
+                </ul>
+                
+                <p><strong>5. 동의를 거부할 권리 및 불이익</strong></p>
+                <p>귀하는 민감정보 처리에 동의하지 않을 권리가 있습니다. 다만, 동의하지 않을 경우 정확한 진료가 어려워 서비스 이용이 제한됩니다.</p>
+            `,
+            
+            terms: `
+                <h4>서비스 이용약관</h4>
+                <p><strong>제1조 (목적)</strong></p>
+                <p>본 약관은 비대면 진료 서비스 이용에 관한 조건 및 절차, 이용자와 한의원 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+                
+                <p><strong>제2조 (서비스 내용)</strong></p>
+                <ul>
+                    <li>온라인 진료 예약 및 접수</li>
+                    <li>문진표 작성 및 제출</li>
+                    <li>비대면 진료 진행</li>
+                    <li>처방전 발급 및 전달</li>
+                    <li>진료비 결제</li>
+                </ul>
+                
+                <p><strong>제3조 (이용자의 의무)</strong></p>
+                <ul>
+                    <li>정확한 정보 제공</li>
+                    <li>허위 정보 입력 금지</li>
+                    <li>타인 정보 도용 금지</li>
+                    <li>서비스의 부정 이용 금지</li>
+                </ul>
+                
+                <p><strong>제4조 (서비스 제공 시간)</strong></p>
+                <ul>
+                    <li>평일: 09:00 ~ 18:00</li>
+                    <li>점심시간: 12:00 ~ 13:00 제외</li>
+                    <li>주말 및 공휴일: 휴무</li>
+                </ul>
+                
+                <p><strong>제5조 (환불 규정)</strong></p>
+                <ul>
+                    <li>진료 전: 전액 환불</li>
+                    <li>진료 후 처방 전: 50% 환불</li>
+                    <li>처방 후: 환불 불가 (특약 사항 제외)</li>
+                </ul>
+                
+                <p><strong>제6조 (면책사항)</strong></p>
+                <p>한의원은 이용자의 귀책사유로 인한 서비스 이용 장애에 대하여 책임을 지지 않습니다.</p>
+            `,
+            
+            marketing: `
+                <h4>마케팅 정보 수신 동의 (선택)</h4>
+                <p><strong>1. 수집하는 정보</strong></p>
+                <ul>
+                    <li>이름, 전화번호</li>
+                </ul>
+                
+                <p><strong>2. 이용 목적</strong></p>
+                <ul>
+                    <li>신규 서비스 안내</li>
+                    <li>이벤트 및 프로모션 정보 제공</li>
+                    <li>건강 정보 및 의료 뉴스 전달</li>
+                </ul>
+                
+                <p><strong>3. 수신 방법</strong></p>
+                <ul>
+                    <li>SMS, 카카오톡, 이메일</li>
+                </ul>
+                
+                <p><strong>4. 보유 및 이용 기간</strong></p>
+                <ul>
+                    <li>동의 철회 시까지</li>
+                </ul>
+                
+                <p><strong>5. 동의 철회</strong></p>
+                <p>언제든지 마케팅 정보 수신을 거부하실 수 있으며, 수신 거부 시에도 서비스 이용에는 제한이 없습니다.</p>
+                
+                <p><strong>6. 동의를 거부할 권리</strong></p>
+                <p>마케팅 정보 수신은 선택사항이며, 동의하지 않아도 비대면 진료 서비스 이용에는 영향이 없습니다.</p>
+            `
+        };
+
+        // 약관 상세보기
+        function showConsentDetail(type) {
+            const modal = document.getElementById('consentModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+            
+            const titles = {
+                privacy: '개인정보 수집·이용 동의',
+                third_party: '개인정보 제3자 제공 동의',
+                sensitive: '민감정보(건강정보) 처리 동의',
+                terms: '서비스 이용약관',
+                marketing: '마케팅 정보 수신 동의'
+            };
+            
+            title.textContent = titles[type];
+            content.innerHTML = consentContents[type];
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 모달 닫기
+        function closeConsentModal() {
+            const modal = document.getElementById('consentModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 전체 동의 체크박스
+        document.getElementById('agreeAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('input[name="consent"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            updateSubmitButton();
+        });
+
+        // 개별 체크박스
+        document.querySelectorAll('input[name="consent"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                // 전체 동의 체크박스 상태 업데이트
+                const allCheckboxes = document.querySelectorAll('input[name="consent"]');
+                const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+                document.getElementById('agreeAll').checked = allChecked;
+                
+                updateSubmitButton();
+            });
+        });
+
+        // 제출 버튼 활성화/비활성화
+        function updateSubmitButton() {
+            const requiredCheckboxes = document.querySelectorAll('.required-consent');
+            const allRequiredChecked = Array.from(requiredCheckboxes).every(cb => cb.checked);
+            document.getElementById('submitBtn').disabled = !allRequiredChecked;
+        }
+
+        // 폼 제출
+        document.getElementById('consentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const patientData = getPatientData();
+            if (!patientData || !patientData.userId) {
+                showAlert('환자 정보를 찾을 수 없습니다. 처음부터 다시 시도해주세요.', 'danger');
+                setTimeout(() => navigateTo('apply.html'), 2000);
+                return;
+            }
+            
+            showLoading('동의 내역을 저장하는 중...');
+            
+            try {
+                // 각 동의 항목 저장
+                const consentTypes = ['privacy', 'third_party', 'sensitive', 'terms', 'marketing'];
+                const consents = [];
+                
+                for (const type of consentTypes) {
+                    const checkbox = document.getElementById(`consent_${type}`);
+                    consents.push({
+                        user_id: patientData.userId,
+                        consent_type: type,
+                        consent_version: '1.0',
+                        agreed: checkbox.checked,
+                        agreed_at: checkbox.checked ? new Date().toISOString() : null,
+                        ip_address: await getClientIP(),
+                        user_agent: navigator.userAgent
+                    });
+                }
+                
+                const { data, error } = await supabase
+                    .from('consents')
+                    .insert(consents);
+                
+                if (error) throw error;
+                
+                // 접근 로그 기록
+                await logAccess('약관 동의 완료', '/patient/terms.html');
+                
+                hideLoading();
+                showAlert('동의가 완료되었습니다', 'success');
+                
+                setTimeout(() => {
+                    navigateTo('questionnaire.html');
+                }, 500);
+                
+            } catch (error) {
+                hideLoading();
+                handleError(error, '동의 내역 저장에 실패했습니다. 다시 시도해주세요.');
+            }
+        });
+
+        // 페이지 로드 시
+        document.addEventListener('DOMContentLoaded', function() {
+            // 환자 정보 확인
+            const patientData = getPatientData();
+            if (!patientData || !patientData.userId) {
+                showAlert('환자 정보를 찾을 수 없습니다. 처음부터 시작해주세요.', 'danger');
+                setTimeout(() => navigateTo('apply.html'), 2000);
+                return;
+            }
+            
+            logAccess('약관 동의 페이지 방문', '/patient/terms.html');
+        });
+
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeConsentModal();
+            }
+        });
+    </script>
+</body>
+</html>
