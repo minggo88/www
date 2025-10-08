@@ -62,7 +62,7 @@
                 <h3 style="margin: 0; color: #1e293b;">🔔 오늘 신규 접수</h3>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <!-- 필터 -->
-                    <select id="statusFilter" class="form-control" style="width: auto; padding: 8px 12px;" onchange="filterBookings()">
+                    <select id="statusFilter" class="form-control" style="width: auto; padding: 8px 12px;">
                         <option value="pending">대기중</option>
                         <option value="all">전체</option>
                         <option value="confirmed">진료완료</option>
@@ -120,6 +120,8 @@
         document.getElementById('adminHeader').innerHTML = createAdminHeader();
         document.getElementById('adminNav').innerHTML = createAdminNav('dashboard');
 
+        let allTodayBookings = []; // 전체 오늘 접수 데이터 저장
+
         // 대시보드 데이터 로드
         async function loadDashboard() {
             try {
@@ -133,13 +135,32 @@
 
                 // 2. 오늘 신규 접수 목록 로드
                 const todayBookings = await getTodayBookings();
+                allTodayBookings = todayBookings; // 전체 데이터 저장
                 
-                renderTodayBookings(todayBookings);
+                filterBookings(); // 필터 적용하여 렌더링
 
             } catch (error) {
                 console.error('대시보드 로드 실패:', error);
                 showAlert('데이터를 불러오는데 실패했습니다', 'danger');
             }
+        }
+
+        // 필터링 함수
+        function filterBookings() {
+            const filterValue = document.getElementById('statusFilter').value;
+            
+            let filteredBookings;
+            
+            if (filterValue === 'all') {
+                filteredBookings = allTodayBookings;
+            } else {
+                filteredBookings = allTodayBookings.filter(booking => booking.status === filterValue);
+            }
+            
+            // 시간순 정렬 (먼저 신청한 순서 = 오래된 순서)
+            filteredBookings.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+            
+            renderTodayBookings(filteredBookings);
         }
 
         // 오늘 접수 목록 렌더링
@@ -176,20 +197,23 @@
                 const timeStr = `${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}`;
                 
                 html += `
-                    <tr>
+                    <tr style="cursor: pointer;" onclick="viewPatientDetail('${booking.id}')" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor=''">
                         <td><strong>${booking.booking_number}</strong></td>
                         <td>${booking.users.name}</td>
                         <td>${booking.users.phone}</td>
                         <td>${timeStr}</td>
                         <td>${getStatusBadge(booking.status)}</td>
-                        <td>
+                        <td onclick="event.stopPropagation()">
                             <div style="display: flex; gap: 5px;">
                                 <button onclick="viewPatientDetail('${booking.id}')" class="btn btn-primary" style="padding: 6px 12px; font-size: 14px;">
                                     📄 상세
                                 </button>
-                                ${booking.status === 'pending' ? `
+                                ${booking.status !== 'completed' ? `
+                                    <button onclick="confirmBooking('${booking.id}')" class="btn" style="padding: 6px 12px; font-size: 14px; background: #3b82f6; color: white;">
+                                        ✅ 진료완료
+                                    </button>
                                     <button onclick="completeBooking('${booking.id}')" class="btn btn-success" style="padding: 6px 12px; font-size: 14px;">
-                                        ✅ 완료
+                                        💰 결제완료
                                     </button>
                                 ` : ''}
                                 <button onclick="deleteBooking('${booking.id}', '${booking.booking_number}')" class="btn btn-danger" style="padding: 6px 12px; font-size: 14px;">
@@ -214,20 +238,37 @@
             navigateTo(`patient-detail.html?id=${bookingId}`);
         }
 
-        // 접수 완료 처리
+        // 진료 완료 처리 (pending → confirmed)
+        async function confirmBooking(bookingId) {
+            if (!confirm('진료를 완료 처리하시겠습니까?\n\n상태가 "진료완료"로 변경됩니다.')) {
+                return;
+            }
+
+            try {
+                await updateBookingStatus(bookingId, 'confirmed');
+                showAlert('진료완료 처리되었습니다!', 'success');
+                
+                // 통계와 테이블만 새로고침
+                await refreshData();
+            } catch (error) {
+                handleError(error, '진료완료 처리에 실패했습니다');
+            }
+        }
+
+        // 결제 완료 처리 (confirmed → completed)
         async function completeBooking(bookingId) {
-            if (!confirm('이 접수를 완료 처리하시겠습니까?')) {
+            if (!confirm('진료와 결제가 모두 완료되었나요?\n\n"예"를 누르면 상태가 "결제완료"로 변경됩니다.')) {
                 return;
             }
 
             try {
                 await updateBookingStatus(bookingId, 'completed');
-                showAlert('완료 처리되었습니다!', 'success');
+                showAlert('결제완료 처리되었습니다!', 'success');
                 
                 // 통계와 테이블만 새로고침
                 await refreshData();
             } catch (error) {
-                handleError(error, '완료 처리에 실패했습니다');
+                handleError(error, '결제완료 처리에 실패했습니다');
             }
         }
 
@@ -268,8 +309,9 @@
 
                 // 2. 오늘 신규 접수 목록 로드
                 const todayBookings = await getTodayBookings();
+                allTodayBookings = todayBookings; // 전체 데이터 업데이트
                 
-                renderTodayBookings(todayBookings);
+                filterBookings(); // 필터 적용하여 렌더링
 
             } catch (error) {
                 console.error('데이터 새로고침 실패:', error);
@@ -301,6 +343,9 @@
         document.addEventListener('DOMContentLoaded', async function() {
             await loadDashboard();
             startAutoRefresh();
+            
+            // 필터 이벤트 리스너 추가
+            document.getElementById('statusFilter').addEventListener('change', filterBookings);
         });
 
         // 페이지 떠날 때 자동 새로고침 중지

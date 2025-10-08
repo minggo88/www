@@ -56,9 +56,12 @@
             </div>
 
             <!-- 문진표 보기 버튼 -->
-            <div style="margin-top: 15px;">
-                <button onclick="toggleQuestionnaire()" class="btn btn-outline" id="toggleBtn">
+            <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <button type="button" onclick="toggleQuestionnaire()" class="btn btn-outline" id="toggleBtn">
                     📋 문진표 내용 보기
+                </button>
+                <button type="button" onclick="copyQuestionnaire()" class="btn btn-secondary" id="copyBtn" style="display: none;">
+                    📋 문진표 복사
                 </button>
             </div>
 
@@ -196,6 +199,7 @@
         }
 
         let currentBooking = null;
+        let questionnaireTextData = ''; // 복사용 텍스트 데이터
 
         // 환자 정보 로드
         async function loadPatientInfo() {
@@ -250,8 +254,26 @@
 
                 if (!data) {
                     container.innerHTML = '<p style="color: #64748b;">문진표 데이터가 없습니다</p>';
+                    questionnaireTextData = '';
                     return;
                 }
+
+                // 복사용 텍스트 데이터 생성
+                questionnaireTextData = `
+[문진표 정보]
+━━━━━━━━━━━━━━━━━━━━━━
+생년월일: ${data.birthdate || '-'}
+키: ${data.height || '-'} cm
+현재 체중: ${data.current_weight || '-'} kg
+20대 최소 체중: ${data.weight_20s_min || '-'} kg
+평생 최고 체중: ${data.weight_lifetime_max || '-'} kg
+대변 횟수: ${data.bowel_frequency || '-'}
+대변 형태: ${data.bowel_type || '-'}
+소화 상태: ${data.digestion || '-'}
+커피와 수면: ${data.coffee_sleep || '-'}
+수면 상태: ${data.sleep_quality || '-'}
+━━━━━━━━━━━━━━━━━━━━━━
+                `.trim();
 
                 container.innerHTML = `
                     <div style="display: grid; gap: 15px;">
@@ -269,12 +291,28 @@
                                 <div style="font-weight: 600;">${data.current_weight || '-'} kg</div>
                             </div>
                             <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">20대 최소 체중</div>
+                                <div style="font-weight: 600;">${data.weight_20s_min || '-'} kg</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">평생 최고 체중</div>
+                                <div style="font-weight: 600;">${data.weight_lifetime_max || '-'} kg</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">대변 횟수</div>
+                                <div style="font-weight: 600;">${data.bowel_frequency || '-'}</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
                                 <div style="color: #64748b; font-size: 13px;">대변 형태</div>
                                 <div style="font-weight: 600;">${data.bowel_type || '-'}</div>
                             </div>
                             <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
                                 <div style="color: #64748b; font-size: 13px;">소화 상태</div>
                                 <div style="font-weight: 600;">${data.digestion || '-'}</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">커피와 수면</div>
+                                <div style="font-weight: 600;">${data.coffee_sleep || '-'}</div>
                             </div>
                             <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
                                 <div style="color: #64748b; font-size: 13px;">수면 상태</div>
@@ -287,6 +325,7 @@
             } catch (error) {
                 console.error('문진표 파싱 실패:', error);
                 container.innerHTML = '<p style="color: #ef4444;">문진표를 표시할 수 없습니다</p>';
+                questionnaireTextData = '';
             }
         }
 
@@ -294,14 +333,33 @@
         function toggleQuestionnaire() {
             const content = document.getElementById('questionnaireContent');
             const btn = document.getElementById('toggleBtn');
+            const copyBtn = document.getElementById('copyBtn');
             
             if (content.style.display === 'none') {
                 content.style.display = 'block';
                 btn.textContent = '📋 문진표 내용 숨기기';
+                copyBtn.style.display = 'inline-block'; // 복사 버튼 표시
             } else {
                 content.style.display = 'none';
                 btn.textContent = '📋 문진표 내용 보기';
+                copyBtn.style.display = 'none'; // 복사 버튼 숨기기
             }
+        }
+
+        // 문진표 복사
+        function copyQuestionnaire() {
+            if (!questionnaireTextData) {
+                showAlert('복사할 문진표 데이터가 없습니다', 'warning');
+                return;
+            }
+
+            // 클립보드에 복사
+            navigator.clipboard.writeText(questionnaireTextData).then(() => {
+                showAlert('문진표가 복사되었습니다!', 'success');
+            }).catch(err => {
+                console.error('복사 실패:', err);
+                showAlert('복사에 실패했습니다', 'danger');
+            });
         }
 
         // 처방전 발급 폼 제출
