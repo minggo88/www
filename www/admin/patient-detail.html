@@ -20,9 +20,12 @@
 
     <div class="container-wide">
         <!-- 뒤로가기 -->
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 20px; display: flex; gap: 10px;">
             <button onclick="goBack()" class="btn btn-secondary">
                 ← 목록으로 돌아가기
+            </button>
+            <button onclick="navigateTo('dashboard.html')" class="btn btn-primary">
+                📊 대시보드
             </button>
         </div>
 
@@ -81,6 +84,9 @@
         <!-- 액션 버튼 -->
         <div class="card">
             <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="navigateTo('dashboard.html')" class="btn btn-primary btn-lg">
+                    📊 대시보드
+                </button>
                 <button onclick="goToPrescription()" class="btn btn-primary btn-lg" id="prescriptionBtn">
                     💊 처방전 발급
                 </button>
