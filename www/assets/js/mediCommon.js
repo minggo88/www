@@ -1,7 +1,61 @@
 /**
  * 공통 함수 모음
- * 파일 위치: /assets/js/common.js
+ * 파일 위치: /assets/js/mediCommon.js
  */
+
+// ============================================
+// 암호화/복호화 함수
+// ============================================
+
+/**
+ * 데이터 암호화
+ */
+async function encryptData(text) {
+    try {
+        const response = await fetch('https://onfrhbbbxbilletwivoo.supabase.co/functions/v1/encrypt-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ text })
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) throw new Error(data.error);
+        
+        return data.encrypted;
+    } catch (error) {
+        console.error('암호화 실패:', error);
+        throw error;
+    }
+}
+
+/**
+ * 데이터 복호화
+ */
+async function decryptData(encrypted) {
+    try {
+        const response = await fetch('https://onfrhbbbxbilletwivoo.supabase.co/functions/v1/decrypt-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ encrypted })
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) throw new Error(data.error);
+        
+        return data.text;
+    } catch (error) {
+        console.error('복호화 실패:', error);
+        throw error;
+    }
+}
 
 // ============================================
 // 입력 검증 함수
@@ -35,7 +89,7 @@ function formatPhone(phone) {
 }
 
 // ============================================
-// 로컬스토리지 관리
+// 세션스토리지 관리
 // ============================================
 
 /**
@@ -107,6 +161,9 @@ async function generateBookingNumber() {
  * 로딩 스피너 표시
  */
 function showLoading(message = '처리 중...') {
+    // 기존 로딩이 있으면 제거
+    hideLoading();
+    
     const loadingHTML = `
         <div id="loadingOverlay" style="
             position: fixed;
@@ -126,13 +183,33 @@ function showLoading(message = '처리 중...') {
                 border-radius: 10px;
                 text-align: center;
             ">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-3 mb-0">${message}</p>
+                <div style="
+                    border: 4px solid #f3f4f6;
+                    border-top: 4px solid #2563eb;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    animation: spin 1s linear infinite;
+                    margin: 0 auto 15px;
+                "></div>
+                <p style="margin: 0; color: #1e293b;">${message}</p>
             </div>
         </div>
     `;
+    
+    // CSS 애니메이션 추가
+    if (!document.getElementById('spinnerStyle')) {
+        const style = document.createElement('style');
+        style.id = 'spinnerStyle';
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
     document.body.insertAdjacentHTML('beforeend', loadingHTML);
 }
 
@@ -150,21 +227,61 @@ function hideLoading() {
  * 알림 메시지 표시
  */
 function showAlert(message, type = 'info') {
+    const colors = {
+        info: { bg: '#dbeafe', border: '#3b82f6', text: '#1e40af' },
+        success: { bg: '#d1fae5', border: '#10b981', text: '#065f46' },
+        warning: { bg: '#fef3c7', border: '#f59e0b', text: '#92400e' },
+        danger: { bg: '#fee2e2', border: '#ef4444', text: '#991b1b' }
+    };
+    
+    const color = colors[type] || colors.info;
+    
     const alertHTML = `
-        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+        <div class="custom-alert" style="
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: ${color.bg};
+            color: ${color.text};
+            border-left: 4px solid ${color.border};
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            max-width: 90%;
+            animation: slideDown 0.3s ease-out;
+        ">
             ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     `;
-    const container = document.querySelector('.container');
-    if (container) {
-        container.insertAdjacentHTML('afterbegin', alertHTML);
-        // 3초 후 자동 닫기
-        setTimeout(() => {
-            const alert = container.querySelector('.alert');
-            if (alert) alert.remove();
-        }, 3000);
+    
+    // CSS 애니메이션 추가
+    if (!document.getElementById('alertStyle')) {
+        const style = document.createElement('style');
+        style.id = 'alertStyle';
+        style.textContent = `
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateX(-50%) translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(-50%) translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
     }
+    
+    document.body.insertAdjacentHTML('beforeend', alertHTML);
+    
+    // 3초 후 자동 제거
+    setTimeout(() => {
+        const alert = document.querySelector('.custom-alert');
+        if (alert) alert.remove();
+    }, 3000);
 }
 
 /**
@@ -200,7 +317,7 @@ async function logAccess(action, page = null) {
 }
 
 /**
- * 클라이언트 IP 가져오기 (간단한 방법)
+ * 클라이언트 IP 가져오기
  */
 async function getClientIP() {
     try {
@@ -252,7 +369,16 @@ function formatDate(dateString) {
 function handleError(error, customMessage = null) {
     console.error('에러 발생:', error);
     
-    const message = customMessage || '오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+    let message = customMessage || '오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+    
+    // Supabase 에러 메시지 파싱
+    if (error && error.message) {
+        console.error('상세 에러:', error.message);
+        if (error.message.includes('violates')) {
+            message = '데이터 형식이 올바르지 않습니다.';
+        }
+    }
+    
     showAlert(message, 'danger');
 }
 

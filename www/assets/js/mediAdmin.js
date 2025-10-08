@@ -291,16 +291,21 @@ async function updateBookingStatus(bookingId, status) {
  */
 async function createPrescription(prescriptionData) {
     try {
-        // 1. 처방전 저장
+        // 민감한 데이터 암호화
+        const encryptedDiagnosis = await encryptData(prescriptionData.diagnosis);
+        const encryptedDetails = await encryptData(prescriptionData.prescriptionDetails);
+        const encryptedNotes = prescriptionData.notes ? await encryptData(prescriptionData.notes) : null;
+        
+        // 1. 처방전 저장 (암호화된 데이터)
         const { data: prescription, error: prescError } = await supabase
             .from('prescriptions')
             .insert({
                 booking_id: prescriptionData.bookingId,
-                diagnosis: prescriptionData.diagnosis,
-                prescription_details: prescriptionData.prescriptionDetails,
+                diagnosis: encryptedDiagnosis,
+                prescription_details: encryptedDetails,
                 amount: prescriptionData.amount,
                 prescription_type: prescriptionData.prescriptionType,
-                notes: prescriptionData.notes,
+                notes: encryptedNotes,
                 created_by: prescriptionData.adminId
             })
             .select()
@@ -338,7 +343,7 @@ async function createPrescription(prescriptionData) {
 }
 
 /**
- * 처방전 조회
+ * 처방전 조회 (복호화 포함)
  */
 async function getPrescription(bookingId) {
     try {
@@ -349,6 +354,15 @@ async function getPrescription(bookingId) {
             .single();
         
         if (error) throw error;
+        
+        // 암호화된 데이터 복호화
+        if (data) {
+            data.diagnosis = await decryptData(data.diagnosis);
+            data.prescription_details = await decryptData(data.prescription_details);
+            if (data.notes) {
+                data.notes = await decryptData(data.notes);
+            }
+        }
         
         return data;
         
