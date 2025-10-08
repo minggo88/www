@@ -399,3 +399,39 @@ function navigateTo(url) {
 function goBack() {
     window.history.back();
 }
+
+// 전화번호로 기존 환자 확인
+async function checkExistingPatient(phone) {
+    try {
+        const { data, error } = await supabase
+            .from('users')
+            .select('id, name, phone, created_at')
+            .eq('phone', phone)
+            .order('created_at', { ascending: false })
+            .limit(1);
+
+        if (error) throw error;
+        return data && data.length > 0 ? data[0] : null;
+    } catch (error) {
+        console.error('기존 환자 확인 오류:', error);
+        return null;
+    }
+}
+
+// 환자의 최근 접수 내역 확인
+async function getRecentBooking(userId) {
+    try {
+        const { data, error } = await supabase
+            .from('bookings')
+            .select('id, status, created_at')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false })
+            .limit(1);
+
+        if (error) throw error;
+        return data && data.length > 0 ? data[0] : null;
+    } catch (error) {
+        console.error('최근 접수 확인 오류:', error);
+        return null;
+    }
+}
