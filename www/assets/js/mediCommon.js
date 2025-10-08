@@ -400,7 +400,13 @@ function goBack() {
     window.history.back();
 }
 
-// 전화번호로 기존 환자 확인
+// ============================================
+// 중복 체크 함수 (환자 등록용)
+// ============================================
+
+/**
+ * 전화번호로 기존 환자 확인
+ */
 async function checkExistingPatient(phone) {
     try {
         const { data, error } = await supabase
@@ -418,7 +424,9 @@ async function checkExistingPatient(phone) {
     }
 }
 
-// 환자의 최근 접수 내역 확인
+/**
+ * 환자의 최근 접수 내역 확인
+ */
 async function getRecentBooking(userId) {
     try {
         const { data, error } = await supabase
@@ -435,3 +443,55 @@ async function getRecentBooking(userId) {
         return null;
     }
 }
+
+// ============================================
+// Footer 동적 생성 (NEW!)
+// ============================================
+
+/**
+ * Footer를 페이지에 동적으로 추가
+ * @param {string} pathPrefix - legal 폴더까지의 경로
+ *   - 루트(index.html): '' 또는 생략
+ *   - patient 폴더: '../'
+ *   - admin 폴더: '../'
+ */
+function initFooter(pathPrefix = '../') {
+    // 이미 Footer가 있으면 생성하지 않음
+    if (document.querySelector('footer.medi-footer')) {
+        return;
+    }
+
+    // Footer HTML 생성
+    const footerHTML = `
+        <footer class="medi-footer" style="margin-top: 60px; padding: 30px 0; background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
+            <div class="container" style="max-width: 1200px; margin: 0 auto; text-align: center;">
+                <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
+                    ○○한의원 | 사업자등록번호: 000-00-00000 | 대표: 홍길동
+                </p>
+                <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
+                    주소: 서울특별시 강남구 ○○로 123 | 전화: 02-0000-0000
+                </p>
+                <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
+                    운영시간: 평일 09:00-18:00 (점심시간 12:00-13:00) | 주말/공휴일 휴무
+                </p>
+                <p style="margin-top: 20px;">
+                    <a href="${pathPrefix}legal/privacy.html" target="_blank" style="color: #475569; margin: 0 15px; text-decoration: none;">개인정보처리방침</a>
+                    <a href="${pathPrefix}legal/terms.html" target="_blank" style="color: #475569; margin: 0 15px; text-decoration: none;">이용약관</a>
+                    <a href="${pathPrefix}legal/sensitive.html" target="_blank" style="color: #475569; margin: 0 15px; text-decoration: none;">민감정보처리방침</a>
+                </p>
+                <p style="color: #94a3b8; font-size: 12px; margin-top: 20px;">
+                    © 2025 ○○한의원. All rights reserved.
+                </p>
+            </div>
+        </footer>
+    `;
+
+    // body 끝에 Footer 추가
+    document.body.insertAdjacentHTML('beforeend', footerHTML);
+}
+
+// ============================================
+// 페이지 로드 시 자동 실행
+// ============================================
+
+console.log('✅ mediCommon.js 로드 완료');

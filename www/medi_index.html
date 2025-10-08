@@ -80,6 +80,8 @@
     <script src="assets/js/mediCommon.js"></script>
     
     <script>
+        // Footer 초기화 (루트에서는 경로 없음)
+        initFooter(''); 
         // 페이지 로드 시 접근 로그 기록
         document.addEventListener('DOMContentLoaded', function() {
             logAccess('메인 페이지 방문', '/medi_index.html');
