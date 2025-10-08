@@ -480,3 +480,50 @@ body {
         width: 100%;
     }
 }
+
+/* 알림 스타일 */
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    border-left-color: #2196f3;
+    color: #1565c0;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    border-left-color: #4caf50;
+    color: #2e7d32;
+}
+
+.alert-warning {
+    background-color: #fff3e0;
+    border-left-color: #ff9800;
+    color: #e65100;
+}
+
+.alert-error {
+    background-color: #ffebee;
+    border-left-color: #f44336;
+    color: #c62828;
+}
+
+.alert p {
+    margin: 5px 0;
+}
+
+.alert strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 읽기 전용 입력 필드 */
+input[readonly] {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
