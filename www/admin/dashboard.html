@@ -211,15 +211,13 @@
                 return;
             }
 
-            showLoading('처리 중...');
-
             try {
                 await updateBookingStatus(bookingId, 'completed');
-                hideLoading();
                 showAlert('완료 처리되었습니다!', 'success');
-                await loadDashboard(); // 새로고침
+                
+                // 통계와 테이블만 새로고침
+                await refreshData();
             } catch (error) {
-                hideLoading();
                 handleError(error, '완료 처리에 실패했습니다');
             }
         }
@@ -230,8 +228,6 @@
                 return;
             }
 
-            showLoading('삭제 중...');
-
             try {
                 // 접수 삭제 (CASCADE로 관련 데이터 자동 삭제)
                 const { error } = await supabase
@@ -241,12 +237,33 @@
 
                 if (error) throw error;
 
-                hideLoading();
                 showAlert('삭제되었습니다', 'success');
-                await loadDashboard(); // 새로고침
+                
+                // 통계와 테이블만 새로고침
+                await refreshData();
             } catch (error) {
-                hideLoading();
                 handleError(error, '삭제에 실패했습니다');
+            }
+        }
+
+        // 데이터만 새로고침 (페이지 리로드 없이)
+        async function refreshData() {
+            try {
+                // 1. 통계 데이터 로드
+                const stats = await getDashboardStats();
+                
+                document.getElementById('todayCount').textContent = stats.todayCount;
+                document.getElementById('pendingCount').textContent = stats.pendingCount;
+                document.getElementById('completedToday').textContent = stats.completedToday;
+                document.getElementById('monthCount').textContent = stats.monthCount;
+
+                // 2. 오늘 신규 접수 목록 로드
+                const todayBookings = await getTodayBookings();
+                
+                renderTodayBookings(todayBookings);
+
+            } catch (error) {
+                console.error('데이터 새로고침 실패:', error);
             }
         }
 
