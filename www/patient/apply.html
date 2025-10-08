@@ -6,7 +6,6 @@
     <title>진료 신청 - 비대면 진료</title>
     <link rel="stylesheet" href="../assets/css/mediStyle.css">
     
-    <!-- ✅ Supabase CDN 추가 (필수!) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -88,20 +87,52 @@
             <strong>개인정보 보호</strong><br>
             입력하신 정보는 안전하게 암호화되어 저장되며, 진료 목적으로만 사용됩니다.
         </div>
+
+        <!-- 푸터 -->
+        <div id="footer"></div>
+    </div>
+
+    <!-- 중복 접수 경고 모달 -->
+    <div id="pendingBookingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center;">
+        <div style="background: white; border-radius: 12px; padding: 30px; max-width: 500px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 48px; margin-bottom: 10px;">⚠️</div>
+                <h3 style="color: #dc2626; margin: 0 0 10px 0;">이미 진행 중인 접수가 있습니다</h3>
+            </div>
+            
+            <div id="pendingBookingInfo" style="background: #fef3c7; padding: 20px; border-radius: 8px; margin-bottom: 20px; line-height: 1.8; color: #92400e;">
+            </div>
+
+            <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 20px;">
+                <p style="font-size: 14px; color: #64748b; margin-bottom: 20px;">
+                    새로 접수하시려면 이전 접수를 먼저 취소해야 합니다.<br>
+                    <strong style="color: #dc2626;">취소된 접수는 복구할 수 없습니다.</strong>
+                </p>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="btn btn-danger" onclick="cancelAndReapply()" style="flex: 1;">
+                        이전 접수 취소하고 다시 신청
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closePendingModal()" style="flex: 1;">
+                        돌아가기
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- ✅ JavaScript 파일 순서 중요: mediConfig.js가 먼저! -->
     <script src="../assets/js/mediConfig.js"></script>
     <script src="../assets/js/mediCommon.js"></script>
     <script>
-        // ✅ Footer 초기화 (필수!)
         initFooter('../');
         
+        let existingPatient = null;
+        let pendingBooking = null;
+
         // 전화번호 자동 포맷팅
         const phoneInput = document.getElementById('phone');
         phoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, ''); // 숫자만 추출
+            let value = e.target.value.replace(/\D/g, '');
             
             if (value.length <= 3) {
                 e.target.value = value;
@@ -135,62 +166,272 @@
             }
         });
 
+        // 대기중인 접수 확인 함수
+        async function checkPendingBooking() {
+            console.log('=== checkPendingBooking 시작 ===');
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            console.log('입력값 - 이름:', name, '전화번호:', phone);
+
+            if (!name || !validateName(name) || !phone || !validatePhone(phone)) {
+                console.log('❌ 유효성 검사 실패');
+                return false;
+            }
+
+            try {
+                showLoading('접수 내역 확인 중...');
+                console.log('📡 DB 조회 시작...');
+
+                // 1. pending 상태인 모든 접수 가져오기
+                console.log('📋 대기중인 모든 접수 조회...');
+                const { data: pendingBookings, error: bookingError } = await supabase
+                    .from('bookings')
+                    .select('id, user_id, booking_number, created_at, status')
+                    .eq('status', 'pending');
+
+                console.log('대기중인 접수 조회 결과:', pendingBookings);
+
+                if (bookingError) {
+                    console.error('❌ 접수 조회 오류:', bookingError);
+                    throw bookingError;
+                }
+
+                if (!pendingBookings || pendingBookings.length === 0) {
+                    console.log('✅ 대기중인 접수 없음 - 신규 환자');
+                    hideLoading();
+                    existingPatient = null;
+                    pendingBooking = null;
+                    return true;
+                }
+
+                console.log(`📊 총 ${pendingBookings.length}개의 대기중인 접수 발견`);
+
+                // 2. 각 접수의 user_id로 사용자 정보 가져와서 이름/전화번호 비교
+                for (const booking of pendingBookings) {
+                    console.log(`\n🔍 접수번호 ${booking.booking_number} 확인 중...`);
+                    
+                    const { data: user, error: userError } = await supabase
+                        .from('users')
+                        .select('*')
+                        .eq('id', booking.user_id)
+                        .single();
+
+                    if (userError || !user) {
+                        console.log('⚠️ 사용자 정보 조회 실패:', userError);
+                        continue;
+                    }
+
+                    console.log('사용자 조회 완료:', user.id);
+
+                    // 3. 암호화된 이름 복호화
+                    console.log('🔓 이름 복호화 시도...');
+                    let decryptedName;
+                    try {
+                        decryptedName = await decryptData(user.name);
+                        console.log('✅ 복호화 성공:', decryptedName);
+                    } catch (error) {
+                        console.log('⚠️ 복호화 실패 - 평문으로 간주:', user.name);
+                        decryptedName = user.name;
+                    }
+
+                    // 4. 이름이 일치하는지 확인
+                    if (decryptedName === name) {
+                        console.log('✅ 이름 일치! 전화번호 확인 중...');
+                        
+                        // 5. 전화번호도 복호화해서 확인
+                        console.log('🔓 전화번호 복호화 시도...');
+                        let decryptedPhone;
+                        try {
+                            decryptedPhone = await decryptData(user.phone);
+                            console.log('✅ 복호화 성공:', decryptedPhone);
+                        } catch (error) {
+                            console.log('⚠️ 복호화 실패 - 평문으로 간주:', user.phone);
+                            decryptedPhone = user.phone;
+                        }
+
+                        // 6. 전화번호도 일치하면 대기중인 접수 있음
+                        if (decryptedPhone === phone) {
+                            console.log('⚠️ 이름과 전화번호 모두 일치! 대기중인 접수 발견');
+                            
+                            pendingBooking = booking;
+                            existingPatient = user;
+
+                            const bookingDate = new Date(booking.created_at).toLocaleString('ko-KR', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+                            
+                            document.getElementById('pendingBookingInfo').innerHTML = `
+                                <p style="margin: 0 0 10px 0;"><strong>환자명:</strong> ${decryptedName}</p>
+                                <p style="margin: 0 0 10px 0;"><strong>전화번호:</strong> ${decryptedPhone}</p>
+                                <p style="margin: 0 0 10px 0;"><strong>접수일시:</strong> ${bookingDate}</p>
+                                <p style="margin: 0;"><strong>접수번호:</strong> ${booking.booking_number}</p>
+                            `;
+                            
+                            hideLoading();
+                            document.getElementById('pendingBookingModal').style.display = 'flex';
+                            console.log('🚫 모달 표시 - 진행 불가');
+                            return false;
+                        } else {
+                            console.log('❌ 전화번호 불일치, 다음 접수 확인...');
+                        }
+                    } else {
+                        console.log('❌ 이름 불일치, 다음 접수 확인...');
+                    }
+                }
+
+                console.log('✅ 일치하는 대기중인 접수 없음 - 진행 가능');
+                hideLoading();
+                existingPatient = null;
+                pendingBooking = null;
+                return true;
+
+            } catch (error) {
+                hideLoading();
+                console.error('❌ 접수 확인 오류:', error);
+                return false;
+            }
+        }
+
+        // 모달 닫기
+        function closePendingModal() {
+            document.getElementById('pendingBookingModal').style.display = 'none';
+            window.location.href = '../medi_index.html';
+        }
+
+        // 이전 접수 취소하고 재신청
+        async function cancelAndReapply() {
+            if (!pendingBooking) return;
+
+            const confirmed = confirm(
+                `정말로 이전 접수(${pendingBooking.booking_number})를 취소하고 다시 신청하시겠습니까?\n\n` +
+                `취소된 접수는 복구할 수 없습니다.`
+            );
+
+            if (!confirmed) return;
+
+            showLoading('이전 접수를 취소하는 중...');
+
+            try {
+                const { error } = await supabase
+                    .from('bookings')
+                    .update({ status: 'cancelled' })
+                    .eq('id', pendingBooking.id);
+
+                if (error) throw error;
+
+                hideLoading();
+                showAlert('이전 접수가 취소되었습니다. 새로 접수를 진행해주세요.', 'success');
+                
+                document.getElementById('pendingBookingModal').style.display = 'none';
+                pendingBooking = null;
+
+            } catch (error) {
+                hideLoading();
+                handleError(error, '접수 취소에 실패했습니다. 다시 시도해주세요.');
+            }
+        }
+
         // 폼 제출
         document.getElementById('applyForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            console.log('\n🚀 === 폼 제출 시작 ===');
             
             const name = document.getElementById('name').value.trim();
             const phone = document.getElementById('phone').value.trim();
+            console.log('폼 데이터 - 이름:', name, '전화번호:', phone);
             
             // 검증
             if (!validateName(name)) {
+                console.log('❌ 이름 검증 실패');
                 showAlert('이름을 한글 2-10자로 입력해주세요', 'danger');
                 document.getElementById('name').focus();
                 return;
             }
             
             if (!validatePhone(phone)) {
+                console.log('❌ 전화번호 검증 실패');
                 showAlert('전화번호를 010-0000-0000 형식으로 입력해주세요', 'danger');
                 document.getElementById('phone').focus();
                 return;
             }
+
+            console.log('✅ 유효성 검사 통과');
+            console.log('⏳ 대기중인 접수 확인 시작...');
+
+            // 대기중인 접수 확인
+            const canProceed = await checkPendingBooking();
             
-            // 로딩 표시
+            console.log('🔍 checkPendingBooking 결과:', canProceed);
+            console.log('현재 existingPatient:', existingPatient);
+            console.log('현재 pendingBooking:', pendingBooking);
+            
+            // 대기중인 접수가 있으면 진행 중단
+            if (!canProceed) {
+                console.log('🛑 대기중인 접수가 있어 진행 중단');
+                console.log('=== 폼 제출 종료 (중단) ===\n');
+                return;
+            }
+            
+            console.log('✅ 대기중인 접수 없음 - 바로 다음 페이지로 이동');
+            
+            // canProceed가 true이면 바로 다음 페이지로 이동
             showLoading('정보를 저장하는 중...');
             
             try {
-                // Supabase에 환자 정보 저장
-                const { data, error } = await supabase
-                    .from('users')
-                    .insert({
-                        name: name,
-                        phone: phone
-                    })
-                    .select()
-                    .single();
-                
-                if (error) throw error;
+                let userId;
+
+                // 기존 환자인지 확인
+                if (existingPatient) {
+                    console.log('기존 환자로 저장');
+                    userId = existingPatient.id;
+                } else {
+                    console.log('신규 환자 등록 시작');
+                    
+                    console.log('🔒 이름과 전화번호 암호화 중...');
+                    const encryptedName = await encryptData(name);
+                    const encryptedPhone = await encryptData(phone);
+                    console.log('암호화 완료');
+                    
+                    // 신규 환자 등록
+                    const { data, error } = await supabase
+                        .from('users')
+                        .insert({
+                            name: encryptedName,
+                            phone: encryptedPhone
+                        })
+                        .select()
+                        .single();
+                    
+                    if (error) throw error;
+                    userId = data.id;
+                    console.log('신규 환자 등록 완료:', userId);
+                }
                 
                 // 세션에 환자 정보 저장
                 savePatientData({
-                    userId: data.id,
+                    userId: userId,
                     name: name,
                     phone: phone
                 });
+                
+                console.log('세션 저장 완료');
                 
                 // 접근 로그 기록
                 await logAccess('환자 정보 입력 완료', '/patient/apply.html');
                 
                 hideLoading();
                 
-                // 다음 페이지로 이동
-                showAlert('정보가 저장되었습니다', 'success');
-                setTimeout(() => {
-                    navigateTo('terms.html');
-                }, 500);
+                console.log('✅ 저장 완료, 다음 페이지로 이동');
+                // 바로 다음 페이지로 이동 (메시지 없이)
+                navigateTo('terms.html');
                 
             } catch (error) {
                 hideLoading();
+                console.error('❌ 저장 오류:', error);
                 handleError(error, '정보 저장에 실패했습니다. 다시 시도해주세요.');
             }
         });
@@ -202,7 +443,6 @@
 
         // 페이지 로드 시
         document.addEventListener('DOMContentLoaded', function() {
-            // 이전에 입력한 정보가 있으면 불러오기
             const patientData = getPatientData();
             if (patientData) {
                 document.getElementById('name').value = patientData.name || '';

@@ -256,6 +256,9 @@
             <strong>문진표 안내</strong><br>
             작성하신 내용은 진료 목적으로만 사용되며, 안전하게 보호됩니다.
         </div>
+
+        <!-- 푸터 -->
+        <div id="footer"></div>
     </div>
 
     <!-- JavaScript -->
@@ -266,10 +269,14 @@
         // Footer 초기화
         initFooter('../');
         
-        // 기존 스크립트...
         // 오늘 날짜를 최대값으로 설정 (생년월일)
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('birthdate').setAttribute('max', today);
+
+        // 이전 버튼
+        function goBack() {
+            window.location.href = 'terms.html';
+        }
 
         // 폼 제출
         document.getElementById('questionnaireForm').addEventListener('submit', async function(e) {
@@ -304,15 +311,20 @@
                 // 접수번호 생성
                 const bookingNumber = await generateBookingNumber();
                 
+                // ✅ 문진표 데이터 암호화
+                console.log('🔒 문진표 데이터 암호화 중...');
+                const encryptedNotes = await encryptData(JSON.stringify(formData));
+                console.log('✅ 암호화 완료');
+                
                 // 1. bookings 테이블에 접수 정보 저장
                 const { data: bookingData, error: bookingError } = await supabase
                     .from('bookings')
                     .insert({
                         booking_number: bookingNumber,
                         user_id: patientData.userId,
-                        google_form_response_id: 'questionnaire_' + Date.now(), // 고유 ID 생성
+                        google_form_response_id: 'questionnaire_' + Date.now(),
                         status: 'pending',
-                        notes: JSON.stringify(formData) // 문진표 데이터를 notes에 JSON으로 저장
+                        notes: encryptedNotes  // ✅ 암호화된 문진표 데이터 저장
                     })
                     .select()
                     .single();
