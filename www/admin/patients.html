@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환자 목록 | 어성초 한의원</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/mediStyle.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- 관리자 헤더 -->
+    <div id="adminHeader"></div>
+    
+    <!-- 네비게이션 -->
+    <div id="adminNav"></div>
+
+    <div class="container-wide">
+        <!-- 페이지 타이틀 -->
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: #1e293b; margin-bottom: 5px;">👥 환자 목록</h1>
+            <p style="color: #64748b;">전체 환자 정보를 관리하세요</p>
+        </div>
+
+        <!-- 검색 및 필터 -->
+        <div class="card">
+            <div style="display: grid; grid-template-columns: 1fr auto auto; gap: 15px; align-items: end;">
+                <!-- 검색 -->
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="searchInput" class="form-label">🔍 검색</label>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="form-control" 
+                        placeholder="이름, 전화번호, 접수번호로 검색..."
+                    >
+                </div>
+
+                <!-- 상태 필터 -->
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="statusFilter" class="form-label">상태</label>
+                    <select id="statusFilter" class="form-control">
+                        <option value="">전체</option>
+                        <option value="pending">대기중</option>
+                        <option value="confirmed">진료완료</option>
+                        <option value="completed">결제완료</option>
+                        <option value="cancelled">취소</option>
+                    </select>
+                </div>
+
+                <!-- 검색 버튼 -->
+                <button onclick="searchPatients()" class="btn btn-primary">
+                    검색
+                </button>
+            </div>
+        </div>
+
+        <!-- 환자 목록 테이블 -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0; color: #1e293b;">
+                    전체 환자 (<span id="totalCount">0</span>명)
+                </h3>
+                <button onclick="loadPatients()" class="btn btn-secondary">
+                    🔄 새로고침
+                </button>
+            </div>
+
+            <div id="patientsList">
+                <div style="text-align: center; padding: 40px; color: #64748b;">
+                    <div style="font-size: 48px; margin-bottom: 10px;">⏳</div>
+                    <p>데이터를 불러오는 중...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/mediConfig.js"></script>
+    <script src="../assets/js/mediCommon.js"></script>
+    <script src="../assets/js/mediAdmin.js"></script>
+    
+    <script>
+        // 페이지 로드 시 인증 확인
+        if (!checkAdminAuth()) {
+            // checkAdminAuth에서 이미 로그인 페이지로 리다이렉트
+        }
+
+        // 헤더와 네비게이션 생성
+        document.getElementById('adminHeader').innerHTML = createAdminHeader();
+        document.getElementById('adminNav').innerHTML = createAdminNav('patients');
+
+        let allPatients = [];
+
+        // 환자 목록 로드
+        async function loadPatients() {
+            try {
+                showLoading('환자 목록을 불러오는 중...');
+
+                const statusFilter = document.getElementById('statusFilter').value;
+                const filters = {};
+
+                if (statusFilter) {
+                    filters.status = statusFilter;
+                }
+
+                allPatients = await getAllPatients(filters);
+                
+                hideLoading();
+                renderPatients(allPatients);
+
+            } catch (error) {
+                hideLoading();
+                console.error('환자 목록 로드 실패:', error);
+                showAlert('데이터를 불러오는데 실패했습니다', 'danger');
+            }
+        }
+
+        // 환자 검색
+        async function searchPatients() {
+            const keyword = document.getElementById('searchInput').value.trim();
+
+            if (!keyword) {
+                // 키워드 없으면 전체 목록
+                await loadPatients();
+                return;
+            }
+
+            try {
+                showLoading('검색 중...');
+
+                // mediAdmin.js의 searchPatients 함수 사용
+                const results = await window.searchPatients(keyword);
+                
+                hideLoading();
+                allPatients = results;
+                renderPatients(results);
+
+            } catch (error) {
+                hideLoading();
+                handleError(error, '검색에 실패했습니다');
+            }
+        }
+
+        // Enter 키로 검색
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchPatients();
+                }
+            });
+        });
+
+        // 환자 목록 렌더링
+        function renderPatients(patients) {
+            const container = document.getElementById('patientsList');
+            document.getElementById('totalCount').textContent = patients.length;
+
+            if (!patients || patients.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #64748b;">
+                        <div style="font-size: 48px; margin-bottom: 10px;">📭</div>
+                        <p>등록된 환자가 없습니다</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>접수번호</th>
+                            <th>이름</th>
+                            <th>전화번호</th>
+                            <th>접수일시</th>
+                            <th>상태</th>
+                            <th>액션</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            patients.forEach(patient => {
+                html += `
+                    <tr>
+                        <td><strong>${patient.booking_number}</strong></td>
+                        <td>${patient.users.name}</td>
+                        <td>${patient.users.phone}</td>
+                        <td>${formatDateTime(patient.created_at)}</td>
+                        <td>${getStatusBadge(patient.status)}</td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button onclick="viewDetail('${patient.id}')" class="btn btn-primary" style="padding: 6px 12px; font-size: 14px;">
+                                    📄 상세
+                                </button>
+                                ${patient.status === 'pending' ? `
+                                    <button onclick="createPrescriptionPage('${patient.id}')" class="btn btn-success" style="padding: 6px 12px; font-size: 14px;">
+                                        💊 처방
+                                    </button>
+                                ` : ''}
+                                ${patient.status === 'pending' ? `
+                                    <button onclick="completePatient('${patient.id}')" class="btn" style="padding: 6px 12px; font-size: 14px; background: #10b981; color: white;">
+                                        ✅ 완료
+                                    </button>
+                                ` : ''}
+                                <button onclick="deletePatient('${patient.id}', '${patient.booking_number}')" class="btn btn-danger" style="padding: 6px 12px; font-size: 14px;">
+                                    🗑️ 삭제
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // 상세보기
+        function viewDetail(bookingId) {
+            navigateTo(`patient-detail.html?id=${bookingId}`);
+        }
+
+        // 처방전 발급 페이지로 이동
+        function createPrescriptionPage(bookingId) {
+            navigateTo(`prescription.html?id=${bookingId}`);
+        }
+
+        // 환자 완료 처리
+        async function completePatient(bookingId) {
+            if (!confirm('이 환자를 완료 처리하시겠습니까?')) {
+                return;
+            }
+
+            showLoading('처리 중...');
+
+            try {
+                await updateBookingStatus(bookingId, 'completed');
+                hideLoading();
+                showAlert('완료 처리되었습니다!', 'success');
+                await loadPatients(); // 새로고침
+            } catch (error) {
+                hideLoading();
+                handleError(error, '완료 처리에 실패했습니다');
+            }
+        }
+
+        // 환자 삭제
+        async function deletePatient(bookingId, bookingNumber) {
+            if (!confirm(`접수번호 ${bookingNumber}을(를) 정말 삭제하시겠습니까?\n\n⚠️ 이 작업은 되돌릴 수 없습니다!`)) {
+                return;
+            }
+
+            showLoading('삭제 중...');
+
+            try {
+                const { error } = await supabase
+                    .from('bookings')
+                    .delete()
+                    .eq('id', bookingId);
+
+                if (error) throw error;
+
+                hideLoading();
+                showAlert('삭제되었습니다', 'success');
+                await loadPatients(); // 새로고침
+            } catch (error) {
+                hideLoading();
+                handleError(error, '삭제에 실패했습니다');
+            }
+        }
+
+        // 페이지 로드
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadPatients();
+        });
+    </script>
+</body>
+</html>
