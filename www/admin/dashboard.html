@@ -22,58 +22,57 @@
         <!-- 페이지 타이틀 -->
         <div style="margin-bottom: 30px;">
             <h1 style="color: #1e293b; margin-bottom: 5px;">📊 대시보드</h1>
-            <p style="color: #64748b;">실시간 진료 접수 현황을 확인하세요</p>
+            <p style="color: #64748b;">처리가 필요한 신규 접수를 확인하세요</p>
         </div>
 
         <!-- 통계 카드 -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
-            <!-- 오늘 신규 접수 -->
+            <!-- 신규 접수 (처리 필요) -->
             <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">오늘 신규 접수</div>
+                <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">신규 접수 (처리 필요)</div>
                 <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="todayCount">-</div>
-                <div style="font-size: 12px; opacity: 0.8;">건</div>
+                <div style="font-size: 12px; opacity: 0.8;">pending + confirmed</div>
             </div>
 
             <!-- 대기 중인 환자 -->
             <div class="card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
                 <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">대기 중 (pending)</div>
                 <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="pendingCount">-</div>
-                <div style="font-size: 12px; opacity: 0.8;">명</div>
+                <div style="font-size: 12px; opacity: 0.8;">진료 대기</div>
             </div>
 
             <!-- 진료 완료 (confirmed) -->
             <div class="card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
                 <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">진료 완료 (confirmed)</div>
                 <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="confirmedCount">-</div>
-                <div style="font-size: 12px; opacity: 0.8;">건</div>
+                <div style="font-size: 12px; opacity: 0.8;">결제 대기</div>
             </div>
 
-            <!-- 결제 완료 (completed) -->
+            <!-- 결제 완료 (이번 달) -->
             <div class="card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white;">
-                <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">결제 완료 (completed)</div>
+                <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">결제 완료 (이번 달)</div>
                 <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="completedCount">-</div>
-                <div style="font-size: 12px; opacity: 0.8;">건</div>
+                <div style="font-size: 12px; opacity: 0.8;">완료</div>
             </div>
 
             <!-- 이번 달 총 접수 -->
             <div class="card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white;">
                 <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">이번 달 총 접수</div>
                 <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="monthCount">-</div>
-                <div style="font-size: 12px; opacity: 0.8;">건</div>
+                <div style="font-size: 12px; opacity: 0.8;">전체</div>
             </div>
         </div>
 
         <!-- 오늘 신규 접수 목록 -->
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="margin: 0; color: #1e293b;">🔔 오늘 신규 접수</h3>
+                <h3 style="margin: 0; color: #1e293b;">🔔 신규 접수 (처리 필요)</h3>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <!-- 필터 -->
                     <select id="statusFilter" class="form-control" style="width: auto; padding: 8px 12px;">
-                        <option value="pending">대기중</option>
                         <option value="all">전체</option>
+                        <option value="pending">대기중</option>
                         <option value="confirmed">진료완료</option>
-                        <option value="completed">결제완료</option>
                     </select>
                     <button onclick="refreshDashboard()" class="btn btn-secondary">
                         🔄 새로고침
@@ -178,8 +177,9 @@
             if (!bookings || bookings.length === 0) {
                 container.innerHTML = `
                     <div style="text-align: center; padding: 40px; color: #64748b;">
-                        <div style="font-size: 48px; margin-bottom: 10px;">📭</div>
-                        <p>오늘 신규 접수가 없습니다</p>
+                        <div style="font-size: 48px; margin-bottom: 10px;">✅</div>
+                        <p>처리가 필요한 신규 접수가 없습니다</p>
+                        <p style="font-size: 14px; margin-top: 10px;">모든 접수가 처리되었습니다!</p>
                     </div>
                 `;
                 return;
@@ -312,7 +312,8 @@
                 
                 document.getElementById('todayCount').textContent = stats.todayCount;
                 document.getElementById('pendingCount').textContent = stats.pendingCount;
-                document.getElementById('completedToday').textContent = stats.completedToday;
+                document.getElementById('confirmedCount').textContent = stats.confirmedCount;
+                document.getElementById('completedCount').textContent = stats.completedCount;
                 document.getElementById('monthCount').textContent = stats.monthCount;
 
                 // 2. 오늘 신규 접수 목록 로드
@@ -337,7 +338,11 @@
         function startAutoRefresh() {
             autoRefreshInterval = setInterval(async () => {
                 console.log('자동 새로고침...');
-                await refreshData();
+                try {
+                    await refreshData();
+                } catch (error) {
+                    console.error('자동 새로고침 중 에러:', error);
+                }
             }, 30000); // 30초
         }
 
