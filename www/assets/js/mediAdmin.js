@@ -219,18 +219,23 @@ async function getDashboardStats() {
             .select('id', { count: 'exact' })
             .gte('created_at', today.toISOString());
         
-        // 대기 중인 환자
+        // 대기 중인 환자 (pending)
         const { data: pendingData } = await supabase
             .from('bookings')
             .select('id', { count: 'exact' })
             .eq('status', 'pending');
         
-        // 완료된 진료 (오늘)
+        // 진료 완료 (confirmed)
+        const { data: confirmedData } = await supabase
+            .from('bookings')
+            .select('id', { count: 'exact' })
+            .eq('status', 'confirmed');
+        
+        // 결제 완료 (completed)
         const { data: completedData } = await supabase
             .from('bookings')
             .select('id', { count: 'exact' })
-            .eq('status', 'completed')
-            .gte('created_at', today.toISOString());
+            .eq('status', 'completed');
         
         // 이번 달 총 접수
         const { data: monthData } = await supabase
@@ -241,7 +246,8 @@ async function getDashboardStats() {
         return {
             todayCount: todayData?.length || 0,
             pendingCount: pendingData?.length || 0,
-            completedToday: completedData?.length || 0,
+            confirmedCount: confirmedData?.length || 0,
+            completedCount: completedData?.length || 0,
             monthCount: monthData?.length || 0
         };
         
@@ -250,7 +256,8 @@ async function getDashboardStats() {
         return {
             todayCount: 0,
             pendingCount: 0,
-            completedToday: 0,
+            confirmedCount: 0,
+            completedCount: 0,
             monthCount: 0
         };
     }

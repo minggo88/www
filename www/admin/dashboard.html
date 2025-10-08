@@ -26,7 +26,7 @@
         </div>
 
         <!-- 통계 카드 -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
             <!-- 오늘 신규 접수 -->
             <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
                 <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">오늘 신규 접수</div>
@@ -36,20 +36,27 @@
 
             <!-- 대기 중인 환자 -->
             <div class="card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
-                <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">대기 중인 환자</div>
+                <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">대기 중 (pending)</div>
                 <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="pendingCount">-</div>
                 <div style="font-size: 12px; opacity: 0.8;">명</div>
             </div>
 
-            <!-- 완료된 진료 (오늘) -->
+            <!-- 진료 완료 (confirmed) -->
             <div class="card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
-                <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">완료된 진료 (오늘)</div>
-                <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="completedToday">-</div>
+                <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">진료 완료 (confirmed)</div>
+                <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="confirmedCount">-</div>
+                <div style="font-size: 12px; opacity: 0.8;">건</div>
+            </div>
+
+            <!-- 결제 완료 (completed) -->
+            <div class="card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white;">
+                <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">결제 완료 (completed)</div>
+                <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="completedCount">-</div>
                 <div style="font-size: 12px; opacity: 0.8;">건</div>
             </div>
 
             <!-- 이번 달 총 접수 -->
-            <div class="card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white;">
+            <div class="card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white;">
                 <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">이번 달 총 접수</div>
                 <div style="font-size: 36px; font-weight: 700; margin-bottom: 5px;" id="monthCount">-</div>
                 <div style="font-size: 12px; opacity: 0.8;">건</div>
@@ -130,7 +137,8 @@
                 
                 document.getElementById('todayCount').textContent = stats.todayCount;
                 document.getElementById('pendingCount').textContent = stats.pendingCount;
-                document.getElementById('completedToday').textContent = stats.completedToday;
+                document.getElementById('confirmedCount').textContent = stats.confirmedCount;
+                document.getElementById('completedCount').textContent = stats.completedCount;
                 document.getElementById('monthCount').textContent = stats.monthCount;
 
                 // 2. 오늘 신규 접수 목록 로드
