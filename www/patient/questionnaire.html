@@ -320,7 +320,25 @@
                 patientData.bookingNumber = bookingNumber;
                 savePatientData(patientData);
                 
-                // 2. 알림 발송 (SMS/Email)
+                // 2. 텔레그램 알림 발송
+                try {
+                    const telegramResponse = await fetch('https://onfrhbbbxbilletwivoo.supabase.co/functions/v1/send-telegram', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                        },
+                        body: JSON.stringify({
+                            patientName: patientData.name
+                        })
+                    });
+                    console.log('텔레그램 알림 발송:', await telegramResponse.json());
+                } catch (telegramError) {
+                    console.error('텔레그램 알림 실패:', telegramError);
+                    // 텔레그램 실패해도 접수는 계속 진행
+                }
+                
+                // 3. DB 알림 기록 (SMS/Email)
                 const { error: notificationError } = await supabase
                     .from('notifications')
                     .insert({
