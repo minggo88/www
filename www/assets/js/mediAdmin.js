@@ -208,34 +208,28 @@ async function searchPatients(keyword) {
  */
 async function getDashboardStats() {
     try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const thisMonth = new Date();
+        thisMonth.setDate(1);
+        thisMonth.setHours(0, 0, 0, 0);
         
-        const thisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-        
-        // 오늘 신규 접수
-        const { data: todayData } = await supabase
-            .from('bookings')
-            .select('id', { count: 'exact' })
-            .gte('created_at', today.toISOString());
-        
-        // 대기 중인 환자 (pending)
+        // 대기 중인 환자 (pending) - 전체 기간
         const { data: pendingData } = await supabase
             .from('bookings')
             .select('id', { count: 'exact' })
             .eq('status', 'pending');
         
-        // 진료 완료 (confirmed)
+        // 진료 완료 (confirmed) - 전체 기간
         const { data: confirmedData } = await supabase
             .from('bookings')
             .select('id', { count: 'exact' })
             .eq('status', 'confirmed');
         
-        // 결제 완료 (completed)
+        // 결제 완료 (completed) - 이번 달만
         const { data: completedData } = await supabase
             .from('bookings')
             .select('id', { count: 'exact' })
-            .eq('status', 'completed');
+            .eq('status', 'completed')
+            .gte('created_at', thisMonth.toISOString());
         
         // 이번 달 총 접수
         const { data: monthData } = await supabase
@@ -243,8 +237,11 @@ async function getDashboardStats() {
             .select('id', { count: 'exact' })
             .gte('created_at', thisMonth.toISOString());
         
+        // 전체 신규 접수 (pending + confirmed)
+        const todayCount = (pendingData?.length || 0) + (confirmedData?.length || 0);
+        
         return {
-            todayCount: todayData?.length || 0,
+            todayCount: todayCount,
             pendingCount: pendingData?.length || 0,
             confirmedCount: confirmedData?.length || 0,
             completedCount: completedData?.length || 0,
