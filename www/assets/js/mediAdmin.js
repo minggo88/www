@@ -1,6 +1,7 @@
 /**
  * 관리자 전용 함수 모음
  * 파일 위치: /assets/js/mediAdmin.js
+ * 수정: parseQuestionnaireData 함수 - JSON/텍스트 모두 처리 가능
  */
 
 // ============================================
@@ -9,7 +10,6 @@
 
 /**
  * 관리자 로그인 확인
- * 로그인하지 않았으면 로그인 페이지로 이동
  */
 function checkAdminAuth() {
     const adminData = getAdminData();
@@ -27,14 +27,11 @@ function checkAdminAuth() {
  * 관리자 정보 가져오기
  */
 function getAdminData() {
-    // sessionStorage 먼저 확인
     let data = sessionStorage.getItem('adminData');
     if (data) return JSON.parse(data);
     
-    // localStorage 확인 (로그인 유지)
     data = localStorage.getItem('adminData');
     if (data) {
-        // sessionStorage에도 저장
         sessionStorage.setItem('adminData', data);
         return JSON.parse(data);
     }
@@ -87,7 +84,6 @@ async function getAllPatients(filters = {}) {
             `)
             .order('created_at', { ascending: false });
         
-        // 필터 적용
         if (filters.status) {
             query = query.eq('status', filters.status);
         }
@@ -149,14 +145,12 @@ async function getPatientDetail(bookingId) {
  */
 async function getTodayBookings() {
     try {
-        // 날짜 필터 제거 - 전체 접수 데이터 조회
         const { data, error } = await supabase
             .from('bookings')
             .select(`
                 *,
                 users (name, phone)
             `)
-            // .gte('created_at', today.toISOString()) ← 이 줄 제거!
             .order('created_at', { ascending: false });
         
         if (error) throw error;
@@ -213,32 +207,27 @@ async function getDashboardStats() {
         thisMonth.setDate(1);
         thisMonth.setHours(0, 0, 0, 0);
         
-        // 대기 중인 환자 (pending) - 전체 기간
         const { data: pendingData } = await supabase
             .from('bookings')
             .select('id', { count: 'exact' })
             .eq('status', 'pending');
         
-        // 진료 완료 (confirmed) - 전체 기간
         const { data: confirmedData } = await supabase
             .from('bookings')
             .select('id', { count: 'exact' })
             .eq('status', 'confirmed');
         
-        // 결제 완료 (completed) - 이번 달만
         const { data: completedData } = await supabase
             .from('bookings')
             .select('id', { count: 'exact' })
             .eq('status', 'completed')
             .gte('created_at', thisMonth.toISOString());
         
-        // 이번 달 총 접수
         const { data: monthData } = await supabase
             .from('bookings')
             .select('id', { count: 'exact' })
             .gte('created_at', thisMonth.toISOString());
         
-        // 전체 신규 접수 (pending + confirmed)
         const todayCount = (pendingData?.length || 0) + (confirmedData?.length || 0);
         
         return {
@@ -304,7 +293,6 @@ async function savePrescription(prescriptionData) {
         
         if (error) throw error;
         
-        // 접수 상태를 진료완료(confirmed)로 업데이트
         await updateBookingStatus(prescriptionData.booking_id, 'confirmed');
         
         return data;
@@ -328,7 +316,6 @@ async function savePayment(paymentData) {
         
         if (error) throw error;
         
-        // 접수 상태를 결제완료(completed)로 업데이트
         await updateBookingStatus(paymentData.booking_id, 'completed');
         
         return data;
@@ -342,6 +329,35 @@ async function savePayment(paymentData) {
 // ============================================
 // 유틸리티 함수
 // ============================================
+
+/**
+ * 문진표 데이터 파싱 (복호화는 별도로 처리)
+ * 이 함수는 이미 복호화된 데이터를 받는다고 가정
+ */
+function parseQuestionnaireData(notesString) {
+    // 데이터가 없는 경우
+    if (!notesString) {
+        console.log('문진표 데이터 없음');
+        return null;
+    }
+
+    // 이미 객체인 경우
+    if (typeof notesString === 'object') {
+        return notesString;
+    }
+
+    // 문자열인 경우 JSON 파싱 시도
+    try {
+        return JSON.parse(notesString);
+    } catch (error) {
+        console.error('문진표 JSON 파싱 실패:', error);
+        // 파싱 실패 시 텍스트로 반환
+        return {
+            rawText: notesString,
+            note: '문진표를 JSON으로 파싱할 수 없습니다.'
+        };
+    }
+}
 
 /**
  * 상태 뱃지 HTML 생성
@@ -381,18 +397,6 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
-/**
- * 문진표 데이터 파싱
- */
-function parseQuestionnaireData(notesString) {
-    try {
-        return JSON.parse(notesString);
-    } catch (error) {
-        console.error('문진표 파싱 실패:', error);
-        return null;
-    }
-}
-
 // ============================================
 // 관리자 페이지 헤더
 // ============================================
@@ -422,13 +426,13 @@ function createAdminHeader() {
 }
 
 /**
- * 관리자 네비게이션 메뉴
+ * 관리자 네비게이션 메뉴 (설정 버튼 제거)
  */
 function createAdminNav(currentPage) {
     const menuItems = [
         { page: 'dashboard', label: '대시보드', icon: '📊' },
-        { page: 'patients', label: '환자 목록', icon: '👥' },
-        { page: 'settings', label: '설정', icon: '⚙️' }
+        { page: 'patients', label: '환자 목록', icon: '👥' }
+        // 설정 메뉴 제거
     ];
     
     let navHTML = '<div style="background: white; padding: 10px 0; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0;"><div class="container-wide"><div class="d-flex gap-2">';
@@ -454,4 +458,4 @@ function createAdminNav(currentPage) {
     return navHTML;
 }
 
-console.log('✅ mediAdmin.js 로드 완료 (전체 데이터 조회 버전)');
+console.log('✅ mediAdmin.js 로드 완료 (전체 데이터 조회 + 문진표 복호화 + 설정 버튼 제거)');
