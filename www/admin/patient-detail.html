@@ -385,6 +385,12 @@
                         <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">발급일시</div>
                         <div style="font-weight: 600;">${formatDateTime(prescription.created_at)}</div>
                     </div>
+                    
+                    <div style="margin-top: 10px;">
+                        <button onclick="editPrescription('${prescription.id}')" class="btn btn-primary">
+                            ✏️ 처방전 수정
+                        </button>
+                    </div>
                 </div>
             `;
         }
@@ -485,6 +491,11 @@
                 hideLoading();
                 handleError(error, '취소 처리에 실패했습니다');
             }
+        }
+
+        // 처방전 수정 페이지로 이동
+        function editPrescription(prescriptionId) {
+            navigateTo(`prescription.html?id=${bookingId}&prescriptionId=${prescriptionId}&mode=edit`);
         }
 
         // 페이지 로드
