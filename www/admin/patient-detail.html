@@ -94,7 +94,7 @@
                     ✅ 완료 처리
                 </button>
                 <button onclick="updateStatus('cancelled')" class="btn btn-danger btn-lg" id="cancelBtn">
-                    ❌ 취소s
+                    ❌ 취소
                 </button>
                 <button onclick="deleteBooking()" class="btn btn-danger btn-lg">
                     🗑️ 삭제
@@ -109,10 +109,6 @@
     <script src="../assets/js/mediAdmin.js"></script>
     
     <script>
-        // Footer 초기화
-        //initFooter('../');
-        
-        // 기존 스크립트...
         // 페이지 로드 시 인증 확인
         if (!checkAdminAuth()) {
             // checkAdminAuth에서 이미 로그인 페이지로 리다이렉트
@@ -133,15 +129,54 @@
 
         let currentBooking = null;
 
-        // 환자 상세 정보 로드
+        // 환자 상세 정보 로드 (복호화 포함)
         async function loadPatientDetail() {
             try {
                 showLoading('환자 정보를 불러오는 중...');
 
+                // 1. 기본 환자 정보 가져오기
                 currentBooking = await getPatientDetail(bookingId);
 
                 if (!currentBooking) {
                     throw new Error('환자 정보를 찾을 수 없습니다');
+                }
+
+                // 2. 환자 이름, 전화번호 복호화
+                try {
+                    currentBooking.users.name = await decryptData(currentBooking.users.name);
+                } catch (e) {
+                    console.log('이름 복호화 실패 (평문일 수 있음)');
+                }
+
+                try {
+                    currentBooking.users.phone = await decryptData(currentBooking.users.phone);
+                } catch (e) {
+                    console.log('전화번호 복호화 실패 (평문일 수 있음)');
+                }
+
+                // 3. 처방전 정보 복호화 (있는 경우)
+                if (currentBooking.prescriptions && currentBooking.prescriptions.length > 0) {
+                    for (let prescription of currentBooking.prescriptions) {
+                        try {
+                            prescription.diagnosis = await decryptData(prescription.diagnosis);
+                        } catch (e) {
+                            console.log('진단명 복호화 실패 (평문일 수 있음)');
+                        }
+
+                        try {
+                            prescription.prescription_details = await decryptData(prescription.prescription_details);
+                        } catch (e) {
+                            console.log('처방 내용 복호화 실패 (평문일 수 있음)');
+                        }
+
+                        if (prescription.notes) {
+                            try {
+                                prescription.notes = await decryptData(prescription.notes);
+                            } catch (e) {
+                                console.log('특이사항 복호화 실패 (평문일 수 있음)');
+                            }
+                        }
+                    }
                 }
 
                 hideLoading();

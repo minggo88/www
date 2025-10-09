@@ -117,10 +117,6 @@
     <script src="../assets/js/mediAdmin.js"></script>
     
     <script>
-        // Footer 초기화
-        //initFooter('../');
-        
-        // 기존 스크립트...
         // 페이지 로드 시 인증 확인
         if (!checkAdminAuth()) {
             // checkAdminAuth에서 이미 로그인 페이지로 리다이렉트
@@ -144,8 +140,8 @@
                 document.getElementById('completedCount').textContent = stats.completedCount;
                 document.getElementById('monthCount').textContent = stats.monthCount;
 
-                // 2. 오늘 신규 접수 목록 로드
-                const todayBookings = await getTodayBookings();
+                // 2. 오늘 신규 접수 목록 로드 (복호화 포함)
+                const todayBookings = await getTodayBookingsWithDecryption();
                 allTodayBookings = todayBookings; // 전체 데이터 저장
                 
                 filterBookings(); // 필터 적용하여 렌더링
@@ -153,6 +149,55 @@
             } catch (error) {
                 console.error('대시보드 로드 실패:', error);
                 showAlert('데이터를 불러오는데 실패했습니다', 'danger');
+            }
+        }
+
+        // 오늘 접수 목록 가져오기 (복호화 포함)
+        async function getTodayBookingsWithDecryption() {
+            try {
+                // 기존 getTodayBookings 함수로 데이터 가져오기
+                const bookings = await getTodayBookings();
+                
+                // 각 환자 정보 복호화
+                const decryptedBookings = await Promise.all(
+                    bookings.map(async (booking) => {
+                        try {
+                            // 이름 복호화
+                            let decryptedName = booking.users.name;
+                            try {
+                                decryptedName = await decryptData(booking.users.name);
+                            } catch (e) {
+                                console.log('이름 복호화 실패 (평문일 수 있음):', booking.users.name);
+                            }
+
+                            // 전화번호 복호화
+                            let decryptedPhone = booking.users.phone;
+                            try {
+                                decryptedPhone = await decryptData(booking.users.phone);
+                            } catch (e) {
+                                console.log('전화번호 복호화 실패 (평문일 수 있음):', booking.users.phone);
+                            }
+
+                            // 복호화된 정보로 업데이트
+                            return {
+                                ...booking,
+                                users: {
+                                    ...booking.users,
+                                    name: decryptedName,
+                                    phone: decryptedPhone
+                                }
+                            };
+                        } catch (error) {
+                            console.error('환자 정보 복호화 중 에러:', error);
+                            return booking; // 에러 발생 시 원본 반환
+                        }
+                    })
+                );
+
+                return decryptedBookings;
+            } catch (error) {
+                console.error('접수 목록 가져오기 실패:', error);
+                throw error;
             }
         }
 
@@ -320,8 +365,8 @@
                 document.getElementById('completedCount').textContent = stats.completedCount;
                 document.getElementById('monthCount').textContent = stats.monthCount;
 
-                // 2. 오늘 신규 접수 목록 로드
-                const todayBookings = await getTodayBookings();
+                // 2. 오늘 신규 접수 목록 로드 (복호화 포함)
+                const todayBookings = await getTodayBookingsWithDecryption();
                 allTodayBookings = todayBookings; // 전체 데이터 업데이트
                 
                 filterBookings(); // 필터 적용하여 렌더링
