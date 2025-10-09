@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>환자 상세 정보 | 어성초 한의원</title>
+    <title>환자 상세 | 어성초 한의원</title>
     
     <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/mediStyle.css">
@@ -19,85 +19,75 @@
     <div id="adminNav"></div>
 
     <div class="container-wide">
-        <!-- 뒤로가기 -->
-        <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+        <!-- 뒤로가기 버튼 -->
+        <div style="margin-bottom: 20px;">
             <button onclick="goBack()" class="btn btn-secondary">
-                ← 목록으로 돌아가기
-            </button>
-            <button onclick="navigateTo('dashboard.html')" class="btn btn-primary">
-                📊 대시보드
+                ← 환자 목록으로
             </button>
         </div>
 
-        <!-- 환자 기본 정보 -->
+        <!-- 환자 기본 정보 카드 -->
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 20px;">
                 <div>
-                    <h2 style="color: #1e293b; margin-bottom: 5px;" id="patientName">-</h2>
-                    <p style="color: #64748b; margin: 0;">접수번호: <strong id="bookingNumber">-</strong></p>
+                    <h2 style="margin: 0 0 10px 0; color: #1e293b;" id="patientName">-</h2>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div>
+                            <span style="color: #64748b; font-size: 14px;">접수번호</span>
+                            <div style="font-weight: 600; margin-top: 3px;" id="bookingNumber">-</div>
+                        </div>
+                        <div>
+                            <span style="color: #64748b; font-size: 14px;">연락처</span>
+                            <div style="font-weight: 600; margin-top: 3px;" id="patientPhone">-</div>
+                        </div>
+                        <div>
+                            <span style="color: #64748b; font-size: 14px;">접수일시</span>
+                            <div style="font-weight: 600; margin-top: 3px;" id="bookingDate">-</div>
+                        </div>
+                    </div>
                 </div>
-                <div id="statusBadge"></div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; background: #f8fafc; padding: 20px; border-radius: 8px;">
-                <div>
-                    <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">전화번호</div>
-                    <div style="font-weight: 600;" id="patientPhone">-</div>
-                </div>
-                <div>
-                    <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">접수일시</div>
-                    <div style="font-weight: 600;" id="bookingDate">-</div>
-                </div>
-                <div>
-                    <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">상태</div>
-                    <div style="font-weight: 600;" id="statusText">-</div>
+                <div style="text-align: right;">
+                    <div id="statusBadge" style="margin-bottom: 10px;"></div>
+                    <div style="font-size: 14px; color: #64748b;">
+                        <span id="statusText">-</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 문진표 내용 -->
+        <!-- 문진표 정보 -->
         <div class="card">
-            <h3 style="margin-bottom: 20px; color: #1e293b;">📋 문진표 내용</h3>
-            
+            <h3 style="font-size: 18px; margin-bottom: 20px; color: #1e293b;">📋 문진표 정보</h3>
             <div id="questionnaireContent">
-                <div style="text-align: center; padding: 40px; color: #64748b;">
-                    <div style="font-size: 48px; margin-bottom: 10px;">⏳</div>
-                    <p>데이터를 불러오는 중...</p>
+                <div style="text-align: center; padding: 20px; color: #64748b;">
+                    <p>문진표를 불러오는 중...</p>
                 </div>
             </div>
         </div>
 
         <!-- 처방전 정보 -->
         <div class="card" id="prescriptionSection" style="display: none;">
-            <h3 style="margin-bottom: 20px; color: #1e293b;">💊 처방전 정보</h3>
-            
+            <h3 style="font-size: 18px; margin-bottom: 20px; color: #1e293b;">💊 처방전 정보</h3>
             <div id="prescriptionContent"></div>
         </div>
 
         <!-- 결제 정보 -->
         <div class="card" id="paymentSection" style="display: none;">
-            <h3 style="margin-bottom: 20px; color: #1e293b;">💳 결제 정보</h3>
-            
+            <h3 style="font-size: 18px; margin-bottom: 20px; color: #1e293b;">💳 결제 정보</h3>
             <div id="paymentContent"></div>
         </div>
 
         <!-- 액션 버튼 -->
-        <div class="card">
-            <div style="display: flex; gap: 10px; justify-content: center;">
-                <button onclick="navigateTo('dashboard.html')" class="btn btn-primary btn-lg">
-                    📊 대시보드
-                </button>
-                <button onclick="goToPrescription()" class="btn btn-primary btn-lg" id="prescriptionBtn">
+        <div class="card" style="background: #f8fafc;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button id="btnPrescription" onclick="goToPrescription()" class="btn btn-primary" style="display: none;">
                     💊 처방전 발급
                 </button>
-                <button onclick="updateStatus('completed')" class="btn btn-success btn-lg" id="completeBtn">
-                    ✅ 완료 처리
+                <button id="btnComplete" onclick="completeBooking()" class="btn btn-success" style="display: none;">
+                    ✅ 진료 완료
                 </button>
-                <button onclick="updateStatus('cancelled')" class="btn btn-danger btn-lg" id="cancelBtn">
-                    ❌ 취소
-                </button>
-                <button onclick="deleteBooking()" class="btn btn-danger btn-lg">
-                    🗑️ 삭제
+                <button id="btnCancel" onclick="cancelBooking()" class="btn btn-danger" style="display: none;">
+                    ❌ 접수 취소
                 </button>
             </div>
         </div>
@@ -118,43 +108,61 @@
         document.getElementById('adminHeader').innerHTML = createAdminHeader();
         document.getElementById('adminNav').innerHTML = createAdminNav('patients');
 
-        // URL에서 booking ID 가져오기
-        const urlParams = new URLSearchParams(window.location.search);
-        const bookingId = urlParams.get('id');
+        let currentBooking = null;
+        let bookingId = null;
 
-        if (!bookingId) {
-            showAlert('환자 정보를 찾을 수 없습니다', 'danger');
-            setTimeout(() => navigateTo('patients.html'), 2000);
+        // URL에서 bookingId 가져오기
+        function getBookingIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
         }
 
-        let currentBooking = null;
+        // HTML 이스케이프 함수 (XSS 방지)
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
-        // 환자 상세 정보 로드 (복호화 포함)
+        // 환자 상세 정보 로드
         async function loadPatientDetail() {
+            bookingId = getBookingIdFromUrl();
+
+            if (!bookingId) {
+                showAlert('잘못된 접근입니다', 'danger');
+                setTimeout(() => navigateTo('patients.html'), 1500);
+                return;
+            }
+
+            showLoading('환자 정보를 불러오는 중...');
+
             try {
-                showLoading('환자 정보를 불러오는 중...');
-
-                // 1. 기본 환자 정보 가져오기
                 currentBooking = await getPatientDetail(bookingId);
-
+                
                 if (!currentBooking) {
-                    throw new Error('환자 정보를 찾을 수 없습니다');
+                    showAlert('환자 정보를 찾을 수 없습니다', 'danger');
+                    setTimeout(() => navigateTo('patients.html'), 2000);
+                    return;
                 }
 
-                // 2. 환자 이름, 전화번호 복호화
-                try {
-                    currentBooking.users.name = await decryptData(currentBooking.users.name);
-                } catch (e) {
-                    console.log('이름 복호화 실패 (평문일 수 있음)');
+                // 암호화된 데이터 복호화
+                if (currentBooking.users.name) {
+                    try {
+                        currentBooking.users.name = await decryptData(currentBooking.users.name);
+                    } catch (e) {
+                        console.log('이름 복호화 실패 (평문일 수 있음)');
+                    }
                 }
 
-                try {
-                    currentBooking.users.phone = await decryptData(currentBooking.users.phone);
-                } catch (e) {
-                    console.log('전화번호 복호화 실패 (평문일 수 있음)');
+                if (currentBooking.users.phone) {
+                    try {
+                        currentBooking.users.phone = await decryptData(currentBooking.users.phone);
+                    } catch (e) {
+                        console.log('전화번호 복호화 실패 (평문일 수 있음)');
+                    }
                 }
 
-                // 3. 처방전 정보 복호화 (있는 경우)
+                // 처방전 복호화
                 if (currentBooking.prescriptions && currentBooking.prescriptions.length > 0) {
                     for (let prescription of currentBooking.prescriptions) {
                         try {
@@ -180,7 +188,7 @@
                 }
 
                 hideLoading();
-                renderPatientDetail(currentBooking);
+                await renderPatientDetail(currentBooking);
 
             } catch (error) {
                 hideLoading();
@@ -191,7 +199,7 @@
         }
 
         // 환자 상세 정보 렌더링
-        function renderPatientDetail(booking) {
+        async function renderPatientDetail(booking) {
             // 기본 정보
             document.getElementById('patientName').textContent = booking.users.name;
             document.getElementById('bookingNumber').textContent = booking.booking_number;
@@ -200,8 +208,8 @@
             document.getElementById('statusBadge').innerHTML = getStatusBadge(booking.status);
             document.getElementById('statusText').textContent = getStatusText(booking.status);
 
-            // 문진표 내용
-            renderQuestionnaire(booking.notes);
+            // 문진표 내용 (복호화 후 렌더링)
+            await renderQuestionnaire(booking.notes);
 
             // 처방전 정보
             if (booking.prescriptions && booking.prescriptions.length > 0) {
@@ -217,18 +225,46 @@
             updateButtonStates(booking.status);
         }
 
-        // 문진표 렌더링
-        function renderQuestionnaire(notesString) {
+        // 문진표 렌더링 (복호화 추가)
+        async function renderQuestionnaire(notesString) {
             const container = document.getElementById('questionnaireContent');
             
             try {
-                const data = parseQuestionnaireData(notesString);
+                // 1단계: 암호화된 데이터 복호화
+                let decryptedNotes = notesString;
+                if (notesString && typeof notesString === 'string') {
+                    try {
+                        console.log('문진표 복호화 시도...');
+                        decryptedNotes = await decryptData(notesString);
+                        console.log('문진표 복호화 성공!');
+                    } catch (decryptError) {
+                        console.log('문진표 복호화 실패 (평문일 수 있음):', decryptError);
+                        decryptedNotes = notesString;
+                    }
+                }
+
+                // 2단계: JSON 파싱
+                const data = parseQuestionnaireData(decryptedNotes);
 
                 if (!data) {
                     container.innerHTML = '<p style="color: #64748b;">문진표 데이터가 없습니다</p>';
                     return;
                 }
 
+                // rawText가 있는 경우 (JSON이 아닌 텍스트 형식)
+                if (data.rawText) {
+                    container.innerHTML = `
+                        <div style="background: #fef3c7; padding: 20px; border-radius: 8px; border: 1px solid #fbbf24;">
+                            <p style="color: #92400e; font-weight: 600; margin-bottom: 10px;">⚠️ 문진표가 텍스트 형식으로 저장되어 있습니다</p>
+                            <div style="background: white; padding: 15px; border-radius: 6px; white-space: pre-wrap; color: #1e293b; max-height: 400px; overflow-y: auto;">
+                                ${escapeHtml(data.rawText)}
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // 정상 JSON 데이터인 경우
                 let html = `
                     <div style="display: grid; gap: 20px;">
                         <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
@@ -246,38 +282,51 @@
                                 <div style="font-weight: 600;">${data.current_weight || '-'} kg</div>
                             </div>
                             <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                                <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">20대 최소 체중</div>
-                                <div style="font-weight: 600;">${data.weight_20s_min || '-'} kg</div>
+                                <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">목표 체중</div>
+                                <div style="font-weight: 600;">${data.target_weight || '-'} kg</div>
+                            </div>
+                        </div>
+
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
+                            <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">다이어트 경험</div>
+                            <div style="font-weight: 600;">${data.diet_history === 'yes' ? '있음' : data.diet_history === 'no' ? '없음' : '-'}</div>
+                        </div>
+
+                        ${data.diet_methods ? `
+                            <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
+                                <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">시도한 다이어트 방법</div>
+                                <div style="font-weight: 600; white-space: pre-wrap;">${data.diet_methods}</div>
+                            </div>
+                        ` : ''}
+
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
+                            <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">주요 증상 및 요청사항</div>
+                            <div style="font-weight: 600; white-space: pre-wrap;">${data.symptoms || '-'}</div>
+                        </div>
+
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
+                            <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">현재 복용 중인 약물</div>
+                            <div style="font-weight: 600; white-space: pre-wrap;">${data.current_medications || '없음'}</div>
+                        </div>
+
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
+                            <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">알레르기</div>
+                            <div style="font-weight: 600; white-space: pre-wrap;">${data.allergies || '없음'}</div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
+                                <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">운동 빈도</div>
+                                <div style="font-weight: 600;">${data.exercise_frequency || '-'}</div>
                             </div>
                             <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                                <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">평생 최고 체중</div>
-                                <div style="font-weight: 600;">${data.weight_lifetime_max || '-'} kg</div>
+                                <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">수면 시간</div>
+                                <div style="font-weight: 600;">${data.sleep_hours || '-'} 시간</div>
                             </div>
-                        </div>
-
-                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                            <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">대변 횟수</div>
-                            <div style="font-weight: 600;">${data.bowel_frequency || '-'}</div>
-                        </div>
-
-                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                            <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">대변 형태</div>
-                            <div style="font-weight: 600;">${data.bowel_type || '-'}</div>
-                        </div>
-
-                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                            <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">소화 상태</div>
-                            <div style="font-weight: 600;">${data.digestion || '-'}</div>
-                        </div>
-
-                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                            <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">커피와 수면</div>
-                            <div style="font-weight: 600;">${data.coffee_sleep || '-'}</div>
-                        </div>
-
-                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                            <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">수면 상태</div>
-                            <div style="font-weight: 600;">${data.sleep_quality || '-'}</div>
+                            <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
+                                <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">수면의 질</div>
+                                <div style="font-weight: 600;">${data.sleep_quality || '-'}</div>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -285,8 +334,13 @@
                 container.innerHTML = html;
 
             } catch (error) {
-                console.error('문진표 파싱 실패:', error);
-                container.innerHTML = '<p style="color: #ef4444;">문진표를 표시할 수 없습니다</p>';
+                console.error('문진표 렌더링 실패:', error);
+                container.innerHTML = `
+                    <div style="background: #fee2e2; padding: 20px; border-radius: 8px; border: 1px solid #ef4444;">
+                        <p style="color: #991b1b; font-weight: 600;">❌ 문진표를 표시할 수 없습니다</p>
+                        <p style="color: #7f1d1d; font-size: 14px; margin-top: 10px;">관리자에게 문의해주세요.</p>
+                    </div>
+                `;
             }
         }
 
@@ -372,18 +426,21 @@
 
         // 버튼 상태 업데이트
         function updateButtonStates(status) {
-            const prescriptionBtn = document.getElementById('prescriptionBtn');
-            const completeBtn = document.getElementById('completeBtn');
-            const cancelBtn = document.getElementById('cancelBtn');
+            const btnPrescription = document.getElementById('btnPrescription');
+            const btnComplete = document.getElementById('btnComplete');
+            const btnCancel = document.getElementById('btnCancel');
+
+            // 모든 버튼 숨기기
+            btnPrescription.style.display = 'none';
+            btnComplete.style.display = 'none';
+            btnCancel.style.display = 'none';
 
             if (status === 'pending') {
-                prescriptionBtn.style.display = 'inline-block';
-                completeBtn.style.display = 'inline-block';
-                cancelBtn.style.display = 'inline-block';
-            } else {
-                prescriptionBtn.style.display = 'none';
-                completeBtn.style.display = 'none';
-                cancelBtn.style.display = 'none';
+                btnPrescription.style.display = 'inline-block';
+                btnComplete.style.display = 'inline-block';
+                btnCancel.style.display = 'inline-block';
+            } else if (status === 'confirmed') {
+                btnCancel.style.display = 'inline-block';
             }
         }
 
@@ -392,49 +449,41 @@
             navigateTo(`prescription.html?id=${bookingId}`);
         }
 
-        // 상태 업데이트
-        async function updateStatus(newStatus) {
-            const statusText = getStatusText(newStatus);
-            
-            if (!confirm(`이 환자를 '${statusText}' 상태로 변경하시겠습니까?`)) {
+        // 진료 완료 처리
+        async function completeBooking() {
+            if (!confirm('진료를 완료 처리하시겠습니까?')) {
                 return;
             }
 
-            showLoading('상태 변경 중...');
+            showLoading('처리 중...');
 
             try {
-                await updateBookingStatus(bookingId, newStatus);
+                await updateBookingStatus(bookingId, 'completed');
                 hideLoading();
-                showAlert('상태가 변경되었습니다', 'success');
-                await loadPatientDetail(); // 새로고침
+                showAlert('완료 처리되었습니다!', 'success');
+                await loadPatientDetail();
             } catch (error) {
                 hideLoading();
-                handleError(error, '상태 변경에 실패했습니다');
+                handleError(error, '완료 처리에 실패했습니다');
             }
         }
 
-        // 삭제
-        async function deleteBooking() {
-            if (!confirm(`접수번호 ${currentBooking.booking_number}을(를) 정말 삭제하시겠습니까?\n\n⚠️ 이 작업은 되돌릴 수 없습니다!`)) {
+        // 접수 취소 (상태를 cancelled로 변경)
+        async function cancelBooking() {
+            if (!confirm('정말 이 접수를 취소하시겠습니까?\n\n상태가 "취소"로 변경됩니다.')) {
                 return;
             }
 
-            showLoading('삭제 중...');
+            showLoading('취소 처리 중...');
 
             try {
-                const { error } = await supabase
-                    .from('bookings')
-                    .delete()
-                    .eq('id', bookingId);
-
-                if (error) throw error;
-
+                await updateBookingStatus(bookingId, 'cancelled');
                 hideLoading();
-                showAlert('삭제되었습니다', 'success');
-                setTimeout(() => navigateTo('patients.html'), 1000);
+                showAlert('접수가 취소되었습니다', 'success');
+                await loadPatientDetail();
             } catch (error) {
                 hideLoading();
-                handleError(error, '삭제에 실패했습니다');
+                handleError(error, '취소 처리에 실패했습니다');
             }
         }
 
