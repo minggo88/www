@@ -326,6 +326,139 @@ async function savePayment(paymentData) {
     }
 }
 
+/**
+ * 처방전 발급 (암호화 포함, 텔레그램 대신 콘솔 로그)
+ */
+async function createPrescription(prescriptionData) {
+    try {
+        console.log('처방전 발급 시작:', prescriptionData);
+        
+        // 1단계: 민감 정보 암호화
+        const encryptedData = {
+            booking_id: prescriptionData.bookingId,
+            diagnosis: await encryptData(prescriptionData.diagnosis),
+            prescription_details: await encryptData(prescriptionData.prescriptionDetails),
+            prescription_type: prescriptionData.prescriptionType,
+            amount: prescriptionData.amount,
+            notes: prescriptionData.notes ? await encryptData(prescriptionData.notes) : null,
+            created_at: new Date().toISOString()
+        };
+        
+        console.log('암호화 완료, DB 저장 시작...');
+        
+        // 2단계: DB에 저장
+        const { data: prescription, error } = await supabase
+            .from('prescriptions')
+            .insert([encryptedData])
+            .select()
+            .single();
+        
+        if (error) throw error;
+        
+        console.log('처방전 저장 성공:', prescription);
+        
+        // 3단계: 접수 상태를 진료완료(confirmed)로 업데이트
+        await updateBookingStatus(prescriptionData.bookingId, 'confirmed');
+        
+        // 4단계: SMS 발송 대기 (콘솔 로그)
+        if (prescriptionData.patientName && prescriptionData.patientPhone) {
+            console.log('📱 ==============================================');
+            console.log('📱 여기에 문자를 보낼 차례입니다');
+            console.log('📱 ==============================================');
+            console.log('📱 환자 이름:', prescriptionData.patientName);
+            console.log('📱 전화번호:', prescriptionData.patientPhone);
+            console.log('📱 금액:', prescriptionData.amount.toLocaleString() + '원');
+            console.log('📱 ==============================================');
+        }
+        
+        return prescription;
+        
+    } catch (error) {
+        console.error('처방전 발급 실패:', error);
+        throw error;
+    }
+}
+
+/**
+ * 처방전 수정 (암호화 포함)
+ */
+async function updatePrescription(prescriptionId, prescriptionData) {
+    try {
+        console.log('처방전 수정 시작:', prescriptionId, prescriptionData);
+        
+        // 1단계: 민감 정보 암호화
+        const encryptedData = {
+            diagnosis: await encryptData(prescriptionData.diagnosis),
+            prescription_details: await encryptData(prescriptionData.prescriptionDetails),
+            prescription_type: prescriptionData.prescriptionType,
+            amount: prescriptionData.amount,
+            notes: prescriptionData.notes ? await encryptData(prescriptionData.notes) : null,
+            updated_at: new Date().toISOString()
+        };
+        
+        console.log('암호화 완료, DB 업데이트 시작...');
+        
+        // 2단계: DB 업데이트
+        const { data: prescription, error } = await supabase
+            .from('prescriptions')
+            .update(encryptedData)
+            .eq('id', prescriptionId)
+            .select()
+            .single();
+        
+        if (error) throw error;
+        
+        console.log('처방전 수정 성공:', prescription);
+        
+        // 3단계: SMS 발송 대기 (콘솔 로그)
+        if (prescriptionData.patientName && prescriptionData.patientPhone) {
+            console.log('📱 ==============================================');
+            console.log('📱 처방전 수정 - 문자를 보낼 차례입니다');
+            console.log('📱 ==============================================');
+            console.log('📱 환자 이름:', prescriptionData.patientName);
+            console.log('📱 전화번호:', prescriptionData.patientPhone);
+            console.log('📱 금액:', prescriptionData.amount.toLocaleString() + '원');
+            console.log('📱 ==============================================');
+        }
+        
+        return prescription;
+        
+    } catch (error) {
+        console.error('처방전 수정 실패:', error);
+        throw error;
+    }
+}
+
+/**
+ * 처방전 조회 (복호화 포함)
+ */
+async function getPrescription(prescriptionId) {
+    try {
+        const { data, error } = await supabase
+            .from('prescriptions')
+            .select('*')
+            .eq('id', prescriptionId)
+            .single();
+        
+        if (error) throw error;
+        
+        // 복호화
+        if (data) {
+            data.diagnosis = await decryptData(data.diagnosis);
+            data.prescription_details = await decryptData(data.prescription_details);
+            if (data.notes) {
+                data.notes = await decryptData(data.notes);
+            }
+        }
+        
+        return data;
+        
+    } catch (error) {
+        console.error('처방전 조회 실패:', error);
+        return null;
+    }
+}
+
 // ============================================
 // 유틸리티 함수
 // ============================================
@@ -458,4 +591,4 @@ function createAdminNav(currentPage) {
     return navHTML;
 }
 
-console.log('✅ mediAdmin.js 로드 완료 (전체 데이터 조회 + 문진표 복호화 + 설정 버튼 제거)');
+console.log('✅ mediAdmin.js 로드 완료 (전체 데이터 조회 + 문진표 복호화 + 설정 버튼 제거 + createPrescription 추가)');
