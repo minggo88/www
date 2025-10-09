@@ -55,19 +55,14 @@
                 </div>
             </div>
 
-            <!-- 문진표 보기 버튼 -->
-            <div style="margin-top: 15px; display: flex; gap: 10px;">
-                <button type="button" onclick="toggleQuestionnaire()" class="btn btn-outline" id="toggleBtn">
-                    📋 문진표 내용 보기
-                </button>
-                <button type="button" onclick="copyQuestionnaire()" class="btn btn-secondary" id="copyBtn" style="display: none;">
-                    📋 문진표 복사
-                </button>
-            </div>
-
-            <!-- 문진표 내용 (접기/펼치기) -->
-            <div id="questionnaireContent" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-                <h4 style="margin-bottom: 15px; color: #1e293b;">문진표 내용</h4>
+            <!-- 문진표 내용 -->
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h4 style="margin: 0; color: #1e293b;">📋 문진표 내용</h4>
+                    <button type="button" onclick="copyQuestionnaire()" class="btn btn-secondary">
+                        📋 복사
+                    </button>
+                </div>
                 <div id="questionnaireData"></div>
             </div>
         </div>
@@ -180,10 +175,6 @@
     <script src="../assets/js/mediAdmin.js"></script>
     
     <script>
-        // Footer 초기화
-        //initFooter('../');
-        
-        // 기존 스크립트...
         // 페이지 로드 시 인증 확인
         if (!checkAdminAuth()) {
             // checkAdminAuth에서 이미 로그인 페이지로 리다이렉트
@@ -205,7 +196,7 @@
         let currentBooking = null;
         let questionnaireTextData = ''; // 복사용 텍스트 데이터
 
-        // 환자 정보 로드
+        // 환자 정보 로드 (복호화 포함)
         async function loadPatientInfo() {
             try {
                 showLoading('환자 정보를 불러오는 중...');
@@ -216,8 +207,54 @@
                     throw new Error('환자 정보를 찾을 수 없습니다');
                 }
 
-                // 이미 처방전이 발급된 경우
+                // 환자 이름, 전화번호 복호화
+                try {
+                    currentBooking.users.name = await decryptData(currentBooking.users.name);
+                } catch (e) {
+                    console.log('이름 복호화 실패 (평문일 수 있음)');
+                }
+
+                try {
+                    currentBooking.users.phone = await decryptData(currentBooking.users.phone);
+                } catch (e) {
+                    console.log('전화번호 복호화 실패 (평문일 수 있음)');
+                }
+
+                // 문진표 데이터(notes) 복호화
+                if (currentBooking.notes) {
+                    try {
+                        currentBooking.notes = await decryptData(currentBooking.notes);
+                        console.log('문진표 복호화 성공');
+                    } catch (e) {
+                        console.log('문진표 복호화 실패 (평문일 수 있음):', e);
+                    }
+                }
+
+                // 이미 처방전이 발급된 경우 - 처방전도 복호화 필요
                 if (currentBooking.prescriptions && currentBooking.prescriptions.length > 0) {
+                    // 처방전 정보 복호화
+                    for (let prescription of currentBooking.prescriptions) {
+                        try {
+                            prescription.diagnosis = await decryptData(prescription.diagnosis);
+                        } catch (e) {
+                            console.log('진단명 복호화 실패');
+                        }
+
+                        try {
+                            prescription.prescription_details = await decryptData(prescription.prescription_details);
+                        } catch (e) {
+                            console.log('처방 내용 복호화 실패');
+                        }
+
+                        if (prescription.notes) {
+                            try {
+                                prescription.notes = await decryptData(prescription.notes);
+                            } catch (e) {
+                                console.log('특이사항 복호화 실패');
+                            }
+                        }
+                    }
+
                     hideLoading();
                     if (confirm('이미 처방전이 발급되었습니다. 환자 상세 페이지로 이동하시겠습니까?')) {
                         navigateTo(`patient-detail.html?id=${bookingId}`);
@@ -398,10 +435,10 @@
                     amount: amount,
                     notes: notes || null,
                     adminId: adminData.id,
-                    patientName: currentBooking.users.name
+                    patientName: currentBooking.users.name // 이미 복호화된 이름 사용
                 };
 
-                // mediAdmin.js의 createPrescription 함수 호출
+                // mediAdmin.js의 createPrescription 함수 호출 (암호화는 함수 내부에서 처리)
                 const prescription = await createPrescription(prescriptionData);
 
                 hideLoading();

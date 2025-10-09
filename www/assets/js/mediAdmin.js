@@ -144,28 +144,29 @@ async function getPatientDetail(bookingId) {
 }
 
 /**
- * 오늘 신규 접수 조회
+ * 전체 접수 조회 (날짜 제한 없음)
+ * ⚠️ 수정됨: 오늘 날짜 필터 제거하여 전체 데이터 조회
  */
 async function getTodayBookings() {
     try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
+        // 날짜 필터 제거 - 전체 접수 데이터 조회
         const { data, error } = await supabase
             .from('bookings')
             .select(`
                 *,
                 users (name, phone)
             `)
-            .gte('created_at', today.toISOString())
+            // .gte('created_at', today.toISOString()) ← 이 줄 제거!
             .order('created_at', { ascending: false });
         
         if (error) throw error;
         
+        console.log('📋 전체 접수 데이터 로드:', data?.length || 0, '건');
+        
         return data;
         
     } catch (error) {
-        console.error('오늘 접수 조회 실패:', error);
+        console.error('접수 조회 실패:', error);
         return [];
     }
 }
@@ -249,7 +250,7 @@ async function getDashboardStats() {
         };
         
     } catch (error) {
-        console.error('통계 조회 실패:', error);
+        console.error('통계 데이터 조회 실패:', error);
         return {
             todayCount: 0,
             pendingCount: 0,
@@ -261,123 +262,85 @@ async function getDashboardStats() {
 }
 
 // ============================================
-// 상태 관리
+// 데이터 업데이트
 // ============================================
 
 /**
- * 접수 상태 변경
+ * 접수 상태 업데이트
  */
-async function updateBookingStatus(bookingId, status) {
+async function updateBookingStatus(bookingId, newStatus) {
     try {
         const { data, error } = await supabase
             .from('bookings')
-            .update({ status: status })
+            .update({ 
+                status: newStatus,
+                updated_at: new Date().toISOString()
+            })
             .eq('id', bookingId)
             .select()
             .single();
         
         if (error) throw error;
         
+        console.log('상태 업데이트 성공:', data);
         return data;
         
     } catch (error) {
-        console.error('상태 변경 실패:', error);
-        throw error;
-    }
-}
-
-// ============================================
-// 처방전 관리
-// ============================================
-
-/**
- * 처방전 발급
- */
-async function createPrescription(prescriptionData) {
-    try {
-        // 민감한 데이터 암호화
-        const encryptedDiagnosis = await encryptData(prescriptionData.diagnosis);
-        const encryptedDetails = await encryptData(prescriptionData.prescriptionDetails);
-        const encryptedNotes = prescriptionData.notes ? await encryptData(prescriptionData.notes) : null;
-        
-        // 1. 처방전 저장 (암호화된 데이터)
-        const { data: prescription, error: prescError } = await supabase
-            .from('prescriptions')
-            .insert({
-                booking_id: prescriptionData.bookingId,
-                diagnosis: encryptedDiagnosis,
-                prescription_details: encryptedDetails,
-                amount: prescriptionData.amount,
-                prescription_type: prescriptionData.prescriptionType,
-                notes: encryptedNotes,
-                created_by: prescriptionData.adminId
-            })
-            .select()
-            .single();
-        
-        if (prescError) throw prescError;
-        
-        // 2. 접수 상태를 'confirmed'로 변경
-        await updateBookingStatus(prescriptionData.bookingId, 'confirmed');
-        
-        // 3. 환자에게 알림 발송 (텔레그램)
-        if (prescriptionData.patientName) {
-            try {
-                await fetch('https://onfrhbbbxbilletwivoo.supabase.co/functions/v1/send-telegram', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-                    },
-                    body: JSON.stringify({
-                        patientName: `${prescriptionData.patientName} 님의 처방전이 발급되었습니다. 금액: ${prescriptionData.amount.toLocaleString()}원`
-                    })
-                });
-            } catch (telegramError) {
-                console.error('텔레그램 알림 실패:', telegramError);
-            }
-        }
-        
-        return prescription;
-        
-    } catch (error) {
-        console.error('처방전 발급 실패:', error);
+        console.error('상태 업데이트 실패:', error);
         throw error;
     }
 }
 
 /**
- * 처방전 조회 (복호화 포함)
+ * 처방전 저장
  */
-async function getPrescription(bookingId) {
+async function savePrescription(prescriptionData) {
     try {
         const { data, error } = await supabase
             .from('prescriptions')
-            .select('*')
-            .eq('booking_id', bookingId)
+            .insert([prescriptionData])
+            .select()
             .single();
         
         if (error) throw error;
         
-        // 암호화된 데이터 복호화
-        if (data) {
-            data.diagnosis = await decryptData(data.diagnosis);
-            data.prescription_details = await decryptData(data.prescription_details);
-            if (data.notes) {
-                data.notes = await decryptData(data.notes);
-            }
-        }
+        // 접수 상태를 진료완료(confirmed)로 업데이트
+        await updateBookingStatus(prescriptionData.booking_id, 'confirmed');
         
         return data;
         
     } catch (error) {
-        console.error('처방전 조회 실패:', error);
-        return null;
+        console.error('처방전 저장 실패:', error);
+        throw error;
+    }
+}
+
+/**
+ * 결제 정보 저장
+ */
+async function savePayment(paymentData) {
+    try {
+        const { data, error } = await supabase
+            .from('payments')
+            .insert([paymentData])
+            .select()
+            .single();
+        
+        if (error) throw error;
+        
+        // 접수 상태를 결제완료(completed)로 업데이트
+        await updateBookingStatus(paymentData.booking_id, 'completed');
+        
+        return data;
+        
+    } catch (error) {
+        console.error('결제 정보 저장 실패:', error);
+        throw error;
     }
 }
 
 // ============================================
-// UI 헬퍼 함수
+// 유틸리티 함수
 // ============================================
 
 /**
@@ -472,17 +435,17 @@ function createAdminNav(currentPage) {
     
     menuItems.forEach(item => {
         const isActive = currentPage === item.page;
-        const activeStyle = isActive ? 'background: #2563eb; color: white;' : 'background: #f8fafc; color: #64748b;';
+        const activeStyle = isActive ? 
+            'background: #3b82f6; color: white;' : 
+            'background: #f1f5f9; color: #64748b;';
+        
         navHTML += `
-            <a href="${item.page}.html" style="
-                padding: 10px 20px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-weight: 600;
-                ${activeStyle}
-            ">
+            <button 
+                onclick="navigateTo('${item.page}.html')" 
+                style="padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; ${activeStyle}"
+            >
                 ${item.icon} ${item.label}
-            </a>
+            </button>
         `;
     });
     
@@ -490,3 +453,5 @@ function createAdminNav(currentPage) {
     
     return navHTML;
 }
+
+console.log('✅ mediAdmin.js 로드 완료 (전체 데이터 조회 버전)');
