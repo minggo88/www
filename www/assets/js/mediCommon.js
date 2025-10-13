@@ -466,13 +466,13 @@ function initFooter(pathPrefix = '../') {
         <footer class="medi-footer" style="margin-top: 60px; padding: 30px 0; background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
             <div class="container" style="max-width: 1200px; margin: 0 auto; text-align: center;">
                 <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
-                    삼대국민한의원 | 사업자등록번호: (   ) | 대표: 박찬영
+                    삼대국민한의원 | 사업자등록번호: 120-12-33318 | 대표: 임채선
                 </p>
                 <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
-                    주소: 서울특별시 관악구 남부순환로 2056, 2·6층 (남현동, 태림빌딩) | 전화: 02-597-7585
+                    주소: 서울특별시 강남구 테헤란로88길 10, 201호 (대치동, 메트로칸상가) | 전화: 02-1588-7688
                 </p>
                 <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
-                    운영시간: 평일 09:00-18:00 (점심시간 12:00-13:00) | 주말/공휴일 휴무
+                    운영시간: 평일 09:30-18:00 (점심시간 13:30-14:30) | 토요일 09:30-18:00 | 일요일/공휴일 휴무
                 </p>
                 <p style="margin-top: 20px;">
                     <a href="${pathPrefix}legal/privacy.html" target="_blank" style="color: #475569; margin: 0 15px; text-decoration: none;">개인정보처리방침</a>
