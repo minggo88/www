@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>약관 동의 - 비대면 진료</title>
+    <link rel="stylesheet" href="../assets/css/mediStyle.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>📝 약관 동의</h1>
+                <p>비대면 진료를 위해 아래 약관에 동의해주세요</p>
+            </div>
+            
+            <div class="card-body">
+                <form id="consentForm">
+                    <!-- 전체 동의 -->
+                    <div class="form-check" style="margin-bottom: 30px; padding: 20px; background-color: #f8fafc; border-radius: 8px;">
+                        <input type="checkbox" id="agreeAll" class="form-check-input" style="width: 20px; height: 20px;">
+                        <label for="agreeAll" class="form-check-label" style="font-weight: 700; font-size: 16px; margin-left: 10px;">
+                            전체 동의하기
+                        </label>
+                    </div>
+
+                    <!-- 필수 동의 1: 개인정보 수집·이용 -->
+                    <div class="form-check">
+                        <input type="checkbox" id="consent_privacy" name="consent" class="form-check-input required-consent" required>
+                        <label for="consent_privacy" class="form-check-label">
+                            <strong>[필수]</strong> 개인정보 수집·이용 동의
+                            <a href="../legal/privacy.html" target="_blank" style="margin-left: 10px; color: #3b82f6; text-decoration: none;">(전문보기 ↗)</a>
+                        </label>
+                    </div>
+
+                    <!-- 필수 동의 2: 제3자 제공 -->
+                    <div class="form-check">
+                        <input type="checkbox" id="consent_third_party" name="consent" class="form-check-input required-consent" required>
+                        <label for="consent_third_party" class="form-check-label">
+                            <strong>[필수]</strong> 개인정보 제3자 제공 동의 (한의원)
+                            <a href="../legal/third-party.html" target="_blank" style="margin-left: 10px; color: #3b82f6; text-decoration: none;">(전문보기 ↗)</a>
+                        </label>
+                    </div>
+
+                    <!-- 필수 동의 3: 민감정보 -->
+                    <div class="form-check">
+                        <input type="checkbox" id="consent_sensitive" name="consent" class="form-check-input required-consent" required>
+                        <label for="consent_sensitive" class="form-check-label">
+                            <strong>[필수]</strong> 민감정보(건강정보) 처리 동의
+                            <a href="../legal/sensitive.html" target="_blank" style="margin-left: 10px; color: #3b82f6; text-decoration: none;">(전문보기 ↗)</a>
+                        </label>
+                    </div>
+
+                    <!-- 필수 동의 4: 서비스 이용약관 -->
+                    <div class="form-check">
+                        <input type="checkbox" id="consent_terms" name="consent" class="form-check-input required-consent" required>
+                        <label for="consent_terms" class="form-check-label">
+                            <strong>[필수]</strong> 서비스 이용약관 동의
+                            <a href="../legal/terms.html" target="_blank" style="margin-left: 10px; color: #3b82f6; text-decoration: none;">(전문보기 ↗)</a>
+                        </label>
+                    </div>
+
+                    <!-- 선택 동의: 마케팅 -->
+                    <div class="form-check" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+                        <input type="checkbox" id="consent_marketing" name="consent" class="form-check-input">
+                        <label for="consent_marketing" class="form-check-label">
+                            <strong>[선택]</strong> 마케팅 정보 수신 동의
+                            <a href="../legal/marketing.html" target="_blank" style="margin-left: 10px; color: #3b82f6; text-decoration: none;">(전문보기 ↗)</a>
+                            <br>
+                            <small style="color: #64748b; margin-left: 24px;">건강 정보, 이벤트 안내 등을 받아보실 수 있습니다</small>
+                        </label>
+                    </div>
+
+                    <div class="btn-group" style="margin-top: 40px;">
+                        <button type="button" class="btn btn-secondary" onclick="location.href='apply.html'">
+                            이전
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            다음 단계
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 60px; padding: 30px 0; background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
+                한의원명 | 사업자등록번호: 000-00-00000 | 대표: 홍길동
+            </p>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
+                주소: 서울특별시 강남구 | 전화: 02-0000-0000
+            </p>
+            <p style="margin-top: 20px;">
+                <a href="../legal/privacy.html" target="_blank" style="color: #475569; margin: 0 15px; text-decoration: none;">개인정보처리방침</a>
+                <a href="../legal/terms.html" target="_blank" style="color: #475569; margin: 0 15px; text-decoration: none;">이용약관</a>
+                <a href="../legal/sensitive.html" target="_blank" style="color: #475569; margin: 0 15px; text-decoration: none;">민감정보처리방침</a>
+            </p>
+            <p style="color: #94a3b8; font-size: 12px; margin-top: 20px;">
+                © 2025 한의원. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/s_mediConfig.js"></script>
+    <script src="../assets/js/s_mediCommon.js"></script>
+    <script>
+        // 전체 동의 체크박스
+        document.getElementById('agreeAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('input[name="consent"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        // 개별 체크박스 변경 시 전체 동의 상태 업데이트
+        document.querySelectorAll('input[name="consent"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const allCheckboxes = document.querySelectorAll('input[name="consent"]');
+                const checkedCount = document.querySelectorAll('input[name="consent"]:checked').length;
+                document.getElementById('agreeAll').checked = (checkedCount === allCheckboxes.length);
+            });
+        });
+
+        // 폼 제출
+        document.getElementById('consentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const userId = sessionStorage.getItem('userId');
+            if (!userId) {
+                showMessage('환자 정보를 찾을 수 없습니다. 처음부터 다시 시작해주세요.', 'error');
+                location.href = 'apply.html';
+                return;
+            }
+
+            // 필수 동의 확인
+            const requiredConsents = document.querySelectorAll('.required-consent');
+            const allRequired = Array.from(requiredConsents).every(cb => cb.checked);
+            
+            if (!allRequired) {
+                showMessage('필수 약관에 모두 동의해주세요.', 'error');
+                return;
+            }
+
+            try {
+                // 동의 내역 저장
+                const consents = [];
+                const consentTypes = [
+                    { id: 'consent_privacy', type: 'privacy' },
+                    { id: 'consent_third_party', type: 'third_party' },
+                    { id: 'consent_sensitive', type: 'sensitive' },
+                    { id: 'consent_terms', type: 'terms' },
+                    { id: 'consent_marketing', type: 'marketing' }
+                ];
+
+                // IP 주소 가져오기 (옵션)
+                let ipAddress = '';
+                try {
+                    const ipResponse = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipResponse.json();
+                    ipAddress = ipData.ip;
+                } catch (error) {
+                    console.log('IP 주소를 가져올 수 없습니다:', error);
+                }
+
+                // User Agent
+                const userAgent = navigator.userAgent;
+
+                for (const consent of consentTypes) {
+                    const checkbox = document.getElementById(consent.id);
+                    consents.push({
+                        user_id: userId,
+                        consent_type: consent.type,
+                        consent_version: '1.0',
+                        agreed: checkbox.checked,
+                        agreed_at: new Date().toISOString(),
+                        ip_address: ipAddress,
+                        user_agent: userAgent
+                    });
+                }
+
+                // Supabase에 동의 내역 저장
+                const { error } = await supabase
+                    .from('consents')
+                    .insert(consents);
+
+                if (error) throw error;
+
+                // 다음 단계로 이동
+                location.href = 'questionnaire.html';
+
+            } catch (error) {
+                console.error('동의 내역 저장 오류:', error);
+                showMessage('동의 내역 저장 중 오류가 발생했습니다. 다시 시도해주세요.', 'error');
+            }
+        });
+
+        // 페이지 로드 시 userId 확인
+        window.addEventListener('load', function() {
+            const userId = sessionStorage.getItem('userId');
+            if (!userId) {
+                showMessage('환자 정보를 찾을 수 없습니다. 처음부터 시작해주세요.', 'error');
+                setTimeout(() => {
+                    location.href = 'apply.html';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
