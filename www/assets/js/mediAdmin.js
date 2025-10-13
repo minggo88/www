@@ -546,7 +546,7 @@ function createAdminHeader() {
             <div class="container-wide">
                 <div class="d-flex justify-between align-center">
                     <div>
-                        <h2 style="margin: 0; color: #1e293b;">어성초 한의원 관리자</h2>
+                        <h2 style="margin: 0; color: #1e293b;">국민삼대 한의원 관리자</h2>
                     </div>
                     <div class="d-flex align-center gap-2">
                         <span style="color: #64748b;">👤 ${adminData.name} (${adminData.role})</span>

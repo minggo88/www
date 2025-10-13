@@ -466,7 +466,7 @@ function initFooter(pathPrefix = '../') {
         <footer class="medi-footer" style="margin-top: 60px; padding: 30px 0; background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
             <div class="container" style="max-width: 1200px; margin: 0 auto; text-align: center;">
                 <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
-                    어성초한의원 | 사업자등록번호: (   ) | 대표: 박찬영
+                    삼대국민한의원 | 사업자등록번호: (   ) | 대표: 박찬영
                 </p>
                 <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
                     주소: 서울특별시 관악구 남부순환로 2056, 2·6층 (남현동, 태림빌딩) | 전화: 02-597-7585
@@ -480,7 +480,7 @@ function initFooter(pathPrefix = '../') {
                     <a href="${pathPrefix}legal/sensitive.html" target="_blank" style="color: #475569; margin: 0 15px; text-decoration: none;">민감정보처리방침</a>
                 </p>
                 <p style="color: #94a3b8; font-size: 12px; margin-top: 20px;">
-                    © 2025 어성초한의원. All rights reserved.
+                    © 2025 삼대국민한의원. All rights reserved.
                 </p>
             </div>
         </footer>
