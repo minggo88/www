@@ -737,6 +737,39 @@ window.addEventListener('DOMContentLoaded', async () => {
       this.classList.add('active');
     });
   });
+
+  // 탭 배경 이미지를 메뉴 아이콘으로 매핑하고 텍스트 숨김
+  const iconMap = {
+    'National Geographic': '../assets/img/ReadBook/menu_img/natgeo.png.png',
+    'Discovery': '../assets/img/ReadBook/menu_img/discovery.png',
+    'TED': '../assets/img/ReadBook/menu_img/ted.png',
+    'BBC Earth': '../assets/img/ReadBook/menu_img/bbc.png'
+  };
+  const bgSizeMap = {
+    'National Geographic': '70% auto',
+    'Discovery': '70% auto',
+    'TED': '50% auto',
+    'BBC Earth': '40% auto'
+  };
+  tabs.forEach(tab => {
+    const label = tab.dataset.label || tab.textContent.trim();
+    const iconUrl = iconMap[label];
+    if (iconUrl) {
+      tab.style.backgroundImage = `url('${iconUrl}')`;
+      tab.style.backgroundRepeat = 'no-repeat';
+      tab.style.backgroundPosition = 'center';
+      tab.style.backgroundSize = bgSizeMap[label] || '70% auto';
+      tab.style.color = 'transparent';
+      tab.style.textIndent = '-9999px';
+      tab.style.padding = '0';
+      // 기본 크기 지정 (CSS에서 다시 반응형 조정)
+      tab.style.width = '180px';
+      tab.style.height = '56px';
+      // 활성/비활성 시 배경 변경 방지
+      tab.addEventListener('mouseenter', () => { tab.style.opacity = '0.9'; });
+      tab.addEventListener('mouseleave', () => { tab.style.opacity = '1'; });
+    }
+  });
   
   // Search 버튼 이벤트 리스너 추가
   const searchBtn = document.getElementById('searchBtn');
