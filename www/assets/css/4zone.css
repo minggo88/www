@@ -75,19 +75,27 @@ body {
   margin: 0 0 18px 0;
 }
 .tab {
-  background: #f2f2f2;
-  border: 1px solid #ccc;
-  border-radius: 8px 8px 0 0;
-  padding: 12px 48px;
+  background: #000; /* 버튼 배경을 검은색으로 */
+  border: none;
+  border-radius: 8px;
+  padding: 0;
   min-width: 160px;
+  width: 180px;
+  height: 56px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: transform 0.15s ease, opacity 0.15s ease;
 }
 .tab.active {
-  background: #222;
-  color: #fff;
-  border-bottom: 2px solid #222;
+  outline: 2px solid transparent; /* 텍스트 없이 활성상태 외곽선 제거 */
+}
+.tab:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+.tab:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
 }
 #searchbox {
   display: flex;
@@ -888,45 +896,7 @@ body {
 }
 #fs-btn.hide { opacity: 0; pointer-events: none; }
 
-/* 유튜브 플레이어 슬라이드 애니메이션 */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-    max-height: 0;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    max-height: 800px;
-  }
-}
-
-/* 유튜브 플레이어 강제 크기 설정 */
-.yt-inline-player {
-  width: 100% !important;
-  height: 600px !important;
-  min-height: 600px !important;
-  max-height: 800px !important;
-}
-
-.yt-inline-player iframe {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 600px !important;
-}
-
-/* YouTube 플레이어 애니메이션 */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* 유튜브 플레이어 관련 CSS 제거됨 - 팝업 방식으로 변경 */
 
 #tabbar-close-btn { display: none !important; }
 
