@@ -75,19 +75,27 @@ body {
   margin: 0 0 18px 0;
 }
 .tab {
-  background: #f2f2f2;
-  border: 1px solid #ccc;
-  border-radius: 8px 8px 0 0;
-  padding: 12px 48px;
+  background: #000; /* 버튼 배경을 검은색으로 */
+  border: none;
+  border-radius: 8px;
+  padding: 0;
   min-width: 160px;
-  font-size: 0.9rem;
+  width: 180px;
+  height: 56px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: transform 0.15s ease, opacity 0.15s ease;
 }
 .tab.active {
-  background: #222;
-  color: #fff;
-  border-bottom: 2px solid #222;
+  outline: 2px solid transparent; /* 텍스트 없이 활성상태 외곽선 제거 */
+}
+.tab:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+.tab:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
 }
 #searchbox {
   display: flex;
@@ -97,14 +105,14 @@ body {
 }
 #searchInput {
   padding: 8px 14px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   border: 1px solid #bbb;
   border-radius: 6px;
   outline: none;
 }
 #searchBtn {
   padding: 8px 18px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   background: #222;
   color: #fff;
   border: none;
@@ -157,7 +165,7 @@ body {
 .arrow {
   position: absolute;
   top: 50%;
-  font-size: 3rem;
+  font-size: 3.5rem;
   color: #333;
   background: rgba(255, 255, 255, 0.8);
   border: none;
@@ -216,107 +224,19 @@ body {
   border-radius: 0;
   backdrop-filter: none;
   transition: all 0.3s ease;
-  /* 기본 위치 설정 - 모든 화면 크기에서 일관성 유지 */
-  max-width: 40vw;
-  width: auto;
-}
-
-/* 기본 zone 위치 - 퍼센트 기반 */
-.text-zone.zone-1 {
-  top: 8vh;
-  left: 4vw;
-  max-width: 42vw;
-}
-
-.text-zone.zone-2 {
-  top: 8vh;
-  right: 4vw;
-  max-width: 42vw;
-}
-
-.text-zone.zone-3 {
-  bottom: 8vh;
-  left: 4vw;
-  max-width: 42vw;
-}
-
-.text-zone.zone-4 {
-  bottom: 8vh;
-  right: 4vw;
-  max-width: 42vw;
 }
 
 /* 가로 모드 (landscape) */
 @media screen and (orientation: landscape) {
   .text-zone {
-    font-size: 1.8vw;
-  }
-  
-  .text-zone.zone-1 {
-    top: 6vh;
-    left: 3vw;
-    max-width: 44vw;
-  }
-  
-  .text-zone.zone-2 {
-    top: 6vh;
-    right: 3vw;
-    max-width: 44vw;
-  }
-  
-  .text-zone.zone-3 {
-    bottom: 6vh;
-    left: 3vw;
-    max-width: 44vw;
-  }
-  
-  .text-zone.zone-4 {
-    bottom: 6vh;
-    right: 3vw;
-    max-width: 44vw;
-  }
-  
-  /* 가로 모드에서 type3~type9 폰트 사이즈 */
-  .text-zone.type3 p,.text-zone.type4 p,.text-zone.type5 p,.text-zone.type6 p,.text-zone.type7 p,.text-zone.type8 p,.text-zone.type9 p,
-  .text-zone[data-font-type="type3"] p,.text-zone[data-font-type="type4"] p,.text-zone[data-font-type="type5"] p,.text-zone[data-font-type="type6"] p,.text-zone[data-font-type="type7"] p,.text-zone[data-font-type="type8"] p,.text-zone[data-font-type="type9"] p {
-    font-size: 1.16vw !important; /* 1.8vw * 0.7 = 1.26vw (한 단계 줄임) */
+    font-size: 2vw;
   }
 }
 
 /* 세로 모드 (portrait) */
 @media screen and (orientation: portrait) {
   .text-zone {
-    font-size: 2.2vh;
-  }
-  
-  .text-zone.zone-1 {
-    top: 10vh;
-    left: 5vw;
-    max-width: 40vw;
-  }
-  
-  .text-zone.zone-2 {
-    top: 10vh;
-    right: 5vw;
-    max-width: 40vw;
-  }
-  
-  .text-zone.zone-3 {
-    bottom: 10vh;
-    left: 5vw;
-    max-width: 40vw;
-  }
-  
-  .text-zone.zone-4 {
-    bottom: 10vh;
-    right: 5vw;
-    max-width: 40vw;
-  }
-  
-  /* 세로 모드에서 type3~type9 폰트 사이즈 */
-  .text-zone.type3 p,.text-zone.type4 p,.text-zone.type5 p,.text-zone.type6 p,.text-zone.type7 p,.text-zone.type8 p,.text-zone.type9 p,
-  .text-zone[data-font-type="type3"] p,.text-zone[data-font-type="type4"] p,.text-zone[data-font-type="type5"] p,.text-zone[data-font-type="type6"] p,.text-zone[data-font-type="type7"] p,.text-zone[data-font-type="type8"] p,.text-zone[data-font-type="type9"] p {
-    font-size: 1.54vh !important; /* 2.2vh * 0.7 = 1.54vh (한 단계 줄임) */
+    font-size: 2.5vh;
   }
 }
 
@@ -336,7 +256,7 @@ body {
   .tab {
     padding: 6px 12px;
     min-width: 80px;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     border-radius: 6px 6px 0 0;
   }
   
@@ -347,48 +267,24 @@ body {
   
   #searchInput {
     padding: 6px 10px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     border-radius: 4px;
   }
   
   #searchBtn {
     padding: 6px 12px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     border-radius: 4px;
-  }
-  
-  .text-zone {
-    max-width: 45vw;
-  }
-  
-  .text-zone.zone-1 {
-    top: 12vh;
-    left: 6vw;
-  }
-  
-  .text-zone.zone-2 {
-    top: 12vh;
-    right: 6vw;
-  }
-  
-  .text-zone.zone-3 {
-    bottom: 12vh;
-    left: 6vw;
-  }
-  
-  .text-zone.zone-4 {
-    bottom: 12vh;
-    right: 6vw;
   }
 }
 
 /* 텍스트 애니메이션 */
 .text-zone p {
   color: #222;
-          font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
-        font-weight: 600;
-        font-size: 22px;
-        line-height: 1.3;
+  font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 35px;
+  line-height: 1.3;
   letter-spacing: -0.05em;
   text-shadow:
     1px 1px 0 #fff,
@@ -411,18 +307,6 @@ body {
   transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 
-/* 빈 p 태그에 줄바꿈 효과 추가 */
-.text-zone p:empty {
-  height: 1.3em;
-  margin: 0.3em 0;
-}
-
-/* 특정 텍스트를 반단계 크게 표시 */
-.text-zone .larger-text {
-  font-size: 1.15em !important;
-}
-
-
 /* 명사 버튼 스타일 */
 .noun-span {
   cursor: pointer;
@@ -436,22 +320,6 @@ body {
   text-decoration: none;
   transition: background-color 0.2s ease;
 }
-
-/* type2 스타일 - 흰색 폰트와 왼쪽 패딩 */
-.text-zone.type2 p,.text-zone.type3 p,.text-zone.type4 p,.text-zone.type5 p,.text-zone.type6 p,.text-zone.type7 p,.text-zone.type8 p,.text-zone.type9 p,
-.text-zone[data-font-type="type2"] p,.text-zone[data-font-type="type3"] p,.text-zone[data-font-type="type4"] p,.text-zone[data-font-type="type5"] p,.text-zone[data-font-type="type6"] p,.text-zone[data-font-type="type7"] p,.text-zone[data-font-type="type8"] p,.text-zone[data-font-type="type9"] p {
-  color: white !important;
-  padding-left: 3px !important;
-  text-shadow: none !important;
-  font-weight: normal !important;
-}
-
-/* type2 영역 내의 명사 버튼은 흰색으로 */
-.text-zone.type2 .noun-span,.text-zone.type3 .noun-span,.text-zone.type4 .noun-span,.text-zone.type5 .noun-span,.text-zone.type6 .noun-span,.text-zone.type7 .noun-span,.text-zone.type8 .noun-span,.text-zone.type9 .noun-span,
-.text-zone[data-font-type="type2"] .noun-span,.text-zone[data-font-type="type3"] .noun-span,.text-zone[data-font-type="type4"] .noun-span,.text-zone[data-font-type="type5"] .noun-span,.text-zone[data-font-type="type6"] .noun-span,.text-zone[data-font-type="type7"] .noun-span,.text-zone[data-font-type="type8"] .noun-span,.text-zone[data-font-type="type9"] .noun-span {
-  color: white !important;
-}
-
 .noun-span:hover {
   background-color: transparent !important;
 }
@@ -488,7 +356,7 @@ body {
   /* 위치는 JavaScript에서 제어 */
   
   .arrow {
-    font-size: 1.8rem;
+    font-size: 2rem;
     width: 50px;
     height: 50px;
     opacity: 0.8;
@@ -548,23 +416,23 @@ body {
     line-height: 1.3;
   }
   .text-zone.zone-1 {
-    top: 8vh;
-    left: 4vw;
+    top: 80px;
+    left: 48px;
   }
   .text-zone.zone-2 {
-    top: 8vh;
-    right: 4vw;
+    top: 80px;
+    right: 48px;
   }
   .text-zone.zone-3 {
-    bottom: 8vh;
-    left: 4vw;
+    bottom: 120px;
+    left: 48px;
   }
   .text-zone.zone-4 {
-    bottom: 8vh;
-    right: 4vw;
+    bottom: 120px;
+    right: 48px;
   }
   .arrow {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     left: 24px;
     right: 24px;
   }
@@ -622,7 +490,7 @@ body {
   }
   
   .arrow {
-    font-size: 2rem;
+    font-size: 2.2rem;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -685,7 +553,7 @@ body {
   }
   
   .arrow {
-    font-size: 2.7rem;
+    font-size: 3rem;
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -726,7 +594,7 @@ body {
   }
   
   .arrow {
-    font-size: 3rem;
+    font-size: 3.5rem;
     width: 84px;
     height: 84px;
     border-radius: 50%;
@@ -1023,50 +891,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 2.2rem;
   transition: opacity 0.3s;
 }
 #fs-btn.hide { opacity: 0; pointer-events: none; }
 
-/* 유튜브 플레이어 슬라이드 애니메이션 */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-    max-height: 0;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    max-height: 800px;
-  }
-}
-
-/* 유튜브 플레이어 강제 크기 설정 */
-.yt-inline-player {
-  width: 100% !important;
-  height: 600px !important;
-  min-height: 600px !important;
-  max-height: 800px !important;
-}
-
-.yt-inline-player iframe {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 600px !important;
-}
-
-/* YouTube 플레이어 애니메이션 */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* 유튜브 플레이어 관련 CSS 제거됨 - 팝업 방식으로 변경 */
 
 #tabbar-close-btn { display: none !important; }
 

@@ -2,26 +2,7 @@
 window.currentSlideNumber = 1; // 현재 슬라이드 번호
 window.totalSlides = 17; // 총 슬라이드 개수 (이미지 파일 개수에 맞춤)
 
-// 동적 스크립트 로드 함수
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-}
 
-// list_kr.js 동적 로드
-async function loadTranslationScript() {
-  try {
-    await loadScript('../assets/js/list_kr.js');
-    console.log('list_kr.js 로드 완료');
-  } catch (error) {
-    console.error('list_kr.js 로드 실패:', error);
-  }
-}
 
 // 4구역 위치 제어 함수 및 전체화면 고정 위치 계산 포함
 const CONFIG = {
@@ -722,8 +703,6 @@ hideAddressBar();
 
 // 탭바 이벤트 처리
 window.addEventListener('DOMContentLoaded', async () => {
-  // list_kr.js 동적 로드
-  await loadTranslationScript();
   
   const tabs = document.querySelectorAll('.tab');
   const searchInput = document.getElementById('searchInput');
@@ -737,6 +716,39 @@ window.addEventListener('DOMContentLoaded', async () => {
       this.classList.add('active');
     });
   });
+
+  // 탭 배경 이미지를 메뉴 아이콘으로 매핑하고 텍스트 숨김
+  const iconMap = {
+    'National Geographic': '../assets/img/ReadBook/menu_img/natgeo.png.png',
+    'Discovery': '../assets/img/ReadBook/menu_img/discovery.png',
+    'TED': '../assets/img/ReadBook/menu_img/ted.png',
+    'BBC Earth': '../assets/img/ReadBook/menu_img/bbc.png'
+  };
+  const bgSizeMap = {
+    'National Geographic': '70% auto',
+    'Discovery': '70% auto',
+    'TED': '50% auto',
+    'BBC Earth': '40% auto'
+  };
+  tabs.forEach(tab => {
+    const label = tab.dataset.label || tab.textContent.trim();
+    const iconUrl = iconMap[label];
+    if (iconUrl) {
+      tab.style.backgroundImage = `url('${iconUrl}')`;
+      tab.style.backgroundRepeat = 'no-repeat';
+      tab.style.backgroundPosition = 'center';
+      tab.style.backgroundSize = bgSizeMap[label] || '70% auto';
+      tab.style.color = 'transparent';
+      tab.style.textIndent = '-9999px';
+      tab.style.padding = '0';
+      // 기본 크기 지정 (CSS에서 다시 반응형 조정)
+      tab.style.width = '180px';
+      tab.style.height = '56px';
+      // 활성/비활성 시 배경 변경 방지
+      tab.addEventListener('mouseenter', () => { tab.style.opacity = '0.9'; });
+      tab.addEventListener('mouseleave', () => { tab.style.opacity = '1'; });
+    }
+  });
   
   // Search 버튼 이벤트 리스너 추가
   const searchBtn = document.getElementById('searchBtn');
@@ -745,21 +757,28 @@ window.addEventListener('DOMContentLoaded', async () => {
       const activeTab = document.querySelector('.tab.active');
       const tabLabel = activeTab ? activeTab.dataset.label : 'National Geographic';
       const query = searchInput.value;
-      let results = [];
+      
+      // National Geographic 탭일 때는 k211eSearch 데이터 사용
       if (tabLabel === 'National Geographic') {
-          results = await searchInChannel('National Geographic', query);
+        showNationalGeographicResults();
+        return;
+      }
+      
+      let results = [];
+      if (tabLabel === 'BBC Earth') {
+          results = await searchInChannel('BBC Earth', query);
       } else if (tabLabel === 'Discovery') {
           results = await searchInChannel('Discovery', query);
       } else if (tabLabel === 'TED') {
           results = await searchInChannel('TED', query);
-      } else if (tabLabel === 'BBC Earth') {
-          results = await searchInChannel('BBC Earth', query);
       } else {
           results = await globalSearch(query);
       }
       await renderYoutubeResults(results);
     });
   }
+
+  // Keywords 버튼 제거 요청으로 미생성 처리
   
   // X 버튼 이벤트 리스너 추가
   const xBtn = document.getElementById('tabbar-x-btn');
@@ -787,11 +806,234 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+
+// National Geographic 검색 결과 표시 함수
+function showNationalGeographicResults() {
+    // 검색어 가져오기
+    const searchInput = document.getElementById('searchInput');
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    
+    // k211eSearch.js의 데이터 사용
+    let filteredResults = [];
+    if (typeof searchK211eData === 'function') {
+        filteredResults = searchK211eData(query);
+    }
+    
+    // 기존 검색 모달 열기 (search-result-modal 사용)
+    let modal = document.getElementById('search-result-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'search-result-modal';
+        modal.style.position = 'fixed';
+        modal.style.left = '0';
+        modal.style.top = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(0,0,0,0.55)';
+        modal.style.zIndex = '10001';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.innerHTML = `
+            <div style="position:relative; width:90vw; max-width:1200px; height:90vh; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); display:flex; flex-direction:column;">
+                <button id="search-modal-close" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10002;">×</button>
+                <div id="search-iframe-wrap" style="flex:1; min-height:0; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; overflow-y:auto; padding:1em;"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById('search-modal-close').onclick = () => { modal.remove(); };
+    } else {
+        modal.style.display = 'flex';
+    }
+    
+    // 검색 결과를 search-iframe-wrap에 표시 (기존 National Geographic과 동일한 방식)
+    const searchWrap = document.getElementById('search-iframe-wrap');
+    if (!searchWrap) return;
+    
+    // National Geographic과 동일한 HTML 구조 사용
+    let html = '';
+    if (filteredResults.length === 0) {
+        html = '<div style="padding:2em; text-align:center;">검색 결과가 없습니다.</div>';
+    } else {
+        html = filteredResults.map((item, idx) => `
+            <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
+                <div class="yt-thumb-title" data-videoid="${item.videoId}" style="cursor:pointer;display:flex;align-items:center;">
+                    <img src="${item.thumbnail}" 
+                         style="width:120px;height:90px;margin-right:1em;object-fit:cover;border-radius:8px;"
+                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiB2aWV3Qm94PSIwIDAgMTIwIDkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjZjBmMGYwIi8+CjxwYXRoIGQ9Ik02MCA0NUw0NSA2MEg3NUw2MCA0NVoiIGZpbGw9IiNjY2NjY2MiLz4KPHN2Zz4K'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center';">
+                </div>
+                <div>
+                    <div class="yt-thumb-title" data-videoid="${item.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
+                        ${item.title}
+                    </div>
+                    <div style="font-size:0.9em;color:#666;">${item.channel}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    searchWrap.innerHTML = html;
+    
+    // YouTube 클릭 이벤트 추가 (National Geographic과 동일한 방식)
+    setTimeout(() => {
+        document.querySelectorAll('.yt-thumb-title').forEach(el => {
+            el.onclick = function() {
+                const vid = this.dataset.videoid;
+                if (vid) {
+                    // YouTube 주소 콘솔에 출력 (자막 및 한글 설정 포함)
+                    const youtubeUrl = `https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`;
+                    console.log('🎬 YouTube 주소:', youtubeUrl);
+                    console.log('📺 Video ID:', vid);
+                    
+                    // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
+                    const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
+                    
+                    // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
+                    const popupOptions = isWebView ? 
+                        'width=800,height=600,left=50,top=50,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no' :
+                        'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes';
+                    
+                    // 모든 환경에서 Plyr 팝업 뷰어 사용
+                    const popup = window.open(
+                        '',
+                        'youtube_viewer',
+                        popupOptions
+                    );
+                    
+                    if (popup) {
+                        popup.document.write(`
+                            <!DOCTYPE html>
+                            <html>
+                            <head>
+                                <title>YouTube Viewer</title>
+                                <meta charset="utf-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+                                <style>
+                                    body { margin: 0; padding: 0; background: #000; }
+                                    .plyr { height: 100vh; }
+                                </style>
+                            </head>
+                            <body>
+                                <video id="player" playsinline controls>
+                                    <source src="https://www.youtube.com/watch?v=${vid}" type="video/youtube">
+                                </video>
+                                <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+                                <script>
+                                    const player = new Plyr('#player', {
+                                        controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                                        settings: ['captions', 'quality', 'speed'],
+                                        quality: { default: 720, options: [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240] }
+                                    });
+                                </script>
+                            </body>
+                            </html>
+                        `);
+                        popup.document.close();
+                    }
+                }
+            };
+        });
+    }, 100);
+}
+
+// Unique 키워드 수집
+function collectUniqueKeywords() {
+    const set = new Set();
+    try {
+        (slideTemplates || []).forEach(slide => {
+            if (!slide || !slide.zones) return;
+            Object.values(slide.zones).forEach(zone => {
+                if (zone && Array.isArray(zone.keywords)) {
+                    zone.keywords.forEach(k => {
+                        const v = String(k || '').trim();
+                        if (v) set.add(v);
+                    });
+                }
+            });
+        });
+    } catch (e) {
+        console.warn('키워드 수집 실패:', e);
+    }
+    return Array.from(set).sort((a,b)=> a.localeCompare(b));
+}
+
+// Keywords 화면 표시
+function showKeywordsView() {
+    const keywords = collectUniqueKeywords();
+    let modal = document.getElementById('search-result-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'search-result-modal';
+        modal.style.position = 'fixed';
+        modal.style.left = '0';
+        modal.style.top = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(0,0,0,0.55)';
+        modal.style.zIndex = '10001';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.innerHTML = `
+            <div style="position:relative; width:90vw; max-width:1200px; height:90vh; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); display:flex; flex-direction:column;">
+                <button id="search-modal-close" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:none; border:none; cursor:pointer; color:#222; z-index:10002;">×</button>
+                <div id="search-iframe-wrap" style="flex:1; min-height:0; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; overflow-y:auto; padding:1em;"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById('search-modal-close').onclick = () => { modal.remove(); };
+    } else {
+        modal.style.display = 'flex';
+    }
+
+    const wrap = document.getElementById('search-iframe-wrap');
+    if (!wrap) return;
+
+    // 헤더 + 그리드 구성
+    const headerHtml = `
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:4px 2px 12px 2px;">
+        <div style="font-weight:700; font-size:1.25rem; color:#222;">Keywords</div>
+        <div style="font-size:0.95rem; color:#666;">총 ${keywords.length}개</div>
+      </div>
+    `;
+
+    const gridHtml = `
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:10px;">
+        ${keywords.map(k => `
+          <button class="kw-chip" data-k="${k.replace(/"/g,'&quot;')}" style="text-align:left; padding:10px 12px; border:1px solid #e0e0e0; border-radius:10px; background:#fafafa; color:#222; cursor:pointer; transition:all .15s;">
+            <span style="display:block; font-weight:600;">${k}</span>
+          </button>
+        `).join('')}
+      </div>
+    `;
+
+    wrap.innerHTML = headerHtml + gridHtml;
+
+    // 인터랙션: 클릭 시 검색창에 반영 후 NG 결과 표시
+    const searchInput = document.getElementById('searchInput');
+    wrap.querySelectorAll('.kw-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const val = btn.getAttribute('data-k') || '';
+            if (searchInput) searchInput.value = val;
+            // 탭을 National Geographic으로 고정 활성화
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            if (tabs[0]) tabs[0].classList.add('active');
+            // NG 검색 실행
+            showNationalGeographicResults();
+        });
+        btn.addEventListener('mouseenter', () => {
+            btn.style.background = '#f0f0f0';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.background = '#fafafa';
+        });
+    });
+}
+
 // YouTube API 키 및 채널 정보
-//09
-//const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
-//sin
-const API_KEY = 'AIzaSyAqn_ft_-WKvh5BT9qqzfB5DQAf7T5qy-g';
+const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
 
 
 // 채널 정보
