@@ -182,6 +182,30 @@ function safeAdjustForOrientation() {
 let current = 0;
 let textAnimated = Array(slideTemplates.length).fill(false);
 
+// 모든 키워드를 모은 AllKey 객체 생성
+function buildAllKey() {
+  const allKeywords = new Set();
+  if (typeof slideTemplates !== 'undefined' && Array.isArray(slideTemplates)) {
+    slideTemplates.forEach(slide => {
+      if (slide.zones) {
+        Object.values(slide.zones).forEach(zone => {
+          if (zone.keywords && Array.isArray(zone.keywords)) {
+            zone.keywords.forEach(keyword => {
+              if (keyword && keyword.trim()) {
+                allKeywords.add(keyword.trim());
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  return Array.from(allKeywords);
+}
+
+// AllKey 전역 변수
+window.AllKey = buildAllKey();
+
 // 모달 팝업 함수
 function laypop(message) {
   const tabbar = document.getElementById('tabbar-container');
@@ -190,7 +214,18 @@ function laypop(message) {
   if (overlay) overlay.style.display = 'block';
   
   const searchInput = document.getElementById('searchInput');
-  if (searchInput) searchInput.value = message;
+  if (searchInput) {
+    searchInput.value = message;
+    // AllKey에 있는 값이면 읽기 전용으로 설정
+    if (window.AllKey && window.AllKey.includes(message.trim())) {
+      searchInput.setAttribute('readonly', 'readonly');
+      searchInput.style.cursor = 'default';
+      searchInput.style.color = '#222'; // 회색이 아닌 일반 색상
+    } else {
+      searchInput.removeAttribute('readonly');
+      searchInput.style.cursor = 'text';
+    }
+  }
   
   const tabs = document.querySelectorAll('.tab');
   tabs.forEach(tab => tab.classList.remove('active'));
@@ -199,8 +234,7 @@ function laypop(message) {
 
 // 키워드 클릭 이벤트
 function handleKeywordClick(keyword) {
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) searchInput.value = keyword;
+  // 모달 표시
   laypop(keyword);
 }
 
@@ -232,15 +266,44 @@ function renderTextWithKeywords(text, keywords) {
 function renderZoneTextWithNounSpans(text, keywords) {
   if (!text) return '';
   let html = text;
-  // 긴 명사 우선 매칭
-  keywords.sort((a, b) => b.length - a.length).forEach(noun => {
-    // 줄바꿈 포함 매칭: 공백을 [ \n\r\t\f\v]*로 치환
-    const pattern = noun.replace(/ /g, '[ \n\r\t\f\v]*');
-    html = html.replace(
-      new RegExp(pattern, 'gi'),
-      match => `<span class="noun-span">${match}</span>`
-    );
+  
+  // AllKey의 모든 키워드도 포함
+  let allKeywordsToCheck = [];
+  if (keywords && Array.isArray(keywords)) {
+    allKeywordsToCheck = [...keywords];
+  }
+  if (window.AllKey && Array.isArray(window.AllKey)) {
+    // 중복 제거하면서 AllKey 추가
+    window.AllKey.forEach(key => {
+      if (!allKeywordsToCheck.includes(key)) {
+        allKeywordsToCheck.push(key);
+      }
+    });
+  }
+  
+  // 긴 명사 우선 매칭 (AllKey 포함)
+  allKeywordsToCheck.sort((a, b) => b.length - a.length).forEach(noun => {
+    // 키워드를 단어 단위로 분할하여 각 단어를 escape하고 공백을 패턴으로 변환
+    const words = noun.split(/ /);
+    const escapedWords = words.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    // 단어 사이를 줄바꿈 포함 공백 패턴으로 연결
+    const pattern = escapedWords.join('[ \n\r\t\f\v]*');
+    
+    // 태그로 감싸진 부분을 분리하고, 태그가 아닌 부분만 치환
+    const parts = html.split(/(<span[^>]*>.*?<\/span>)/gi);
+    for (let i = 0; i < parts.length; i++) {
+      // span 태그가 아닌 부분만 치환
+      if (!parts[i].startsWith('<span')) {
+        const regex = new RegExp(pattern, 'gi');
+        parts[i] = parts[i].replace(regex, (match) => {
+          // 대소문자 구분 없이 매칭된 원본 그대로 사용
+          return `<span class="noun-span">${match}</span>`;
+        });
+      }
+    }
+    html = parts.join('');
   });
+  
   // <br>로 분할하여 <p>로 감싸기
   return html.split(/<br\s*\/?>/i).map(line => `<p>${line}</p>`).join('');
 }
@@ -253,6 +316,11 @@ function setTextFontSizeByImage(imgElem) {
 
 // 슬라이드 렌더링
 function renderSlide(idx) {
+  // AllKey가 없으면 다시 생성
+  if (!window.AllKey || !Array.isArray(window.AllKey) || window.AllKey.length === 0) {
+    window.AllKey = buildAllKey();
+  }
+  
   // 기준 위치(px) - CONFIG.setZonePosition 값과 일치
   const BASE_WIDTH = 1440;
   const BASE_HEIGHT = 900;
@@ -316,10 +384,12 @@ function renderSlide(idx) {
           e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
+          const clickedText = this.textContent.trim();
+          // AllKey에 있는 값이면 모달 표시 (noun-span으로 렌더링된 것은 모두 AllKey에 있음)
           if (typeof laypop === 'function') {
-            laypop(this.textContent);
+            laypop(clickedText);
           } else {
-            alert(this.textContent);
+            alert(clickedText);
           }
         });
         // 모바일 터치 이벤트 추가
@@ -327,10 +397,12 @@ function renderSlide(idx) {
           e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
+          const clickedText = this.textContent.trim();
+          // AllKey에 있는 값이면 모달 표시 (noun-span으로 렌더링된 것은 모두 AllKey에 있음)
           if (typeof laypop === 'function') {
-            laypop(this.textContent);
+            laypop(clickedText);
           } else {
-            alert(this.textContent);
+            alert(clickedText);
           }
         });
       });
@@ -725,6 +797,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   // list_kr.js 동적 로드
   await loadTranslationScript();
   
+  // AllKey 업데이트 (slideTemplates가 로드된 후)
+  if (typeof slideTemplates !== 'undefined') {
+    window.AllKey = buildAllKey();
+  }
+  
   const tabs = document.querySelectorAll('.tab');
   const searchInput = document.getElementById('searchInput');
   
@@ -737,6 +814,36 @@ window.addEventListener('DOMContentLoaded', async () => {
       this.classList.add('active');
     });
   });
+  
+  // 검색 입력창에서 직접 입력할 때 AllKey 체크
+  if (searchInput) {
+    let previousValue = searchInput.value;
+    searchInput.addEventListener('input', function() {
+      const currentValue = this.value.trim();
+      // 이전 값이 AllKey에 있었고, 현재 값이 변경된 경우 readonly 해제
+      if (previousValue && window.AllKey && window.AllKey.includes(previousValue)) {
+        // AllKey에 있는 값이면 변경하지 못하게 이전 값으로 복원
+        if (currentValue !== previousValue) {
+          this.value = previousValue;
+          return;
+        }
+      }
+      previousValue = currentValue;
+    });
+    
+    // 포커스 이벤트로 AllKey 체크
+    searchInput.addEventListener('focus', function() {
+      const currentValue = this.value.trim();
+      if (window.AllKey && window.AllKey.includes(currentValue)) {
+        this.setAttribute('readonly', 'readonly');
+        this.style.cursor = 'default';
+        this.style.color = '#222';
+      } else {
+        this.removeAttribute('readonly');
+        this.style.cursor = 'text';
+      }
+    });
+  }
 
   // 탭 배경 이미지를 메뉴 아이콘으로 매핑하고 텍스트 숨김
   const iconMap = {
