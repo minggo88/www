@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유튜브 한국어 자막 다운로더</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .example {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .example code {
+            background: #e0e0e0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+        }
+
+        .status.success {
+            background: #e8f5e9;
+            color: #388e3c;
+            border-left: 4px solid #388e3c;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #d32f2f;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .progress {
+            margin-top: 20px;
+        }
+
+        .progress-item {
+            background: #f5f5f5;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-item .video-title {
+            flex: 1;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .progress-item .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.processing {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-badge.success {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-badge.failed {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 유튜브 한국어 자막 다운로더</h1>
+        <p class="subtitle">여러 영상의 자막을 한 번에 다운로드하세요</p>
+
+        <div class="input-group">
+            <label for="videoUrls">유튜브 영상 URL 입력:</label>
+            <textarea 
+                id="videoUrls" 
+                placeholder="https://www.youtube.com/watch?v=2jrMEc8Bvy8&#10;https://www.youtube.com/watch?v=another_video&#10;&#10;또는&#10;&#10;https://www.youtube.com/watch?v=video1, https://www.youtube.com/watch?v=video2"></textarea>
+            <div class="example">
+                💡 <strong>여러 영상 입력 방법:</strong><br>
+                • 줄바꿈으로 구분 (Enter 키)<br>
+                • 쉼표(<code>,</code>)로 구분<br>
+                • 두 방법 혼용 가능
+            </div>
+        </div>
+
+        <button id="downloadBtn" onclick="downloadSubtitles()">자막 다운로드 시작</button>
+
+        <div id="status" class="status"></div>
+        <div id="progress"></div>
+    </div>
+
+    <script>
+        function extractVideoId(url) {
+            // 다양한 유튜브 URL 형식 지원
+            const patterns = [
+                /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s?]+)/,
+                /^([a-zA-Z0-9_-]{11})$/ // 직접 비디오 ID 입력
+            ];
+            
+            for (let pattern of patterns) {
+                const match = url.match(pattern);
+                if (match) return match[1];
+            }
+            return null;
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status show ${type}`;
+        }
+
+        function addProgressItem(videoId, title, status) {
+            const progressDiv = document.getElementById('progress');
+            const itemId = `progress-${videoId}`;
+            
+            let item = document.getElementById(itemId);
+            if (!item) {
+                item = document.createElement('div');
+                item.id = itemId;
+                item.className = 'progress-item';
+                progressDiv.appendChild(item);
+            }
+
+            const statusClass = status === 'processing' ? 'processing' : 
+                               status === 'success' ? 'success' : 'failed';
+            const statusText = status === 'processing' ? '처리 중...' : 
+                              status === 'success' ? '완료 ✓' : '실패 ✗';
+
+            item.innerHTML = `
+                <div class="video-title">${title}</div>
+                <span class="status-badge ${statusClass}">${statusText}</span>
+                ${status === 'processing' ? '<div class="spinner"></div>' : ''}
+            `;
+        }
+
+        async function fetchSubtitle(videoId) {
+            // YouTube의 자막 데이터를 가져오는 API 엔드포인트
+            const apiUrl = `https://www.youtube.com/api/timedtext?v=${videoId}&lang=ko&fmt=srv3`;
+            
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error('자막을 찾을 수 없습니다');
+                
+                const xmlText = await response.text();
+                return xmlText;
+            } catch (error) {
+                throw new Error('자막 다운로드 실패');
+            }
+        }
+
+        function xmlToSrt(xmlText) {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+            const textElements = xmlDoc.getElementsByTagName('text');
+            
+            if (textElements.length === 0) {
+                throw new Error('자막 데이터가 비어있습니다');
+            }
+
+            let srt = '';
+            for (let i = 0; i < textElements.length; i++) {
+                const element = textElements[i];
+                const start = parseFloat(element.getAttribute('start'));
+                const dur = parseFloat(element.getAttribute('dur') || '0');
+                const text = element.textContent.replace(/&amp;/g, '&')
+                                                .replace(/&lt;/g, '<')
+                                                .replace(/&gt;/g, '>')
+                                                .replace(/&quot;/g, '"')
+                                                .replace(/&#39;/g, "'");
+
+                const startTime = formatTime(start);
+                const endTime = formatTime(start + dur);
+
+                srt += `${i + 1}\n`;
+                srt += `${startTime} --> ${endTime}\n`;
+                srt += `${text}\n\n`;
+            }
+
+            return srt;
+        }
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            const ms = Math.floor((seconds % 1) * 1000);
+
+            return `${pad(hours)}:${pad(minutes)}:${pad(secs)},${pad(ms, 3)}`;
+        }
+
+        function pad(num, size = 2) {
+            return String(num).padStart(size, '0');
+        }
+
+        function downloadFile(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        async function downloadSubtitles() {
+            const textarea = document.getElementById('videoUrls');
+            const input = textarea.value.trim();
+
+            if (!input) {
+                showStatus('⚠️ URL을 입력해주세요', 'error');
+                return;
+            }
+
+            // 쉼표와 줄바꿈으로 URL 분리
+            const urls = input.split(/[\n,]+/)
+                             .map(url => url.trim())
+                             .filter(url => url.length > 0);
+
+            if (urls.length === 0) {
+                showStatus('⚠️ 유효한 URL을 입력해주세요', 'error');
+                return;
+            }
+
+            const button = document.getElementById('downloadBtn');
+            button.disabled = true;
+            button.textContent = '다운로드 중...';
+
+            const progressDiv = document.getElementById('progress');
+            progressDiv.innerHTML = '';
+
+            showStatus(`📥 ${urls.length}개의 영상 자막을 다운로드합니다...`, 'info');
+
+            let successCount = 0;
+            let failCount = 0;
+
+            for (const url of urls) {
+                const videoId = extractVideoId(url);
+                
+                if (!videoId) {
+                    addProgressItem(url, url, 'failed');
+                    failCount++;
+                    continue;
+                }
+
+                addProgressItem(videoId, `영상 ID: ${videoId}`, 'processing');
+
+                try {
+                    const xmlText = await fetchSubtitle(videoId);
+                    const srtContent = xmlToSrt(xmlText);
+                    const filename = `${videoId}.ko.srt`;
+                    
+                    downloadFile(srtContent, filename);
+                    addProgressItem(videoId, `${filename}`, 'success');
+                    successCount++;
+                    
+                    // 각 다운로드 사이에 짧은 지연
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                } catch (error) {
+                    addProgressItem(videoId, `영상 ID: ${videoId} - ${error.message}`, 'failed');
+                    failCount++;
+                }
+            }
+
+            button.disabled = false;
+            button.textContent = '자막 다운로드 시작';
+
+            if (failCount === 0) {
+                showStatus(`✅ 모든 자막 다운로드 완료! (${successCount}개)`, 'success');
+            } else {
+                showStatus(`⚠️ 다운로드 완료: 성공 ${successCount}개, 실패 ${failCount}개`, 'error');
+            }
+        }
+
+        // Enter 키 이벤트는 textarea에서 줄바꿈으로 사용
+        document.getElementById('videoUrls').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                downloadSubtitles();
+            }
+        });
+    </script>
+</body>
+</html>
