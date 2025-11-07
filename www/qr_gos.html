@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR 코드 갤러리</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 0;
+        }
+
+        .manual-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .manual-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.4);
+            background: #f8f8f8;
+        }
+
+        .manual-btn:active {
+            transform: translateY(0);
+        }
+
+        .qr-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .qr-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .qr-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .qr-code {
+            width: 100%;
+            height: 200px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .qr-title {
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            max-height: 90vh;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .modal-qr {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .modal-title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .manual-modal .modal-content {
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .manual-content {
+            padding: 20px;
+        }
+
+        .manual-content h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .manual-content h3 {
+            color: #764ba2;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .manual-content p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .manual-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .manual-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            .qr-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>QR 코드 갤러리</h1>
+            <button class="manual-btn" onclick="openManual()">📖 메뉴얼 보기</button>
+        </div>
+        
+        <div class="qr-grid">
+            <!-- QR 아이템 1 -->
+            <div class="qr-item" onclick="openModal(1)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k2_install_qr.png" alt="k2 QR">
+                </div>
+                <div class="qr-title">k2</div>
+            </div>
+
+            <!-- QR 아이템 2 -->
+            <div class="qr-item" onclick="openModal(2)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k3_install_qr.png" alt="k3 QR">
+                </div>
+                <div class="qr-title">k3</div>
+            </div>
+
+            <!-- QR 아이템 3 -->
+            <div class="qr-item" onclick="openModal(3)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k4_install_qr.png" alt="k4 QR">
+                </div>
+                <div class="qr-title">k4</div>
+            </div>
+
+            <!-- QR 아이템 4 -->
+            <div class="qr-item" onclick="openModal(4)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k5_install_qr.png" alt="k5 QR">
+                </div>
+                <div class="qr-title">k5</div>
+            </div>
+
+            <!-- QR 아이템 5 -->
+            <div class="qr-item" onclick="openModal(5)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k6_install_qr.png" alt="k6 QR">
+                </div>
+                <div class="qr-title">k6</div>
+            </div>
+
+            <!-- QR 아이템 6 -->
+            <div class="qr-item" onclick="openModal(6)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k7_install_qr.png" alt="k7 QR">
+                </div>
+                <div class="qr-title">k7</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR 확대 모달 -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modalQR" class="modal-qr" src="" alt="QR Code">
+            <div id="modalTitle" class="modal-title"></div>
+        </div>
+    </div>
+
+    <!-- 메뉴얼 모달 -->
+    <div id="manualModal" class="modal manual-modal" onclick="closeManual()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="manual-content">
+                <h2>📖 QR 코드 사용 메뉴얼</h2>
+                
+                <p>현재 작성중에 있습니다.</p>
+                <!--<h3>1. QR 코드란?</h3>
+                <p>QR(Quick Response) 코드는 스마트폰 카메라로 스캔하여 빠르게 정보에 접근할 수 있는 2차원 바코드입니다.</p>
+                
+                <h3>2. QR 코드 스캔 방법</h3>
+                <ul>
+                    <li><strong>iPhone:</strong> 기본 카메라 앱을 실행하고 QR 코드에 카메라를 비추면 자동으로 인식됩니다.</li>
+                    <li><strong>Android:</strong> 카메라 앱을 실행하거나, Google Lens를 사용하여 QR 코드를 스캔할 수 있습니다.</li>
+                    <li><strong>전용 앱:</strong> 플레이스토어나 앱스토어에서 'QR 코드 스캐너' 앱을 다운로드하여 사용할 수도 있습니다.</li>
+                </ul>
+                
+                <h3>3. 각 QR 코드 기능</h3>
+                <ul>
+                    <li><strong>홈페이지 접속:</strong> 공식 웹사이트로 바로 이동합니다.</li>
+                    <li><strong>메뉴판 보기:</strong> 디지털 메뉴를 확인할 수 있습니다.</li>
+                    <li><strong>Wi-Fi 연결:</strong> 자동으로 무선 인터넷에 연결됩니다.</li>
+                    <li><strong>앱 다운로드:</strong> 모바일 앱 다운로드 페이지로 이동합니다.</li>
+                    <li><strong>고객 리뷰:</strong> 리뷰 작성 및 확인 페이지로 이동합니다.</li>
+                    <li><strong>결제하기:</strong> 간편 결제 페이지로 이동합니다.</li>
+                </ul>
+                
+                <h3>4. 사용 팁</h3>
+                <ul>
+                    <li>QR 코드와 스마트폰 사이의 거리를 10~20cm 정도 유지하세요.</li>
+                    <li>충분한 조명이 있는 곳에서 스캔하세요.</li>
+                    <li>QR 코드가 손상되거나 가려지지 않았는지 확인하세요.</li>
+                    <li>카메라 렌즈가 깨끗한지 확인하세요.</li>
+                </ul>
+                
+                <h3>5. 문의사항</h3>
+                <p>QR 코드 스캔에 문제가 있거나 궁금한 사항이 있으시면 고객센터로 문의해주세요.</p>
+                <p><strong>고객센터:</strong> 1234-5678 (평일 09:00-18:00)</p>-->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const qrData = {
+            1: { title: "k2", img: "../assets/img/qr/k2_install_qr.png" },
+            2: { title: "k3", img: "../assets/img/qr/k3_install_qr.png" },
+            3: { title: "k4", img: "../assets/img/qr/k4_install_qr.png" },
+            4: { title: "k5", img: "../assets/img/qr/k5_install_qr.png" },
+            5: { title: "k6", img: "../assets/img/qr/k6_install_qr.png" },
+            6: { title: "k7", img: "../assets/img/qr/k7_install_qr.png" }
+        };
+
+        function openModal(id) {
+            const modal = document.getElementById('modal');
+            const modalQR = document.getElementById('modalQR');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalQR.src = qrData[id].img;
+            modalTitle.textContent = qrData[id].title;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+        }
+
+        function openManual() {
+            const manualModal = document.getElementById('manualModal');
+            manualModal.classList.add('active');
+        }
+
+        function closeManual() {
+            const manualModal = document.getElementById('manualModal');
+            manualModal.classList.remove('active');
+        }
+
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                closeManual();
+            }
+        });
+    </script>
+</body>
+</html>
