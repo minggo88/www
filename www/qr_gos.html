@@ -149,42 +149,80 @@
         }
 
         .manual-modal .modal-content {
-            max-width: 700px;
-            max-height: 80vh;
+            max-width: 800px;
+            max-height: 85vh;
             overflow-y: auto;
         }
 
         .manual-content {
-            padding: 20px;
+            padding: 30px;
         }
 
         .manual-content h2 {
             color: #667eea;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            font-size: 1.8em;
         }
 
         .manual-content h3 {
             color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .manual-content h4 {
+            color: #555;
             margin-top: 20px;
             margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: 600;
         }
 
         .manual-content p {
-            line-height: 1.6;
-            margin-bottom: 10px;
+            line-height: 1.8;
+            margin-bottom: 12px;
             color: #555;
         }
 
         .manual-content ul {
-            margin-left: 20px;
+            margin-left: 25px;
             margin-bottom: 15px;
         }
 
         .manual-content li {
-            margin-bottom: 8px;
-            line-height: 1.5;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .manual-content strong {
+            font-weight: 600;
+        }
+
+        .manual-img {
+            width: 100%;
+            max-width: 400px;
+            margin: 15px auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .manual-img-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .manual-img-row img {
+            width: calc(33.333% - 7px);
+            max-width: 250px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         @keyframes fadeIn {
@@ -283,40 +321,129 @@
     <div id="manualModal" class="modal manual-modal" onclick="closeManual()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="manual-content">
-                <h2>📖 QR 코드 사용 메뉴얼</h2>
+                <h2>🎯 갤럭시탭 QR코드 앱 설치 가이드</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">ManageEngine MDM 키오스크 모드 멀티 어플리케이션 설치 매뉴얼</p>
                 
-                <p>현재 작성중에 있습니다.</p>
-                <!--<h3>1. QR 코드란?</h3>
-                <p>QR(Quick Response) 코드는 스마트폰 카메라로 스캔하여 빠르게 정보에 접근할 수 있는 2차원 바코드입니다.</p>
-                
-                <h3>2. QR 코드 스캔 방법</h3>
+                <h3>📋 시스템 요구사항</h3>
                 <ul>
-                    <li><strong>iPhone:</strong> 기본 카메라 앱을 실행하고 QR 코드에 카메라를 비추면 자동으로 인식됩니다.</li>
-                    <li><strong>Android:</strong> 카메라 앱을 실행하거나, Google Lens를 사용하여 QR 코드를 스캔할 수 있습니다.</li>
-                    <li><strong>전용 앱:</strong> 플레이스토어나 앱스토어에서 'QR 코드 스캐너' 앱을 다운로드하여 사용할 수도 있습니다.</li>
+                    <li>갤럭시탭 (Android OS)</li>
+                    <li>QR코드 스캔 가능한 카메라</li>
+                    <li>인터넷 연결</li>
+                    <li>ManageEngine MDM 지원 기기</li>
                 </ul>
                 
-                <h3>3. 각 QR 코드 기능</h3>
+                <div style="background: #f8d7da; border: 2px solid #dc3545; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                    <h3 style="color: #721c24;">🚨 매우 중요한 사항</h3>
+                    <p><strong>QR코드 촬영은 반드시 갤럭시탭 초기화 화면의 숨겨진 QR코드 촬영 모드를 사용해야 합니다!</strong></p>
+                    <p>일반 카메라 앱이나 QR코드 스캐너 앱으로는 설치가 되지 않습니다.</p>
+                </div>
+                
+                <h3>🚀 설치 단계별 가이드</h3>
+                
+                <h4>1️⃣ 갤럭시탭 초기화 또는 초기 설정 화면 진입</h4>
+                <p>갤럭시탭을 초기화하거나 초기 설정 화면으로 진입합니다.</p>
                 <ul>
-                    <li><strong>홈페이지 접속:</strong> 공식 웹사이트로 바로 이동합니다.</li>
-                    <li><strong>메뉴판 보기:</strong> 디지털 메뉴를 확인할 수 있습니다.</li>
-                    <li><strong>Wi-Fi 연결:</strong> 자동으로 무선 인터넷에 연결됩니다.</li>
-                    <li><strong>앱 다운로드:</strong> 모바일 앱 다운로드 페이지로 이동합니다.</li>
-                    <li><strong>고객 리뷰:</strong> 리뷰 작성 및 확인 페이지로 이동합니다.</li>
-                    <li><strong>결제하기:</strong> 간편 결제 페이지로 이동합니다.</li>
+                    <li>새 기기인 경우: 전원을 켜면 자동으로 초기 설정 화면이 나타납니다</li>
+                    <li>기존 기기인 경우: 설정 → 일반관리 → 초기화 → 기기 전체 초기화</li>
                 </ul>
                 
-                <h3>4. 사용 팁</h3>
+                <h4>2️⃣ QR코드 촬영 모드 활성화 (핵심 단계)</h4>
+                <div style="background: #ffe4e1; padding: 12px; border-radius: 6px; border-left: 4px solid #ff6b6b; margin: 10px 0;">
+                    <p><strong>🔴 초기화 화면에서 화면을 6~9번 연속으로 빠르게 탭하세요!</strong></p>
+                    <p>화면 중앙 부분을 연속으로 6~9번 탭하면 숨겨진 QR코드 촬영 모드가 나타납니다.</p>
+                </div>
+                <p><strong>참고사항:</strong></p>
                 <ul>
-                    <li>QR 코드와 스마트폰 사이의 거리를 10~20cm 정도 유지하세요.</li>
-                    <li>충분한 조명이 있는 곳에서 스캔하세요.</li>
-                    <li>QR 코드가 손상되거나 가려지지 않았는지 확인하세요.</li>
-                    <li>카메라 렌즈가 깨끗한지 확인하세요.</li>
+                    <li>탭하는 위치: 화면 빈페이지 (로고나 텍스트 없는 부분)</li>
+                    <li>탭하는 속도: 빠르게 연속으로</li>
+                    <li>탭하는 횟수: 6번~9번 (기기에 따라 다를 수 있음)</li>
+                    <li>성공 시: QR코드 스캐너가 자동으로 실행됩니다</li>
+                </ul>
+                <img src="../assets/img/qr/1.jpg" alt="QR 촬영 모드 활성화" class="manual-img">
+                
+                <h4>3️⃣ QR코드 스캔</h4>
+                <p>QR코드 촬영 모드가 활성화되면:</p>
+                <ul>
+                    <li>카메라가 자동으로 실행됩니다</li>
+                    <li>PC 모니터나 다른 기기에 표시된 QR코드를 카메라 화면에 맞춰주세요</li>
+                    <li>QR코드가 자동으로 인식됩니다</li>
+                </ul>
+                <p><strong>💡 팁:</strong> QR코드가 화면에 꽉 차도록 거리를 조절하세요</p>
+                <img src="../assets/img/qr/2.jpg" alt="QR코드 스캔" class="manual-img">
+                
+                <h4>4️⃣ 자동 앱 설치</h4>
+                <p>QR코드 스캔이 완료되면 <strong>자동으로 MDM 앱이 다운로드되고 설치됩니다.</strong></p>
+                <ul>
+                    <li>설치 진행 상황이 화면에 표시됩니다</li>
+                    <li>네트워크 상태에 따라 1-3분 정도 소요됩니다</li>
+                    <li>설치 중에는 기기를 조작하지 마세요</li>
                 </ul>
                 
-                <h3>5. 문의사항</h3>
-                <p>QR 코드 스캔에 문제가 있거나 궁금한 사항이 있으시면 고객센터로 문의해주세요.</p>
-                <p><strong>고객센터:</strong> 1234-5678 (평일 09:00-18:00)</p>-->
+                <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 15px; margin: 15px 0;">
+                    <h4 style="color: #856404;">⚠️ 중요 안내사항</h4>
+                    <p><strong>사용자 OS가 설치되면 반드시 권한 설정이 필요합니다!</strong></p>
+                    <p>앱이 정상적으로 작동하기 위해서는 요청되는 권한을 반드시 승인해주셔야 합니다.</p>
+                </div>
+                
+                <h4>5️⃣ 권한 승인 (필수)</h4>
+                <p>앱 설치 완료 후 권한 요청 팝업이 나타납니다.</p>
+                <p><strong>요청되는 권한들:</strong></p>
+                <ul>
+                    <li>시스템 설정 변경 → <strong style="color: #28a745;">허용</strong></li>
+                    <br>
+                    <li> 앱실행시 추가 요청 사항시</li>
+                    <li>기기 관리자 권한 → <strong style="color: #28a745;">허용</strong></li>
+                    <li>접근성 권한 → <strong style="color: #28a745;">허용</strong></li>
+                    <li>저장소 접근 권한 → <strong style="color: #28a745;">허용</strong></li>
+                    <li>위치 권한 (요청 시) → <strong style="color: #28a745;">허용</strong></li>
+                </ul>
+                <p><strong>⚠️ 모든 권한을 반드시 "허용"으로 설정해주세요!</strong></p>
+                <div class="manual-img-row">
+                    <img src="../assets/img/qr/3.jpg" alt="권한 승인 1">
+                    <img src="../assets/img/qr/4.jpg" alt="권한 승인 2">
+                    <img src="../assets/img/qr/5.jpg" alt="권한 승인 3">
+                </div>
+                
+                <h4>6️⃣ 키오스크 모드 활성화</h4>
+                <p>모든 권한 설정이 완료되면:</p>
+                <ul>
+                    <li>ManageEngine MDM 키오스크 모드가 자동 활성화됩니다</li>
+                    <li>설정된 멀티 어플리케이션들이 화면에 표시됩니다</li>
+                    <li>지정된 앱들만 사용 가능하게 됩니다</li>
+                    <li>홈 버튼, 최근 앱 버튼 등이 제한됩니다</li>
+                </ul>
+                
+                <div style="background: #d4edda; border: 2px solid #28a745; border-radius: 8px; padding: 15px; margin: 15px 0;">
+                    <h4 style="color: #155724;">✅ 설치 완료!</h4>
+                    <p>위 단계를 모두 완료하셨다면 갤럭시탭이 키오스크 모드로 정상 작동하게 됩니다.</p>
+                </div>
+                
+                <h3>💡 문제 해결</h3>
+                
+                <h4>QR코드 촬영 모드가 나타나지 않는 경우:</h4>
+                <ul>
+                    <li>초기화 화면이 맞는지 확인하세요</li>
+                    <li>화면을 더 빠르게 6~9번 탭해보세요</li>
+                    <li>화면의 다른 위치(중앙, 상단 등)를 탭해보세요</li>
+                    <li>기기를 재시작 후 다시 시도하세요</li>
+                </ul>
+                
+                <h4>QR코드 스캔이 안 되는 경우:</h4>
+                <ul>
+                    <li>카메라 렌즈를 깨끗이 닦아주세요</li>
+                    <li>충분한 조명이 있는지 확인하세요</li>
+                    <li>QR코드가 화면에 완전히 표시되는지 확인하세요</li>
+                    <li><strong style="color: #dc3545;">반드시 초기화 화면의 QR 촬영 모드를 사용하세요!</strong></li>
+                </ul>
+                
+                <h4>앱 설치가 실패하는 경우:</h4>
+                <ul>
+                    <li>인터넷 연결을 확인하세요</li>
+                </ul>
+                
+                <p style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e9ecef; color: #999;">
+                    문의사항이 있으시면 IT 관리자(nmnmlok07@gmail.com)에게 연락해주세요
+                </p>
             </div>
         </div>
     </div>
