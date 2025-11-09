@@ -5,14 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K2 Series - 아기 기린과 함께하는 학습 여행</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        /* CSS 변수 대신 직접 색상 코드 사용 */
         :root {
             --primary-color: #5956E9;
             --secondary-color: #7B68EE;
@@ -22,414 +15,509 @@
             --bg-light: #F8F9FA;
             --border-color: #E9ECEF;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: var(--text-dark);
+            color: #2D3436;
             background: #ffffff;
-            padding: 20px;
+            width: 210mm; /* A4 너비 */
+            margin: 0 auto;
         }
-        
-        /* Print Styles */
-        @media print {
-            body {
-                padding: 0;
-            }
-            .header, .footer, .hero-badges, .feature-status, .sub-feature-number {
-                display: none !important;
-            }
-            .container {
-                padding: 0 !important;
-            }
-            .section {
-                page-break-inside: avoid;
-            }
-            .feature-card, .sub-feature, .detail-section {
-                page-break-inside: avoid;
-            }
-            .image-placeholder {
-                page-break-inside: avoid;
-                margin: 20px 0;
-            }
-            .image-placeholder img {
-                max-width: 100% !important;
-                height: auto !important;
-            }
+
+        /* 헤더/풋터 숨기기 (인쇄용) */
+        .header, .footer {
+            display: none !important;
         }
-        
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #5956E9 0%, #7B68EE 100%);
-            padding: 15px 0;
-            width: 100%;
-            color: white;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 1.5em;
-            font-weight: 700;
-        }
-        
-        .logo-icon {
-            height: 40px;
-            width: auto;
-        }
-        
-        .logo-icon img {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
-        }
-        
-        /* Hero Section */
+
+        /* Hero Section - ::before pseudo-element 제거 */
         .hero {
+            background: linear-gradient(135deg, #5956E9 0%, #7B68EE 100%);
+            padding: 50px 0 50px;
             text-align: center;
-            margin-bottom: 40px;
+            color: white;
         }
-        
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
         .hero-giraffe {
             width: 150px;
             height: auto;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
-        
+
         .hero h1 {
-            font-size: 2.5em;
+            font-size: 3em;
             font-weight: 900;
-            margin-bottom: 10px;
-        }
-        
-        .hero p {
-            font-size: 1.2em;
             margin-bottom: 20px;
         }
-        
+
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+        }
+
         /* Main Content */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 40px 20px;
         }
-        
+
         /* Section Title */
         .section {
             margin-bottom: 40px;
+            page-break-inside: avoid;
         }
-        
+
         .section-header {
             text-align: center;
             margin-bottom: 30px;
+            break-before: page; /* 섹션 헤더는 새로운 페이지에서 시작 */
+            page-break-inside: avoid;
         }
-        
+
         .section-number {
             display: inline-block;
-            background: var(--primary-color);
+            background: #5956E9;
             color: white;
             width: 40px;
             height: 40px;
             line-height: 40px;
             border-radius: 50%;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
-        
+
         .section-title {
-            font-size: 2em;
+            font-size: 2.5em;
             font-weight: 700;
-            color: var(--text-dark);
+            color: #2D3436;
             margin-bottom: 10px;
         }
-        
+
         .section-subtitle {
-            color: var(--text-gray);
+            color: #636E72;
             font-size: 1.1em;
         }
-        
+
         /* Feature Cards Grid */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 30px;
+            margin-bottom: 50px;
         }
-        
+
         .feature-card {
             background: white;
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            position: relative;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid #E9ECEF;
+            page-break-inside: avoid; /* 페이지 분리 방지 */
         }
-        
+
         .feature-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2em;
-            color: white;
-            margin-bottom: 15px;
-        }
-        
-        .feature-title {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-        }
-        
-        .feature-description {
-            color: var(--text-gray);
-            line-height: 1.6;
-        }
-        
-        /* Image Placeholder */
-        .image-placeholder {
-            background: #f5f5f5;
-            border: 1px dashed var(--primary-color);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: center;
-        }
-        
-        .image-placeholder img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-        
-        .image-placeholder p {
-            color: var(--primary-color);
-            font-weight: 600;
-            font-size: 0.9em;
-            margin-top: 10px;
-        }
-        
-        /* Detailed Sections */
-        .detail-section {
-            background: var(--bg-light);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .detail-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .detail-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 10px;
+            background: linear-gradient(135deg, #5956E9, #7B68EE);
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5em;
             color: white;
+            margin-bottom: 20px;
         }
-        
-        .detail-title h2 {
-            font-size: 1.8em;
-            color: var(--text-dark);
-            margin-bottom: 5px;
+
+        .feature-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #2D3436;
+            margin-bottom: 15px;
         }
-        
-        .detail-title p {
-            color: var(--text-gray);
+
+        .feature-description {
+            color: #636E72;
+            line-height: 1.8;
+            margin-bottom: 20px;
         }
-        
-        .detail-content {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
+
+        .feature-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #D4EDDA;
+            color: #155724;
+        }
+
+        .status-preparing {
+            background: #FFF3CD;
+            color: #856404;
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            background: linear-gradient(135deg, #F5F7FA 0%, #C3CFE2 100%);
+            border: 2px dashed #5956E9;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+
+        /* IT Book 이미지 크기 축소 */
+        #itbook .image-placeholder img {
+            max-width: 70% !important; /* 이미지 크기 70%로 조정 */
+            height: auto !important;
+            margin: 0 auto;
+        }
+
+        .image-placeholder p {
+            color: #5956E9;
+            font-weight: 600;
+            font-size: 0.9em;
             margin-top: 15px;
         }
-        
+
+        /* Detail Sections */
+        .detail-section {
+            background: #F8F9FA;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            page-break-inside: avoid;
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            break-before: page; /* 헤더는 새로운 페이지에서 시작 */
+        }
+
+        .detail-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #5956E9, #7B68EE);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+        }
+
+        .detail-title h2 {
+            font-size: 2em;
+            color: #2D3436;
+            margin-bottom: 5px;
+        }
+
+        .detail-title p {
+            color: #636E72;
+        }
+
+        .detail-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            page-break-inside: avoid;
+        }
+
         /* Sub Features */
         .sub-features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            gap: 20px;
+            margin-top: 30px;
         }
-        
+
         .sub-feature {
             background: white;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #E9ECEF;
+            page-break-inside: avoid;
         }
-        
+
+        .sub-feature-number {
+            display: inline-block;
+            background: #7B68EE;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
         .sub-feature h4 {
-            color: var(--text-dark);
+            color: #2D3436;
             margin-bottom: 10px;
             font-size: 1.1em;
         }
-        
+
         .sub-feature p {
-            color: var(--text-gray);
+            color: #636E72;
             font-size: 0.95em;
             line-height: 1.6;
         }
-        
-        /* Footer */
-        .footer {
-            background: var(--text-dark);
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-            margin-top: 50px;
-        }
-        
-        .footer-logo {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        
-        .footer-text {
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 20px;
-        }
-        
-        .copyright {
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9em;
+
+        /* 인쇄 전용 스타일 */
+        @media print {
+            @page {
+                size: A4;
+                margin: 20mm;
+            }
+            body {
+                margin: 0;
+                width: 210mm; /* A4 너비 */
+            }
+            /* 섹션 헤더만 포함한 페이지 */
+            .section-header-only {
+                break-before: page;
+            }
+            /* 이미지가 페이지를 나누지 않게 함 */
+            .image-placeholder, .feature-card, .sub-feature {
+                page-break-inside: avoid;
+            }
+            /* E-Book 컨텐츠 분리 */
+            #ebook .detail-content {
+                break-before: page;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header Navigation -->
-    <header class="header">
-        <div class="logo">
-            <span class="logo-icon">
-                <img src="https://via.placeholder.com/40x40" alt="K2 기린 로고">
-            </span>
-            <span>K2 Series</span>
+    <!-- 1. 스플래시 페이지 (1페이지) -->
+    <section class="section">
+        <div class="section-header">
+            <span class="section-number">1</span>
+            <h2 class="section-title">스플래시 페이지</h2>
+            <p class="section-subtitle">전원이 켜질 때 나타나는 시작 화면</p>
         </div>
-    </header>
-    
-    <!-- Hero Section -->
-    <section class="hero">
-        <img src="https://via.placeholder.com/150x150" alt="K2 기린" class="hero-giraffe">
-        <h1>K2 Series 학습 플랫폼</h1>
-        <p>아기 기린과 함께 떠나는 즐거운 학습 여행</p>
+        <div class="image-placeholder large">
+            <img src="../assets/img/manual/splash.jpg" alt="스플래시 페이지">
+            <p>스플래시 페이지</p>
+        </div>
     </section>
-    
-    <!-- Main Content -->
-    <div class="container">
-        
-        <!-- 1. Splash Page Section -->
-        <section class="section">
-            <div class="section-header">
-                <span class="section-number">1</span>
-                <h2 class="section-title">스플래시 페이지</h2>
-                <p class="section-subtitle">전원이 켜질 때 나타나는 시작 화면</p>
-            </div>
-            <div class="image-placeholder">
-                <img src="https://via.placeholder.com/800x400" alt="스플래시 페이지">
-                <p>스플래시 페이지</p>
-            </div>
-        </section>
-        
-        <!-- 2. Main Page Section -->
-        <section class="section">
-            <div class="section-header">
-                <span class="section-number">2</span>
-                <h2 class="section-title">메인페이지</h2>
-                <p class="section-subtitle">모든 학습 콘텐츠의 시작점</p>
-            </div>
-            
-            <div class="image-placeholder">
-                <img src="https://via.placeholder.com/800x400" alt="메인페이지">
-                <p>메인페이지 전체 화면</p>
-            </div>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
-                    <h3 class="feature-title">IT Book</h3>
-                    <p class="feature-description">
-                        책 내용의 단어들을 유튜브를 통해 관련 내용을 학습할 수 있는 인터랙티브 학습창
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">📖</div>
-                    <h3 class="feature-title">E-Book</h3>
-                    <p class="feature-description">
-                        책 내용을 직접 전체 또는 문장별로 읽을 수 있는 디지털 독서 플랫폼
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🎬</div>
-                    <h3 class="feature-title">Auxiliary Content</h3>
-                    <p class="feature-description">
-                        예습/복습 영상물과 평가지를 통한 종합적인 학습 지원 시스템
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🏆</div>
-                    <h3 class="feature-title">Achievement</h3>
-                    <p class="feature-description">
-                        학습 Achivement를 확인하고 진도를 관리할 수 있는 평가 시스템
-                    </p>
-                </div>
-            </div>
-        </section>
 
-        <!-- IT Book Detail Section -->
-        <section class="detail-section">
-            <div class="detail-header">
-                <div class="detail-icon">📚</div>
-                <div class="detail-title">
-                    <h2>IT Book 상세</h2>
-                    <p>인터랙티브 멀티미디어 학습</p>
-                </div>
+    <!-- 2. 메인페이지 제목만 (2페이지) -->
+    <section class="section" id="main">
+        <div class="section-header">
+            <span class="section-number">2</span>
+            <h2 class="section-title">메인페이지</h2>
+            <p class="section-subtitle">모든 학습 콘텐츠의 시작점</p>
+        </div>
+    </section>
+
+    <!-- 3. 메인페이지 콘텐츠 (3페이지) -->
+    <div class="container">
+        <div class="image-placeholder">
+            <img src="../assets/img/manual/k2_main.jpg" alt="메인페이지">
+            <p>메인페이지 전체 화면</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">IT Book</h3>
+                <p class="feature-description">
+                    책 내용의 단어들을 유튜브를 통해 관련 내용을 학습할 수 있는 인터랙티브 학습창
+                </p>
+                <span class="feature-status status-active">이용 가능</span>
             </div>
-            <div class="detail-content">
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3 class="feature-title">E-Book</h3>
+                <p class="feature-description">
+                    책 내용을 직접 전체 또는 문장별로 읽을 수 있는 디지털 독서 플랫폼
+                </p>
+                <span class="feature-status status-active">이용 가능</span>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎬</div>
+                <h3 class="feature-title">Auxiliary Content</h3>
+                <p class="feature-description">
+                    예습/복습 영상물과 평가지를 통한 종합적인 학습 지원 시스템
+                </p>
+                <span class="feature-status status-active">이용 가능</span>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3 class="feature-title">Achievement</h3>
+                <p class="feature-description">
+                    학습 Achivement를 확인하고 진도를 관리할 수 있는 평가 시스템
+                </p>
+                <span class="feature-status status-preparing">준비중</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. IT Book 상세 (4페이지) -->
+    <section class="detail-section" id="itbook">
+        <div class="detail-header">
+            <div class="detail-icon">📚</div>
+            <div class="detail-title">
+                <h2>IT Book 상세</h2>
+                <p>인터랙티브 멀티미디어 학습</p>
+            </div>
+        </div>
+        <div class="detail-content">
+            <p style="font-size: 1.1em; line-height: 1.8; color: #636E72;">
+                책 내용의 특정 단어를 클릭하면 내셔널지오그래픽, 디스커버리, 테드, BBC 등의 
+                고품질 교육 콘텐츠를 확인할 수 있습니다. 이를 유튜브로 재생시켜 
+                보다 깊이 있는 학습이 가능하도록 설계된 혁신적인 학습 시스템입니다.
+            </p>
+            <div class="image-placeholder large">
+                <img src="../assets/img/manual/k2_it_1.jpg" alt="IT Book 상세">
+                <p>IT Book 책 선택 화면</p>
+            </div>
+            <div class="image-placeholder large">
+                <img src="../assets/img/manual/k2_it_2.jpg" alt="IT Book 상세">
+                <p>IT Book 도입화면, 슬라이드로 이동합니다.</p>
+            </div>
+            <div class="image-placeholder large">
+                <img src="../assets/img/manual/k2_it_2-2.jpg" alt="IT Book 상세">
+                <p>IT Book 3페이지</p>
+            </div>
+        </div>
+        <div class="sub-features">
+            <div class="sub-feature">
+                <span class="sub-feature-number">1</span>
+                <h4>단어 검색</h4>
                 <p>
-                    책 내용의 특정 단어를 클릭하면 내셔널지오그래픽, 디스커버리, 테드, BBC 등의 
-                    고품질 교육 콘텐츠를 확인할 수 있습니다. 이를 유튜브로 재생시켜 
-                    보다 깊이 있는 학습이 가능하도록 설계된 혁신적인 학습 시스템입니다.
+                공부하고 싶은 단어를 검색하면,  
+                여러 채널의 관련 영상을 통해  
+                그 단어를 효과적으로 배울 수 있습니다.
                 </p>
                 <div class="image-placeholder">
-                    <img src="https://via.placeholder.com/800x400" alt="IT Book 상세">
-                    <p>IT Book 책 선택 화면</p>
+                    <img src="../assets/img/manual/k2_it_3.jpg" alt="IT Book 상세3">
+                    <p>단어 검색 화면</p>
                 </div>
             </div>
-        </section>
-        
-        <!-- 추가 섹션들... -->
-        
-    </div>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-logo">K2 Series</div>
-        <p class="footer-text">
-            아기 기린과 함께하는 즐거운 학습 여행<br>
-            더 나은 교육의 미래를 만들어갑니다
-        </p>
-        <div class="copyright">
-            © 2025 K2 Series. All rights reserved.
+            <div class="sub-feature">
+                <span class="sub-feature-number">2</span>
+                <h4>검색 리스트</h4>
+                <p>
+                1번에서 입력한 단어와 관련된 영상들이  
+                목록 형태로 표시됩니다.  
+                사용자는 원하는 영상을 선택해  
+                바로 재생할 수 있습니다.
+                </p>
+                <div class="image-placeholder">
+                    <img src="../assets/img/manual/k2_it_4.jpg" alt="IT Book 상세4">
+                    <p>검색 리스트 화면</p>
+                </div>
+            </div>
+            <div class="sub-feature">
+                <span class="sub-feature-number">3</span>
+                <h4>영상 실행</h4>
+                <p>
+                선택한 영상은 자막이 자동으로 실행되며,  
+                영화관 모드로 전환해 더 편안하게 시청할 수 있습니다.  
+                영상이 앱 내부에서 재생되어  
+                학습에 더욱 집중할 수 있습니다.
+                </p>
+                <div class="image-placeholder">
+                    <img src="../assets/img/manual/k2_it_5.jpg" alt="IT Book 상세5">
+                    <p>유튜브 실행 화면</p>
+                </div>
+            </div>
         </div>
-    </footer>
+    </section>
+
+    <!-- 5. E-Book 상세 제목 (5페이지) -->
+    <section class="detail-section" id="ebook">
+        <div class="detail-header">
+            <div class="detail-icon">📖</div>
+            <div class="detail-title">
+                <h2>E-Book 상세</h2>
+                <p>스마트 디지털 독서 플랫폼</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. E-Book 상세 내용 (6페이지) -->
+    <div class="container">
+        <div class="detail-content">
+            <p style="font-size: 1.1em; line-height: 1.8; color: #636E72;">
+                책 내용을 직접 읽어보고 오디오와 함께 들으면서 따라 말할 수 있는 
+                통합 학습창입니다. 전체 읽기와 문장별 읽기 모드를 지원하며, 
+                현재 읽고 있는 단어가 화면에서 실시간으로 강조되어 
+                학습 집중도를 높입니다.
+            </p>
+            <div class="image-placeholder large">
+                <img src="../assets/img/manual/k2_e_1.jpg" alt="E-Book 상세">
+                <p>E-Book 책 선택 화면</p>
+            </div>
+            <div class="image-placeholder large">
+                <img src="../assets/img/manual/k2_it_2.jpg" alt="E-Book 도입화면">
+                <p>E-Book 도입화면, 슬라이드로 이동합니다.</p>
+            </div>
+            <div class="image-placeholder large">
+                <img src="../assets/img/manual/k2_e_2.jpg" alt="E-Book 실행 화면">
+                <p>E-Book 실행 화면</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 나머지 섹션 (Auxiliary, Achievement 등) -->
+    <section class="detail-section" id="auxiliary">
+        <div class="detail-header">
+            <div class="detail-icon">🎬</div>
+            <div class="detail-title">
+                <h2>Auxiliary Content</h2>
+                <p>보조 학습 콘텐츠</p>
+            </div>
+        </div>
+        <!-- ... (기존 내용 그대로) ... -->
+    </section>
+
+    <section class="detail-section" id="achievement">
+        <div class="detail-header">
+            <div class="detail-icon">🏆</div>
+            <div class="detail-title">
+                <h2>Achievement</h2>
+                <p>학습 Achivement 관리</p>
+            </div>
+        </div>
+        <!-- ... (기존 내용 그대로) ... -->
+    </section>
 </body>
 </html>
