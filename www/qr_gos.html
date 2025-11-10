@@ -105,7 +105,7 @@
             font-weight: 600;
         }
 
-        /* 모달 스타일 */
+        /* 모달 스타일 - 완전 검은색 배경 */
         .modal {
             display: none;
             position: fixed;
@@ -114,7 +114,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.9);
+            background-color: #000000; /* 완전 불투명 검은색 */
             animation: fadeIn 0.3s ease;
         }
 
@@ -132,6 +132,7 @@
             max-width: 500px;
             max-height: 90vh;
             animation: scaleIn 0.3s ease;
+            box-shadow: 0 0 50px rgba(255,255,255,0.1); /* 약간의 흰색 그림자로 경계 구분 */
         }
 
         .modal-qr {
@@ -146,6 +147,26 @@
             margin-top: 20px;
             font-size: 1.5em;
             color: #333;
+        }
+
+        /* 닫기 버튼 추가 */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #000;
         }
 
         .manual-modal .modal-content {
@@ -231,8 +252,8 @@
         }
 
         @keyframes scaleIn {
-            from { transform: scale(0.8); }
-            to { transform: scale(1); }
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         @media (max-width: 600px) {
@@ -247,6 +268,11 @@
             
             h1 {
                 font-size: 2em;
+            }
+
+            .modal-content {
+                margin: 20px;
+                max-width: calc(100% - 40px);
             }
         }
     </style>
@@ -310,16 +336,18 @@
     </div>
 
     <!-- QR 확대 모달 -->
-    <div id="modal" class="modal" onclick="closeModal()">
+    <div id="modal" class="modal">
         <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
             <img id="modalQR" class="modal-qr" src="" alt="QR Code">
             <div id="modalTitle" class="modal-title"></div>
         </div>
     </div>
 
     <!-- 메뉴얼 모달 -->
-    <div id="manualModal" class="modal manual-modal" onclick="closeManual()">
+    <div id="manualModal" class="modal manual-modal">
         <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeManual()">&times;</button>
             <div class="manual-content">
                 <h2>🎯 갤럭시탭 QR코드 앱 설치 가이드</h2>
                 <p style="text-align: center; color: #666; margin-bottom: 20px;">ManageEngine MDM 키오스크 모드 멀티 어플리케이션 설치 매뉴얼</p>
@@ -466,21 +494,33 @@
             modalQR.src = qrData[id].img;
             modalTitle.textContent = qrData[id].title;
             modal.classList.add('active');
+            
+            // 모달 열릴 때 body 스크롤 방지
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             const modal = document.getElementById('modal');
             modal.classList.remove('active');
+            
+            // 모달 닫힐 때 body 스크롤 복원
+            document.body.style.overflow = '';
         }
 
         function openManual() {
             const manualModal = document.getElementById('manualModal');
             manualModal.classList.add('active');
+            
+            // 모달 열릴 때 body 스크롤 방지
+            document.body.style.overflow = 'hidden';
         }
 
         function closeManual() {
             const manualModal = document.getElementById('manualModal');
             manualModal.classList.remove('active');
+            
+            // 모달 닫힐 때 body 스크롤 복원
+            document.body.style.overflow = '';
         }
 
         // ESC 키로 모달 닫기
@@ -490,6 +530,22 @@
                 closeManual();
             }
         });
+
+        // 모달 배경 클릭으로 닫기 (선택사항 - 필요시 활성화)
+        // QR 모달의 경우 배경이 완전 검은색이므로 실수로 닫는 것을 방지하기 위해 제거
+        /*
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        document.getElementById('manualModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeManual();
+            }
+        });
+        */
     </script>
 </body>
 </html>
