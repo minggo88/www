@@ -3242,16 +3242,15 @@ function text_hidden(){
 async function loadFooter() {
     try {
         const response = await fetch('footer.html');
-        const html = await response.text();
-        document.body.insertAdjacentHTML('beforeend', html);
+		const html = await response.text();
+		document.body.insertAdjacentHTML('beforeend', html);
+		
+		// footer 로드 후 년도 업데이트 (중요!)
+		const yearElement = document.getElementById('copyright-year');
+		if (yearElement) {
+			yearElement.textContent = new Date().getFullYear();
+		}
     } catch (error) {
         console.error('Footer 로드 실패:', error);
     }
-}
-
-// DOM 로드 후 실행
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadFooter);
-} else {
-    loadFooter();
 }
