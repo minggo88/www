@@ -3242,6 +3242,7 @@ function text_hidden(){
 async function loadFooter() {
     try {
         const response = await fetch('footer.html');
+		console.log('footer?');
 		const html = await response.text();
 		document.body.insertAdjacentHTML('beforeend', html);
 		
@@ -3253,4 +3254,10 @@ async function loadFooter() {
     } catch (error) {
         console.error('Footer 로드 실패:', error);
     }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadFooter);
+} else {
+    loadFooter();
 }
