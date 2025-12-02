@@ -62,16 +62,16 @@ String.prototype.toNumber = Number.prototype.toNumber = function() {
 }
 
 String.prototype.format = function(args1, args2, args3, args4, args5) {
-	var arguments = new Array();
-	if(args1) arguments[0] = args1;
-	if(args2) arguments[1] = args2;
-	if(args3) arguments[2] = args3;
-	if(args4) arguments[3] = args4;
-	if(args5) arguments[4] = args5;
+	var arguments2 = new Array();
+	if(args1) arguments2[0] = args1;
+	if(args2) arguments2[1] = args2;
+	if(args3) arguments2[2] = args3;
+	if(args4) arguments2[3] = args4;
+	if(args5) arguments2[4] = args5;
 
 	var formatted = this;
-	for (var arg in arguments) {
-		formatted = formatted.replace("{" + arg + "}", arguments[arg]);
+	for (var arg in arguments2) {
+		formatted = formatted.replace("{" + arg + "}", arguments2[arg]);
 	}
 	return formatted;
 }
@@ -3236,4 +3236,22 @@ function text_hidden(){
 		}
 		return bank_ac_text;
 	}
+}
+
+// common.js 또는 footer.js
+async function loadFooter() {
+    try {
+        const response = await fetch('footer.html');
+        const html = await response.text();
+        document.body.insertAdjacentHTML('beforeend', html);
+    } catch (error) {
+        console.error('Footer 로드 실패:', error);
+    }
+}
+
+// DOM 로드 후 실행
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadFooter);
+} else {
+    loadFooter();
 }
