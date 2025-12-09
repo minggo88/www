@@ -62,16 +62,16 @@ String.prototype.toNumber = Number.prototype.toNumber = function() {
 }
 
 String.prototype.format = function(args1, args2, args3, args4, args5) {
-	var arguments = new Array();
-	if(args1) arguments[0] = args1;
-	if(args2) arguments[1] = args2;
-	if(args3) arguments[2] = args3;
-	if(args4) arguments[3] = args4;
-	if(args5) arguments[4] = args5;
+	var argument = new Array();
+	if(args1) argument[0] = args1;
+	if(args2) argument[1] = args2;
+	if(args3) argument[2] = args3;
+	if(args4) argument[3] = args4;
+	if(args5) argument[4] = args5;
 
 	var formatted = this;
-	for (var arg in arguments) {
-		formatted = formatted.replace("{" + arg + "}", arguments[arg]);
+	for (var arg in argument) {
+		formatted = formatted.replace("{" + arg + "}", argument[arg]);
 	}
 	return formatted;
 }

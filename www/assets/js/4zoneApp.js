@@ -207,29 +207,23 @@ function buildAllKey() {
 window.AllKey = buildAllKey();
 
 // 모달 팝업 함수
-function laypop(message) {
+async function laypop(message) {
+  // tabbar-container 숨기기
   const tabbar = document.getElementById('tabbar-container');
+  if (tabbar) {
+    tabbar.classList.remove('show-tabbar');
+  }
   const overlay = document.getElementById('tabbar-modal-overlay');
-  if (tabbar) tabbar.classList.add('show-tabbar');
-  if (overlay) overlay.style.display = 'block';
-  
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) {
-    searchInput.value = message;
-    // AllKey에 있는 값이면 읽기 전용으로 설정
-    if (window.AllKey && window.AllKey.includes(message.trim())) {
-      searchInput.setAttribute('readonly', 'readonly');
-      searchInput.style.cursor = 'default';
-      searchInput.style.color = '#222'; // 회색이 아닌 일반 색상
-    } else {
-      searchInput.removeAttribute('readonly');
-      searchInput.style.cursor = 'text';
-    }
+  if (overlay) {
+    overlay.style.display = 'none';
   }
   
-  const tabs = document.querySelectorAll('.tab');
-  tabs.forEach(tab => tab.classList.remove('active'));
-  if (tabs[0]) tabs[0].classList.add('active');
+  // National Geographic으로 자동 검색 실행하고 바로 결과 표시
+  const query = message.trim();
+  if (query) {
+    const results = await searchInChannel('National Geographic', query);
+    await renderYoutubeResults(results);
+  }
 }
 
 // 키워드 클릭 이벤트
@@ -909,6 +903,16 @@ window.addEventListener('DOMContentLoaded', async () => {
       if (tabbar) tabbar.classList.remove('show-tabbar');
       const overlay = document.getElementById('tabbar-modal-overlay');
       if (overlay) overlay.style.display = 'none';
+      
+      // 탭과 검색 버튼 다시 보이기
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.style.display = '';
+      });
+      const searchBtn = document.getElementById('searchBtn');
+      if (searchBtn) {
+        searchBtn.style.display = '';
+      }
     });
   }
   
@@ -923,6 +927,16 @@ window.addEventListener('DOMContentLoaded', async () => {
       const tabbar = document.getElementById('tabbar-container');
       if (tabbar) tabbar.classList.remove('show-tabbar');
       overlay.style.display = 'none';
+      
+      // 탭과 검색 버튼 다시 보이기
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.style.display = '';
+      });
+      const searchBtn = document.getElementById('searchBtn');
+      if (searchBtn) {
+        searchBtn.style.display = '';
+      }
     });
   }
 });
