@@ -1027,41 +1027,16 @@ async function renderYoutubeResults(items) {
     if (!items || items.length === 0) {
         html = '<div style="padding:2em; text-align:center;">검색 결과가 없습니다.</div>';
     } else {
-        // 제목 번역 처리
-        const translatedItems = [];
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            let translatedTitle = item.snippet.title;
-            
-            // 번역 기능이 활성화되어 있고 번역 함수가 있으면 번역 시도
-            if (window.translationEnabled && window.translateText) {
-                try {
-                    translatedTitle = await window.translateText(item.snippet.title, 'ko', 'en');
-                    console.log(`번역 완료: "${item.snippet.title}" → "${translatedTitle}"`);
-                } catch (error) {
-                    console.error('번역 실패:', error);
-                    translatedTitle = item.snippet.title; // 번역 실패시 원본 사용
-                }
-            }
-            
-            translatedItems.push({
-                ...item,
-                snippet: {
-                    ...item.snippet,
-                    title: translatedTitle
-                }
-            });
-        }
-        
-        html = translatedItems.map((item, idx) => `
-            <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
+        // 먼저 원본으로 리스트 생성 (번역 없이 빠르게 표시)
+        html = items.map((item, idx) => `
+            <div class="yt-result-item" data-index="${idx}" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
                 <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
                     <img src="${item.snippet.thumbnails.default.url}" 
                          style="width:120px;height:90px;margin-right:1em;object-fit:cover;border-radius:8px;"
                          onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiB2aWV3Qm94PSIwIDAgMTIwIDkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjZjBmMGYwIi8+CjxwYXRoIGQ9Ik02MCA0NUw0NSA2MEg3NUw2MCA0NVoiIGZpbGw9IiNjY2NjY2MiLz4KPHN2Zz4K'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center';">
                 </div>
                 <div>
-                    <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
+                    <div class="yt-title-text" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
                         ${item.snippet.title}
                     </div>
                     <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
@@ -1096,11 +1071,29 @@ async function renderYoutubeResults(items) {
         modal.style.display = 'flex';
     }
     
-    // 검색 결과를 표시
+    // 검색 결과를 먼저 표시 (번역 없이 빠르게)
     document.getElementById('search-iframe-wrap').innerHTML = html;
     
+    // 번역 기능이 활성화되어 있으면 백그라운드에서 번역 처리
+    if (window.translationEnabled && window.translateText && items && items.length > 0) {
+        // 번역을 병렬로 처리하되, 각 항목이 완료되면 즉시 업데이트
+        items.forEach(async (item, idx) => {
+            try {
+                const translatedTitle = await window.translateText(item.snippet.title, 'ko', 'en');
+                // 번역 완료 시 해당 항목의 제목만 업데이트
+                const titleElement = document.querySelector(`.yt-result-item[data-index="${idx}"] .yt-title-text`);
+                if (titleElement) {
+                    titleElement.textContent = translatedTitle;
+                }
+            } catch (error) {
+                console.error(`번역 실패 [${idx}]:`, error);
+                // 번역 실패 시 원본 유지
+            }
+        });
+    }
+    
     setTimeout(() => {
-        document.querySelectorAll('.yt-thumb-title').forEach(el => {
+        document.querySelectorAll('.yt-thumb-title, .yt-title-text').forEach(el => {
             el.onclick = function() {
                 const vid = this.dataset.videoid;
                 if (vid) {
