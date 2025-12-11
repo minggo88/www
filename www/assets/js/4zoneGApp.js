@@ -1,39 +1,4 @@
 // 4구역 위치 제어 함수 및 전체화면 고정 위치 계산 포함
-
-// list_kr.js 동적 로드 함수
-async function loadListKrScript() {
-    return new Promise((resolve, reject) => {
-        // 이미 로드되어 있는지 확인
-        if (window.translateYoutubeResults) {
-            console.log('list_kr.js가 이미 로드되어 있습니다.');
-            resolve();
-            return;
-        }
-
-        const script = document.createElement('script');
-        script.src = '../assets/js/list_kr.js';
-        script.onload = () => {
-            console.log('list_kr.js 로드 완료');
-            resolve();
-        };
-        script.onerror = () => {
-            console.error('list_kr.js 로드 실패');
-            reject(new Error('list_kr.js 로드 실패'));
-        };
-        document.head.appendChild(script);
-    });
-}
-
-// 페이지 로드 시 list_kr.js 로드
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        await loadListKrScript();
-        console.log('번역 기능 초기화 완료');
-    } catch (error) {
-        console.warn('번역 기능 로드 실패, 원본 결과로 표시됩니다:', error);
-    }
-});
-
 const CONFIG = {
   setZonePositionPx: (zoneNumber, top, left, right, bottom) => {
     const zone = document.querySelector(`.zone-${zoneNumber}`);
@@ -250,7 +215,7 @@ const CONFIG = {
     }
     if (zone2IsType3) {
       console.log('type3-2');
-      CONFIG.setTypeZonePositionPercent('type3', 2, 21, 108, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type3', 2, 21, 106.6, undefined, undefined);
     }
     if (zone3IsType3) {
       console.log('type3-3');
@@ -258,7 +223,7 @@ const CONFIG = {
     }
     if (zone4IsType3) {
       console.log('type3-4');
-      CONFIG.setTypeZonePositionPercent('type3', 4, undefined, 108, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type3', 4, undefined, 106.6, undefined, 17);
     }
     
     // type4인 경우 모든 존(1,2,3,4) 설정
@@ -273,7 +238,7 @@ const CONFIG = {
     }
     if (zone2IsType4) {
       console.log('type4-2');
-      CONFIG.setTypeZonePositionPercent('type4', 2, 17, 108, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type4', 2, 17, 107, undefined, undefined);
     }
     if (zone3IsType4) {
       console.log('type4-3');
@@ -281,7 +246,7 @@ const CONFIG = {
     }
     if (zone4IsType4) {
       console.log('type4-4');
-      CONFIG.setTypeZonePositionPercent('type4', 4, undefined, 108, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type4', 4, undefined, 107, undefined, 17);
     }
     
     // type5인 경우 모든 존(1,2,3,4) 설정
@@ -296,7 +261,7 @@ const CONFIG = {
     }
     if (zone2IsType5) {
       console.log('type5-2');
-      CONFIG.setTypeZonePositionPercent('type5', 2, 38, 108, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type5', 2, 38, 106.6, undefined, undefined);
     }
     if (zone3IsType5) {
       console.log('type5-3');
@@ -304,7 +269,7 @@ const CONFIG = {
     }
     if (zone4IsType5) {
       console.log('type5-4');
-      CONFIG.setTypeZonePositionPercent('type5', 4, undefined, 108, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type5', 4, undefined, 106.6, undefined, 17);
     }
     
     // type8인 경우 모든 존(1,2,3,4) 설정
@@ -315,19 +280,71 @@ const CONFIG = {
     
     if (zone1IsType8) {
       console.log('type8-1');
+      // 현재 폰트 크기 확인
+      const zone1 = document.querySelector('.zone-1.type8');
+      const currentFontSize = zone1 ? window.getComputedStyle(zone1).fontSize : '16px';
+      console.log('현재 type8-1 폰트 크기:', currentFontSize);
+      
+      // 사용자가 지정한 %값으로 폰트 크기 조정 (기본값: 100%)
+      const fontSizePercent = 10; // 여기서 원하는 %값을 설정하세요 (예: 120 = 120%)
+      const baseFontSize = 20; // 기본 폰트 크기
+      const adjustedFontSize = (baseFontSize * fontSizePercent) / 100;
+      
+      
       CONFIG.setTypeZonePositionPercent('type8', 1, 20, 6.6, undefined, undefined, '%');
+      CONFIG.setZoneFontSize(1, adjustedFontSize, '%');
+      console.log('현재 type8-1 폰트 크기:', currentFontSize);
     }
     if (zone2IsType8) {
       console.log('type8-2');
-      CONFIG.setTypeZonePositionPercent('type8', 2, 20, 108, undefined, undefined);
+      // 현재 폰트 크기 확인
+      const zone2 = document.querySelector('.zone-2.type8');
+      const currentFontSize2 = zone2 ? window.getComputedStyle(zone2).fontSize : '16px';
+      console.log('현재 type8-2 폰트 크기:', currentFontSize2);
+      
+      // 사용자가 지정한 %값으로 폰트 크기 조정 (기본값: 100%)
+      const fontSizePercent2 = 30; // 여기서 원하는 %값을 설정하세요 (예: 120 = 120%)
+      const baseFontSize2 = 20; // 기본 폰트 크기
+      const adjustedFontSize2 = (baseFontSize2 * fontSizePercent2) / 100;
+      
+      
+      CONFIG.setTypeZonePositionPercent('type8', 2, 20, 107.3, undefined, undefined);
+      CONFIG.setZoneFontSize(2, adjustedFontSize2, '%');
+      console.log('현재 type8-2 폰트 크기:', currentFontSize2);
     }
     if (zone3IsType8) {
       console.log('type8-3');
+      // 현재 폰트 크기 확인
+      const zone3 = document.querySelector('.zone-3.type8');
+      const currentFontSize3 = zone3 ? window.getComputedStyle(zone3).fontSize : '16px';
+      console.log('현재 type8-3 폰트 크기:', currentFontSize3);
+      
+      // 사용자가 지정한 %값으로 폰트 크기 조정 (기본값: 100%)
+      const fontSizePercent3 = 40; // 여기서 원하는 %값을 설정하세요 (예: 120 = 120%)
+      const baseFontSize3 = 20; // 기본 폰트 크기
+      const adjustedFontSize3 = (baseFontSize3 * fontSizePercent3) / 100;
+      
+      
       CONFIG.setTypeZonePositionPercent('type8', 3, undefined, 6.6, undefined, 15);
+      CONFIG.setZoneFontSize(3, adjustedFontSize3, '%');
+      console.log('현재 type8-3 폰트 크기:', currentFontSize3);
     }
     if (zone4IsType8) {
       console.log('type8-4');
-      CONFIG.setTypeZonePositionPercent('type8', 4, undefined, 108, undefined, 15);
+      // 현재 폰트 크기 확인
+      const zone4 = document.querySelector('.zone-4.type8');
+      const currentFontSize4 = zone4 ? window.getComputedStyle(zone4).fontSize : '16px';
+      console.log('현재 type8-4 폰트 크기:', currentFontSize4);
+      
+      // 사용자가 지정한 %값으로 폰트 크기 조정 (기본값: 100%)
+      const fontSizePercent4 = 60; // 여기서 원하는 %값을 설정하세요 (예: 120 = 120%)
+      const baseFontSize4 = 20; // 기본 폰트 크기
+      const adjustedFontSize4 = (baseFontSize4 * fontSizePercent4) / 100;
+      
+      
+      CONFIG.setTypeZonePositionPercent('type8', 4, undefined, 107.3, undefined, 15);
+      CONFIG.setZoneFontSize(4, adjustedFontSize4, '%');
+      console.log('현재 type8-4 폰트 크기:', currentFontSize4);
     }
     
     // type9인 경우 모든 존(1,2,3,4) 설정
@@ -342,7 +359,7 @@ const CONFIG = {
     }
     if (zone2IsType9) {
       console.log('type9-2');
-      CONFIG.setTypeZonePositionPercent('type9', 2, 17, 108, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type9', 2, 17, 107.3, undefined, undefined);
     }
     if (zone3IsType9) {
       console.log('type9-3');
@@ -350,7 +367,7 @@ const CONFIG = {
     }
     if (zone4IsType9) {
       console.log('type9-4');
-      CONFIG.setTypeZonePositionPercent('type9', 4, undefined, 108, undefined, 15);
+      CONFIG.setTypeZonePositionPercent('type9', 4, undefined, 107.3, undefined, 15);
     }
     
     // type6인 경우 모든 존(1,2,3,4) 설정
@@ -365,7 +382,7 @@ const CONFIG = {
     }
     if (zone2IsType6) {
       console.log('type6-2');
-      CONFIG.setTypeZonePositionPercent('type6', 2, 23.5, 108, undefined, undefined);
+      CONFIG.setTypeZonePositionPercent('type6', 2, 23.5, 107.5, undefined, undefined);
     }
     if (zone3IsType6) {
       console.log('type6-3');
@@ -373,7 +390,7 @@ const CONFIG = {
     }
     if (zone4IsType6) {
       console.log('type6-4');
-      CONFIG.setTypeZonePositionPercent('type6', 4, undefined, 108, undefined, 17);
+      CONFIG.setTypeZonePositionPercent('type6', 4, undefined, 107, undefined, 17);
     }
     
     // type7인 경우 모든 존(1,2,3,4) 설정
@@ -437,24 +454,28 @@ let current = 0;
 let textAnimated = Array(slideTemplates.length).fill(false);
 
 // 모달 팝업 함수
-function laypop(message) {
+async function laypop(message) {
+  // tabbar-container 숨기기
   const tabbar = document.getElementById('tabbar-container');
+  if (tabbar) {
+    tabbar.classList.remove('show-tabbar');
+  }
   const overlay = document.getElementById('tabbar-modal-overlay');
-  if (tabbar) tabbar.classList.add('show-tabbar');
-  if (overlay) overlay.style.display = 'block';
+  if (overlay) {
+    overlay.style.display = 'none';
+  }
   
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) searchInput.value = message;
-  
-  const tabs = document.querySelectorAll('.tab');
-  tabs.forEach(tab => tab.classList.remove('active'));
-  if (tabs[0]) tabs[0].classList.add('active');
+  // National Geographic으로 자동 검색 실행하고 바로 결과 표시
+  const query = message.trim();
+  if (query) {
+    const results = await searchInChannel('National Geographic', query);
+    await renderYoutubeResults(results);
+  }
 }
 
 // 키워드 클릭 이벤트
 function handleKeywordClick(keyword) {
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) searchInput.value = keyword;
+  // 모달 표시
   laypop(keyword);
 }
 
@@ -486,43 +507,15 @@ function renderTextWithKeywords(text, keywords) {
 function renderZoneTextWithNounSpans(text, keywords) {
   if (!text) return '';
   let html = text;
-  
-  // 이미 처리된 키워드를 추적
-  const processedKeywords = new Set();
-  
   // 긴 명사 우선 매칭
   keywords.sort((a, b) => b.length - a.length).forEach(noun => {
-    if (processedKeywords.has(noun.toLowerCase())) return;
-    
-    // 이미 span 태그로 감싸져 있는 경우 건너뛰기
-    if (html.includes(`<span class="noun-span">${noun}</span>`)) {
-      processedKeywords.add(noun.toLowerCase());
-      return;
-    }
-    
     // 줄바꿈 포함 매칭: 공백을 [ \n\r\t\f\v]*로 치환
     const pattern = noun.replace(/ /g, '[ \n\r\t\f\v]*');
-    const escapedPattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    
-    // 단어 경계를 사용하여 정확한 매칭
-    const regex = new RegExp(`\\b${escapedPattern}\\b`, 'gi');
-    
-    html = html.replace(regex, match => {
-      // HTML 태그 내부인지 확인
-      const beforeMatch = html.substring(0, html.indexOf(match));
-      const openTags = (beforeMatch.match(/</g) || []).length;
-      const closeTags = (beforeMatch.match(/>/g) || []).length;
-      
-      // 태그 내부라면 처리하지 않음
-      if (openTags > closeTags) {
-        return match;
-      }
-      
-      processedKeywords.add(noun.toLowerCase());
-      return `<span class="noun-span">${match}</span>`;
-    });
+    html = html.replace(
+      new RegExp(pattern, 'gi'),
+      match => `<span class="noun-span">${match}</span>`
+    );
   });
-  
   // <br>로 분할하여 <p>로 감싸기
   return html.split(/<br\s*\/?>/i).map(line => `<p>${line}</p>`).join('');
 }
@@ -535,6 +528,9 @@ function setTextFontSizeByImage(imgElem) {
 
 // 슬라이드 렌더링
 function renderSlide(idx) {
+  // 현재 슬라이드 번호 콘솔 출력
+  console.log(`현재 슬라이드: ${idx + 1}번 / 전체 ${slideTemplates.length}개`);
+  
   // 기준 위치(px) - CONFIG.setZonePosition 값과 일치
   const BASE_WIDTH = 1440;
   const BASE_HEIGHT = 900;
@@ -1014,6 +1010,24 @@ function updatePageIndicator() {
 
 // 첫 슬라이드 표시
 window.onload = () => {
+  // URL 쿼리 파라미터에서 슬라이드 번호 읽기
+  const urlParams = new URLSearchParams(window.location.search);
+  const slideParam = urlParams.get('slide');
+  
+  if (slideParam !== null) {
+    const slideNumber = parseInt(slideParam, 10);
+    // 슬라이드 번호가 유효한 범위인지 확인
+    if (!isNaN(slideNumber) && slideNumber >= 0 && slideNumber < slideTemplates.length) {
+      current = slideNumber;
+      console.log(`URL 파라미터로 슬라이드 ${slideNumber}번으로 이동합니다.`);
+    } else {
+      console.warn(`유효하지 않은 슬라이드 번호: ${slideParam}. 기본 슬라이드(0번)로 이동합니다.`);
+    }
+  }
+  
+  // 현재 슬라이드 번호 콘솔 출력
+  console.log(`현재 슬라이드: ${current + 1}번 / 전체 ${slideTemplates.length}개`);
+  
   renderSlide(current);
   createPageIndicator();
   hideAddressBar();
@@ -1067,76 +1081,22 @@ window.addEventListener('orientationchange', () => {
 // iOS Safari 주소창 숨기기
 hideAddressBar();
 
-// 웹뷰 뒤로가기 버튼 이벤트 처리
-function handleWebViewBackButton() {
-  // 웹뷰 감지
-  const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
-  
-  if (isWebView) {
-    // 뒤로가기 버튼 이벤트 리스너 추가
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Backspace' || e.key === 'Escape') {
-        // 모달창이 열려있는지 확인
-        const tabbar = document.getElementById('tabbar-container');
-        const searchModal = document.getElementById('search-result-modal');
-        
-        if (tabbar && tabbar.classList.contains('show-tabbar')) {
-          // 탭바 모달이 열려있으면 닫기
-          e.preventDefault();
-          tabbar.classList.remove('show-tabbar');
-          const overlay = document.getElementById('tabbar-modal-overlay');
-          if (overlay) overlay.style.display = 'none';
-          return;
-        }
-        
-        if (searchModal && searchModal.style.display === 'flex') {
-          // 검색 결과 모달이 열려있으면 닫기
-          e.preventDefault();
-          searchModal.remove();
-          return;
-        }
-      }
-    });
-    
-    // 터치 이벤트로 뒤로가기 처리 (Android)
-    let backButtonPressed = false;
-    document.addEventListener('touchstart', function(e) {
-      backButtonPressed = false;
-    });
-    
-    document.addEventListener('touchend', function(e) {
-      if (e.touches.length === 0 && !backButtonPressed) {
-        // 모달창이 열려있는지 확인
-        const tabbar = document.getElementById('tabbar-container');
-        const searchModal = document.getElementById('search-result-modal');
-        
-        if (tabbar && tabbar.classList.contains('show-tabbar')) {
-          // 탭바 모달이 열려있으면 닫기
-          e.preventDefault();
-          tabbar.classList.remove('show-tabbar');
-          const overlay = document.getElementById('tabbar-modal-overlay');
-          if (overlay) overlay.style.display = 'none';
-          return;
-        }
-        
-        if (searchModal && searchModal.style.display === 'flex') {
-          // 검색 결과 모달이 열려있으면 닫기
-          e.preventDefault();
-          searchModal.remove();
-          return;
-        }
-      }
-    });
-  }
-}
-
-// 웹뷰 뒤로가기 버튼 이벤트 초기화
-handleWebViewBackButton();
-
 // 탭바 이벤트 처리
 window.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.tab');
   const searchInput = document.getElementById('searchInput');
+  
+  // 채널 버튼 숨기기
+  const tabbar = document.getElementById('tabbar');
+  if (tabbar) {
+    tabbar.style.display = 'none';
+  }
+  
+  // 검색 입력창과 Search 버튼 숨기기
+  const searchbox = document.getElementById('searchbox');
+  if (searchbox) {
+    searchbox.style.display = 'none';
+  }
   
   tabs.forEach(tab => tab.classList.remove('active'));
   if (tabs[0]) tabs[0].classList.add('active');
@@ -1167,7 +1127,7 @@ window.addEventListener('DOMContentLoaded', () => {
       } else {
           results = await globalSearch(query);
       }
-      await renderYoutubeResults(results);
+      renderYoutubeResults(results);
     });
   }
   
@@ -1198,7 +1158,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // YouTube API 키 및 채널 정보
-const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
+const API_KEY = 'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4';
 
 // 채널 정보
 const channels = {
@@ -1273,75 +1233,25 @@ async function globalSearch(searchTerm) {
     }
 }
 
-// 검색 결과 렌더링 함수 (한글 번역 지원)
-async function renderYoutubeResults(items) {
+// 검색 결과 렌더링 함수
+function renderYoutubeResults(items) {
     let html = '';
-    
     if (!items || items.length === 0) {
-        html = '<div style="padding:2em; text-align:center;">검색 결과가 없습니다.</div>';
+        html = '<div style="padding:2em; text-align:center;">No results found.</div>';
     } else {
-        // list_kr.js가 로드된 경우 번역 실행
-        if (window.translateYoutubeResults) {
-            try {
-                console.log('YouTube 검색 결과 번역 시작...');
-                const translatedItems = await window.translateYoutubeResults(items);
-                
-                html = translatedItems.map((item, idx) => {
-                    const title = item.snippet.translatedTitle || item.snippet.title;
-                    const originalTitle = item.snippet.originalTitle || item.snippet.title;
-                    
-                    return `
-                        <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
-                            <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
-                                <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
-                            </div>
-                            <div style="flex:1;">
-                                <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;margin-bottom:0.5em;">
-                                    ${title}
-                                </div>
-                                <div style="font-size:0.8em;color:#888;margin-bottom:0.3em;">
-                                    <strong>원본:</strong> ${originalTitle}
-                                </div>
-                                <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                console.log('번역된 YouTube 검색 결과 렌더링 완료');
-            } catch (error) {
-                console.error('번역 중 오류 발생, 원본 결과로 표시:', error);
-                // 번역 실패시 원본 결과 표시
-                html = items.map((item, idx) => `
-                    <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
-                        <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
-                            <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
-                        </div>
-                        <div style="flex:1;">
-                            <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;margin-bottom:0.5em;">
-                                ${item.snippet.title}
-                            </div>
-                            <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
-                        </div>
-                    </div>
-                `).join('');
-            }
-        } else {
-            // list_kr.js가 로드되지 않은 경우 원본 결과 표시
-            html = items.map((item, idx) => `
-                <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
-                    <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
-                        <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
-                    </div>
-                    <div style="flex:1;">
-                        <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;margin-bottom:0.5em;">
-                            ${item.snippet.title}
-                        </div>
-                        <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
-                    </div>
+        html = items.map((item, idx) => `
+            <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
+                <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
+                    <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
                 </div>
-            `).join('');
-        }
+                <div>
+                    <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
+                        ${item.snippet.title}
+                    </div>
+                    <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
+                </div>
+            </div>
+        `).join('');
     }
     
     let modal = document.getElementById('search-result-modal');
@@ -1373,7 +1283,8 @@ async function renderYoutubeResults(items) {
     // 검색 결과를 표시
     document.getElementById('search-iframe-wrap').innerHTML = html;
     
-
+    let currentPlayer = null;
+    let currentPlayerContainer = null;
     
     setTimeout(() => {
         document.querySelectorAll('.yt-thumb-title').forEach(el => {
@@ -1381,177 +1292,120 @@ async function renderYoutubeResults(items) {
                 const vid = this.dataset.videoid;
                 const itemDiv = this.closest('.yt-result-item');
                 
-                // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
-                const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
+                // 기존 플레이어가 있으면 제거
+                if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+                    currentPlayer.destroy();
+                }
+                if (currentPlayerContainer && currentPlayerContainer.parentNode) {
+                    currentPlayerContainer.remove();
+                }
                 
-                // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
-                const popupOptions = isWebView ? 
-                    'width=800,height=600,left=50,top=50,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no' :
-                    'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes';
-                
-                // 모든 환경에서 Plyr 팝업 뷰어 사용
-                const popup = window.open(
-                    '',
-                    'youtube_viewer',
-                    popupOptions
-                );
-                
-                // 팝업이 차단된 경우 처리
-                if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-                    // 팝업이 차단되면 새 탭으로 YouTube 열기 (자막 및 한글 설정 추가)
-                    window.open(`https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`, '_blank');
+                // 같은 아이템을 다시 클릭한 경우 플레이어만 제거하고 종료
+                if (itemDiv.querySelector('.yt-inline-player')) {
                     return;
                 }
-                    
-                // Plyr 기반 커스텀 뷰어 HTML 생성
-                popup.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>YouTube Video Viewer</title>
-                        <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-                        <style>
-                            body {
-                                margin: 0;
-                                padding: 0;
-                                font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', Arial, sans-serif;
-                                background: #000;
-                                overflow: hidden;
-                            }
-                            .video-container {
-                                position: relative;
-                                width: 100vw;
-                                height: 100vh;
-                                display: flex;
-                                flex-direction: column;
-                            }
-                            .close-btn {
-                                position: absolute;
-                                top: 10px;
-                                right: 10px;
-                                background: rgba(0,0,0,0.7);
-                                color: white;
-                                border: none;
-                                border-radius: 50%;
-                                width: 40px;
-                                height: 40px;
-                                font-size: 20px;
-                                cursor: pointer;
-                                z-index: 1000;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                transition: background 0.2s;
-                            }
-                            .close-btn:hover {
-                                background: rgba(255,0,0,0.8);
-                            }
-                            .plyr {
-                                width: 100%;
-                                height: 100%;
-                            }
-                            .plyr__video-wrapper {
-                                height: 100vh !important;
-                            }
-                            .plyr__video {
-                                height: 100vh !important;
-                            }
-                            .loading {
-                                position: absolute;
-                                top: 50%;
-                                left: 50%;
-                                transform: translate(-50%, -50%);
-                                color: white;
-                                font-size: 18px;
-                                z-index: 999;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="video-container">
-                            <button class="close-btn" onclick="window.close()">×</button>
-                            <div class="loading">로딩 중...</div>
-                            <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${vid}"></div>
-                        </div>
-                        <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-                        <script>
-                            // 창을 최대화 (웹뷰가 아닌 경우에만)
-                            try {
-                                window.moveTo(0, 0);
-                                window.resizeTo(screen.availWidth, screen.availHeight);
-                                window.focus();
-                                
-                                // 추가로 최대화 시도
-                                setTimeout(() => {
-                                    try {
-                                        window.resizeTo(screen.availWidth, screen.availHeight);
-                                        window.moveTo(0, 0);
-                                    } catch (e) {
-                                        console.log('추가 최대화 실패:', e);
-                                    }
-                                }, 100);
-                                
-                                // ESC 키로 최대화 해제 방지
-                                document.addEventListener('keydown', function(e) {
-                                    if (e.key === 'Escape') {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                    }
-                                });
-                                
-                                // Plyr 플레이어 초기화
-                                try {
-                                    const player = new Plyr('#player', {
-                                        controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
-                                        autoplay: true,
-                                        muted: false,
-                                        hideControls: true,
-                                        resetOnEnd: true,
-                                        keyboard: { focused: true, global: true },
-                                        tooltips: { controls: true, seek: true },
-                                        captions: { active: true, language: 'auto', update: true },
-                                        fullscreen: { enabled: true, fallback: true, iosNative: true }
-                                    });
-                                    
-                                    // 플레이어 이벤트 리스너
-                                    player.on('ready', () => {
-                                        console.log('Plyr player is ready');
-                                        // 로딩 텍스트 제거
-                                        const loading = document.querySelector('.loading');
-                                        if (loading) loading.style.display = 'none';
-                                    });
-                                    
-                                    player.on('error', (event) => {
-                                        console.error('Plyr player error:', event);
-                                    });
-                                    
-                                    // 자동으로 전체화면 모드로 전환
-                                    setTimeout(() => {
-                                        try {
-                                            player.fullscreen.enter();
-                                        } catch (e) {
-                                            console.log('전체화면 전환 실패:', e);
-                                        }
-                                    }, 1000);
-                                    
-                                } catch (error) {
-                                    console.error('Plyr 초기화 오류:', error);
-                                    // 오류 발생 시 기본 YouTube iframe으로 대체
-                                    document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-                                    
-                                    // 로딩 텍스트 제거
-                                    const loading = document.querySelector('.loading');
-                                    if (loading) loading.style.display = 'none';
+                
+                // 더 큰 높이로 설정 (최소 600px, 화면 높이의 70%)
+                const minHeight = Math.max(600, window.innerHeight * 0.7);
+                
+                // 플레이어 컨테이너 생성
+                const playerContainer = document.createElement('div');
+                playerContainer.className = 'yt-inline-player';
+                playerContainer.style.cssText = `
+                    width: 100% !important;
+                    height: ${minHeight}px !important;
+                    min-height: 600px !important;
+                    max-height: 800px !important;
+                    background: #000;
+                    border-radius: 12px;
+                    margin: 20px 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    animation: slideDown 0.3s ease-out;
+                    box-sizing: border-box;
+                `;
+                
+                const playerDiv = document.createElement('div');
+                playerDiv.style.cssText = `
+                    width: 100% !important;
+                    height: 100% !important;
+                    min-height: 600px !important;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-sizing: border-box;
+                `;
+                
+                playerContainer.appendChild(playerDiv);
+                
+                // 닫기 버튼 추가
+                const closeBtn = document.createElement('button');
+                closeBtn.innerHTML = '×';
+                closeBtn.style.cssText = `
+                    position: absolute;
+                    right: 12px;
+                    top: 12px;
+                    font-size: 2rem;
+                    font-weight: bold;
+                    background: rgba(0,0,0,0.7);
+                    border: none;
+                    color: #fff;
+                    z-index: 10011;
+                    cursor: pointer;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                `;
+                
+                closeBtn.onclick = () => {
+                    if (currentPlayer && typeof currentPlayer.destroy === 'function') {
+                        currentPlayer.destroy();
+                    }
+                    playerContainer.remove();
+                    currentPlayer = null;
+                    currentPlayerContainer = null;
+                };
+                
+                playerContainer.appendChild(closeBtn);
+                
+                // 아이템 바로 다음에 플레이어 삽입
+                itemDiv.parentNode.insertBefore(playerContainer, itemDiv.nextSibling);
+                currentPlayerContainer = playerContainer;
+                
+                // 클릭한 리스트가 가장 위로 스크롤
+                setTimeout(() => {
+                    itemDiv.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start',
+                        inline: 'nearest'
+                    });
+                }, 100);
+                
+                // YouTube 플레이어 생성
+                if (window.YT && window.YT.Player) {
+                    currentPlayer = new YT.Player(playerDiv, {
+                        width: '100%',
+                        height: minHeight,
+                        videoId: vid,
+                        playerVars: { 'autoplay': 1, 'controls': 1 },
+                        events: {
+                            'onReady': function (event) { 
+                                event.target.playVideo(); 
+                                // 플레이어 크기 강제 설정
+                                const iframe = playerDiv.querySelector('iframe');
+                                if (iframe) {
+                                    iframe.style.width = '100% !important';
+                                    iframe.style.height = '100% !important';
+                                    iframe.style.minHeight = '600px !important';
                                 }
-                                
-                            } catch (e) {
-                                console.log('창 최대화 실패:', e);
                             }
-                        </script>
-                    </body>
-                    </html>
-                `);
-                popup.document.close();
+                        }
+                    });
+                }
             };
         });
     }, 100);
