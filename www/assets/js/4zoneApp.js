@@ -725,8 +725,28 @@ function updatePageIndicator() {
   });
 }
 
+// URL 쿼리 파라미터에서 슬라이드 번호 가져오기
+function getSlideFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const slideParam = urlParams.get('slide');
+  if (slideParam) {
+    const slideNumber = parseInt(slideParam, 10);
+    // 슬라이드는 1-based로 입력되지만 내부적으로는 0-based
+    if (!isNaN(slideNumber) && slideNumber >= 1 && slideNumber <= window.totalSlides) {
+      return slideNumber - 1; // 0-based 인덱스로 변환
+    }
+  }
+  return null;
+}
+
 // 첫 슬라이드 표시
 window.onload = () => {
+  // URL에서 슬라이드 번호 확인
+  const urlSlideIndex = getSlideFromURL();
+  if (urlSlideIndex !== null) {
+    current = urlSlideIndex;
+  }
+  
   // 초기 슬라이드 번호 설정
   window.currentSlideNumber = current + 1;
   console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
