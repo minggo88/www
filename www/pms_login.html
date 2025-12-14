@@ -192,9 +192,9 @@
                 >
             </div>
 
-            <div class="forgot-password">
+            <!--<div class="forgot-password">
                 <a href="forget.html">비밀번호 찾기</a>
-            </div>
+            </div>-->
 
             <button type="submit" class="login-btn">로그인</button>
 
@@ -212,21 +212,78 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
     <script src="./assets/js/api.js?t=1671775853"></script>
-    <script src="./assets/js/components.js?t=1672721419"></script>
     <script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
     <script src="./assets/js/lib/security.min.js?t=1667735148"></script>
-    <script src="./i18n/i18n.js?t=1667796157"></script>
-    <script src="./assets/js/app.js?t=1672042800"></script>
     
     <script>
-        // jQuery와 모든 라이브러리가 로드된 후 실행
+        // Model 객체
+        const Model = {
+            token: null,
+            last_login_info: null,
+            user_info: null,
+            user_wallet: null
+        };
+
+        // 쿠키 함수
+        function setCookie(name, value, expiredays) {
+            var todayDate = new Date();
+            todayDate.setDate(todayDate.getDate() + (expiredays || 7));
+            document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
+        }
+
+        function getCookie(name) {
+            var nameOfCookie = name + "=";
+            var x = 0;
+            while(x <= document.cookie.length) {
+                var y = (x + nameOfCookie.length);
+                if(document.cookie.substring(x, y) == nameOfCookie) {
+                    if((endOfCookie = document.cookie.indexOf(";", y)) == -1)
+                        endOfCookie = document.cookie.length;
+                    var r = unescape(document.cookie.substring(y, endOfCookie));
+                    return (r == "undefined") ? '' : r;
+                }
+                x = document.cookie.indexOf(" ", x) + 1;
+                if(x == 0) break;
+            }
+            return "";
+        }
+
+        // 시간 함수
+        function time() {
+            return Math.floor(new Date().getTime() / 1000);
+        }
+
+        // 사용자 지갑 정보 가져오기
+        function get_user_wallet() {
+            $.post(API.BASE_URL + '/getBalance/', { 'token': getCookie('token') }, function (r) {
+                if (r && r.success && !r.error) {
+                    let user_wallet = {};
+                    for (i in r.payload) {
+                        let row = r.payload[i];
+                        row.confirmed = row.confirmed * 1;
+                        row.unconfirmed = row.unconfirmed * 1;
+                        user_wallet[row.symbol] = row;
+                    }
+                    Model.user_wallet = user_wallet;
+                }
+            });
+        }
+
+        // 사용자 정보 가져오기
+        function request_user_info(callback) {
+            $.post(API.BASE_URL + '/getMyInfo/', { 'token': getCookie('token') }, function (r) {
+                if (r && r.success && !r.error) {
+                    let user_info = r.payload;
+                    Model.user_info = user_info;
+                    if (callback && typeof callback === 'function') {
+                        callback();
+                    }
+                }
+            });
+        }
+
+        // 로그인 처리
         $(document).ready(function() {
-            fn_login();
-        });
-
-        const fn_login = function () {
-            window.keypress_support = false;
-
             // 폼 초기화
             $('#loginForm').each(function () { 
                 if (this.reset) { 
@@ -234,12 +291,12 @@
                 } 
             });
             
-            // 아이디 포커스
+            // 이메일 필드 포커스
             if ($('#email').length > 0) {
                 $('#email').get(0).focus();
             }
 
-            // 로그인
+            // 로그인 폼 제출
             $('#loginForm').on('submit', function (e) {
                 e.preventDefault();
 
@@ -259,95 +316,22 @@
                 API.login(email, password, (r) => {
                     if (r && r.success && r.payload) {
                         setCookie('token', r.payload.token);
-                        if (typeof Model !== 'undefined') {
-                            Model.token = r.payload.token;
-                            Model.last_login_info = { 'userid': email };
-                            Model.user_info = { 'userid': email };
-                        }
+                        Model.token = r.payload.token;
+                        Model.last_login_info = { 'userid': email };
+                        Model.user_info = { 'userid': email };
                         
-                        // 사용자 지갑 정보 가져오기
-                        if (typeof get_user_wallet === 'function') {
-                            get_user_wallet();
-                        }
+                        get_user_wallet();
                         
-                        // 사용자 정보 가져오기 후 PMS 폼으로 이동
-                        if (typeof request_user_info === 'function') {
-                            request_user_info(function () { 
-                                window.location.href = 'pms_form.html';
-                            });
-                        } else {
-                            // request_user_info가 없으면 바로 PMS 폼으로 이동
+                        request_user_info(function () { 
                             window.location.href = 'pms_form.html';
-                        }
+                        });
                     } else {
                         let msg = r.error && r.error.message ? r.error.message : '로그인 정보가 올바른지 확인해주세요.';
                         $('#errorMessage').text(msg).addClass('show');
                     }
                 });
             });
-
-            // 자동완성 비활성화
-            if (typeof $.fn.disableAutoFill === 'function') {
-                $('#email').disableAutoFill();
-                $('#password').disableAutoFill();
-            }
-        };
-
-        // 헬퍼 함수들 (app.js에 없을 경우를 대비)
-        if (typeof setCookie === 'undefined') {
-            function setCookie(name, value, expiredays) {
-                var todayDate = new Date();
-                todayDate.setDate(todayDate.getDate() + (expiredays || 7));
-                document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
-            }
-        }
-
-        if (typeof getCookie === 'undefined') {
-            function getCookie(name) {
-                var nameOfCookie = name + "=";
-                var x = 0;
-                while(x <= document.cookie.length) {
-                    var y = (x + nameOfCookie.length);
-                    if(document.cookie.substring(x, y) == nameOfCookie) {
-                        if((endOfCookie = document.cookie.indexOf(";", y)) == -1)
-                            endOfCookie = document.cookie.length;
-                        var r = unescape(document.cookie.substring(y, endOfCookie));
-                        return (r == "undefined") ? '' : r;
-                    }
-                    x = document.cookie.indexOf(" ", x) + 1;
-                    if(x == 0) break;
-                }
-                return "";
-            }
-        }
-
-        if (typeof getURLParameter === 'undefined') {
-            function getURLParameter(key, url) {
-                url = new URL(url || window.location.href);
-                r = url.searchParams.get(key);
-                return r ? r : '';
-            }
-        }
-
-        if (typeof setURLParameter === 'undefined') {
-            function setURLParameter(key, val, url) {
-                url = $.trim(url);
-                url = url ? url : window.location.origin;
-                url = url === '.' ? window.location.href : url;
-                url = url.indexOf('./') === 0 ? window.location.origin + url : url;
-                url = url.indexOf('/') === 0 ? window.location.origin + url : url;
-                url = url.indexOf('http') < 0 ? window.location.origin + '/' + url : url;
-                url = new URL(url);
-                url.searchParams.set(key, val);
-                return url.href;
-            }
-        }
-
-        if (typeof time === 'undefined') {
-            function time() {
-                return Math.floor(new Date().getTime() / 1000);
-            }
-        }
+        });
     </script>
 </body>
 </html>
