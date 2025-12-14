@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="title" content="ASSETTEA">
+	<meta name="description" content="">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://assettea.com">
+	<meta property="og:title" content="ASSETTEA">
+	<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
+	<meta property="og:description" content="">
+	<meta property="og:site_name" content="ASSETTEA">
+	<meta property="og:locale" content="ko_KR">
+	<meta property="og:image:width" content="200">
+	<meta property="og:image:height" content="100">
+	<title>ASSETTEA</title>
+	<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+	<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+	<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+	<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+	<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+	<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap"
+		rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap"
+		rel="stylesheet">
+	<!-- JS -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+	<script src="./assets/js/api.js?t=1671775853"></script>
+	<script src="./assets/js/components.js?t=1672721419"></script>
+
+	<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+	<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+	<script src="./i18n/i18n.js?t=1667796157"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: #E21A32;
+        }
+
+        .error-message {
+            display: none;
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 15px;
+            border-left: 3px solid #c62828;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: #E21A32;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #E21A32;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #c91629;
+        }
+
+        .login-btn:active {
+            transform: translateY(1px);
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .signup-link a {
+            color: #E21A32;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #ddd;
+        }
+
+        .divider span {
+            background-color: white;
+            padding: 0 10px;
+            position: relative;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="login-title">로그인</h1>
+        
+        <form id="loginForm">
+            <div class="error-message" id="errorMessage">
+                비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다.
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="form-input" 
+                    placeholder="이메일을 입력하세요"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="form-input" 
+                    placeholder="비밀번호를 입력하세요"
+                    required
+                >
+            </div>
+
+            <div class="forgot-password">
+                <a href="forget.html">비밀번호 찾기</a>
+            </div>
+
+            <button type="submit" class="login-btn">로그인</button>
+
+            <div class="divider">
+                <span>또는</span>
+            </div>
+
+            <div class="signup-link">
+                계정이 없으신가요? <a href="create-account.html">이메일로 회원가입</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // 여기에 실제 로그인 로직 추가
+            console.log('로그인 시도:', { email, password });
+            
+            // 예시: 로그인 실패 시 에러 메시지 표시
+            // errorMessage.classList.add('show');
+            
+            // 실제로는 서버와 통신하여 로그인 처리
+            alert('로그인 기능을 구현해야 합니다.\n\n입력된 정보:\nEmail: ' + email);
+        });
+    </script>
+</body>
+</html>
