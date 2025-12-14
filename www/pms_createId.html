@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMS - 회원등록</title>
+    <title>회원 등록 - ASSETTEA</title>
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 	<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 	<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
@@ -15,10 +15,8 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 	<script src="./assets/js/api.js?t=1671775853"></script>
-	<script src="./assets/js/components.js?t=1672721419"></script>
 	<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
 	<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
-	<script src="./i18n/i18n.js?t=1667796157"></script>
     
     <style>
         * {
@@ -467,6 +465,7 @@
                     'address': address,
                     'detailAddress': detailAddress,
                     'pin': '000000', // 기본 핀번호 (필요시 수정)
+                    'os': 'windows', // OS 정보 고정
                     'bool_email': 0,
                     'bool_marketing': terms2 ? 1 : 0,
                     'bool_confirm_email': 0, // 이메일 인증 생략
