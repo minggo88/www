@@ -216,6 +216,21 @@
     <script src="./assets/js/lib/security.min.js?t=1667735148"></script>
     
     <script>
+        // OS 정보 (API.login / API.join 등에서 사용)
+        // 기존 app/common 로직과 동일하게 userAgent 기반으로 세팅
+        var os = '';
+        if (navigator.userAgent.match(/Windows/)) {
+            os = 'ms';
+        } else if (navigator.userAgent.match(/Android/)) {
+            os = 'android';
+        } else if (navigator.userAgent.match(/(iPhone|iPad)/)) {
+            os = 'ios';
+        } else if (navigator.userAgent.match(/Macintosh/)) {
+            os = 'mac';
+        } else if (navigator.userAgent.match(/Linux/)) {
+            os = 'linux';
+        }
+
         // Model 객체
         const Model = {
             token: null,
