@@ -144,9 +144,10 @@ const API = {
      * @param {*} callback 
      */
     join: (data, callback = null) => {
+        const resolvedOs = (data && data.os) ? data.os : (typeof os !== 'undefined' ? os : '')
         data = $.extend(data, {
             token: window.localStorage.token, lang: window.localStorage.locale,
-            os: os,
+            os: resolvedOs,
         })
         $.ajax({
             url: `${API.BASE_URL}/socialJoin/`,
@@ -176,7 +177,7 @@ const API = {
                 social_id: email,
                 social_name: 'email',
                 userpw: password,
-                os: os,
+                os: (typeof os !== 'undefined' ? os : ''),
             },
             success: (resp) => {
                 // 로그인 성공 시 토큰 저장

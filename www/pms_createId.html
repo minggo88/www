@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 등록 - ASSETTEA</title>
+    <title>PMS - 회원 등록</title>
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 	<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 	<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
@@ -452,6 +452,20 @@
                 $(this).find('button[type=submit]').prop('disabled', true);
 
                 // 회원가입 API 호출 (인증 없이 바로 가입)
+                // OS 정보 (기존 common.js 로직과 동일)
+                var os = '';
+                if (navigator.userAgent.match(/Windows/)) {
+                    os = 'ms';
+                } else if (navigator.userAgent.match(/Android/)) {
+                    os = 'android';
+                } else if (navigator.userAgent.match(/(iPhone|iPad)/)) {
+                    os = 'ios';
+                } else if (navigator.userAgent.match(/Macintosh/)) {
+                    os = 'mac';
+                } else if (navigator.userAgent.match(/Linux/)) {
+                    os = 'linux';
+                }
+
                 API.join({
                     'social_id': email,
                     'social_name': '',
@@ -465,7 +479,7 @@
                     'address': address,
                     'detailAddress': detailAddress,
                     'pin': '000000', // 기본 핀번호 (필요시 수정)
-                    'os': 'windows', // OS 정보 고정
+                    'os': os,
                     'bool_email': 0,
                     'bool_marketing': terms2 ? 1 : 0,
                     'bool_confirm_email': 0, // 이메일 인증 생략
