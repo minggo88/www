@@ -1,65 +1,497 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="Content-Language" content="ko-KR">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASSETTEA APK DOWN</title>
-<style>
-    body{
-        background-color: rgb(15, 17, 40);
-    }
-    h1{
-        color:#ffffff;
-        font-size:48px;
-        text-align: center;
-    }
-    body div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 27vh;
-        margin: 0;
-    }
-    .button-container a {
-        width: 340px;
-        height: 100px;
-        font-size: 16px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS - 회원등록</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+	<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
+	<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
+	<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
+	<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
+	<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
 
-    #btn_apk{
-        background: url('../assets/img/btn_down_apk.png') no-repeat center center;
-    }
+    <!-- JS -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+	<script src="./assets/js/api.js?t=1671775853"></script>
+	<script src="./assets/js/components.js?t=1672721419"></script>
+	<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+	<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+	<script src="./i18n/i18n.js?t=1667796157"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    #btn_home{
-        background: url('../assets/img/btn_home_apk.png') no-repeat center center;
-    }
-</style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .signup-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 50px 60px;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .signup-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #E21A32;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: white;
+        }
+
+        .form-input:focus {
+            border-color: #E21A32;
+        }
+
+        .checkbox-group {
+            margin: 30px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #E21A32;
+        }
+
+        .checkbox-item label {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .checkbox-item a {
+            color: #E21A32;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .checkbox-item a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #E21A32;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #c91629;
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        @media (max-width: 768px) {
+            .signup-container {
+                padding: 40px 30px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .signup-title {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>ASSETTEA APP<Br>다운로드 페이지</h1>
-    <div class="button-container">
-        <a id="btn_apk" onclick="downloadApk()"></a>
+    <div class="signup-container">
+        <h1 class="signup-title">회원 등록</h1>
+        
+        <form id="signupForm">
+            <input type="hidden" name="checkJoin" id="checkJoin" value="">
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="email">이메일</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        class="form-input"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="name">이름</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        class="form-input"
+                        autocomplete="name"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="password">비밀번호</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="form-input"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="passwordConfirm">비밀번호 확인</label>
+                    <input 
+                        type="password" 
+                        id="passwordConfirm" 
+                        class="form-input"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="phone">핸드폰 번호</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        class="form-input" 
+                        placeholder="010-0000-0000"
+                        autocomplete="tel"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="hospital">병원명</label>
+                    <input 
+                        type="text" 
+                        id="hospital" 
+                        class="form-input"
+                        autocomplete="organization"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="address">주소</label>
+                    <input 
+                        type="text" 
+                        id="address" 
+                        class="form-input"
+                        autocomplete="address-line1"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="detailAddress">상세주소</label>
+                    <input 
+                        type="text" 
+                        id="detailAddress" 
+                        class="form-input"
+                        autocomplete="address-line2"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="terms1" required>
+                    <label for="terms1">
+                        개인정보 수집 및 이용 동의 (필수)
+                    </label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="terms2" required>
+                    <label for="terms2">
+                        제3자 제공 동의 (선택)
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">전체 동의 및 회원 등록</button>
+        </form>
     </div>
-    <div class="button-container">
-        <a id="btn_home" onclick="redirectToWebsite()"></a>    
-    </div>
 
-<script>
-    function downloadApk() {
-        // APK 다운로드 기능
-        var link = document.createElement('a');
-        link.href = '../assets/etc/assettea.apk';
-        link.download = 'assettea.apk';
-        link.click();
-    }
+    <script>
+        $(document).ready(function() {
+            fn_signup();
+        });
 
-    function redirectToWebsite() {
-        // 웹사이트로 이동
-        window.location.href = 'https://assettea.com';
-    }
-</script>
+        const fn_signup = function () {
+            window.keypress_support = false;
 
+            // 폼 초기화
+            $('#signupForm').each(function () { 
+                if (this.reset) { 
+                    this.reset(); 
+                } 
+            });
+            
+            // 이메일 포커스
+            $('#email').get(0).focus();
+
+            // 이메일 중복 체크
+            $('#email').on('change', function () { 
+                const email = $(this).val();
+                if (email) {
+                    API.checkJoin('userid', email, function(r){
+                        console.log('checkJoin result:', r);
+                        if(r && r.success) {
+                            $('#checkJoin').val('N');
+                            for (row of r.payload) {
+                                if (row.id == email && row.status == 'joined') {
+                                    $('#checkJoin').val('Y');
+                                    alert('이미 가입되어있는 이메일입니다.\n다른 이메일을 입력해주세요.');
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+
+            // 회원가입
+            $('#signupForm').on('submit', function (e) {
+                e.preventDefault();
+
+                const $email = $('#email'), email = trim($email.val());
+                const $name = $('#name'), name = trim($name.val());
+                const $password = $('#password'), password = trim($password.val());
+                const $passwordConfirm = $('#passwordConfirm'), passwordConfirm = trim($passwordConfirm.val());
+                const $phone = $('#phone'), phone = trim($phone.val());
+                const $hospital = $('#hospital'), hospital = trim($hospital.val());
+                const $address = $('#address'), address = trim($address.val());
+                const $detailAddress = $('#detailAddress'), detailAddress = trim($detailAddress.val());
+                const terms1 = $('#terms1').is(':checked');
+                const terms2 = $('#terms2').is(':checked');
+
+                // 이메일 검증
+                if(!email) {
+                    alert('이메일을 입력해주세요.');
+                    $email.focus();
+                    return false;
+                }
+
+                // 이메일 형식 체크
+                if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) === false) {
+                    alert('올바른 E-mail 주소를 입력해주세요');
+                    $email.focus();
+                    return false;
+                }
+
+                // 이메일 중복 체크
+                if ($('#checkJoin').val() == 'Y') {
+                    alert('이미 가입되어있는 이메일입니다.\n다른 이메일을 입력해주세요.');
+                    $email.focus();
+                    return false;
+                }
+
+                // 이름 검증
+                if(!name) {
+                    alert('이름을 입력해주세요.');
+                    $name.focus();
+                    return false;
+                }
+
+                // 비밀번호 검증
+                if(!password) {
+                    alert('비밀번호를 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                // 비밀번호 길이 체크
+                if (/^.{8,}$/.test(password) === false) {
+                    alert('비밀번호는 8자리 이상 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                // 비밀번호 영문 체크
+                if (/^(?=.*[a-z]).*$/.test(password) === false) {
+                    alert('비밀번호는 영문자를 포함해서 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                // 비밀번호 숫자 체크
+                if (/^(?=.*[0-9]).*$/.test(password) === false) {
+                    alert('비밀번호는 숫자를 포함해서 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                // 비밀번호 특수문자 체크
+                if (/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(password) === false) {
+                    alert('비밀번호는 특수문자를 포함해서 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                // 비밀번호 확인 검증
+                if (!passwordConfirm) {
+                    alert('비밀번호 확인을 입력해주세요.');
+                    $passwordConfirm.focus();
+                    return false;
+                }
+
+                if (password !== passwordConfirm) {
+                    alert('비밀번호가 일치하지 않습니다.');
+                    $passwordConfirm.focus();
+                    return false;
+                }
+
+                // 핸드폰 번호 검증
+                if(!phone) {
+                    alert('핸드폰 번호를 입력해주세요.');
+                    $phone.focus();
+                    return false;
+                }
+
+                // 병원명 검증
+                if(!hospital) {
+                    alert('병원명을 입력해주세요.');
+                    $hospital.focus();
+                    return false;
+                }
+
+                // 주소 검증
+                if(!address) {
+                    alert('주소를 입력해주세요.');
+                    $address.focus();
+                    return false;
+                }
+
+                // 상세주소 검증
+                if(!detailAddress) {
+                    alert('상세주소를 입력해주세요.');
+                    $detailAddress.focus();
+                    return false;
+                }
+
+                // 필수 약관 동의 체크
+                if (!terms1) {
+                    alert('개인정보 수집 및 이용에 동의해주세요.');
+                    return false;
+                }
+
+                // 폼 비활성화
+                $(this).addClass('loading');
+                $(this).find('button[type=submit]').prop('disabled', true);
+
+                // 회원가입 API 호출 (인증 없이 바로 가입)
+                API.join({
+                    'social_id': email,
+                    'social_name': '',
+                    'name': name,
+                    'mobile': phone,
+                    'email': email,
+                    'userpw': password,
+                    'mobile_calling_code': '+82',
+                    'mobile_country_code': 'KR',
+                    'hospital': hospital,
+                    'address': address,
+                    'detailAddress': detailAddress,
+                    'pin': '000000', // 기본 핀번호 (필요시 수정)
+                    'bool_email': 0,
+                    'bool_marketing': terms2 ? 1 : 0,
+                    'bool_confirm_email': 0, // 이메일 인증 생략
+                    'bool_confirm_mobile': 0 // 휴대폰 인증 생략
+                }, (resp) => {
+                    $('#signupForm').removeClass('loading');
+                    $('#signupForm').find('button[type=submit]').prop('disabled', false);
+
+                    if(resp && resp.success) {
+                        alert('회원가입이 완료되었습니다!');
+                        window.location.href = 'pms_login.html';
+                    } else {
+                        let msg = resp.error && resp.error.message ? resp.error.message : '회원가입에 실패했습니다. 다시 시도해주세요.';
+                        alert(msg);
+                    }
+                });
+
+                return false;
+            });
+        };
+
+        // Trim 함수
+        function trim(str) {
+            return str ? $.trim(str) : '';
+        }
+    </script>
 </body>
 </html>

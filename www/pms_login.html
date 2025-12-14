@@ -1,65 +1,353 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="Content-Language" content="ko-KR">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASSETTEA APK DOWN</title>
-<style>
-    body{
-        background-color: rgb(15, 17, 40);
-    }
-    h1{
-        color:#ffffff;
-        font-size:48px;
-        text-align: center;
-    }
-    body div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 27vh;
-        margin: 0;
-    }
-    .button-container a {
-        width: 340px;
-        height: 100px;
-        font-size: 16px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - PMS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    #btn_apk{
-        background: url('../assets/img/btn_down_apk.png') no-repeat center center;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    #btn_home{
-        background: url('../assets/img/btn_home_apk.png') no-repeat center center;
-    }
-</style>
+        .login-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: #E21A32;
+        }
+
+        .error-message {
+            display: none;
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 15px;
+            border-left: 3px solid #c62828;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: #E21A32;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #E21A32;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #c91629;
+        }
+
+        .login-btn:active {
+            transform: translateY(1px);
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .signup-link a {
+            color: #E21A32;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #ddd;
+        }
+
+        .divider span {
+            background-color: white;
+            padding: 0 10px;
+            position: relative;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
 </head>
 <body>
-    <h1>ASSETTEA APP<Br>다운로드 페이지</h1>
-    <div class="button-container">
-        <a id="btn_apk" onclick="downloadApk()"></a>
+    <div class="login-container">
+        <h1 class="login-title">로그인</h1>
+        
+        <form id="loginForm" name="login">
+            <div class="error-message" id="errorMessage">
+                비밀번호가 일치하지 않습니다.
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    class="form-input" 
+                    placeholder="이메일을 입력하세요"
+                    autocomplete="off"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password"
+                    class="form-input" 
+                    placeholder="비밀번호를 입력하세요"
+                    autocomplete="off"
+                    required
+                >
+            </div>
+
+            <div class="forgot-password">
+                <a href="forget.html">비밀번호 찾기</a>
+            </div>
+
+            <button type="submit" class="login-btn">로그인</button>
+
+            <div class="divider">
+                <span>또는</span>
+            </div>
+
+            <div class="signup-link">
+                계정이 없으신가요? <a href="pms_createId.html">이메일로 회원가입</a>
+            </div>
+        </form>
     </div>
-    <div class="button-container">
-        <a id="btn_home" onclick="redirectToWebsite()"></a>    
-    </div>
 
-<script>
-    function downloadApk() {
-        // APK 다운로드 기능
-        var link = document.createElement('a');
-        link.href = '../assets/etc/assettea.apk';
-        link.download = 'assettea.apk';
-        link.click();
-    }
+    <!-- JS 파일들을 body 끝에서 순서대로 로드 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <script src="./assets/js/api.js?t=1671775853"></script>
+    <script src="./assets/js/components.js?t=1672721419"></script>
+    <script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+    <script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+    <script src="./i18n/i18n.js?t=1667796157"></script>
+    <script src="./assets/js/app.js?t=1672042800"></script>
+    
+    <script>
+        // jQuery와 모든 라이브러리가 로드된 후 실행
+        $(document).ready(function() {
+            fn_login();
+        });
 
-    function redirectToWebsite() {
-        // 웹사이트로 이동
-        window.location.href = 'https://assettea.com';
-    }
-</script>
+        const fn_login = function () {
+            window.keypress_support = false;
 
+            // 폼 초기화
+            $('#loginForm').each(function () { 
+                if (this.reset) { 
+                    this.reset(); 
+                } 
+            });
+            
+            // 아이디 포커스
+            if ($('#email').length > 0) {
+                $('#email').get(0).focus();
+            }
+
+            // 로그인
+            $('#loginForm').on('submit', function (e) {
+                e.preventDefault();
+
+                const $email = $('#email'), email = $.trim($email.val());
+                const $password = $('#password'), password = $.trim($password.val());
+
+                if (!email) {
+                    $email.focus();
+                    return false;
+                }
+
+                if (!password) {
+                    $password.focus();
+                    return false;
+                }
+
+                API.login(email, password, (r) => {
+                    if (r && r.success && r.payload) {
+                        setCookie('token', r.payload.token);
+                        if (typeof Model !== 'undefined') {
+                            Model.token = r.payload.token;
+                            Model.last_login_info = { 'userid': email };
+                            Model.user_info = { 'userid': email };
+                        }
+                        
+                        // 사용자 지갑 정보 가져오기
+                        if (typeof get_user_wallet === 'function') {
+                            get_user_wallet();
+                        }
+                        
+                        // 사용자 정보 가져오기 후 PMS 폼으로 이동
+                        if (typeof request_user_info === 'function') {
+                            request_user_info(function () { 
+                                window.location.href = 'pms_form.html';
+                            });
+                        } else {
+                            // request_user_info가 없으면 바로 PMS 폼으로 이동
+                            window.location.href = 'pms_form.html';
+                        }
+                    } else {
+                        let msg = r.error && r.error.message ? r.error.message : '로그인 정보가 올바른지 확인해주세요.';
+                        $('#errorMessage').text(msg).addClass('show');
+                    }
+                });
+            });
+
+            // 자동완성 비활성화
+            if (typeof $.fn.disableAutoFill === 'function') {
+                $('#email').disableAutoFill();
+                $('#password').disableAutoFill();
+            }
+        };
+
+        // 헬퍼 함수들 (app.js에 없을 경우를 대비)
+        if (typeof setCookie === 'undefined') {
+            function setCookie(name, value, expiredays) {
+                var todayDate = new Date();
+                todayDate.setDate(todayDate.getDate() + (expiredays || 7));
+                document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
+            }
+        }
+
+        if (typeof getCookie === 'undefined') {
+            function getCookie(name) {
+                var nameOfCookie = name + "=";
+                var x = 0;
+                while(x <= document.cookie.length) {
+                    var y = (x + nameOfCookie.length);
+                    if(document.cookie.substring(x, y) == nameOfCookie) {
+                        if((endOfCookie = document.cookie.indexOf(";", y)) == -1)
+                            endOfCookie = document.cookie.length;
+                        var r = unescape(document.cookie.substring(y, endOfCookie));
+                        return (r == "undefined") ? '' : r;
+                    }
+                    x = document.cookie.indexOf(" ", x) + 1;
+                    if(x == 0) break;
+                }
+                return "";
+            }
+        }
+
+        if (typeof getURLParameter === 'undefined') {
+            function getURLParameter(key, url) {
+                url = new URL(url || window.location.href);
+                r = url.searchParams.get(key);
+                return r ? r : '';
+            }
+        }
+
+        if (typeof setURLParameter === 'undefined') {
+            function setURLParameter(key, val, url) {
+                url = $.trim(url);
+                url = url ? url : window.location.origin;
+                url = url === '.' ? window.location.href : url;
+                url = url.indexOf('./') === 0 ? window.location.origin + url : url;
+                url = url.indexOf('/') === 0 ? window.location.origin + url : url;
+                url = url.indexOf('http') < 0 ? window.location.origin + '/' + url : url;
+                url = new URL(url);
+                url.searchParams.set(key, val);
+                return url.href;
+            }
+        }
+
+        if (typeof time === 'undefined') {
+            function time() {
+                return Math.floor(new Date().getTime() / 1000);
+            }
+        }
+    </script>
 </body>
 </html>
