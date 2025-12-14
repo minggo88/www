@@ -1,51 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- META -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<meta name="title" content="ASSETTEA">
-	<meta name="description" content="">
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://assettea.com">
-	<meta property="og:title" content="ASSETTEA">
-	<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">
-	<meta property="og:description" content="">
-	<meta property="og:site_name" content="ASSETTEA">
-	<meta property="og:locale" content="ko_KR">
-	<meta property="og:image:width" content="200">
-	<meta property="og:image:height" content="100">
-	<title>ASSETTEA</title>
-	<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
-	<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
-	<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
-	<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
-	<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
-	<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap"
-		rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap"
-		rel="stylesheet">
-	<link rel="stylesheet" href="./assets/css/colorset.css?t=1667735148">
-	<link rel="stylesheet" href="./assets/css/common.css?t=1672721419">
-	<link rel="stylesheet" href="./assets/css/header.css?t=1672721419">
-	<link rel="stylesheet" href="./assets/css/footer.css?t=1672721419">
-	<link rel="stylesheet" href="./assets/css/components.css?t=1671090276">
-	<link rel="stylesheet" href="./assets/css/sub.css?t=1672721419">
-	<link rel="stylesheet" href="./assets/css/login.css?t=1671607479">
-	<!-- JS -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-	<script src="./assets/js/common.js?t=1670369703"></script>
-	<script src="./assets/js/api.js?t=1671775853"></script>
-	<script src="./assets/js/components.js?t=1672721419"></script>
-	<script src="./assets/js/login.js?t=1667735148" defer></script>
-
-	<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
-	<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
-	<script src="./i18n/i18n.js?t=1667796157"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - PMS</title>
     <style>
         * {
             margin: 0;
@@ -54,7 +12,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif;
             background-color: #f5f5f5;
             display: flex;
             justify-content: center;
@@ -205,7 +163,7 @@
         
         <form id="loginForm" name="login">
             <div class="error-message" id="errorMessage">
-                비밀번호가 일치하지 않습니다. 비밀번호 찾기를 통해 비밀번호를 재설정할 수 있습니다.
+                비밀번호가 일치하지 않습니다.
             </div>
 
             <div class="form-group">
@@ -216,6 +174,7 @@
                     name="email"
                     class="form-input" 
                     placeholder="이메일을 입력하세요"
+                    autocomplete="off"
                     required
                 >
             </div>
@@ -228,6 +187,7 @@
                     name="password"
                     class="form-input" 
                     placeholder="비밀번호를 입력하세요"
+                    autocomplete="off"
                     required
                 >
             </div>
@@ -248,142 +208,145 @@
         </form>
     </div>
 
+    <!-- JS 파일들을 body 끝에서 순서대로 로드 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <script src="./assets/js/api.js?t=1671775853"></script>
+    <script src="./assets/js/components.js?t=1672721419"></script>
+    <script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
+    <script src="./assets/js/lib/security.min.js?t=1667735148"></script>
+    <script src="./i18n/i18n.js?t=1667796157"></script>
+    <script src="./assets/js/app.js?t=1672042800"></script>
+    
     <script>
-        // 페이지 로드 시 초기화
-        window.onload = function() {
+        // jQuery와 모든 라이브러리가 로드된 후 실행
+        $(document).ready(function() {
             fn_login();
-        };
+        });
 
         const fn_login = function () {
-            // check_logout(); // 필요시 구현
             window.keypress_support = false;
 
             // 폼 초기화
-            const form = document.getElementById('loginForm');
-            if (form && form.reset) { 
-                form.reset(); 
-            }
+            $('#loginForm').each(function () { 
+                if (this.reset) { 
+                    this.reset(); 
+                } 
+            });
             
             // 아이디 포커스
-            const emailInput = document.querySelector('[name=email]');
-            if (emailInput) {
-                emailInput.focus();
+            if ($('#email').length > 0) {
+                $('#email').get(0).focus();
             }
 
             // 로그인
-            document.getElementById('loginForm').addEventListener('submit', function (e) {
+            $('#loginForm').on('submit', function (e) {
                 e.preventDefault();
 
-                const emailEl = document.getElementById('email');
-                const passwordEl = document.getElementById('password');
-                const email = emailEl.value.trim();
-                const password = passwordEl.value.trim();
+                const $email = $('#email'), email = $.trim($email.val());
+                const $password = $('#password'), password = $.trim($password.val());
 
                 if (!email) {
-                    emailEl.focus();
+                    $email.focus();
                     return false;
                 }
 
                 if (!password) {
-                    passwordEl.focus();
+                    $password.focus();
                     return false;
                 }
 
-                // API 호출 (실제 API 객체로 교체 필요)
                 API.login(email, password, (r) => {
                     if (r && r.success && r.payload) {
                         setCookie('token', r.payload.token);
-                        Model.token = r.payload.token;
-                        Model.last_login_info = { 'userid': email };
-                        let user_info = { 'userid': email };
-                        Model.user_info = user_info;
+                        if (typeof Model !== 'undefined') {
+                            Model.token = r.payload.token;
+                            Model.last_login_info = { 'userid': email };
+                            Model.user_info = { 'userid': email };
+                        }
                         
-                        get_user_wallet();
+                        // 사용자 지갑 정보 가져오기
+                        if (typeof get_user_wallet === 'function') {
+                            get_user_wallet();
+                        }
                         
-                        request_user_info(function () { 
-                            let ret_url = getURLParameter('ret_url');
-                            ret_url = '/'; // ret_url ? base64_decode(ret_url).trim() : '/';
-                            ret_url = setURLParameter('t', Date.now(), ret_url);
-                            window.location.href = ret_url;
-                        });
+                        // 사용자 정보 가져오기 후 PMS 폼으로 이동
+                        if (typeof request_user_info === 'function') {
+                            request_user_info(function () { 
+                                window.location.href = 'pms_form.html';
+                            });
+                        } else {
+                            // request_user_info가 없으면 바로 PMS 폼으로 이동
+                            window.location.href = 'pms_form.html';
+                        }
                     } else {
                         let msg = r.error && r.error.message ? r.error.message : '로그인 정보가 올바른지 확인해주세요.';
-                        const errorMessageEl = document.getElementById('errorMessage');
-                        if (errorMessageEl) {
-                            errorMessageEl.textContent = msg;
-                            errorMessageEl.classList.add('show');
-                        }
+                        $('#errorMessage').text(msg).addClass('show');
                     }
                 });
             });
 
             // 자동완성 비활성화
-            const emailEl = document.getElementById('email');
-            const passwordEl = document.getElementById('password');
-            if (emailEl) emailEl.setAttribute('autocomplete', 'off');
-            if (passwordEl) passwordEl.setAttribute('autocomplete', 'off');
-        };
-
-        // Trim 함수
-        function trim(str) {
-            return str ? str.trim() : '';
-        }
-
-        // 쿠키 설정 함수 (구현 필요)
-        function setCookie(name, value, days = 7) {
-            const expires = new Date();
-            expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-            document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
-        }
-
-        // URL 파라미터 가져오기
-        function getURLParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
-        // URL 파라미터 설정
-        function setURLParameter(key, value, url) {
-            const urlObj = new URL(url, window.location.origin);
-            urlObj.searchParams.set(key, value);
-            return urlObj.toString();
-        }
-
-        // 아래 함수들은 실제 프로젝트의 API 객체와 함수로 교체 필요
-        const API = {
-            login: function(email, password, callback) {
-                // 실제 API 호출로 교체
-                console.log('API.login 호출:', { email, password });
-                
-                // 임시 응답 (실제로는 서버 API 호출)
-                setTimeout(() => {
-                    // 성공 시
-                    // callback({ success: true, payload: { token: 'sample_token_123' } });
-                    
-                    // 실패 시 예시
-                    callback({ 
-                        success: false, 
-                        error: { message: '로그인 정보가 올바르지 않습니다.' } 
-                    });
-                }, 500);
+            if (typeof $.fn.disableAutoFill === 'function') {
+                $('#email').disableAutoFill();
+                $('#password').disableAutoFill();
             }
         };
 
-        const Model = {
-            token: null,
-            last_login_info: null,
-            user_info: null
-        };
-
-        function get_user_wallet() {
-            // 실제 구현 필요
-            console.log('get_user_wallet 호출');
+        // 헬퍼 함수들 (app.js에 없을 경우를 대비)
+        if (typeof setCookie === 'undefined') {
+            function setCookie(name, value, expiredays) {
+                var todayDate = new Date();
+                todayDate.setDate(todayDate.getDate() + (expiredays || 7));
+                document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
+            }
         }
 
-        function request_user_info(callback) {
-            // 실제 구현 필요
-            console.log('request_user_info 호출');
-            if (callback) callback();
+        if (typeof getCookie === 'undefined') {
+            function getCookie(name) {
+                var nameOfCookie = name + "=";
+                var x = 0;
+                while(x <= document.cookie.length) {
+                    var y = (x + nameOfCookie.length);
+                    if(document.cookie.substring(x, y) == nameOfCookie) {
+                        if((endOfCookie = document.cookie.indexOf(";", y)) == -1)
+                            endOfCookie = document.cookie.length;
+                        var r = unescape(document.cookie.substring(y, endOfCookie));
+                        return (r == "undefined") ? '' : r;
+                    }
+                    x = document.cookie.indexOf(" ", x) + 1;
+                    if(x == 0) break;
+                }
+                return "";
+            }
+        }
+
+        if (typeof getURLParameter === 'undefined') {
+            function getURLParameter(key, url) {
+                url = new URL(url || window.location.href);
+                r = url.searchParams.get(key);
+                return r ? r : '';
+            }
+        }
+
+        if (typeof setURLParameter === 'undefined') {
+            function setURLParameter(key, val, url) {
+                url = $.trim(url);
+                url = url ? url : window.location.origin;
+                url = url === '.' ? window.location.href : url;
+                url = url.indexOf('./') === 0 ? window.location.origin + url : url;
+                url = url.indexOf('/') === 0 ? window.location.origin + url : url;
+                url = url.indexOf('http') < 0 ? window.location.origin + '/' + url : url;
+                url = new URL(url);
+                url.searchParams.set(key, val);
+                return url.href;
+            }
+        }
+
+        if (typeof time === 'undefined') {
+            function time() {
+                return Math.floor(new Date().getTime() / 1000);
+            }
         }
     </script>
 </body>
