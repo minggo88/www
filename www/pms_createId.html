@@ -1,41 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<meta name="title" content="ASSETTEA">
-	<meta name="description" content="">
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://assettea.com">
-	<meta property="og:title" content="ASSETTEA">
-	<!--<meta property="og:image" content="https://assettea.com/assets/img/og_kkikda.png">-->
-	<meta property="og:description" content="">
-	<meta property="og:site_name" content="ASSETTEA">
-	<meta property="og:locale" content="ko_KR">
-	<meta property="og:image:width" content="200">
-	<meta property="og:image:height" content="100">
-	<title>PMS</title>
-	<link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 등록 - ASSETTEA</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 	<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 	<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
 	<link rel="icon" type="image/png" sizes="72x72" href="./assets/img/favicon_72.png">
 	<link rel="icon" type="image/png" sizes="180x180" href="./assets/img/favicon_180.png">
 	<link rel="icon" type="image/png" sizes="196x196" href="./assets/img/favicon_196.png">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300;400;500;700;900&display=swap"
-		rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;350;400;500;700;900&display=swap"
-		rel="stylesheet">
-	<!-- JS -->
+
+    <!-- JS -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 	<script src="./assets/js/api.js?t=1671775853"></script>
 	<script src="./assets/js/components.js?t=1672721419"></script>
-
+    <script src="./assets/js/app.js?t=1671775853"></script>
 	<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
 	<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
 	<script src="./i18n/i18n.js?t=1667796157"></script>
+    
     <style>
         * {
             margin: 0;
@@ -44,91 +29,106 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif;
             background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
-        .login-container {
+        .signup-container {
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            max-width: 400px;
+            padding: 50px 60px;
+            max-width: 700px;
             width: 100%;
         }
 
-        .login-title {
+        .signup-title {
             font-size: 28px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 30px;
+            font-weight: 700;
+            color: #E21A32;
+            margin-bottom: 40px;
             text-align: center;
         }
 
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
         .form-group {
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
         }
 
         .form-label {
-            display: block;
             font-size: 14px;
-            color: #555;
+            color: #333;
             margin-bottom: 8px;
             font-weight: 500;
         }
 
         .form-input {
-            width: 100%;
             padding: 12px 16px;
             font-size: 14px;
             border: 1px solid #ddd;
             border-radius: 4px;
             outline: none;
             transition: border-color 0.2s;
+            background-color: white;
         }
 
         .form-input:focus {
             border-color: #E21A32;
         }
 
-        .error-message {
-            display: none;
-            background-color: #ffebee;
-            color: #c62828;
-            padding: 12px;
-            border-radius: 4px;
-            font-size: 13px;
-            margin-bottom: 15px;
-            border-left: 3px solid #c62828;
+        .checkbox-group {
+            margin: 30px 0;
         }
 
-        .error-message.show {
-            display: block;
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
-        .forgot-password {
-            text-align: right;
-            margin-bottom: 20px;
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #E21A32;
         }
 
-        .forgot-password a {
+        .checkbox-item label {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .checkbox-item a {
             color: #E21A32;
             text-decoration: none;
-            font-size: 13px;
+            margin-left: 5px;
         }
 
-        .forgot-password a:hover {
+        .checkbox-item a:hover {
             text-decoration: underline;
         }
 
-        .login-btn {
+        .submit-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background-color: #E21A32;
             color: white;
             border: none;
@@ -137,55 +137,30 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s;
+            margin-top: 20px;
         }
 
-        .login-btn:hover {
+        .submit-btn:hover {
             background-color: #c91629;
         }
 
-        .login-btn:active {
+        .submit-btn:active {
             transform: translateY(1px);
         }
 
-        .signup-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #666;
-        }
+        @media (max-width: 768px) {
+            .signup-container {
+                padding: 40px 30px;
+            }
 
-        .signup-link a {
-            color: #E21A32;
-            text-decoration: none;
-            font-weight: 600;
-        }
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
 
-        .signup-link a:hover {
-            text-decoration: underline;
-        }
-
-        .divider {
-            text-align: center;
-            margin: 20px 0;
-            position: relative;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background-color: #ddd;
-        }
-
-        .divider span {
-            background-color: white;
-            padding: 0 10px;
-            position: relative;
-            color: #999;
-            font-size: 13px;
+            .signup-title {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
@@ -200,7 +175,8 @@
                     <input 
                         type="email" 
                         id="email" 
-                        class="form-input" 
+                        class="form-input"
+                        autocomplete="email"
                         required
                     >
                 </div>
@@ -210,7 +186,8 @@
                     <input 
                         type="text" 
                         id="name" 
-                        class="form-input" 
+                        class="form-input"
+                        autocomplete="name"
                         required
                     >
                 </div>
@@ -222,7 +199,8 @@
                     <input 
                         type="password" 
                         id="password" 
-                        class="form-input" 
+                        class="form-input"
+                        autocomplete="new-password"
                         required
                     >
                 </div>
@@ -232,7 +210,8 @@
                     <input 
                         type="password" 
                         id="passwordConfirm" 
-                        class="form-input" 
+                        class="form-input"
+                        autocomplete="new-password"
                         required
                     >
                 </div>
@@ -246,6 +225,7 @@
                         id="phone" 
                         class="form-input" 
                         placeholder="010-0000-0000"
+                        autocomplete="tel"
                         required
                     >
                 </div>
@@ -255,7 +235,8 @@
                     <input 
                         type="text" 
                         id="hospital" 
-                        class="form-input" 
+                        class="form-input"
+                        autocomplete="organization"
                         required
                     >
                 </div>
@@ -267,7 +248,8 @@
                     <input 
                         type="text" 
                         id="address" 
-                        class="form-input" 
+                        class="form-input"
+                        autocomplete="address-line1"
                         required
                     >
                 </div>
@@ -277,7 +259,8 @@
                     <input 
                         type="text" 
                         id="detailAddress" 
-                        class="form-input" 
+                        class="form-input"
+                        autocomplete="address-line2"
                         required
                     >
                 </div>
@@ -304,37 +287,133 @@
     </div>
 
     <script>
-        document.getElementById('signupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const password = document.getElementById('password').value;
-            const passwordConfirm = document.getElementById('passwordConfirm').value;
-            
-            if (password !== passwordConfirm) {
-                alert('비밀번호가 일치하지 않습니다.');
-                return;
-            }
-            
-            const formData = {
-                email: document.getElementById('email').value,
-                name: document.getElementById('name').value,
-                password: password,
-                phone: document.getElementById('phone').value,
-                hospital: document.getElementById('hospital').value,
-                address: document.getElementById('address').value,
-                detailAddress: document.getElementById('detailAddress').value,
-                terms1: document.getElementById('terms1').checked,
-                terms2: document.getElementById('terms2').checked
-            };
-            
-            console.log('회원가입 데이터:', formData);
-            
-            // 여기에 실제 회원가입 API 호출 로직 추가
-            alert('회원가입이 완료되었습니다!');
-            
-            // 회원가입 성공 후 로그인 페이지로 이동
-            // window.location.href = 'login.html';
+        // 페이지 로드 시 초기화
+        $(document).ready(function() {
+            fn_signup();
         });
+
+        const fn_signup = function () {
+            // check_logout(); // 필요시 app.js에서 구현
+            window.keypress_support = false;
+
+            // 폼 초기화
+            $('#signupForm').each(function () { 
+                if (this.reset) { 
+                    this.reset(); 
+                } 
+            });
+            
+            // 이메일 포커스
+            $('#email').get(0).focus();
+
+            // 회원가입
+            $('#signupForm').on('submit', function (e) {
+                e.preventDefault();
+
+                const $email = $('#email'), email = trim($email.val());
+                const $name = $('#name'), name = trim($name.val());
+                const $password = $('#password'), password = trim($password.val());
+                const $passwordConfirm = $('#passwordConfirm'), passwordConfirm = trim($passwordConfirm.val());
+                const $phone = $('#phone'), phone = trim($phone.val());
+                const $hospital = $('#hospital'), hospital = trim($hospital.val());
+                const $address = $('#address'), address = trim($address.val());
+                const $detailAddress = $('#detailAddress'), detailAddress = trim($detailAddress.val());
+                const terms1 = $('#terms1').is(':checked');
+                const terms2 = $('#terms2').is(':checked');
+
+                if (!email) {
+                    alert('이메일을 입력해주세요.');
+                    $email.focus();
+                    return false;
+                }
+
+                if (!name) {
+                    alert('이름을 입력해주세요.');
+                    $name.focus();
+                    return false;
+                }
+
+                if (!password) {
+                    alert('비밀번호를 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                if (!passwordConfirm) {
+                    alert('비밀번호 확인을 입력해주세요.');
+                    $passwordConfirm.focus();
+                    return false;
+                }
+
+                if (password !== passwordConfirm) {
+                    alert('비밀번호가 일치하지 않습니다.');
+                    $passwordConfirm.focus();
+                    return false;
+                }
+
+                if (!phone) {
+                    alert('핸드폰 번호를 입력해주세요.');
+                    $phone.focus();
+                    return false;
+                }
+
+                if (!hospital) {
+                    alert('병원명을 입력해주세요.');
+                    $hospital.focus();
+                    return false;
+                }
+
+                if (!address) {
+                    alert('주소를 입력해주세요.');
+                    $address.focus();
+                    return false;
+                }
+
+                if (!detailAddress) {
+                    alert('상세주소를 입력해주세요.');
+                    $detailAddress.focus();
+                    return false;
+                }
+
+                if (!terms1) {
+                    alert('개인정보 수집 및 이용에 동의해주세요.');
+                    return false;
+                }
+
+                const formData = {
+                    email: email,
+                    name: name,
+                    password: password,
+                    phone: phone,
+                    hospital: hospital,
+                    address: address,
+                    detailAddress: detailAddress,
+                    terms1: terms1,
+                    terms2: terms2
+                };
+
+                // API 호출
+                API.signup(formData, (r) => {
+                    if (r && r.success) {
+                        alert('회원가입이 완료되었습니다.');
+                        window.location.href = 'pms_login.html';
+                    } else {
+                        let msg = r.error && r.error.message ? r.error.message : '회원가입에 실패했습니다. 다시 시도해주세요.';
+                        alert(msg);
+                    }
+                });
+            });
+        };
+
+        // Trim 함수
+        function trim(str) {
+            return str ? $.trim(str) : '';
+        }
+
+        // check_logout 함수 (필요시 구현)
+        function check_logout() {
+            // 로그아웃 체크 로직
+        }
     </script>
 </body>
 </html>
