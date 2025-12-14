@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS (시판 후 조사)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif;
+            background-color: #f5f5f5;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #E21A32;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .required {
+            color: #E21A32;
+            margin-left: 4px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            border-color: #E21A32;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        textarea.form-input.large {
+            min-height: 150px;
+        }
+
+        .radio-group, .checkbox-group {
+            margin-top: 12px;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"],
+        .checkbox-option input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #E21A32;
+        }
+
+        .radio-option label,
+        .checkbox-option label {
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .section-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #E21A32;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E21A32;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .submit-btn, .clear-btn {
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn {
+            background-color: #E21A32;
+            color: white;
+            flex: 1;
+        }
+
+        .submit-btn:hover {
+            background-color: #c91629;
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        .clear-btn {
+            background-color: white;
+            color: #E21A32;
+            border: 2px solid #E21A32;
+            flex: 0 0 auto;
+            min-width: 120px;
+        }
+
+        .clear-btn:hover {
+            background-color: #fff5f5;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .container {
+                border-radius: 0;
+            }
+
+            .header {
+                padding: 24px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .form-content {
+                padding: 24px 20px;
+            }
+
+            .section-header {
+                font-size: 16px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .clear-btn {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PMS</h1>
+            <p>* 필수 항목을 나타냅니다</p>
+        </div>
+
+        <div class="form-content">
+            <form id="pmsForm">
+                <!-- 기본 정보 섹션 -->
+                <div class="form-group">
+                    <label class="form-label">제품명<span class="required">*</span></label>
+                    <input type="text" class="form-input" name="productName" required placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">성분명<span class="required">*</span></label>
+                    <input type="text" class="form-input" name="ingredient" required placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">허가번호<span class="required">*</span></label>
+                    <input type="text" class="form-input" name="approvalNumber" required placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">투여경로 및 제형<span class="required">*</span></label>
+                    <input type="text" class="form-input" name="dosageForm" required placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">용법 용량<span class="required">*</span></label>
+                    <textarea class="form-input" name="dosageInstruction" required placeholder="응답"></textarea>
+                </div>
+
+                <!-- 조사 정보 섹션 -->
+                <div class="form-group">
+                    <label class="form-label">조사목적</label>
+                    <textarea class="form-input" name="surveyPurpose" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">조사 유형</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="type1" name="surveyType" value="사용성적조사">
+                            <label for="type1">사용성적조사</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="type2" name="surveyType" value="자발작 PMS">
+                            <label for="type2">자발작 PMS</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="type3" name="surveyType" value="안전성/유효성 조사">
+                            <label for="type3">안전성/유효성 조사</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">조사 기간</label>
+                    <input type="text" class="form-input" name="surveyPeriod" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">조사 대상자 수</label>
+                    <input type="text" class="form-input" name="subjectCount" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">연구 설계</label>
+                    <textarea class="form-input" name="studyDesign" placeholder="응답"></textarea>
+                </div>
+
+                <!-- 기관 및 연구자 정보 -->
+                <div class="form-group">
+                    <label class="form-label">기관명</label>
+                    <input type="text" class="form-input" name="institutionName" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">책임 연구자</label>
+                    <input type="text" class="form-input" name="principalInvestigator" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">연락처</label>
+                    <input type="text" class="form-input" name="contact" placeholder="응답">
+                </div>
+
+                <!-- 피험자 정보 -->
+                <h2 class="section-header">피험자 정보</h2>
+
+                <div class="form-group">
+                    <label class="form-label">피험자 ID (식별 가능 정보 금지)</label>
+                    <input type="text" class="form-input" name="subjectId" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">성별</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="male" name="gender" value="남성">
+                            <label for="male">남성</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="female" name="gender" value="여성">
+                            <label for="female">여성</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">체중/키</label>
+                    <input type="text" class="form-input" name="weightHeight" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">기저질환</label>
+                    <textarea class="form-input" name="underlyingDisease" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">병력</label>
+                    <textarea class="form-input" name="medicalHistory" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">동반약물</label>
+                    <textarea class="form-input" name="concomitantMedication" placeholder="응답"></textarea>
+                </div>
+
+                <!-- 투여 정보 -->
+                <h2 class="section-header">투여 정보</h2>
+
+                <div class="form-group">
+                    <label class="form-label">투여 시작일</label>
+                    <input type="date" class="form-input" name="administrationStartDate">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">투여 종료일</label>
+                    <input type="date" class="form-input" name="administrationEndDate">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">실제 투여 용량</label>
+                    <input type="text" class="form-input" name="actualDosage" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">순응도</label>
+                    <input type="text" class="form-input" name="compliance" placeholder="응답">
+                </div>
+
+                <!-- 평가 항목 -->
+                <h2 class="section-header">평가 항목</h2>
+
+                <div class="form-group">
+                    <label class="form-label">주요 평가 항목</label>
+                    <textarea class="form-input" name="primaryEndpoint" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">부차적 평가 항목</label>
+                    <textarea class="form-input" name="secondaryEndpoint" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">평가 방법</label>
+                    <textarea class="form-input" name="evaluationMethod" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">평가 결과 요약</label>
+                    <textarea class="form-input" name="evaluationSummary" placeholder="응답"></textarea>
+                </div>
+
+                <!-- 이상 사례 -->
+                <h2 class="section-header">이상 사례</h2>
+
+                <div class="form-group">
+                    <label class="form-label">이상 사례 여부<span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="ae_no" name="adverseEvent" value="없음" required>
+                            <label for="ae_no">없음</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="ae_yes" name="adverseEvent" value="이상 있음" required>
+                            <label for="ae_yes">이상 있음</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">발생일</label>
+                    <input type="date" class="form-input" name="onsetDate">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">종료일</label>
+                    <input type="date" class="form-input" name="resolutionDate">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">증상명</label>
+                    <input type="text" class="form-input" name="symptomName" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">중대성 여부</label>
+                    <input type="text" class="form-input" name="seriousness" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">약물과의 인과관계</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="causal1" name="causality" value="확실">
+                            <label for="causal1">확실</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="causal2" name="causality" value="가능">
+                            <label for="causal2">가능</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="causal3" name="causality" value="가능성 낮음">
+                            <label for="causal3">가능성 낮음</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="causal4" name="causality" value="무관">
+                            <label for="causal4">무관</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">중대한 이상사례 보고 여부</label>
+                    <input type="text" class="form-input" name="saeReport" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">조치</label>
+                    <textarea class="form-input" name="action" placeholder="응답"></textarea>
+                </div>
+
+                <!-- 기타 정보 -->
+                <h2 class="section-header">기타 정보</h2>
+
+                <div class="form-group">
+                    <label class="form-label">새로이 발견된 위험</label>
+                    <textarea class="form-input" name="newRisks" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">특이 상황</label>
+                    <textarea class="form-input" name="specialCircumstances" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">최종 투여일</label>
+                    <input type="date" class="form-input" name="lastAdministrationDate">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">조기 중단 여부 및 사유</label>
+                    <textarea class="form-input" name="earlyDiscontinuation" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">전반적 유효성 평가</label>
+                    <textarea class="form-input" name="overallEfficacy" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">전반적 안전성 평가</label>
+                    <textarea class="form-input" name="overallSafety" placeholder="응답"></textarea>
+                </div>
+
+                <!-- 데이터 관리 -->
+                <h2 class="section-header">데이터 관리</h2>
+
+                <div class="form-group">
+                    <label class="form-label">데이터 입력자</label>
+                    <input type="text" class="form-input" name="dataEntryPerson" placeholder="응답">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">모니터링 일정 및 결과</label>
+                    <textarea class="form-input large" name="monitoringSchedule" placeholder="응답"></textarea>
+                </div>
+
+                <!-- 종합 평가 -->
+                <h2 class="section-header">종합 평가</h2>
+
+                <div class="form-group">
+                    <label class="form-label">유효성 종합평가</label>
+                    <textarea class="form-input large" name="comprehensiveEfficacy" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">안전성 종합평가</label>
+                    <textarea class="form-input large" name="comprehensiveSafety" placeholder="응답"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">결론 및 제언</label>
+                    <textarea class="form-input large" name="conclusion" placeholder="응답"></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">제출</button>
+                    <button type="button" class="clear-btn" onclick="clearForm()">양식 지우기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('pmsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 폼 데이터 수집
+            const formData = new FormData(this);
+            const data = {};
+            
+            // 체크박스 처리
+            const surveyTypes = [];
+            document.querySelectorAll('input[name="surveyType"]:checked').forEach(cb => {
+                surveyTypes.push(cb.value);
+            });
+            
+            formData.forEach((value, key) => {
+                if (key === 'surveyType') {
+                    data[key] = surveyTypes;
+                } else {
+                    data[key] = value;
+                }
+            });
+            
+            console.log('제출된 데이터:', data);
+            
+            // 여기에 실제 제출 로직 추가 (예: API 호출)
+            alert('양식이 제출되었습니다.\n\n실제 제출을 위해서는 서버 엔드포인트를 연결해야 합니다.');
+            
+            // 원하시면 폼 초기화
+            // this.reset();
+        });
+        
+        function clearForm() {
+            if (confirm('양식을 지우시겠습니까?')) {
+                document.getElementById('pmsForm').reset();
+            }
+        }
+    </script>
+</body>
+</html>

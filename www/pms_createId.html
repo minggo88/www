@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 등록 - ASSETTEA</title>
+    <title>PMS - 회원등록</title>
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon_16.png">
 	<link rel="icon" type="image/png" sizes="24x24" href="./assets/img/favicon_24.png">
 	<link rel="icon" type="image/png" sizes="64x64" href="./assets/img/favicon_64.png">
@@ -16,7 +16,6 @@
 	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 	<script src="./assets/js/api.js?t=1671775853"></script>
 	<script src="./assets/js/components.js?t=1672721419"></script>
-    <script src="./assets/js/app.js?t=1671775853"></script>
 	<script src="./assets/js/lib/php.default.min.js?t=1667735148"></script>
 	<script src="./assets/js/lib/security.min.js?t=1667735148"></script>
 	<script src="./i18n/i18n.js?t=1667796157"></script>
@@ -169,6 +168,8 @@
         <h1 class="signup-title">회원 등록</h1>
         
         <form id="signupForm">
+            <input type="hidden" name="checkJoin" id="checkJoin" value="">
+            
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-label" for="email">이메일</label>
@@ -287,13 +288,11 @@
     </div>
 
     <script>
-        // 페이지 로드 시 초기화
         $(document).ready(function() {
             fn_signup();
         });
 
         const fn_signup = function () {
-            // check_logout(); // 필요시 app.js에서 구현
             window.keypress_support = false;
 
             // 폼 초기화
@@ -305,6 +304,25 @@
             
             // 이메일 포커스
             $('#email').get(0).focus();
+
+            // 이메일 중복 체크
+            $('#email').on('change', function () { 
+                const email = $(this).val();
+                if (email) {
+                    API.checkJoin('userid', email, function(r){
+                        console.log('checkJoin result:', r);
+                        if(r && r.success) {
+                            $('#checkJoin').val('N');
+                            for (row of r.payload) {
+                                if (row.id == email && row.status == 'joined') {
+                                    $('#checkJoin').val('Y');
+                                    alert('이미 가입되어있는 이메일입니다.\n다른 이메일을 입력해주세요.');
+                                }
+                            }
+                        }
+                    });
+                }
+            });
 
             // 회원가입
             $('#signupForm').on('submit', function (e) {
@@ -321,24 +339,70 @@
                 const terms1 = $('#terms1').is(':checked');
                 const terms2 = $('#terms2').is(':checked');
 
-                if (!email) {
+                // 이메일 검증
+                if(!email) {
                     alert('이메일을 입력해주세요.');
                     $email.focus();
                     return false;
                 }
 
-                if (!name) {
+                // 이메일 형식 체크
+                if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) === false) {
+                    alert('올바른 E-mail 주소를 입력해주세요');
+                    $email.focus();
+                    return false;
+                }
+
+                // 이메일 중복 체크
+                if ($('#checkJoin').val() == 'Y') {
+                    alert('이미 가입되어있는 이메일입니다.\n다른 이메일을 입력해주세요.');
+                    $email.focus();
+                    return false;
+                }
+
+                // 이름 검증
+                if(!name) {
                     alert('이름을 입력해주세요.');
                     $name.focus();
                     return false;
                 }
 
-                if (!password) {
+                // 비밀번호 검증
+                if(!password) {
                     alert('비밀번호를 입력해주세요.');
                     $password.focus();
                     return false;
                 }
 
+                // 비밀번호 길이 체크
+                if (/^.{8,}$/.test(password) === false) {
+                    alert('비밀번호는 8자리 이상 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                // 비밀번호 영문 체크
+                if (/^(?=.*[a-z]).*$/.test(password) === false) {
+                    alert('비밀번호는 영문자를 포함해서 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                // 비밀번호 숫자 체크
+                if (/^(?=.*[0-9]).*$/.test(password) === false) {
+                    alert('비밀번호는 숫자를 포함해서 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                // 비밀번호 특수문자 체크
+                if (/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(password) === false) {
+                    alert('비밀번호는 특수문자를 포함해서 입력해주세요.');
+                    $password.focus();
+                    return false;
+                }
+
+                // 비밀번호 확인 검증
                 if (!passwordConfirm) {
                     alert('비밀번호 확인을 입력해주세요.');
                     $passwordConfirm.focus();
@@ -351,68 +415,82 @@
                     return false;
                 }
 
-                if (!phone) {
+                // 핸드폰 번호 검증
+                if(!phone) {
                     alert('핸드폰 번호를 입력해주세요.');
                     $phone.focus();
                     return false;
                 }
 
-                if (!hospital) {
+                // 병원명 검증
+                if(!hospital) {
                     alert('병원명을 입력해주세요.');
                     $hospital.focus();
                     return false;
                 }
 
-                if (!address) {
+                // 주소 검증
+                if(!address) {
                     alert('주소를 입력해주세요.');
                     $address.focus();
                     return false;
                 }
 
-                if (!detailAddress) {
+                // 상세주소 검증
+                if(!detailAddress) {
                     alert('상세주소를 입력해주세요.');
                     $detailAddress.focus();
                     return false;
                 }
 
+                // 필수 약관 동의 체크
                 if (!terms1) {
                     alert('개인정보 수집 및 이용에 동의해주세요.');
                     return false;
                 }
 
-                const formData = {
-                    email: email,
-                    name: name,
-                    password: password,
-                    phone: phone,
-                    hospital: hospital,
-                    address: address,
-                    detailAddress: detailAddress,
-                    terms1: terms1,
-                    terms2: terms2
-                };
+                // 폼 비활성화
+                $(this).addClass('loading');
+                $(this).find('button[type=submit]').prop('disabled', true);
 
-                // API 호출
-                API.signup(formData, (r) => {
-                    if (r && r.success) {
-                        alert('회원가입이 완료되었습니다.');
+                // 회원가입 API 호출 (인증 없이 바로 가입)
+                API.join({
+                    'social_id': email,
+                    'social_name': '',
+                    'name': name,
+                    'mobile': phone,
+                    'email': email,
+                    'userpw': password,
+                    'mobile_calling_code': '+82',
+                    'mobile_country_code': 'KR',
+                    'hospital': hospital,
+                    'address': address,
+                    'detailAddress': detailAddress,
+                    'pin': '000000', // 기본 핀번호 (필요시 수정)
+                    'bool_email': 0,
+                    'bool_marketing': terms2 ? 1 : 0,
+                    'bool_confirm_email': 0, // 이메일 인증 생략
+                    'bool_confirm_mobile': 0 // 휴대폰 인증 생략
+                }, (resp) => {
+                    $('#signupForm').removeClass('loading');
+                    $('#signupForm').find('button[type=submit]').prop('disabled', false);
+
+                    if(resp && resp.success) {
+                        alert('회원가입이 완료되었습니다!');
                         window.location.href = 'pms_login.html';
                     } else {
-                        let msg = r.error && r.error.message ? r.error.message : '회원가입에 실패했습니다. 다시 시도해주세요.';
+                        let msg = resp.error && resp.error.message ? resp.error.message : '회원가입에 실패했습니다. 다시 시도해주세요.';
                         alert(msg);
                     }
                 });
+
+                return false;
             });
         };
 
         // Trim 함수
         function trim(str) {
             return str ? $.trim(str) : '';
-        }
-
-        // check_logout 함수 (필요시 구현)
-        function check_logout() {
-            // 로그아웃 체크 로직
         }
     </script>
 </body>
