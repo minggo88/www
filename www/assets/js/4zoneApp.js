@@ -861,16 +861,10 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   // 탭 배경 이미지를 메뉴 아이콘으로 매핑하고 텍스트 숨김
   const iconMap = {
-    'National Geographic': '../assets/img/ReadBook/menu_img/natgeo.png.png',
-    'Discovery': '../assets/img/ReadBook/menu_img/discovery.png',
-    'TED': '../assets/img/ReadBook/menu_img/ted.png',
-    'BBC Earth': '../assets/img/ReadBook/menu_img/bbc.png'
+    'National Geographic': '../assets/img/ReadBook/menu_img/natgeo.png.png'
   };
   const bgSizeMap = {
-    'National Geographic': '70% auto',
-    'Discovery': '70% auto',
-    'TED': '50% auto',
-    'BBC Earth': '40% auto'
+    'National Geographic': '70% auto'
   };
   tabs.forEach(tab => {
     const label = tab.dataset.label || tab.textContent.trim();
@@ -896,21 +890,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   const searchBtn = document.getElementById('searchBtn');
   if (searchBtn) {
     searchBtn.addEventListener('click', async function() {
-      const activeTab = document.querySelector('.tab.active');
-      const tabLabel = activeTab ? activeTab.dataset.label : 'National Geographic';
       const query = searchInput.value;
-      let results = [];
-      if (tabLabel === 'National Geographic') {
-          results = await searchInChannel('National Geographic', query);
-      } else if (tabLabel === 'Discovery') {
-          results = await searchInChannel('Discovery', query);
-      } else if (tabLabel === 'TED') {
-          results = await searchInChannel('TED', query);
-      } else if (tabLabel === 'BBC Earth') {
-          results = await searchInChannel('BBC Earth', query);
-      } else {
-          results = await globalSearch(query);
-      }
+      const results = await searchInChannel('National Geographic', query);
       await renderYoutubeResults(results);
     });
   }
@@ -972,35 +953,265 @@ const API_KEY = 'AIzaSyAqn_ft_-WKvh5BT9qqzfB5DQAf7T5qy-g';
 const channels = {
     'National Geographic': {
         id: 'UCpVm7bg6pXKo1Pr6k5kxG9A',
-        handle: '@NationalGeographic'
-    },
-    'Discovery': {
-        id: 'UCqnbDFdCpuN8CMEg0VuEBqA',
-        handle: '@Discovery'
-    },
-    'TED': {
-        id: 'UCAuUUnT6oDeKwE6v1NGQxug',
-        handle: '@TED'
-    },
-    'BBC Earth': {
-        id: 'UC0p5jTq6Xx_DosDFxVXnWaQ',
-        handle: '@bbcearth'
+        handle: '@NationalGeographic',
+        rssUrl: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCpVm7bg6pXKo1Pr6k5kxG9A'
     }
 };
 
-// 채널 ID로 검색
-async function searchInChannel(channelKey, searchTerm) {
+// 캐시 유효기간 (1시간 = 3600000ms)
+const CACHE_DURATION = 60 * 60 * 1000;
+
+// 로컬 캐시에서 데이터 가져오기
+function getCachedData(channelKey) {
+    try {
+        const cacheKey = `rss_${channelKey}_latest`;
+        const cached = localStorage.getItem(cacheKey);
+        if (!cached) return null;
+        
+        const cacheData = JSON.parse(cached);
+        const now = Date.now();
+        
+        // 캐시가 유효한지 확인 (1시간 이내)
+        if (now - cacheData.timestamp < CACHE_DURATION) {
+            console.log(`[캐시 사용] ${channelKey}: 유효한 캐시 데이터 반환`);
+            return cacheData.data;
+        } else {
+            console.log(`[캐시 만료] ${channelKey}: 캐시가 만료되었습니다`);
+            // 만료된 캐시라도 반환 (백업용)
+            return cacheData.data;
+        }
+    } catch (error) {
+        console.error('캐시 읽기 실패:', error);
+        return null;
+    }
+}
+
+// 로컬 캐시에 데이터 저장
+function setCachedData(channelKey, data) {
+    try {
+        const cacheKey = `rss_${channelKey}_latest`;
+        const cacheData = {
+            data: data,
+            timestamp: Date.now()
+        };
+        localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+        console.log(`[캐시 저장] ${channelKey}: 데이터가 캐시에 저장되었습니다`);
+    } catch (error) {
+        console.error('캐시 저장 실패:', error);
+    }
+}
+
+// RSS 피드에서 영상 목록 가져오기
+async function getChannelVideosFromRSS(channelKey) {
     const channel = channels[channelKey];
+    if (!channel || !channel.rssUrl) {
+        console.error(`[RSS 실패] ${channelKey}: RSS URL이 없습니다`);
+        return null;
+    }
+    
+    // 먼저 캐시 확인
+    const cached = getCachedData(channelKey);
+    if (cached && Date.now() - JSON.parse(localStorage.getItem(`rss_${channelKey}_latest`)).timestamp < CACHE_DURATION) {
+        console.log(`[RSS 캐시] ${channelKey}: 캐시에서 반환`);
+        return cached;
+    }
+    
+    try {
+        // CORS 프록시를 통해 RSS 피드 가져오기
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(channel.rssUrl)}`;
+        console.log(`[RSS 요청] ${channelKey}:`, proxyUrl);
+        
+        const response = await fetch(proxyUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+        
+        // XML 파싱 오류 확인
+        const parseError = xmlDoc.querySelector('parsererror');
+        if (parseError) {
+            throw new Error('XML 파싱 오류');
+        }
+        
+        const entries = xmlDoc.querySelectorAll('entry');
+        const videos = [];
+        
+        entries.forEach((entry, index) => {
+            if (index >= 15) return; // 최신 15개만
+            
+            try {
+                // videoId 추출 - 여러 방법 시도
+                let videoId = null;
+                
+                // 방법 1: entry의 id 요소에서 추출
+                const idElement = entry.querySelector('id');
+                if (idElement) {
+                    const idText = idElement.textContent;
+                    // YouTube RSS 형식: yt:video:VIDEO_ID 또는 http://www.youtube.com/watch?v=VIDEO_ID
+                    const idMatch = idText.match(/yt:video:([a-zA-Z0-9_-]{11})/) || 
+                                   idText.match(/[?&]v=([a-zA-Z0-9_-]{11})/) ||
+                                   idText.match(/\/([a-zA-Z0-9_-]{11})$/);
+                    if (idMatch) {
+                        videoId = idMatch[1];
+                    }
+                }
+                
+                // 방법 2: link 요소에서 추출
+                if (!videoId) {
+                    const linkElement = entry.querySelector('link[rel="alternate"]') || entry.querySelector('link');
+                    if (linkElement) {
+                        const href = linkElement.getAttribute('href') || linkElement.textContent;
+                        const hrefMatch = href.match(/[?&]v=([a-zA-Z0-9_-]{11})/) ||
+                                        href.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/);
+                        if (hrefMatch) {
+                            videoId = hrefMatch[1];
+                        }
+                    }
+                }
+                
+                // 방법 3: media:group의 yt:videoId에서 추출
+                if (!videoId) {
+                    const mediaGroup = entry.querySelector('group');
+                    if (mediaGroup) {
+                        const videoIdElement = mediaGroup.querySelector('videoId');
+                        if (videoIdElement) {
+                            videoId = videoIdElement.textContent.trim();
+                        }
+                    }
+                }
+                
+                if (!videoId || videoId.length !== 11) {
+                    console.warn(`[RSS 파싱] ${channelKey} entry ${index}: videoId를 찾을 수 없습니다`);
+                    return;
+                }
+                
+                // title 추출
+                const titleElement = entry.querySelector('title');
+                const title = titleElement ? titleElement.textContent : '';
+                
+                // published 추출
+                const publishedElement = entry.querySelector('published');
+                const published = publishedElement ? publishedElement.textContent : '';
+                
+                // channelTitle 추출
+                const authorElement = entry.querySelector('author name');
+                const channelTitle = authorElement ? authorElement.textContent : channel.handle;
+                
+                // thumbnail URL 생성
+                const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/default.jpg`;
+                
+                // 기존 API 형식과 동일하게 반환
+                videos.push({
+                    id: { videoId: videoId },
+                    snippet: {
+                        title: title,
+                        channelTitle: channelTitle,
+                        publishedAt: published,
+                        thumbnails: {
+                            default: {
+                                url: thumbnailUrl
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error(`[RSS 파싱 오류] ${channelKey} entry ${index}:`, error);
+            }
+        });
+        
+        console.log(`[RSS 성공] ${channelKey}: ${videos.length}개 영상 가져옴`);
+        
+        // 캐시에 저장
+        if (videos.length > 0) {
+            setCachedData(channelKey, videos);
+        }
+        
+        return videos;
+    } catch (error) {
+        console.error(`[RSS 실패] ${channelKey}:`, error);
+        
+        // 실패 시 만료된 캐시라도 반환
+        if (cached) {
+            console.log(`[RSS 백업] ${channelKey}: 만료된 캐시 데이터 반환`);
+            return cached;
+        }
+        
+        return null;
+    }
+}
+
+// RSS + 로컬 필터링으로 검색
+async function searchInChannelNew(channelKey, searchTerm) {
+    console.log(`[RSS 검색] ${channelKey}: "${searchTerm}" 검색 시작`);
+    
+    // RSS에서 영상 목록 가져오기
+    const videos = await getChannelVideosFromRSS(channelKey);
+    
+    if (!videos || videos.length === 0) {
+        console.log(`[RSS 검색 실패] ${channelKey}: RSS에서 영상을 가져올 수 없습니다. API로 전환합니다.`);
+        return await searchInChannelAPI(channelKey, searchTerm);
+    }
+    
+    // 검색어가 없으면 최신 8개 반환
+    if (!searchTerm || searchTerm.trim() === '') {
+        console.log(`[RSS 검색] ${channelKey}: 검색어 없음, 최신 8개 반환`);
+        return videos.slice(0, 8);
+    }
+    
+    // 로컬에서 필터링 (제목에 검색어 포함 여부)
+    const searchLower = searchTerm.toLowerCase().trim();
+    const filtered = videos.filter(video => {
+        const title = video.snippet.title.toLowerCase();
+        return title.includes(searchLower);
+    });
+    
+    console.log(`[RSS 검색] ${channelKey}: ${filtered.length}개 결과 발견 (전체 ${videos.length}개 중)`);
+    
+    // 최대 8개로 제한
+    return filtered.slice(0, 8);
+}
+
+// 채널 ID로 검색 (RSS 우선, 실패 시 API 사용)
+async function searchInChannel(channelKey, searchTerm) {
+    console.log(`[검색 시작] ${channelKey}: "${searchTerm || '(검색어 없음)'}"`);
+    
+    // RSS 방식으로 먼저 시도
+    try {
+        const rssResults = await searchInChannelNew(channelKey, searchTerm);
+        if (rssResults && rssResults.length > 0) {
+            console.log(`[RSS 성공] ${channelKey}: ${rssResults.length}개 결과 반환`);
+            return rssResults;
+        }
+    } catch (error) {
+        console.error(`[RSS 오류] ${channelKey}:`, error);
+    }
+    
+    // RSS 실패 시 API 사용 (백업)
+    console.log(`[API 백업] ${channelKey}: RSS 실패, API로 전환`);
+    return await searchInChannelAPI(channelKey, searchTerm);
+}
+
+// API를 사용한 채널 검색 (백업용)
+async function searchInChannelAPI(channelKey, searchTerm) {
+    const channel = channels[channelKey];
+    if (!channel) {
+        console.error(`[API 실패] ${channelKey}: 채널 정보가 없습니다`);
+        return [];
+    }
+    
     const url = `https://www.googleapis.com/youtube/v3/search?` +
         `part=snippet&type=video&maxResults=8&` +
-        `channelId=${channel.id}&q=${encodeURIComponent(searchTerm)}&` +
+        `channelId=${channel.id}&q=${encodeURIComponent(searchTerm || '')}&` +
         `key=${API_KEY}`;
-    console.log(`[채널검색] ${channel.handle}:`, url);
+    console.log(`[API 요청] ${channel.handle}:`, url);
     try {
         const response = await fetch(url);
         const data = await response.json();
         if (data.error) {
-            console.error('API 에러:', data.error);
+            console.error('[API 에러]:', data.error);
             return [];
         }
         // 임베드 허용 영상만 필터링
@@ -1010,9 +1221,11 @@ async function searchInChannel(channelKey, searchTerm) {
         const statusRes = await fetch(statusUrl);
         const statusData = await statusRes.json();
         const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
-        return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
+        const results = (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
+        console.log(`[API 성공] ${channelKey}: ${results.length}개 결과 반환`);
+        return results;
     } catch (error) {
-        console.error('검색 실패:', error);
+        console.error('[API 검색 실패]:', error);
         return [];
     }
 }
