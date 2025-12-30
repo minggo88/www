@@ -13,15 +13,6 @@ function loadScript(src) {
   });
 }
 
-// list_kr.js 동적 로드
-async function loadTranslationScript() {
-  try {
-    await loadScript('../assets/js/list_kr.js');
-    console.log('list_kr.js 로드 완료');
-  } catch (error) {
-    console.error('list_kr.js 로드 실패:', error);
-  }
-}
 
 // 4구역 위치 제어 함수 및 전체화면 고정 위치 계산 포함
 const CONFIG = {
@@ -808,9 +799,6 @@ hideAddressBar();
 
 // 탭바 이벤트 처리
 window.addEventListener('DOMContentLoaded', async () => {
-  // list_kr.js 동적 로드
-  await loadTranslationScript();
-  
   // AllKey 업데이트 (slideTemplates가 로드된 후)
   if (typeof slideTemplates !== 'undefined') {
     window.AllKey = buildAllKey();
@@ -1304,26 +1292,8 @@ async function renderYoutubeResults(items) {
         modal.style.display = 'flex';
     }
     
-    // 검색 결과를 먼저 표시 (번역 없이 빠르게)
+    // 검색 결과 표시
     document.getElementById('search-iframe-wrap').innerHTML = html;
-    
-    // 번역 기능이 활성화되어 있으면 백그라운드에서 번역 처리
-    if (window.translationEnabled && window.translateText && items && items.length > 0) {
-        // 번역을 병렬로 처리하되, 각 항목이 완료되면 즉시 업데이트
-        items.forEach(async (item, idx) => {
-            try {
-                const translatedTitle = await window.translateText(item.snippet.title, 'ko', 'en');
-                // 번역 완료 시 해당 항목의 제목만 업데이트
-                const titleElement = document.querySelector(`.yt-result-item[data-index="${idx}"] .yt-title-text`);
-                if (titleElement) {
-                    titleElement.textContent = translatedTitle;
-                }
-            } catch (error) {
-                console.error(`번역 실패 [${idx}]:`, error);
-                // 번역 실패 시 원본 유지
-            }
-        });
-    }
     
     setTimeout(() => {
         document.querySelectorAll('.yt-thumb-title, .yt-title-text').forEach(el => {
