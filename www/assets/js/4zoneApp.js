@@ -939,7 +939,244 @@ window.addEventListener('DOMContentLoaded', async () => {
 //07
 //const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
 //09
-const API_KEY = 'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4';
+//const API_KEY = 'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4';
+
+// ========================================
+// YouTube API 키 관리 (자동 순환)
+// ========================================
+
+// API 키 목록 (순서대로 시도)
+const API_KEYS = [
+    'AIzaSyAqn_ft_-WKvh5BT9qqzfB5DQAf7T5qy-g',  // sin
+    'AIzaSyB5g1wGaXw5O1JbVBNY4DoZUeeYB9ITEUM',  // sin2
+    'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k',  // 07
+    'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4'   // 09
+];
+
+// 현재 사용 중인 키 인덱스
+let currentKeyIndex = 0;
+
+// 현재 API 키 가져오기
+function getCurrentAPIKey() {
+    return API_KEYS[currentKeyIndex];
+}
+
+// 다음 API 키로 전환
+function rotateAPIKey() {
+    const oldIndex = currentKeyIndex;
+    currentKeyIndex = (currentKeyIndex + 1) % API_KEYS.length;
+    console.log(`🔄 API 키 전환: ${oldIndex} → ${currentKeyIndex}`);
+    return API_KEYS[currentKeyIndex];
+}
+
+// API 키 초기화 (localStorage에서 마지막 사용 키 복원)
+function initAPIKey() {
+    try {
+        const savedIndex = localStorage.getItem('youtube_api_key_index');
+        if (savedIndex !== null) {
+            currentKeyIndex = parseInt(savedIndex, 10);
+            console.log(`📂 저장된 API 키 인덱스 복원: ${currentKeyIndex}`);
+        }
+    } catch (e) {
+        console.warn('⚠️ localStorage 접근 불가');
+    }
+}
+
+// API 키 인덱스 저장
+function saveAPIKeyIndex() {
+    try {
+        localStorage.setItem('youtube_api_key_index', currentKeyIndex.toString());
+    } catch (e) {
+        console.warn('⚠️ localStorage 저장 불가');
+    }
+}
+
+// 페이지 로드 시 초기화
+initAPIKey();
+
+// ========================================
+// YouTube API 호출 (할당량 초과 시 자동 전환)
+// ========================================
+
+async function searchInChannelAPI(channelKey, searchTerm) {
+    const channel = channels[channelKey];
+    if (!channel) {
+        console.error(`[API 실패] ${channelKey}: 채널 정보가 없습니다`);
+        return [];
+    }
+    
+    // 최대 모든 키를 한 번씩 시도
+    for (let attempt = 0; attempt < API_KEYS.length; attempt++) {
+        const apiKey = getCurrentAPIKey();
+        const url = `https://www.googleapis.com/youtube/v3/search?` +
+            `part=snippet&type=video&maxResults=8&` +
+            `channelId=${channel.id}&q=${encodeURIComponent(searchTerm || '')}&` +
+            `key=${apiKey}`;
+        
+        console.log(`[API 요청] ${channel.handle} (키 ${currentKeyIndex + 1}/${API_KEYS.length})`);
+        
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            // 할당량 초과 에러 체크
+            if (data.error) {
+                if (data.error.code === 403 && 
+                    data.error.errors && 
+                    data.error.errors.some(e => e.reason === 'quotaExceeded')) {
+                    
+                    console.warn(`❌ API 키 ${currentKeyIndex + 1} 할당량 초과!`);
+                    
+                    // 마지막 키가 아니면 다음 키로 전환
+                    if (attempt < API_KEYS.length - 1) {
+                        rotateAPIKey();
+                        saveAPIKeyIndex();
+                        console.log(`⏭️ 다음 API 키로 재시도 중...`);
+                        continue; // 다음 키로 재시도
+                    } else {
+                        console.error('❌ 모든 API 키 할당량 초과! 내일 다시 시도하세요.');
+                        return [];
+                    }
+                }
+                
+                // 다른 에러
+                console.error('❌ API 에러:', data.error.message);
+                return [];
+            }
+            
+            // 성공 - 임베드 허용 영상만 필터링
+            const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
+            if (videoIds.length === 0) return [];
+            
+            const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${apiKey}`;
+            const statusRes = await fetch(statusUrl);
+            const statusData = await statusRes.json();
+            
+            // 여기서도 할당량 체크
+            if (statusData.error && statusData.error.code === 403) {
+                console.warn(`❌ API 키 ${currentKeyIndex + 1} 할당량 초과 (videos.list)!`);
+                if (attempt < API_KEYS.length - 1) {
+                    rotateAPIKey();
+                    saveAPIKeyIndex();
+                    continue;
+                } else {
+                    return [];
+                }
+            }
+            
+            const embeddableIds = (statusData.items || [])
+                .filter(v => v.status && v.status.embeddable)
+                .map(v => v.id);
+            const results = (data.items || [])
+                .filter(item => embeddableIds.includes(item.id.videoId));
+            
+            console.log(`✅ [API 성공] ${channelKey}: ${results.length}개 결과 (키 ${currentKeyIndex + 1})`);
+            return results;
+            
+        } catch (error) {
+            console.error(`❌ [API 호출 실패] 키 ${currentKeyIndex + 1}:`, error);
+            
+            // 네트워크 오류 등 - 다음 키 시도
+            if (attempt < API_KEYS.length - 1) {
+                rotateAPIKey();
+                saveAPIKeyIndex();
+                continue;
+            }
+            return [];
+        }
+    }
+    
+    return [];
+}
+
+// ========================================
+// 전역 검색 (할당량 초과 시 자동 전환)
+// ========================================
+
+async function globalSearch(searchTerm) {
+    for (let attempt = 0; attempt < API_KEYS.length; attempt++) {
+        const apiKey = getCurrentAPIKey();
+        const url = `https://www.googleapis.com/youtube/v3/search?` +
+            `part=snippet&type=video&maxResults=8&` +
+            `q=${encodeURIComponent(searchTerm)}&` +
+            `key=${apiKey}`;
+        
+        console.log(`[전체검색] (키 ${currentKeyIndex + 1}/${API_KEYS.length})`);
+        
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.error && data.error.code === 403) {
+                console.warn(`❌ API 키 ${currentKeyIndex + 1} 할당량 초과!`);
+                if (attempt < API_KEYS.length - 1) {
+                    rotateAPIKey();
+                    saveAPIKeyIndex();
+                    continue;
+                } else {
+                    return [];
+                }
+            }
+            
+            const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
+            if (videoIds.length === 0) return [];
+            
+            const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${apiKey}`;
+            const statusRes = await fetch(statusUrl);
+            const statusData = await statusRes.json();
+            
+            if (statusData.error && statusData.error.code === 403) {
+                if (attempt < API_KEYS.length - 1) {
+                    rotateAPIKey();
+                    saveAPIKeyIndex();
+                    continue;
+                } else {
+                    return [];
+                }
+            }
+            
+            const embeddableIds = (statusData.items || [])
+                .filter(v => v.status && v.status.embeddable)
+                .map(v => v.id);
+            return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
+            
+        } catch (error) {
+            console.error('전체 검색 실패:', error);
+            if (attempt < API_KEYS.length - 1) {
+                rotateAPIKey();
+                saveAPIKeyIndex();
+                continue;
+            }
+            return [];
+        }
+    }
+    
+    return [];
+}
+
+// ========================================
+// 수동으로 API 키 전환 (디버깅용)
+// ========================================
+
+// 콘솔에서 수동 전환: switchAPIKey()
+window.switchAPIKey = function() {
+    rotateAPIKey();
+    saveAPIKeyIndex();
+    console.log(`✅ 현재 API 키: ${currentKeyIndex + 1}/${API_KEYS.length}`);
+};
+
+// 콘솔에서 현재 키 확인: checkAPIKey()
+window.checkAPIKey = function() {
+    console.log(`📌 현재 API 키 인덱스: ${currentKeyIndex + 1}/${API_KEYS.length}`);
+    console.log(`🔑 API 키: ${getCurrentAPIKey().substring(0, 20)}...`);
+};
+
+// 콘솔에서 키 리셋: resetAPIKey()
+window.resetAPIKey = function() {
+    currentKeyIndex = 0;
+    saveAPIKeyIndex();
+    console.log('✅ API 키를 첫 번째로 리셋했습니다.');
+};
 
 // Supabase 설정
 // ========================================
@@ -1060,64 +1297,7 @@ const channels = {
 
 
 // API를 사용한 채널 검색 (백업용)
-async function searchInChannelAPI(channelKey, searchTerm) {
-    const channel = channels[channelKey];
-    if (!channel) {
-        console.error(`[API 실패] ${channelKey}: 채널 정보가 없습니다`);
-        return [];
-    }
-    
-    const url = `https://www.googleapis.com/youtube/v3/search?` +
-        `part=snippet&type=video&maxResults=8&` +
-        `channelId=${channel.id}&q=${encodeURIComponent(searchTerm || '')}&` +
-        `key=${API_KEY}`;
-    console.log(`[API 요청] ${channel.handle}:`, url);
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.error) {
-            console.error('[API 에러]:', data.error);
-            return [];
-        }
-        // 임베드 허용 영상만 필터링
-        const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
-        if (videoIds.length === 0) return [];
-        const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${API_KEY}`;
-        const statusRes = await fetch(statusUrl);
-        const statusData = await statusRes.json();
-        const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
-        const results = (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
-        console.log(`[API 성공] ${channelKey}: ${results.length}개 결과 반환`);
-        return results;
-    } catch (error) {
-        console.error('[API 검색 실패]:', error);
-        return [];
-    }
-}
 
-// 전체 검색
-async function globalSearch(searchTerm) {
-    const url = `https://www.googleapis.com/youtube/v3/search?` +
-        `part=snippet&type=video&maxResults=8&` +
-        `q=${encodeURIComponent(searchTerm)}&` +
-        `key=${API_KEY}`;
-    console.log(`[전체검색]:`, url);
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        // 임베드 허용 영상만 필터링
-        const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
-        if (videoIds.length === 0) return [];
-        const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${API_KEY}`;
-        const statusRes = await fetch(statusUrl);
-        const statusData = await statusRes.json();
-        const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
-        return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
-    } catch (error) {
-        console.error('전체 검색 실패:', error);
-        return [];
-    }
-}
 
 // 검색 결과 렌더링 함수
 async function renderYoutubeResults(items) {
