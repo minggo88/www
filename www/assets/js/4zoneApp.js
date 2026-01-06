@@ -934,7 +934,9 @@ window.addEventListener('DOMContentLoaded', async () => {
 //09
 //const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
 //sin
-const API_KEY = 'AIzaSyAqn_ft_-WKvh5BT9qqzfB5DQAf7T5qy-g';
+//const API_KEY = 'AIzaSyAqn_ft_-WKvh5BT9qqzfB5DQAf7T5qy-g';
+//sin2
+const API_KEY = 'AIzaSyB5g1wGaXw5O1JbVBNY4DoZUeeYB9ITEUM';
 
 // Supabase 설정
 // ========================================
