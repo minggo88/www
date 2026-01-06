@@ -1,3 +1,15 @@
+// Supabase 설정
+const SUPABASE_URL = 'https://zizbhefplazgenjzowpo.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_dxllpWx_x7sBYgZe1RuHaQ_jUjf67em';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// 디버깅용 전역 노출
+window.SUPABASE_URL = SUPABASE_URL;
+window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
+window.supabaseClient = supabase;
+
+console.log('✅ Supabase 초기화 완료');
+
 // 웹페이지에 추가할 코드
 window.currentSlideNumber = 1; // 현재 슬라이드 번호
 window.totalSlides = 17; // 총 슬라이드 개수 (이미지 파일 개수에 맞춤)
@@ -12,7 +24,6 @@ function loadScript(src) {
     document.head.appendChild(script);
   });
 }
-
 
 // 4구역 위치 제어 함수 및 전체화면 고정 위치 계산 포함
 const CONFIG = {
@@ -43,14 +54,6 @@ const CONFIG = {
     const newBottom = zone.style.bottom;
     
     if (oldTop !== newTop || oldLeft !== newLeft || oldRight !== newRight || oldBottom !== newBottom) {
-      console.log(`Zone ${zoneNumber} position changed:`, {
-        top: `${oldTop} → ${newTop}`,
-        left: `${oldLeft} → ${newLeft}`,
-        right: `${oldRight} → ${newRight}`,
-        bottom: `${oldBottom} → ${newBottom}`
-      });
-      
-      // Zone 위치 변경 시 adjustForOrientation 실행
       setTimeout(() => {
         safeAdjustForOrientation();
       }, 10);
@@ -64,11 +67,6 @@ const CONFIG = {
       const newFontSize = zone.style.fontSize;
       
       if (oldFontSize !== newFontSize) {
-        console.log(`Zone ${zoneNumber} font size changed:`, {
-          fontSize: `${oldFontSize} → ${newFontSize}`
-        });
-        
-        // Zone 폰트 크기 변경 시 adjustForOrientation 실행
         setTimeout(() => {
           safeAdjustForOrientation();
         }, 10);
@@ -77,21 +75,10 @@ const CONFIG = {
   },
   adjustForOrientation: () => {
     const isLandscape = window.innerWidth > window.innerHeight;
-    
-    // 모바일 감지 (화면 너비가 600px 이하)
     const isMobile = window.innerWidth <= 600;
     
-    console.log('Adjusting for orientation:', {
-      isLandscape: isLandscape,
-      isMobile: isMobile,
-      width: window.innerWidth,
-      height: window.innerHeight
-    });
-    
     if (isMobile) {
-      // 1: 모바일(세로/가로)
       if (isLandscape) {
-        console.log('1-2'); // 모바일 가로
         CONFIG.setZonePositionPercent(1, 8, 10, undefined, undefined);
         CONFIG.setZoneFontSize(1, 24);
         CONFIG.setZonePositionPercent(2, 8, 95, undefined, undefined);
@@ -101,7 +88,6 @@ const CONFIG = {
         CONFIG.setZonePositionPercent(4, undefined, 95, undefined, 12);
         CONFIG.setZoneFontSize(4, 24);
       } else {
-        console.log('1-4'); // 모바일 세로
         CONFIG.setZonePositionPercent(1, 25, 15, undefined, undefined);
         CONFIG.setZoneFontSize(1, 24);
         CONFIG.setZonePositionPercent(2, 25, 95, undefined, undefined);
@@ -112,21 +98,18 @@ const CONFIG = {
         CONFIG.setZoneFontSize(4, 24);
       }
     } else if (window.innerWidth <= 900 && window.innerWidth > window.innerHeight) {
-      console.log('2'); // 모바일 가로(900px 이하)
       CONFIG.setZonePositionPercent(1, 5, 12, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(2, 5, 55, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(3, undefined, 12, undefined, 15, '%');
       CONFIG.setZonePositionPercent(4, undefined, 55, undefined, 15, '%');
       CONFIG.setZoneFontSize(1, 22);
     } else if (window.innerWidth >= 900 && window.innerWidth <= 1400 && window.innerWidth > window.innerHeight) {
-      console.log('3-1'); // 모바일 가로(900px 이하)
       CONFIG.setZonePositionPercent(1, 12, 6, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(2, 12, 106, undefined, undefined, '%');
       CONFIG.setZonePositionPercent(3, undefined, 6, undefined, 15, '%');
       CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 15, '%');
       CONFIG.setZoneFontSize(1, 22);
     } else if (isLandscape) {
-      console.log('3-2'); // 태블릿/PC 가로
       CONFIG.setZonePositionPercent(1, 10, 13, undefined, undefined, '%');
       CONFIG.setZoneFontSize(1, 35);
       CONFIG.setZonePositionPercent(2, 10, 106, undefined, undefined);
@@ -136,7 +119,6 @@ const CONFIG = {
       CONFIG.setZonePositionPercent(4, undefined, 106, undefined, 16);
       CONFIG.setZoneFontSize(4, 35);
     } else {
-      console.log('4-2'); // 태블릿/PC 세로
       CONFIG.setZonePositionPercent(1, 35, 35, undefined, undefined, '%');
       CONFIG.setZoneFontSize(1, 35);
       CONFIG.setZonePositionPercent(2, 35, 106, undefined, undefined, '%');
@@ -149,19 +131,15 @@ const CONFIG = {
   }
 };
 
-// adjustForOrientation 래퍼 함수 - 텍스트 숨김/표시 처리
 function safeAdjustForOrientation() {
-  // 모든 텍스트 영역을 임시로 숨기기
   const textZones = document.querySelectorAll('.text-zone');
   textZones.forEach(zone => {
     zone.style.opacity = '0';
     zone.style.transition = 'opacity 0.1s ease';
   });
   
-  // 위치 조정 실행
   CONFIG.adjustForOrientation();
   
-  // 위치 조정 완료 후 텍스트를 부드럽게 다시 나타나게 하기
   setTimeout(() => {
     textZones.forEach(zone => {
       zone.style.opacity = '1';
@@ -173,7 +151,6 @@ function safeAdjustForOrientation() {
 let current = 0;
 let textAnimated = Array(slideTemplates.length).fill(false);
 
-// 모든 키워드를 모은 AllKey 객체 생성
 function buildAllKey() {
   const allKeywords = new Set();
   if (typeof slideTemplates !== 'undefined' && Array.isArray(slideTemplates)) {
@@ -194,12 +171,9 @@ function buildAllKey() {
   return Array.from(allKeywords);
 }
 
-// AllKey 전역 변수
 window.AllKey = buildAllKey();
 
-// 모달 팝업 함수
 async function laypop(message) {
-  // tabbar-container 숨기기
   const tabbar = document.getElementById('tabbar-container');
   if (tabbar) {
     tabbar.classList.remove('show-tabbar');
@@ -209,7 +183,6 @@ async function laypop(message) {
     overlay.style.display = 'none';
   }
   
-  // National Geographic으로 자동 검색 실행하고 바로 결과 표시
   const query = message.trim();
   if (query) {
     const results = await searchInChannel('National Geographic', query);
@@ -217,27 +190,18 @@ async function laypop(message) {
   }
 }
 
-// 키워드 클릭 이벤트
 function handleKeywordClick(keyword) {
-  // 모달 표시
   laypop(keyword);
 }
 
-// 텍스트 렌더링 with 키워드 하이라이팅
 function renderTextWithKeywords(text, keywords) {
-  // 긴 키워드부터 먼저 치환, 이미 감싼 부분은 다시 치환하지 않음
   if (!Array.isArray(keywords) || keywords.length === 0) return text;
-  // 키워드 길이 내림차순 정렬
   const sortedKeywords = [...keywords].sort((a, b) => b.length - a.length);
   let processedText = text;
   sortedKeywords.forEach(keyword => {
-    // 이미 감싼 부분은 제외하고, 나머지만 치환
-    // (1) 태그로 감싸진 부분 split
     const parts = processedText.split(/(<span[^>]*>.*?<\/span>)/g);
     for (let i = 0; i < parts.length; i++) {
-      // span 태그가 아닌 부분만 치환
       if (!parts[i].startsWith('<span')) {
-        // 단어 경계 무시, 단순히 해당 문자열만 치환
         const regex = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
         parts[i] = parts[i].replace(regex, `<span style="cursor:pointer;" onclick=\"handleKeywordClick('${keyword}')\">${keyword}</span>`);
       }
@@ -247,18 +211,15 @@ function renderTextWithKeywords(text, keywords) {
   return processedText;
 }
 
-// 명사 클릭 span 래핑 함수 (줄바꿈 포함 명사 지원)
 function renderZoneTextWithNounSpans(text, keywords) {
   if (!text) return '';
   let html = text;
   
-  // AllKey의 모든 키워드도 포함
   let allKeywordsToCheck = [];
   if (keywords && Array.isArray(keywords)) {
     allKeywordsToCheck = [...keywords];
   }
   if (window.AllKey && Array.isArray(window.AllKey)) {
-    // 중복 제거하면서 AllKey 추가
     window.AllKey.forEach(key => {
       if (!allKeywordsToCheck.includes(key)) {
         allKeywordsToCheck.push(key);
@@ -266,22 +227,16 @@ function renderZoneTextWithNounSpans(text, keywords) {
     });
   }
   
-  // 긴 명사 우선 매칭 (AllKey 포함)
   allKeywordsToCheck.sort((a, b) => b.length - a.length).forEach(noun => {
-    // 키워드를 단어 단위로 분할하여 각 단어를 escape하고 공백을 패턴으로 변환
     const words = noun.split(/ /);
     const escapedWords = words.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-    // 단어 사이를 줄바꿈 포함 공백 패턴으로 연결
     const pattern = escapedWords.join('[ \n\r\t\f\v]*');
     
-    // 태그로 감싸진 부분을 분리하고, 태그가 아닌 부분만 치환
     const parts = html.split(/(<span[^>]*>.*?<\/span>)/gi);
     for (let i = 0; i < parts.length; i++) {
-      // span 태그가 아닌 부분만 치환
       if (!parts[i].startsWith('<span')) {
         const regex = new RegExp(pattern, 'gi');
         parts[i] = parts[i].replace(regex, (match) => {
-          // 대소문자 구분 없이 매칭된 원본 그대로 사용
           return `<span class="noun-span">${match}</span>`;
         });
       }
@@ -289,24 +244,18 @@ function renderZoneTextWithNounSpans(text, keywords) {
     html = parts.join('');
   });
   
-  // <br>로 분할하여 <p>로 감싸기
   return html.split(/<br\s*\/?>/i).map(line => `<p>${line}</p>`).join('');
 }
 
-// 이미지 크기에 따라 .text-zone의 p 폰트 크기를 동적으로 조정
 function setTextFontSizeByImage(imgElem) {
-  // 이미지 크기에 따라 폰트 크기 조정하지 않음 (고정)
   return;
 }
 
-// 슬라이드 렌더링
 function renderSlide(idx) {
-  // AllKey가 없으면 다시 생성
   if (!window.AllKey || !Array.isArray(window.AllKey) || window.AllKey.length === 0) {
     window.AllKey = buildAllKey();
   }
   
-  // 기준 위치(px) - CONFIG.setZonePosition 값과 일치
   const BASE_WIDTH = 1440;
   const BASE_HEIGHT = 900;
   const zoneBase = {
@@ -349,13 +298,11 @@ function renderSlide(idx) {
   img.alt = 'slide';
   imgWrapper.appendChild(img);
 
-  // 4구역 텍스트 생성
   const zoneDivs = {};
   Object.entries(slide.zones).forEach(([zoneNum, zoneData]) => {
     if (zoneData.text) {
       const textZone = document.createElement('div');
       textZone.className = `text-zone zone-${zoneNum}`;
-      // 줄바꿈(<br> 또는 \n)마다 p 태그 생성
       const lines = zoneData.text.split(/<br\s*\/?>|\n/);
       lines.forEach(line => {
         if (line.trim() === '') return;
@@ -363,27 +310,23 @@ function renderSlide(idx) {
         paragraph.innerHTML = renderZoneTextWithNounSpans(line, zoneData.keywords);
         textZone.appendChild(paragraph);
       });
-      // 명사 클릭 이벤트 바인딩
       textZone.querySelectorAll('.noun-span').forEach(el => {
         el.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
           const clickedText = this.textContent.trim();
-          // AllKey에 있는 값이면 모달 표시 (noun-span으로 렌더링된 것은 모두 AllKey에 있음)
           if (typeof laypop === 'function') {
             laypop(clickedText);
           } else {
             alert(clickedText);
           }
         });
-        // 모바일 터치 이벤트 추가
         el.addEventListener('touchstart', function(e) {
           e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
           const clickedText = this.textContent.trim();
-          // AllKey에 있는 값이면 모달 표시 (noun-span으로 렌더링된 것은 모두 AllKey에 있음)
           if (typeof laypop === 'function') {
             laypop(clickedText);
           } else {
@@ -416,7 +359,6 @@ function renderSlide(idx) {
 
   app.appendChild(container);
 
-  // 위치/폰트크기 scaling 적용 함수
   window.applyZoneResponsive = function() {
     const scaleW = window.innerWidth / BASE_WIDTH;
     const scaleH = window.innerHeight / BASE_HEIGHT;
@@ -427,7 +369,6 @@ function renderSlide(idx) {
       if (!div) return;
       const base = zoneBase[zoneNum];
       
-      // 위치 계산
       const adjustedScale = scale;
       
       if (base.top !== undefined) div.style.top = (base.top * adjustedScale) + 'px';
@@ -439,7 +380,6 @@ function renderSlide(idx) {
       if (base.right !== undefined) div.style.right = (base.right * adjustedScale) + 'px';
       else div.style.right = '';
       
-      // 폰트 크기
       div.querySelectorAll('p').forEach(p => {
         p.style.fontSize = (baseFontSize * adjustedScale) + 'px';
         p.style.margin = '0';
@@ -449,7 +389,6 @@ function renderSlide(idx) {
         p.style.width = 'auto';
       });
       
-      // 오프셋 방지: margin/padding 제거
       div.style.margin = '0';
       div.style.padding = '0';
       div.style.boxSizing = 'border-box';
@@ -458,28 +397,19 @@ function renderSlide(idx) {
     });
   }
 
-  // 최초 적용 및 리사이즈 반영
   window.addEventListener('resize', window.applyZoneResponsive);
   setTimeout(window.applyZoneResponsive, 0);
-
-  // 나머지 기존 기능(애니메이션, 화살표, drag 등) 유지
-  // zone 위치는 adjustForOrientation()에서 자동으로 설정됨
   
-  // 슬라이드 렌더링 후 위치 조정
   setTimeout(() => {
     safeAdjustForOrientation();
   }, 100);
 
-  // 갤럭시 탭 최적화 텍스트 애니메이션
-  // 항상 모든 p에 visible 클래스 추가
-    setTimeout(() => {
+  setTimeout(() => {
     const allP = Array.from(container.querySelectorAll('p'));
     if (allP.length > 0) {
-      // 첫 줄은 0.4초 후 슬라이드 업
-        setTimeout(() => {
+      setTimeout(() => {
         allP[0].classList.add('visible');
       }, 400);
-      // 두 번째 줄부터는 0.1초 간격으로 다다다닥
       for (let i = 1; i < allP.length; i++) {
         setTimeout(() => {
           allP[i].classList.add('visible');
@@ -490,10 +420,7 @@ function renderSlide(idx) {
 
   positionArrows(img, leftArrow, rightArrow);
   addDragEvents(container, leftArrow, rightArrow);
-
-  // 페이지 인디케이터 다시 생성 (이벤트 리스너 재바인딩)
   createPageIndicator();
-
 }
 
 function positionArrows(imgElem, leftArrow, rightArrow) {
@@ -509,9 +436,7 @@ function positionArrows(imgElem, leftArrow, rightArrow) {
 function nextSlide() {
   let next = (current + 1) % slideTemplates.length;
   current = next;
-  // 현재 슬라이드 번호 업데이트
   window.currentSlideNumber = current + 1;
-  console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
   renderSlide(current);
   updatePageIndicator();
 }
@@ -519,9 +444,7 @@ function nextSlide() {
 function prevSlide() {
   let prev = (current - 1 + slideTemplates.length) % slideTemplates.length;
   current = prev;
-  // 현재 슬라이드 번호 업데이트
   window.currentSlideNumber = current + 1;
-  console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
   renderSlide(current);
   updatePageIndicator();
 }
@@ -529,7 +452,6 @@ function prevSlide() {
 function addDragEvents(container, leftArrow, rightArrow) {
   let startX = null;
   let dragging = false;
-  // 마우스 이벤트
   container.addEventListener('mousedown', e => { 
     e.preventDefault(); 
     startX = e.clientX; 
@@ -552,7 +474,6 @@ function addDragEvents(container, leftArrow, rightArrow) {
     dragging = false;
     startX = null;
   });
-  // 모바일 터치 이벤트 (슬라이드 이동에만 passive: false)
   container.addEventListener('touchstart', e => {
     e.preventDefault();
     startX = e.touches[0].clientX;
@@ -578,26 +499,21 @@ function addDragEvents(container, leftArrow, rightArrow) {
   }, { passive: false });
 }
 
-// 화면 높이 설정 (모바일 브라우저 대응)
 function setScreenHeight() {
-  // 실제 뷰포트 높이 계산
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
-// iOS Safari 주소창 숨기기
 function hideAddressBar() {
   setTimeout(() => {
     window.scrollTo(0, 1);
   }, 0);
 }
 
-// 페이지 인디케이터 생성 함수
 function createPageIndicator() {
   const indicator = document.getElementById('page-indicator');
   indicator.innerHTML = '';
   
-  // 호버 이벤트 추가
   indicator.addEventListener('mouseenter', () => {
     indicator.style.opacity = '1';
   });
@@ -619,7 +535,6 @@ function createPageIndicator() {
       border: 2px solid rgba(255,255,255,0.1);
     `;
     
-    // 현재 페이지면 active 클래스 추가
     if (index === current) {
       dot.classList.add('active');
     }
@@ -627,49 +542,37 @@ function createPageIndicator() {
     dot.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      console.log('Page indicator clicked:', index, 'current:', current);
       
-      // laypop 모달이 열려있으면 클릭 무시
       const tabbar = document.getElementById('tabbar-container');
       if (tabbar && tabbar.classList.contains('show-tabbar')) {
         return;
       }
       
-      if (index === current) return; // 현재 페이지면 클릭 무시
+      if (index === current) return;
       
-      // 바로 이동
       current = index;
-      // 현재 슬라이드 번호 업데이트
       window.currentSlideNumber = current + 1;
-      console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
       renderSlide(current);
       updatePageIndicator();
     });
     
-    // 터치 이벤트 추가 (모바일 대응)
     dot.addEventListener('touchstart', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      console.log('Page indicator touched:', index, 'current:', current);
       
-      // laypop 모달이 열려있으면 터치 무시
       const tabbar = document.getElementById('tabbar-container');
       if (tabbar && tabbar.classList.contains('show-tabbar')) {
         return;
       }
       
-      if (index === current) return; // 현재 페이지면 터치 무시
+      if (index === current) return;
       
-      // 바로 이동
       current = index;
-      // 현재 슬라이드 번호 업데이트
       window.currentSlideNumber = current + 1;
-      console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
       renderSlide(current);
       updatePageIndicator();
     });
     
-    // 호버 효과
     dot.addEventListener('mouseenter', () => {
       if (index !== current) {
         dot.style.background = 'rgba(255,255,255,0.6)';
@@ -687,7 +590,6 @@ function createPageIndicator() {
     indicator.appendChild(dot);
   });
   
-  // 갤럭시 탭 S9에서 페이지 인디케이터 색상 설정
   if ((window.innerWidth >= 800 && window.innerWidth <= 1400 && 
        window.innerHeight >= 600 && window.innerHeight <= 1100) || 
       (window.innerWidth >= 600 && window.innerWidth <= 1200 && window.innerHeight > window.innerWidth)) {
@@ -704,7 +606,6 @@ function createPageIndicator() {
   }
 }
 
-// 페이지 인디케이터 업데이트 함수
 function updatePageIndicator() {
   const dots = document.querySelectorAll('.page-dot');
   dots.forEach((dot, index) => {
@@ -716,90 +617,67 @@ function updatePageIndicator() {
   });
 }
 
-// URL 쿼리 파라미터에서 슬라이드 번호 가져오기
 function getSlideFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
   const slideParam = urlParams.get('slide');
   if (slideParam) {
     const slideNumber = parseInt(slideParam, 10);
-    // 슬라이드는 1-based로 입력되지만 내부적으로는 0-based
     if (!isNaN(slideNumber) && slideNumber >= 1 && slideNumber <= window.totalSlides) {
-      return slideNumber - 1; // 0-based 인덱스로 변환
+      return slideNumber - 1;
     }
   }
   return null;
 }
 
-// 첫 슬라이드 표시
 window.onload = () => {
-  // URL에서 슬라이드 번호 확인
   const urlSlideIndex = getSlideFromURL();
   if (urlSlideIndex !== null) {
     current = urlSlideIndex;
   }
   
-  // 초기 슬라이드 번호 설정
   window.currentSlideNumber = current + 1;
-  console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
   renderSlide(current);
   createPageIndicator();
   hideAddressBar();
   
-        // 갤럭시 탭 S9에서 페이지 인디케이터 색상 초기 설정
-      setTimeout(() => {
-        const pageIndicator = document.getElementById('page-indicator');
-        if (pageIndicator && ((window.innerWidth >= 800 && window.innerWidth <= 1400 && 
-            window.innerHeight >= 600 && window.innerHeight <= 1100) || 
-            (window.innerWidth >= 600 && window.innerWidth <= 1200 && window.innerHeight > window.innerWidth))) {
-          const dots = pageIndicator.querySelectorAll('.page-dot');
-          dots.forEach(dot => {
-            if (dot.classList.contains('active')) {
-              dot.style.background = 'rgba(128,128,128,0.8)';
-              dot.style.border = '2px solid rgba(128,128,128,0.6)';
-            } else {
-              dot.style.background = 'rgba(128,128,128,0.4)';
-              dot.style.border = '2px solid rgba(128,128,128,0.2)';
-            }
-          });
+  setTimeout(() => {
+    const pageIndicator = document.getElementById('page-indicator');
+    if (pageIndicator && ((window.innerWidth >= 800 && window.innerWidth <= 1400 && 
+        window.innerHeight >= 600 && window.innerHeight <= 1100) || 
+        (window.innerWidth >= 600 && window.innerWidth <= 1200 && window.innerHeight > window.innerWidth))) {
+      const dots = pageIndicator.querySelectorAll('.page-dot');
+      dots.forEach(dot => {
+        if (dot.classList.contains('active')) {
+          dot.style.background = 'rgba(128,128,128,0.8)';
+          dot.style.border = '2px solid rgba(128,128,128,0.6)';
+        } else {
+          dot.style.background = 'rgba(128,128,128,0.4)';
+          dot.style.border = '2px solid rgba(128,128,128,0.2)';
         }
-      }, 100);
+      });
+    }
+  }, 100);
 }
 
-// 모바일 기기 감지
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-// 화면 크기 감지 및 조정
 setScreenHeight();
 window.addEventListener('resize', () => {
-  console.log('Screen size changed:', {
-    width: window.innerWidth,
-    height: window.innerHeight,
-    orientation: window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
-  });
   setScreenHeight();
-  // Screen size changed 로그 후 adjustForOrientation 실행
   setTimeout(() => {
     safeAdjustForOrientation();
   }, 10);
 });
 window.addEventListener('orientationchange', () => {
-  console.log('Orientation changed:', {
-    width: window.innerWidth,
-    height: window.innerHeight,
-    orientation: window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
-  });
   setTimeout(() => {
     setScreenHeight();
     safeAdjustForOrientation();
-  }, 100); // 방향 변경 후 짧은 지연
+  }, 100);
 });
 
-// iOS Safari 주소창 숨기기
 hideAddressBar();
 
-// 탭바 이벤트 처리
 window.addEventListener('DOMContentLoaded', async () => {
-  // AllKey 업데이트 (slideTemplates가 로드된 후)
   if (typeof slideTemplates !== 'undefined') {
     window.AllKey = buildAllKey();
   }
@@ -817,14 +695,11 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
   });
   
-  // 검색 입력창에서 직접 입력할 때 AllKey 체크
   if (searchInput) {
     let previousValue = searchInput.value;
     searchInput.addEventListener('input', function() {
       const currentValue = this.value.trim();
-      // 이전 값이 AllKey에 있었고, 현재 값이 변경된 경우 readonly 해제
       if (previousValue && window.AllKey && window.AllKey.includes(previousValue)) {
-        // AllKey에 있는 값이면 변경하지 못하게 이전 값으로 복원
         if (currentValue !== previousValue) {
           this.value = previousValue;
           return;
@@ -833,7 +708,6 @@ window.addEventListener('DOMContentLoaded', async () => {
       previousValue = currentValue;
     });
     
-    // 포커스 이벤트로 AllKey 체크
     searchInput.addEventListener('focus', function() {
       const currentValue = this.value.trim();
       if (window.AllKey && window.AllKey.includes(currentValue)) {
@@ -847,7 +721,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // 탭 배경 이미지를 메뉴 아이콘으로 매핑하고 텍스트 숨김
   const iconMap = {
     'National Geographic': '../assets/img/ReadBook/menu_img/natgeo.png.png'
   };
@@ -865,16 +738,13 @@ window.addEventListener('DOMContentLoaded', async () => {
       tab.style.color = 'transparent';
       tab.style.textIndent = '-9999px';
       tab.style.padding = '0';
-      // 기본 크기 지정 (CSS에서 다시 반응형 조정)
       tab.style.width = '180px';
       tab.style.height = '56px';
-      // 활성/비활성 시 배경 변경 방지
       tab.addEventListener('mouseenter', () => { tab.style.opacity = '0.9'; });
       tab.addEventListener('mouseleave', () => { tab.style.opacity = '1'; });
     }
   });
   
-  // Search 버튼 이벤트 리스너 추가
   const searchBtn = document.getElementById('searchBtn');
   if (searchBtn) {
     searchBtn.addEventListener('click', async function() {
@@ -884,7 +754,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
   }
   
-  // X 버튼 이벤트 리스너 추가
   const xBtn = document.getElementById('tabbar-x-btn');
   if (xBtn) {
     xBtn.addEventListener('click', () => {
@@ -893,7 +762,6 @@ window.addEventListener('DOMContentLoaded', async () => {
       const overlay = document.getElementById('tabbar-modal-overlay');
       if (overlay) overlay.style.display = 'none';
       
-      // 탭과 검색 버튼 다시 보이기
       const tabs = document.querySelectorAll('.tab');
       tabs.forEach(tab => {
         tab.style.display = '';
@@ -905,11 +773,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
   }
   
-  // 오버레이 클릭 시 닫기 (탭바 자체 클릭은 제외)
   const overlay = document.getElementById('tabbar-modal-overlay');
   if (overlay) {
     overlay.addEventListener('click', (e) => {
-      // 탭바 자체를 클릭한 경우는 닫지 않음
       if (e.target.closest('#tabbar-container')) {
         return;
       }
@@ -917,7 +783,6 @@ window.addEventListener('DOMContentLoaded', async () => {
       if (tabbar) tabbar.classList.remove('show-tabbar');
       overlay.style.display = 'none';
       
-      // 탭과 검색 버튼 다시 보이기
       const tabs = document.querySelectorAll('.tab');
       tabs.forEach(tab => {
         tab.style.display = '';
@@ -930,14 +795,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// YouTube API 키 및 채널 정보
-//09
-//const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
-//sin
-const API_KEY = 'AIzaSyAqn_ft_-WKvh5BT9qqzfB5DQAf7T5qy-g';
+// ========================================
+// YouTube API 및 Supabase 캐싱 시스템 (백그라운드 업데이트 방식)
+// ========================================
 
+const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
 
-// 채널 정보
 const channels = {
     'National Geographic': {
         id: 'UCpVm7bg6pXKo1Pr6k5kxG9A',
@@ -946,50 +809,94 @@ const channels = {
     }
 };
 
-// 캐시 유효기간 (1시간 = 3600000ms)
-const CACHE_DURATION = 60 * 60 * 1000;
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24시간
+const BACKGROUND_UPDATE_TRACKING = {}; // 백그라운드 업데이트 중복 방지
 
-// 로컬 캐시에서 데이터 가져오기
-function getCachedData(channelKey) {
+// Supabase에서 캐시 조회
+async function getCachedFromSupabase(channelKey, query) {
     try {
-        const cacheKey = `rss_${channelKey}_latest`;
-        const cached = localStorage.getItem(cacheKey);
-        if (!cached) return null;
+        const normalizedQuery = (query || '').trim().toLowerCase();
         
-        const cacheData = JSON.parse(cached);
-        const now = Date.now();
+        console.log('🔍 [Supabase 조회]', channelKey, ':', normalizedQuery || '(전체)');
         
-        // 캐시가 유효한지 확인 (1시간 이내)
-        if (now - cacheData.timestamp < CACHE_DURATION) {
-            console.log(`[캐시 사용] ${channelKey}: 유효한 캐시 데이터 반환`);
-            return cacheData.data;
-        } else {
-            console.log(`[캐시 만료] ${channelKey}: 캐시가 만료되었습니다`);
-            // 만료된 캐시라도 반환 (백업용)
-            return cacheData.data;
+        const { data, error } = await supabase
+            .from('youtube_search_cache')
+            .select('*')
+            .eq('channel_key', channelKey)
+            .eq('search_query', normalizedQuery)
+            .maybeSingle();
+        
+        if (error) {
+            console.error('❌ [Supabase 조회 실패]', error);
+            return null;
         }
+        
+        if (!data) {
+            console.log('📭 [캐시 없음]');
+            return null;
+        }
+        
+        const cacheAge = Date.now() - new Date(data.updated_at).getTime();
+        if (cacheAge > CACHE_DURATION) {
+            console.log(`⏰ [캐시 만료] ${Math.floor(cacheAge / 1000 / 60 / 60)}시간 경과`);
+            return null;
+        }
+        
+        console.log(`✅ [캐시 히트!] ${data.results.length}개 (조회 ${data.hit_count}회)`);
+        
+        // hit_count 업데이트 (비동기로 백그라운드에서)
+        supabase
+            .from('youtube_search_cache')
+            .update({ 
+                hit_count: data.hit_count + 1,
+                updated_at: new Date().toISOString()
+            })
+            .eq('id', data.id)
+            .then(() => {});
+        
+        return data.results;
+        
     } catch (error) {
-        console.error('캐시 읽기 실패:', error);
+        console.error('❌ [Supabase 조회 예외]', error);
         return null;
     }
 }
 
-// 로컬 캐시에 데이터 저장
-function setCachedData(channelKey, data) {
+// Supabase에 캐시 저장
+async function saveCacheToSupabase(channelKey, query, results) {
     try {
-        const cacheKey = `rss_${channelKey}_latest`;
-        const cacheData = {
-            data: data,
-            timestamp: Date.now()
-        };
-        localStorage.setItem(cacheKey, JSON.stringify(cacheData));
-        console.log(`[캐시 저장] ${channelKey}: 데이터가 캐시에 저장되었습니다`);
+        const normalizedQuery = (query || '').trim().toLowerCase();
+        
+        console.log('💾 [캐시 저장]', channelKey, ':', normalizedQuery || '(전체)', ':', results.length + '개');
+        
+        const { data, error } = await supabase
+            .from('youtube_search_cache')
+            .upsert({
+                channel_key: channelKey,
+                search_query: normalizedQuery,
+                results: results,
+                hit_count: 1,
+                updated_at: new Date().toISOString()
+            }, {
+                onConflict: 'channel_key,search_query'
+            })
+            .select();
+        
+        if (error) {
+            console.error('❌ [저장 실패]', error);
+            return false;
+        }
+        
+        console.log('✅ [저장 성공]');
+        return true;
+        
     } catch (error) {
-        console.error('캐시 저장 실패:', error);
+        console.error('❌ [저장 예외]', error);
+        return false;
     }
 }
 
-// RSS 피드에서 영상 목록 가져오기
+// RSS에서 영상 목록 가져오기
 async function getChannelVideosFromRSS(channelKey) {
     const channel = channels[channelKey];
     if (!channel || !channel.rssUrl) {
@@ -997,17 +904,9 @@ async function getChannelVideosFromRSS(channelKey) {
         return null;
     }
     
-    // 먼저 캐시 확인
-    const cached = getCachedData(channelKey);
-    if (cached && Date.now() - JSON.parse(localStorage.getItem(`rss_${channelKey}_latest`)).timestamp < CACHE_DURATION) {
-        console.log(`[RSS 캐시] ${channelKey}: 캐시에서 반환`);
-        return cached;
-    }
-    
     try {
-        // CORS 프록시를 통해 RSS 피드 가져오기
         const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(channel.rssUrl)}`;
-        console.log(`[RSS 요청] ${channelKey}:`, proxyUrl);
+        console.log(`[RSS 요청] ${channelKey}`);
         
         const response = await fetch(proxyUrl);
         if (!response.ok) {
@@ -1018,7 +917,6 @@ async function getChannelVideosFromRSS(channelKey) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
         
-        // XML 파싱 오류 확인
         const parseError = xmlDoc.querySelector('parsererror');
         if (parseError) {
             throw new Error('XML 파싱 오류');
@@ -1028,17 +926,14 @@ async function getChannelVideosFromRSS(channelKey) {
         const videos = [];
         
         entries.forEach((entry, index) => {
-            if (index >= 15) return; // 최신 15개만
+            if (index >= 15) return;
             
             try {
-                // videoId 추출 - 여러 방법 시도
                 let videoId = null;
                 
-                // 방법 1: entry의 id 요소에서 추출
                 const idElement = entry.querySelector('id');
                 if (idElement) {
                     const idText = idElement.textContent;
-                    // YouTube RSS 형식: yt:video:VIDEO_ID 또는 http://www.youtube.com/watch?v=VIDEO_ID
                     const idMatch = idText.match(/yt:video:([a-zA-Z0-9_-]{11})/) || 
                                    idText.match(/[?&]v=([a-zA-Z0-9_-]{11})/) ||
                                    idText.match(/\/([a-zA-Z0-9_-]{11})$/);
@@ -1047,7 +942,6 @@ async function getChannelVideosFromRSS(channelKey) {
                     }
                 }
                 
-                // 방법 2: link 요소에서 추출
                 if (!videoId) {
                     const linkElement = entry.querySelector('link[rel="alternate"]') || entry.querySelector('link');
                     if (linkElement) {
@@ -1060,7 +954,6 @@ async function getChannelVideosFromRSS(channelKey) {
                     }
                 }
                 
-                // 방법 3: media:group의 yt:videoId에서 추출
                 if (!videoId) {
                     const mediaGroup = entry.querySelector('group');
                     if (mediaGroup) {
@@ -1072,26 +965,20 @@ async function getChannelVideosFromRSS(channelKey) {
                 }
                 
                 if (!videoId || videoId.length !== 11) {
-                    console.warn(`[RSS 파싱] ${channelKey} entry ${index}: videoId를 찾을 수 없습니다`);
                     return;
                 }
                 
-                // title 추출
                 const titleElement = entry.querySelector('title');
                 const title = titleElement ? titleElement.textContent : '';
                 
-                // published 추출
                 const publishedElement = entry.querySelector('published');
                 const published = publishedElement ? publishedElement.textContent : '';
                 
-                // channelTitle 추출
                 const authorElement = entry.querySelector('author name');
                 const channelTitle = authorElement ? authorElement.textContent : channel.handle;
                 
-                // thumbnail URL 생성
                 const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/default.jpg`;
                 
-                // 기존 API 형식과 동일하게 반환
                 videos.push({
                     id: { videoId: videoId },
                     snippet: {
@@ -1106,79 +993,145 @@ async function getChannelVideosFromRSS(channelKey) {
                     }
                 });
             } catch (error) {
-                console.error(`[RSS 파싱 오류] ${channelKey} entry ${index}:`, error);
+                console.error(`[RSS 파싱 오류] entry ${index}:`, error);
             }
         });
         
-        console.log(`[RSS 성공] ${channelKey}: ${videos.length}개 영상 가져옴`);
-        
-        // 캐시에 저장
-        if (videos.length > 0) {
-            setCachedData(channelKey, videos);
-        }
-        
+        console.log(`✅ [RSS 성공] ${videos.length}개 영상`);
         return videos;
+        
     } catch (error) {
         console.error(`[RSS 실패] ${channelKey}:`, error);
-        
-        // 실패 시 만료된 캐시라도 반환
-        if (cached) {
-            console.log(`[RSS 백업] ${channelKey}: 만료된 캐시 데이터 반환`);
-            return cached;
-        }
-        
         return null;
     }
 }
 
-// RSS + 로컬 필터링으로 검색
-async function searchInChannelNew(channelKey, searchTerm) {
-    console.log(`[RSS 검색] ${channelKey}: "${searchTerm}" 검색 시작`);
+// 🎯 백그라운드에서 전체 영상 목록 업데이트
+async function updateCacheInBackground(channelKey) {
+    const trackingKey = `${channelKey}_full`;
     
-    // RSS에서 영상 목록 가져오기
+    // 이미 업데이트 중이면 중복 실행 방지
+    if (BACKGROUND_UPDATE_TRACKING[trackingKey]) {
+        return;
+    }
+    
+    BACKGROUND_UPDATE_TRACKING[trackingKey] = true;
+    
+    console.log(`🔄 [백그라운드 업데이트 시작] ${channelKey}`);
+    
+    // 사용자는 기다리지 않음!
+    setTimeout(async () => {
+        try {
+            const videos = await getChannelVideosFromRSS(channelKey);
+            if (videos && videos.length > 0) {
+                await saveCacheToSupabase(channelKey, '', videos);
+                console.log(`✅ [백그라운드 업데이트 완료] ${channelKey}: ${videos.length}개`);
+            }
+        } catch (error) {
+            console.error(`❌ [백그라운드 업데이트 실패] ${channelKey}:`, error);
+        } finally {
+            BACKGROUND_UPDATE_TRACKING[trackingKey] = false;
+        }
+    }, 100); // 0.1초 후 백그라운드에서 실행
+}
+
+// 🚀 메인 검색 함수 (백그라운드 업데이트 방식)
+async function searchInChannelNew(channelKey, searchTerm) {
+    console.log(`[검색 시작] ${channelKey}: "${searchTerm || '(전체)'}"`);
+    
+    // 1. 먼저 특정 검색어 캐시 확인
+    const cachedResults = await getCachedFromSupabase(channelKey, searchTerm);
+    if (cachedResults && cachedResults.length > 0) {
+        console.log('⚡ [즉시 반환] 캐시에서');
+        
+        // 🎯 백그라운드에서 전체 영상 목록 업데이트 (사용자는 기다리지 않음!)
+        updateCacheInBackground(channelKey);
+        
+        return cachedResults;
+    }
+    
+    // 2. 전체 영상 목록 캐시 확인
+    const allVideosCache = await getCachedFromSupabase(channelKey, '');
+    
+    if (allVideosCache && allVideosCache.length > 0) {
+        console.log('📦 [전체 목록 캐시 사용]');
+        
+        // 검색어로 필터링
+        if (!searchTerm || searchTerm.trim() === '') {
+            const results = allVideosCache.slice(0, 8);
+            
+            // 🎯 백그라운드 업데이트
+            updateCacheInBackground(channelKey);
+            
+            return results;
+        }
+        
+        const searchLower = searchTerm.toLowerCase().trim();
+        const filtered = allVideosCache.filter(video => {
+            const title = video.snippet.title.toLowerCase();
+            return title.includes(searchLower);
+        });
+        
+        console.log(`🔎 [필터링 결과] ${filtered.length}개`);
+        
+        const results = filtered.slice(0, 8);
+        
+        // 검색 결과 캐시에 저장
+        if (results.length > 0) {
+            await saveCacheToSupabase(channelKey, searchTerm, results);
+        }
+        
+        // 🎯 백그라운드 업데이트
+        updateCacheInBackground(channelKey);
+        
+        return results;
+    }
+    
+    // 3. 캐시 없음 - RSS에서 가져오기 (첫 검색만)
+    console.log('🌐 [첫 검색] RSS에서 가져오는 중...');
     const videos = await getChannelVideosFromRSS(channelKey);
     
     if (!videos || videos.length === 0) {
-        console.log(`[RSS 검색 실패] ${channelKey}: RSS에서 영상을 가져올 수 없습니다. API로 전환합니다.`);
+        console.log(`❌ [실패] API로 전환`);
         return await searchInChannelAPI(channelKey, searchTerm);
     }
     
-    // 검색어가 없으면 최신 8개 반환
+    // 전체 영상 목록 저장
+    await saveCacheToSupabase(channelKey, '', videos);
+    
+    // 검색어로 필터링
     if (!searchTerm || searchTerm.trim() === '') {
-        console.log(`[RSS 검색] ${channelKey}: 검색어 없음, 최신 8개 반환`);
         return videos.slice(0, 8);
     }
     
-    // 로컬에서 필터링 (제목에 검색어 포함 여부)
     const searchLower = searchTerm.toLowerCase().trim();
     const filtered = videos.filter(video => {
         const title = video.snippet.title.toLowerCase();
         return title.includes(searchLower);
     });
     
-    console.log(`[RSS 검색] ${channelKey}: ${filtered.length}개 결과 발견 (전체 ${videos.length}개 중)`);
+    const results = filtered.slice(0, 8);
     
-    // 최대 8개로 제한
-    return filtered.slice(0, 8);
-}
-
-// 채널 ID로 검색 (RSS 우선, 실패 시 API 사용)
-async function searchInChannel(channelKey, searchTerm) {
-    console.log(`[검색 시작] ${channelKey}: "${searchTerm || '(검색어 없음)'}"`);
-    
-    // RSS 방식으로 먼저 시도
-    try {
-        const rssResults = await searchInChannelNew(channelKey, searchTerm);
-        if (rssResults && rssResults.length > 0) {
-            console.log(`[RSS 성공] ${channelKey}: ${rssResults.length}개 결과 반환`);
-            return rssResults;
-        }
-    } catch (error) {
-        console.error(`[RSS 오류] ${channelKey}:`, error);
+    // 검색 결과도 저장
+    if (results.length > 0) {
+        await saveCacheToSupabase(channelKey, searchTerm, results);
     }
     
-    // RSS 실패 시 API 사용 (백업)
-    console.log(`[API 백업] ${channelKey}: RSS 실패, API로 전환`);
+    return results;
+}
+
+// 채널 검색 (Supabase 캐시 우선)
+async function searchInChannel(channelKey, searchTerm) {
+    try {
+        const results = await searchInChannelNew(channelKey, searchTerm);
+        if (results && results.length > 0) {
+            return results;
+        }
+    } catch (error) {
+        console.error(`[검색 오류] ${channelKey}:`, error);
+    }
+    
+    console.log(`[API 백업] ${channelKey}`);
     return await searchInChannelAPI(channelKey, searchTerm);
 }
 
@@ -1194,7 +1147,7 @@ async function searchInChannelAPI(channelKey, searchTerm) {
         `part=snippet&type=video&maxResults=8&` +
         `channelId=${channel.id}&q=${encodeURIComponent(searchTerm || '')}&` +
         `key=${API_KEY}`;
-    console.log(`[API 요청] ${channel.handle}:`, url);
+    
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -1202,42 +1155,25 @@ async function searchInChannelAPI(channelKey, searchTerm) {
             console.error('[API 에러]:', data.error);
             return [];
         }
-        // 임베드 허용 영상만 필터링
+        
         const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
         if (videoIds.length === 0) return [];
+        
         const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${API_KEY}`;
         const statusRes = await fetch(statusUrl);
         const statusData = await statusRes.json();
         const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
         const results = (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
-        console.log(`[API 성공] ${channelKey}: ${results.length}개 결과 반환`);
+        
+        console.log(`[API 성공] ${results.length}개`);
+        
+        if (results.length > 0) {
+            await saveCacheToSupabase(channelKey, searchTerm, results);
+        }
+        
         return results;
     } catch (error) {
         console.error('[API 검색 실패]:', error);
-        return [];
-    }
-}
-
-// 전체 검색
-async function globalSearch(searchTerm) {
-    const url = `https://www.googleapis.com/youtube/v3/search?` +
-        `part=snippet&type=video&maxResults=8&` +
-        `q=${encodeURIComponent(searchTerm)}&` +
-        `key=${API_KEY}`;
-    console.log(`[전체검색]:`, url);
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        // 임베드 허용 영상만 필터링
-        const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
-        if (videoIds.length === 0) return [];
-        const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${API_KEY}`;
-        const statusRes = await fetch(statusUrl);
-        const statusData = await statusRes.json();
-        const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
-        return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
-    } catch (error) {
-        console.error('전체 검색 실패:', error);
         return [];
     }
 }
@@ -1248,7 +1184,6 @@ async function renderYoutubeResults(items) {
     if (!items || items.length === 0) {
         html = '<div style="padding:2em; text-align:center;">검색 결과가 없습니다.</div>';
     } else {
-        // 먼저 원본으로 리스트 생성 (번역 없이 빠르게 표시)
         html = items.map((item, idx) => `
             <div class="yt-result-item" data-index="${idx}" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
                 <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
@@ -1292,7 +1227,6 @@ async function renderYoutubeResults(items) {
         modal.style.display = 'flex';
     }
     
-    // 검색 결과 표시
     document.getElementById('search-iframe-wrap').innerHTML = html;
     
     setTimeout(() => {
@@ -1300,35 +1234,21 @@ async function renderYoutubeResults(items) {
             el.onclick = function() {
                 const vid = this.dataset.videoid;
                 if (vid) {
-                    // YouTube 주소 콘솔에 출력 (자막 및 한글 설정 포함)
                     const youtubeUrl = `https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`;
-                    console.log('🎬 YouTube 주소:', youtubeUrl);
-                    console.log('📺 Video ID:', vid);
                     
-                    // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
                     const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
                     
-                    // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
                     const popupOptions = isWebView ? 
                         'width=800,height=600,left=50,top=50,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no' :
                         'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes';
                     
-                    // 모든 환경에서 Plyr 팝업 뷰어 사용
-                    const popup = window.open(
-                        '',
-                        'youtube_viewer',
-                        popupOptions
-                    );
+                    const popup = window.open('', 'youtube_viewer', popupOptions);
                     
-                    // 팝업이 차단된 경우 처리
                     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-                        // 팝업이 차단되면 새 탭으로 YouTube 열기 (자막 및 한글 설정 포함)
-                        console.log('🚫 팝업이 차단됨 - 새 탭으로 열기:', youtubeUrl);
                         window.open(youtubeUrl, '_blank');
                         return;
                     }
                         
-                    // Plyr 기반 커스텀 뷰어 HTML 생성
                     popup.document.write(`
                         <!DOCTYPE html>
                         <html>
@@ -1400,23 +1320,18 @@ async function renderYoutubeResults(items) {
                             </div>
                             <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
                             <script>
-                                // 창을 최대화 (웹뷰가 아닌 경우에만)
                                 try {
                                     window.moveTo(0, 0);
                                     window.resizeTo(screen.availWidth, screen.availHeight);
                                     window.focus();
                                     
-                                    // 추가로 최대화 시도
                                     setTimeout(() => {
                                         try {
                                             window.resizeTo(screen.availWidth, screen.availHeight);
                                             window.moveTo(0, 0);
-                                        } catch (e) {
-                                            console.log('추가 최대화 실패:', e);
-                                        }
+                                        } catch (e) {}
                                     }, 100);
                                     
-                                    // ESC 키로 최대화 해제 방지
                                     document.addEventListener('keydown', function(e) {
                                         if (e.key === 'Escape') {
                                             e.preventDefault();
@@ -1424,33 +1339,29 @@ async function renderYoutubeResults(items) {
                                         }
                                     });
                                     
-                                    // Plyr 플레이어 초기화
                                     try {
-                                                                                 const player = new Plyr('#player', {
-                                             controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
-                                             autoplay: true,
-                                             muted: false,
-                                             hideControls: true,
-                                             resetOnEnd: true,
-                                             keyboard: { focused: true, global: true },
-                                             tooltips: { controls: true, seek: true },
-                                             captions: { active: true, language: 'ko', update: true },
-                                             fullscreen: { enabled: true, fallback: true, iosNative: true },
-                                             youtube: {
-                                                 noCookie: true,
-                                                 rel: 0,
-                                                 showinfo: 0,
-                                                 iv_load_policy: 3,
-                                                 cc_load_policy: 1,
-                                                 cc_lang_pref: 'ko',
-                                                 hl: 'ko'
-                                             }
-                                         });
+                                        const player = new Plyr('#player', {
+                                            controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                                            autoplay: true,
+                                            muted: false,
+                                            hideControls: true,
+                                            resetOnEnd: true,
+                                            keyboard: { focused: true, global: true },
+                                            tooltips: { controls: true, seek: true },
+                                            captions: { active: true, language: 'ko', update: true },
+                                            fullscreen: { enabled: true, fallback: true, iosNative: true },
+                                            youtube: {
+                                                noCookie: true,
+                                                rel: 0,
+                                                showinfo: 0,
+                                                iv_load_policy: 3,
+                                                cc_load_policy: 1,
+                                                cc_lang_pref: 'ko',
+                                                hl: 'ko'
+                                            }
+                                        });
                                         
-                                        // 플레이어 이벤트 리스너
                                         player.on('ready', () => {
-                                            console.log('Plyr player is ready');
-                                            // 로딩 텍스트 제거
                                             const loading = document.querySelector('.loading');
                                             if (loading) loading.style.display = 'none';
                                         });
@@ -1459,28 +1370,20 @@ async function renderYoutubeResults(items) {
                                             console.error('Plyr player error:', event);
                                         });
                                         
-                                        // 자동으로 전체화면 모드로 전환
                                         setTimeout(() => {
                                             try {
                                                 player.fullscreen.enter();
-                                            } catch (e) {
-                                                console.log('전체화면 전환 실패:', e);
-                                            }
+                                            } catch (e) {}
                                         }, 1000);
                                         
-                                                                         } catch (error) {
-                                         console.error('Plyr 초기화 오류:', error);
-                                         // 오류 발생 시 기본 YouTube iframe으로 대체 (자막 설정 포함)
-                                         document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1&cc_load_policy=1&cc_lang_pref=ko&hl=ko" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                                    } catch (error) {
+                                        document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1&cc_load_policy=1&cc_lang_pref=ko&hl=ko" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
                                         
-                                        // 로딩 텍스트 제거
                                         const loading = document.querySelector('.loading');
                                         if (loading) loading.style.display = 'none';
                                     }
                                     
-                                } catch (e) {
-                                    console.log('창 최대화 실패:', e);
-                                }
+                                } catch (e) {}
                             </script>
                         </body>
                         </html>
@@ -1492,9 +1395,7 @@ async function renderYoutubeResults(items) {
     }, 100);
 }
 
-// 키보드 이벤트 처리
 document.addEventListener('keydown', function(event) {
-  // 화살표 키로 슬라이드 이동
   if (event.key === 'ArrowLeft') {
     event.preventDefault();
     prevSlide();
