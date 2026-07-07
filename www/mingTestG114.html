@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>G1.1.4.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="?�체?�면 ??>
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zoneG.css">
+  <link rel="icon" href="../assets/img/ReadBook/G1.1.4/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/G1.1.4/favicon.ico">
+</head>
+<body>
+  <!-- ?�체?�면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="Search for keywords" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/3.jpg',
+    zones: {
+      1: { text: '01. Triangular Tools Used by Early Humans<br><br>How did early humans navigate their daily lives<br>without tools? Early humans did not have sturdy<br>fangs, sharp claws, or fast legs like animals.<br>However, they had the wisdom to make and use tools.<br>They ground stones to create arrowheads or spears<br>and meticulously shaped stone axes or harpoons for<br>hunting and gathering.', keywords: ['triangular tools', 'early humans', 'daily lives', 'tools', 'wisdom', 'stones', 'arrowheads', 'spears', 'stone axes', 'harpoons', 'hunting', 'gathering'] },
+      2: { text: 'What are the common features of the tools of early<br>humans? Items like arrowheads, stone axes, harpoons,<br>and spears all have pointed and sharp ends.<br>If we closely examine the tips, they are triangular.<br>Why do all tools have the same pointed triangular<br>shape? The triangular shape is sharp at the tip,<br>allowing it to catch animals with a single strike.<br>Additionally, the tip of a spear needs to be a sharp,<br>pointed triangular shape for it to fly straight.<br>We can also see the triangular shape in the way birds<br>fly through the sky.', keywords: ['common features', 'tools', 'early humans', 'arrowheads', 'stone axes', 'harpoons', 'spears', 'pointed', 'sharp ends', 'triangular', 'tips', 'catch animals', 'single strike', 'fly straight', 'birds', 'sky'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/4.jpg',
+    zones: {
+      1: { text: 'Birds spread their wings wide and fly through the<br>sky. Try drawing a line connecting the tips of the two<br>wings. Then, continue the line from the wing tips to<br>the head. A triangular shape appears. A bird has<br>a triangular shape to fly faster by cutting through<br>the wind.', keywords: ['birds', 'wings', 'fly', 'sky', 'line connecting', 'wing tips', 'head', 'triangular shape', 'fly faster', 'cutting through wind'] },
+      2: { text: 'Early humans are hunting birds. The flying arrows and<br>the tips of spears are pointed triangles.<br>With triangular tips, the weapons become sharper and<br>more pointed, allowing them to catch flying birds or<br>animals in a single strike. That is why early humans<br>began to precisely carve the ends of their tools into<br>triangular shapes.', keywords: ['early humans', 'hunting birds', 'flying arrows', 'spears', 'pointed triangles', 'triangular tips', 'weapons', 'sharper', 'pointed', 'catch', 'single strike', 'carve', 'triangular shapes'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why a flying bird\'s shape and the tools<br>used by early humans are both triangular.', keywords: ['flying bird', 'shape', 'tools', 'early humans', 'triangular', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/5.jpg',
+    zones: {
+      1: { text: 'The triangular shape helps them perform tasks such<br>as spearing fish or hunting animals more freely.<br>People can create convenient tools and easily obtain<br>the necessary prey by using the shapes found in<br>nature. Airplanes flying in the sky also resemble birds.<br>The nose of the airplane is pointed, just like a bird\'s.', keywords: ['triangular shape', 'spearing fish', 'hunting animals', 'convenient tools', 'prey', 'shapes found in nature', 'airplanes', 'sky', 'resemble birds', 'nose', 'pointed'] },
+      2: { text: 'Although airplanes do not flap their wings to move<br>forward like birds do, the engines attached to the<br>airplane\'s wings provide the forward thrust.<br>The nose of the airplane is pointed like a bird\'s head,<br>and the light, rounded body is hollow like a bird\'s<br>body. The airplane\'s wings have thin metal sheets<br>attached to the framework. Holes are drilled in the<br>structure of the airplane\'s wings to make them light,<br>similar to a bird\'s wings.', keywords: ['airplanes', 'flap wings', 'move forward', 'birds', 'engines', 'wings', 'forward thrust', 'nose', 'pointed', 'head', 'light', 'rounded body', 'hollow', 'thin metal sheets', 'framework', 'holes drilled', 'structure', 'similar'] },
+      3: { text: 'Explain how the appearance of birds and airplanes<br>resemble each other.', keywords: ['appearance', 'birds', 'airplanes', 'resemble', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/6.jpg',
+    zones: {
+      1: { text: 'Airplanes have long, slender, and rounded bodies like<br>birds. This allows them to cut through the air smoothly<br>and fly through the sky. A bird cannot fly straight or<br>hunt for prey if it loses its balance due to an injured<br>wing.', keywords: ['airplanes', 'long', 'slender', 'rounded bodies', 'birds', 'cut through air', 'smoothly', 'fly', 'sky', 'bird', 'fly straight', 'hunt', 'prey', 'balance', 'injured wing'] },
+      2: { text: 'What if one of the wings of an airplane breaks or if<br>one engine attached to a wing malfunctions?<br>Can the airplane fly straight? In the past, if the engine<br>attached to the wing malfunctioned or stopped,<br>the airplane could not fly straight. Just like a bird with<br>an injured wing, the airplane would quickly tilt to one<br>side and crash.', keywords: ['wings', 'airplane', 'breaks', 'engine', 'malfunctions', 'fly straight', 'past', 'stopped', 'injured wing', 'tilt', 'side', 'crash'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/7.jpg',
+    zones: {
+      1: { text: 'Modern airplanes have an automatic system that<br>adjusts the flight controls, allowing the airplane to fly<br>straight even if one engine malfunctions. That is why<br>modern airplanes can safely fly with just one engine.<br>As it became easier to fly anywhere by plane,<br>people became more curious.', keywords: ['modern airplanes', 'automatic system', 'adjusts', 'flight controls', 'fly straight', 'engine malfunctions', 'safely fly', 'one engine', 'easier', 'fly anywhere', 'plane', 'curious'] },
+      2: { text: 'The desire to fly higher into the sky naturally led to<br>a growing interest in space. To travel far into space,<br>we must ascend to much higher altitudes.<br>Although airplanes can fly high in the sky, they cannot<br>reach space. That is why people invented rockets.', keywords: ['desire', 'fly higher', 'sky', 'naturally led', 'growing interest', 'space', 'travel far', 'ascend', 'higher altitudes', 'airplanes', 'fly high', 'reach space', 'invented rockets'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/8.jpg',
+    zones: {
+      1: { text: 'What does a rocket look like? Birds and airplanes have<br>similar shapes, but rockets look slightly different.<br>Rockets have a pointed top, and at the opposite end,<br>they have wings attached. It looks like an arrow.<br>Inside the round body of the rocket, there is fuel<br>needed for the rocket to fly into space.', keywords: ['rocket', 'look like', 'birds', 'airplanes', 'similar shapes', 'slightly different', 'pointed top', 'opposite end', 'wings attached', 'arrow', 'round body', 'fuel', 'fly into space'] },
+      2: { text: 'Why can rockets fly higher into the sky than airplanes?<br>Rockets operate by receiving force in the opposite<br>direction of the flames expelled from burning fuel.<br>In more technical terms, this is called the "law of<br>action and reaction" in physics. Imagine letting go of<br>a balloon filled with air. The balloon flies forward as<br>the air escapes, similar to how a rocket operates.<br>Yet, the balloon does not fly straight.', keywords: ['rockets', 'fly higher', 'sky', 'airplanes', 'operate', 'receiving force', 'opposite direction', 'flames expelled', 'burning fuel', 'technical terms', 'law of action and reaction', 'physics', 'balloon', 'filled with air', 'flies forward', 'air escapes', 'not fly straight'] },
+      3: { text: 'Explain how arrows and rockets are similar to each<br>other.', keywords: ['arrows', 'rockets', 'similar', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/9.jpg',
+    zones: {
+      1: { text: 'What is needed for a balloon to fly straight?<br>Notice that the balloon does not have wings.<br>That is why it flies around erratically and eventually<br>falls.', keywords: ['needed', 'balloon', 'fly straight', 'notice', 'does not have wings', 'flies around', 'erratically', 'eventually falls'] },
+      2: { text: 'To make a rocket fly straight, wings were attached<br>to the bottom of the rocket\'s body. Rockets flying<br>into space also have a pointed nose and two wings,<br>resembling a bird.<br>To cut through the wind and soar high into the sky,<br>a rocket must take on the form of a bird. People\'s<br>dream of flying like a bird has evolved into the dream<br>of traveling in space.', keywords: ['rocket', 'fly straight', 'wings attached', 'bottom', 'body', 'flying into space', 'pointed nose', 'two wings', 'resembling bird', 'cut through wind', 'soar high', 'form of bird', 'dream', 'flying like bird', 'evolved', 'traveling in space'] },
+      3: { text: 'Explain why a deflating balloon does not fly straight.', keywords: ['deflating balloon', 'not fly straight', 'explain'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/10.jpg',
+    zones: {
+      1: { text: 'In May 2012, the United States achieved a major<br>milestone in private space exploration by successfully<br>launching a commercial spacecraft.<br>This marked a significant step forward in cementing<br>its position as a leader in space exploration.<br>The spacecraft, developed using American technology,<br>successfully entered Earth\'s orbit as an artificial<br>satellite.', keywords: ['May 2012', 'United States', 'major milestone', 'private space exploration', 'successfully launching', 'commercial spacecraft', 'significant step', 'cementing position', 'leader', 'spacecraft', 'American technology', 'Earth orbit', 'artificial satellite'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'What did the spacecraft look like as it lifted off from<br>the launch pad? The upper section of the spacecraft,<br>designed like a long arrow, had a pointed nose similar<br>to a bird\'s beak, while two wings were attached to its<br>lower end. Everything that flies in the sky, whether<br>it\'s a bird or an aircraft, has a pointed front and two<br>wings. This deliberate design helps an object fly<br>straight toward the desired direction.', keywords: ['spacecraft', 'lifted off', 'launch pad', 'upper section', 'designed', 'long arrow', 'pointed nose', 'bird beak', 'two wings', 'lower end', 'flies in sky', 'bird', 'aircraft', 'pointed front', 'deliberate design', 'fly straight', 'desired direction'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/11.jpg',
+    zones: {
+      1: { text: '01. Triangular Tools Used by Early Humans<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying</span><br><span class="larger-text">Triangular Tools Used by Early Humans?</span><br><br>The tools of early humans reveal a common feature.<br>They have a triangular shape with a pointed end.<br>Early humans demonstrated their ingenuity by<br>crafting tools imitating natural forms since they<br>lacked the sturdy fangs and sharp claws of animals.<br>They split and ground stones to create tools such as<br>stone axes and arrowheads with a triangular shape<br>for hunting.', keywords: ['triangular tools', 'early humans', 'purpose', 'studying', 'common feature', 'triangular shape', 'pointed end', 'demonstrated', 'ingenuity', 'crafting tools', 'imitating natural forms', 'sturdy fangs', 'sharp claws', 'animals', 'split', 'ground stones', 'stone axes', 'arrowheads', 'hunting'] },
+      2: { text: 'Their experiences taught them that understanding<br>the secrets of nature could enhance their lives.<br>The purpose of studying the tools and triangular shapes<br>used by early humans is to comprehend how humans<br>began using tools and anticipate future developments<br>in advanced technology by observing nature.<br>Triangular shapes display various mathematical<br>principles. For example, what happens if the two sides<br>of an arrowhead differ in shape?', keywords: ['experiences', 'taught', 'understanding', 'secrets of nature', 'enhance lives', 'purpose', 'studying tools', 'triangular shapes', 'comprehend', 'began using tools', 'anticipate', 'future developments', 'advanced technology', 'observing nature', 'mathematical principles', 'two sides', 'arrowhead', 'differ in shape'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/12.jpg',
+    zones: {
+      2: { text: 'We can predict that the arrowhead will not fly straight<br>but will curve in one direction. If that happens,<br>the arrowhead will become useless. The problem<br>becomes more serious if the sides of a rocket<br>launched into space are of different shapes and sizes.<br>While a poorly made arrowhead can be easily replaced,<br>building a rocket requires enormous time and money.<br>Ignoring the subtle laws of nature that require<br>symmetry may lead to irreversible consequences.', keywords: ['predict', 'arrowhead', 'not fly straight', 'curve', 'one direction', 'useless', 'problem', 'serious', 'rocket', 'launched into space', 'different shapes', 'sizes', 'poorly made', 'easily replaced', 'building rocket', 'enormous time', 'money', 'ignoring', 'subtle laws', 'nature', 'symmetry', 'irreversible consequences'] },
+      4: { text: '(1) What does an object have to be shaped like to fly<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;straight at high speed? Explain.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2) Arrowheads, shovels, airplanes, and other similar<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objects all have triangular tips. What problems might<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arise if these objects had square shapes?', keywords: ['object', 'shaped like', 'fly straight', 'high speed', 'explain', 'arrowheads', 'shovels', 'airplanes', 'similar objects', 'triangular tips', 'problems', 'arise', 'square shapes'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      1: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/13.jpg',
+    zones: {
+      3: { text: 'Objects with triangular shapes can fly quickly and<br>directly to their destination. However, an object can<br>only fly when a force is applied to it.', keywords: ['objects', 'triangular shapes', 'fly quickly', 'directly', 'destination', 'object', 'fly', 'force', 'applied'] },
+      1: { text: '01. Triangular Tools Used by Early Humans<br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of</span><br><span class="larger-text">Triangular Tools Used by Early Humans?</span>', keywords: ['triangular tools', 'early humans', 'apply', 'study', 'expanding force', 'bow', 'released bowstring', 'propels', 'arrow forward', 'rocket', 'ascends', 'sky', 'pushing force', 'burning fuel', 'law of action and reaction', 'physics', 'frequently observed', 'everyday life', 'stand on ice', 'push person', 'move backwards', 'demonstration'] },
+      4: { text: '', keywords: [] },
+      2: { text: 'For example, the expanding force of the bow of<br>a released bowstring propels the arrow forward.<br>Similarly, a rocket ascends into the sky due to the<br>pushing force generated by burning fuel.<br>In particular, the law of action and reaction in physics<br>is frequently observed in everyday life. For instance,<br>if we stand on ice and push a person in front of us,<br>we will move backwards-a demonstration of the law<br>of action and reaction.', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/14.jpg',
+    zones: {
+      1: { text: 'Nature instinctively strives to maximize efficiency<br>using minimal energy. The triangular shape is nature\'s<br>choice to enhance efficiency.<br>Here\'s an example of how people use the triangular<br>shape to increase efficiency. In the past, the front<br>of a train was rectangular, but today it features<br>a pointed triangular shape.', keywords: ['nature', 'instinctively', 'strives', 'maximize efficiency', 'minimal energy', 'triangular shape', 'nature choice', 'enhance efficiency', 'example', 'people use', 'increase efficiency', 'past', 'front', 'train', 'rectangular', 'today', 'pointed triangular shape'] },
+      2: { text: 'Air resistance increases with speed, but trains can<br>smoothly cut through the air and move forward thanks<br>to their triangular shape. The front part of an airplane<br>is also pointed for the same reason. Triangular shapes<br>also concentrate force in one direction.<br>A shovel with a triangular blade and a square blade<br>serves different purposes. A triangular shovel digs<br>into hard soil, while a square shovel easily digs up<br>materials like sand or grains.', keywords: ['air resistance', 'increases', 'speed', 'trains', 'smoothly cut', 'air', 'move forward', 'triangular shape', 'front part', 'airplane', 'pointed', 'same reason', 'concentrate force', 'one direction', 'shovel', 'triangular blade', 'square blade', 'different purposes', 'digs into', 'hard soil', 'easily digs up', 'materials', 'sand', 'grains'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/15.jpg',
+    zones: {
+      1: { text: '(1) Nails and hammers always go hand in hand. Explain the<br>mathematical principles involved in nails and hammers.<br><br>(2) The law of action and reaction applies to rockets flying<br>into the sky. Find and explain an example of the law of<br>action and reaction applied in our surroundings.', keywords: ['nails', 'hammers', 'hand in hand', 'explain', 'mathematical principles', 'involved', 'law of action and reaction', 'applies', 'rockets', 'flying', 'sky', 'find', 'example', 'surroundings'], fontType: 'type3' },
+      2: { text: 'The pointed nose of the airplane resembles a bird\'s head.<br>The body is hollow, lightweight, and rounded, like a bird\'s<br>body. The airplane\'s wings are made by attaching thin<br>metal sheets to the frame. The holes drilled into the<br>structure form the airplane\'s frame to make it lightweight,<br>similar to a bird\'s wings.', keywords: ['pointed nose', 'airplane', 'resembles', 'bird head', 'body', 'hollow', 'lightweight', 'rounded', 'bird body', 'wings', 'made', 'attaching', 'thin metal sheets', 'frame', 'holes drilled', 'structure', 'form', 'similar', 'bird wings'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/16.jpg',
+    zones: {
+      1: { text: 'The purpose of studying mathematics is to uncover the<br>secrets of nature. We can discover nature\'s secrets by<br>closely observing it, listening to the sounds it makes,<br>and following where it leads.', keywords: ['purpose', 'studying mathematics', 'uncover', 'secrets of nature', 'discover', 'closely observing', 'listening', 'sounds', 'following', 'leads'], fontType: 'type4' },
+      2: { text: 'Understanding how early humans lived in nature is crucial<br>in the study of mathematics. For hunting, early humans<br>used bows and spears made of bamboo.<br>The tips of bamboo spears, arrowheads, and stone tools<br>used for cutting meat were very sharp. The tips of the<br>tools used by early humans all had a sharp triangular<br>shape. Explain the reason for this.', keywords: ['understanding', 'early humans', 'lived in nature', 'crucial', 'study of mathematics', 'hunting', 'bows', 'spears', 'bamboo', 'tips', 'bamboo spears', 'arrowheads', 'stone tools', 'cutting meat', 'very sharp', 'tools', 'sharp triangular shape', 'explain', 'reason'], fontType: 'type4' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/17.jpg',
+    zones: {
+      1: { text: 'Teeth play a crucial role in the mouths of animals. Without<br>teeth, animals would be unable to graze on grass or chew<br>meat, which would lead to starvation. Since animals use<br>their teeth to attack and defend themselves, the absence<br>of teeth makes survival even more challenging.<br>For humans, losing teeth can affect pronunciation, leading<br>to communication problems.', keywords: ['teeth', 'crucial role', 'mouths', 'animals', 'without teeth', 'unable', 'graze', 'grass', 'chew meat', 'starvation', 'attack', 'defend', 'absence', 'survival', 'challenging', 'humans', 'losing teeth', 'pronunciation', 'communication problems'], fontType: 'type3' },
+      2: { text: 'We can classify human teeth into three categories. Firstly,<br>there are four incisors on both the upper and lower sets,<br>located at the front for biting. Molars are at the back of<br>the mouth, and canines are located between the incisors<br>and molars. Incisors, canines, and molars have distinct<br>appearances and serve different functions.<br>For example, incisors are shaped like blades and cut food<br>entering the mouth. What do canines and molars look like,<br>and what functions do they serve? Explain.', keywords: ['classify', 'human teeth', 'three categories', 'four incisors', 'upper', 'lower sets', 'front', 'biting', 'molars', 'back', 'mouth', 'canines', 'located between', 'distinct appearances', 'different functions', 'shaped like blades', 'cut food', 'entering mouth', 'functions', 'serve', 'explain'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/18.jpg',
+    zones: {
+      1: { text: 'The British physicist and mathematician Isaac Newton<br>discovered three laws related to the motion of objects.<br>The first law states that an object at rest will remain at<br>rest unless acted upon by an external force.<br>The second law describes how the velocity of an object<br>changes in proportion to the force applied to it.<br>The third law states that for every action, there is an equal<br>and opposite reaction.<br>In more technical terms, these laws are known as the laws<br>of inertia, acceleration, and action and reaction. The law<br>of action and reaction can explain the principle behind a<br>rocket\'s launch into the sky.', keywords: ['British physicist', 'mathematician', 'Isaac Newton', 'discovered', 'three laws', 'motion of objects', 'first law', 'object at rest', 'remain at rest', 'external force', 'second law', 'velocity', 'changes', 'proportion', 'force applied', 'third law', 'action', 'equal', 'opposite reaction', 'technical terms', 'laws of inertia', 'acceleration', 'action and reaction', 'principle', 'rocket launch', 'sky'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/19.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '<br><br>In simple terms, the law of inertia can be explained as<br>the property of an object to maintain its current state.<br>For instance, the law of inertia explains why our bodies<br>tend to lurch forward when a moving car suddenly slows<br>down. Find and write down examples of how the law of<br>inertia applies in everyday life.', keywords: ['simple terms', 'law of inertia', 'explained', 'property', 'object', 'maintain', 'current state', 'instance', 'explains', 'bodies', 'lurch forward', 'moving car', 'suddenly slows down', 'find', 'write down', 'examples', 'applies', 'everyday life'], fontType: 'type4' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/20.jpg',
+    zones: {
+      1: { text: 'People began to turn their attention to space once they<br>could fly freely through the sky in airplanes. We know<br>far less about space than we think. Like the deep ocean,<br>space does not easily reveal its secrets ??its vastness,<br>the potential existence of habitable planets, the number<br>of stars in the universe, and more.<br>Space is a completely different environment from the<br>Earth we inhabit. Outside of Earth, gravity no longer<br>affects us, causing our bodies to float weightlessly.<br>Furthermore, the absence of oxygen in space makes<br>breathing impossible. The sunlight in space is so intense<br>that looking at it directly could lead to loss of sight.<br>Spacesuits incorporate numerous advanced scientific<br>technologies to withstand such harsh conditions in space.<br>Explain what scientific technology is found in spacesuits.', keywords: ['people began', 'attention', 'space', 'fly freely', 'sky', 'airplanes', 'know far less', 'deep ocean', 'not easily reveal', 'secrets', 'vastness', 'potential existence', 'habitable planets', 'number of stars', 'universe', 'completely different environment', 'Earth', 'inhabit', 'gravity', 'no longer affects', 'bodies', 'float weightlessly', 'absence', 'oxygen', 'breathing impossible', 'sunlight', 'intense', 'looking directly', 'loss of sight', 'spacesuits', 'incorporate', 'advanced scientific technologies', 'withstand', 'harsh conditions', 'explain', 'scientific technology'], fontType: 'type3' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/21.jpg',
+    zones: {
+      1: { text: '<strong><u>Newton\'s Laws of Motion<br><br>British scientist Isaac Newton proposed three laws<br>regarding the motion of objects. These three laws are<br>known as Newton\'s first, second, and third laws of motion.<br>The first law of motion is the law of inertia. Inertia refers<br>to the property of an object to maintain its state of motion.<br>In other words, inertia is the property of a moving object<br>to continue to move and a stationary object to remain<br>stationary unless an external force is applied.<br>In summary, the law of inertia states that an object has<br>the property of maintaining its current state of motion<br>according to its inertia.', keywords: ['Newton Laws of Motion', 'British scientist', 'Isaac Newton', 'proposed', 'three laws', 'motion of objects', 'first', 'second', 'third laws', 'law of inertia', 'inertia', 'property', 'maintain', 'state of motion', 'moving object', 'continue to move', 'stationary object', 'remain stationary', 'external force', 'applied', 'summary', 'current state'], fontType: 'type3' },
+      2: { text: '<br>We can find examples of the law of inertia all around us.<br>When a moving bus suddenly stops, our bodies lurch<br>forward. This phenomenon occurs because our bodies try<br>to keep moving forward with the bus.<br>Have you ever seen a contortionist pull a tablecloth and<br>the dishes remain in place? This is another example of<br>inertia, where the dishes tend to stay stationary.', keywords: ['find examples', 'law of inertia', 'all around us', 'moving bus', 'suddenly stops', 'bodies', 'lurch forward', 'phenomenon occurs', 'try to keep moving', 'contortionist', 'pull tablecloth', 'dishes', 'remain in place', 'another example', 'inertia', 'tend to stay', 'stationary'] , fontType: 'type4'},
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/22.jpg',
+    zones: {
+      1: { text: 'The second law of motion is the law of acceleration.<br>According to this law, when force is applied to an object,<br>the heavier the object, the slower it moves. In other words,<br>even if the same amount of force is applied, a light object<br>moves quickly, but a heavy object takes a long time to<br>move quickly.', keywords: ['second law', 'motion', 'law of acceleration', 'according', 'force applied', 'object', 'heavier', 'slower', 'moves', 'same amount', 'force', 'light object', 'moves quickly', 'heavy object', 'takes long time'], fontType: 'type4' },
+      2: { text: 'The third law of motion is the law of action and reaction.<br>This law states that when there are two objects, A and B,<br>and when A exerts a force on B, B also exerts a force of<br>equal magnitude in the opposite direction on A.<br>When we row a boat, we push the water with the oars and<br>the boat moves forward. This phenomenon occurs due to<br>the force (reaction) of the water pushing the oar as much<br>as the force (action) of the oar pushing the water.', keywords: ['third law', 'motion', 'law of action and reaction', 'states', 'two objects', 'A and B', 'exerts force', 'equal magnitude', 'opposite direction', 'row boat', 'push water', 'oars', 'boat moves forward', 'phenomenon occurs', 'force reaction', 'water pushing oar', 'force action', 'oar pushing water'], fontType: 'type4'},
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/23.jpg',
+    zones: {
+      1: { text: '02. The World Made of Triangles and Rectangles<br><br>If a mother tells her child, who has just begun to talk,<br>"Try to find a shape like this," showing the child a red<br>triangle, the child might bring a red rectangle instead<br>of a green triangle. This tells us that children are<br>influenced by their emotions and tend to judge<br>objects based on color rather than shape.', keywords: ['world made', 'triangles', 'rectangles', 'mother tells', 'child', 'just begun', 'talk', 'try to find', 'shape like this', 'showing', 'red triangle', 'might bring', 'red rectangle', 'green triangle', 'tells us', 'children', 'influenced', 'emotions', 'tend to judge', 'objects', 'color', 'rather than', 'shape'] },
+      2: { text: 'When people see something through the sensory organ<br>called the eyes, color has an influence of up to 60%.<br>Color tremendously influences people, making it<br>essential for inner healing or the regulation of<br>emotions. If color deals with a person\'s emotional<br>aspect, then defined shapes deal with a person\'s<br>rational aspect.', keywords: ['people see', 'something', 'sensory organ', 'called eyes', 'color', 'influence', 'up to 60%', 'tremendously influences', 'people', 'making', 'essential', 'inner healing', 'regulation', 'emotions', 'color deals', 'person emotional aspect', 'defined shapes', 'deal', 'rational aspect'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain what comes to mind first when you hear<br>the word "rose."', keywords: ['explain', 'comes to mind', 'first', 'hear', 'word rose'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/24.jpg',
+    zones: {
+      1: { text: 'Flowers usually spread their petals widely when it is<br>bright. This resembles the way a butterfly folds and<br>unfolds its wings. Upon closer observation, we discover<br>the leaves of Bowie\'s wood sorrel resemble a fish\'s<br>tail or a heart. The leaves of this plant come together<br>in groups of three, creating balance. The three sepal<br>tips surrounding the Bougainvillea flower all point<br>outward.', keywords: ['flowers', 'usually spread', 'petals', 'widely', 'bright', 'resembles', 'way', 'butterfly', 'folds', 'unfolds', 'wings', 'closer observation', 'discover', 'leaves', 'Bowie wood sorrel', 'resemble', 'fish tail', 'heart', 'plant', 'come together', 'groups of three', 'creating balance', 'three sepal tips', 'surrounding', 'Bougainvillea flower', 'point outward'] },
+      2: { text: 'Have you ever seen a plant called papyrus?<br>Papyrus typically grows in clusters in hot and humid<br>soil, mainly in the Mediterranean region. The stems<br>of Papyrus emerge from a single root, and each<br>stem takes on a triangular shape. The unmistakable<br>triangular shape becomes evident when the stem is<br>cut horizontally.', keywords: ['ever seen', 'plant', 'called papyrus', 'papyrus', 'typically grows', 'clusters', 'hot', 'humid soil', 'mainly', 'Mediterranean region', 'stems', 'emerge', 'single root', 'each stem', 'takes on', 'triangular shape', 'unmistakable', 'becomes evident', 'stem', 'cut horizontally'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'What are some things that have a triangle shape<br>when cut?', keywords: ['what are', 'some things', 'triangle shape', 'when cut'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/25.jpg',
+    zones: {
+      1: { text: 'Since ancient times, people have woven sturdy and<br>lightweight papyrus stems to create items such as<br>baskets and nets. Moreover, the first paper made by<br>humans around 5,000 years ago was also crafted from<br>papyrus. The process involved cutting papyrus stems<br>into thin, long strips, flattening them, and connecting<br>them one by one with glue. The resulting papyrus<br>paper traveled from Egypt to Greece and Rome, where<br>it was used to create documents and books until the<br>12th century.', keywords: ['since ancient times', 'people', 'woven', 'sturdy', 'lightweight', 'papyrus stems', 'create items', 'baskets', 'nets', 'moreover', 'first paper', 'made by humans', '5000 years ago', 'crafted', 'papyrus', 'process', 'involved', 'cutting', 'thin long strips', 'flattening', 'connecting', 'one by one', 'glue', 'resulting', 'papyrus paper', 'traveled', 'Egypt', 'Greece', 'Rome', 'used', 'create documents', 'books', '12th century'] },
+      2: { text: 'It is well-known that the word "paper" originated from<br>the word "papyrus." Interestingly, it is said that the<br>word "bible" also originated from the word "papyrus."<br>"Bible" comes from the ancient Greek word "biblia,"<br>which means "books," and traces its origins to the<br>Phoenician city of Byblos. The people of Byblos<br>brought papyrus paper from Egypt and sold it to<br>the Greeks, leading to the association of papyrus<br>with Byblos.', keywords: ['well-known', 'word paper', 'originated', 'word papyrus', 'interestingly', 'said', 'word bible', 'also originated', 'Bible', 'comes from', 'ancient Greek', 'word biblia', 'means books', 'traces', 'origins', 'Phoenician city', 'Byblos', 'people of Byblos', 'brought', 'papyrus paper', 'Egypt', 'sold', 'Greeks', 'leading', 'association', 'papyrus', 'Byblos'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain how the word "bible" originated.', keywords: ['explain', 'how', 'word bible', 'originated'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/26.jpg',
+    zones: {
+      1: { text: 'The distant mountains reveal the shape of a triangle.<br>Nature seems to be very fond of triangles.<br>Why is the triangle a common shape in nature?<br>Triangles are sturdy and stable shapes. Once formed,<br>the triangle has the property of maintaining its shape.<br>Therefore, to construct anything robust, we can utilize<br>the triangle shape.', keywords: ['distant mountains', 'triangle', 'nature', 'fond of triangles', 'common shape', 'sturdy', 'stable shapes', 'maintaining shape', 'construct', 'robust', 'utilize'] },
+      2: { text: 'As mentioned earlier, the teeth of sharks or crocodiles<br>are triangular, so once they bite into prey, they never<br>release their grip. Cranes are used to construct very<br>tall buildings, and the outer structure of a crane,<br>called a jib, appears slender, raising concerns about<br>its ability to lift heavy loads without breaking.<br>However, there is no need to worry because, upon<br>closer inspection, the jib of the crane is connected by<br>steel bars forming triangular shapes. The triangular<br>shape gives the crane both a lightweight and robust<br>structure.', keywords: ['sharks', 'crocodiles', 'triangular', 'bite', 'prey', 'never release', 'cranes', 'tall buildings', 'outer structure', 'jib', 'slender', 'heavy loads', 'breaking', 'steel bars', 'triangular shapes', 'lightweight', 'robust structure'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why inverted triangle shapes are uncommon<br>in nature.', keywords: ['inverted triangle', 'uncommon', 'nature', 'explain'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/27.jpg',
+    zones: {
+      1: { text: 'Typically, the base of a tower is wide and gradually<br>narrows as it gets higher. Even towers built this<br>way show a triangular shape. Building a tower with<br>a triangular shape not only prevents it from easily<br>collapsing but also gives a sense of stability.<br>The shape of a mountain is like the tower with<br>a triangular structure.', keywords: ['base', 'tower', 'wide', 'gradually narrows', 'higher', 'triangular shape', 'prevents', 'collapsing', 'sense of stability', 'mountain', 'triangular structure'] },
+      2: { text: 'What would happen if a mountain had an equal width<br>at the top and bottom, like a rectangular prism?<br>If the wind blows, it will gradually erode from the top,<br>and if there is heavy rain, the soil at the top will flow<br>downward. Over an extended period, the mountain\'s<br>appearance will transform into a triangular shape.<br>The change from a rectangular prism to a more stable<br>triangular shape is a natural process.', keywords: ['mountain', 'equal width', 'top', 'bottom', 'rectangular prism', 'wind blows', 'gradually erode', 'heavy rain', 'soil', 'flow downward', 'extended period', 'transform', 'triangular shape', 'change', 'stable', 'natural process'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/28.jpg',
+    zones: {
+      1: { text: 'It is easy to find triangular shapes in nature,<br>but rectangles are less common. However,<br>most man-made objects are rectangular-shaped.<br>Perhaps the rectangular shape is something that<br>originated in people\'s minds. Why are triangular<br>shapes frequently seen in nature, while many<br>man-made objects are rectangular-shaped?', keywords: ['easy to find', 'triangular shapes', 'nature', 'rectangles', 'less common', 'man-made objects', 'rectangular-shaped', 'originated', 'people minds', 'frequently seen', 'nature'] },
+      2: { text: 'As mentioned earlier, nature prefers stability.<br>Triangular shapes are chosen by nature because they<br>are more stable than rectangular shapes.<br>However, humans prefer shapes that are both stable<br>and convenient. While the triangular shape is stable,<br>it presents many practical challenges. Imagine<br>a triangular-shaped box. It would not efficiently hold<br>items in the corners, and moving it around would be<br>bothersome. What about a rectangular box?', keywords: ['nature prefers', 'stability', 'triangular shapes', 'chosen by nature', 'more stable', 'rectangular shapes', 'humans prefer', 'stable', 'convenient', 'practical challenges', 'triangular-shaped box', 'efficiently hold', 'items', 'corners', 'moving', 'bothersome', 'rectangular box'] },
+      3: { text: 'Explain why most man-made objects are<br>rectangular-shaped.', keywords: ['explain', 'most man-made objects', 'rectangular-shaped'], fontType: 'type2' },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/29.jpg',
+    zones: {
+      1: { text: 'Rectangular boxes leave no gaps when filled and are<br>convenient to store and transport. As a result,<br>most man-made objects are rectangular in shape.<br>Explore more rectangular items. Desks, dining tables,<br>books, televisions, smartphones, and most other daily<br>objects are rectangular in shape.', keywords: ['rectangular boxes', 'leave no gaps', 'filled', 'convenient', 'store', 'transport', 'result', 'man-made objects', 'rectangular', 'explore', 'desks', 'dining tables', 'books', 'televisions', 'smartphones', 'daily objects'] },
+      2: { text: 'Even the bedroom, where we spend significant time,<br>contains six rectangular shapes. Rectangular windows<br>and frames adorn the rectangular walls.<br>Even the door is a rectangle. One side of the room<br>features a rectangular bed and wardrobe. Although<br>slightly different in design, the hangers on the wall<br>also feature rectangles.', keywords: ['bedroom', 'spend significant time', 'six rectangular shapes', 'rectangular windows', 'frames', 'adorn', 'rectangular walls', 'door', 'rectangle', 'room', 'rectangular bed', 'wardrobe', 'slightly different', 'design', 'hangers', 'wall', 'rectangles'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/30.jpg',
+    zones: {
+      1: { text: 'When we pull a hanger sideways, the rectangular<br>shape becomes flat, and conversely, pushing the<br>sides of a hanger elongates the rectangular shape<br>vertically. In this way, a rectangle can freely change<br>its appearance. Therefore, we can say that the<br>triangle is a shape of nature, while the rectangular<br>shape is man-made. So, the relationship between the<br>triangle and rectangular shapes is essential in the<br>study of mathematics.', keywords: ['pull', 'hanger', 'sideways', 'rectangular shape', 'becomes flat', 'conversely', 'pushing', 'sides', 'elongates', 'vertically', 'rectangle', 'freely change', 'appearance', 'triangle', 'shape of nature', 'rectangular shape', 'man-made', 'relationship', 'essential', 'study of mathematics'] },
+      2: { text: 'When we draw a line connecting two opposite points<br>in a rectangle, we create two triangles. Conversely,<br>by attaching two identical right triangles with equal<br>hypotenuses, we can create a rectangle.<br>Looking at it this way, we can say that the rectangular<br>shape was not something invented by humans, but<br>rather emerged naturally through the process of using<br>shapes found in nature to create various new forms.', keywords: ['draw line', 'connecting', 'two opposite points', 'rectangle', 'create', 'two triangles', 'conversely', 'attaching', 'identical', 'right triangles', 'equal hypotenuses', 'rectangular shape', 'not invented', 'humans', 'emerged naturally', 'process', 'shapes found', 'nature', 'various new forms'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/31.jpg',
+    zones: {
+      1: { text: 'When do triangular and rectangular shapes appear<br>together? When we draw the shape of a house,<br>we often start with a rectangular shape and then add<br>a triangular shape on top. Many houses are actually<br>built this way. Creating a rectangular roof is easy,<br>but why would someone choose to make the roof<br>triangular? For example, consider living in an area<br>with heavy snowfall.', keywords: ['triangular', 'rectangular shapes', 'appear together', 'draw shape', 'house', 'start', 'rectangular shape', 'add', 'triangular shape', 'top', 'houses', 'built', 'creating', 'rectangular roof', 'easy', 'choose', 'roof triangular', 'living', 'area', 'heavy snowfall'] },
+      2: { text: 'If the roof were made in a rectangular shape, snow<br>would accumulate on it overnight, and the weight of<br>the snow could cause the roof to collapse. However,<br>if the roof is shaped like a triangle, the snow would<br>eventually slide off, even if some collects on top.<br>Nowadays, sturdy houses can be built even with<br>rectangular-shaped roofs with advanced technology.<br>Both triangular and rectangular shapes are also useful<br>in exploring any psychological associations humans<br>might have with these shapes.', keywords: ['roof', 'rectangular shape', 'snow', 'accumulate', 'overnight', 'weight', 'cause', 'collapse', 'shaped like triangle', 'eventually slide off', 'collects', 'top', 'nowadays', 'sturdy houses', 'built', 'rectangular-shaped roofs', 'advanced technology', 'triangular', 'rectangular shapes', 'useful', 'exploring', 'psychological associations', 'humans'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain the relationship between triangular and<br>rectangular shapes.', keywords: ['explain', 'relationship', 'triangular', 'rectangular shapes'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/32.jpg',
+    zones: {
+      1: { text: 'Some children struggle to draw triangles and<br>rectangles and understand the front, back, left, and<br>right positions. An early childhood education society<br>published research results showing that these<br>children are most likely dyslexic.<br>Dyslexia is a condition in which individuals have<br>no problem speaking but struggle to read or write<br>properly for various reasons.', keywords: ['children', 'struggle', 'draw triangles', 'rectangles', 'understand', 'front', 'back', 'left', 'right positions', 'early childhood education society', 'published', 'research results', 'showing', 'most likely dyslexic', 'dyslexia', 'condition', 'individuals', 'no problem speaking', 'struggle', 'read', 'write', 'properly', 'various reasons'] },
+      2: { text: 'While dyslexia symptoms can vary among individuals,<br>a common characteristic is the difficulty in drawing<br>simple shapes like triangles and rectangles. If a child<br>has trouble pronouncing certain words or reads at<br>an unusually slow pace, dyslexia might be the reason.<br>Experts advise that if a child has symptoms of dyslexia,<br>it is essential to seek a thorough diagnosis from<br>a speech and language psychologist or a pediatrician.', keywords: ['dyslexia symptoms', 'vary', 'individuals', 'common characteristic', 'difficulty', 'drawing', 'simple shapes', 'triangles', 'rectangles', 'child', 'trouble pronouncing', 'certain words', 'reads', 'unusually slow pace', 'dyslexia', 'reason', 'experts advise', 'symptoms', 'essential', 'seek', 'thorough diagnosis', 'speech', 'language psychologist', 'pediatrician'] },
+      3: { text: '', keywords: [] },
+      4: { text: 'Explain why difficulty in drawing triangles and<br>rectangles might indicate a high likelihood of<br>dyslexia.', keywords: ['explain', 'difficulty', 'drawing triangles', 'rectangles', 'indicate', 'high likelihood', 'dyslexia'], fontType: 'type2' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/33.jpg',
+    zones: {
+      1: { text: '02. The World Made of Triangles and Rectangles<br><br><span class="larger-text">Ⅰ. What Is the Purpose of Studying</span><br><span class="larger-text">the World Made of Triangles and</span><br><span class="larger-text">Rectangles?</span><br><br>', keywords: ['world made', 'triangles', 'rectangles', 'purpose', 'studying', 'common shapes', 'found in nature', 'mountain', 'seen from afar', 'streams', 'river', 'converging', 'delta', 'ginkgo leaves', 'thorns', 'rose', 'exhibit', 'triangular shapes', 'more commonly observed', 'things created', 'humans', 'rectangular buildings', 'rooms', 'cars', 'windows', 'boxes', 'surroundings', 'filled', 'fair to say', 'shapes of nature', 'shapes of humans'] },
+      2: { text: 'As mentioned earlier, triangular shapes appear<br>favorable for energy efficiency, but rectangular<br>shapes are better for spatial efficiency. When placed<br>side by side, rectangular shapes leave no gaps, and<br>when stacked, they remain stable. Our classrooms and<br>rooms are rectangular, so items such as blackboards,<br>desks, and beds also take on rectangular forms.<br>The study of a world made of triangles and rectangles<br>allows us to understand the laws of nature and apply<br>them to enhance our daily lives.', keywords: ['mentioned earlier', 'triangular shapes', 'appear favorable', 'energy efficiency', 'rectangular shapes', 'better', 'spatial efficiency', 'placed side by side', 'leave no gaps', 'stacked', 'remain stable', 'classrooms', 'rooms', 'rectangular', 'items', 'blackboards', 'desks', 'beds', 'take on', 'rectangular forms', 'study', 'world made', 'triangles', 'rectangles', 'allows', 'understand', 'laws of nature', 'apply', 'enhance', 'daily lives'] },
+      3: { text: 'Triangles are common shapes found in nature.<br>The shape of a mountain seen from afar, the streams<br>of a river converging into a delta, the ginkgo leaves,<br>and the thorns of a rose exhibit triangular shapes.<br>However, rectangles are more commonly observed in<br>things created by humans. From rectangular buildings<br>and rooms to rectangular cars, rectangular windows,<br>and rectangular boxes, our surroundings are filled<br>with rectangles. At this point, it is fair to say that<br>triangles are the shapes of nature, while rectangles<br>are the shapes of humans.', keywords: ['triangles', 'common shapes', 'found in nature', 'mountain', 'seen from afar', 'streams', 'river', 'converging', 'delta', 'ginkgo leaves', 'thorns', 'rose', 'exhibit', 'triangular shapes', 'rectangles', 'more commonly observed', 'things created', 'humans', 'rectangular buildings', 'rooms', 'cars', 'windows', 'boxes', 'surroundings', 'filled', 'fair to say', 'shapes of nature', 'shapes of humans'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/34.jpg',
+    zones: {
+      1: { text: 'For example, a house seen from the sky is rectangular,<br>but when viewed from the front, the roof is triangular.<br>A triangular roof allows rainwater to flow down<br>quickly, preventing leaks into the home. Additionally,<br>it can prevent the roof from collapsing as snow<br>accumulates and eventually slides down.', keywords: ['house', 'seen from sky', 'rectangular', 'viewed from front', 'roof', 'triangular', 'triangular roof', 'allows', 'rainwater', 'flow down', 'quickly', 'preventing leaks', 'home', 'additionally', 'prevent', 'collapsing', 'snow', 'accumulates', 'eventually slides down'] },
+      2: { text: '(1) Tower cranes used to construct tall buildings or cranes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;used in ports to move heavy cargo may seem prone<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to breaking. However, why do they not break easily?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Explain.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2) Most buildings are rectangular in shape.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If buildings were constructed in a triangular shape,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;what inconvenience might arise? Explain.', keywords: ['tower cranes', 'construct', 'tall buildings', 'cranes', 'ports', 'move heavy cargo', 'seem prone', 'breaking', 'not break easily', 'explain', 'most buildings', 'rectangular', 'shape', 'buildings', 'constructed', 'triangular shape', 'inconvenience', 'arise'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/35.jpg',
+    zones: {
+      1: { text: '02. The World Made of Triangles and Rectangles<br><br><span class="larger-text">Ⅱ. How Can We Apply the Study of the World</span><br><span class="larger-text">Made of Triangles and Rectangles?</span><br><br>', keywords: ['world made', 'triangles', 'rectangles', 'apply', 'study', 'triangle formed', 'shape', 'does not change', 'making', 'very strong', 'nature', 'triangular shapes', 'commonly found', 'structures', 'strong', 'durable'] },
+      2: { text: 'The teeth of crocodiles and sharks are sharp and<br>triangular, making it impossible to escape once<br>bitten. Additionally, the stems of papyrus plants used<br>in ancient Egypt to make paper have a triangular<br>structure, contributing to their resilience. People have<br>learned from nature that utilizing triangular shapes<br>results in stable structures.', keywords: ['teeth', 'crocodiles', 'sharks', 'sharp', 'triangular', 'making', 'impossible', 'escape', 'once bitten', 'additionally', 'stems', 'papyrus plants', 'used', 'ancient Egypt', 'make paper', 'triangular structure', 'contributing', 'resilience', 'people', 'learned', 'nature', 'utilizing', 'triangular shapes', 'results', 'stable structures'] },
+      3: { text: 'Once a triangle is formed, its shape does not change,<br>making it very strong. In nature, triangular shapes<br>are commonly found in structures that are strong and<br>durable.', keywords: ['once', 'triangle formed', 'shape', 'does not change', 'making', 'very strong', 'nature', 'triangular shapes', 'commonly found', 'structures', 'strong', 'durable'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/36.jpg',
+    zones: {
+      1: { text: 'Transmission towers or cranes, constructed with<br>slender steel frames forming interconnected<br>triangles, withstand strong winds and support heavy<br>loads without breaking. While sturdy structures<br>are necessary in daily life, there is also a need for<br>structures that efficiently utilize space. In response<br>to this, people took an interest in rectangular shapes.', keywords: ['transmission towers', 'cranes', 'constructed', 'slender steel frames', 'forming', 'interconnected triangles', 'withstand', 'strong winds', 'support', 'heavy loads', 'without breaking', 'sturdy structures', 'necessary', 'daily life', 'need', 'structures', 'efficiently utilize space', 'response', 'people', 'took interest', 'rectangular shapes'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'A rectangular box can hold more items than a triangular<br>box. Arranging furniture in the corners of a room in<br>a rectangular shape allows for a more expansive use<br>of space. Moreover, rectangular shapes are more<br>flexible. An expandable barrier, for instance, is usually<br>compact but can be extended to block a pathway<br>when needed.', keywords: ['rectangular box', 'hold more items', 'triangular box', 'arranging furniture', 'corners', 'room', 'rectangular shape', 'allows', 'more expansive use', 'space', 'moreover', 'rectangular shapes', 'more flexible', 'expandable barrier', 'instance', 'usually compact', 'extended', 'block pathway', 'when needed'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/37.jpg',
+    zones: {
+      1: { text: '(1) Can we create a triangular shape with three sticks?<br>If it is not possible, explain why.<br><br>(2) A square shape consists of four equal lines that separate<br>the inside from the outside. Suppose we have four sticks<br>of equal length. How many different quadrilateral<br>shapes can we create using these sticks?', keywords: ['create', 'triangular shape', 'three sticks', 'not possible', 'explain why', 'square shape', 'consists', 'four equal lines', 'separate', 'inside', 'outside', 'suppose', 'four sticks', 'equal length', 'how many', 'different', 'quadrilateral shapes', 'create', 'using sticks'], fontType: 'type3' },
+      2: { text: 'Eddie classified organisms in nature based on their diet.<br>Initially, he categorized them into plants and animals<br>based on whether they could produce nutrients on their<br>own. Then, he further divided animals into herbivores,<br>which eat plants, and carnivores, which prey on other<br>animals. For example, cows, horses, and sheep are<br>herbivores, while lions, wolves, and tigers are carnivores.<br>Finally, he classified humans as omnivores, capable of<br>consuming both plants and animals. Animals that eat both<br>plants and animals are called omnivores.', keywords: ['Eddie', 'classified', 'organisms', 'nature', 'based', 'diet', 'initially', 'categorized', 'plants', 'animals', 'produce nutrients', 'own', 'further divided', 'herbivores', 'eat plants', 'carnivores', 'prey', 'other animals', 'cows', 'horses', 'sheep', 'lions', 'wolves', 'tigers', 'finally', 'classified', 'humans', 'omnivores', 'capable', 'consuming', 'both plants animals', 'called omnivores'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/38.jpg',
+    zones: {
+      1: { text: 'The representation of the quantities of plants, herbivores,<br>carnivores, and humans in nature through a diagram turned<br>out like the image below. Triangles are sturdy and stable<br>shapes. Once a triangle is formed, its shape tends to<br>remain unchanged. Thus, people utilize triangular shapes<br>to make anything sturdy. Explain why the diagram is drawn<br>in the shape of a triangle.', keywords: ['representation', 'quantities', 'plants', 'herbivores', 'carnivores', 'humans', 'nature', 'diagram', 'turned out', 'image below', 'triangles', 'sturdy', 'stable shapes', 'triangle formed', 'shape tends', 'remain unchanged', 'thus', 'people utilize', 'triangular shapes', 'make anything sturdy', 'explain', 'diagram drawn', 'shape of triangle'], fontType: 'type3' },
+      2: { text: 'The triangle is a sturdy and stable shape. Once the shape<br>is determined, the triangle shape never changes.<br>Therefore, when constructing sturdy structures like high-<br>rise buildings or cranes, the framework is connected in<br>a triangular shape.', keywords: ['triangle', 'sturdy', 'stable shape', 'shape determined', 'triangle shape', 'never changes', 'therefore', 'constructing', 'sturdy structures', 'high-rise buildings', 'cranes', 'framework', 'connected', 'triangular shape'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/39.jpg',
+    zones: {
+      1: { text: 'Paper is very thin, so it collapses quickly when a heavy<br>object is placed on it. However, folding the paper in<br>a zigzag pattern to create triangular creases makes it<br>sturdy enough to withstand heavy books. Cardboard also<br>incorporates this principle to make packaging boxes.<br>Simply adding creases makes things more durable.', keywords: ['paper', 'very thin', 'collapses quickly', 'heavy object', 'placed', 'folding', 'zigzag pattern', 'create', 'triangular creases', 'makes', 'sturdy enough', 'withstand', 'heavy books', 'cardboard', 'incorporates', 'principle', 'make', 'packaging boxes', 'simply adding creases', 'makes things', 'more durable'], fontType: 'type4' },
+      2: { text: 'Thin plastic water bottles, oil drums, and sheet metal<br>roofs all have creases that help them resist deformation<br>under normal circumstances. However, thick steel plates<br>are naturally sturdy, so there is no need to add creases.<br>Explain the additional benefits of adding creases.<br>Also, describe any disadvantages.', keywords: ['thin plastic', 'water bottles', 'oil drums', 'sheet metal roofs', 'all have creases', 'help', 'resist deformation', 'normal circumstances', 'however', 'thick steel plates', 'naturally sturdy', 'no need', 'add creases', 'explain', 'additional benefits', 'adding creases', 'also', 'describe', 'disadvantages'], fontType: 'type4' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/40.jpg',
+    zones: {
+      1: { text: 'When we draw a triangular shape, we typically draw a line<br>at the bottom and a sharp point at the top. Of course,<br>inverting this shape does not change the fact that it is<br>a triangular shape. An upright triangular shape gives<br>a sense of stability and an uplifting feeling. Mountains,<br>towers, and buildings all exhibit a narrowing shape as they<br>ascend. Even a rising flame is triangular, with the bottom<br>wider than the top.', keywords: ['draw', 'triangular shape', 'typically', 'line', 'bottom', 'sharp point', 'top', 'inverting', 'shape', 'does not change', 'fact', 'upright triangular shape', 'gives', 'sense of stability', 'uplifting feeling', 'mountains', 'towers', 'buildings', 'exhibit', 'narrowing shape', 'ascend', 'rising flame', 'triangular', 'bottom wider', 'top'], fontType: 'type3' },
+      2: { text: 'A triangular shape conveys different feelings according<br>to the length of the lines. A longer line at the bottom<br>evokes a more peaceful and stable sensation. Conversely,<br>a very pointed triangular shape might convey a sense of<br>danger and movement. Depending on the direction of<br>the triangular shape, it imparts a different impression.<br>For instance, an upright triangular shape might signify<br>a stop, while a triangular shape turned to the right is<br>sometimes used to indicate a right turn. Then describe<br>the feeling conveyed by an upside-down triangular shape.', keywords: ['triangular shape', 'conveys', 'different feelings', 'according', 'length', 'lines', 'longer line', 'bottom', 'evokes', 'peaceful', 'stable sensation', 'conversely', 'very pointed', 'triangular shape', 'convey', 'sense of danger', 'movement', 'depending', 'direction', 'imparts', 'different impression', 'instance', 'upright triangular shape', 'signify', 'stop', 'turned', 'right', 'sometimes used', 'indicate', 'right turn', 'describe', 'feeling conveyed', 'upside-down triangular shape'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/41.jpg',
+    zones: {
+      1: { text: 'Triangles are sturdy shapes, but they do not efficiently<br>utilize space. On the other hand, rectangles are not only<br>easy to create and make efficient use of space, but they<br>also tend to easily change their shape.<br>Our surroundings are filled with rectangular objects,<br>not just in the layout of rooms but also in furniture<br>placement within them.', keywords: ['triangles', 'sturdy shapes', 'not efficiently', 'utilize space', 'other hand', 'rectangles', 'not only', 'easy to create', 'efficient use', 'space', 'tend to easily change', 'shape', 'surroundings', 'filled', 'rectangular objects', 'layout', 'rooms', 'furniture placement'], fontType: 'type3' },
+      2: { text: 'In modern city planning, rectangular shapes are employed<br>from the design stage. Historically, cities had complex<br>structures, like spiderwebs, with roads laid on empty land<br>and buildings erected.<br>However, contemporary urban planning involves laying<br>roads to create rectangular plots of land and constructing<br>rectangular buildings on them. This approach allows<br>tall buildings to be constructed on narrow plots of land.<br>Straight roads connect various parts of the city, making<br>driving more convenient. Explain the other advantages of<br>designing a city in a rectangular shape.', keywords: ['modern city planning', 'rectangular shapes', 'employed', 'design stage', 'historically', 'cities', 'complex structures', 'spiderwebs', 'roads laid', 'empty land', 'buildings erected', 'however', 'contemporary', 'urban planning', 'involves', 'laying roads', 'create', 'rectangular plots', 'land', 'constructing', 'rectangular buildings', 'approach allows', 'tall buildings', 'narrow plots', 'straight roads', 'connect', 'various parts', 'city', 'making driving', 'convenient', 'explain', 'other advantages', 'designing city', 'rectangular shape'], fontType: 'type3' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/42.jpg',
+    zones: {
+      1: { text: '<strong><u>Basic Shapes: Triangle and Quadrilateral<br><br>In mathematics, a straight line connecting two points<br>is called a line segment. A plane figure surrounded by<br>multiple line segments is called a polygon.<br>Polygons are called triangles, quadrilaterals, and such,<br>depending on the number of line segments.<br>A triangle is a polygon surrounded by three line segments,<br>and a quadrilateral is a polygon surrounded by four line<br>segments. What properties do triangles and quadrilaterals<br>have? Let\'s take a look at triangles first. Each of the line<br>segments surrounding a polygon is called a side, and a<br>triangle has three sides.', keywords: ['basic shapes', 'triangle', 'quadrilateral', 'mathematics', 'straight line', 'connecting', 'two points', 'called', 'line segment', 'plane figure', 'surrounded', 'multiple line segments', 'polygon', 'polygons', 'called', 'triangles', 'quadrilaterals', 'depending', 'number', 'line segments', 'triangle', 'polygon', 'surrounded', 'three line segments', 'quadrilateral', 'four line segments', 'properties', 'triangles', 'quadrilaterals', 'have', 'take look', 'triangles first', 'line segments', 'surrounding', 'polygon', 'called side', 'triangle', 'three sides'], fontType: 'type3' },
+      2: { text: '<br><br>Once the lengths of these three sides are determined,<br>the triangle has only one shape. However, we cannot<br>create a triangle by having three sides of any random<br>length. The longest of the three sides must be shorter<br>than the sum of the remaining two sides.', keywords: ['once', 'lengths', 'three sides', 'determined', 'triangle', 'only one shape', 'however', 'cannot create', 'triangle', 'three sides', 'any random length', 'longest', 'three sides', 'must be shorter', 'sum', 'remaining two sides'] , fontType: 'type4'},
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/43.jpg',
+    zones: {
+      1: { text: '<br>If we determine the lengths of the three sides that satisfy<br>this condition, the shape of the triangle is determined<br>and does not change. Since the shape of a triangle<br>cannot change, triangular objects are solid. Therefore,<br>the triangular-shaped structure has the advantage of<br>being strong while using less material.', keywords: ['determine', 'lengths', 'three sides', 'satisfy', 'condition', 'shape', 'triangle', 'determined', 'does not change', 'since', 'shape', 'triangle', 'cannot change', 'triangular objects', 'solid', 'therefore', 'triangular-shaped structure', 'advantage', 'being strong', 'using less material'] , fontType: 'type4'},
+      2: { text: '<br>A quadrilateral is a polygon with four sides. Unlike triangles,<br>quadrilaterals can come in many different shapes even if<br>the lengths of the four sides are fixed. The property of<br>a quadrilateral that can change its shape like this is called<br>"quadrilateral instability." Items like foldable hangers and<br>iron doors take advantage of these quadrilateral properties.', keywords: ['quadrilateral', 'polygon', 'four sides', 'unlike triangles', 'quadrilaterals', 'come', 'many different shapes', 'even if', 'lengths', 'four sides', 'fixed', 'property', 'quadrilateral', 'change', 'shape', 'called', 'quadrilateral instability', 'items', 'foldable hangers', 'iron doors', 'take advantage', 'quadrilateral properties'] , fontType: 'type4'},
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/44.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '<br>Then, how can we make quadrilateral objects sturdy and<br>resistant to easy changes? The method is simple.<br>If we draw a line segment inside a quadrilateral, we can<br>create two triangles. Using this principle, if we add one<br>bar, the quadrilateral becomes two triangles and becomes<br>sturdy.', keywords: ['how can', 'make', 'quadrilateral objects', 'sturdy', 'resistant', 'easy changes', 'method', 'simple', 'draw', 'line segment', 'inside', 'quadrilateral', 'create', 'two triangles', 'using', 'principle', 'add one bar', 'quadrilateral', 'becomes', 'two triangles', 'becomes sturdy'] , fontType: 'type4'},
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  } ,
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/45.jpg',
+    zones: {
+      1: { text: '<br><br><br><br><br><br><br><u><b>Explain why a flying bird\'s shape and the tools used by early humans<br><u><b>are both triangular.</b></u><br><br><br><br><br><br><br><br><br><br>If the end is a triangular shape, it can fly well by splitting the wind.<br>Also, because the triangular shape is sharp and pointed, it can catch<br>birds or animals at once.', keywords: ['flying bird', 'early humans', 'triangular shape', 'sharp', 'pointed', 'wind resistance'], fontType: 'type6' },
+      2: { text: '<br><br><u><b>Explain how arrows and rockets are similar to each other.</b></u><br><br><br><br><br><br><br><br><br><br>The head of a rocket is pointed like a bird\'s beak. The wings are not<br>attached in the middle of the body but at the end, resembling an arrow.', keywords: ['arrows', 'rockets', 'pointed head', 'beak', 'wings', 'aerodynamics'], fontType: 'type8' },
+      4: { text: '<u><b>Explain why a deflating balloon does not fly straight.</b></u><br><br><br><br><br><br><br><br><br><br>Balloons do not have wings. That is why they cannot fly straight.<br>To fly straight, they need wings like birds.', keywords: ['deflating balloon', 'fly straight', 'wings', 'birds', 'flight control'], fontType: 'type8' },
+      3: { text: '<u><b>Explain how the appearance of birds and airplanes resemble each other.</b></u><br><br>Birds and airplanes have pointed tips on their heads and two large<br>wings to fly in the sky.', keywords: ['birds', 'airplanes', 'pointed tips', 'wings', 'sky', 'similar design'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/46.jpg',
+    zones: {
+      1: { text: '(1) <u><b>What does an object have to be shaped like to fly straight at<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>high speed? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To fly at a high speed, air resistance must be minimized.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The larger the area that meets the air, the greater the resistance.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Consider running with an umbrella.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When the umbrella is folded, we can run fast. However, if we run<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with the umbrella open, we will feel like someone is pushing or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pulling, making it difficult to move forward.', keywords: ['object', 'fly straight', 'high speed', 'air resistance', 'umbrella', 'aerodynamics'], fontType: 'type7' },
+      2: { text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To reduce air resistance, the tip must be pointed. In other words,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it should be in a triangular or cone shape.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For an object to fly straight, it must be symmetrical. If it is not<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;symmetrical, it will tilt to one side. Hold a large umbrella in your<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left hand and a small one in your right hand and run. You will<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notice that the direction gradually tilts to the right.', keywords: ['triangular', 'cone shape', 'symmetrical', 'pointed tip', 'balance', 'stability'], fontType: 'type7'},
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/47.jpg',
+    zones: {
+      1: { text: '(2) <u><b>Arrowheads, shovels, airplanes, and other similar objects<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>all have triangular tips. What problems might arise if these<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>objects had square shapes?</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If the arrowhead is square, it would be challenging to kill prey at<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;once. A square arrowhead has slightly more air resistance than<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a triangular one, making it unable to fly far.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A triangular shovel is used when digging hard ground because<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the pointed end allows concentrating force in one place.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A square-shaped shovel cannot dig the ground well. However,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a square shovel is used when scooping sand or clearing snow.', keywords: ['arrowheads', 'shovels', 'airplanes', 'triangular tips', 'square shapes', 'efficiency'], fontType: 'type8' },
+      2: { text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The nose of an airplane is a round-triangle shape for two reasons.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First, it allows the airplane to pierce through the air smoothly.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Second, it reduces impact when the airplane collides with birds or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hail during flight, preventing damage. If an airplane had a square<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shape, it would experience higher air resistance, requiring more<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fuel for flight and a greater risk of damage in collisions with other<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objects.', keywords: ['airplane nose', 'round-triangle', 'air resistance', 'collision damage', 'fuel efficiency'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/48.jpg',
+    zones: {
+      1: { text: '(1) <u><b>Nails and hammers always go hand in hand. Explain the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>mathematical principles involved in nails and hammers.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The head of a nail is round and wide and the end is pointed.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The larger the head of the nail, the easier it is to hit it with<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a hammer. The end must be pointed for a nail to be well-driven<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;into wood or concrete. When viewed from the side, the end of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the nail appears to have a symmetrical triangular shape.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thanks to this shape, the nail is firmly driven into a solid surface.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The hammer uses the "centrifugal force" principle when driving<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a nail. The force appearing in an object moving in a circular motion<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is called centrifugal force. When we fold and unfold our elbows,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;our hands move in a circular motion.', keywords: ['nails', 'hammers', 'mathematical principles', 'centrifugal force', 'triangular shape', 'physics'], fontType: 'type7' },
+      2: { text: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The part of the hand farther from the elbow rotates faster,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resulting in more force. This is why even a slight hammer swing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in our hand can drive the nail in deeply.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The hammer also has a groove to pull out the nail. The nail can<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easily come out by hanging the head of the nail on this groove<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and tilting the handle. This involves the principle of a lever.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The principle of a lever states that the farther an object is from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the fulcrum when lifting, the less force is needed to move<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the object.', keywords: ['lever principle', 'fulcrum', 'groove', 'force', 'mechanical advantage'], fontType: 'type7' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/49.jpg',
+    zones: {
+      1: { text: '<u><b>(2) The law of action and reaction applies to rockets flying into<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>the sky. Find and explain an example of the law of action and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>reaction applied in our surroundings.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In a zero-gravity state, astronauts use the law of action and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reaction when moving in a particular direction. Astronauts emit<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gas in the opposite direction of where they want to go, similar<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to how a rocket operates in flight.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The law of action and reaction is also used when we row a boat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;forward by paddling. If we call the force pushing water backward<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using the oar "action," the water pushing against the oar becomes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the reaction. With this force, the boat moves forward.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The law of action and reaction is also involved in phenomena such<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as the backward recoil when firing a gun, a balloon flying as the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;air escapes, and two people pushing each other on an ice rink.', keywords: ['action and reaction', 'rockets', 'astronauts', 'zero-gravity', 'boat paddling', 'physics'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/50.jpg',
+    zones: {
+      1: { text: '<u><b>The tips of bamboo spears, arrowheads, and stone tools used for<br><u><b>cutting meat were very sharp. The tips of the tools used by early<br><u><b>humans all had a sharp triangular shape. Explain the reason for<br><u><b>this.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Primitive people needed tools to kill animals or catch fish. To kill<br>an animal, the tool must be shaped to cause wounds or injuries.<br>Blunt-ended tools with wide contact areas were unsuitable for<br>hunting as they caused minimal damage compared to the force<br>applied. On the other hand, pointed tools with narrow contact areas<br>effectively inflicted significant damage relative to the force applied,<br>making them widely used as hunting tools.', keywords: ['bamboo spears', 'arrowheads', 'stone tools', 'triangular shape', 'hunting tools', 'efficiency'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/51.jpg',
+    zones: {
+      1: { text: '<u><b>Incisors, canines, and molars have distinct appearances and serve<br><u><b>different functions. For example, incisors are shaped like blades<br><u><b>and cut food entering the mouth. What do canines and molars look<br><u><b>like, and what functions do they serve? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Canines are the longest and sharpest among our teeth. Positioned<br>between the incisors and molars, canines are sharp and most<br>frequently used for cutting food into smaller pieces and tearing tough<br>items. Canines also play a role in preventing significant impact by<br>preventing the molars from colliding with each other.<br>Molars have a different appearance compared to incisors or canines.<br>A broad chewing surface characterizes molars. When observed<br>closely, molars have raised parts resembling mountains and deeply<br>grooved parts resembling valleys. This structure allows molars to play<br>a role in crushing food into smaller pieces.', keywords: ['incisors', 'canines', 'molars', 'teeth functions', 'chewing surface', 'dental anatomy'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/52.jpg',
+    zones: {
+      1: { text: '<u><b>In simple terms, the law of inertia can be explained as the<br><u><b>property of an object to maintain its current state. For instance,<br><u><b>the law of inertia explains why our bodies tend to lurch forward<br><u><b>when a moving car suddenly slows down. Find and write down<br><u><b>examples of how the law of inertia applies in everyday life.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Place a piece of paper on top of a cup and put a coin on it. Slowly pull<br>out the paper, and the coin moves along with the paper.<br>However, if we suddenly pull out the paper, the coin falls into the cup.<br>This happens because the coin experiences the inertia that wants it<br>to stay in place. When turning off a ship\'s engine, the ship does not<br>immediately stop but continues moving forward for a while.<br>This is also an example of inertia. The sensation of being pushed<br>backward when a stationary car suddenly accelerates can also be<br>explained by the law of inertia.', keywords: ['law of inertia', 'current state', 'coin experiment', 'ship engine', 'car acceleration', 'physics'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/53.jpg',
+    zones: {
+      1: { text: '<u><b>Space is a completely different environment from the Earth we<br><u><b>inhabit. Outside of Earth, gravity no longer affects us, causing<br><u><b>our bodies to float weightlessly. Furthermore, the absence of<br><u><b>oxygen in space makes breathing impossible. The sunlight in<br><u><b>space is so intense that looking at it directly could lead to loss<br><u><b>of sight. Spacesuits incorporate numerous advanced scientific<br><u><b>technologies to withstand such harsh conditions in space.<br><u><b>Explain what scientific technology is found in spacesuits.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>A spacesuit is the epitome of advanced materials and equipment<br>designed to protect astronauts completely against harmful radiation<br>while maintaining a stable temperature and pressure.<br>Composed of 7 to 8 layers, the spacesuit can effectively retain air.<br>The outermost fabric of the spacesuit acts as a thermal barrier and is<br>made of sturdy materials to shield astronauts from small meteoroids<br>and space dust. The visor of the spacesuit helmet is coated with<br>special materials to protect astronauts from dangerous ultraviolet and<br>infrared radiation, as well as space dust.', keywords: ['space environment', 'spacesuits', 'scientific technology', 'radiation protection', 'thermal barrier', 'astronaut safety'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/54.jpg',
+    zones: {
+      1: { text: '<u><b>Explain what comes to mind first when you hear the word "rose."</b></u><br><br><br><br><br><br><br><br><br><br><br>When we hear "rose," colors like red or pink come to mind first.<br>Alternatively, the pointed thorns of a rose may also come to mind.<br>In this way, people associate objects with colors or shapes.', keywords: ['rose', 'red', 'pink', 'thorns', 'colors', 'associations'], fontType: 'type6' },
+      2: { text: '<u><b>What are some things that have a triangle shape when cut?</b></u><br><br><br><br><br><br><br><br><br><br>Cutting the stem of a papyrus plant reveals a triangular shape.<br>Similarly, cutting the corners of a square tofu block with a knife<br>reveals a triangular shape.', keywords: ['triangle shape', 'papyrus plant', 'tofu block', 'cutting', 'geometric shapes'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '<u><b>Explain how the word "bible" originated.</b></u><br><br><br><br><br><br><br><br><br><br>The word "Bible" comes from the ancient Greek word "biblia," which<br>means a book. This term originated from the city of Byblos in ancient<br>Phoenicia. The people of Byblos brought papyrus paper from Egypt<br>and sold it to the Greeks. Due to this, papyrus became known as Byblos.', keywords: ['bible', 'biblia', 'Byblos', 'Phoenicia', 'papyrus', 'word origin'], fontType: 'type8' }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/55.jpg',
+    zones: {
+      1: { text: '<u><b>Explain why inverted triangle shapes are uncommon in nature.</b></u><br><br><br><br><br><br><br><br><br><br><br>An inverted triangular shape becomes unstable. If the bottom is<br>narrow, it quickly topples over when the wind blows. Nature always<br>forms stable shapes.', keywords: ['inverted triangle', 'unstable', 'nature', 'stable shapes', 'wind resistance'], fontType: 'type8' },
+      2: { text: '<u><b>Explain why most man-made objects are rectangular-shaped.</b></u><br><br><br><br><br><br><br><br><br><br><br>A rectangular shape is both stable and convenient. With no gaps<br>inside, it is easy to fill and move objects. This is why people create<br>rectangular items.', keywords: ['rectangular shape', 'stable', 'convenient', 'man-made objects', 'space efficiency'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/56.jpg',
+    zones: {
+      1: { text: '<u><b>Explain the relationship between triangular and rectangular shapes.</b></u><br><br><br><br><br><br><br><br><br><br><br>Cutting a rectangular shape by connecting two opposite points<br>with a line creates two triangular shapes. Conversely, attaching two<br>triangular shapes with equal lengths results in a rectangular shape.', keywords: ['triangular', 'rectangular', 'relationship', 'cutting', 'connecting', 'geometric transformation'], fontType: 'type8' },
+      2: { text: '<u><b>Explain why difficulty in drawing triangles and rectangles might<br><u><b>indicate a high likelihood of dyslexia.</b></u><br><br><br><br><br><br><br><br><br><br><br>Dyslexia refers to a condition where a person has difficulty reading.<br>Since letters are constructed from shapes like triangles and squares,<br>it is possible to identify dyslexia by assessing shapes.', keywords: ['dyslexia', 'drawing triangles', 'rectangles', 'reading difficulty', 'shapes', 'learning disability'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/57.jpg',
+    zones: {
+      1: { text: '<br><br>(1) <u><b>Tower cranes used to construct tall buildings or cranes used<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>in ports to move heavy cargo may seem prone to breaking.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>However, why do they not break easily? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using three sticks to create a triangular shape results in only<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;one possible shape. The fact that no other shapes emerge carries<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;significant meaning.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It can be interpreted as "the shape does not easily change" or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"it is robustly connected." In other words, the triangular shape<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;forms a sturdy structure. An example is the tower crane, which is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continuously connected in a triangular shape. Despite appearing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fragile, it can actually support an enormous weight.', keywords: ['tower cranes', 'triangular shape', 'sturdy structure', 'three sticks', 'robustly connected', 'engineering'], fontType: 'type7' },
+      2: { text: '<br><br><br>(2) <u><b>Most buildings are rectangular in shape. If buildings were<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>constructed in a triangular shape, what inconvenience might<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>arise? Explain.</b></u><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A rectangular shape is easily created by simply placing pillars<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upright on the ground. However, to construct a building in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a triangular shape, the pillars or walls must be installed at an<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;angle. Moreover, triangular shapes pose many inconveniences<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in space utilization. Imagine the floor and walls of your room<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;being triangular. Firstly, placing a desk in a corner without gaps<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;becomes challenging. Additionally, you must stoop down as you<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;approach the walls due to their inclination. Erecting tall shelves<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;results in unused space behind them. Triangular shapes bring<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;many inconveniences in efficiently utilizing space, potentially<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leaving more unused space than available space.', keywords: ['buildings', 'rectangular shape', 'triangular shape', 'space utilization', 'inconvenience', 'architecture'], fontType: 'type8' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/58.jpg',
+    zones: {
+      1: { text: '(1) <u><b>Can we create a triangular shape with three sticks?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>If it is not possible, explain why.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A triangle is composed of three line segments. However, just<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;having three line segments does not always result in a triangle.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Let\'s consider a few examples. When we have three rods of equal<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length, a triangle is formed. Even with rods of lengths 3 cm, 4 cm,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and 5 cm, a triangle can be created. Now, think about rods with<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 cm, 4 cm, and 7 cm lengths. Combining the lengths of 3 cm and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 cm results in 7 cm, making the longest rod length the sum of the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;other two, preventing the formation of a triangle. If we replace<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the longest rod with an 8 cm rod, the other two rods will not meet.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In summary, for a triangle to form, the length of the longest side<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;must be shorter than the sum of the other two sides.', keywords: ['triangle formation', 'three sticks', 'line segments', 'triangle condition', 'rod lengths', 'geometry'], fontType: 'type7' },
+      2: { text: '(2) <u><b>A square shape consists of four equal lines that separate<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>the inside from the outside. Suppose we have four sticks of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>equal length. How many different quadrilateral shapes can we<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><b>create using these sticks?</b></u><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are countless ways to create a quadrilateral using four rods<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of equal length. Drawing a few examples, we get the following:', keywords: ['quadrilateral shapes', 'four sticks', 'equal length', 'countless ways', 'geometric shapes', 'mathematics'], fontType: 'type7' },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/59.jpg',
+    zones: {
+      1: { text: '<u><b>Once a triangle is formed, its shape tends to remain unchanged.<br><u><b>Thus, people utilize triangular shapes to make anything sturdy.<br><u><b>Explain why the diagram is drawn in the shape of a triangle.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Eddie classifies the organisms that make up nature and draws<br>a triangular shape, indicating that the organisms below the triangle<br>have a greater quantity. In other words, there are more carnivores<br>than humans, more herbivores than carnivores, and more plants than<br>herbivores. Thanks to this, organisms can continue to live without<br>extinction. If the number of herbivores exceeds the number of plants,<br>the plants will disappear rapidly. Then, herbivores that lose their food<br>source will eventually become extinct. As a result, carnivores and<br>humans will also no longer be able to survive on Earth. In this way,<br>nature forms a triangular shape even in unseen places.', keywords: ['triangle', 'sturdy', 'organisms', 'nature', 'food chain', 'ecosystem'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/60.jpg',
+    zones: {
+      1: { text: '<u><b>Thin plastic water bottles, oil drums, and sheet metal roofs all<br><u><b>have creases that help them resist deformation under normal<br><u><b>circumstances. However, thick steel plates are naturally sturdy,<br><u><b>so there is no need to add creases. Explain the additional benefits<br><u><b>of adding creases. Also, describe any disadvantages.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Adding wrinkles increases surface area. Water or air passing through<br>a radiator (a machine that cools heat) cools faster when the area in<br>contact with the radiator is larger. When wrinkles are added to a pipe<br>through which water or air flows, the surface area increases, making<br>it more efficient. The wheels of a car have grooves similar to wrinkles.<br>Thanks to the wrinkles on the wheels, the car can stop more quickly<br>and is less likely to skid on rainy or icy roads.<br>However, adding wrinkles to various materials requires additional<br>work, and more material is needed than when making products<br>without wrinkles. The disadvantages include increased price and<br>weight because there is more material.', keywords: ['creases', 'deformation', 'surface area', 'radiator', 'disadvantages', 'material science'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/61.jpg',
+    zones: {
+      1: { text: '<u><b>Depending on the direction of the triangular shape, it imparts<br><u><b>a different impression. For instance, an upright triangular shape<br><u><b>might signify a stop, while a triangular shape turned to the right<br><u><b>is sometimes used to indicate a right turn. Then describe the<br><u><b>feeling conveyed by an upside-down triangular shape.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>The inverted triangular shape gives the impression of going down.<br>This can often be seen in the direction of elevator buttons or<br>escalator operations. If the triangular shape is inverted, it creates<br>an uneasy feeling. For example, looking at a bowl that narrows toward<br>the bottom gives the impression that it might tip over easily.<br>Taking a picture from below a tree with branches spread wide reveals<br>an inverted triangular composition. In this inverted triangle, you can<br>feel dynamism, upward movement, lightness, and more.', keywords: ['triangular shape', 'direction', 'impression', 'upside-down', 'inverted triangle', 'visual communication'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/G1.1.4/62.jpg',
+    zones: {
+      1: { text: '<u><b>Straight roads connect various parts of the city, making driving<br><u><b>more convenient. Explain the other advantages of designing a city<br><u><b>in a rectangular shape.</b></u><br><br><br><br><br><br><br><br><br><br><br><br><br>Finding your way becomes easier when a city is designed in<br>a rectangular shape. You can create addresses using two numbers<br>by assigning numbers to horizontally running roads and vertically<br>running roads. This way, even someone visiting the city for the<br>first time can easily reach their destination by looking at the road<br>numbers. Designing a city in a rectangular shape makes it easy<br>to divide administrative areas, and roads can be easily created.<br>Moreover, there is a reduced risk of car accidents without winding<br>roads. Looking down at a city designed in a rectangular shape from<br>the sky gives a sense of orderliness.', keywords: ['straight roads', 'rectangular shape', 'city design', 'addresses', 'orderliness', 'urban planning'], fontType: 'type8' },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  }
+];
+  </script>
+  
+  <script src="../assets/js/4zoneGApp.js"></script>
+</body>
+</html> 

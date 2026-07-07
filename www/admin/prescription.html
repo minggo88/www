@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>처방전 발급 | 국민삼대 한의원</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/mediStyle.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- 관리자 헤더 -->
+    <div id="adminHeader"></div>
+    
+    <!-- 네비게이션 -->
+    <div id="adminNav"></div>
+
+    <div class="container-wide">
+        <!-- 뒤로가기 -->
+        <div style="margin-bottom: 20px;">
+            <button onclick="goBack()" class="btn btn-secondary">
+                ← 뒤로가기
+            </button>
+        </div>
+
+        <!-- 페이지 타이틀 -->
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: #1e293b; margin-bottom: 5px;">💊 처방전 발급</h1>
+            <p style="color: #64748b;">환자의 진료 내용을 입력하고 처방전을 발급하세요</p>
+        </div>
+
+        <!-- 환자 정보 (읽기 전용) -->
+        <div class="card">
+            <h3 style="margin-bottom: 20px; color: #1e293b;">👤 환자 정보</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; background: #f8fafc; padding: 20px; border-radius: 8px;">
+                <div>
+                    <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">접수번호</div>
+                    <div style="font-weight: 600;" id="bookingNumber">-</div>
+                </div>
+                <div>
+                    <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">이름</div>
+                    <div style="font-weight: 600;" id="patientName">-</div>
+                </div>
+                <div>
+                    <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">전화번호</div>
+                    <div style="font-weight: 600;" id="patientPhone">-</div>
+                </div>
+                <div>
+                    <div style="color: #64748b; font-size: 14px; margin-bottom: 5px;">접수일시</div>
+                    <div style="font-weight: 600;" id="bookingDate">-</div>
+                </div>
+            </div>
+
+            <!-- 문진표 내용 -->
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h4 style="margin: 0; color: #1e293b;">📋 문진표 내용</h4>
+                    <button type="button" onclick="copyQuestionnaire()" class="btn btn-secondary">
+                        📋 복사
+                    </button>
+                </div>
+                <div id="questionnaireData"></div>
+            </div>
+        </div>
+
+        <!-- 처방전 작성 폼 -->
+        <div class="card">
+            <h3 style="margin-bottom: 20px; color: #1e293b;">📝 처방전 작성</h3>
+
+            <form id="prescriptionForm">
+                <!-- 진단명 -->
+                <div class="form-group">
+                    <label for="diagnosis" class="form-label required">진단명</label>
+                    <input 
+                        type="text" 
+                        id="diagnosis" 
+                        name="diagnosis" 
+                        class="form-control"
+                        placeholder="예: 비만, 체중 관리 필요"
+                        required
+                    >
+                    <div class="form-text">환자의 상태를 진단한 내용을 입력하세요</div>
+                </div>
+
+                <!-- 처방 내용 -->
+                <div class="form-group">
+                    <label for="prescriptionDetails" class="form-label required">처방 내용</label>
+                    <textarea 
+                        id="prescriptionDetails" 
+                        name="prescriptionDetails" 
+                        class="form-control"
+                        rows="6"
+                        placeholder="예:&#10;1. 해독환 1일 3회 (아침, 점심, 저녁 식후 30분)&#10;2. 식이요법: 저염식, 고단백 위주&#10;3. 운동: 주 3회 이상 유산소 운동 권장&#10;4. 수분 섭취 충분히 하기"
+                        required
+                    ></textarea>
+                    <div class="form-text">처방 내용을 상세히 입력하세요 (줄바꿈 가능)</div>
+                </div>
+
+                <!-- 처방 유형 -->
+                <div class="form-group">
+                    <label class="form-label required">처방 유형</label>
+                    <div class="form-check">
+                        <input type="radio" id="type_prescription" name="prescriptionType" value="prescription" class="form-check-input" required>
+                        <label for="type_prescription" class="form-check-label">
+                            처방전 발급 (환자가 약국에서 조제)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="type_medicine" name="prescriptionType" value="medicine" class="form-check-input" checked>
+                        <label for="type_medicine" class="form-check-label">
+                            처방약 직접 제공 (한의원에서 제공)
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 금액 -->
+                <div class="form-group">
+                    <label for="amount" class="form-label required">금액 (원)</label>
+                    <input 
+                        type="number" 
+                        id="amount" 
+                        name="amount" 
+                        class="form-control"
+                        placeholder="예: 50000"
+                        required
+                    >
+                    <div class="form-text">처방전 발급 비용 또는 처방약 비용을 입력하세요</div>
+                </div>
+
+                <!-- 특이사항 (선택) -->
+                <div class="form-group">
+                    <label for="notes" class="form-label">특이사항 (선택)</label>
+                    <textarea 
+                        id="notes" 
+                        name="notes" 
+                        class="form-control"
+                        rows="3"
+                        placeholder="예: 알레르기 주의, 복용 시 주의사항 등"
+                    ></textarea>
+                    <div class="form-text">필요시 특이사항을 입력하세요</div>
+                </div>
+
+                <!-- 제출 버튼 -->
+                <div style="display: flex; gap: 10px; margin-top: 30px;">
+                    <button type="button" onclick="goBack()" class="btn btn-secondary btn-lg">
+                        취소
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-lg" style="flex: 1;">
+                        💊 처방전 발급 및 알림 전송
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 안내 -->
+        <div class="alert alert-info">
+            <strong>📌 처방전 발급 안내</strong><br>
+            처방전을 발급하면 다음과 같은 처리가 자동으로 진행됩니다:<br>
+            1. 처방전 정보가 데이터베이스에 저장됩니다<br>
+            2. 접수 상태가 '진료완료'로 변경됩니다<br>
+            3. 텔레그램으로 알림이 전송됩니다<br>
+            4. 환자는 결제 후 처방전을 확인할 수 있습니다
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/mediConfig.js"></script>
+    <script src="../assets/js/mediCommon.js"></script>
+    <script src="../assets/js/mediAdmin.js"></script>
+    
+    <script>
+        // 페이지 로드 시 인증 확인
+        if (!checkAdminAuth()) {
+            // checkAdminAuth에서 이미 로그인 페이지로 리다이렉트
+        }
+
+        // 헤더와 네비게이션 생성
+        document.getElementById('adminHeader').innerHTML = createAdminHeader();
+        document.getElementById('adminNav').innerHTML = createAdminNav('patients');
+
+        // URL에서 booking ID 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingId = urlParams.get('id');
+
+        if (!bookingId) {
+            showAlert('환자 정보를 찾을 수 없습니다', 'danger');
+            setTimeout(() => navigateTo('patients.html'), 2000);
+        }
+
+        let currentBooking = null;
+        let questionnaireTextData = ''; // 복사용 텍스트 데이터
+
+        // 환자 정보 로드 (복호화 포함)
+        async function loadPatientInfo() {
+            try {
+                showLoading('환자 정보를 불러오는 중...');
+
+                currentBooking = await getPatientDetail(bookingId);
+
+                if (!currentBooking) {
+                    throw new Error('환자 정보를 찾을 수 없습니다');
+                }
+
+                // 환자 이름, 전화번호 복호화
+                try {
+                    currentBooking.users.name = await decryptData(currentBooking.users.name);
+                } catch (e) {
+                    console.log('이름 복호화 실패 (평문일 수 있음)');
+                }
+
+                try {
+                    currentBooking.users.phone = await decryptData(currentBooking.users.phone);
+                } catch (e) {
+                    console.log('전화번호 복호화 실패 (평문일 수 있음)');
+                }
+
+                // 문진표 데이터(notes) 복호화
+                if (currentBooking.notes) {
+                    try {
+                        currentBooking.notes = await decryptData(currentBooking.notes);
+                        console.log('문진표 복호화 성공');
+                    } catch (e) {
+                        console.log('문진표 복호화 실패 (평문일 수 있음):', e);
+                    }
+                }
+
+                // 이미 처방전이 발급된 경우 - 처방전도 복호화 필요
+                if (currentBooking.prescriptions && currentBooking.prescriptions.length > 0) {
+                    // 처방전 정보 복호화
+                    for (let prescription of currentBooking.prescriptions) {
+                        try {
+                            prescription.diagnosis = await decryptData(prescription.diagnosis);
+                        } catch (e) {
+                            console.log('진단명 복호화 실패');
+                        }
+
+                        try {
+                            prescription.prescription_details = await decryptData(prescription.prescription_details);
+                        } catch (e) {
+                            console.log('처방 내용 복호화 실패');
+                        }
+
+                        if (prescription.notes) {
+                            try {
+                                prescription.notes = await decryptData(prescription.notes);
+                            } catch (e) {
+                                console.log('특이사항 복호화 실패');
+                            }
+                        }
+                    }
+
+                    hideLoading();
+                    if (confirm('이미 처방전이 발급되었습니다. 환자 상세 페이지로 이동하시겠습니까?')) {
+                        navigateTo(`patient-detail.html?id=${bookingId}`);
+                    } else {
+                        goBack();
+                    }
+                    return;
+                }
+
+                hideLoading();
+                displayPatientInfo(currentBooking);
+
+            } catch (error) {
+                hideLoading();
+                console.error('환자 정보 로드 실패:', error);
+                showAlert('환자 정보를 불러오는데 실패했습니다', 'danger');
+                setTimeout(() => navigateTo('patients.html'), 2000);
+            }
+        }
+
+        // 환자 정보 표시
+        function displayPatientInfo(booking) {
+            document.getElementById('bookingNumber').textContent = booking.booking_number;
+            document.getElementById('patientName').textContent = booking.users.name;
+            document.getElementById('patientPhone').textContent = booking.users.phone;
+            document.getElementById('bookingDate').textContent = formatDateTime(booking.created_at);
+
+            // 문진표 데이터 표시
+            displayQuestionnaire(booking.notes);
+        }
+
+        // 문진표 표시
+        function displayQuestionnaire(notesString) {
+            const container = document.getElementById('questionnaireData');
+            
+            try {
+                const data = parseQuestionnaireData(notesString);
+
+                if (!data) {
+                    container.innerHTML = '<p style="color: #64748b;">문진표 데이터가 없습니다</p>';
+                    questionnaireTextData = '';
+                    return;
+                }
+
+                // 복사용 텍스트 데이터 생성
+                questionnaireTextData = `
+[문진표 정보]
+━━━━━━━━━━━━━━━━━━━━━━
+생년월일: ${data.birthdate || '-'}
+키: ${data.height || '-'} cm
+현재 체중: ${data.current_weight || '-'} kg
+20대 최소 체중: ${data.weight_20s_min || '-'} kg
+평생 최고 체중: ${data.weight_lifetime_max || '-'} kg
+대변 횟수: ${data.bowel_frequency || '-'}
+대변 형태: ${data.bowel_type || '-'}
+소화 상태: ${data.digestion || '-'}
+커피와 수면: ${data.coffee_sleep || '-'}
+수면 상태: ${data.sleep_quality || '-'}
+━━━━━━━━━━━━━━━━━━━━━━
+                `.trim();
+
+                container.innerHTML = `
+                    <div style="display: grid; gap: 15px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">생년월일</div>
+                                <div style="font-weight: 600;">${data.birthdate || '-'}</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">키</div>
+                                <div style="font-weight: 600;">${data.height || '-'} cm</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">현재 체중</div>
+                                <div style="font-weight: 600;">${data.current_weight || '-'} kg</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">20대 최소 체중</div>
+                                <div style="font-weight: 600;">${data.weight_20s_min || '-'} kg</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">평생 최고 체중</div>
+                                <div style="font-weight: 600;">${data.weight_lifetime_max || '-'} kg</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">대변 횟수</div>
+                                <div style="font-weight: 600;">${data.bowel_frequency || '-'}</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">대변 형태</div>
+                                <div style="font-weight: 600;">${data.bowel_type || '-'}</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">소화 상태</div>
+                                <div style="font-weight: 600;">${data.digestion || '-'}</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">커피와 수면</div>
+                                <div style="font-weight: 600;">${data.coffee_sleep || '-'}</div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 6px;">
+                                <div style="color: #64748b; font-size: 13px;">수면 상태</div>
+                                <div style="font-weight: 600;">${data.sleep_quality || '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('문진표 파싱 실패:', error);
+                container.innerHTML = '<p style="color: #ef4444;">문진표를 표시할 수 없습니다</p>';
+                questionnaireTextData = '';
+            }
+        }
+
+        // 문진표 접기/펼치기
+        function toggleQuestionnaire() {
+            const content = document.getElementById('questionnaireContent');
+            const btn = document.getElementById('toggleBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                btn.textContent = '📋 문진표 내용 숨기기';
+                copyBtn.style.display = 'inline-block'; // 복사 버튼 표시
+            } else {
+                content.style.display = 'none';
+                btn.textContent = '📋 문진표 내용 보기';
+                copyBtn.style.display = 'none'; // 복사 버튼 숨기기
+            }
+        }
+
+        // 문진표 복사
+        function copyQuestionnaire() {
+            if (!questionnaireTextData) {
+                showAlert('복사할 문진표 데이터가 없습니다', 'warning');
+                return;
+            }
+
+            // 클립보드에 복사
+            navigator.clipboard.writeText(questionnaireTextData).then(() => {
+                showAlert('문진표가 복사되었습니다!', 'success');
+            }).catch(err => {
+                console.error('복사 실패:', err);
+                showAlert('복사에 실패했습니다', 'danger');
+            });
+        }
+
+        // 처방전 발급 폼 제출
+        document.getElementById('prescriptionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const diagnosis = document.getElementById('diagnosis').value.trim();
+            const prescriptionDetails = document.getElementById('prescriptionDetails').value.trim();
+            const prescriptionType = document.querySelector('input[name="prescriptionType"]:checked').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const notes = document.getElementById('notes').value.trim();
+
+            if (!diagnosis || !prescriptionDetails || !amount) {
+                showAlert('모든 필수 항목을 입력해주세요', 'warning');
+                return;
+            }
+
+            if (!confirm('처방전을 발급하시겠습니까?\n\n발급 후 환자에게 텔레그램 알림이 전송됩니다.')) {
+                return;
+            }
+
+            showLoading('처방전 발급 중...');
+
+            try {
+                const adminData = getAdminData();
+
+                const prescriptionData = {
+                    bookingId: bookingId,
+                    diagnosis: diagnosis,
+                    prescriptionDetails: prescriptionDetails,
+                    prescriptionType: prescriptionType,
+                    amount: amount,
+                    notes: notes || null,
+                    adminId: adminData.id,
+                    patientName: currentBooking.users.name // 이미 복호화된 이름 사용
+                };
+
+                // mediAdmin.js의 createPrescription 함수 호출 (암호화는 함수 내부에서 처리)
+                const prescription = await createPrescription(prescriptionData);
+
+                hideLoading();
+                showAlert('처방전이 발급되었습니다!', 'success');
+
+                // 환자 상세 페이지로 이동
+                setTimeout(() => {
+                    navigateTo(`patient-detail.html?id=${bookingId}`);
+                }, 1500);
+
+            } catch (error) {
+                hideLoading();
+                handleError(error, '처방전 발급에 실패했습니다');
+            }
+        });
+
+        // 금액 입력 시 자동 포맷팅
+        document.getElementById('amount').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            e.target.value = value;
+        });
+
+        // 페이지 로드
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadPatientInfo();
+        });
+    </script>
+</body>
+</html>

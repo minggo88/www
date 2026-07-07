@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 로그인 | 삼대국민 한의원</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/mediStyle.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <div style="max-width: 400px; width: 100%; padding: 20px;">
+        <!-- 로그인 카드 -->
+        <div class="card" style="box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+            <div class="text-center" style="margin-bottom: 30px;">
+                <div style="font-size: 48px; margin-bottom: 10px;">🏥</div>
+                <h2 style="color: #1e293b; margin-bottom: 5px;">관리자 로그인</h2>
+                <p style="color: #64748b; font-size: 14px;">삼대국민 한의원 비대면 진료 시스템</p>
+            </div>
+
+            <form id="loginForm">
+                <!-- 아이디 입력 -->
+                <div class="form-group">
+                    <label for="username" class="form-label required">아이디</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-control"
+                        placeholder="아이디를 입력하세요"
+                        required
+                        autofocus
+                    >
+                </div>
+
+                <!-- 비밀번호 입력 -->
+                <div class="form-group">
+                    <label for="password" class="form-label required">비밀번호</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-control"
+                        placeholder="비밀번호를 입력하세요"
+                        required
+                    >
+                </div>
+
+                <!-- 로그인 유지 -->
+                <div class="form-check" style="margin-bottom: 20px;">
+                    <input type="checkbox" id="remember" class="form-check-input">
+                    <label for="remember" class="form-check-label">로그인 상태 유지</label>
+                </div>
+
+                <!-- 로그인 버튼 -->
+                <button type="submit" class="btn btn-primary btn-block btn-lg">
+                    로그인
+                </button>
+            </form>
+
+            <!-- 추가 링크 -->
+            <!--<div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+                <a href="../index.html" style="color: #64748b; font-size: 14px; text-decoration: none;">
+                    ← 메인 페이지로 돌아가기
+                </a>
+            </div>-->
+        </div>
+
+        <!-- 기본 계정 안내 (개발용 - 나중에 삭제) -->
+        <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
+            <p style="margin: 0; font-size: 12px; color: #64748b;">
+                <strong>개발 테스트용 기본 계정</strong><br>
+                아이디: admin / 비밀번호: admin1234!
+            </p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/s_mediConfig.js"></script>
+    <script src="../assets/js/s_mediCommon.js"></script>
+    
+    <script>
+        // Footer 초기화
+        //initFooter('../');
+        
+        // 기존 스크립트...
+        // 이미 로그인되어 있으면 대시보드로 이동
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminData = sessionStorage.getItem('adminData');
+            if (adminData) {
+                navigateTo('dashboard.html');
+            }
+        });
+
+        // 로그인 폼 제출
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            
+            if (!username || !password) {
+                showAlert('아이디와 비밀번호를 입력해주세요', 'warning');
+                return;
+            }
+            
+            showLoading('로그인 중...');
+            
+            try {
+                // 1. DB에서 관리자 정보 조회
+                const { data: admin, error } = await supabase
+                    .from('admins')
+                    .select('*')
+                    .eq('username', username)
+                    .eq('is_active', true)
+                    .single();
+                
+                if (error || !admin) {
+                    throw new Error('아이디 또는 비밀번호가 일치하지 않습니다');
+                }
+                
+                // 2. 비밀번호 확인 (Supabase는 crypt 함수 사용)
+                const { data: passwordCheck, error: pwError } = await supabase
+                    .rpc('check_admin_password', {
+                        admin_id: admin.id,
+                        input_password: password
+                    });
+                
+                // RPC 함수가 없으면 임시로 평문 비교 (개발용)
+                // 실제 운영에서는 반드시 암호화 비교 필요!
+                let isPasswordValid = false;
+                
+                if (pwError) {
+                    // RPC 함수가 없으면 임시 방법
+                    console.warn('비밀번호 검증 RPC 함수 없음 - 개발 모드');
+                    // 개발용: admin1234! 허용
+                    isPasswordValid = (username === 'admin' && password === 'admin1234!');
+                } else {
+                    isPasswordValid = passwordCheck;
+                }
+                
+                if (!isPasswordValid) {
+                    throw new Error('아이디 또는 비밀번호가 일치하지 않습니다');
+                }
+                
+                // 3. 마지막 로그인 시간 업데이트
+                await supabase
+                    .from('admins')
+                    .update({ last_login: new Date().toISOString() })
+                    .eq('id', admin.id);
+                
+                // 4. 세션에 관리자 정보 저장
+                const adminData = {
+                    id: admin.id,
+                    username: admin.username,
+                    name: admin.name,
+                    role: admin.role,
+                    email: admin.email
+                };
+                
+                if (remember) {
+                    localStorage.setItem('adminData', JSON.stringify(adminData));
+                } else {
+                    sessionStorage.setItem('adminData', JSON.stringify(adminData));
+                }
+                
+                // 5. 접근 로그 기록
+                await supabase
+                    .from('access_logs')
+                    .insert({
+                        admin_id: admin.id,
+                        action: '관리자 로그인',
+                        page: '/admin/login.html',
+                        ip_address: await getClientIP(),
+                        user_agent: navigator.userAgent
+                    });
+                
+                hideLoading();
+                showAlert('로그인 성공!', 'success');
+                
+                // 6. 대시보드로 이동
+                setTimeout(() => {
+                    navigateTo('dashboard.html');
+                }, 500);
+                
+            } catch (error) {
+                hideLoading();
+                console.error('로그인 실패:', error);
+                showAlert(error.message || '로그인에 실패했습니다', 'danger');
+                
+                // 비밀번호 입력란 초기화
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        });
+
+        // Enter 키로 로그인
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K7.1.8.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전체화면 앱">
+  <meta name="theme-color" content="#222">
+  <meta name="screen-orientation" content="portrait">
+  <link rel="stylesheet" href="../assets/css/4zone.css">
+  <link rel="icon" href="../assets/img/ReadBook/7.1.8/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/img/ReadBook/7.1.8/favicon.ico">
+</head>
+<body>
+  <!-- 전체화면 모달 -->
+  <div id="fullscreen-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:3em; border-radius:20px; text-align:center; max-width:500px; margin:2em;">
+      <h2 style="margin:0 0 1em 0; color:#222; font-size:1.8em;">Continue the story in fullscreen.</h2>
+      <button id="fullscreen-modal-btn" style="background:#222; color:#fff; border:none; padding:1em 2em; font-size:1.2em; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#222'">CHECK</button>
+    </div>
+  </div>
+  
+  <!-- 페이지 인디케이터 -->
+  <div id="page-indicator" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; gap:8px; align-items:center; opacity:0.3; transition:opacity 0.3s ease;">
+    <!-- 동그라미들이 여기에 동적으로 생성됩니다 -->
+  </div>
+
+  <div id="tabbar-container">
+    <button id="tabbar-x-btn" style="position:absolute; right:18px; top:12px; font-weight:bold; font-size:2rem; background:transparent; border:none; box-shadow:none; color:#222; z-index:10000; width:auto; height:auto;">×</button>
+    <div id="tabbar" style="margin-top:37px;">
+      <button class="tab" data-label="National Geographic">National Geographic</button>
+      <button class="tab" data-label="Discovery">Discovery</button>
+      <button class="tab" data-label="TED">TED</button>
+      <button class="tab" data-label="BBC Earth">BBC Earth</button>
+    </div>
+    <div id="searchbox">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div id="tabbar-modal-overlay"></div>
+  <div id="app"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- 슬라이드 데이터 -->
+  <script>
+  const slideTemplates = [
+  {
+    bg: '../assets/img/ReadBook/7.1.8/1.jpg',
+    hasStartButton: true,
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/2.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'Our eyes were made when parts of<br>our brain grew out through our skin.<br>It is as if our curious brains reached<br>out to explore the outside world.', keywords: ['eyes', 'made', 'parts', 'brain', 'grew out', 'skin', 'curious brains', 'reached out', 'explore', 'outside world'] },
+      3: { text: 'Among our five senses, our sight<br>gives us the most information<br>and joy.', keywords: ['five senses', 'sight', 'most information', 'joy'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/3.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'When we talk about smells or tastes,<br>we automatically picture the food<br>that has those smells or tastes.', keywords: ['talk about', 'smells', 'tastes', 'automatically', 'picture', 'food'] },
+      3: { text: 'Sight plays a key role in how we<br>think. When we see objects, we also<br>think about them. Our thinking<br>relies a lot on what we see.', keywords: ['sight', 'key role', 'think', 'see objects', 'thinking', 'relies', 'what we see'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/4.jpg',
+    zones: {
+      1: { text: 'Then, how did sight evolve?', keywords: ['how', 'sight', 'evolve'] },
+      2: { text: 'Planarians have concave eyespots<br>with pigment cells and<br>photoreceptors. These eyespots<br>can only detect the direction and<br>brightness of light.', keywords: ['planarians', 'concave eyespots', 'pigment cells', 'photoreceptors', 'eyespots', 'detect', 'direction', 'brightness', 'light'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/5.jpg',
+    zones: {
+      1: { text: 'To see objects outside, light needs<br>to be bent and focused onto the<br>photoreceptors in our eyes.<br>For this to happen, the cornea and<br>lens, which bend the light, need<br>to be positioned in front of the<br>photoreceptors.', keywords: ['see objects', 'outside', 'light', 'bent', 'focused', 'photoreceptors', 'eyes', 'cornea', 'lens', 'bend light', 'positioned', 'front'] },
+      2: { text: 'The Planaria\'s simple eyespots<br>evolved into camera-like and<br>compound eyes.<br>The difference between the two<br>eyes lies in how they gather light<br>through their photoreceptors.', keywords: ['Planaria\'s', 'simple eyespots', 'evolved', 'camera-like', 'compound eyes', 'difference', 'two eyes', 'gather light', 'photoreceptors'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/6.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'As the eyespot grew larger and<br>deeper, the cornea and lens<br>formed on the outside, and more<br>photoreceptor cells developed on<br>the inside. This created a camera-<br>like eye.', keywords: ['eyespot', 'grew larger', 'deeper', 'cornea', 'lens', 'formed', 'outside', 'photoreceptor cells', 'developed', 'inside', 'created', 'camera-like eye'] },
+      4: { text: 'When the eyespot deepened and<br>many lenses gathered together,<br>it formed a compound eye,<br>resembling a beehive.', keywords: ['eyespot', 'deepened', 'many lenses', 'gathered together', 'formed', 'compound eye', 'resembling', 'beehive'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/7.jpg',
+    zones: {
+      1: { text: 'A frog\'s tongue is fast, but it can<br>only see moving things with<br>its eyes.', keywords: ['frog\'s tongue', 'fast', 'only see', 'moving things', 'eyes'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'On the other hand, the eagle, one of<br>the animals with the best eyesight,<br>can tell apart objects as small as<br>a pea from 30 meters away.', keywords: ['eagle', 'animals', 'best eyesight', 'tell apart', 'objects', 'small', 'pea', '30 meters away'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/8.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: '', keywords: [] },
+      3: { text: 'Nomadic people generally have<br>eyesight that is more than twice<br>as developed as usual.<br>This is because they need to see<br>far across open grasslands.', keywords: ['nomadic people', 'generally', 'eyesight', 'more than twice', 'developed', 'usual', 'need to see', 'far', 'open grasslands'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/9.jpg',
+    zones: {
+      1: { text: '', keywords: [] },
+      2: { text: 'The basic principle of sight is light.', keywords: ['basic principle', 'sight', 'light'] },
+      3: { text: 'Animals\' eyesight has evolved<br>over time to help them survive<br>and preserve their species.', keywords: ['animals\' eyesight', 'evolved', 'over time', 'help', 'survive', 'preserve', 'species'] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/10.jpg',
+    zones: {
+      1: { text: 'Light, which has various colors<br>depending on its wavelength,<br>passes through the front part of<br>the eye called the cornea. It then<br>goes through the pupil, which is<br>in the middle of the colored part<br>of the eye called the iris.', keywords: ['light', 'various colors', 'depending', 'wavelength', 'passes through', 'front part', 'eye', 'cornea', 'goes through', 'pupil', 'middle', 'colored part', 'iris'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'The iris is the tissue around the<br>pupil that controls the amount of<br>light coming into the eye, acting<br>like the aperture of a camera.', keywords: ['iris', 'tissue', 'around', 'pupil', 'controls', 'amount', 'light', 'coming into', 'eye', 'acting', 'aperture', 'camera'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/11.jpg',
+    zones: {
+      1: { text: 'The pupil is the round, empty space<br>in the center of the iris.<br>Light passes through the pupil and<br>then through the lens.', keywords: ['pupil', 'round', 'empty space', 'center', 'iris', 'light', 'passes through', 'lens'] },
+      2: { text: 'The lens is a clear tissue with<br>curved surfaces that focuses<br>light as it passes through.', keywords: ['lens', 'clear tissue', 'curved surfaces', 'focuses', 'light', 'passes through'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/12.jpg',
+    zones: {
+      1: { text: 'The lens changes thickness to focus<br>on both distant and nearby objects<br>accurately onto the retina.', keywords: ['lens', 'changes thickness', 'focus', 'distant', 'nearby objects', 'accurately', 'retina'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: 'When light passes through the lens<br>and reaches the retina, it creates<br>a clear image of the object.', keywords: ['light', 'passes through', 'lens', 'reaches', 'retina', 'creates', 'clear image', 'object'] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/13.jpg',
+    zones: {
+      1: { text: 'The structure of the eye is similar<br>to the structure of a camera.<br>The iris and the aperture adjust<br>the amount of light, while the lens<br>and the camera lens focus the light.<br>The retina and the film capture<br>the image.', keywords: ['structure', 'eye', 'similar', 'camera', 'iris', 'aperture', 'adjust', 'amount', 'light', 'lens', 'camera lens', 'focus', 'retina', 'film', 'capture', 'image'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/14.jpg',
+    zones: {
+      1: { text: 'The information caught on the<br>retina changes into electrical<br>signals through cells that sense<br>light.', keywords: ['information', 'caught', 'retina', 'changes', 'electrical signals', 'cells', 'sense light'] },
+      2: { text: 'These electrical signals travel along<br>the optical nerve to finally reach<br>the optical cortex at the back of<br>the brain.', keywords: ['electrical signals', 'travel along', 'optical nerve', 'finally reach', 'optical cortex', 'back', 'brain'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/15.jpg',
+    zones: {
+      1: { text: 'It is important to understand the<br>path visual information takes<br>from our eyes to the visual cortex<br>in the brain.', keywords: ['important', 'understand', 'path', 'visual information', 'takes', 'eyes', 'visual cortex', 'brain'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/16.jpg',
+    zones: {
+      1: { text: 'This path includes the pulvinar,<br>a brain area that decides<br>whether to focus on or ignore the<br>information coming through our<br>eyes.', keywords: ['path', 'includes', 'pulvinar', 'brain area', 'decides', 'whether', 'focus on', 'ignore', 'information', 'coming through', 'eyes'] },
+      2: { text: 'This pulvinar filters out unnecessary<br>stimuli and information coming<br>through the eyes.', keywords: ['pulvinar', 'filters out', 'unnecessary', 'stimuli', 'information', 'coming through', 'eyes'] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/17.jpg',
+    zones: {
+      1: { text: 'In a crowded city, we can quickly<br>find the person we are looking<br>for because the pulvinar helps us<br>ignore other images and focus on<br>the target.', keywords: ['crowded city', 'quickly', 'find', 'person', 'looking for', 'pulvinar', 'helps', 'ignore', 'other images', 'focus on', 'target'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  },
+  {
+    bg: '../assets/img/ReadBook/7.1.8/18.jpg',
+    zones: {
+      1: { text: 'In this way, the brain focuses only<br>on visual information that we are<br>interested in or already remember.', keywords: ['this way', 'brain', 'focuses only', 'visual information', 'interested in', 'already remember'] },
+      2: { text: '', keywords: [] },
+      3: { text: '', keywords: [] },
+      4: { text: '', keywords: [] }
+    }
+  }
+];
+  </script>
+  
+  <script src="../assets/js/4zoneApp.js"></script>
+</body>
+</html> 

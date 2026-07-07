@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR 코드 갤러리</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 0;
+        }
+
+        .manual-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .manual-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.4);
+            background: #f8f8f8;
+        }
+
+        .manual-btn:active {
+            transform: translateY(0);
+        }
+
+        .qr-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .qr-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .qr-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .qr-code {
+            width: 100%;
+            height: 200px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .qr-title {
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* 모달 스타일 - 완전 검은색 배경 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000; /* 완전 불투명 검은색 */
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            max-height: 90vh;
+            animation: scaleIn 0.3s ease;
+            box-shadow: 0 0 50px rgba(255,255,255,0.1); /* 약간의 흰색 그림자로 경계 구분 */
+        }
+
+        .modal-qr {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .modal-title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        /* 닫기 버튼 추가 */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #000;
+        }
+
+        .manual-modal .modal-content {
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .manual-content {
+            padding: 30px;
+        }
+
+        .manual-content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .manual-content h3 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .manual-content h4 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .manual-content p {
+            line-height: 1.8;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .manual-content ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .manual-content li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .manual-content strong {
+            font-weight: 600;
+        }
+
+        .manual-img {
+            width: 100%;
+            max-width: 400px;
+            margin: 15px auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .manual-img-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .manual-img-row img {
+            width: calc(33.333% - 7px);
+            max-width: 250px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .qr-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+
+            .modal-content {
+                margin: 20px;
+                max-width: calc(100% - 40px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>QR 코드 갤러리</h1>
+            <button class="manual-btn" onclick="openManual()">📖 메뉴얼 보기</button>
+        </div>
+        
+        <div class="qr-grid">
+            <!-- QR 아이템 1 -->
+            <div class="qr-item" onclick="openModal(1)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k2_install_qr.png" alt="k2 QR">
+                </div>
+                <div class="qr-title">k2</div>
+            </div>
+
+            <!-- QR 아이템 2 -->
+            <div class="qr-item" onclick="openModal(2)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k3_install_qr.jpg" alt="k3 QR">
+                </div>
+                <div class="qr-title">k3</div>
+            </div>
+
+            <!-- QR 아이템 3 -->
+            <div class="qr-item" onclick="openModal(3)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k4_install_qr.png" alt="k4 QR">
+                </div>
+                <div class="qr-title">k4</div>
+            </div>
+
+            <!-- QR 아이템 4 -->
+            <div class="qr-item" onclick="openModal(4)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k5_install_qr.png" alt="k5 QR">
+                </div>
+                <div class="qr-title">k5</div>
+            </div>
+
+            <!-- QR 아이템 5 -->
+            <div class="qr-item" onclick="openModal(5)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k6_install_qr.png" alt="k6 QR">
+                </div>
+                <div class="qr-title">k6</div>
+            </div>
+
+            <!-- QR 아이템 6 -->
+            <div class="qr-item" onclick="openModal(6)">
+                <div class="qr-code">
+                    <img src="../assets/img/qr/k7_install_qr.png" alt="k7 QR">
+                </div>
+                <div class="qr-title">k7</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR 확대 모달 -->
+    <div id="modal" class="modal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <img id="modalQR" class="modal-qr" src="" alt="QR Code">
+            <div id="modalTitle" class="modal-title"></div>
+        </div>
+    </div>
+
+    <!-- 메뉴얼 모달 -->
+    <div id="manualModal" class="modal manual-modal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeManual()">&times;</button>
+            <div class="manual-content">
+                <h2>🎯 갤럭시탭 QR코드 앱 설치 가이드</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">ManageEngine MDM 키오스크 모드 멀티 어플리케이션 설치 매뉴얼</p>
+                
+                <h3>📋 시스템 요구사항</h3>
+                <ul>
+                    <li>갤럭시탭 (Android OS)</li>
+                    <li>QR코드 스캔 가능한 카메라</li>
+                    <li>인터넷 연결</li>
+                    <li>ManageEngine MDM 지원 기기</li>
+                </ul>
+                
+                <div style="background: #f8d7da; border: 2px solid #dc3545; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                    <h3 style="color: #721c24;">🚨 매우 중요한 사항</h3>
+                    <p><strong>QR코드 촬영은 반드시 갤럭시탭 초기화 화면의 숨겨진 QR코드 촬영 모드를 사용해야 합니다!</strong></p>
+                    <p>일반 카메라 앱이나 QR코드 스캐너 앱으로는 설치가 되지 않습니다.</p>
+                </div>
+                
+                <h3>🚀 설치 단계별 가이드</h3>
+                
+                <h4>1️⃣ 갤럭시탭 초기화 또는 초기 설정 화면 진입</h4>
+                <p>갤럭시탭을 초기화하거나 초기 설정 화면으로 진입합니다.</p>
+                <ul>
+                    <li>새 기기인 경우: 전원을 켜면 자동으로 초기 설정 화면이 나타납니다</li>
+                    <li>기존 기기인 경우: 설정 → 일반관리 → 초기화 → 기기 전체 초기화</li>
+                </ul>
+                
+                <h4>2️⃣ QR코드 촬영 모드 활성화 (핵심 단계)</h4>
+                <div style="background: #ffe4e1; padding: 12px; border-radius: 6px; border-left: 4px solid #ff6b6b; margin: 10px 0;">
+                    <p><strong>🔴 초기화 화면에서 화면을 6~9번 연속으로 빠르게 탭하세요!</strong></p>
+                    <p>화면 중앙 부분을 연속으로 6~9번 탭하면 숨겨진 QR코드 촬영 모드가 나타납니다.</p>
+                </div>
+                <p><strong>참고사항:</strong></p>
+                <ul>
+                    <li>탭하는 위치: 화면 빈페이지 (로고나 텍스트 없는 부분)</li>
+                    <li>탭하는 속도: 빠르게 연속으로</li>
+                    <li>탭하는 횟수: 6번~9번 (기기에 따라 다를 수 있음)</li>
+                    <li>성공 시: QR코드 스캐너가 자동으로 실행됩니다</li>
+                </ul>
+                <img src="../assets/img/qr/1.jpg" alt="QR 촬영 모드 활성화" class="manual-img">
+                
+                <h4>3️⃣ QR코드 스캔</h4>
+                <p>QR코드 촬영 모드가 활성화되면:</p>
+                <ul>
+                    <li>카메라가 자동으로 실행됩니다</li>
+                    <li>PC 모니터나 다른 기기에 표시된 QR코드를 카메라 화면에 맞춰주세요</li>
+                    <li>QR코드가 자동으로 인식됩니다</li>
+                </ul>
+                <p><strong>💡 팁:</strong> QR코드가 화면에 꽉 차도록 거리를 조절하세요</p>
+                <img src="../assets/img/qr/2.jpg" alt="QR코드 스캔" class="manual-img">
+                
+                <h4>4️⃣ 자동 앱 설치</h4>
+                <p>QR코드 스캔이 완료되면 <strong>자동으로 MDM 앱이 다운로드되고 설치됩니다.</strong></p>
+                <ul>
+                    <li>설치 진행 상황이 화면에 표시됩니다</li>
+                    <li>네트워크 상태에 따라 1-3분 정도 소요됩니다</li>
+                    <li>설치 중에는 기기를 조작하지 마세요</li>
+                </ul>
+                
+                <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 15px; margin: 15px 0;">
+                    <h4 style="color: #856404;">⚠️ 중요 안내사항</h4>
+                    <p><strong>사용자 OS가 설치되면 반드시 권한 설정이 필요합니다!</strong></p>
+                    <p>앱이 정상적으로 작동하기 위해서는 요청되는 권한을 반드시 승인해주셔야 합니다.</p>
+                </div>
+                
+                <h4>5️⃣ 권한 승인 (필수)</h4>
+                <p>앱 설치 완료 후 권한 요청 팝업이 나타납니다.</p>
+                <p><strong>요청되는 권한들:</strong></p>
+                <ul>
+                    <li>시스템 설정 변경 → <strong style="color: #28a745;">허용</strong></li>
+                    <br>
+                    <li> 앱실행시 추가 요청 사항시</li>
+                    <li>기기 관리자 권한 → <strong style="color: #28a745;">허용</strong></li>
+                    <li>접근성 권한 → <strong style="color: #28a745;">허용</strong></li>
+                    <li>저장소 접근 권한 → <strong style="color: #28a745;">허용</strong></li>
+                    <li>위치 권한 (요청 시) → <strong style="color: #28a745;">허용</strong></li>
+                </ul>
+                <p><strong>⚠️ 모든 권한을 반드시 "허용"으로 설정해주세요!</strong></p>
+                <div class="manual-img-row">
+                    <img src="../assets/img/qr/3.jpg" alt="권한 승인 1">
+                    <img src="../assets/img/qr/4.jpg" alt="권한 승인 2">
+                    <img src="../assets/img/qr/5.jpg" alt="권한 승인 3">
+                </div>
+                
+                <h4>6️⃣ 키오스크 모드 활성화</h4>
+                <p>모든 권한 설정이 완료되면:</p>
+                <ul>
+                    <li>ManageEngine MDM 키오스크 모드가 자동 활성화됩니다</li>
+                    <li>설정된 멀티 어플리케이션들이 화면에 표시됩니다</li>
+                    <li>지정된 앱들만 사용 가능하게 됩니다</li>
+                    <li>홈 버튼, 최근 앱 버튼 등이 제한됩니다</li>
+                </ul>
+                
+                <div style="background: #d4edda; border: 2px solid #28a745; border-radius: 8px; padding: 15px; margin: 15px 0;">
+                    <h4 style="color: #155724;">✅ 설치 완료!</h4>
+                    <p>위 단계를 모두 완료하셨다면 갤럭시탭이 키오스크 모드로 정상 작동하게 됩니다.</p>
+                </div>
+                
+                <h3>💡 문제 해결</h3>
+                
+                <h4>QR코드 촬영 모드가 나타나지 않는 경우:</h4>
+                <ul>
+                    <li>초기화 화면이 맞는지 확인하세요</li>
+                    <li>화면을 더 빠르게 6~9번 탭해보세요</li>
+                    <li>화면의 다른 위치(중앙, 상단 등)를 탭해보세요</li>
+                    <li>기기를 재시작 후 다시 시도하세요</li>
+                </ul>
+                
+                <h4>QR코드 스캔이 안 되는 경우:</h4>
+                <ul>
+                    <li>카메라 렌즈를 깨끗이 닦아주세요</li>
+                    <li>충분한 조명이 있는지 확인하세요</li>
+                    <li>QR코드가 화면에 완전히 표시되는지 확인하세요</li>
+                    <li><strong style="color: #dc3545;">반드시 초기화 화면의 QR 촬영 모드를 사용하세요!</strong></li>
+                </ul>
+                
+                <h4>앱 설치가 실패하는 경우:</h4>
+                <ul>
+                    <li>인터넷 연결을 확인하세요</li>
+                </ul>
+                
+                <p style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e9ecef; color: #999;">
+                    문의사항이 있으시면 IT 관리자(nmnmlok07@gmail.com)에게 연락해주세요
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const qrData = {
+            1: { title: "k2", img: "../assets/img/qr/k2_install_qr.png" },
+            2: { title: "k3", img: "../assets/img/qr/k3_install_qr.jpg" },
+            3: { title: "k4", img: "../assets/img/qr/k4_install_qr.png" },
+            4: { title: "k5", img: "../assets/img/qr/k5_install_qr.png" },
+            5: { title: "k6", img: "../assets/img/qr/k6_install_qr.png" },
+            6: { title: "k7", img: "../assets/img/qr/k7_install_qr.png" }
+        };
+
+        function openModal(id) {
+            const modal = document.getElementById('modal');
+            const modalQR = document.getElementById('modalQR');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalQR.src = qrData[id].img;
+            modalTitle.textContent = qrData[id].title;
+            modal.classList.add('active');
+            
+            // 모달 열릴 때 body 스크롤 방지
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            
+            // 모달 닫힐 때 body 스크롤 복원
+            document.body.style.overflow = '';
+        }
+
+        function openManual() {
+            const manualModal = document.getElementById('manualModal');
+            manualModal.classList.add('active');
+            
+            // 모달 열릴 때 body 스크롤 방지
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeManual() {
+            const manualModal = document.getElementById('manualModal');
+            manualModal.classList.remove('active');
+            
+            // 모달 닫힐 때 body 스크롤 복원
+            document.body.style.overflow = '';
+        }
+
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                closeManual();
+            }
+        });
+
+        // 모달 배경 클릭으로 닫기 (선택사항 - 필요시 활성화)
+        // QR 모달의 경우 배경이 완전 검은색이므로 실수로 닫는 것을 방지하기 위해 제거
+        /*
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        document.getElementById('manualModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeManual();
+            }
+        });
+        */
+    </script>
+</body>
+</html>

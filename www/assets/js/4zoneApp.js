@@ -1,3 +1,19 @@
+// 웹페이지에 추가할 코드
+window.currentSlideNumber = 1; // 현재 슬라이드 번호
+window.totalSlides = 17; // 총 슬라이드 개수 (이미지 파일 개수에 맞춤)
+
+// 동적 스크립트 로드 함수
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+
 // 4구역 위치 제어 함수 및 전체화면 고정 위치 계산 포함
 const CONFIG = {
   setZonePositionPx: (zoneNumber, top, left, right, bottom) => {
@@ -157,25 +173,53 @@ function safeAdjustForOrientation() {
 let current = 0;
 let textAnimated = Array(slideTemplates.length).fill(false);
 
+// 모든 키워드를 모은 AllKey 객체 생성
+function buildAllKey() {
+  const allKeywords = new Set();
+  if (typeof slideTemplates !== 'undefined' && Array.isArray(slideTemplates)) {
+    slideTemplates.forEach(slide => {
+      if (slide.zones) {
+        Object.values(slide.zones).forEach(zone => {
+          if (zone.keywords && Array.isArray(zone.keywords)) {
+            zone.keywords.forEach(keyword => {
+              if (keyword && keyword.trim()) {
+                allKeywords.add(keyword.trim());
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  return Array.from(allKeywords);
+}
+
+// AllKey 전역 변수
+window.AllKey = buildAllKey();
+
 // 모달 팝업 함수
-function laypop(message) {
+async function laypop(message) {
+  // tabbar-container 숨기기
   const tabbar = document.getElementById('tabbar-container');
+  if (tabbar) {
+    tabbar.classList.remove('show-tabbar');
+  }
   const overlay = document.getElementById('tabbar-modal-overlay');
-  if (tabbar) tabbar.classList.add('show-tabbar');
-  if (overlay) overlay.style.display = 'block';
+  if (overlay) {
+    overlay.style.display = 'none';
+  }
   
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) searchInput.value = message;
-  
-  const tabs = document.querySelectorAll('.tab');
-  tabs.forEach(tab => tab.classList.remove('active'));
-  if (tabs[0]) tabs[0].classList.add('active');
+  // National Geographic으로 자동 검색 실행하고 바로 결과 표시
+  const query = message.trim();
+  if (query) {
+    const results = await searchInChannel('National Geographic', query);
+    await renderYoutubeResults(results);
+  }
 }
 
 // 키워드 클릭 이벤트
 function handleKeywordClick(keyword) {
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) searchInput.value = keyword;
+  // 모달 표시
   laypop(keyword);
 }
 
@@ -207,15 +251,44 @@ function renderTextWithKeywords(text, keywords) {
 function renderZoneTextWithNounSpans(text, keywords) {
   if (!text) return '';
   let html = text;
-  // 긴 명사 우선 매칭
-  keywords.sort((a, b) => b.length - a.length).forEach(noun => {
-    // 줄바꿈 포함 매칭: 공백을 [ \n\r\t\f\v]*로 치환
-    const pattern = noun.replace(/ /g, '[ \n\r\t\f\v]*');
-    html = html.replace(
-      new RegExp(pattern, 'gi'),
-      match => `<span class="noun-span">${match}</span>`
-    );
+  
+  // AllKey의 모든 키워드도 포함
+  let allKeywordsToCheck = [];
+  if (keywords && Array.isArray(keywords)) {
+    allKeywordsToCheck = [...keywords];
+  }
+  if (window.AllKey && Array.isArray(window.AllKey)) {
+    // 중복 제거하면서 AllKey 추가
+    window.AllKey.forEach(key => {
+      if (!allKeywordsToCheck.includes(key)) {
+        allKeywordsToCheck.push(key);
+      }
+    });
+  }
+  
+  // 긴 명사 우선 매칭 (AllKey 포함)
+  allKeywordsToCheck.sort((a, b) => b.length - a.length).forEach(noun => {
+    // 키워드를 단어 단위로 분할하여 각 단어를 escape하고 공백을 패턴으로 변환
+    const words = noun.split(/ /);
+    const escapedWords = words.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    // 단어 사이를 줄바꿈 포함 공백 패턴으로 연결
+    const pattern = escapedWords.join('[ \n\r\t\f\v]*');
+    
+    // 태그로 감싸진 부분을 분리하고, 태그가 아닌 부분만 치환
+    const parts = html.split(/(<span[^>]*>.*?<\/span>)/gi);
+    for (let i = 0; i < parts.length; i++) {
+      // span 태그가 아닌 부분만 치환
+      if (!parts[i].startsWith('<span')) {
+        const regex = new RegExp(pattern, 'gi');
+        parts[i] = parts[i].replace(regex, (match) => {
+          // 대소문자 구분 없이 매칭된 원본 그대로 사용
+          return `<span class="noun-span">${match}</span>`;
+        });
+      }
+    }
+    html = parts.join('');
   });
+  
   // <br>로 분할하여 <p>로 감싸기
   return html.split(/<br\s*\/?>/i).map(line => `<p>${line}</p>`).join('');
 }
@@ -228,6 +301,11 @@ function setTextFontSizeByImage(imgElem) {
 
 // 슬라이드 렌더링
 function renderSlide(idx) {
+  // AllKey가 없으면 다시 생성
+  if (!window.AllKey || !Array.isArray(window.AllKey) || window.AllKey.length === 0) {
+    window.AllKey = buildAllKey();
+  }
+  
   // 기준 위치(px) - CONFIG.setZonePosition 값과 일치
   const BASE_WIDTH = 1440;
   const BASE_HEIGHT = 900;
@@ -291,10 +369,12 @@ function renderSlide(idx) {
           e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
+          const clickedText = this.textContent.trim();
+          // AllKey에 있는 값이면 모달 표시 (noun-span으로 렌더링된 것은 모두 AllKey에 있음)
           if (typeof laypop === 'function') {
-            laypop(this.textContent);
+            laypop(clickedText);
           } else {
-            alert(this.textContent);
+            alert(clickedText);
           }
         });
         // 모바일 터치 이벤트 추가
@@ -302,10 +382,12 @@ function renderSlide(idx) {
           e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
+          const clickedText = this.textContent.trim();
+          // AllKey에 있는 값이면 모달 표시 (noun-span으로 렌더링된 것은 모두 AllKey에 있음)
           if (typeof laypop === 'function') {
-            laypop(this.textContent);
+            laypop(clickedText);
           } else {
-            alert(this.textContent);
+            alert(clickedText);
           }
         });
       });
@@ -427,6 +509,9 @@ function positionArrows(imgElem, leftArrow, rightArrow) {
 function nextSlide() {
   let next = (current + 1) % slideTemplates.length;
   current = next;
+  // 현재 슬라이드 번호 업데이트
+  window.currentSlideNumber = current + 1;
+  console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
   renderSlide(current);
   updatePageIndicator();
 }
@@ -434,6 +519,9 @@ function nextSlide() {
 function prevSlide() {
   let prev = (current - 1 + slideTemplates.length) % slideTemplates.length;
   current = prev;
+  // 현재 슬라이드 번호 업데이트
+  window.currentSlideNumber = current + 1;
+  console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
   renderSlide(current);
   updatePageIndicator();
 }
@@ -551,6 +639,9 @@ function createPageIndicator() {
       
       // 바로 이동
       current = index;
+      // 현재 슬라이드 번호 업데이트
+      window.currentSlideNumber = current + 1;
+      console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
       renderSlide(current);
       updatePageIndicator();
     });
@@ -571,6 +662,9 @@ function createPageIndicator() {
       
       // 바로 이동
       current = index;
+      // 현재 슬라이드 번호 업데이트
+      window.currentSlideNumber = current + 1;
+      console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
       renderSlide(current);
       updatePageIndicator();
     });
@@ -622,8 +716,31 @@ function updatePageIndicator() {
   });
 }
 
+// URL 쿼리 파라미터에서 슬라이드 번호 가져오기
+function getSlideFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const slideParam = urlParams.get('slide');
+  if (slideParam) {
+    const slideNumber = parseInt(slideParam, 10);
+    // 슬라이드는 1-based로 입력되지만 내부적으로는 0-based
+    if (!isNaN(slideNumber) && slideNumber >= 1 && slideNumber <= window.totalSlides) {
+      return slideNumber - 1; // 0-based 인덱스로 변환
+    }
+  }
+  return null;
+}
+
 // 첫 슬라이드 표시
 window.onload = () => {
+  // URL에서 슬라이드 번호 확인
+  const urlSlideIndex = getSlideFromURL();
+  if (urlSlideIndex !== null) {
+    current = urlSlideIndex;
+  }
+  
+  // 초기 슬라이드 번호 설정
+  window.currentSlideNumber = current + 1;
+  console.log('현재 페이지:', window.currentSlideNumber, '/', window.totalSlides);
   renderSlide(current);
   createPageIndicator();
   hideAddressBar();
@@ -681,7 +798,12 @@ window.addEventListener('orientationchange', () => {
 hideAddressBar();
 
 // 탭바 이벤트 처리
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
+  // AllKey 업데이트 (slideTemplates가 로드된 후)
+  if (typeof slideTemplates !== 'undefined') {
+    window.AllKey = buildAllKey();
+  }
+  
   const tabs = document.querySelectorAll('.tab');
   const searchInput = document.getElementById('searchInput');
   
@@ -695,26 +817,70 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
   
+  // 검색 입력창에서 직접 입력할 때 AllKey 체크
+  if (searchInput) {
+    let previousValue = searchInput.value;
+    searchInput.addEventListener('input', function() {
+      const currentValue = this.value.trim();
+      // 이전 값이 AllKey에 있었고, 현재 값이 변경된 경우 readonly 해제
+      if (previousValue && window.AllKey && window.AllKey.includes(previousValue)) {
+        // AllKey에 있는 값이면 변경하지 못하게 이전 값으로 복원
+        if (currentValue !== previousValue) {
+          this.value = previousValue;
+          return;
+        }
+      }
+      previousValue = currentValue;
+    });
+    
+    // 포커스 이벤트로 AllKey 체크
+    searchInput.addEventListener('focus', function() {
+      const currentValue = this.value.trim();
+      if (window.AllKey && window.AllKey.includes(currentValue)) {
+        this.setAttribute('readonly', 'readonly');
+        this.style.cursor = 'default';
+        this.style.color = '#222';
+      } else {
+        this.removeAttribute('readonly');
+        this.style.cursor = 'text';
+      }
+    });
+  }
+
+  // 탭 배경 이미지를 메뉴 아이콘으로 매핑하고 텍스트 숨김
+  const iconMap = {
+    'National Geographic': '../assets/img/ReadBook/menu_img/natgeo.png.png'
+  };
+  const bgSizeMap = {
+    'National Geographic': '70% auto'
+  };
+  tabs.forEach(tab => {
+    const label = tab.dataset.label || tab.textContent.trim();
+    const iconUrl = iconMap[label];
+    if (iconUrl) {
+      tab.style.backgroundImage = `url('${iconUrl}')`;
+      tab.style.backgroundRepeat = 'no-repeat';
+      tab.style.backgroundPosition = 'center';
+      tab.style.backgroundSize = bgSizeMap[label] || '70% auto';
+      tab.style.color = 'transparent';
+      tab.style.textIndent = '-9999px';
+      tab.style.padding = '0';
+      // 기본 크기 지정 (CSS에서 다시 반응형 조정)
+      tab.style.width = '180px';
+      tab.style.height = '56px';
+      // 활성/비활성 시 배경 변경 방지
+      tab.addEventListener('mouseenter', () => { tab.style.opacity = '0.9'; });
+      tab.addEventListener('mouseleave', () => { tab.style.opacity = '1'; });
+    }
+  });
+  
   // Search 버튼 이벤트 리스너 추가
   const searchBtn = document.getElementById('searchBtn');
   if (searchBtn) {
     searchBtn.addEventListener('click', async function() {
-      const activeTab = document.querySelector('.tab.active');
-      const tabLabel = activeTab ? activeTab.dataset.label : 'National Geographic';
       const query = searchInput.value;
-      let results = [];
-      if (tabLabel === 'National Geographic') {
-          results = await searchInChannel('National Geographic', query);
-      } else if (tabLabel === 'Discovery') {
-          results = await searchInChannel('Discovery', query);
-      } else if (tabLabel === 'TED') {
-          results = await searchInChannel('TED', query);
-      } else if (tabLabel === 'BBC Earth') {
-          results = await searchInChannel('BBC Earth', query);
-      } else {
-          results = await globalSearch(query);
-      }
-      renderYoutubeResults(results);
+      const results = await searchInChannel('National Geographic', query);
+      await renderYoutubeResults(results);
     });
   }
   
@@ -726,6 +892,16 @@ window.addEventListener('DOMContentLoaded', () => {
       if (tabbar) tabbar.classList.remove('show-tabbar');
       const overlay = document.getElementById('tabbar-modal-overlay');
       if (overlay) overlay.style.display = 'none';
+      
+      // 탭과 검색 버튼 다시 보이기
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.style.display = '';
+      });
+      const searchBtn = document.getElementById('searchBtn');
+      if (searchBtn) {
+        searchBtn.style.display = '';
+      }
     });
   }
   
@@ -740,99 +916,405 @@ window.addEventListener('DOMContentLoaded', () => {
       const tabbar = document.getElementById('tabbar-container');
       if (tabbar) tabbar.classList.remove('show-tabbar');
       overlay.style.display = 'none';
+      
+      // 탭과 검색 버튼 다시 보이기
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.style.display = '';
+      });
+      const searchBtn = document.getElementById('searchBtn');
+      if (searchBtn) {
+        searchBtn.style.display = '';
+      }
     });
   }
 });
 
 // YouTube API 키 및 채널 정보
-const API_KEY = 'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4';
 
-// 채널 정보
+//sin
+//const API_KEY = 'AIzaSyAqn_ft_-WKvh5BT9qqzfB5DQAf7T5qy-g';
+//sin2
+//const API_KEY = 'AIzaSyB5g1wGaXw5O1JbVBNY4DoZUeeYB9ITEUM';
+//07
+//const API_KEY = 'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k';
+//09
+//const API_KEY = 'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4';
+
+// ========================================
+// YouTube API 키 관리 (자동 순환)
+// ========================================
+
+// API 키 목록 (순서대로 시도)
+const API_KEYS = [
+    'AIzaSyAqn_ft_-WKvh5BT9qqzfB5DQAf7T5qy-g',  // sin
+    'AIzaSyB5g1wGaXw5O1JbVBNY4DoZUeeYB9ITEUM',  // sin2
+    'AIzaSyDMxjpMi2kB4qJvCb-m_zMSCE4ech59N0k',  // 07
+    'AIzaSyDiJA7GkeA_5O5fj05HxAVha1A2B_qQiF4'   // 09
+];
+
+// 현재 사용 중인 키 인덱스
+let currentKeyIndex = 0;
+
+// 현재 API 키 가져오기
+function getCurrentAPIKey() {
+    return API_KEYS[currentKeyIndex];
+}
+
+// 다음 API 키로 전환
+function rotateAPIKey() {
+    const oldIndex = currentKeyIndex;
+    currentKeyIndex = (currentKeyIndex + 1) % API_KEYS.length;
+    console.log(`🔄 API 키 전환: ${oldIndex} → ${currentKeyIndex}`);
+    return API_KEYS[currentKeyIndex];
+}
+
+// API 키 초기화 (localStorage에서 마지막 사용 키 복원)
+function initAPIKey() {
+    try {
+        const savedIndex = localStorage.getItem('youtube_api_key_index');
+        if (savedIndex !== null) {
+            currentKeyIndex = parseInt(savedIndex, 10);
+            console.log(`📂 저장된 API 키 인덱스 복원: ${currentKeyIndex}`);
+        }
+    } catch (e) {
+        console.warn('⚠️ localStorage 접근 불가');
+    }
+}
+
+// API 키 인덱스 저장
+function saveAPIKeyIndex() {
+    try {
+        localStorage.setItem('youtube_api_key_index', currentKeyIndex.toString());
+    } catch (e) {
+        console.warn('⚠️ localStorage 저장 불가');
+    }
+}
+
+// 페이지 로드 시 초기화
+initAPIKey();
+
+// ========================================
+// YouTube API 호출 (할당량 초과 시 자동 전환)
+// ========================================
+
+async function searchInChannelAPI(channelKey, searchTerm) {
+    const channel = channels[channelKey];
+    if (!channel) {
+        console.error(`[API 실패] ${channelKey}: 채널 정보가 없습니다`);
+        return [];
+    }
+    
+    // 최대 모든 키를 한 번씩 시도
+    for (let attempt = 0; attempt < API_KEYS.length; attempt++) {
+        const apiKey = getCurrentAPIKey();
+        const url = `https://www.googleapis.com/youtube/v3/search?` +
+            `part=snippet&type=video&maxResults=8&` +
+            `channelId=${channel.id}&q=${encodeURIComponent(searchTerm || '')}&` +
+            `key=${apiKey}`;
+        
+        console.log(`[API 요청] ${channel.handle} (키 ${currentKeyIndex + 1}/${API_KEYS.length})`);
+        
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            // 할당량 초과 에러 체크
+            if (data.error) {
+                if (data.error.code === 403 && 
+                    data.error.errors && 
+                    data.error.errors.some(e => e.reason === 'quotaExceeded')) {
+                    
+                    console.warn(`❌ API 키 ${currentKeyIndex + 1} 할당량 초과!`);
+                    
+                    // 마지막 키가 아니면 다음 키로 전환
+                    if (attempt < API_KEYS.length - 1) {
+                        rotateAPIKey();
+                        saveAPIKeyIndex();
+                        console.log(`⏭️ 다음 API 키로 재시도 중...`);
+                        continue; // 다음 키로 재시도
+                    } else {
+                        console.error('❌ 모든 API 키 할당량 초과! 내일 다시 시도하세요.');
+                        return [];
+                    }
+                }
+                
+                // 다른 에러
+                console.error('❌ API 에러:', data.error.message);
+                return [];
+            }
+            
+            // 성공 - 임베드 허용 영상만 필터링
+            const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
+            if (videoIds.length === 0) return [];
+            
+            const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${apiKey}`;
+            const statusRes = await fetch(statusUrl);
+            const statusData = await statusRes.json();
+            
+            // 여기서도 할당량 체크
+            if (statusData.error && statusData.error.code === 403) {
+                console.warn(`❌ API 키 ${currentKeyIndex + 1} 할당량 초과 (videos.list)!`);
+                if (attempt < API_KEYS.length - 1) {
+                    rotateAPIKey();
+                    saveAPIKeyIndex();
+                    continue;
+                } else {
+                    return [];
+                }
+            }
+            
+            const embeddableIds = (statusData.items || [])
+                .filter(v => v.status && v.status.embeddable)
+                .map(v => v.id);
+            const results = (data.items || [])
+                .filter(item => embeddableIds.includes(item.id.videoId));
+            
+            console.log(`✅ [API 성공] ${channelKey}: ${results.length}개 결과 (키 ${currentKeyIndex + 1})`);
+            return results;
+            
+        } catch (error) {
+            console.error(`❌ [API 호출 실패] 키 ${currentKeyIndex + 1}:`, error);
+            
+            // 네트워크 오류 등 - 다음 키 시도
+            if (attempt < API_KEYS.length - 1) {
+                rotateAPIKey();
+                saveAPIKeyIndex();
+                continue;
+            }
+            return [];
+        }
+    }
+    
+    return [];
+}
+
+// ========================================
+// 전역 검색 (할당량 초과 시 자동 전환)
+// ========================================
+
+async function globalSearch(searchTerm) {
+    for (let attempt = 0; attempt < API_KEYS.length; attempt++) {
+        const apiKey = getCurrentAPIKey();
+        const url = `https://www.googleapis.com/youtube/v3/search?` +
+            `part=snippet&type=video&maxResults=8&` +
+            `q=${encodeURIComponent(searchTerm)}&` +
+            `key=${apiKey}`;
+        
+        console.log(`[전체검색] (키 ${currentKeyIndex + 1}/${API_KEYS.length})`);
+        
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.error && data.error.code === 403) {
+                console.warn(`❌ API 키 ${currentKeyIndex + 1} 할당량 초과!`);
+                if (attempt < API_KEYS.length - 1) {
+                    rotateAPIKey();
+                    saveAPIKeyIndex();
+                    continue;
+                } else {
+                    return [];
+                }
+            }
+            
+            const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
+            if (videoIds.length === 0) return [];
+            
+            const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${apiKey}`;
+            const statusRes = await fetch(statusUrl);
+            const statusData = await statusRes.json();
+            
+            if (statusData.error && statusData.error.code === 403) {
+                if (attempt < API_KEYS.length - 1) {
+                    rotateAPIKey();
+                    saveAPIKeyIndex();
+                    continue;
+                } else {
+                    return [];
+                }
+            }
+            
+            const embeddableIds = (statusData.items || [])
+                .filter(v => v.status && v.status.embeddable)
+                .map(v => v.id);
+            return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
+            
+        } catch (error) {
+            console.error('전체 검색 실패:', error);
+            if (attempt < API_KEYS.length - 1) {
+                rotateAPIKey();
+                saveAPIKeyIndex();
+                continue;
+            }
+            return [];
+        }
+    }
+    
+    return [];
+}
+
+// ========================================
+// 수동으로 API 키 전환 (디버깅용)
+// ========================================
+
+// 콘솔에서 수동 전환: switchAPIKey()
+window.switchAPIKey = function() {
+    rotateAPIKey();
+    saveAPIKeyIndex();
+    console.log(`✅ 현재 API 키: ${currentKeyIndex + 1}/${API_KEYS.length}`);
+};
+
+// 콘솔에서 현재 키 확인: checkAPIKey()
+window.checkAPIKey = function() {
+    console.log(`📌 현재 API 키 인덱스: ${currentKeyIndex + 1}/${API_KEYS.length}`);
+    console.log(`🔑 API 키: ${getCurrentAPIKey().substring(0, 20)}...`);
+};
+
+// 콘솔에서 키 리셋: resetAPIKey()
+window.resetAPIKey = function() {
+    currentKeyIndex = 0;
+    saveAPIKeyIndex();
+    console.log('✅ API 키를 첫 번째로 리셋했습니다.');
+};
+
+// Supabase 설정
+// ========================================
+const SUPABASE_URL = 'https://zizbhefplazgenjzowpo.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_dxllpWx_x7sBYgZe1RuHaQ_jUjf67em';
+
+// Supabase 클라이언트 초기화
+
+try {
+    if (typeof window.supabase !== 'undefined') {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ Supabase 초기화 완료');
+    } else {
+        console.error('❌ Supabase 라이브러리가 로드되지 않았습니다');
+    }
+} catch (error) {
+    console.error('❌ Supabase 초기화 실패:', error);
+}
+
+// ========================================
+// Supabase DB 캐싱 함수들
+// ========================================
+
+// Supabase에서 캐시 조회
+async function getCachedFromSupabase(channelKey, query) {
+    if (!supabase) {
+        console.warn('⚠️ Supabase 미초기화');
+        return null;
+    }
+    
+    try {
+        const normalizedQuery = (query || '').trim().toLowerCase();
+        console.log(`🔍 [DB 조회] ${channelKey} : "${normalizedQuery}"`);
+        
+        const { data, error } = await supabase
+            .from('youtube_search_cache')
+            .select('*')
+            .eq('channel_key', channelKey)
+            .eq('search_query', normalizedQuery)
+            .maybeSingle();
+        
+        if (error || !data) {
+            console.log('📭 [DB 캐시 없음]');
+            return null;
+        }
+        
+        console.log(`✅ [DB 캐시 히트!] ${data.results.length}개`);
+        return data.results;
+        
+    } catch (error) {
+        console.error('❌ [DB 조회 예외]', error);
+        return null;
+    }
+}
+
+// Supabase에 캐시 저장
+async function saveCacheToSupabase(channelKey, query, results) {
+    if (!supabase || !results || results.length === 0) return;
+    
+    try {
+        const normalizedQuery = (query || '').trim().toLowerCase();
+        console.log(`💾 [DB 저장] ${channelKey} : "${normalizedQuery}"`);
+        
+        await supabase
+            .from('youtube_search_cache')
+            .upsert({
+                channel_key: channelKey,
+                search_query: normalizedQuery,
+                results: results,
+                hit_count: 1,
+                updated_at: new Date().toISOString()
+            }, {
+                onConflict: 'channel_key,search_query'
+            });
+        
+        console.log('✅ [DB 저장 성공]');
+        
+    } catch (error) {
+        console.error('❌ [DB 저장 실패]', error);
+    }
+}
+
+// 채널 검색 (Supabase DB 우선, 캐시 없으면 API 호출)
+async function searchInChannel(channelKey, searchTerm) {
+    console.log(`🚀 [검색 시작] ${channelKey}: "${searchTerm || '(전체)'}"`);
+    
+    // 1. DB 캐시 확인
+    const cachedResults = await getCachedFromSupabase(channelKey, searchTerm);
+    if (cachedResults && cachedResults.length > 0) {
+        console.log('⚡ [DB에서 즉시 반환]');
+        return cachedResults;
+    }
+    
+    // 2. 캐시 없으면 API 호출
+    console.log('🌐 [캐시 없음 - API 호출]');
+    const apiResults = await searchInChannelAPI(channelKey, searchTerm);
+    
+    // 3. API 결과를 DB에 저장
+    if (apiResults && apiResults.length > 0) {
+        await saveCacheToSupabase(channelKey, searchTerm, apiResults);
+    }
+    
+    return apiResults;
+}
+// ✅ 여기까지 추가
+
+// 수정 후
 const channels = {
     'National Geographic': {
         id: 'UCpVm7bg6pXKo1Pr6k5kxG9A',
         handle: '@NationalGeographic'
-    },
-    'Discovery': {
-        id: 'UCqnbDFdCpuN8CMEg0VuEBqA',
-        handle: '@Discovery'
-    },
-    'TED': {
-        id: 'UCAuUUnT6oDeKwE6v1NGQxug',
-        handle: '@TED'
-    },
-    'BBC Earth': {
-        id: 'UC0p5jTq6Xx_DosDFxVXnWaQ',
-        handle: '@bbcearth'
     }
 };
 
-// 채널 ID로 검색
-async function searchInChannel(channelKey, searchTerm) {
-    const channel = channels[channelKey];
-    const url = `https://www.googleapis.com/youtube/v3/search?` +
-        `part=snippet&type=video&maxResults=8&` +
-        `channelId=${channel.id}&q=${encodeURIComponent(searchTerm)}&` +
-        `key=${API_KEY}`;
-    console.log(`[채널검색] ${channel.handle}:`, url);
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.error) {
-            console.error('API 에러:', data.error);
-            return [];
-        }
-        // 임베드 허용 영상만 필터링
-        const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
-        if (videoIds.length === 0) return [];
-        const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${API_KEY}`;
-        const statusRes = await fetch(statusUrl);
-        const statusData = await statusRes.json();
-        const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
-        return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
-    } catch (error) {
-        console.error('검색 실패:', error);
-        return [];
-    }
-}
 
-// 전체 검색
-async function globalSearch(searchTerm) {
-    const url = `https://www.googleapis.com/youtube/v3/search?` +
-        `part=snippet&type=video&maxResults=8&` +
-        `q=${encodeURIComponent(searchTerm)}&` +
-        `key=${API_KEY}`;
-    console.log(`[전체검색]:`, url);
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        // 임베드 허용 영상만 필터링
-        const videoIds = (data.items || []).map(item => item.id && item.id.videoId).filter(Boolean);
-        if (videoIds.length === 0) return [];
-        const statusUrl = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoIds.join(',')}&key=${API_KEY}`;
-        const statusRes = await fetch(statusUrl);
-        const statusData = await statusRes.json();
-        const embeddableIds = (statusData.items || []).filter(v => v.status && v.status.embeddable).map(v => v.id);
-        return (data.items || []).filter(item => embeddableIds.includes(item.id.videoId));
-    } catch (error) {
-        console.error('전체 검색 실패:', error);
-        return [];
-    }
-}
+
+
+
+
+// API를 사용한 채널 검색 (백업용)
+
 
 // 검색 결과 렌더링 함수
-function renderYoutubeResults(items) {
+async function renderYoutubeResults(items) {
     let html = '';
     if (!items || items.length === 0) {
-        html = '<div style="padding:2em; text-align:center;">No results found.</div>';
+        html = '<div style="padding:2em; text-align:center;">검색 결과가 없습니다.</div>';
     } else {
+        // 먼저 원본으로 리스트 생성 (번역 없이 빠르게 표시)
         html = items.map((item, idx) => `
-            <div class="yt-result-item" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
+            <div class="yt-result-item" data-index="${idx}" style="display:flex;align-items:center;margin-bottom:1em;position:relative;">
                 <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="cursor:pointer;display:flex;align-items:center;">
-                    <img src="${item.snippet.thumbnails.default.url}" style="width:120px;height:90px;margin-right:1em;">
+                    <img src="${item.snippet.thumbnails.default.url}" 
+                         style="width:120px;height:90px;margin-right:1em;object-fit:cover;border-radius:8px;"
+                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiB2aWV3Qm94PSIwIDAgMTIwIDkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjZjBmMGYwIi8+CjxwYXRoIGQ9Ik02MCA0NUw0NSA2MEg3NUw2MCA0NVoiIGZpbGw9IiNjY2NjY2MiLz4KPHN2Zz4K'; this.style.background='#f0f0f0'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center';">
                 </div>
                 <div>
-                    <div class="yt-thumb-title" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
+                    <div class="yt-title-text" data-videoid="${item.id.videoId}" style="font-weight:bold;color:#222;text-decoration:none;cursor:pointer;">
                         ${item.snippet.title}
                     </div>
                     <div style="font-size:0.9em;color:#666;">${item.snippet.channelTitle}</div>
@@ -867,131 +1349,200 @@ function renderYoutubeResults(items) {
         modal.style.display = 'flex';
     }
     
-    // 검색 결과를 표시
+    // 검색 결과 표시
     document.getElementById('search-iframe-wrap').innerHTML = html;
     
-    let currentPlayer = null;
-    let currentPlayerContainer = null;
-    
     setTimeout(() => {
-        document.querySelectorAll('.yt-thumb-title').forEach(el => {
+        document.querySelectorAll('.yt-thumb-title, .yt-title-text').forEach(el => {
             el.onclick = function() {
                 const vid = this.dataset.videoid;
-                const itemDiv = this.closest('.yt-result-item');
-                
-                // 기존 플레이어가 있으면 제거
-                if (currentPlayer && typeof currentPlayer.destroy === 'function') {
-                    currentPlayer.destroy();
-                }
-                if (currentPlayerContainer && currentPlayerContainer.parentNode) {
-                    currentPlayerContainer.remove();
-                }
-                
-                // 같은 아이템을 다시 클릭한 경우 플레이어만 제거하고 종료
-                if (itemDiv.querySelector('.yt-inline-player')) {
-                    return;
-                }
-                
-                // 더 큰 높이로 설정 (최소 600px, 화면 높이의 70%)
-                const minHeight = Math.max(600, window.innerHeight * 0.7);
-                
-                // 플레이어 컨테이너 생성
-                const playerContainer = document.createElement('div');
-                playerContainer.className = 'yt-inline-player';
-                playerContainer.style.cssText = `
-                    width: 100% !important;
-                    height: ${minHeight}px !important;
-                    min-height: 600px !important;
-                    max-height: 800px !important;
-                    background: #000;
-                    border-radius: 12px;
-                    margin: 20px 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    position: relative;
-                    animation: slideDown 0.3s ease-out;
-                    box-sizing: border-box;
-                `;
-                
-                const playerDiv = document.createElement('div');
-                playerDiv.style.cssText = `
-                    width: 100% !important;
-                    height: 100% !important;
-                    min-height: 600px !important;
-                    border-radius: 12px;
-                    overflow: hidden;
-                    box-sizing: border-box;
-                `;
-                
-                playerContainer.appendChild(playerDiv);
-                
-                // 닫기 버튼 추가
-                const closeBtn = document.createElement('button');
-                closeBtn.innerHTML = '×';
-                closeBtn.style.cssText = `
-                    position: absolute;
-                    right: 12px;
-                    top: 12px;
-                    font-size: 2rem;
-                    font-weight: bold;
-                    background: rgba(0,0,0,0.7);
-                    border: none;
-                    color: #fff;
-                    z-index: 10011;
-                    cursor: pointer;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                `;
-                
-                closeBtn.onclick = () => {
-                    if (currentPlayer && typeof currentPlayer.destroy === 'function') {
-                        currentPlayer.destroy();
+                if (vid) {
+                    // YouTube 주소 콘솔에 출력 (자막 및 한글 설정 포함)
+                    const youtubeUrl = `https://m.youtube.com/watch?v=${vid}&cc_load_policy=1&cc_lang_pref=ko&hl=ko`;
+                    console.log('🎬 YouTube 주소:', youtubeUrl);
+                    console.log('📺 Video ID:', vid);
+                    
+                    // 웹뷰 감지 (하지만 Plyr 뷰어 사용)
+                    const isWebView = /WebView|wv|Android.*Version\/[0-9]|iPhone.*Safari\/[0-9]/.test(navigator.userAgent);
+                    
+                    // 웹뷰에서도 Plyr 뷰어 사용 (최대화 옵션 조정)
+                    const popupOptions = isWebView ? 
+                        'width=800,height=600,left=50,top=50,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no' :
+                        'width=' + screen.availWidth + ',height=' + screen.availHeight + ',left=0,top=0,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,fullscreen=yes';
+                    
+                    // 모든 환경에서 Plyr 팝업 뷰어 사용
+                    const popup = window.open(
+                        '',
+                        'youtube_viewer',
+                        popupOptions
+                    );
+                    
+                    // 팝업이 차단된 경우 처리
+                    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+                        // 팝업이 차단되면 새 탭으로 YouTube 열기 (자막 및 한글 설정 포함)
+                        console.log('🚫 팝업이 차단됨 - 새 탭으로 열기:', youtubeUrl);
+                        window.open(youtubeUrl, '_blank');
+                        return;
                     }
-                    playerContainer.remove();
-                    currentPlayer = null;
-                    currentPlayerContainer = null;
-                };
-                
-                playerContainer.appendChild(closeBtn);
-                
-                // 아이템 바로 다음에 플레이어 삽입
-                itemDiv.parentNode.insertBefore(playerContainer, itemDiv.nextSibling);
-                currentPlayerContainer = playerContainer;
-                
-                // 클릭한 리스트가 가장 위로 스크롤
-                setTimeout(() => {
-                    itemDiv.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start',
-                        inline: 'nearest'
-                    });
-                }, 100);
-                
-                // YouTube 플레이어 생성
-                if (window.YT && window.YT.Player) {
-                    currentPlayer = new YT.Player(playerDiv, {
-                        width: '100%',
-                        height: minHeight,
-                        videoId: vid,
-                        playerVars: { 'autoplay': 1, 'controls': 1 },
-                        events: {
-                            'onReady': function (event) { 
-                                event.target.playVideo(); 
-                                // 플레이어 크기 강제 설정
-                                const iframe = playerDiv.querySelector('iframe');
-                                if (iframe) {
-                                    iframe.style.width = '100% !important';
-                                    iframe.style.height = '100% !important';
-                                    iframe.style.minHeight = '600px !important';
+                        
+                    // Plyr 기반 커스텀 뷰어 HTML 생성
+                    popup.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>YouTube Video Viewer</title>
+                            <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+                            <style>
+                                body {
+                                    margin: 0;
+                                    padding: 0;
+                                    font-family: Arial, sans-serif;
+                                    background: #000;
+                                    overflow: hidden;
                                 }
-                            }
-                        }
-                    });
+                                .video-container {
+                                    position: relative;
+                                    width: 100vw;
+                                    height: 100vh;
+                                    display: flex;
+                                    flex-direction: column;
+                                }
+                                .close-btn {
+                                    position: absolute;
+                                    top: 10px;
+                                    right: 10px;
+                                    background: rgba(0,0,0,0.7);
+                                    color: white;
+                                    border: none;
+                                    border-radius: 50%;
+                                    width: 40px;
+                                    height: 40px;
+                                    font-size: 20px;
+                                    cursor: pointer;
+                                    z-index: 1000;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: background 0.2s;
+                                }
+                                .close-btn:hover {
+                                    background: rgba(255,0,0,0.8);
+                                }
+                                .plyr {
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                                .plyr__video-wrapper {
+                                    height: 100vh !important;
+                                }
+                                .plyr__video {
+                                    height: 100vh !important;
+                                }
+                                .loading {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    color: white;
+                                    font-size: 18px;
+                                    z-index: 999;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="video-container">
+                                <button class="close-btn" onclick="window.close()">×</button>
+                                <div class="loading">로딩 중...</div>
+                                <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${vid}"></div>
+                            </div>
+                            <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+                            <script>
+                                // 창을 최대화 (웹뷰가 아닌 경우에만)
+                                try {
+                                    window.moveTo(0, 0);
+                                    window.resizeTo(screen.availWidth, screen.availHeight);
+                                    window.focus();
+                                    
+                                    // 추가로 최대화 시도
+                                    setTimeout(() => {
+                                        try {
+                                            window.resizeTo(screen.availWidth, screen.availHeight);
+                                            window.moveTo(0, 0);
+                                        } catch (e) {
+                                            console.log('추가 최대화 실패:', e);
+                                        }
+                                    }, 100);
+                                    
+                                    // ESC 키로 최대화 해제 방지
+                                    document.addEventListener('keydown', function(e) {
+                                        if (e.key === 'Escape') {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                        }
+                                    });
+                                    
+                                    // Plyr 플레이어 초기화
+                                    try {
+                                                                                 const player = new Plyr('#player', {
+                                             controls: ['play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                                             autoplay: true,
+                                             muted: false,
+                                             hideControls: true,
+                                             resetOnEnd: true,
+                                             keyboard: { focused: true, global: true },
+                                             tooltips: { controls: true, seek: true },
+                                             captions: { active: true, language: 'ko', update: true },
+                                             fullscreen: { enabled: true, fallback: true, iosNative: true },
+                                             youtube: {
+                                                 noCookie: true,
+                                                 rel: 0,
+                                                 showinfo: 0,
+                                                 iv_load_policy: 3,
+                                                 cc_load_policy: 1,
+                                                 cc_lang_pref: 'ko',
+                                                 hl: 'ko'
+                                             }
+                                         });
+                                        
+                                        // 플레이어 이벤트 리스너
+                                        player.on('ready', () => {
+                                            console.log('Plyr player is ready');
+                                            // 로딩 텍스트 제거
+                                            const loading = document.querySelector('.loading');
+                                            if (loading) loading.style.display = 'none';
+                                        });
+                                        
+                                        player.on('error', (event) => {
+                                            console.error('Plyr player error:', event);
+                                        });
+                                        
+                                        // 자동으로 전체화면 모드로 전환
+                                        setTimeout(() => {
+                                            try {
+                                                player.fullscreen.enter();
+                                            } catch (e) {
+                                                console.log('전체화면 전환 실패:', e);
+                                            }
+                                        }, 1000);
+                                        
+                                                                         } catch (error) {
+                                         console.error('Plyr 초기화 오류:', error);
+                                         // 오류 발생 시 기본 YouTube iframe으로 대체 (자막 설정 포함)
+                                         document.getElementById('player').innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + '${vid}' + '?autoplay=1&cc_load_policy=1&cc_lang_pref=ko&hl=ko" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                                        
+                                        // 로딩 텍스트 제거
+                                        const loading = document.querySelector('.loading');
+                                        if (loading) loading.style.display = 'none';
+                                    }
+                                    
+                                } catch (e) {
+                                    console.log('창 최대화 실패:', e);
+                                }
+                            </script>
+                        </body>
+                        </html>
+                    `);
+                    popup.document.close();
                 }
             };
         });
@@ -1008,4 +1559,4 @@ document.addEventListener('keydown', function(event) {
     event.preventDefault();
     nextSlide();
   }
-}); 
+});

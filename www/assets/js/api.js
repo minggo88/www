@@ -144,9 +144,10 @@ const API = {
      * @param {*} callback 
      */
     join: (data, callback = null) => {
+        const resolvedOs = (data && data.os) ? data.os : (typeof os !== 'undefined' ? os : '')
         data = $.extend(data, {
             token: window.localStorage.token, lang: window.localStorage.locale,
-            os: os,
+            os: resolvedOs,
         })
         $.ajax({
             url: `${API.BASE_URL}/socialJoin/`,
@@ -176,7 +177,7 @@ const API = {
                 social_id: email,
                 social_name: 'email',
                 userpw: password,
-                os: os,
+                os: (typeof os !== 'undefined' ? os : ''),
             },
             success: (resp) => {
                 // 로그인 성공 시 토큰 저장
@@ -979,9 +980,16 @@ const API = {
      * 반출신청메일 보내기
      * @param {*} email 
      * @param {*} message
+     * @param {*} message_type_or_callback  (optional) 'pms' 등 타입 또는 callback (기존 호환)
      * @param {*} callback 
      */
-    takeOutEmailConfirmCode: (email, message, callback = null) => {
+    takeOutEmailConfirmCode: (email, message, message_type_or_callback = 'takeout', callback = null) => {
+        let message_type = 'takeout'
+        if (typeof message_type_or_callback === 'function') {
+            callback = message_type_or_callback
+        } else if (message_type_or_callback) {
+            message_type = message_type_or_callback
+        }
         $.ajax({
             url: `${API.BASE_URL}/takeOutConfirmCode/`,
             type: 'POST',
@@ -989,6 +997,7 @@ const API = {
                 token: window.localStorage.token, lang: window.localStorage.locale,
                 media: 'email',
                 message_text: message,
+                message_type: message_type,
                 email_address: email,
                 lang: window.localStorage.locale,
             },
